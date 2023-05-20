@@ -228,6 +228,12 @@ class Cs extends BaseController
 
     public function add()
     {
+        if (!(grantCreatedAduan())) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Untuk sementara ini proses pengaduan ditutup.";
+            return json_encode($response);
+        }
         // $response = new \stdClass;
         // $response->status = 501;
         // $response->message = "Untuk sementara ini proses pengaduan ditutup.";
