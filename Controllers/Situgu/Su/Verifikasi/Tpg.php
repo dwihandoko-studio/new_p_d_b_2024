@@ -274,7 +274,7 @@ class Tpg extends BaseController
             $id_ptk = htmlspecialchars($this->request->getVar('id_ptk'), true);
             $tw = htmlspecialchars($this->request->getVar('tw'), true);
             $nama = htmlspecialchars($this->request->getVar('nama'), true);
-
+ 
             $current = $this->_db->table('v_antrian_usulan_tpg a')
                 ->select("a.*, b.kecamatan as kecamatan_sekolah, c.lampiran_sptjm, d.gaji_pokok as gaji_pokok_referensi")
                 ->join('ref_sekolah b', 'a.npsn = b.npsn')
