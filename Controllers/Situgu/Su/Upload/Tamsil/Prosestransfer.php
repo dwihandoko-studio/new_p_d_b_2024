@@ -258,7 +258,7 @@ class Prosestransfer extends BaseController
                 }
 
                 $dataInsert = [
-                    'nuptk' => $data[1],
+                    'nuptk' => str_replace("'", "", $data[1]),
                     'nama' => $data[2],
                     'golongan_code' => $data[7],
                     'golongan' => $data[7],
@@ -280,11 +280,11 @@ class Prosestransfer extends BaseController
                     ->join('_upload_data_attribut e', 'a.id_ptk = e.id_ptk AND (a.id_tahun_tw = e.id_tahun_tw)')
                     ->where('a.status_usulan', 2)
                     ->where('a.id_tahun_tw', $tw)
-                    ->where('b.nuptk', $data[1])
+                    ->where('b.nuptk', str_replace("'", "", $data[1]))
                     ->get()->getRowObject();
 
                 $dataImport[] = $dataInsert;
-                $nuptkImport[] = $data[1];
+                $nuptkImport[] = str_replace("'", "", $data[1]);
             }
 
             $dataImports = [
