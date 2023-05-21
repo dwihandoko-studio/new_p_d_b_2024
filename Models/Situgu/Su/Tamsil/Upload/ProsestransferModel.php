@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 
 class ProsestransferModel extends Model
 {
-    protected $table = "tb_matching_prosestransfer a";
+    protected $table = "tb_matching_prosestransfer_tamsil a";
     protected $column_order = array(null, null, 'a.fullname', 'a.id_tahun_tw', 'a.jumlah', 'a.lolos', 'a.gagal', 'a.done', 'a.created_at');
     protected $column_search = array('a.filename');
     protected $order = array('a.filename' => 'desc');
