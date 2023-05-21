@@ -622,7 +622,7 @@ class Prosestransfer extends BaseController
                 $this->_db->transBegin();
 
                 if ($status == "table-success") {
-                    $this->_db->table('_tb_usulan_detail_tamsil_test')->where('id', $current->id_usulan)->update(['status_usulan' => 5, 'updated_at' => date('Y-m-d H:i:s'), 'date_prosestransfer' => date('Y-m-d H:i:s'), 'admin_prosestransfer' => $user->data->id]);
+                    $this->_db->table('_tb_usulan_detail_tamsil_test')->where('id', $current->id_usulan)->update(['status_usulan' => 5, 'updated_at' => date('Y-m-d H:i:s'), 'date_matching' => date('Y-m-d H:i:s'), 'admin_matching' => $user->data->id]);
                     if ($this->_db->affectedRows() > 0) {
                         $ptk = $this->_db->table('_tb_usulan_detail_tamsil_test')->where('id', $current->id_usulan)->get()->getRowObject();
                         if ($ptk) {
