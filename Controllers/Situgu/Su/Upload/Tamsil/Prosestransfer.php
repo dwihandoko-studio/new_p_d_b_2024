@@ -688,12 +688,12 @@ class Prosestransfer extends BaseController
                                     //     "SKTP Telah Terbit", "Usulan " . $ptk->kode_usulan . " telah Terbit dengan No SK: " . $no_sktp . " No Urut: " . $no_urut, "success", $user->data->id, $ptk->id_ptk, base_url('situgu/ptk/us/tpg/skterbit')
                                     // ];
 
-                                    try {
-                                        $notifLib = new NotificationLib();
-                                        $notifLib->create("Proses Transfer", "Usulan " . $ptk->kode_usulan . " telah memasuki tahap proses trasnfer dengan total nominal: " . Rupiah($jumlah_diterima), "success", $user->data->id, $ptk->id_ptk, base_url('situgu/ptk/us/tamsil/prosestransfer'));
-                                    } catch (\Throwable $th) {
-                                        //throw $th;
-                                    }
+                                    // try {
+                                    //     $notifLib = new NotificationLib();
+                                    //     $notifLib->create("Proses Transfer", "Usulan " . $ptk->kode_usulan . " telah memasuki tahap proses trasnfer dengan total nominal: " . Rupiah($jumlah_diterima), "success", $user->data->id, $ptk->id_ptk, base_url('situgu/ptk/us/tamsil/prosestransfer'));
+                                    // } catch (\Throwable $th) {
+                                    //     //throw $th;
+                                    // }
                                     $response = new \stdClass;
                                     $response->status = 200;
                                     $response->message = "Data berhasil disimpan.";
