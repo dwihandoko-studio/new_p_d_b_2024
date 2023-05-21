@@ -274,7 +274,7 @@ class Prosestransfer extends BaseController
                     'ket_tambahan' => $data[17],
                 ];
 
-                $dataInsert['data_usulan'] = $this->_db->table('_tb_usulan_detail_tamsil a')
+                $dataInsert['data_usulan'] = $this->_db->table('_tb_usulan_detail_tamsil_test a')
                     ->select("a.id as id_usulan, a.us_pang_golongan, a.us_pang_mk_tahun, a.us_gaji_pokok, a.date_approve, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, a.date_approve_sptjm, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, e.cuti as lampiran_cuti, e.pensiun as lampiran_pensiun, e.kematian as lampiran_kematian")
                     ->join('_ptk_tb b', 'a.id_ptk = b.id')
                     ->join('_upload_data_attribut e', 'a.id_ptk = e.id_ptk AND (a.id_tahun_tw = e.id_tahun_tw)')
@@ -609,7 +609,7 @@ class Prosestransfer extends BaseController
             $jumlah_diterima = htmlspecialchars($this->request->getVar('jumlah_diterima'), true);
             $no_rekening = htmlspecialchars($this->request->getVar('no_rekening'), true);
 
-            $current = $this->_db->table('_tb_usulan_detail_tamsil a')
+            $current = $this->_db->table('_tb_usulan_detail_tamsil_test a')
                 ->select("a.id as id_usulan, a.us_pang_golongan, a.us_pang_mk_tahun, a.us_gaji_pokok, a.date_approve, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, a.date_approve_sptjm, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, e.cuti as lampiran_cuti, e.pensiun as lampiran_pensiun, e.kematian as lampiran_kematian")
                 ->join('_ptk_tb b', 'a.id_ptk = b.id')
                 ->join('_upload_data_attribut e', 'a.id_ptk = e.id_ptk AND (a.id_tahun_tw = e.id_tahun_tw)')
@@ -622,9 +622,9 @@ class Prosestransfer extends BaseController
                 $this->_db->transBegin();
 
                 if ($status == "table-success") {
-                    $this->_db->table('_tb_usulan_detail_tamsil')->where('id', $current->id_usulan)->update(['status_usulan' => 5, 'updated_at' => date('Y-m-d H:i:s'), 'date_prosestransfer' => date('Y-m-d H:i:s'), 'admin_prosestransfer' => $user->data->id]);
+                    $this->_db->table('_tb_usulan_detail_tamsil_test')->where('id', $current->id_usulan)->update(['status_usulan' => 5, 'updated_at' => date('Y-m-d H:i:s'), 'date_prosestransfer' => date('Y-m-d H:i:s'), 'admin_prosestransfer' => $user->data->id]);
                     if ($this->_db->affectedRows() > 0) {
-                        $ptk = $this->_db->table('_tb_usulan_detail_tamsil')->where('id', $current->id_usulan)->get()->getRowObject();
+                        $ptk = $this->_db->table('_tb_usulan_detail_tamsil_test')->where('id', $current->id_usulan)->get()->getRowObject();
                         if ($ptk) {
                             $this->_db->table('_tb_usulan_tamsil_transfer')->insert([
                                 'id' => $ptk->id,
