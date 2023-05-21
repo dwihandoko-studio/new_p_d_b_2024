@@ -626,7 +626,7 @@ class Prosestransfer extends BaseController
                     if ($this->_db->affectedRows() > 0) {
                         $ptk = $this->_db->table('_tb_usulan_detail_tamsil_test')->where('id', $current->id_usulan)->get()->getRowObject();
                         if ($ptk) {
-                            $this->_db->table('_tb_usulan_tamsil_transfer')->insert([
+                            $this->_db->table('_tb_usulan_tamsil_transfer_test')->insert([
                                 'id' => $ptk->id,
                                 'kode_usulan' => $ptk->kode_usulan,
                                 'id_ptk' => $ptk->id_ptk,
