@@ -648,62 +648,71 @@ class Prosestransfer extends BaseController
                                 'updated_at' => date('Y-m-d H:i:s'),
                             ]);
                             if ($this->_db->affectedRows() > 0) {
-                                $this->_db->table('_tb_spj_tamsil')->insert([
-                                    'id' => $ptk->id,
-                                    'kode_usulan' => $ptk->kode_usulan,
-                                    'id_ptk' => $ptk->id_ptk,
-                                    'id_tahun_tw' => $ptk->id_tahun_tw,
-                                    'us_pang_golongan' => $ptk->us_pang_golongan,
-                                    'us_pang_tmt' => $ptk->us_pang_tmt,
-                                    'us_pang_tgl' => $ptk->us_pang_tgl,
-                                    'us_pang_mk_tahun' => $ptk->us_pang_mk_tahun,
-                                    'us_pang_mk_bulan' => $ptk->us_pang_mk_bulan,
-                                    'us_pang_jenis' => $ptk->us_pang_jenis,
-                                    'us_gaji_pokok' => $ptk->us_gaji_pokok,
-                                    'status_usulan' => 0,
-                                    'generate_spj' => 0,
-                                    'jumlah_bulan' => $jumlah_bulan,
-                                    'tf_jumlah_uang' => $jumlah_uang,
-                                    'tf_iuran_bpjs' => $iuran_bpjs,
-                                    'tf_pph21' => $pph21,
-                                    'tf_jumlah_diterima' => $jumlah_diterima,
-                                    'tf_keterangan' => $keterangan,
-                                    'tf_no_rekening' => $no_rekening,
-                                    'date_approve_ks' => $ptk->date_approve_ks,
-                                    'date_approve_sptjm' => $ptk->date_approve_sptjm,
-                                    'admin_approve' => $ptk->admin_approve,
-                                    'date_approve' => $ptk->date_approve,
-                                    'admin_matching' => $ptk->admin_matching,
-                                    'date_matching' => $ptk->date_matching,
-                                    'admin_terbitsk' => $ptk->admin_terbitsk,
-                                    'date_terbitsk' => $ptk->date_terbitsk,
-                                    'admin_prosestransfer' => $user->data->id,
-                                    'date_prosestransfer' => date('Y-m-d H:i:s'),
-                                    'updated_at' => date('Y-m-d H:i:s'),
-                                ]);
+                                $this->_db->table('_tb_usulan_detail_tamsil_test')->where(['id' => $ptk->id])->delete();
                                 if ($this->_db->affectedRows() > 0) {
-                                    $this->_db->transCommit();
+                                    $this->_db->table('_tb_spj_tamsil')->insert([
+                                        'id' => $ptk->id,
+                                        'kode_usulan' => $ptk->kode_usulan,
+                                        'id_ptk' => $ptk->id_ptk,
+                                        'id_tahun_tw' => $ptk->id_tahun_tw,
+                                        'us_pang_golongan' => $ptk->us_pang_golongan,
+                                        'us_pang_tmt' => $ptk->us_pang_tmt,
+                                        'us_pang_tgl' => $ptk->us_pang_tgl,
+                                        'us_pang_mk_tahun' => $ptk->us_pang_mk_tahun,
+                                        'us_pang_mk_bulan' => $ptk->us_pang_mk_bulan,
+                                        'us_pang_jenis' => $ptk->us_pang_jenis,
+                                        'us_gaji_pokok' => $ptk->us_gaji_pokok,
+                                        'status_usulan' => 0,
+                                        'generate_spj' => 0,
+                                        'jumlah_bulan' => $jumlah_bulan,
+                                        'tf_jumlah_uang' => $jumlah_uang,
+                                        'tf_iuran_bpjs' => $iuran_bpjs,
+                                        'tf_pph21' => $pph21,
+                                        'tf_jumlah_diterima' => $jumlah_diterima,
+                                        'tf_keterangan' => $keterangan,
+                                        'tf_no_rekening' => $no_rekening,
+                                        'date_approve_ks' => $ptk->date_approve_ks,
+                                        'date_approve_sptjm' => $ptk->date_approve_sptjm,
+                                        'admin_approve' => $ptk->admin_approve,
+                                        'date_approve' => $ptk->date_approve,
+                                        'admin_matching' => $ptk->admin_matching,
+                                        'date_matching' => $ptk->date_matching,
+                                        'admin_terbitsk' => $ptk->admin_terbitsk,
+                                        'date_terbitsk' => $ptk->date_terbitsk,
+                                        'admin_prosestransfer' => $user->data->id,
+                                        'date_prosestransfer' => date('Y-m-d H:i:s'),
+                                        'updated_at' => date('Y-m-d H:i:s'),
+                                    ]);
+                                    if ($this->_db->affectedRows() > 0) {
+                                        $this->_db->transCommit();
 
-                                    // $dataNotif = [
-                                    //     "SKTP Telah Terbit", "Usulan " . $ptk->kode_usulan . " telah Terbit dengan No SK: " . $no_sktp . " No Urut: " . $no_urut, "success", $user->data->id, $ptk->id_ptk, base_url('situgu/ptk/us/tpg/skterbit')
-                                    // ];
+                                        // $dataNotif = [
+                                        //     "SKTP Telah Terbit", "Usulan " . $ptk->kode_usulan . " telah Terbit dengan No SK: " . $no_sktp . " No Urut: " . $no_urut, "success", $user->data->id, $ptk->id_ptk, base_url('situgu/ptk/us/tpg/skterbit')
+                                        // ];
 
-                                    // try {
-                                    //     $notifLib = new NotificationLib();
-                                    //     $notifLib->create("Proses Transfer", "Usulan " . $ptk->kode_usulan . " telah memasuki tahap proses trasnfer dengan total nominal: " . Rupiah($jumlah_diterima), "success", $user->data->id, $ptk->id_ptk, base_url('situgu/ptk/us/tamsil/prosestransfer'));
-                                    // } catch (\Throwable $th) {
-                                    //     //throw $th;
-                                    // }
-                                    $response = new \stdClass;
-                                    $response->status = 200;
-                                    $response->message = "Data berhasil disimpan.";
-                                    // $response->suce = $dataNotif;
-                                    return json_encode($response);
+                                        // try {
+                                        //     $notifLib = new NotificationLib();
+                                        //     $notifLib->create("Proses Transfer", "Usulan " . $ptk->kode_usulan . " telah memasuki tahap proses trasnfer dengan total nominal: " . Rupiah($jumlah_diterima), "success", $user->data->id, $ptk->id_ptk, base_url('situgu/ptk/us/tamsil/prosestransfer'));
+                                        // } catch (\Throwable $th) {
+                                        //     //throw $th;
+                                        // }
+                                        $response = new \stdClass;
+                                        $response->status = 200;
+                                        $response->message = "Data berhasil disimpan.";
+                                        // $response->suce = $dataNotif;
+                                        return json_encode($response);
+                                    } else {
+                                        $this->_db->transRollback();
+                                        $response = new \stdClass;
+                                        $response->status = 400;
+                                        $response->message = "Gagal memindahkan data usulan.";
+                                        return json_encode($response);
+                                    }
                                 } else {
                                     $this->_db->transRollback();
                                     $response = new \stdClass;
                                     $response->status = 400;
-                                    $response->message = "Gagal memindahkan data usulan.";
+                                    $response->message = "Gagal menghapus data usulan.";
                                     return json_encode($response);
                                 }
                             } else {
