@@ -248,10 +248,11 @@ class Prosestransfer extends BaseController
             unset($sheet[2]);
             unset($sheet[3]);
             unset($sheet[4]);
+            unset($sheet[5]);
 
             foreach ($sheet as $key => $data) {
 
-                if ($data[5] == "" || strlen($data[5]) < 5) {
+                if ($data[1] == "" || strlen($data[1]) < 5) {
                     // if($data[1] == "") {
                     continue;
                 }
