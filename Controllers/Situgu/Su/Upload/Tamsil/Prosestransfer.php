@@ -622,6 +622,7 @@ class Prosestransfer extends BaseController
                 $this->_db->transBegin();
 
                 if ($status == "table-success") {
+                    // try {
                     $this->_db->table('_tb_usulan_detail_tamsil_test')->where('id', $current->id_usulan)->update(['status_usulan' => 5, 'updated_at' => date('Y-m-d H:i:s'), 'date_matching' => date('Y-m-d H:i:s'), 'admin_matching' => $user->data->id]);
                     if ($this->_db->affectedRows() > 0) {
                         $ptk = $this->_db->table('_tb_usulan_detail_tamsil_test')->where('id', $current->id_usulan)->get()->getRowObject();
@@ -677,8 +678,6 @@ class Prosestransfer extends BaseController
                                         'date_approve' => $ptk->date_approve,
                                         'admin_matching' => $ptk->admin_matching,
                                         'date_matching' => $ptk->date_matching,
-                                        'admin_terbitsk' => $ptk->admin_terbitsk,
-                                        'date_terbitsk' => $ptk->date_terbitsk,
                                         'admin_prosestransfer' => $user->data->id,
                                         'date_prosestransfer' => date('Y-m-d H:i:s'),
                                         'updated_at' => date('Y-m-d H:i:s'),
@@ -736,6 +735,14 @@ class Prosestransfer extends BaseController
                         $response->message = "Gagal mengupdate data usulan.";
                         return json_encode($response);
                     }
+                    // } catch (\Throwable $th) {
+                    //     $this->_db->transRollback();
+                    //     $response = new \stdClass;
+                    //     $response->status = 400;
+                    //     $response->error = var_dump($th);
+                    //     $response->message = "Gagal memproses data.";
+                    //     return json_encode($response);
+                    // }
                 } else {
                     // $this->_db->table('_tb_usulan_detail_tpg')->where('id', $current->id_usulan)->update(['status_usulan' => 4, 'updated_at' => date('Y-m-d H:i:s'), 'date_matching' => date('Y-m-d H:i:s'), 'admin_matching' => $user->data->id, 'keterangan_reject' => $keterangan]);
                     // if ($this->_db->affectedRows() > 0) {
