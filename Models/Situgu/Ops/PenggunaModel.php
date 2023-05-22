@@ -50,7 +50,7 @@ class PenggunaModel extends Model
     function get_datatables($npsn)
     {
         $this->dt->where('npsn', $npsn);
-        $this->dt->where("role_user != 5");
+        $this->dt->whereIn("role_user", [6, 7]);
         $this->_get_datatables_query();
         if ($this->request->getPost('length') != -1)
             $this->dt->limit($this->request->getPost('length'), $this->request->getPost('start'));
@@ -60,7 +60,7 @@ class PenggunaModel extends Model
     function count_filtered($npsn)
     {
         $this->dt->where('npsn', $npsn);
-        $this->dt->where("role_user != 5");
+        $this->dt->whereIn("role_user", [6, 7]);
         $this->_get_datatables_query();
 
         return $this->dt->countAllResults();
@@ -68,7 +68,7 @@ class PenggunaModel extends Model
     public function count_all($npsn)
     {
         $this->dt->where('npsn', $npsn);
-        $this->dt->where("role_user != 5");
+        $this->dt->whereIn("role_user", [6, 7]);
         $this->_get_datatables_query();
 
         return $this->dt->countAllResults();
