@@ -31,7 +31,7 @@ class Downloadlib
 
     public function downloaded($path, $name, $jenis_sptjm = "tamsil")
     {
-        $dir = FCPATH . "upload/generate/sptjm/" . $jenis_sptjm . "/pdf1";
+        $dir = FCPATH . "upload/generate/sptjm/" . $jenis_sptjm . "/word1";
         sleep(3);
         try {
             // if (
