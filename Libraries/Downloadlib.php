@@ -71,7 +71,7 @@ class Downloadlib
                     $response->status = 400;
                     $response->message = "Gagal convert file.";
                     $response->error = $termSignal;
-                    $response->rr = 'exit with ' . $exitcode . PHP_EOL;
+                    // $response->rr = 'exit with ' . $exitcode . PHP_EOL;
                     $response->code = $exitCode;
                     echo json_encode($response);
                 }
