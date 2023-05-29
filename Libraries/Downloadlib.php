@@ -31,7 +31,7 @@ class Downloadlib
 
     public function downloaded($path, $name, $jenis_sptjm = "tamsil")
     {
-        $dir = FCPATH . "upload/generate/sptjm/" . $jenis_sptjm . "/word1";
+        $dir = FCPATH . "upload/generate/sptjm/" . $jenis_sptjm . "/pdf1";
         sleep(3);
         try {
             // if (
@@ -43,8 +43,8 @@ class Downloadlib
             $loop = Factory::create();
 
             $command = 'libreoffice --headless --convert-to pdf ' . $path . ' --outdir ' . $dir;
-            $process = new Process('sudo -u bejo ' . $command);
-            // $process = new Process('sudo -u bejo -p bejo123 ' . $command);
+            // $process = new Process('sudo -u bejo ' . $command);
+            $process = new Process('sudo -u bejo -p bejo123 ' . $command);
             // $process = new Process($command);
 
             $process->start($loop);
