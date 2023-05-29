@@ -540,9 +540,17 @@ class Tamsil extends BaseController
             $template_processor->cloneRowAndSetValues('NO', $dataPtnya);
             $template_processor->setImageValue('BARCODE', array('path' => 'https://chart.googleapis.com/chart?chs=100x100&cht=qr&chl=layanan.disdikbud.lampungtengahkab.go.id/verifiqrcode?token=' . $usulan->kode_usulan . '&choe=UTF-8', 'width' => 150, 'height' => 150, 'ratio' => false));
 
-            $filed = FCPATH . "upload/generate/sptjm/tamsil/word2/" . $usulan->kode_usulan . ".doc";
+            $filed = FCPATH . "upload/generate/sptjm/tamsil/word2/" . $usulan->kode_usulan . ".docx";
 
             $template_processor->saveAs($filed);
+
+            header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+            header('Content-Disposition: attachment; filename="' . basename($filed) . '"');
+            header('Content-Length: ' . filesize($filed));
+            readfile($filed);
+            exit;
+
+            return;
 
 
 
