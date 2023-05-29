@@ -69,6 +69,8 @@ class Downloadlib
                     $response = new \stdClass;
                     $response->status = 400;
                     $response->message = "Gagal convert file.";
+                    $response->error = var_dump($termSignal);
+                    $response->code = var_dump($exitCode);
                     echo json_encode($response);
                 }
             });
