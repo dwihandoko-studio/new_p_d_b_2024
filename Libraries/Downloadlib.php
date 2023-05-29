@@ -43,7 +43,8 @@ class Downloadlib
             $loop = Factory::create();
 
             $command = 'libreoffice --headless --convert-to pdf ' . $path . ' --outdir ' . $dir;
-            $process = new Process('sudo -u bejo -p bejo123 ' . $command);
+            $process = new Process('sudo -u root ' . $command);
+            // $process = new Process('sudo -u bejo -p bejo123 ' . $command);
 
             $process->start($loop);
 
