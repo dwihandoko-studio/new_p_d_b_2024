@@ -70,7 +70,7 @@ class Downloadlib
                     $response->status = 400;
                     $response->message = "Gagal convert file.";
                     $response->error = var_dump($termSignal);
-                    $response->code = var_dump($exitCode);
+                    $response->code = $exitCode;
                     echo json_encode($response);
                 }
             });
