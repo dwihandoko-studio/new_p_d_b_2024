@@ -544,13 +544,13 @@ class Tamsil extends BaseController
 
             $template_processor->saveAs($filed);
 
-            header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-            header('Content-Disposition: attachment; filename="' . basename($filed) . '"');
-            header('Content-Length: ' . filesize($filed));
-            readfile($filed);
-            exit;
+            // header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+            // header('Content-Disposition: attachment; filename="' . basename($filed) . '"');
+            // header('Content-Length: ' . filesize($filed));
+            // readfile($filed);
+            // exit;
 
-            return;
+            // return;
 
 
 
