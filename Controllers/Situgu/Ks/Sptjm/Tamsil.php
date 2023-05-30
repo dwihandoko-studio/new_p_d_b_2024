@@ -724,7 +724,7 @@ class Tamsil extends BaseController
                                     </table>
                                 </div>
                                 <div class="row">
-                                    <div style="text-align: center;margin-top: 30px;">
+                                    <div style="text-align: center;margin-top: 30px; border:1px solid black;">
                                         <h3 style="margin: 0rem;font-size: 14px;">SURAT PERNYATAAN TANGGUNG JAWAB MUTLAK (SPTJM)</h3>
                                         <h3 style="margin: 0rem;font-size: 14px;">USULAN PENCARIAN TUNJANGAN TAMBAHAN PENGHASILAN GURU PNS NON-SERTIFIKASI (TAMSIL)</h3>
                                         <h3 style="margin: 0rem;font-size: 14px;">TRIWULAN ';
