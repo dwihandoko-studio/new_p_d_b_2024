@@ -452,7 +452,7 @@ class Tpg extends BaseController
         $idUser = $this->_helpLib->getPtkId($user->data->id);
         $ks = $this->_db->table('_ptk_tb')->where('id', $idUser)->get()->getRowObject();
 
-        return $this->_download($dataPtks, $sekolah, $ks, $current);
+        return $this->_download_new($dataPtks, $sekolah, $ks, $current);
         // return $this->_download($dataPtks, $sekolah, $ks, $current);
         // }
     }
