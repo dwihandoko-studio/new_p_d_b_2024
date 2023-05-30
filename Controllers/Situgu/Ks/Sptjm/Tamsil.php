@@ -540,29 +540,29 @@ class Tamsil extends BaseController
             $template_processor->cloneRowAndSetValues('NO', $dataPtnya);
             $template_processor->setImageValue('BARCODE', array('path' => 'https://chart.googleapis.com/chart?chs=100x100&cht=qr&chl=layanan.disdikbud.lampungtengahkab.go.id/verifiqrcode?token=' . $usulan->kode_usulan . '&choe=UTF-8', 'width' => 100, 'height' => 100, 'ratio' => false));
 
-            $filed = FCPATH . "upload/generate/sptjm/tamsil/word2/" . $usulan->kode_usulan . ".docx";
+            // $filed = FCPATH . "upload/generate/sptjm/tamsil/word2/" . $usulan->kode_usulan . ".docx";
 
-            $template_processor->saveAs($filed);
+            // $template_processor->saveAs($filed);
 
-            $filedTmp = FCPATH . "upload/generate/sptjm/tamsil/pdf2/" . $usulan->kode_usulan . ".pdf";
+            // $filedTmp = FCPATH . "upload/generate/sptjm/tamsil/pdf2/" . $usulan->kode_usulan . ".pdf";
 
-            $domPdfPath = realpath('/var/www/vendor/dompdf/dompdf');
-            \PhpOffice\PhpWord\Settings::setPdfRendererPath($domPdfPath);
-            \PhpOffice\PhpWord\Settings::setPdfRendererName('DomPDF');
+            // $domPdfPath = realpath('/var/www/vendor/dompdf/dompdf');
+            // \PhpOffice\PhpWord\Settings::setPdfRendererPath($domPdfPath);
+            // \PhpOffice\PhpWord\Settings::setPdfRendererName('DomPDF');
 
-            $phpWord = IOFactory::load($filed);
-            $phpWord->save($filedTmp,'PDF');
+            // $phpWord = IOFactory::load($filed);
+            // $phpWord->save($filedTmp,'PDF');
 
-            sleep(3);
+            // sleep(3);
 
-            // header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-            header('Content-Type: application/pdf');
-            header('Content-Disposition: attachment; filename="' . basename($filedTmp) . '"');
-            header('Content-Length: ' . filesize($filedTmp));
-            readfile($filedTmp);
-            exit;
+            // // header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+            // header('Content-Type: application/pdf');
+            // header('Content-Disposition: attachment; filename="' . basename($filedTmp) . '"');
+            // header('Content-Length: ' . filesize($filedTmp));
+            // readfile($filedTmp);
+            // exit;
 
-            return;
+            // return;
 
 
 
