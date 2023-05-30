@@ -26,6 +26,9 @@ use PhpOffice\PhpWord\PhpWord;
 use mPDF;
 use PhpOffice\PhpWord\TemplateProcessor;
 
+use iio\libmergepdf\Merger;
+use Dompdf\Dompdf;
+
 class Tamsil extends BaseController
 {
     var $folderImage = 'masterdata';
@@ -592,37 +595,97 @@ class Tamsil extends BaseController
         }
     }
 
-    private function _download_new($ptks, $sekolah, $ks, $usulan) 
+    public function downloadnew()
     {
-        $dataFileGambar = file_get_contents(FCPATH . './uploads/tutwuri.png');
-        $base64 = "data:image/png;base64,".base64_encode($dataFileGambar);
-
-        $alamat = $sekolah->alamat_jalan ? ($sekolah->alamat_jalan !== "" ? $sekolah->alamat_jalan : "-") : "-";
-        $no_telp = $sekolah->no_telepon ? ($sekolah->no_telepon !== "" ? $sekolah->no_telepon : "-") : "-";
-        $email = $sekolah->email ? ($sekolah->email !== "" ? $sekolah->email : "-") : "-";
-        $nama_ks = "";
-        if ($ks->gelar_depan && ($ks->gelar_depan !== "" || $ks->gelar_depan !== "-")) {
-            $nama_ks .= $ks->gelar_depan;
-        }
-        $nama_ks .= $ks->nama;
-        if ($ks->gelar_belakang && ($ks->gelar_belakang !== "" || $ks->gelar_belakang !== "-")) {
-            $nama_ks .= $ks->gelar_belakang;
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            $response = new \stdClass;
+            $response->status = 401;
+            $response->message = "Permintaan diizinkan";
+            return json_encode($response);
         }
 
-        $nipKs = "";
-        if ($ks->nip && ($ks->nip !== "" || $ks->nip !== "-")) {
-            $nipKs .= $ks->nip;
-        } else {
-            $nipKs .= "-";
+        $id = htmlspecialchars($this->request->getGet('id'), true);
+
+        $current = $this->_db->table('_tb_sptjm')->where('id', $id)->get()->getRowObject();
+        if (!$current) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "SPTJM tidak ditemukan. Silahkan Generate terlebih dahulu.";
+            return json_encode($response);
         }
 
-        $jabatan_ks = $ks->jabatan_ks_plt ? ($ks->jabatan_ks_plt == 0 ? "Kepala Sekolah" : "Plt. Kepala Sekolah") : "Kepala Sekolah";
-        
-        $html   =  '<html>
+        $ptks = explode(",", $current->id_ptks);
+        $dataPtks = [];
+        foreach ($ptks as $key => $value) {
+            $ptk = $this->_db->table('v_temp_usulan')->where(['id_ptk_usulan' => $value, 'status_usulan' => 5, 'jenis_tunjangan_usulan' => 'tamsil'])->get()->getRowObject();
+            if ($ptk) {
+                $dataPtks[] = $ptk;
+            }
+        }
+
+        $sekolah = $this->_db->table('ref_sekolah')->where('npsn', $user->data->npsn)->get()->getRowObject();
+        if (!$sekolah) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Referensi sekolah tidak ditemukan.";
+            return json_encode($response);
+        }
+
+        $idUser = $this->_helpLib->getPtkId($user->data->id);
+        $ks = $this->_db->table('_ptk_tb')->where('id', $idUser)->get()->getRowObject();
+
+        return $this->_download_new($dataPtks, $sekolah, $ks, $current);
+    }
+
+    private function _download_new($ptks, $sekolah, $ks, $usulan)
+    {
+        if (count($ptks) > 0) {
+            $m = new Merger();
+
+            $dataFileGambar = file_get_contents(FCPATH . './uploads/tutwuri.png');
+            $base64 = "data:image/png;base64," . base64_encode($dataFileGambar);
+
+            $alamat = $sekolah->alamat_jalan ? ($sekolah->alamat_jalan !== "" ? $sekolah->alamat_jalan : "-") : "-";
+            $no_telp = $sekolah->no_telepon ? ($sekolah->no_telepon !== "" ? $sekolah->no_telepon : "-") : "-";
+            $email = $sekolah->email ? ($sekolah->email !== "" ? $sekolah->email : "-") : "-";
+
+            if ($ptks[0]->tw_tw == 1) {
+                $bulanTampil = 'Januari s/d Maret';
+            } else if ($ptks[0]->tw_tw == 2) {
+                $bulanTampil = 'April s/d Juni';
+            } else if ($ptks[0]->tw_tw == 3) {
+                $bulanTampil = 'Juli s/d September';
+            } else if ($ptks[0]->tw_tw == 4) {
+                $bulanTampil = 'Oktober s/d Desember';
+            }
+
+            $nama_ks = "";
+            if ($ks->gelar_depan && ($ks->gelar_depan !== "" || $ks->gelar_depan !== "-")) {
+                $nama_ks .= $ks->gelar_depan;
+            }
+            $nama_ks .= $ks->nama;
+            if ($ks->gelar_belakang && ($ks->gelar_belakang !== "" || $ks->gelar_belakang !== "-")) {
+                $nama_ks .= $ks->gelar_belakang;
+            }
+
+            $nipKs = "";
+            if ($ks->nip && ($ks->nip !== "" || $ks->nip !== "-")) {
+                $nipKs .= $ks->nip;
+            } else {
+                $nipKs .= "-";
+            }
+
+            $jabatan_ks = $ks->jabatan_ks_plt ? ($ks->jabatan_ks_plt == 0 ? "Kepala Sekolah" : "Plt. Kepala Sekolah") : "Kepala Sekolah";
+
+            $html   =  '<html>
                         <head>
                             <link href="';
-        $html   .=              base_url('uploads/bootstrap.css');
-        $html   .=          '" rel="stylesheet">
+            $html   .=              base_url('uploads/bootstrap.css');
+            $html   .=          '" rel="stylesheet">
                         </head>
                         <body>
                             <div class="container">
@@ -632,8 +695,8 @@ class Tamsil extends BaseController
                                             <tr>
                                                 <td>
                                                     <img class="image-responsive" width="110px" height="110px" src="';
-        $html   .=                                      $base64;
-        $html   .=                                  '"/>
+            $html   .=                                      $base64;
+            $html   .=                                  '"/>
                                                 </td>
                                                 <td>
                                                     &nbsp;&nbsp;&nbsp;
@@ -643,16 +706,16 @@ class Tamsil extends BaseController
                                                     <h3 style="margin: 0rem;font-size: 16px;">DINAS PENDIDIKAN DAN KEBUDAYAAN</h3>
                                                     <h3 style="margin: 0rem;font-size: 16px;">KABUPATEN LAMPUNG TENGAH</h3>
                                                     <h3 style="margin: 0rem;font-size: 16px;">';
-        $html   .=                                      $sekolah->nama;
-        $html   .=                                  '</h3>
+            $html   .=                                      $sekolah->nama;
+            $html   .=                                  '</h3>
                                                     <h3 style="margin: 0rem;font-size: 14px;font-weight: 400;"><b>';
-        $html   .=                                      $sekolah->npsn;
-        $html   .=                                      '</b><span>, ';
-        $html   .=                                      $alamat;
-        $html   .=                                      '</span></h3>
+            $html   .=                                      $sekolah->npsn;
+            $html   .=                                      '</b><span>, ';
+            $html   .=                                      $alamat;
+            $html   .=                                      '</span></h3>
                                                     <h4 style="margin: 0rem;font-size: 12px;font-weight: 400;">Kecamatan ';
-        $html   .=                                      $sekolah->kecamatan;
-        $html   .=                                      ', ' . getenv('setting.utpg.kabupaten') . ', ' . getenv('setting.utpg.provinsi') . '</h4>
+            $html   .=                                      $sekolah->kecamatan;
+            $html   .=                                      ', ' . getenv('setting.utpg.kabupaten') . ', ' . getenv('setting.utpg.provinsi') . '</h4>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -663,13 +726,13 @@ class Tamsil extends BaseController
                                         <h3 style="margin: 0rem;font-size: 14px;">SURAT PERNYATAAN TANGGUNG JAWAB MUTLAK (SPTJM)</h3>
                                         <h3 style="margin: 0rem;font-size: 14px;">USULAN PENCARIAN TUNJANGAN TAMBAHAN PENGHASILAN GURU PNS NON-SERTIFIKASI (TAMSIL)</h3>
                                         <h3 style="margin: 0rem;font-size: 14px;">TRIWULAN ';
-        $html   .=                          $ptks[0]->tw_tw;
-        $html   .=                          ' TAHUN ANGGARAN ';
-        $html   .=                          $ptks[0]->tw_tahun;
-        $html   .=                          '</h3>
+            $html   .=                          $ptks[0]->tw_tw;
+            $html   .=                          ' TAHUN ANGGARAN ';
+            $html   .=                          $ptks[0]->tw_tahun;
+            $html   .=                          '</h3>
                                         <h3 style="margin: 0rem;font-size: 12px;font-weight: 400;">NOMOR: ';
-        $html   .=                          $usulan->kode_usulan;
-        $html   .=                          '</h3>
+            $html   .=                          $usulan->kode_usulan;
+            $html   .=                          '</h3>
                                     </div>
                                 </div>
                                 <div class="row" style="margin-left: 30px;margin-right:30px;">
@@ -684,8 +747,8 @@ class Tamsil extends BaseController
                                                         </td>
                                                         <td>&nbsp;: &nbsp;</td>
                                                         <td>&nbsp;';
-        $html   .=                                          $nama_ks;
-        $html   .=                                      '</td>
+            $html   .=                                          $nama_ks;
+            $html   .=                                      '</td>
                                                     </tr>
                                                     <tr>
                                                         <td>
@@ -693,8 +756,8 @@ class Tamsil extends BaseController
                                                         </td>
                                                         <td>&nbsp;: &nbsp;</td>
                                                         <td>&nbsp;';
-        $html   .=                                          $jabatan_ks;
-        $html   .=                                      '</td>
+            $html   .=                                          $jabatan_ks;
+            $html   .=                                      '</td>
                                                     </tr>
                                                     <tr>
                                                         <td>
@@ -702,8 +765,8 @@ class Tamsil extends BaseController
                                                         </td>
                                                         <td>&nbsp;: &nbsp;</td>
                                                         <td>&nbsp;';
-        $html   .=                                          $sekolah->nama;
-        $html   .=                                      '</td>
+            $html   .=                                          $sekolah->nama;
+            $html   .=                                      '</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -751,15 +814,15 @@ class Tamsil extends BaseController
                                                         <br>
                                                         <br>
                                                         <span style="font-size: 12px;">Lampung Tengah, ';
-        $html   .=                                          tgl_indo(date('Y-m-d'));
-        $html   .=                                      '</span><br>
+            $html   .=                                          tgl_indo(date('Y-m-d'));
+            $html   .=                                      '</span><br>
                                                         <span style="font-size: 12px;">Kepala Sekolah, ' . $sekolah->nama . '</span><br><br><span>Materai 10.000</span><br><br>
                                                         <span style="font-size: 12px;"><b><u>';
-        $html   .=                                          $nama_ks;
-        $html   .=                                      '</u></b></span><br>
+            $html   .=                                          $nama_ks;
+            $html   .=                                      '</u></b></span><br>
                                                         <span style="font-size: 12px;">NIP. ';
-        $html   .=                                          $nipKs;
-        $html   .=                                      '</span>
+            $html   .=                                          $nipKs;
+            $html   .=                                      '</span>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -770,23 +833,122 @@ class Tamsil extends BaseController
                             </div>
                         </body>
                     </html>';
-        // $options = new Options();
-        // $options->setIsRemoteEnabled(true);
-        // $dompdf = new Dompdf($options);
-        
-        $dompdf = new Dompdf();
-        // $dompdf->set_option('isRemoteEnabled', TRUE);
-        $dompdf->loadHtml($html);
-        // $dompdf->setPaper('A4', 'landscape');
-        $dompdf->setPaper('F4', 'potrait');
-        // Render the HTML as PDF 
-    	$dompdf->render(); 
-    	 
-    	// Output the generated PDF to Browser 
-    	$dompdf->stream('SPJTM - ' . $token);
-    	
-    	// Output the generated PDF (1 = download and 0 = preview) 
-    	return $dompdf->stream("SPJTM-" . $token, array("Attachment" => 1));
+
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('F4', 'potrait');
+            $dompdf->render();
+            $m->addRaw($dompdf->output());
+            unset($dompdf);
+
+            $lHtml   =  '<html>
+                        <head>
+                            <link href="';
+            $lHtml   .=              base_url('uploads/bootstrap.css');
+            $lHtml   .=          '" rel="stylesheet">
+                        </head>
+                        <body>
+                            <div class="container">
+                                <div class="row">
+                                    <p style="margin-bottom: 0px;">LAMPIRAN SPTJM TUNJANGAN TAMBAHAN PENGHASILAN GURU PNS NON-SERTIFIKASI (TAMSIL) TRIWULAN ' . $ptks[0]->tw_tw . ', TAHUN ANGGARAN ' . $ptks[0]->tw_tahun . '</p>
+                                    <p style="margin-bottom: 0px; font-size: 14px;"><b>' . $sekolah->nama . '</b></p>
+                                    <p style="margin-bottom: 0px; font-size: 14px;">NPSN: ' . $sekolah->npsn . ', Alamat: ' . $alamat . '</p>
+                                    <p style="margin-bottom: 0px; font-size: 14px;">Kab. ' . getenv('setting.utpg.kabupaten') . ' - Prov. ' . getenv('setting.utpg.provinsi') . '</p>
+                                    <p style="margin-bottom: 0px; margin-top: 0px; padding-top: 0px; padding-bottom: 0px;">NOMOR : ';
+            $lHtml   .=                  $usulan->kode_usulan;
+            $lHtml   .=                  '</p>
+                                    <p style="margin-top: 30px;">
+                                        <table class="table" style="border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17);">
+                                            <thead style="border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17);">
+                                                <tr style="border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17);">
+                                                <th rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-left-width: 1px; border-left-style: solid;border-left-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">No</th>
+                                                <th rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">NUPTK</th>
+                                                <th rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">NIP</th>
+                                                <th rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">Nama</th>
+                                                <th rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">Gol</th>
+                                                <th colspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">Masa Kerja</th>
+                                                <th colspan="4" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">Pembayaran TW. ' . $ptks[0]->tw_tw . ' Bulan ' . $bulanTampil . '</th>
+                                                <th rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">NPWP</th>
+                                                <th rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">No Rekening</th>
+                                                <th rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">Cabang Bank</th>
+                                            </tr>
+                                            <tr>
+                                                <th style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">Thn</th>
+                                                <th style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">Bln</th>
+                                                <th style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">Jml Bln</th>
+                                                <th style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">Jml Uang</th>
+                                                <th style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">PPH 21</th>
+                                                <th style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">Jml Diterima</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center;">';
+            if (count($ptks) > 0) {
+                foreach ($ptks as $key => $v) {
+                    $pph = "0%";
+                    $pph21 = 0;
+                    if ($v->us_pang_golongan == NULL || $v->us_pang_golongan == "") {
+                    } else {
+                        $pang = explode("/", $v->us_pang_golongan);
+                        if ($pang[0] == "III" || $pang[0] == "IX") {
+                            $pph21 = (5 / 100);
+                            $pph = "5%";
+                        } else if ($pang[0] == "IV") {
+                            $pph21 = (15 / 100);
+                            $pph = "15%";
+                        } else {
+                            $pph21 = 0;
+                            $pph = "0%";
+                        }
+                    }
+
+                    $lHtml  .= '<tr style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center;">
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . $key + 1 . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . $v->nuptk . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . $v->nip . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . $v->nama . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . $v->us_pang_golongan . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . $v->us_pang_mk_tahun . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . $v->us_pang_mk_bulan . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">3</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . rpTanpaAwalan(($v->us_gaji_pokok * 3)) . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . $pph . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . rpTanpaAwalan(($v->us_gaji_pokok * 3) - (($v->us_gaji_pokok * 3) * $pph21)) . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . $v->npwp . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . $v->no_rekening . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . $v->cabang_bank . '</td>
+                                                </tr>';
+                }
+            }
+            $lHtml   .=                          '</tbody>
+                                        </table>
+                                    </p>
+                                </div>
+                            </div>
+                        </body>
+                    </html>';
+
+            // $dompdf = new DOMPDF();
+            $dompdf = new Dompdf();
+            $dompdf->set_paper('F4', 'landscape');
+            $dompdf->load_html($lHtml);
+            $m->addRaw($dompdf->output());
+            $dompdf->render();
+
+            return file_put_contents($usulan->kode_usulan . '.pdf', $m->merge());
+        } else {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Gagal mendownload SPTJM.";
+            return json_encode($response);
+        }
+
+
+
+        // Output the generated PDF to Browser 
+        // $dompdf->stream('SPJTM - ' . $token);
+
+        // // Output the generated PDF (1 = download and 0 = preview) 
+        // return $dompdf->stream("SPJTM-" . $token, array("Attachment" => 1));
     }
 
     public function formuploadedit()
@@ -1223,7 +1385,9 @@ class Tamsil extends BaseController
         }
     }
 
-    public function testDir() {
-        var_dump(PHPWORD_BASE_DIR );die;
+    public function testDir()
+    {
+        var_dump(PHPWORD_BASE_DIR);
+        die;
     }
 }
