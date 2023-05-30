@@ -649,6 +649,8 @@ class Tamsil extends BaseController
             $dataFileGambar = file_get_contents(FCPATH . './uploads/tutwuri.png');
             $base64 = "data:image/png;base64," . base64_encode($dataFileGambar);
 
+            $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=layanan.disdikbud.lampungtengahkab.go.id/verifiqrcode?token=' . $usulan->kode_usulan . '&choe=UTF-8'));
+
             $alamat = $sekolah->alamat_jalan ? ($sekolah->alamat_jalan !== "" ? $sekolah->alamat_jalan : "-") : "-";
             $no_telp = $sekolah->no_telepon ? ($sekolah->no_telepon !== "" ? $sekolah->no_telepon : "-") : "-";
             $email = $sekolah->email ? ($sekolah->email !== "" ? $sekolah->email : "-") : "-";
@@ -809,14 +811,14 @@ class Tamsil extends BaseController
                                         <table style="width: 100%;max-width: 100%;" border="0">
                                             <tbody>
                                                 <tr>
-                                                    <td style="width: 60%">&nbsp;</td>
+                                                    <td style="width: 60%"><center><img class="image-responsive" width="110px" height="110px" src="' . $qrCode . '"/></center></td>
                                                     <td style="width: 40%">
                                                         <br>
                                                         <br>
                                                         <span style="font-size: 12px;">Lampung Tengah, ';
             $html   .=                                          tgl_indo(date('Y-m-d'));
             $html   .=                                      '</span><br>
-                                                        <span style="font-size: 12px;">Kepala Sekolah, ' . $sekolah->nama . '</span><br><br><span>Materai 10.000</span><br><br>
+                                                        <span style="font-size: 12px;">Kepala Sekolah, ' . $sekolah->nama . '</span><br><br><span style="font-size: 10px; color: #000000b8;">Materai 10.000</span><br><br>
                                                         <span style="font-size: 12px;"><b><u>';
             $html   .=                                          $nama_ks;
             $html   .=                                      '</u></b></span><br>
@@ -921,6 +923,34 @@ class Tamsil extends BaseController
             }
             $lHtml   .=                          '</tbody>
                                         </table>
+                                    </p>
+                                    <p>
+                                        <div class="row" style="margin-left: 30px;margin-right:30px;">
+                                            <div>
+                                                <table style="width: 100%;max-width: 100%;" border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="width: 60%"><center><img class="image-responsive" width="110px" height="110px" src="' . $qrCode . '"/></center></td>
+                                                            <td style="width: 40%">
+                                                                <br>
+                                                                <br>
+                                                                <span style="font-size: 12px;">Lampung Tengah, ';
+            $lHtml   .=                                          tgl_indo(date('Y-m-d'));
+            $lHtml   .=                                      '</span><br>
+                                                                <span style="font-size: 12px;">Kepala Sekolah, ' . $sekolah->nama . '</span><br><br><span style="font-size: 10px; color: #000000b8;">Materai 10.000</span><br><br>
+                                                                <span style="font-size: 12px;"><b><u>';
+            $lHtml   .=                                          $nama_ks;
+            $lHtml   .=                                      '</u></b></span><br>
+                                                                <span style="font-size: 12px;">NIP. ';
+            $lHtml   .=                                          $nipKs;
+            $lHtml   .=                                      '</span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                
+                                            </div>
+                                        </div>
                                     </p>
                                 </div>
                             </div>
