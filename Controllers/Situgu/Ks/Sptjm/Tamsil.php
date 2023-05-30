@@ -850,11 +850,11 @@ class Tamsil extends BaseController
                         <body>
                             <div class="container">
                                 <div class="row">
-                                    <p style="margin-bottom: 0px;">LAMPIRAN SPTJM TUNJANGAN TAMBAHAN PENGHASILAN GURU PNS NON-SERTIFIKASI (TAMSIL) TRIWULAN ' . $ptks[0]->tw_tw . ', TAHUN ANGGARAN ' . $ptks[0]->tw_tahun . '</p>
-                                    <p style="margin-bottom: 0px; font-size: 14px;"><b>' . $sekolah->nama . '</b></p>
-                                    <p style="margin-bottom: 0px; font-size: 14px;">NPSN: ' . $sekolah->npsn . ', Alamat: ' . $alamat . '</p>
-                                    <p style="margin-bottom: 0px; font-size: 14px;">Kab. ' . getenv('setting.utpg.kabupaten') . ' - Prov. ' . getenv('setting.utpg.provinsi') . '</p>
-                                    <p style="margin-bottom: 0px; margin-top: 0px; padding-top: 0px; padding-bottom: 0px;">NOMOR : ';
+                                    <p style="margin-bottom: 0px; font-size: 12px">LAMPIRAN SPTJM TUNJANGAN TAMBAHAN PENGHASILAN GURU PNS NON-SERTIFIKASI (TAMSIL) TRIWULAN ' . $ptks[0]->tw_tw . ', TAHUN ANGGARAN ' . $ptks[0]->tw_tahun . '</p>
+                                    <p style="margin-top: 0px; margin-bottom: 0px; font-size: 14px;"><b>' . $sekolah->nama . '</b></p>
+                                    <p style="margin-top: 0px; margin-bottom: 0px; font-size: 12px;">NPSN: ' . $sekolah->npsn . ', Alamat: ' . $alamat . ', Kec. ' . $sekolah->kecamatan . '</p>
+                                    <p style="margin-top: 0px; margin-bottom: 0px; font-size: 12px;">Kab. ' . getenv('setting.utpg.kabupaten') . ' - Prov. ' . getenv('setting.utpg.provinsi') . '</p>
+                                    <p style="margin-bottom: 0px; margin-top: 0px; padding-top: 0px; padding-bottom: 0px; font-size: 12px;">Nomor : ';
             $lHtml   .=                  $usulan->kode_usulan;
             $lHtml   .=                  '</p>
                                     <p style="margin-top: 30px;">
