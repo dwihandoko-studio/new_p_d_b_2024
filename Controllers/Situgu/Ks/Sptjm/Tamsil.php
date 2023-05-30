@@ -965,7 +965,7 @@ class Tamsil extends BaseController
             $dompdf1->render();
             $m->addRaw($dompdf1->output());
 
-            $dir = FCPATH . "upload/generate/sptjm/tamsil/pdf2";
+            $dir = FCPATH . "upload/generate/sptjm/tamsil/pdf";
             $fileNya = $dir . '/' . $usulan->kode_usulan . '.pdf';
 
             file_put_contents($fileNya, $m->merge());
