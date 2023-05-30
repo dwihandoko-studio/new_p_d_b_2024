@@ -859,7 +859,7 @@ class Tamsil extends BaseController
                                     <p style="margin-bottom: 0px; margin-top: 0px; padding-top: 0px; padding-bottom: 0px; font-size: 12px;">Nomor : ';
             $lHtml   .=                  $usulan->kode_usulan;
             $lHtml   .=                  '</p>
-                                    <p style="margin-top: 30px;">
+                                    <p style="margin-top: 10px;">
                                         <table class="table" style="border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17);">
                                             <thead style="border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17);">
                                                 <tr style="border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17);">
