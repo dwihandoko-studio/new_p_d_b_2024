@@ -927,7 +927,7 @@ class Tamsil extends BaseController
                                     <p style="margin-top: 10px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;">
                                         <div class="row" style="margin-left: 30px;margin-right:30px;margin-top: 10px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;">
                                             <div style="margin-top: 10px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;">
-                                                <table style="width: 100%;max-width: 100%;" border="0">
+                                                <table style="width: 100%;max-width: 100%; margin-top: 10px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;" border="0">
                                                     <tbody>
                                                         <tr>
                                                             <td style="width: 60%"><center><img class="image-responsive" width="110px" height="110px" src="' . $qrCode . '"/></center></td>
