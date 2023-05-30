@@ -1021,4 +1021,8 @@ class Tamsil extends BaseController
             }
         }
     }
+
+    public function testDir() {
+        var_dump(PHPWORD_BASE_DIR );die;
+    }
 }
