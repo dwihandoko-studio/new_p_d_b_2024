@@ -544,7 +544,7 @@ class Tamsil extends BaseController
 
             $template_processor->saveAs($filed);
 
-            // $filedTmp = FCPATH . "upload/generate/sptjm/tamsil/pdf2/" . $usulan->kode_usulan . ".pdf";
+            $filedTmp = FCPATH . "upload/generate/sptjm/tamsil/pdf2/" . $usulan->kode_usulan . ".pdf";
 
             $domPdfPath = realpath('/var/www/vendor/dompdf/dompdf');
             \PhpOffice\PhpWord\Settings::setPdfRendererPath($domPdfPath);
