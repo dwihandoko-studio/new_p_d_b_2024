@@ -924,9 +924,9 @@ class Tamsil extends BaseController
             $lHtml   .=                          '</tbody>
                                         </table>
                                     </p>
-                                    <p style="margin-top: 10px; margin-bottom: 0px;>
-                                        <div class="row" style="margin-left: 30px;margin-right:30px;">
-                                            <div>
+                                    <p style="margin-top: 10px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;">
+                                        <div class="row" style="margin-left: 30px;margin-right:30px;margin-top: 10px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;">
+                                            <div style="margin-top: 10px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;">
                                                 <table style="width: 100%;max-width: 100%;" border="0">
                                                     <tbody>
                                                         <tr>
