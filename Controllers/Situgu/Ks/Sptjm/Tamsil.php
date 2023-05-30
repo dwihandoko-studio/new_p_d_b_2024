@@ -773,10 +773,10 @@ class Tamsil extends BaseController
                                         </p>
                                         <p style="margin-top: 20px;font-size: 12px;">
                                             Menyatakan dengan sesungguhnya bahwa: 
-                                            <ol>
-                                                <li>Bertanggung jawab penuh atas kebenaran dan kemutakhiran data yang diusulkan dan dikirimkan oleh masing-masing PTK di sekolahan kami, melalui aplikasi Si-Tugu (Sistem Informasi Tunjangan Guru) Kabupaten Lampung Tengah Periode TW. ' . $ptks[0]->tw_tw . ' Tahun ' . $ptks[0]->tw_tahun . '.</li>
-                                                <li>Saya telah melakukan verifikasi dan validasi data guru yang diajukan, serta melakukan monitoring proses kinerja masing-masing guru di Satuan Pendidikan yang saya pimpin. Apabila dari data guru yang mengajukan, dari hasil verifikasi validasi data oleh Admin Dinas, ditemukan syarat dalam proses usulan pencairan TPG yang diatur berdasarkan PP 41 2017 dan PP 19 tentang Perubahan atas PP 41 tahun 2009, tidak sesuai/belum memenuhi persyaratan dengan kondisi keadaan yang sebenarnya, maka saya menerima usulan tersebut ditolak untuk dapat diperbaiki dan diajukan kembali pada periode jadwal yang telah ditetapkan.</li>
-                                                <li>Apabila di kemudian hari terdapat ketidaksesuaian antara data yang dikirimkan/diajukan dengan keadaan yang sebenarnya, kami bertanggung jawab sepenuhnya dan bersedia menerima sanksi sesuai dengan ketentuan peraturan perundang-undangan.</li>
+                                            <ol style="font-size: 12px;">
+                                                <li style="font-size: 12px;">Bertanggung jawab penuh atas kebenaran dan kemutakhiran data yang diusulkan dan dikirimkan oleh masing-masing PTK di sekolahan kami, melalui aplikasi Si-Tugu (Sistem Informasi Tunjangan Guru) Kabupaten Lampung Tengah Periode TW. ' . $ptks[0]->tw_tw . ' Tahun ' . $ptks[0]->tw_tahun . '.</li>
+                                                <li style="font-size: 12px;">Saya telah melakukan verifikasi dan validasi data guru yang diajukan, serta melakukan monitoring proses kinerja masing-masing guru di Satuan Pendidikan yang saya pimpin. Apabila dari data guru yang mengajukan, dari hasil verifikasi validasi data oleh Admin Dinas, ditemukan syarat dalam proses usulan pencairan TPG yang diatur berdasarkan PP 41 2017 dan PP 19 tentang Perubahan atas PP 41 tahun 2009, tidak sesuai/belum memenuhi persyaratan dengan kondisi keadaan yang sebenarnya, maka saya menerima usulan tersebut ditolak untuk dapat diperbaiki dan diajukan kembali pada periode jadwal yang telah ditetapkan.</li>
+                                                <li style="font-size: 12px;">Apabila di kemudian hari terdapat ketidaksesuaian antara data yang dikirimkan/diajukan dengan keadaan yang sebenarnya, kami bertanggung jawab sepenuhnya dan bersedia menerima sanksi sesuai dengan ketentuan peraturan perundang-undangan.</li>
                                             </ol>
                                         </p>
                                         <p style="margin-bottom: 15px;font-size: 12px;">
@@ -927,12 +927,12 @@ class Tamsil extends BaseController
                         </body>
                     </html>';
 
-            // $dompdf = new DOMPDF();
-            $dompdf = new Dompdf();
-            $dompdf->set_paper('F4', 'landscape');
-            $dompdf->load_html($lHtml);
-            $m->addRaw($dompdf->output());
-            $dompdf->render();
+            $dompdf1 = new DOMPDF();
+            // $dompdf = new Dompdf();
+            $dompdf1->set_paper('F4', 'landscape');
+            $dompdf1->load_html($lHtml);
+            $dompdf1->render();
+            $m->addRaw($dompdf1->output());
 
             $dir = FCPATH . "upload/generate/sptjm/tamsil/pdf2";
             $fileNya = $dir . '/' . $usulan->kode_usulan . '.pdf';
