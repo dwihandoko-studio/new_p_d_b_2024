@@ -544,21 +544,21 @@ class Tamsil extends BaseController
 
             $template_processor->saveAs($filed);
 
-            $filedTmp = FCPATH . "upload/generate/sptjm/tamsil/pdf2/" . $usulan->kode_usulan . ".pdf";
+            // $filedTmp = FCPATH . "upload/generate/sptjm/tamsil/pdf2/" . $usulan->kode_usulan . ".pdf";
 
-            $phpWord = IOFactory::load($filed);
-            $phpWord->save($filedTmp,'PDF');
+            // $phpWord = IOFactory::load($filed);
+            // $phpWord->save($filedTmp,'PDF');
 
-            sleep(3);
+            // sleep(3);
 
-            // header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-            header('Content-Type: application/pdf');
-            header('Content-Disposition: attachment; filename="' . basename($filedTmp) . '"');
-            header('Content-Length: ' . filesize($filedTmp));
-            readfile($filedTmp);
-            exit;
+            // // header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+            // header('Content-Type: application/pdf');
+            // header('Content-Disposition: attachment; filename="' . basename($filedTmp) . '"');
+            // header('Content-Length: ' . filesize($filedTmp));
+            // readfile($filedTmp);
+            // exit;
 
-            return;
+            // return;
 
 
 
