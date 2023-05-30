@@ -732,7 +732,7 @@ class Tamsil extends BaseController
             $html   .=                          ' TAHUN ANGGARAN ';
             $html   .=                          $ptks[0]->tw_tahun;
             $html   .=                          '</h3>
-                                        <h3 style="margin: 0rem;font-size: 12px;font-weight: 400;">NOMOR: ';
+                                        <h3 style="margin: 0rem;font-size: 12px;">NOMOR: ';
             $html   .=                          $usulan->kode_usulan;
             $html   .=                          '</h3>
                                     </div>
