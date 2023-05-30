@@ -704,10 +704,10 @@ class Tamsil extends BaseController
                                                     &nbsp;&nbsp;&nbsp;
                                                 </td>
                                                 <td>
-                                                    <h3 style="margin: 0rem;font-size: 16px;">PEMERINTAH KABUPATEN LAMPUNG TENGAH</h3>
-                                                    <h3 style="margin: 0rem;font-size: 16px;">DINAS PENDIDIKAN DAN KEBUDAYAAN</h3>
-                                                    <h3 style="margin: 0rem;font-size: 16px;">KABUPATEN LAMPUNG TENGAH</h3>
-                                                    <h3 style="margin: 0rem;font-size: 16px;">';
+                                                    <h3 style="margin: 0rem;font-size: 16px; font-weight: 500;">PEMERINTAH KABUPATEN LAMPUNG TENGAH</h3>
+                                                    <h3 style="margin: 0rem;font-size: 16px; font-weight: 500;">DINAS PENDIDIKAN DAN KEBUDAYAAN</h3>
+                                                    <h3 style="margin: 0rem;font-size: 16px; font-weight: 500;">KABUPATEN LAMPUNG TENGAH</h3>
+                                                    <h3 style="margin: 0rem;font-size: 16px; font-weight: 500;">';
             $html   .=                                      $sekolah->nama;
             $html   .=                                  '</h3>
                                                     <h3 style="margin: 0rem;font-size: 14px;font-weight: 400;"><b>';
@@ -715,7 +715,7 @@ class Tamsil extends BaseController
             $html   .=                                      '</b><span>, ';
             $html   .=                                      $alamat;
             $html   .=                                      '</span></h3>
-                                                    <h4 style="margin: 0rem;font-size: 12px;font-weight: 400;">Kecamatan ';
+                                                    <h4 style="margin: 0rem;font-size: 12px;font-weight: 400;">';
             $html   .=                                      $sekolah->kecamatan;
             $html   .=                                      ', ' . getenv('setting.utpg.kabupaten') . ', ' . getenv('setting.utpg.provinsi') . '</h4>
                                                 </td>
