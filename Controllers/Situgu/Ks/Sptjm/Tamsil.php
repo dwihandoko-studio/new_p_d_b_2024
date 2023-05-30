@@ -740,8 +740,8 @@ class Tamsil extends BaseController
                                 <div class="row" style="margin-left: 30px;margin-right:30px;">
                                     <div style="text-align: justify;margin-top: 30px;">
                                         <p style="margin-bottom: 15px;font-size: 12px;">Yang bertanda tangan di bawah ini :</p>
-                                        <p style="margin-bottom: 15px; margin-top: 0px; font-size: 12px;">
-                                            <table style="border: none;font-size: 12px; margin-bottom: 0px; margin-top: 0px;">
+                                        <p style="margin-bottom: 15px; margin-top: 0px; font-size: 12px; padding-top: 0px; padding-bottom: 0px;">
+                                            <table style="border: none;font-size: 12px; margin-bottom: 0px; margin-top: 0px; padding-bottom: 0px; padding-top: 0px;">
                                                 <tbody>
                                                     <tr>
                                                         <td>
