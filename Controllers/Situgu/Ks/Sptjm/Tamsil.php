@@ -738,9 +738,9 @@ class Tamsil extends BaseController
                                     </div>
                                 </div>
                                 <div class="row" style="margin-left: 30px;margin-right:30px;">
-                                    <div style="text-align: justify;margin-top: 40px;">
+                                    <div style="text-align: justify;margin-top: 30px;">
                                         <p style="margin-bottom: 15px;font-size: 12px;">Yang bertanda tangan di bawah ini :</p>
-                                        <p style="margin-bottom: 15px;font-size: 12px;">
+                                        <p style="margin-bottom: 15px; margin-top: 0px; font-size: 12px;">
                                             <table style="border: none;font-size: 12px;">
                                                 <tbody>
                                                     <tr>
@@ -773,7 +773,7 @@ class Tamsil extends BaseController
                                                 </tbody>
                                             </table>
                                         </p>
-                                        <p style="margin-top: 20px;font-size: 12px;">
+                                        <p style="margin-top: 10px;font-size: 12px;">
                                             Menyatakan dengan sesungguhnya bahwa: 
                                             <ol style="font-size: 12px;">
                                                 <li style="font-size: 12px;">Bertanggung jawab penuh atas kebenaran dan kemutakhiran data yang diusulkan dan dikirimkan oleh masing-masing PTK di sekolahan kami, melalui aplikasi Si-Tugu (Sistem Informasi Tunjangan Guru) Kabupaten Lampung Tengah <b>Periode TW. ' . $ptks[0]->tw_tw . ' Tahun ' . $ptks[0]->tw_tahun . '</b>.</li>
