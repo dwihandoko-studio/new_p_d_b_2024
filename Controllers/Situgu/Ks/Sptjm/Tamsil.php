@@ -934,7 +934,19 @@ class Tamsil extends BaseController
             $m->addRaw($dompdf->output());
             $dompdf->render();
 
-            return file_put_contents($usulan->kode_usulan . '.pdf', $m->merge());
+            $dir = FCPATH . "upload/generate/sptjm/tamsil/pdf2";
+            $fileNya = $dir . '/' . $usulan->kode_usulan . '.pdf';
+
+            file_put_contents($fileNya, $m->merge());
+
+            sleep(3);
+
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename="' . basename($fileNya) . '"');
+            header('Content-Length: ' . filesize($fileNya));
+            readfile($fileNya);
+
+            return;
         } else {
             $response = new \stdClass;
             $response->status = 400;
