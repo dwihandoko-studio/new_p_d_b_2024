@@ -592,6 +592,203 @@ class Tamsil extends BaseController
         }
     }
 
+    private function _download_new($ptks, $sekolah, $ks, $usulan) 
+    {
+        $dataFileGambar = file_get_contents(FCPATH . './uploads/tutwuri.png');
+        $base64 = "data:image/png;base64,".base64_encode($dataFileGambar);
+
+        $alamat = $sekolah->alamat_jalan ? ($sekolah->alamat_jalan !== "" ? $sekolah->alamat_jalan : "-") : "-";
+        $no_telp = $sekolah->no_telepon ? ($sekolah->no_telepon !== "" ? $sekolah->no_telepon : "-") : "-";
+        $email = $sekolah->email ? ($sekolah->email !== "" ? $sekolah->email : "-") : "-";
+        $nama_ks = "";
+        if ($ks->gelar_depan && ($ks->gelar_depan !== "" || $ks->gelar_depan !== "-")) {
+            $nama_ks .= $ks->gelar_depan;
+        }
+        $nama_ks .= $ks->nama;
+        if ($ks->gelar_belakang && ($ks->gelar_belakang !== "" || $ks->gelar_belakang !== "-")) {
+            $nama_ks .= $ks->gelar_belakang;
+        }
+
+        $nipKs = "";
+        if ($ks->nip && ($ks->nip !== "" || $ks->nip !== "-")) {
+            $nipKs .= $ks->nip;
+        } else {
+            $nipKs .= "-";
+        }
+
+        $jabatan_ks = $ks->jabatan_ks_plt ? ($ks->jabatan_ks_plt == 0 ? "Kepala Sekolah" : "Plt. Kepala Sekolah") : "Kepala Sekolah";
+        
+        $html   =  '<html>
+                        <head>
+                            <link href="';
+        $html   .=              base_url('uploads/bootstrap.css');
+        $html   .=          '" rel="stylesheet">
+                        </head>
+                        <body>
+                            <div class="container">
+                                <div class="row">
+                                    <table class="table table-responsive" style="border: none;">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <img class="image-responsive" width="110px" height="110px" src="';
+        $html   .=                                      $base64;
+        $html   .=                                  '"/>
+                                                </td>
+                                                <td>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                </td>
+                                                <td>
+                                                    <h3 style="margin: 0rem;font-size: 16px;">PEMERINTAH KABUPATEN LAMPUNG TENGAH</h3>
+                                                    <h3 style="margin: 0rem;font-size: 16px;">DINAS PENDIDIKAN DAN KEBUDAYAAN</h3>
+                                                    <h3 style="margin: 0rem;font-size: 16px;">KABUPATEN LAMPUNG TENGAH</h3>
+                                                    <h3 style="margin: 0rem;font-size: 16px;">';
+        $html   .=                                      $sekolah->nama;
+        $html   .=                                  '</h3>
+                                                    <h3 style="margin: 0rem;font-size: 14px;font-weight: 400;"><b>';
+        $html   .=                                      $sekolah->npsn;
+        $html   .=                                      '</b><span>, ';
+        $html   .=                                      $alamat;
+        $html   .=                                      '</span></h3>
+                                                    <h4 style="margin: 0rem;font-size: 12px;font-weight: 400;">Kecamatan ';
+        $html   .=                                      $sekolah->kecamatan;
+        $html   .=                                      ', ' . getenv('setting.utpg.kabupaten') . ', ' . getenv('setting.utpg.provinsi') . '</h4>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div style="text-align: center;margin-top: 30px;">
+                                        <h3 style="margin: 0rem;font-size: 14px;">SURAT PERNYATAAN TANGGUNG JAWAB MUTLAK (SPTJM)</h3>
+                                        <h3 style="margin: 0rem;font-size: 14px;">USULAN PENCARIAN TUNJANGAN TAMBAHAN PENGHASILAN GURU PNS NON-SERTIFIKASI (TAMSIL)</h3>
+                                        <h3 style="margin: 0rem;font-size: 14px;">TRIWULAN ';
+        $html   .=                          $ptks[0]->tw_tw;
+        $html   .=                          ' TAHUN ANGGARAN ';
+        $html   .=                          $ptks[0]->tw_tahun;
+        $html   .=                          '</h3>
+                                        <h3 style="margin: 0rem;font-size: 12px;font-weight: 400;">NOMOR: ';
+        $html   .=                          $usulan->kode_usulan;
+        $html   .=                          '</h3>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-left: 30px;margin-right:30px;">
+                                    <div style="text-align: justify;margin-top: 40px;">
+                                        <p style="margin-bottom: 15px;font-size: 12px;">Yang bertanda tangan di bawah ini :</p>
+                                        <p style="margin-bottom: 15px;font-size: 12px;">
+                                            <table style="border: none;font-size: 12px;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            Nama
+                                                        </td>
+                                                        <td>&nbsp;: &nbsp;</td>
+                                                        <td>&nbsp;';
+        $html   .=                                          $nama_ks;
+        $html   .=                                      '</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Jabatan
+                                                        </td>
+                                                        <td>&nbsp;: &nbsp;</td>
+                                                        <td>&nbsp;';
+        $html   .=                                          $jabatan_ks;
+        $html   .=                                      '</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Satuan Pendidikan
+                                                        </td>
+                                                        <td>&nbsp;: &nbsp;</td>
+                                                        <td>&nbsp;';
+        $html   .=                                          $sekolah->nama;
+        $html   .=                                      '</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </p>
+                                        <p style="margin-top: 20px;font-size: 12px;">
+                                            Menyatakan dengan sesungguhnya bahwa: 
+                                            <ol>
+                                                <li>Bertanggung jawab penuh atas kebenaran dan kemutakhiran data yang diusulkan dan dikirimkan oleh masing-masing PTK di sekolahan kami, melalui aplikasi Si-Tugu (Sistem Informasi Tunjangan Guru) Kabupaten Lampung Tengah Periode TW. ' . $ptks[0]->tw_tw . ' Tahun ' . $ptks[0]->tw_tahun . '.</li>
+                                                <li>Saya telah melakukan verifikasi dan validasi data guru yang diajukan, serta melakukan monitoring proses kinerja masing-masing guru di Satuan Pendidikan yang saya pimpin. Apabila dari data guru yang mengajukan, dari hasil verifikasi validasi data oleh Admin Dinas, ditemukan syarat dalam proses usulan pencairan TPG yang diatur berdasarkan PP 41 2017 dan PP 19 tentang Perubahan atas PP 41 tahun 2009, tidak sesuai/belum memenuhi persyaratan dengan kondisi keadaan yang sebenarnya, maka saya menerima usulan tersebut ditolak untuk dapat diperbaiki dan diajukan kembali pada periode jadwal yang telah ditetapkan.</li>
+                                                <li>Apabila di kemudian hari terdapat ketidaksesuaian antara data yang dikirimkan/diajukan dengan keadaan yang sebenarnya, kami bertanggung jawab sepenuhnya dan bersedia menerima sanksi sesuai dengan ketentuan peraturan perundang-undangan.</li>
+                                            </ol>
+                                        </p>
+                                        <p style="margin-bottom: 15px;font-size: 12px;">
+                                            <table style="width: 100%;max-width: 100%;font-size: 12px;" border="1">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width: 50%;font-size: 12px;"><center>
+                                                            <b>Jumlah PTK Yang Mengajukan Validasi Usulan TAMSIL</b>
+                                                            </center>
+                                                        </td>
+                                                        <td style="width: 50%;font-size: 12px;"><center><b>Keterangan</b></center>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 50%;font-size: 12px;"><center>' . $usulan->jumlah_ptk . '</center>
+                                                        </td>
+                                                        <td style="width: 50%;font-size: 12px;"><center>Di setujui Kepala Sekolah</center>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </p>
+                                        <p style="font-size: 12px;">
+                                            Demikan pernyataan ini saya buat dengan sebenar-benarnya.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-left: 30px;margin-right:30px;">
+                                    <div>
+                                        <table style="width: 100%;max-width: 100%;" border="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width: 60%">&nbsp;</td>
+                                                    <td style="width: 40%">
+                                                        <br>
+                                                        <br>
+                                                        <span style="font-size: 12px;">Lampung Tengah, ';
+        $html   .=                                          tgl_indo(date('Y-m-d'));
+        $html   .=                                      '</span><br>
+                                                        <span style="font-size: 12px;">Kepala Sekolah, ' . $sekolah->nama . '</span><br><br><span>Materai 10.000</span><br><br>
+                                                        <span style="font-size: 12px;"><b><u>';
+        $html   .=                                          $nama_ks;
+        $html   .=                                      '</u></b></span><br>
+                                                        <span style="font-size: 12px;">NIP. ';
+        $html   .=                                          $nipKs;
+        $html   .=                                      '</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </body>
+                    </html>';
+        // $options = new Options();
+        // $options->setIsRemoteEnabled(true);
+        // $dompdf = new Dompdf($options);
+        
+        $dompdf = new Dompdf();
+        // $dompdf->set_option('isRemoteEnabled', TRUE);
+        $dompdf->loadHtml($html);
+        // $dompdf->setPaper('A4', 'landscape');
+        $dompdf->setPaper('F4', 'potrait');
+        // Render the HTML as PDF 
+    	$dompdf->render(); 
+    	 
+    	// Output the generated PDF to Browser 
+    	$dompdf->stream('SPJTM - ' . $token);
+    	
+    	// Output the generated PDF (1 = download and 0 = preview) 
+    	return $dompdf->stream("SPJTM-" . $token, array("Attachment" => 1));
+    }
+
     public function formuploadedit()
     {
         if ($this->request->getMethod() != 'post') {
