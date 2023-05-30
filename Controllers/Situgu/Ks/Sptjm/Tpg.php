@@ -26,6 +26,9 @@ use PhpOffice\PhpWord\PhpWord;
 use mPDF;
 use PhpOffice\PhpWord\TemplateProcessor;
 
+use iio\libmergepdf\Merger;
+use Dompdf\Dompdf;
+
 class Tpg extends BaseController
 {
     var $folderImage = 'masterdata';
@@ -450,7 +453,54 @@ class Tpg extends BaseController
         $ks = $this->_db->table('_ptk_tb')->where('id', $idUser)->get()->getRowObject();
 
         return $this->_download($dataPtks, $sekolah, $ks, $current);
+        // return $this->_download($dataPtks, $sekolah, $ks, $current);
         // }
+    }
+
+    public function downloadnew()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            $response = new \stdClass;
+            $response->status = 401;
+            $response->message = "Permintaan diizinkan";
+            return json_encode($response);
+        }
+
+        $id = htmlspecialchars($this->request->getGet('id'), true);
+
+        $current = $this->_db->table('_tb_sptjm')->where('id', $id)->get()->getRowObject();
+        if (!$current) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "SPTJM tidak ditemukan. Silahkan Generate terlebih dahulu.";
+            return json_encode($response);
+        }
+
+        $ptks = explode(",", $current->id_ptks);
+        $dataPtks = [];
+        foreach ($ptks as $key => $value) {
+            $ptk = $this->_db->table('v_temp_usulan')->where(['id_ptk_usulan' => $value, 'status_usulan' => 5, 'jenis_tunjangan_usulan' => 'tpg'])->get()->getRowObject();
+            if ($ptk) {
+                $dataPtks[] = $ptk;
+            }
+        }
+
+        $sekolah = $this->_db->table('ref_sekolah')->where('npsn', $user->data->npsn)->get()->getRowObject();
+        if (!$sekolah) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Referensi sekolah tidak ditemukan.";
+            return json_encode($response);
+        }
+
+        $idUser = $this->_helpLib->getPtkId($user->data->id);
+        $ks = $this->_db->table('_ptk_tb')->where('id', $idUser)->get()->getRowObject();
+
+        return $this->_download_new($dataPtks, $sekolah, $ks, $current);
     }
 
     private function _download($ptks, $sekolah, $ks, $usulan)
@@ -559,6 +609,364 @@ class Tpg extends BaseController
             $response->message = "Gagal mendownload SPTJM.";
             return json_encode($response);
         }
+    }
+
+    private function _download_new($ptks, $sekolah, $ks, $usulan)
+    {
+        if (count($ptks) > 0) {
+            $m = new Merger();
+
+            $dataFileGambar = file_get_contents(FCPATH . './uploads/tutwuri.png');
+            $base64 = "data:image/png;base64," . base64_encode($dataFileGambar);
+
+            $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=layanan.disdikbud.lampungtengahkab.go.id/verifiqrcode?token=' . $usulan->kode_usulan . '&choe=UTF-8'));
+
+            $alamat = $sekolah->alamat_jalan ? ($sekolah->alamat_jalan !== "" ? $sekolah->alamat_jalan : "-") : "-";
+            $no_telp = $sekolah->no_telepon ? ($sekolah->no_telepon !== "" ? $sekolah->no_telepon : "-") : "-";
+            $email = $sekolah->email ? ($sekolah->email !== "" ? $sekolah->email : "-") : "-";
+
+            if ($ptks[0]->tw_tw == 1) {
+                $bulanTampil = 'Januari s/d Maret';
+            } else if ($ptks[0]->tw_tw == 2) {
+                $bulanTampil = 'April s/d Juni';
+            } else if ($ptks[0]->tw_tw == 3) {
+                $bulanTampil = 'Juli s/d September';
+            } else if ($ptks[0]->tw_tw == 4) {
+                $bulanTampil = 'Oktober s/d Desember';
+            }
+
+            $nama_ks = "";
+            if ($ks->gelar_depan && ($ks->gelar_depan !== "" || $ks->gelar_depan !== "-")) {
+                $nama_ks .= $ks->gelar_depan;
+            }
+            $nama_ks .= $ks->nama;
+            if ($ks->gelar_belakang && ($ks->gelar_belakang !== "" || $ks->gelar_belakang !== "-")) {
+                $nama_ks .= $ks->gelar_belakang;
+            }
+
+            $nipKs = "";
+            if ($ks->nip && ($ks->nip !== "" || $ks->nip !== "-")) {
+                $nipKs .= $ks->nip;
+            } else {
+                $nipKs .= "-";
+            }
+
+            $jabatan_ks = $ks->jabatan_ks_plt ? ($ks->jabatan_ks_plt == 0 ? "Kepala Sekolah" : "Plt. Kepala Sekolah") : "Kepala Sekolah";
+
+            $html   =  '<html>
+                        <head>
+                            <link href="';
+            $html   .=              base_url('uploads/bootstrap.css');
+            $html   .=          '" rel="stylesheet">
+                        </head>
+                        <body>
+                            <div class="container">
+                                <div class="row">
+                                    <table class="table table-responsive" style="border: none;">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <img class="image-responsive" width="110px" height="110px" src="';
+            $html   .=                                      $base64;
+            $html   .=                                  '"/>
+                                                </td>
+                                                <td>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                </td>
+                                                <td>
+                                                    <h3 style="margin: 0rem;font-size: 16px; font-weight: 500;">PEMERINTAH KABUPATEN LAMPUNG TENGAH</h3>
+                                                    <h3 style="margin: 0rem;font-size: 16px; font-weight: 500;">DINAS PENDIDIKAN DAN KEBUDAYAAN</h3>
+                                                    <h3 style="margin: 0rem;font-size: 16px; font-weight: 500;">KABUPATEN LAMPUNG TENGAH</h3>
+                                                    <h3 style="margin: 0rem;font-size: 16px; font-weight: 500;">';
+            $html   .=                                      $sekolah->nama;
+            $html   .=                                  '</h3>
+                                                    <h3 style="margin: 0rem;font-size: 14px;font-weight: 400;"><b>';
+            $html   .=                                      $sekolah->npsn;
+            $html   .=                                      '</b><span>, ';
+            $html   .=                                      $alamat;
+            $html   .=                                      '</span></h3>
+                                                    <h4 style="margin: 0rem;font-size: 12px;font-weight: 400;">';
+            $html   .=                                      $sekolah->kecamatan;
+            $html   .=                                      ', ' . getenv('setting.utpg.kabupaten') . ', ' . getenv('setting.utpg.provinsi') . '</h4>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div style="text-align: center;margin-top: 30px; border:1px solid black;">
+                                        <h3 style="margin: 0rem;font-size: 14px;">SURAT PERNYATAAN TANGGUNG JAWAB MUTLAK (SPTJM)</h3>
+                                        <h3 style="margin: 0rem;font-size: 14px;">USULAN PENCARIAN TUNJANGAN PROFESI GURU (TPG)</h3>
+                                        <h3 style="margin: 0rem;font-size: 14px;">TRIWULAN ';
+            $html   .=                          $ptks[0]->tw_tw;
+            $html   .=                          ' TAHUN ANGGARAN ';
+            $html   .=                          $ptks[0]->tw_tahun;
+            $html   .=                          '</h3>
+                                        <h3 style="margin: 0rem;font-size: 12px;">NOMOR: ';
+            $html   .=                          $usulan->kode_usulan;
+            $html   .=                          '</h3>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-left: 30px;margin-right:30px;">
+                                    <div style="text-align: justify;margin-top: 30px;">
+                                        <p style="margin-bottom: 15px;font-size: 12px;">Yang bertanda tangan di bawah ini :</p>
+                                        <p style="margin-bottom: 15px; margin-top: 0px; font-size: 12px; padding-top: 0px; padding-bottom: 0px;">
+                                            <table style="border: none;font-size: 12px; margin-bottom: 0px; margin-top: 0px; padding-bottom: 0px; padding-top: 0px;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            Nama
+                                                        </td>
+                                                        <td>&nbsp;: &nbsp;</td>
+                                                        <td>&nbsp;';
+            $html   .=                                          $nama_ks;
+            $html   .=                                      '</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Jabatan
+                                                        </td>
+                                                        <td>&nbsp;: &nbsp;</td>
+                                                        <td>&nbsp;';
+            $html   .=                                          $jabatan_ks;
+            $html   .=                                      '</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Satuan Pendidikan
+                                                        </td>
+                                                        <td>&nbsp;: &nbsp;</td>
+                                                        <td>&nbsp;';
+            $html   .=                                          $sekolah->nama;
+            $html   .=                                      '</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </p>
+                                        <p style="margin-top: 20px;font-size: 12px;">
+                                            Menyatakan dengan sesungguhnya bahwa: 
+                                            <ol style="font-size: 12px;">
+                                                <li style="font-size: 12px;">Bertanggung jawab penuh atas kebenaran dan kemutakhiran data yang diusulkan dan dikirimkan oleh masing-masing PTK di sekolahan kami, melalui aplikasi Si-Tugu (Sistem Informasi Tunjangan Guru) Kabupaten Lampung Tengah <b>Periode TW. ' . $ptks[0]->tw_tw . ' Tahun ' . $ptks[0]->tw_tahun . '</b>.</li>
+                                                <li style="font-size: 12px;">Saya telah melakukan verifikasi dan validasi data guru yang diajukan, serta melakukan monitoring proses kinerja masing-masing guru di Satuan Pendidikan yang saya pimpin. Apabila dari data guru yang mengajukan, dari hasil verifikasi validasi data oleh Admin Dinas, ditemukan syarat dalam proses usulan pencairan TPG yang diatur berdasarkan PP 41 2017 dan PP 19 tentang Perubahan atas PP 41 tahun 2009, tidak sesuai/belum memenuhi persyaratan dengan kondisi keadaan yang sebenarnya, maka saya menerima usulan tersebut ditolak untuk dapat diperbaiki dan diajukan kembali pada periode jadwal yang telah ditetapkan.</li>
+                                                <li style="font-size: 12px;">Apabila di kemudian hari terdapat ketidaksesuaian antara data yang dikirimkan/diajukan dengan keadaan yang sebenarnya, kami bertanggung jawab sepenuhnya dan bersedia menerima sanksi sesuai dengan ketentuan peraturan perundang-undangan.</li>
+                                            </ol>
+                                        </p>
+                                        <p style="margin-bottom: 15px;font-size: 12px;">
+                                            <table style="width: 100%;max-width: 100%;font-size: 12px;" border="1">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width: 50%;font-size: 12px;"><center>
+                                                            <b>Jumlah PTK Yang Mengajukan Validasi Usulan TPG</b>
+                                                            </center>
+                                                        </td>
+                                                        <td style="width: 50%;font-size: 12px;"><center><b>Keterangan</b></center>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 50%;font-size: 12px;"><center>' . $usulan->jumlah_ptk . '</center>
+                                                        </td>
+                                                        <td style="width: 50%;font-size: 12px;"><center>Di setujui Kepala Sekolah</center>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </p>
+                                        <p style="font-size: 12px;">
+                                            Demikan pernyataan ini saya buat dengan sebenar-benarnya.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-left: 30px;margin-right:30px;">
+                                    <div>
+                                        <table style="width: 100%;max-width: 100%;" border="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width: 60%"><center><img class="image-responsive" width="110px" height="110px" src="' . $qrCode . '"/></center></td>
+                                                    <td style="width: 40%">
+                                                        <br>
+                                                        <br>
+                                                        <span style="font-size: 12px;">Lampung Tengah, ';
+            $html   .=                                          tgl_indo(date('Y-m-d'));
+            $html   .=                                      '</span><br>
+                                                        <span style="font-size: 12px;">Kepala Sekolah, ' . $sekolah->nama . '</span><br><br><br><span style="font-size: 10px; color: #1c1c1cb8;">Materai 10.000</span><br><br>
+                                                        <span style="font-size: 12px;"><b><u>';
+            $html   .=                                          $nama_ks;
+            $html   .=                                      '</u></b></span><br>
+                                                        <span style="font-size: 12px;">NIP. ';
+            $html   .=                                          $nipKs;
+            $html   .=                                      '</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </body>
+                    </html>';
+
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('F4', 'potrait');
+            $dompdf->render();
+            $m->addRaw($dompdf->output());
+            unset($dompdf);
+
+            $lHtml   =  '<html>
+                        <head>
+                            <link href="';
+            $lHtml   .=              base_url('uploads/bootstrap.css');
+            $lHtml   .=          '" rel="stylesheet">
+                        </head>
+                        <body>
+                            <div class="container">
+                                <div class="row">
+                                    <p style="margin-bottom: 0px; font-size: 12px">LAMPIRAN SPTJM TUNJANGAN PROFESI GURU (TPG) TRIWULAN ' . $ptks[0]->tw_tw . ', TAHUN ANGGARAN ' . $ptks[0]->tw_tahun . '</p>
+                                    <p style="margin-top: 0px; margin-bottom: 0px; font-size: 14px;"><b>' . $sekolah->nama . '</b></p>
+                                    <p style="margin-top: 0px; margin-bottom: 0px; font-size: 12px;">NPSN: ' . $sekolah->npsn . ', Alamat: ' . $alamat . ', ' . $sekolah->kecamatan . '</p>
+                                    <p style="margin-top: 0px; margin-bottom: 0px; font-size: 12px;">' . getenv('setting.utpg.kabupaten') . ' - ' . getenv('setting.utpg.provinsi') . '</p>
+                                    <p style="margin-bottom: 0px; margin-top: 0px; padding-top: 0px; padding-bottom: 0px; font-size: 12px;">Nomor : ';
+            $lHtml   .=                  $usulan->kode_usulan;
+            $lHtml   .=                  '</p>
+                                    <p style="margin-top: 10px; margin-bottom: 0px;">
+                                        <table class="table" style="border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17);">
+                                            <thead style="border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17);">
+                                                <tr style="border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17);">
+                                                    <th width="5%" rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-left-width: 1px; border-left-style: solid;border-left-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px; padding-left: 7px; padding-right: 7px;">No</th>
+                                                    <th width="10%" rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px; padding-left: 7px; padding-right: 7px;">NRG</th>
+                                                    <th width="10%" rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px; padding-left: 7px; padding-right: 7px;">No Peserta</th>
+                                                    <th width="10%" rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px; padding-left: 7px; padding-right: 7px;">NUPTK</th>
+                                                    <th width="10%" rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px; padding-left: 7px; padding-right: 7px;">NIP</th>
+                                                    <th width="15%" rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px; padding-left: 7px; padding-right: 7px;">Nama</th>
+                                                    <th width="5%" rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px; padding-left: 10px; padding-right: 10px;">Gol</th>
+                                                    <th width="10%" colspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px; padding-left: 7px; padding-right: 7px;">Masa Kerja</th>
+                                                    <th width="5%" rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px; padding-left: 10px; padding-right: 10px;">Gaji Pokok Sesuai SPJ Gaji</th>
+                                                    <th width="30%" colspan="4" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px; padding-left: 7px; padding-right: 7px;">Pembayaran TW. ' . $ptks[0]->tw_tw . ' Bulan ' . $bulanTampil . '</th>
+                                                    <th width="10%" rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px; padding-left: 7px; padding-right: 7px;">NPWP</th>
+                                                    <th width="10%" rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px; padding-left: 7px; padding-right: 7px;">No Rekening</th>
+                                                    <th width="10%" rowspan="2" style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px; padding-left: 7px; padding-right: 7px;">Cabang Bank</th>
+                                                </tr>
+                                                <tr>
+                                                    <th style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">Thn</th>
+                                                    <th style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">Bln</th>
+                                                    <th style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">Jml Bln</th>
+                                                    <th style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">Jml Uang</th>
+                                                    <th style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">PPH 21</th>
+                                                    <th style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; align-items: center; font-size: 10px;">Jml Diterima</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center;">';
+            if (count($ptks) > 0) {
+                foreach ($ptks as $key => $v) {
+                    $pph = "0%";
+                    $pph21 = 0;
+                    if ($v->us_pang_golongan == NULL || $v->us_pang_golongan == "") {
+                    } else {
+                        $pang = explode("/", $v->us_pang_golongan);
+                        if ($pang[0] == "III" || $pang[0] == "IX") {
+                            $pph21 = (5 / 100);
+                            $pph = "5%";
+                        } else if ($pang[0] == "IV") {
+                            $pph21 = (15 / 100);
+                            $pph = "15%";
+                        } else {
+                            $pph21 = 0;
+                            $pph = "0%";
+                        }
+                    }
+
+                    $lHtml  .= '<tr style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center;">
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . (string)($key + 1) . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px; padding-left: 3px; padding-right: 3px;">' . $v->nrg . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px; padding-left: 3px; padding-right: 3px;">' . $v->no_peserta . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px; padding-left: 3px; padding-right: 3px;">' . $v->nuptk . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px; padding-left: 3px; padding-right: 3px;">' . $v->nip . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: left; font-size: 10px; padding-left: 3px; padding-right: 3px;">' . $v->nama . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . $v->us_pang_golongan . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . $v->us_pang_mk_tahun . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . $v->us_pang_mk_bulan . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . rpTanpaAwalan($v->us_gaji_pokok) . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">3</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . rpTanpaAwalan(($v->us_gaji_pokok * 3)) . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . $pph . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px;">' . rpTanpaAwalan(($v->us_gaji_pokok * 3) - (($v->us_gaji_pokok * 3) * $pph21)) . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: center; font-size: 10px; padding-left: 3px; padding-right: 3px;">' . $v->npwp . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: right; font-size: 10px; padding-left: 3px; padding-right: 3px;">' . $v->no_rekening . '</td>
+                                                    <td style="border-top-width: 1px; border-top-style: solid;border-top-color: rgb(17, 17, 17);border-bottom-width: 1px; border-bottom-style: solid;border-bottom-color: rgb(17, 17, 17);border-right-width: 1px; border-right-style: solid;border-right-color: rgb(17, 17, 17);border-left-color: rgb(17, 17, 17); text-align: left; font-size: 10px; padding-left: 3px; padding-right: 3px;">' . $v->cabang_bank . '</td>
+                                                </tr>';
+                }
+            }
+            $lHtml   .=                          '</tbody>
+                                        </table>
+                                    </p>
+                                    <p style="margin-top: 10px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;">
+                                        <div class="row" style="margin-left: 30px;margin-right:30px;margin-top: 10px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;">
+                                            <div style="margin-top: 10px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;">
+                                                <table style="width: 100%;max-width: 100%; margin-top: 10px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;" border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="width: 60%"><center><img class="image-responsive" width="110px" height="110px" src="' . $qrCode . '"/></center></td>
+                                                            <td style="width: 40%">
+                                                                <br>
+                                                                <br>
+                                                                <span style="font-size: 12px;">Lampung Tengah, ';
+            $lHtml   .=                                          tgl_indo(date('Y-m-d'));
+            $lHtml   .=                                      '</span><br>
+                                                                <span style="font-size: 12px;">Kepala Sekolah, ' . $sekolah->nama . '</span><br><br><span style="font-size: 10px; color: #1c1c1cb8;">&nbsp;</span><br><br>
+                                                                <span style="font-size: 12px;"><b><u>';
+            $lHtml   .=                                          $nama_ks;
+            $lHtml   .=                                      '</u></b></span><br>
+                                                                <span style="font-size: 12px;">NIP. ';
+            $lHtml   .=                                          $nipKs;
+            $lHtml   .=                                      '</span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                
+                                            </div>
+                                        </div>
+                                    </p>
+                                </div>
+                            </div>
+                        </body>
+                    </html>';
+
+            $dompdf1 = new DOMPDF();
+            // $dompdf = new Dompdf();
+            $dompdf1->set_paper('F4', 'landscape');
+            $dompdf1->load_html($lHtml);
+            $dompdf1->render();
+            $m->addRaw($dompdf1->output());
+
+            $dir = FCPATH . "upload/generate/sptjm/tamsil/pdf2";
+            $fileNya = $dir . '/' . $usulan->kode_usulan . '.pdf';
+
+            file_put_contents($fileNya, $m->merge());
+
+            sleep(3);
+
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename="' . basename($fileNya) . '"');
+            header('Content-Length: ' . filesize($fileNya));
+            readfile($fileNya);
+
+            return;
+        } else {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Gagal mendownload SPTJM.";
+            return json_encode($response);
+        }
+
+
+
+        // Output the generated PDF to Browser 
+        // $dompdf->stream('SPJTM - ' . $token);
+
+        // // Output the generated PDF (1 = download and 0 = preview) 
+        // return $dompdf->stream("SPJTM-" . $token, array("Attachment" => 1));
     }
 
     public function formuploadedit()
