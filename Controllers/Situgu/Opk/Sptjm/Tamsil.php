@@ -477,6 +477,17 @@ class Tamsil extends BaseController
 
             $template_processor->saveAs($filed);
 
+            sleep(3);
+
+            header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+            // header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename="' . basename($filed) . '"');
+            header('Content-Length: ' . filesize($filed));
+            readfile($filed);
+            exit;
+
+            return;
+
 
 
             $downloadLib = new Downloadlib();
