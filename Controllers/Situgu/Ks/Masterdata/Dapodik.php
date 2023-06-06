@@ -98,7 +98,7 @@ class Dapodik extends BaseController
 
             if ($current) {
                 $tw = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
-                $canGrantedPengajuan = canGrantedPengajuan($current->id, $tw);
+                $canGrantedPengajuan = canGrantedPengajuan($current->id, $tw->id);
 
                 if ($canGrantedPengajuan && $canGrantedPengajuan->code !== 200) {
                     return json_encode($canGrantedPengajuan);

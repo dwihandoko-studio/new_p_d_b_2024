@@ -946,7 +946,7 @@ function createAktifitas($user_id, $keterangan, $aksi, $icon, $tw = "")
 	if ($tw == "") {
 		$twa = $db->table('_ref_tahun_tw')->select('id')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
 		if ($twa) {
-			$tw = (string)$twa->id;
+			$tw = $twa->id;
 		}
 	}
 
