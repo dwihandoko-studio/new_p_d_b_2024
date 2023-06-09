@@ -70,7 +70,7 @@
                 <label class="col-form-label">Pendidikan Terakhir:</label>
                 <div class="input-group">
                     <input type="text" class="form-control" aria-describedby="pendidikan_terakhir" aria-label="PENDIDIKAN TERAKHIR" value="<?= $data->pendidikan ?>" readonly />
-                    <a class="btn btn-primary" target="popup" onclick="window.open('<?= base_url('upload/ptk/ijazah') . '/' . $data->lampiran_ijazah ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/bukurekening') . '/' . $data->lampiran_buku_rekening ?>" id="nik">Lampiran Rekening</a>
+                    <a class="btn btn-primary" target="popup" onclick="window.open('<?= base_url('upload/ptk/ijazah') . '/' . $data->lampiran_ijazah ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/ijazah') . '/' . $data->lampiran_ijazah ?>" id="nik">Lampiran Ijazah</a>
                 </div>
             </div>
             <div class="col-lg-6">
