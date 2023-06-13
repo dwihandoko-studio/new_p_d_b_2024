@@ -516,6 +516,75 @@ class Ptk extends BaseController
         }
     }
 
+    public function editinpassing()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id tidak boleh kosong. ',
+                ]
+            ],
+            'ptk_id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'PTK Id tidak boleh kosong. ',
+                ]
+            ],
+            'nama' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Nama tidak boleh kosong. ',
+                ]
+            ],
+            'npsn' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'NPSN tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('id')
+                . $this->validator->getError('nama')
+                . $this->validator->getError('npsn')
+                . $this->validator->getError('ptk_id');
+            return json_encode($response);
+        } else {
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+            $ptk_id = htmlspecialchars($this->request->getVar('ptk_id'), true);
+            $nama = htmlspecialchars($this->request->getVar('nama'), true);
+            $npsn = htmlspecialchars($this->request->getVar('npsn'), true);
+
+            $current = $this->_db->table('_ptk_tb')
+                ->where(['id' => $id, 'id_ptk' => $ptk_id, 'npsn' => $npsn])->get()->getRowObject();
+
+            if ($current) {
+                $data['data'] = $current;
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('situgu/adm/masterdata/ptk/inpasing', $data);
+                return json_encode($response);
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan";
+                return json_encode($response);
+            }
+        }
+    }
+
     public function syncAll()
     {
         if (!(grantTarikDataBackbone())) {
