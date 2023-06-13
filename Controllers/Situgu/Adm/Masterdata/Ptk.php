@@ -574,7 +574,7 @@ class Ptk extends BaseController
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Permintaan diizinkan";
-                $response->data = view('situgu/adm/masterdata/ptk/inpasing', $data);
+                $response->data = view('situgu/adm/masterdata/ptk/inpassing', $data);
                 return json_encode($response);
             } else {
                 $response = new \stdClass;
