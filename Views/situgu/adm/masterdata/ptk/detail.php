@@ -287,6 +287,17 @@
                 <label class="col-form-label">Masa Kerja Bulan:</label>
                 <div><?= ($data->tmt_sk_kgb > $data->tmt_pangkat) ? ($data->masa_kerja_bulan_kgb !== null ? $data->masa_kerja_bulan_kgb : 0) : ($data->masa_kerja_bulan !== null ? $data->masa_kerja_bulan : 0) ?></div>
             </div>
+            <div class="col-lg-12">
+                <label class="col-form-label">Lampiran Dokumen:</label>
+                <br />
+                <?php if ($data->lampiran_impassing === null || $data->lampiran_impassing === "") {
+                } else { ?>
+                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/ptk/impassing') . '/' . $data->lampiran_impassing ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/impassing') . '/' . $data->lampiran_impassing ?>" id="nik">
+                        Inpassing
+                    </a>
+                <?php } ?>
+            </div>
+
         </div>
     </div>
     <div class="modal-footer">
