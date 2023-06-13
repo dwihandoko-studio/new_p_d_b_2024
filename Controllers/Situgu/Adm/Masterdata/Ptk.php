@@ -73,8 +73,9 @@ class Ptk extends BaseController
                         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
                         <div class="dropdown-menu" style="">
                             <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama)) . '\');"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
-                            <a class="dropdown-item" href="javascript:actionEdit(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="bx bx-edit-alt font-size-16 align-middle"></i> &nbsp;Edit</a>
-                            <a class="dropdown-item" href="javascript:actionEditPendidikan(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="mdi mdi-school-outline font-size-16 align-middle"></i> &nbsp;Edit Default Pendidikan</a>
+                            <a class="dropdown-item" href="javascript:actionEdit(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="bx bx-edit-alt font-size-16 align-middle"></i> &nbsp;Edit</a>'
+                . ($list->lampiran_impassing === "" || $list->lampiran_impassing === NULL) ? '' : '<a class="dropdown-item" href="javascript:actionEditInpassing(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="bx bx-edit-alt font-size-16 align-middle"></i> &nbsp;Edit Inpassing</a>'
+                . '<a class="dropdown-item" href="javascript:actionEditPendidikan(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="mdi mdi-school-outline font-size-16 align-middle"></i> &nbsp;Edit Default Pendidikan</a>
                             <a class="dropdown-item" href="javascript:actionSync(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="bx bx-transfer-alt font-size-16 align-middle"></i> &nbsp;Tarik Data</a>
                             <a class="dropdown-item" href="javascript:actionSyncDataPembenahan(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="bx bx-transfer-alt font-size-16 align-middle"></i> &nbsp;Syncrone Data Pembenahan</a>
                             <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Ajukan Hapus Data</a>
@@ -713,22 +714,32 @@ class Ptk extends BaseController
             $tahun = "";
             $bulan = "";
 
-            if ($ptk->tmt_sk_kgb > $ptk->tmt_pangkat) {
-                $tgl = $ptk->tgl_sk_kgb;
-                $golongan = $ptk->pangkat_golongan_kgb;
-                $tmt = $ptk->tmt_sk_kgb;
-                $no = $ptk->sk_kgb;
-                $jenis = "kgb";
-                $tahun = $ptk->masa_kerja_tahun_kgb;
-                $bulan = $ptk->masa_kerja_bulan_kgb;
-            } else {
-                $tgl = $ptk->tgl_sk_pangkat;
-                $golongan = $ptk->pangkat_golongan;
-                $tmt = $ptk->tmt_pangkat;
-                $no = $ptk->nomor_sk_pangkat;
+            if ($ptk->status_kepegawaian == "GTY/PTY") {
+                $tgl = $ptk->tgl_sk_impassing;
+                $golongan = $ptk->pangkat_golongan_ruang;
+                $tmt = $ptk->tmt_sk_impassing;
+                $no = $ptk->nomor_sk_impassing;
                 $jenis = "pangkat";
-                $tahun = $ptk->masa_kerja_tahun;
-                $bulan = $ptk->masa_kerja_bulan;
+                $tahun = $ptk->masa_kerja_tahun_impassing;
+                $bulan = $ptk->masa_kerja_bulan_impassing;
+            } else {
+                if ($ptk->tmt_sk_kgb > $ptk->tmt_pangkat) {
+                    $tgl = $ptk->tgl_sk_kgb;
+                    $golongan = $ptk->pangkat_golongan_kgb;
+                    $tmt = $ptk->tmt_sk_kgb;
+                    $no = $ptk->sk_kgb;
+                    $jenis = "kgb";
+                    $tahun = $ptk->masa_kerja_tahun_kgb;
+                    $bulan = $ptk->masa_kerja_bulan_kgb;
+                } else {
+                    $tgl = $ptk->tgl_sk_pangkat;
+                    $golongan = $ptk->pangkat_golongan;
+                    $tmt = $ptk->tmt_pangkat;
+                    $no = $ptk->nomor_sk_pangkat;
+                    $jenis = "pangkat";
+                    $tahun = $ptk->masa_kerja_tahun;
+                    $bulan = $ptk->masa_kerja_bulan;
+                }
             }
 
             $this->_db->transBegin();
@@ -1044,6 +1055,150 @@ class Ptk extends BaseController
                 $response = new \stdClass;
                 $response->status = 400;
                 $response->message = "Gagal menyimpan gambar baru.";
+                return json_encode($response);
+            }
+
+            if ($this->_db->affectedRows() > 0) {
+                $this->_db->transCommit();
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Data berhasil diupdate.";
+                return json_encode($response);
+            } else {
+                $this->_db->transRollback();
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal mengupate data";
+                return json_encode($response);
+            }
+        }
+    }
+
+    public function editSaveInpassing()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id PTK tidak boleh kosong. ',
+                ]
+            ],
+            'pangkat' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Pangkat tidak boleh kosong. ',
+                ]
+            ],
+            'no_sk_pangkat' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'No SK Inpassing tidak boleh kosong. ',
+                ]
+            ],
+            'tgl_pangkat' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Tgl SK Inpassing tidak boleh kosong. ',
+                ]
+            ],
+            'tmt_pangkat' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'TMT SK Inpassing tidak boleh kosong. ',
+                ]
+            ],
+            'mkt_pangkat' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'MK Tahun Inpassing tidak boleh kosong. ',
+                ]
+            ],
+            'mkb_pangkat' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'MK Bulan Inpassing tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('id')
+                . $this->validator->getError('pangkat')
+                . $this->validator->getError('no_sk_pangkat')
+                . $this->validator->getError('tgl_pangkat')
+                . $this->validator->getError('tmt_pangkat')
+                . $this->validator->getError('mkt_pangkat')
+                . $this->validator->getError('mkb_pangkat');
+            return json_encode($response);
+        } else {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Permintaan diizinkan";
+                return json_encode($response);
+            }
+
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+            $pangkat = htmlspecialchars($this->request->getVar('pangkat'), true);
+            $no_sk_pangkat = htmlspecialchars($this->request->getVar('no_sk_pangkat'), true);
+            $tgl_pangkat = htmlspecialchars($this->request->getVar('tgl_pangkat'), true);
+            $tmt_pangkat = htmlspecialchars($this->request->getVar('tmt_pangkat'), true);
+            $mkt_pangkat = htmlspecialchars($this->request->getVar('mkt_pangkat'), true);
+            $mkb_pangkat = htmlspecialchars($this->request->getVar('mkb_pangkat'), true);
+
+            $oldData =  $this->_db->table('_ptk_tb')->where('id', $id)->get()->getRowObject();
+
+            if (!$oldData) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan.";
+                return json_encode($response);
+            }
+
+            $data = [
+                'updated_at' => date('Y-m-d H:i:s'),
+            ];
+
+            if ($pangkat !== "") {
+                $data['pangkat_golongan_ruang'] = $pangkat;
+            }
+            if ($no_sk_pangkat !== "") {
+                $data['nomor_sk_impassing'] = $no_sk_pangkat;
+            }
+            if ($tgl_pangkat !== "") {
+                $data['tgl_sk_impassing'] = $tgl_pangkat;
+            }
+            if ($tmt_pangkat !== "") {
+                $data['tmt_sk_impassing'] = $tmt_pangkat;
+            }
+            if ($mkt_pangkat !== "") {
+                $data['masa_kerja_tahun_impassing'] = $mkt_pangkat;
+            }
+            if ($mkb_pangkat !== "") {
+                $data['masa_kerja_bulan_impassing'] = $mkb_pangkat;
+            }
+
+            $this->_db->transBegin();
+            try {
+                $this->_db->table('_ptk_tb')->where('id', $oldData->id)->update($data);
+            } catch (\Exception $e) {
+                $this->_db->transRollback();
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal menyimpan data baru.";
                 return json_encode($response);
             }
 
