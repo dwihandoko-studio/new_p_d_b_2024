@@ -23,7 +23,7 @@ class Auth extends BaseController
         if ($user->status == 200) {
             return redirect()->to(base_url('portal'));
         }
-        $data['title'] = "Login";
+        $data['title'] = "Login Layanan";
         return view('login/index', $data);
     }
 

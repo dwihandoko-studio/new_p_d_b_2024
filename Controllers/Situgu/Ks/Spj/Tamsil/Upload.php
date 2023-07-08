@@ -90,7 +90,7 @@ class Upload extends BaseController
             // $row[] = str_replace('&#039;', "`", str_replace("'", "`", $list->nama));
             $row[] = $list->tahun;
             $row[] = $list->tw;
-            $row[] = rpAwalan($list->tf_jumlah_diterima);
+            // $row[] = rpAwalan($list->tf_jumlah_diterima);
             if ($list->lock_upload_spj == 1) {
                 $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tamsil') . '/' . $list->lampiran_pernyataan . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tamsil') . '/' . $list->lampiran_pernyataan . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
                 $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tamsil') . '/' . $list->lampiran_rekening_koran . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tamsil') . '/' . $list->lampiran_rekening_koran . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
