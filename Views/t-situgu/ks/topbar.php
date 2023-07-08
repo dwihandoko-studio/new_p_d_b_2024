@@ -239,6 +239,7 @@
                                     <div class="col-lg-6">
                                         <h6> TPG (Sertifikasi)</h6>
                                         <div>
+                                            <a href="<?= base_url('situgu/ks/spj/tpg/upload') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "ks" && $uri->getSegment(3) == "spj" && $uri->getSegment(4) == "tpg"  && $uri->getSegment(5) == "upload") ? ' active-menu-href' : '' ?>" key="t-spj-upload">Upload</a>
                                             <a href="<?= base_url('situgu/ks/spj/tpg/antrian') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "ks" && $uri->getSegment(3) == "spj" && $uri->getSegment(4) == "tpg"  && $uri->getSegment(5) == "antrian") ? ' active-menu-href' : '' ?>" key="t-spj-antrian">Antrian</a>
                                             <a href="<?= base_url('situgu/ks/spj/tpg/ditolak') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "ks" && $uri->getSegment(3) == "spj" && $uri->getSegment(4) == "tpg"  && $uri->getSegment(5) == "ditolak") ? ' active-menu-href' : '' ?>" key="t-spj-ditolak">Ditolak</a>
                                             <a href="<?= base_url('situgu/ks/spj/tpg/lolosberkas') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "ks" && $uri->getSegment(3) == "spj" && $uri->getSegment(4) == "tpg"  && $uri->getSegment(5) == "lolosberkas") ? ' active-menu-href' : '' ?>" key="t-spj-lolosberkas">Lolos Verifikasi</a>
@@ -247,6 +248,7 @@
                                     <div class="col-lg-6">
                                         <h6> TAMSIL</h6>
                                         <div>
+                                            <a href="<?= base_url('situgu/ks/spj/tamsil/upload') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "ks" && $uri->getSegment(3) == "spj" && $uri->getSegment(4) == "tamsil"  && $uri->getSegment(5) == "upload") ? ' active-menu-href' : '' ?>" key="t-spj-upload">Upload</a>
                                             <a href="<?= base_url('situgu/ks/spj/tamsil/antrian') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "ks" && $uri->getSegment(3) == "spj" && $uri->getSegment(4) == "tamsil"  && $uri->getSegment(5) == "antrian") ? ' active-menu-href' : '' ?>" key="t-spj-antrian">Antrian</a>
                                             <a href="<?= base_url('situgu/ks/spj/tamsil/ditolak') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "ks" && $uri->getSegment(3) == "spj" && $uri->getSegment(4) == "tamsil"  && $uri->getSegment(5) == "ditolak") ? ' active-menu-href' : '' ?>" key="t-spj-ditolak">Ditolak</a>
                                             <a href="<?= base_url('situgu/ks/spj/tamsil/lolosberkas') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "ks" && $uri->getSegment(3) == "spj" && $uri->getSegment(4) == "tamsil"  && $uri->getSegment(5) == "lolosberkas") ? ' active-menu-href' : '' ?>" key="t-spj-lolosberkas">Lolos Verifikasi</a>
