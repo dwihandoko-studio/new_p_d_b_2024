@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controllers\Situgu\Ptk\Spj\Tamsil;
+namespace App\Controllers\Situgu\Ks\Spj\Tamsil;
 
 use App\Controllers\BaseController;
-use App\Models\Situgu\Ptk\Spj\Tamsil\UploadModel;
+use App\Models\Situgu\Ks\Spj\Tamsil\UploadModel;
 use Config\Services;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -140,7 +140,7 @@ class Upload extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('situgu/ptk/spj/tamsil/upload/data'));
+        return redirect()->to(base_url('situgu/ks/spj/tamsil/upload/data'));
     }
 
     public function data()
@@ -157,7 +157,7 @@ class Upload extends BaseController
         $data['user'] = $user->data;
         $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
         $data['tws'] = $this->_db->table('_ref_tahun_tw')->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
-        return view('situgu/ptk/spj/tamsil/upload/index', $data);
+        return view('situgu/ks/spj/tamsil/upload/index', $data);
     }
 
     public function detail()
@@ -700,7 +700,7 @@ class Upload extends BaseController
             $response = new \stdClass;
             $response->status = 200;
             $response->message = "Permintaan diizinkan";
-            $response->data = view('situgu/ptk/spj/tamsil/upload/upload', $data);
+            $response->data = view('situgu/ks/spj/tamsil/upload/upload', $data);
             return json_encode($response);
         }
     }
@@ -773,7 +773,7 @@ class Upload extends BaseController
             $response = new \stdClass;
             $response->status = 200;
             $response->message = "Permintaan diizinkan";
-            $response->data = view('situgu/ptk/spj/tamsil/upload/editupload', $data);
+            $response->data = view('situgu/ks/spj/tamsil/upload/editupload', $data);
             return json_encode($response);
         }
     }

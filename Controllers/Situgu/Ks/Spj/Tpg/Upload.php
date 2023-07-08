@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controllers\Situgu\Ptk\Spj\Tamsil;
+namespace App\Controllers\Situgu\Ks\Spj\Tpg;
 
 use App\Controllers\BaseController;
-use App\Models\Situgu\Ptk\Spj\Tamsil\UploadModel;
+use App\Models\Situgu\Ks\Spj\Tpg\UploadModel;
 use Config\Services;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -92,16 +92,16 @@ class Upload extends BaseController
             $row[] = $list->tw;
             $row[] = $list->tf_jumlah_diterima;
             if ($list->lock_upload_spj == 1) {
-                $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tamsil') . '/' . $list->lampiran_pernyataan . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tamsil') . '/' . $list->lampiran_pernyataan . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
-                $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tamsil') . '/' . $list->lampiran_rekening_koran . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tamsil') . '/' . $list->lampiran_rekening_koran . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
+                $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_pernyataan . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_pernyataan . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
+                $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_rekening_koran . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_rekening_koran . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
             } else {
                 if ($list->lampiran_pernyataan == null || $list->lampiran_pernyataan == "") {
-                    // $row[] = '<a class="btn btn-sm btn-primary waves-effect waves-light" target="_blank" href="' . base_url('situgu/ptk/spj/tamsil/download') . '?id=' . $list->id . '"><i class="bx bxs-cloud-download font-size-16 align-middle me-2"></i> Download</a>&nbsp;&nbsp;'
+                    // $row[] = '<a class="btn btn-sm btn-primary waves-effect waves-light" target="_blank" href="' . base_url('situgu/ptk/spj/tpg/download') . '?id=' . $list->id . '"><i class="bx bxs-cloud-download font-size-16 align-middle me-2"></i> Download</a>&nbsp;&nbsp;'
                     //     . '<a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionUpload(\'' . $list->id . '\',\'' . $list->tahun . '\',\'' . $list->tw . '\',\'pernyataan\');"><i class="bx bxs-cloud-upload font-size-16 align-middle me-2"></i> Upload</a>';
                     $row[] = '<a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionUpload(\'' . $list->id . '\',\'' . $list->id_tahun_tw . '\',\'pernyataan\',\'Pernyataan\');"><i class="bx bxs-cloud-upload font-size-16 align-middle me-2"></i> Upload</a>';
                 } else {
-                    // $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tamsil') . '/' . $list->lampiran_pernyataan . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tamsil') . '/' . $list->lampiran_pernyataan . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
-                    $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tamsil') . '/' . $list->lampiran_pernyataan . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tamsil') . '/' . $list->lampiran_pernyataan . '"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+                    // $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_pernyataan . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_pernyataan . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
+                    $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_pernyataan . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_pernyataan . '"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
                                 <i class="bx bxs-show font-size-16 align-middle"></i></button>
                             </a>
                             <a href="javascript:actionEditFile(\'Pernyataan\',\'pernyataan\',\'' . $list->id . '\',\'' . $list->id_tahun_tw . '\',\'' . $list->lampiran_pernyataan . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
@@ -114,8 +114,8 @@ class Upload extends BaseController
                 if ($list->lampiran_rekening_koran == null || $list->lampiran_rekening_koran == "") {
                     $row[] = '<a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionUpload(\'' . $list->id . '\',\'' . $list->id_tahun_tw . '\',\'rekeningkoran\',\'Rekening Koran\');"><i class="bx bxs-cloud-upload font-size-16 align-middle me-2"></i> Upload</a>';
                 } else {
-                    // $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tamsil') . '/' . $list->lampiran_rekening_koran . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tamsil') . '/' . $list->lampiran_rekening_koran . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
-                    $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tamsil') . '/' . $list->lampiran_rekening_koran . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tamsil') . '/' . $list->lampiran_rekening_koran . '"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+                    // $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_rekening_koran . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_rekening_koran . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
+                    $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_rekening_koran . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_rekening_koran . '"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
                                 <i class="bx bxs-show font-size-16 align-middle"></i></button>
                             </a>
                             <a href="javascript:actionEditFile(\'Rekening Koran\',\'rekeningkoran\',\'' . $list->id . '\',\'' . $list->id_tahun_tw . '\',\'' . $list->lampiran_rekening_koran . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
@@ -140,12 +140,12 @@ class Upload extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('situgu/ptk/spj/tamsil/upload/data'));
+        return redirect()->to(base_url('situgu/ks/spj/tpg/upload/data'));
     }
 
     public function data()
     {
-        $data['title'] = 'UPLOAD SPJ TAMSIL';
+        $data['title'] = 'UPLOAD SPJ TUNJANGAN PROFESI GURU';
         $Profilelib = new Profilelib();
         $user = $Profilelib->user();
         if ($user->status != 200) {
@@ -157,7 +157,7 @@ class Upload extends BaseController
         $data['user'] = $user->data;
         $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
         $data['tws'] = $this->_db->table('_ref_tahun_tw')->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
-        return view('situgu/ptk/spj/tamsil/upload/index', $data);
+        return view('situgu/ks/spj/tpg/upload/index', $data);
     }
 
     public function detail()
@@ -228,7 +228,7 @@ class Upload extends BaseController
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Permintaan diizinkan";
-                $response->data = view('situgu/opk/verifikasi/tamsil/detail', $data);
+                $response->data = view('situgu/opk/verifikasi/tpg/detail', $data);
                 return json_encode($response);
             } else {
                 $response = new \stdClass;
@@ -614,7 +614,7 @@ class Upload extends BaseController
             $dompdf1->render();
             $m->addRaw($dompdf1->output());
 
-            $dir = FCPATH . "upload/generate/sptjm/tamsil/pdf";
+            $dir = FCPATH . "upload/generate/sptjm/tpg/pdf";
             $fileNya = $dir . '/' . $usulan->kode_usulan . '.pdf';
 
             file_put_contents($fileNya, $m->merge());
@@ -700,7 +700,7 @@ class Upload extends BaseController
             $response = new \stdClass;
             $response->status = 200;
             $response->message = "Permintaan diizinkan";
-            $response->data = view('situgu/ptk/spj/tamsil/upload/upload', $data);
+            $response->data = view('situgu/ks/spj/tpg/upload/upload', $data);
             return json_encode($response);
         }
     }
@@ -768,12 +768,12 @@ class Upload extends BaseController
             $data['old'] = $old;
             $data['jenis'] = $jenis;
             $data['tw'] = $tw;
-            $data['old_url'] = base_url('upload/spj/tamsil') . '/' . $old;
+            $data['old_url'] = base_url('upload/spj/tpg') . '/' . $old;
 
             $response = new \stdClass;
             $response->status = 200;
             $response->message = "Permintaan diizinkan";
-            $response->data = view('situgu/ptk/spj/tamsil/upload/editupload', $data);
+            $response->data = view('situgu/ks/spj/tpg/upload/editupload', $data);
             return json_encode($response);
         }
     }
@@ -858,17 +858,17 @@ class Upload extends BaseController
 
             switch ($jenis) {
                 case 'pernyataan':
-                    $dir = FCPATH . "upload/spj/tamsil";
+                    $dir = FCPATH . "upload/spj/tpg";
                     $field_db = 'lampiran_pernyataan';
                     $table_db = '_tb_spj_tpg';
                     break;
                 case 'rekeningkoran':
-                    $dir = FCPATH . "upload/spj/tamsil";
+                    $dir = FCPATH . "upload/spj/tpg";
                     $field_db = 'lampiran_rekening_koran';
                     $table_db = '_tb_spj_tpg';
                     break;
                 default:
-                    $dir = FCPATH . "upload/spj/tamsil";
+                    $dir = FCPATH . "upload/spj/tpg";
                     $field_db = 'lampiran_pernyataan';
                     $table_db = '_tb_spj_tpg';
                     break;
@@ -1011,17 +1011,17 @@ class Upload extends BaseController
 
             switch ($jenis) {
                 case 'pernyataan':
-                    $dir = FCPATH . "upload/spj/tamsil";
+                    $dir = FCPATH . "upload/spj/tpg";
                     $field_db = 'lampiran_pernyataan';
                     $table_db = '_tb_spj_tpg';
                     break;
                 case 'rekeningkoran':
-                    $dir = FCPATH . "upload/spj/tamsil";
+                    $dir = FCPATH . "upload/spj/tpg";
                     $field_db = 'lampiran_rekening_koran';
                     $table_db = '_tb_spj_tpg';
                     break;
                 default:
-                    $dir = FCPATH . "upload/spj/tamsil";
+                    $dir = FCPATH . "upload/spj/tpg";
                     $field_db = 'lampiran_pernyataan';
                     $table_db = '_tb_spj_tpg';
                     break;
@@ -1153,17 +1153,17 @@ class Upload extends BaseController
 
             switch ($jenis) {
                 case 'pernyataan':
-                    $dir = FCPATH . "upload/spj/tamsil";
+                    $dir = FCPATH . "upload/spj/tpg";
                     $field_db = 'lampiran_pernyataan';
                     $table_db = '_tb_spj_tpg';
                     break;
                 case 'rekeningkoran':
-                    $dir = FCPATH . "upload/spj/tamsil";
+                    $dir = FCPATH . "upload/spj/tpg";
                     $field_db = 'lampiran_rekening_koran';
                     $table_db = '_tb_spj_tpg';
                     break;
                 default:
-                    $dir = FCPATH . "upload/spj/tamsil";
+                    $dir = FCPATH . "upload/spj/tpg";
                     $field_db = 'lampiran_pernyataan';
                     $table_db = '_tb_spj_tpg';
                     break;
