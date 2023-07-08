@@ -1158,7 +1158,7 @@ class Upload extends BaseController
                     $field_db = 'lampiran_pernyataan';
                     $table_db = '_tb_spj_tpg';
                     break;
-                case 'kgb':
+                case 'rekeningkoran':
                     $dir = FCPATH . "upload/spj/tpg";
                     $field_db = 'lampiran_rekening_koran';
                     $table_db = '_tb_spj_tpg';
