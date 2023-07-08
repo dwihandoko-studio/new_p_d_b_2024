@@ -239,7 +239,6 @@ class Upload extends BaseController
         }
     }
 
-
     public function downloadnew()
     {
         $Profilelib = new Profilelib();
