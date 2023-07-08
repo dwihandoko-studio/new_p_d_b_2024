@@ -12,7 +12,7 @@
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript:actionAdd(this);" class="btn btn-primary btn-rounded waves-effect waves-light">Tambah Data Atribut</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:actionAdd(this);" class="btn btn-primary btn-rounded waves-effect waves-light">Tambah Data SPJ</a></li>
                         </ol>
                     </div>
 
