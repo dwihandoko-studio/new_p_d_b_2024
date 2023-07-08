@@ -875,12 +875,12 @@ class Upload extends BaseController
                 case 'pernyataan':
                     $dir = FCPATH . "upload/spj/tamsil";
                     $field_db = 'lampiran_pernyataan';
-                    $table_db = '_tb_spj_tpg';
+                    $table_db = '_tb_spj_tamsil';
                     break;
                 case 'rekeningkoran':
                     $dir = FCPATH . "upload/spj/tamsil";
                     $field_db = 'lampiran_rekening_koran';
-                    $table_db = '_tb_spj_tpg';
+                    $table_db = '_tb_spj_tamsil';
                     break;
                     // case 'skdirgen':
                     //     $dir = FCPATH . "upload/spj/tamsil";
@@ -890,7 +890,7 @@ class Upload extends BaseController
                 default:
                     $dir = FCPATH . "upload/spj/tamsil";
                     $field_db = 'lampiran_pernyataan';
-                    $table_db = '_tb_spj_tpg';
+                    $table_db = '_tb_spj_tamsil';
                     break;
             }
 
@@ -1033,12 +1033,12 @@ class Upload extends BaseController
                 case 'pernyataan':
                     $dir = FCPATH . "upload/spj/tamsil";
                     $field_db = 'lampiran_pernyataan';
-                    $table_db = '_tb_spj_tpg';
+                    $table_db = '_tb_spj_tamsil';
                     break;
                 case 'rekeningkoran':
                     $dir = FCPATH . "upload/spj/tamsil";
                     $field_db = 'lampiran_rekening_koran';
-                    $table_db = '_tb_spj_tpg';
+                    $table_db = '_tb_spj_tamsil';
                     break;
                     // case 'skdirgen':
                     //     $dir = FCPATH . "upload/spj/tamsil";
@@ -1048,7 +1048,7 @@ class Upload extends BaseController
                 default:
                     $dir = FCPATH . "upload/spj/tamsil";
                     $field_db = 'lampiran_pernyataan';
-                    $table_db = '_tb_spj_tpg';
+                    $table_db = '_tb_spj_tamsil';
                     break;
             }
 
@@ -1180,12 +1180,12 @@ class Upload extends BaseController
                 case 'pernyataan':
                     $dir = FCPATH . "upload/spj/tamsil";
                     $field_db = 'lampiran_pernyataan';
-                    $table_db = '_tb_spj_tpg';
+                    $table_db = '_tb_spj_tamsil';
                     break;
                 case 'rekeningkoran':
                     $dir = FCPATH . "upload/spj/tamsil";
                     $field_db = 'lampiran_rekening_koran';
-                    $table_db = '_tb_spj_tpg';
+                    $table_db = '_tb_spj_tamsil';
                     break;
                     // case 'skdirgen':
                     //     $dir = FCPATH . "upload/spj/tamsil";
@@ -1195,7 +1195,7 @@ class Upload extends BaseController
                 default:
                     $dir = FCPATH . "upload/spj/tamsil";
                     $field_db = 'lampiran_pernyataan';
-                    $table_db = '_tb_spj_tpg';
+                    $table_db = '_tb_spj_tamsil';
                     break;
             }
 
