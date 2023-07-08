@@ -222,7 +222,7 @@ class Prosestransfer extends BaseController
             // die;
             $extension = $lampiran->getClientExtension();
             $filesNamelampiran = $lampiran->getName();
-            $newNamelampiran = _create_name_file($filesNamelampiran);
+            $newNamelampiran = _create_name_file_import($filesNamelampiran);
             $fileLocation = $lampiran->getTempName();
 
             if ('xls' == $extension) {
@@ -246,8 +246,8 @@ class Prosestransfer extends BaseController
             unset($sheet[0]);
             unset($sheet[1]);
             unset($sheet[2]);
-            unset($sheet[3]);
-            unset($sheet[4]);
+            // unset($sheet[3]);
+            // unset($sheet[4]);
 
             foreach ($sheet as $key => $data) {
 

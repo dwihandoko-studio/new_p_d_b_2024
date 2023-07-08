@@ -138,14 +138,14 @@
         });
     }
 
-    function actionUpload(title, bulan, tw, id_ptk) {
+    function actionUpload(id, tahun_tw, jenis, title) {
         $.ajax({
             url: "./formupload",
             type: 'POST',
             data: {
-                bulan: bulan,
-                tw: tw,
-                id_ptk: id_ptk,
+                id: id,
+                tw: tahun_tw,
+                jenis: jenis,
                 title: title,
             },
             dataType: 'JSON',
@@ -163,7 +163,7 @@
                         'warning'
                     );
                 } else {
-                    $('#content-detailModalLabel').html('Upload Lampiran ' + title);
+                    $('#content-detailModalLabel').html('Upload ' + title);
                     $('.contentBodyModal').html(resul.data);
                     $('.content-detailModal').modal({
                         backdrop: 'static',
@@ -183,10 +183,10 @@
         });
     }
 
-    function actionHapusFile(title, bulan, tw, id_ptk, old) {
+    function actionHapusFile(title, file, id, tahun_tw, old) {
         Swal.fire({
-            title: 'Apakah anda yakin ingin menghapus lampiran file ini?',
-            text: "Hapus Lampiran File: " + title,
+            title: 'Apakah anda yakin ingin menghapus file ini?',
+            text: "Hapus File: " + title,
             showCancelButton: true,
             icon: 'question',
             confirmButtonColor: '#3085d6',
@@ -200,10 +200,10 @@
                     type: 'POST',
                     data: {
                         title: title,
-                        bulan: bulan,
+                        jenis: file,
                         old: old,
-                        tw: tw,
-                        id_ptk: id_ptk,
+                        tw: tahun_tw,
+                        id: id,
                     },
                     dataType: 'JSON',
                     beforeSend: function() {
@@ -304,15 +304,15 @@
         });
     }
 
-    function actionEditFile(title, bulan, tw, id_ptk, old) {
+    function actionEditFile(title, file, id, tahun_tw, old) {
         $.ajax({
             url: "./editformupload",
             type: 'POST',
             data: {
-                bulan: bulan,
-                tw: tw,
-                id_ptk: id_ptk,
+                tw: tahun_tw,
+                id: id,
                 title: title,
+                file: file,
                 old: old,
             },
             dataType: 'JSON',
@@ -330,7 +330,7 @@
                         'warning'
                     );
                 } else {
-                    $('#content-detailModalLabel').html('Edit Lampiran ' + title);
+                    $('#content-detailModalLabel').html('Edit ' + title);
                     $('.contentBodyModal').html(resul.data);
                     $('.content-detailModal').modal({
                         backdrop: 'static',
