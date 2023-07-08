@@ -94,6 +94,7 @@ class Upload extends BaseController
             if ($list->lock_upload_spj == 1) {
                 $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_pernyataan . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_pernyataan . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
                 $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_rekening_koran . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_rekening_koran . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
+                $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_sk_dirgen . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_sk_dirgen . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
             } else {
                 if ($list->lampiran_pernyataan == null || $list->lampiran_pernyataan == "") {
                     // $row[] = '<a class="btn btn-sm btn-primary waves-effect waves-light" target="_blank" href="' . base_url('situgu/ptk/spj/tpg/download') . '?id=' . $list->id . '"><i class="bx bxs-cloud-download font-size-16 align-middle me-2"></i> Download</a>&nbsp;&nbsp;'
@@ -122,6 +123,20 @@ class Upload extends BaseController
                                 <i class="bx bxs-edit-alt font-size-16 align-middle"></i></button>
                             </a>
                             <a href="javascript:actionHapusFile(\'Rekening Koran\',\'rekeningkoran\',\'' . $list->id . '\',\'' . $list->id_tahun_tw . '\',\'' . $list->lampiran_rekening_koran . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+                                <i class="mdi mdi-trash-can-outline font-size-16 align-middle"></i></button>
+                            </a>';
+                }
+                if ($list->lampiran_sk_dirgen == null || $list->lampiran_sk_dirgen == "") {
+                    $row[] = '<a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionUpload(\'' . $list->id . '\',\'' . $list->id_tahun_tw . '\',\'skdirgen\',\'SK Dirgen\');"><i class="bx bxs-cloud-upload font-size-16 align-middle me-2"></i> Upload</a>';
+                } else {
+                    // $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_sk_dirgen . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_sk_dirgen . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
+                    $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_sk_dirgen . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_sk_dirgen . '"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+                                <i class="bx bxs-show font-size-16 align-middle"></i></button>
+                            </a>
+                            <a href="javascript:actionEditFile(\'SK Dirgen\',\'skdirgen\',\'' . $list->id . '\',\'' . $list->id_tahun_tw . '\',\'' . $list->lampiran_sk_dirgen . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+                                <i class="bx bxs-edit-alt font-size-16 align-middle"></i></button>
+                            </a>
+                            <a href="javascript:actionHapusFile(\'SK Dirgen\',\'skdirgen\',\'' . $list->id . '\',\'' . $list->id_tahun_tw . '\',\'' . $list->lampiran_sk_dirgen . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
                                 <i class="mdi mdi-trash-can-outline font-size-16 align-middle"></i></button>
                             </a>';
                 }
@@ -867,6 +882,11 @@ class Upload extends BaseController
                     $field_db = 'lampiran_rekening_koran';
                     $table_db = '_tb_spj_tpg';
                     break;
+                case 'skdirgen':
+                    $dir = FCPATH . "upload/spj/tpg";
+                    $field_db = 'lampiran_sk_dirgen';
+                    $table_db = '_tb_spj_tpg';
+                    break;
                 default:
                     $dir = FCPATH . "upload/spj/tpg";
                     $field_db = 'lampiran_pernyataan';
@@ -1020,6 +1040,11 @@ class Upload extends BaseController
                     $field_db = 'lampiran_rekening_koran';
                     $table_db = '_tb_spj_tpg';
                     break;
+                case 'skdirgen':
+                    $dir = FCPATH . "upload/spj/tpg";
+                    $field_db = 'lampiran_sk_dirgen';
+                    $table_db = '_tb_spj_tpg';
+                    break;
                 default:
                     $dir = FCPATH . "upload/spj/tpg";
                     $field_db = 'lampiran_pernyataan';
@@ -1160,6 +1185,11 @@ class Upload extends BaseController
                 case 'rekeningkoran':
                     $dir = FCPATH . "upload/spj/tpg";
                     $field_db = 'lampiran_rekening_koran';
+                    $table_db = '_tb_spj_tpg';
+                    break;
+                case 'skdirgen':
+                    $dir = FCPATH . "upload/spj/tpg";
+                    $field_db = 'lampiran_sk_dirgen';
                     $table_db = '_tb_spj_tpg';
                     break;
                 default:

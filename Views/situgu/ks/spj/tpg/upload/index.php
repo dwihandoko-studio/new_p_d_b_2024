@@ -50,6 +50,7 @@
                                     <th>TW</th>
                                     <th>Pernyataan</th>
                                     <th>Rekening Koran</th>
+                                    <th>SK Dirgen</th>
                                 </tr>
                             </thead>
                         </table>
