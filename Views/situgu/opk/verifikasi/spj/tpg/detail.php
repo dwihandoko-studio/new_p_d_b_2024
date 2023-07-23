@@ -98,8 +98,8 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
-        <button type="button" onclick="actionTolak(this)" class="btn btn-danger waves-effect waves-light">Tolak Usulan TPG</button>
-        <button type="button" onclick="actionApprove(this)" class="btn btn-success waves-effect waves-light">Setujui Usulan TPG</button>
+        <button type="button" onclick="actionTolak(this)" class="btn btn-danger waves-effect waves-light">Tolak Laporan SPJ TPG</button>
+        <button type="button" onclick="actionApprove(this)" class="btn btn-success waves-effect waves-light">Setujui Laporan SPJ TPG</button>
     </div>
     <script>
         function actionTolak(e) {
