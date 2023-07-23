@@ -280,22 +280,30 @@ class Spjtpg extends BaseController
             $tw = htmlspecialchars($this->request->getVar('tw'), true);
             $nama = htmlspecialchars($this->request->getVar('nama'), true);
 
-            $current = $this->_db->table('v_antrian_usulan_tpg a')
-                ->select("a.*, b.kecamatan as kecamatan_sekolah, c.lampiran_sptjm, d.gaji_pokok as gaji_pokok_referensi")
-                ->join('ref_sekolah b', 'a.npsn = b.npsn')
-                ->join('_tb_sptjm c', 'a.kode_usulan = c.kode_usulan')
-                ->join('ref_gaji d', 'a.us_pang_golongan = d.pangkat AND (d.masa_kerja = (IF(a.us_pang_mk_tahun > 32, 32, a.us_pang_mk_tahun)))', 'LEFT')
-                ->where(['a.id_usulan' => $id, 'a.id_tahun_tw' => $tw])->get()->getRowObject();
+            // $current = $this->_db->table('_tb_usulan_detail_tpg a')
+            //     ->select("a.id as id_usulan, a.us_pang_golongan, a.us_pang_tmt, a.us_pang_tgl, a.us_pang_jenis, a.us_pang_mk_tahun, a.us_pang_mk_bulan, a.us_gaji_pokok, a.date_approve, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, a.date_approve_sptjm, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, e.cuti as lampiran_cuti, e.pensiun as lampiran_pensiun, e.kematian as lampiran_kematian, e.pang_golongan as attr_pang_golongan, e.pang_jenis as attr_pang_jenis, e.pang_no as attr_pang_no, e.pang_tmt as attr_pang_tmt, e.pang_tgl as attr_pang_tgl, e.pang_tahun as attr_pang_mk_tahun, e.pang_bulan as attr_pang_mk_bulan")
+            //     ->join('_ptk_tb b', 'a.id_ptk = b.id')
+            //     ->join('_upload_data_attribut e', 'a.id_ptk = e.id_ptk AND (a.id_tahun_tw = e.id_tahun_tw)')
+            //     ->where('a.status_usulan', 2)
+            //     ->where(['a.id' => $id, 'a.id_tahun_tw' => $tw])
+            //     ->get()->getRowObject();
+
+            $current = $this->_db->table('_tb_spj_tpg a')
+                ->select("a.*, b.nama, b.nik, b.nuptk, b.jenis_ptk")
+                ->join('_ptk_tb b', 'b.id = a.id_ptk')
+                // ->join('_tb_sptjm c', 'a.kode_usulan = c.kode_usulan')
+                // ->join('ref_gaji d', 'a.us_pang_golongan = d.pangkat AND (d.masa_kerja = (IF(a.us_pang_mk_tahun > 32, 32, a.us_pang_mk_tahun)))', 'LEFT')
+                ->where(['a.id' => $id, 'a.id_tahun_tw' => $tw])->get()->getRowObject();
 
             if ($current) {
                 $data['data'] = $current;
-                $data['penugasans'] = $this->_db->table('_ptk_tb_dapodik a')
-                    ->select("a.*, b.npsn, b.nama as namaSekolah, b.kecamatan as kecamatan_sekolah, (SELECT SUM(jam_mengajar_per_minggu) FROM _pembelajaran_dapodik WHERE ptk_id = a.ptk_id AND sekolah_id = a.sekolah_id AND semester_id = a.semester_id) as jumlah_total_jam_mengajar_perminggu")
-                    ->join('ref_sekolah b', 'a.sekolah_id = b.id')
-                    ->where('a.ptk_id', $current->id_ptk)
-                    ->where("a.jenis_keluar IS NULL")
-                    ->orderBy('a.ptk_induk', 'DESC')->get()->getResult();
-                $data['igd'] = $this->_db->table('_info_gtk')->where('ptk_id', $current->id_ptk)->get()->getRowObject();
+                // $data['penugasans'] = $this->_db->table('_ptk_tb_dapodik a')
+                //     ->select("a.*, b.npsn, b.nama as namaSekolah, b.kecamatan as kecamatan_sekolah, (SELECT SUM(jam_mengajar_per_minggu) FROM _pembelajaran_dapodik WHERE ptk_id = a.ptk_id AND sekolah_id = a.sekolah_id AND semester_id = a.semester_id) as jumlah_total_jam_mengajar_perminggu")
+                //     ->join('ref_sekolah b', 'a.sekolah_id = b.id')
+                //     ->where('a.ptk_id', $current->id_ptk)
+                //     ->where("a.jenis_keluar IS NULL")
+                //     ->orderBy('a.ptk_induk', 'DESC')->get()->getResult();
+                // $data['igd'] = $this->_db->table('_info_gtk')->where('ptk_id', $current->id_ptk)->get()->getRowObject();
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Permintaan diizinkan";
