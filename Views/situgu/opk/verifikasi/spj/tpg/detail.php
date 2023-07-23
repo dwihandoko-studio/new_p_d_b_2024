@@ -86,7 +86,7 @@
                 <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_rekening_koran ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_rekening_koran ?>" id="nik">
                     Rekening Koran
                 </a>
-                <?php if ($data->lampiran_impassing === null || $data->lampiran_impassing === "") {
+                <?php if ($data->lampiran_sk_dirgen === null || $data->lampiran_sk_dirgen === "") {
                 } else { ?>
                     <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_sk_dirgen ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_sk_dirgen ?>" id="nik">
                         SKTP
@@ -118,7 +118,7 @@
                         url: "./formtolak",
                         type: 'POST',
                         data: {
-                            id: '<?= $data->id_usulan ?>',
+                            id: '<?= $data->id ?>',
                             nama: nama,
                         },
                         dataType: 'JSON',
@@ -159,7 +159,7 @@
         }
 
         function simpanTolak(e) {
-            const id = '<?= $data->id_usulan ?>';
+            const id = '<?= $data->id ?>';
             const nama = '<?= str_replace('&#039;', "`", str_replace("'", "`", $data->nama)) ?>';
             const keterangan = document.getElementsByName('_keterangan_tolak')[0].value;
 
@@ -233,7 +233,7 @@
         };
 
         function actionApprove(e) {
-            const id = '<?= $data->id_usulan ?>';
+            const id = '<?= $data->id ?>';
             const nama = '<?= str_replace('&#039;', "`", str_replace("'", "`", $data->nama)) ?>';
             Swal.fire({
                 title: 'Apakah anda yakin ingin menyetujui Laporan SPJ TPG ini?',
