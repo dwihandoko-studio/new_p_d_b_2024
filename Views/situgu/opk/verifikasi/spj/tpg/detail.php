@@ -96,309 +96,71 @@
                         } ?>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">Email Dapodik:</label>
-                <input type="text" class="form-control" value="<?= $data->email ?>" readonly />
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">No Handphone Dapodik:</label>
-                <input type="text" class="form-control" value="<?= $data->no_hp ?>" readonly />
-            </div>
-        </div>
-        <hr />
-        <div class="row mt-2">
-            <h2>DATA PENUGASAN</h2>
-            <?php switch ($data->bidang_studi_sertifikasi) {
-                case '':
-                    echo '<div class="col-lg-6">
-                            <label class="col-form-label">Status Sertifikasi:</label>
-                            <div><span class="badge badge-pill badge-soft-danger">Belum</span></div>
-                        </div>';
-                    break;
-                case null:
-                    echo '<div class="col-lg-6">
-                            <label class="col-form-label">Status Sertifikasi:</label>
-                            <div><span class="badge badge-pill badge-soft-danger">Belum</span></div>
-                        </div>';
-                    break;
-                case '-':
-                    echo '<div class="col-lg-6">
-                            <label class="col-form-label">Status Sertifikasi:</label>
-                            <div><span class="badge badge-pill badge-soft-danger">Belum</span></div>
-                        </div>';
-                    break;
-                case ' ':
-                    echo '<div class="col-lg-6">
-                            <label class="col-form-label">Status Sertifikasi:</label>
-                            <div><span class="badge badge-pill badge-soft-danger">Belum</span></div>
-                        </div>';
-                    break;
-
-                default:
-                    echo '<div class="col-lg-6">
-                        <label class="col-form-label">Status Sertifikasi:</label>
-                        <div><span class="badge badge-pill badge-soft-success">Sudah</span></div>
-                    </div>
-                    <div class="col-lg-6">
-                        <label class="col-form-label">Bidang Studi Sertifikasi:</label>
-                        <input type="text" class="form-control" value="' . $data->bidang_studi_sertifikasi . '" readonly />
-                    </div>';
-                    break;
-            } ?>
-            <div class="col-lg-12 mt-4">
-                <div class="table-responsive">
-                    <table class="table mb-0">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>NPSN</th>
-                                <th>Satuan Pendidikan</th>
-                                <th>Nomor Surat Tugas</th>
-                                <th>Tanggal Surat</th>
-                                <th>Status</th>
-                                <th>Jumlah Jam</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (isset($penugasans)) {
-                                if (count($penugasans) > 0) {
-                                    foreach ($penugasans as $key => $v) { ?>
-                                        <tr>
-                                            <th scope="row"><?= $key + 1 ?></th>
-                                            <td><?= $v->npsn ?></td>
-                                            <td><?= $v->namaSekolah ?></td>
-                                            <td><?= $v->nomor_surat_tugas ?></td>
-                                            <td><?= $v->tanggal_surat_tugas ?></td>
-                                            <td><?= $v->ptk_induk == "1" ? '<span class="badge badge-pill badge-soft-success">INDUK</span>' : '<span class="badge badge-pill badge-soft-warning">NON INDUK</span>' ?></td>
-                                            <td><?= $v->jumlah_total_jam_mengajar_perminggu == NULL ? ($v->jenis_ptk == 'Kepala Sekolah' && $v->status_keaktifan == 'Aktif' && $v->jenis_keluar == NULL && $v->ptk_induk == '1' ? '24' : $v->jumlah_total_jam_mengajar_perminggu) : $v->jumlah_total_jam_mengajar_perminggu ?> Jam</td>
-                                        </tr>
-                                    <?php }
-                                } else { ?>
-                                    <tr>
-                                        <td colspan="6">Tidak ada penugasan</td>
-                                    </tr>
-                                <?php }
-                            } else { ?>
-                                <tr>
-                                    <td colspan="6">Tidak ada penugasan</td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">NPSN:</label>
-                <div><?= $data->npsn ?></div>
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">Tempat Tugas:</label>
-                <div><?= $data->tempat_tugas ?></div>
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">Status Tugas:</label>
-                <div><?= $data->status_tugas ?></div>
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">Kecamatan:</label>
-                <div><?= $data->kecamatan_sekolah ?></div>
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">Status PTK:</label>
-                <div><?= $data->status_kepegawaian ?></div>
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">Mapel Diajarkan:</label>
-                <div><?= $data->mapel_diajarkan ?></div>
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">Pendidikan Terakhir:</label>
-                <div><?= $data->pendidikan ?></div>
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">Bidang Studi Pendidikan:</label>
-                <div><?= $data->bidang_studi_pendidikan ?></div>
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">SK Pengangkatan:</label>
-                <input type="text" class="form-control" value="<?= $data->sk_pengangkatan ?>" readonly />
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">TMT Pengangkatan:</label>
-                <input type="text" class="form-control" value="<?php switch ($data->tmt_pengangkatan) {
-                                                                    case '':
-                                                                        echo '';
-                                                                        break;
-                                                                    case '-':
-                                                                        echo '';
-                                                                        break;
-                                                                    case NULL:
-                                                                        echo '';
-                                                                        break;
-                                                                    case '1900-01-01':
-                                                                        echo '';
-                                                                        break;
-
-                                                                    default:
-                                                                        echo $data->tmt_pengangkatan;
-                                                                        break;
-                                                                } ?>" readonly />
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">SK CPNS:</label>
-                <input type="text" class="form-control" value="<?= $data->sk_cpns ?>" readonly />
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">Tanggal CPNS:</label>
-                <input type="text" class="form-control" value="<?php switch ($data->tgl_cpns) {
-                                                                    case '':
-                                                                        echo '';
-                                                                        break;
-                                                                    case '-':
-                                                                        echo '';
-                                                                        break;
-                                                                    case NULL:
-                                                                        echo '';
-                                                                        break;
-                                                                    case '1900-01-01':
-                                                                        echo '';
-                                                                        break;
-
-                                                                    default:
-                                                                        echo $data->tgl_cpns;
-                                                                        break;
-                                                                } ?>" readonly />
-            </div>
         </div>
         <hr />
         <div class="row mt-2">
             <h2>DATA ATRIBUT USULAN</h2>
-            <div class="col-lg-4">
+            <div class="col-lg-12">
                 <div class="row">
-                    <div class="col-sm-12">
-                        <label class="col-form-label">Absen 1:</label>
+                    <?php if ($tw->tw_tw == 1) { ?>
+                        <div class="col-sm-4">
+                            <label class="col-form-label">Bulan 1 :</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" aria-describedby="bulan_1" aria-label="BULAN 1" value="<?= $data->tf_gaji_pokok_1 ?>" readonly />
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="col-form-label">Bulan 2 :</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" aria-describedby="bulan_2" aria-label="BULAN 2" value="<?= $data->tf_gaji_pokok_2 ?>" readonly />
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="col-form-label">Bulan 3 :</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" aria-describedby="bulan_3" aria-label="BULAN 3" value="<?= $data->tf_gaji_pokok_3 ?>" readonly />
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="col-form-label">Jumlah Diterima :</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" aria-describedby="absen_1" aria-label="ABSEN 1" value="<?= $data->bulan_1 ?> Hari" readonly />
-                            <a class="btn btn-primary" target="popup" onclick="window.open('<?= base_url('upload/sekolah/kehadiran') . '/' . $data->lampiran_absen1 ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/kehadiran') . '/' . $data->lampiran_absen1 ?>" id="nik">Lampiran Absen 1</a>
+                            <input type="text" class="form-control" aria-describedby="jumlah_diterima" aria-label="Jumlah Diterima" value="<?= $data->tf_jumlah_diteri ?>" readonly />
                         </div>
                     </div>
-                    <div class="col-sm-12">
-                        <label class="col-form-label">Absen 2:</label>
+                    <div class="col-sm-6">
+                        <label class="col-form-label">No Rekening :</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" aria-describedby="absen_2" aria-label="ABSEN 2" value="<?= $data->bulan_2 ?> Hari" readonly />
-                            <a class="btn btn-primary" target="popup" onclick="window.open('<?= base_url('upload/sekolah/kehadiran') . '/' . $data->lampiran_absen2 ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/kehadiran') . '/' . $data->lampiran_absen2 ?>" id="nik">Lampiran Absen 2</a>
-                        </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <label class="col-form-label">Absen 3:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" aria-describedby="absen_3" aria-label="ABSEN 3" value="<?= $data->bulan_3 ?> Hari" readonly />
-                            <a class="btn btn-primary" target="popup" onclick="window.open('<?= base_url('upload/sekolah/kehadiran') . '/' . $data->lampiran_absen3 ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/kehadiran') . '/' . $data->lampiran_absen3 ?>" id="nik">Lampiran Absen 3</a>
+                            <input type="text" class="form-control" aria-describedby="no_rekening" aria-label="No Rekening" value="<?= $data->tf_no_rekening ?>" readonly />
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-8">
-                <div class="row">
-                    <div class="col-sm-8">
-                        <label class="col-form-label">Pangkat Golongan:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" aria-describedby="pangkat_golongan" aria-label="PANGKAT GOLONGAN" value="<?= $data->us_pang_golongan ?>" readonly />
-                            <?php if ($data->lampiran_pangkat !== NULL) { ?>
-                                <a class="btn btn-primary" target="popup" onclick="window.open('<?= base_url('upload/ptk/pangkat') . '/' . $data->lampiran_pangkat ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/pangkat') . '/' . $data->lampiran_pangkat ?>" id="nik">Lampiran Pangkat</a>
-                            <?php } ?>
-                            <?php if ($data->lampiran_kgb !== NULL) { ?>
-                                <a class="btn btn-primary" target="popup" onclick="window.open('<?= base_url('upload/ptk/kgb') . '/' . $data->lampiran_kgb ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/kgb') . '/' . $data->lampiran_kgb ?>" id="nik">Lampiran KGB</a>
-                            <?php } ?>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <label class="col-form-label">Jenis Dokumen:</label>
-                        <input type="text" class="form-control" value="<?= strtoupper($data->us_pang_jenis) ?>" readonly />
-                    </div>
-                    <div class="col-sm-6">
-                        <label class="col-form-label">TMT:</label>
-                        <input type="text" class="form-control" value="<?= $data->us_pang_tmt ?>" readonly />
-                    </div>
-                    <div class="col-sm-6">
-                        <label class="col-form-label">Tanggal:</label>
-                        <input type="text" class="form-control" value="<?= $data->us_pang_tgl ?>" readonly />
-                    </div>
-                    <div class="col-sm-3">
-                        <label class="col-form-label">MK Tahun:</label>
-                        <input type="text" class="form-control" value="<?= $data->us_pang_mk_tahun ?>" readonly />
-                    </div>
-                    <div class="col-sm-3">
-                        <label class="col-form-label">MK Bulan:</label>
-                        <input type="text" class="form-control" value="<?= $data->us_pang_mk_bulan ?>" readonly />
-                    </div>
-                    <div class="col-sm-6">
-                        <label class="col-form-label">Gaji Pokok:</label>
-                        <input type="text" class="form-control" value="<?= rpAwalan($data->gaji_pokok_referensi) ?>" readonly />
-                    </div>
+            <div class="col-lg-12">
+                <label class="col-form-label">Keterangan :</label>
+                <div class="input-group">
+                    <textarea class="form-control" readonly><?= $data->tf_keterangan ?></textarea>
                 </div>
             </div>
             <div class="col-lg-12 mt-2">
-                <label class="col-form-label">Lampiran Dokumen:</label>
+                <label class="col-form-label">Lampiran Dokumen SPJ:</label>
                 <br />
-                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/sekolah/pembagian-tugas') . '/' . $data->lampiran_pembagian_tugas ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/pembagian-tugas') . '/' . $data->lampiran_pembagian_tugas ?>" id="nik">
-                    Pembagian Tugas
+                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_pernyataan ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_pernyataan ?>" id="nik">
+                    Pernyataan
                 </a>
-                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/sekolah/slip-gaji') . '/' . $data->lampiran_slip_gaji ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/slip-gaji') . '/' . $data->lampiran_slip_gaji ?>" id="nik">
-                    Slip Gaji
-                </a>
-                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/ptk/pernyataanindividu') . '/' . $data->lampiran_pernyataan ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/pernyataanindividu') . '/' . $data->lampiran_pernyataan ?>" id="nik">
-                    Pernyataan 24 Jam
-                </a>
-                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/sekolah/sptjm') . '/' . $data->lampiran_sptjm ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/sptjm') . '/' . $data->lampiran_sptjm ?>" id="nik">
-                    SPTJM USULAN
+                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_rekening_koran ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_rekening_koran ?>" id="nik">
+                    Rekening Koran
                 </a>
                 <?php if ($data->lampiran_impassing === null || $data->lampiran_impassing === "") {
                 } else { ?>
-                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/ptk/impassing') . '/' . $data->lampiran_impassing ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/impassing') . '/' . $data->lampiran_impassing ?>" id="nik">
-                        Inpassing
+                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_sk_dirgen ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_sk_dirgen ?>" id="nik">
+                        SKTP
                     </a>
                 <?php } ?>
-                <?php if ($data->lampiran_cuti === null || $data->lampiran_cuti === "") {
-                } else { ?>
-                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/ptk/keterangancuti') . '/' . $data->lampiran_cuti ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/keterangancuti') . '/' . $data->lampiran_cuti ?>" id="nik">
-                        Cuti
-                    </a>
-                <?php } ?>
-                <?php if ($data->lampiran_pensiun === null || $data->lampiran_pensiun === "") {
-                } else { ?>
-                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/ptk/pensiun') . '/' . $data->lampiran_pensiun ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/pensiun') . '/' . $data->lampiran_pensiun ?>" id="nik">
-                        Pensiun
-                    </a>
-                <?php } ?>
-                <?php if ($data->lampiran_kematian === null || $data->lampiran_kematian === "") {
-                } else { ?>
-                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/ptk/kematian') . '/' . $data->lampiran_kematian ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/kematian') . '/' . $data->lampiran_kematian ?>" id="nik">
-                        Kematian
-                    </a>
-                <?php } ?>
-                <?php if ($data->lampiran_attr_lainnya === null || $data->lampiran_attr_lainnya === "") {
-                } else { ?>
-                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/ptk/lainnya') . '/' . $data->lampiran_attr_lainnya ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/lainnya') . '/' . $data->lampiran_attr_lainnya ?>" id="nik">
-                        Atribut Lainnya
-                    </a>
-                <?php } ?>
-                <?php if ($data->lampiran_absen_lainnya === null || $data->lampiran_absen_lainnya === "") {
-                } else { ?>
-                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/sekolah/doc-lainnya') . '/' . $data->lampiran_absen_lainnya ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/doc-lainnya') . '/' . $data->lampiran_absen_lainnya ?>" id="nik">
-                        Atribut Lainnya
-                    </a>
-                <?php } ?>
-                <?php if (isset($igd)) {
-                    if ($igd) {
-                        if ($igd->qrcode) { ?>
-                            <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= $igd->qrcode ?>','popup','width=600,height=600'); return false;" href="<?= $igd->qrcode ?>" id="nik">
-                                INFO GTK DIGITAL
-                            </a>
-                <?php }
-                    }
-                } ?>
             </div>
 
         </div>
@@ -412,8 +174,8 @@
         function actionTolak(e) {
             const nama = '<?= str_replace('&#039;', "`", str_replace("'", "`", $data->nama)) ?>';
             Swal.fire({
-                title: 'Apakah anda yakin ingin menolak usulan TPG ini?',
-                text: "Tolak Usulan TPG PTK: <?= str_replace('&#039;', "`", str_replace("'", "`", $data->nama)) ?>",
+                title: 'Apakah anda yakin ingin menolak Laporan SPJ TPG ini?',
+                text: "Tolak Pelaporan SPJ TPG PTK: <?= str_replace('&#039;', "`", str_replace("'", "`", $data->nama)) ?>",
                 showCancelButton: true,
                 icon: 'question',
                 confirmButtonColor: '#3085d6',
@@ -443,7 +205,7 @@
                                     'warning'
                                 );
                             } else {
-                                $('#content-tolakModalLabel').html('TOLAK USULAN TPG ' + nama);
+                                $('#content-tolakModalLabel').html('TOLAK LAPORAN SPJ TPG ' + nama);
                                 $('.contentTolakBodyModal').html(resul.data);
                                 $('.content-tolakModal').modal({
                                     backdrop: 'static',
@@ -543,8 +305,8 @@
             const id = '<?= $data->id_usulan ?>';
             const nama = '<?= str_replace('&#039;', "`", str_replace("'", "`", $data->nama)) ?>';
             Swal.fire({
-                title: 'Apakah anda yakin ingin menyetujui usulan TPG ini?',
-                text: "Setujui Usulan TPG PTK: <?= str_replace('&#039;', "`", str_replace("'", "`", $data->nama)) ?>",
+                title: 'Apakah anda yakin ingin menyetujui Laporan SPJ TPG ini?',
+                text: "Setujui Laporan SPJ TPG PTK: <?= str_replace('&#039;', "`", str_replace("'", "`", $data->nama)) ?>",
                 showCancelButton: true,
                 icon: 'question',
                 confirmButtonColor: '#3085d6',

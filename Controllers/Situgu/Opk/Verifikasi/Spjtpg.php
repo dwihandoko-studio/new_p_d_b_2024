@@ -297,6 +297,7 @@ class Spjtpg extends BaseController
 
             if ($current) {
                 $data['data'] = $current;
+                $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('id', $tw)->get()->getRowObject();
                 // $data['penugasans'] = $this->_db->table('_ptk_tb_dapodik a')
                 //     ->select("a.*, b.npsn, b.nama as namaSekolah, b.kecamatan as kecamatan_sekolah, (SELECT SUM(jam_mengajar_per_minggu) FROM _pembelajaran_dapodik WHERE ptk_id = a.ptk_id AND sekolah_id = a.sekolah_id AND semester_id = a.semester_id) as jumlah_total_jam_mengajar_perminggu")
                 //     ->join('ref_sekolah b', 'a.sekolah_id = b.id')
@@ -367,7 +368,7 @@ class Spjtpg extends BaseController
                 return json_encode($canGrantedVerifikasi);
             }
 
-            $canUsulTamsil = canVerifikasiTpg();
+            $canUsulTamsil = canVerifikasiSpjTpg();
 
             if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
                 return json_encode($canUsulTamsil);
@@ -376,51 +377,51 @@ class Spjtpg extends BaseController
             $id = htmlspecialchars($this->request->getVar('id'), true);
             $nama = htmlspecialchars($this->request->getVar('nama'), true);
 
-            $oldData = $this->_db->table('_tb_usulan_detail_tpg')->where(['id' => $id])->get()->getRowObject();
+            $oldData = $this->_db->table('_tb_spj_tpg')->where(['id' => $id])->get()->getRowObject();
             if (!$oldData) {
                 $response = new \stdClass;
                 $response->status = 201;
-                $response->message = "Usulan tidak ditemukan.";
+                $response->message = "Laporan SPJ tidak ditemukan.";
                 return json_encode($response);
             }
 
             $this->_db->transBegin();
             try {
-                $this->_db->table('_tb_usulan_detail_tpg')->where('id', $oldData->id)->update(['status_usulan' => 2, 'date_approve' => date('Y-m-d H:i:s'), 'admin_approve' => $user->data->id]);
+                $this->_db->table('_tb_spj_tpg')->where('id', $oldData->id)->update(['status_usulan' => 2, 'date_approve_spj' => date('Y-m-d H:i:s'), 'admin_approve_spj' => $user->data->id]);
                 if ($this->_db->affectedRows() > 0) {
-                    try {
-                        $checkLocked = $this->_db->table('_tb_sptjm')->select('is_locked')->where('kode_usulan', $oldData->kode_usulan)->get()->getRowObject();
-                        if ($checkLocked) {
-                            if ($checkLocked->is_locked == 0) {
-                                $this->_db->table('_tb_sptjm')->where('kode_usulan', $oldData->kode_usulan)->update(['is_locked' => 1]);
-                            }
-                        }
-                        $this->_db->table('_upload_data_attribut')->where(['id_ptk' => $oldData->id_ptk, 'id_tahun_tw' => $oldData->id_tahun_tw])->update(['is_locked' => 1]);
-                        $this->_db->table('_absen_kehadiran')->where(['id_ptk' => $oldData->id_ptk, 'id_tahun_tw' => $oldData->id_tahun_tw])->update(['is_locked' => 1]);
-                        $this->_db->table('_ptk_tb')->where(['id' => $oldData->id_ptk])->update(['is_locked' => 1]);
+                    // try {
+                    //     $checkLocked = $this->_db->table('_tb_sptjm')->select('is_locked')->where('kode_usulan', $oldData->kode_usulan)->get()->getRowObject();
+                    //     if ($checkLocked) {
+                    //         if ($checkLocked->is_locked == 0) {
+                    //             $this->_db->table('_tb_sptjm')->where('kode_usulan', $oldData->kode_usulan)->update(['is_locked' => 1]);
+                    //         }
+                    //     }
+                    //     $this->_db->table('_upload_data_attribut')->where(['id_ptk' => $oldData->id_ptk, 'id_tahun_tw' => $oldData->id_tahun_tw])->update(['is_locked' => 1]);
+                    //     $this->_db->table('_absen_kehadiran')->where(['id_ptk' => $oldData->id_ptk, 'id_tahun_tw' => $oldData->id_tahun_tw])->update(['is_locked' => 1]);
+                    //     $this->_db->table('_ptk_tb')->where(['id' => $oldData->id_ptk])->update(['is_locked' => 1]);
 
-                        $verifikasiLib = new Verifikasiadminlib();
-                        $verifikasiLib->create($user->data->id, $oldData->kode_usulan, 'tpg', $oldData->id_ptk, $oldData->id_tahun_tw, 'Lolos');
-                    } catch (\Throwable $th) {
-                        $this->_db->transRollback();
-                        $response = new \stdClass;
-                        $response->status = 400;
-                        $response->error = var_dump($th);
-                        $response->onError = 'update SPTJM';
-                        $response->message = "Gagal memverifikasi usulan $nama.";
-                        return json_encode($response);
-                    }
+                    $verifikasiLib = new Verifikasiadminlib();
+                    $verifikasiLib->create($user->data->id, $oldData->kode_usulan, 'tpg', $oldData->id_ptk, $oldData->id_tahun_tw, 'Approve SPJ');
+                    // } catch (\Throwable $th) {
+                    //     $this->_db->transRollback();
+                    //     $response = new \stdClass;
+                    //     $response->status = 400;
+                    //     $response->error = var_dump($th);
+                    //     $response->onError = 'update SPTJM';
+                    //     $response->message = "Gagal memverifikasi usulan $nama.";
+                    //     return json_encode($response);
+                    // }
 
                     $this->_db->transCommit();
                     $response = new \stdClass;
                     $response->status = 200;
-                    $response->message = "Usulan $nama berhasil diverifikasi dan disetujui.";
+                    $response->message = "Laporan SPJ $nama berhasil diverifikasi dan disetujui.";
                     return json_encode($response);
                 } else {
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->message = "Gagal memverifikasi usulan $nama.";
+                    $response->message = "Gagal memverifikasi Laporan SPJ $nama.";
                     return json_encode($response);
                 }
             } catch (\Throwable $th) {
@@ -428,7 +429,7 @@ class Spjtpg extends BaseController
                 $response = new \stdClass;
                 $response->status = 400;
                 $response->error = var_dump($th);
-                $response->message = "Gagal memverifikasi usulan $nama.";
+                $response->message = "Gagal memverifikasi Laporan SPJ $nama.";
                 return json_encode($response);
             }
         }
@@ -483,7 +484,7 @@ class Spjtpg extends BaseController
                 return json_encode($canGrantedVerifikasi);
             }
 
-            $canUsulTamsil = canVerifikasiTpg();
+            $canUsulTamsil = canVerifikasiSpjTpg();
 
             if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
                 return json_encode($canUsulTamsil);
@@ -558,7 +559,7 @@ class Spjtpg extends BaseController
                 return json_encode($canGrantedVerifikasi);
             }
 
-            $canUsulTamsil = canVerifikasiTpg();
+            $canUsulTamsil = canVerifikasiSpjTpg();
 
             if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
                 return json_encode($canUsulTamsil);
@@ -568,51 +569,51 @@ class Spjtpg extends BaseController
             $nama = htmlspecialchars($this->request->getVar('nama'), true);
             $keterangan = htmlspecialchars($this->request->getVar('keterangan'), true);
 
-            $oldData = $this->_db->table('_tb_usulan_detail_tpg')->where(['id' => $id])->get()->getRowObject();
+            $oldData = $this->_db->table('_tb_spj_tpg')->where(['id' => $id])->get()->getRowObject();
             if (!$oldData) {
                 $response = new \stdClass;
                 $response->status = 201;
-                $response->message = "Usulan tidak ditemukan.";
+                $response->message = "Laporan SPJ tidak ditemukan.";
                 return json_encode($response);
             }
 
             $this->_db->transBegin();
             try {
-                $this->_db->table('_tb_usulan_detail_tpg')->where('id', $oldData->id)->update(['status_usulan' => 3, 'keterangan_reject' => $keterangan, 'admin_reject' => $user->data->id, 'date_reject' => date('Y-m-d H:i:s')]);
+                $this->_db->table('_tb_spj_tpg')->where('id', $oldData->id)->update(['status_usulan' => 3, 'keterangan_reject' => $keterangan, 'admin_reject_spj' => $user->data->id, 'date_reject_spj' => date('Y-m-d H:i:s')]);
                 if ($this->_db->affectedRows() > 0) {
-                    try {
-                        $checkLocked = $this->_db->table('_tb_sptjm')->select('is_locked')->where('kode_usulan', $oldData->kode_usulan)->get()->getRowObject();
-                        if ($checkLocked) {
-                            if ($checkLocked->is_locked == 0) {
-                                $this->_db->table('_tb_sptjm')->where('kode_usulan', $oldData->kode_usulan)->update(['is_locked' => 1]);
-                            }
-                        }
-                        $this->_db->table('_upload_data_attribut')->where(['id_ptk' => $oldData->id_ptk, 'id_tahun_tw' => $oldData->id_tahun_tw])->update(['is_locked' => 0]);
-                        $this->_db->table('_absen_kehadiran')->where(['id_ptk' => $oldData->id_ptk, 'id_tahun_tw' => $oldData->id_tahun_tw])->update(['is_locked' => 0]);
-                        $this->_db->table('_ptk_tb')->where(['id' => $oldData->id_ptk])->update(['is_locked' => 0]);
+                    // try {
+                    //     $checkLocked = $this->_db->table('_tb_sptjm')->select('is_locked')->where('kode_usulan', $oldData->kode_usulan)->get()->getRowObject();
+                    //     if ($checkLocked) {
+                    //         if ($checkLocked->is_locked == 0) {
+                    //             $this->_db->table('_tb_sptjm')->where('kode_usulan', $oldData->kode_usulan)->update(['is_locked' => 1]);
+                    //         }
+                    //     }
+                    //     $this->_db->table('_upload_data_attribut')->where(['id_ptk' => $oldData->id_ptk, 'id_tahun_tw' => $oldData->id_tahun_tw])->update(['is_locked' => 0]);
+                    //     $this->_db->table('_absen_kehadiran')->where(['id_ptk' => $oldData->id_ptk, 'id_tahun_tw' => $oldData->id_tahun_tw])->update(['is_locked' => 0]);
+                    //     $this->_db->table('_ptk_tb')->where(['id' => $oldData->id_ptk])->update(['is_locked' => 0]);
 
-                        $verifikasiLib = new Verifikasiadminlib();
-                        $verifikasiLib->create($user->data->id, $oldData->kode_usulan, 'tpg', $oldData->id_ptk, $oldData->id_tahun_tw, 'Ditolak', $keterangan);
-                    } catch (\Throwable $th) {
-                        $this->_db->transRollback();
-                        $response = new \stdClass;
-                        $response->status = 400;
-                        $response->error = var_dump($th);
-                        $response->onError = 'update SPTJM';
-                        $response->message = "Gagal memverifikasi usulan $nama.";
-                        return json_encode($response);
-                    }
+                    $verifikasiLib = new Verifikasiadminlib();
+                    $verifikasiLib->create($user->data->id, $oldData->kode_usulan, 'tpg', $oldData->id_ptk, $oldData->id_tahun_tw, 'Ditolak SPJ', $keterangan);
+                    // } catch (\Throwable $th) {
+                    //     $this->_db->transRollback();
+                    //     $response = new \stdClass;
+                    //     $response->status = 400;
+                    //     $response->error = var_dump($th);
+                    //     $response->onError = 'update SPTJM';
+                    //     $response->message = "Gagal memverifikasi usulan $nama.";
+                    //     return json_encode($response);
+                    // }
 
                     $this->_db->transCommit();
                     $response = new \stdClass;
                     $response->status = 200;
-                    $response->message = "Usulan $nama berhasil diverifikasi dan ditolak.";
+                    $response->message = "Laporan SPJ $nama berhasil diverifikasi dan ditolak.";
                     return json_encode($response);
                 } else {
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->message = "Gagal memverifikasi usulan $nama.";
+                    $response->message = "Gagal memverifikasi Laporan SPJ $nama.";
                     return json_encode($response);
                 }
             } catch (\Throwable $th) {
@@ -620,7 +621,7 @@ class Spjtpg extends BaseController
                 $response = new \stdClass;
                 $response->status = 400;
                 $response->error = var_dump($th);
-                $response->message = "Gagal memverifikasi usulan $nama.";
+                $response->message = "Gagal memverifikasi Laporan SPJ $nama.";
                 return json_encode($response);
             }
         }
