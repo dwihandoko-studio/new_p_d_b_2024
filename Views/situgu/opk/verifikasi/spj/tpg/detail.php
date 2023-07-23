@@ -10,7 +10,6 @@
                 <label class="col-form-label">NIK:</label>
                 <div class="input-group">
                     <input type="text" class="form-control" aria-describedby="nik" aria-label="NIK" value="<?= $data->nik ?>" readonly />
-                    <a class="btn btn-primary" target="popup" onclick="window.open('<?= base_url('upload/ptk/ktp') . '/' . $data->lampiran_ktp ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/ktp') . '/' . $data->lampiran_ktp ?>" id="nik">Lampiran KTP</a>
                 </div>
                 <!-- <input type="text" class="form-control" value="<?= $data->nik ?>" readonly /> -->
             </div>
@@ -18,7 +17,6 @@
                 <label class="col-form-label">NUPTK:</label>
                 <div class="input-group">
                     <input type="text" class="form-control" aria-describedby="nuptk" aria-label="NUPTK" value="<?= $data->nuptk ?>" readonly />
-                    <a class="btn btn-primary" target="popup" onclick="window.open('<?= base_url('upload/ptk/nuptk') . '/' . $data->lampiran_nuptk ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/nuptk') . '/' . $data->lampiran_nuptk ?>" id="nik">Lampiran NUPTK</a>
                 </div>
                 <!-- <input type="text" class="form-control" value="<?= $data->nuptk ?>" readonly /> -->
             </div>
@@ -29,72 +27,6 @@
                     <a class="btn btn-primary" target="popup" onclick="window.open('<?= base_url('upload/ptk/karpeg') . '/' . $data->lampiran_karpeg ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/karpeg') . '/' . $data->lampiran_karpeg ?>" id="nik">Lampiran Karpeg</a>
                 </div>
                 <!-- <input type="text" class="form-control" value="<?= $data->nip ?>" readonly /> -->
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">NRG:</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" aria-describedby="nrg" aria-label="NRG" value="<?= $data->nrg ?>" readonly />
-                    <a class="btn btn-primary" target="popup" onclick="window.open('<?= base_url('upload/ptk/nrg') . '/' . $data->lampiran_nrg ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/nrg') . '/' . $data->lampiran_nrg ?>" id="nik">Lampiran NRG</a>
-                </div>
-                <!-- <input type="text" class="form-control" value="<?= $data->nrg ?>" readonly /> -->
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">No Peserta:</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" aria-describedby="no_peserta" aria-label="No Peserta" value="<?= $data->no_peserta ?>" readonly />
-                    <a class="btn btn-primary" target="popup" onclick="window.open('<?= base_url('upload/ptk/serdik') . '/' . $data->lampiran_serdik ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/serdik') . '/' . $data->lampiran_serdik ?>" id="no_peserta">Lampiran Serdik</a>
-                </div>
-                <!-- <input type="text" class="form-control" value="<?= $data->no_peserta ?>" readonly /> -->
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">NPWP:</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" aria-describedby="npwp" aria-label="NPWP" value="<?= $data->npwp ?>" readonly />
-                    <a class="btn btn-primary" target="popup" onclick="window.open('<?= base_url('upload/ptk/npwp') . '/' . $data->lampiran_npwp ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/npwp') . '/' . $data->lampiran_npwp ?>" id="nik">Lampiran NPWP</a>
-                </div>
-                <!-- <input type="text" class="form-control" value="<?= $data->npwp ?>" readonly /> -->
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">No Rekening:</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" aria-describedby="no_rekening" aria-label="NO REKENING" value="<?= $data->no_rekening ?>" readonly />
-                    <a class="btn btn-primary" target="popup" onclick="window.open('<?= base_url('upload/ptk/bukurekening') . '/' . $data->lampiran_buku_rekening ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/bukurekening') . '/' . $data->lampiran_buku_rekening ?>" id="nik">Lampiran Rekening</a>
-                </div>
-                <!-- <input type="text" class="form-control" value="<?= $data->no_rekening ?>" readonly /> -->
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">Cabang Bank:</label>
-                <input type="text" class="form-control" value="<?= $data->cabang_bank ?>" readonly />
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">Pendidikan Terakhir:</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" aria-describedby="pendidikan_terakhir" aria-label="PENDIDIKAN TERAKHIR" value="<?= $data->pendidikan ?>" readonly />
-                    <a class="btn btn-primary" target="popup" onclick="window.open('<?= base_url('upload/ptk/ijazah') . '/' . $data->lampiran_ijazah ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/ijazah') . '/' . $data->lampiran_ijazah ?>" id="nik">Lampiran Ijazah</a>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">Tempat Lahir:</label>
-                <input type="text" class="form-control" value="<?= $data->tempat_lahir ?>" readonly />
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">Tanggal Lahir:</label>
-                <input type="text" class="form-control" value="<?= $data->tgl_lahir ?>" readonly />
-            </div>
-            <div class="col-lg-6">
-                <label class="col-form-label">Jenis Kelamin:</label>
-                <div><?php switch ($data->jenis_kelamin) {
-                            case 'P':
-                                echo '<span class="badge badge-pill badge-soft-primary">Perempuan</span>';
-                                break;
-                            case 'L':
-                                echo '<span class="badge badge-pill badge-soft-primary">Laki-Laki</span>';
-                                break;
-                            default:
-                                echo '-';
-                                break;
-                        } ?>
-                </div>
             </div>
         </div>
         <hr />

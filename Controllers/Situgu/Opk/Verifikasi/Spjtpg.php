@@ -289,7 +289,7 @@ class Spjtpg extends BaseController
             //     ->get()->getRowObject();
 
             $current = $this->_db->table('_tb_spj_tpg a')
-                ->select("a.*, b.nama, b.nik, b.nuptk, b.jenis_ptk")
+                ->select("a.*, b.nama, b.nik, b.nuptk, b.nip, b.jenis_ptk")
                 ->join('_ptk_tb b', 'b.id = a.id_ptk')
                 // ->join('_tb_sptjm c', 'a.kode_usulan = c.kode_usulan')
                 // ->join('ref_gaji d', 'a.us_pang_golongan = d.pangkat AND (d.masa_kerja = (IF(a.us_pang_mk_tahun > 32, 32, a.us_pang_mk_tahun)))', 'LEFT')
