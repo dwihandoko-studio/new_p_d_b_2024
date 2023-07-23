@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controllers\Situgu\Opk\Verifikasi;
+namespace App\Controllers\Situgu\Opsr\Verifikasi;
 
 use App\Controllers\BaseController;
-use App\Models\Situgu\Opk\Spj\VerifikasispjtpgdetailModel;
-use App\Models\Situgu\Opk\Spj\VerifikasispjtpgsekolahModel;
+use App\Models\Situgu\Opsr\Spj\VerifikasispjtpgdetailModel;
+use App\Models\Situgu\Opsr\Spj\VerifikasispjtpgsekolahModel;
 use Config\Services;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -63,8 +63,7 @@ class Spjtpg extends BaseController
             }
         }
 
-        $kecamatan = $this->_helpLib->getKecamatan($userId);
-        $npsns = $this->_helpLib->getSekolahKecamatanArray($kecamatan, [5]);
+        $npsns = $this->_helpLib->getSekolahNaungan($userId);
         // var_dump($npsns);
         // die;
 
@@ -192,7 +191,7 @@ class Spjtpg extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('situgu/opk/verifikasi/spj/tpg/data'));
+        return redirect()->to(base_url('situgu/opsr/verifikasi/spj/tpg/data'));
     }
 
     public function data()
@@ -208,7 +207,7 @@ class Spjtpg extends BaseController
         $id = $this->_helpLib->getPtkId($user->data->id);
         $data['user'] = $user->data;
         $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
-        return view('situgu/opk/verifikasi/spj/tpg/index', $data);
+        return view('situgu/opsr/verifikasi/spj/tpg/index', $data);
     }
 
     public function datalist()
@@ -227,7 +226,7 @@ class Spjtpg extends BaseController
         $data['user'] = $user->data;
         $data['kode_usulan'] = $id;
         $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
-        return view('situgu/opk/verifikasi/spj/tpg/detail_index', $data);
+        return view('situgu/opsr/verifikasi/spj/tpg/detail_index', $data);
     }
 
     public function detail()
@@ -308,7 +307,7 @@ class Spjtpg extends BaseController
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Permintaan diizinkan";
-                $response->data = view('situgu/opk/verifikasi/spj/tpg/detail', $data);
+                $response->data = view('situgu/opsr/verifikasi/spj/tpg/detail', $data);
                 return json_encode($response);
             } else {
                 $response = new \stdClass;
@@ -498,7 +497,7 @@ class Spjtpg extends BaseController
             $response = new \stdClass;
             $response->status = 200;
             $response->message = "Permintaan diizinkan";
-            $response->data = view('situgu/opk/verifikasi/spj/tpg/tolak', $data);
+            $response->data = view('situgu/opsr/verifikasi/spj/tpg/tolak', $data);
             return json_encode($response);
         }
     }
