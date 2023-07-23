@@ -24,7 +24,6 @@
                 <label class="col-form-label">NIP:</label>
                 <div class="input-group">
                     <input type="text" class="form-control" aria-describedby="nip" aria-label="NIP" value="<?= $data->nip ?>" readonly />
-                    <a class="btn btn-primary" target="popup" onclick="window.open('<?= base_url('upload/ptk/karpeg') . '/' . $data->lampiran_karpeg ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/karpeg') . '/' . $data->lampiran_karpeg ?>" id="nik">Lampiran Karpeg</a>
                 </div>
                 <!-- <input type="text" class="form-control" value="<?= $data->nip ?>" readonly /> -->
             </div>
