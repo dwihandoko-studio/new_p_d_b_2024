@@ -33,7 +33,7 @@
             <h2>DATA ATRIBUT USULAN</h2>
             <div class="col-lg-12">
                 <div class="row">
-                    <?php if ($tw->tw_tw == 1) { ?>
+                    <?php if ($tw->tw == 1) { ?>
                         <div class="col-sm-4">
                             <label class="col-form-label">Bulan 1 :</label>
                             <div class="input-group">
