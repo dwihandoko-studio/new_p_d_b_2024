@@ -60,7 +60,7 @@
                     <div class="col-sm-6">
                         <label class="col-form-label">Jumlah Diterima :</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" aria-describedby="jumlah_diterima" aria-label="Jumlah Diterima" value="<?= $data->tf_jumlah_diteri ?>" readonly />
+                            <input type="text" class="form-control" aria-describedby="jumlah_diterima" aria-label="Jumlah Diterima" value="<?= $data->tf_jumlah_diterima ?>" readonly />
                         </div>
                     </div>
                     <div class="col-sm-6">
