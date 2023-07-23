@@ -37,19 +37,19 @@
                         <div class="col-sm-4">
                             <label class="col-form-label">Bulan 1 :</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" aria-describedby="bulan_1" aria-label="BULAN 1" value="<?= $data->tf_gaji_pokok_1 ?>" readonly />
+                                <input type="text" class="form-control" aria-describedby="bulan_1" aria-label="BULAN 1" value="<?= rpAwalan($data->tf_gaji_pokok_1) ?>" readonly />
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <label class="col-form-label">Bulan 2 :</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" aria-describedby="bulan_2" aria-label="BULAN 2" value="<?= $data->tf_gaji_pokok_2 ?>" readonly />
+                                <input type="text" class="form-control" aria-describedby="bulan_2" aria-label="BULAN 2" value="<?= rpAwalan($data->tf_gaji_pokok_2) ?>" readonly />
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <label class="col-form-label">Bulan 3 :</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" aria-describedby="bulan_3" aria-label="BULAN 3" value="<?= $data->tf_gaji_pokok_3 ?>" readonly />
+                                <input type="text" class="form-control" aria-describedby="bulan_3" aria-label="BULAN 3" value="<?= rpAwalan($data->tf_gaji_pokok_3) ?>" readonly />
                             </div>
                         </div>
                     <?php } ?>
@@ -60,7 +60,7 @@
                     <div class="col-sm-6">
                         <label class="col-form-label">Jumlah Diterima :</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" aria-describedby="jumlah_diterima" aria-label="Jumlah Diterima" value="<?= $data->tf_jumlah_diterima ?>" readonly />
+                            <input type="text" class="form-control" aria-describedby="jumlah_diterima" aria-label="Jumlah Diterima" value="<?= rpAwalan($data->tf_jumlah_diterima) ?>" readonly />
                         </div>
                     </div>
                     <div class="col-sm-6">
