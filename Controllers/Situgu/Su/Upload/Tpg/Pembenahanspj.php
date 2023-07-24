@@ -282,7 +282,7 @@ class Pembenahanspj extends BaseController
                     ->where('a.status_usulan', 0)
                     ->where('a.id_tahun_tw', $tw)
                     ->where('b.nuptk', $data[5])
-                    ->get()->getRowArray();
+                    ->get()->getRowObject();
 
                 $dataImport[] = $dataInsert;
                 $nuptkImport[] = $data[5];
