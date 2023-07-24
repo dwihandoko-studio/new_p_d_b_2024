@@ -279,7 +279,7 @@ class Pembenahanspj extends BaseController
                     ->select("a.id as id_usulan, a.tf_gaji_pokok_1, a.tf_gaji_pokok_2, a.tf_gaji_pokok_3, a.tf_jumlah_uang, a.tf_iuran_bpjs, a.tf_pph21, a.tf_jumlah_diterima, a.us_pang_golongan, a.us_pang_mk_tahun, a.us_gaji_pokok, a.date_approve, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, a.date_approve_sptjm, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, e.cuti as lampiran_cuti, e.pensiun as lampiran_pensiun, e.kematian as lampiran_kematian")
                     ->join('_ptk_tb b', 'a.id_ptk = b.id')
                     ->join('_upload_data_attribut e', 'a.id_ptk = e.id_ptk AND (a.id_tahun_tw = e.id_tahun_tw)')
-                    ->where('a.status_usulan', 0)
+                    // ->where('a.status_usulan', 0)
                     ->where('a.id_tahun_tw', $tw)
                     ->where('b.nuptk', $data[5])
                     ->get()->getRowObject();
@@ -292,6 +292,9 @@ class Pembenahanspj extends BaseController
                 'total_line' => $total_line,
                 'data' => $dataImport,
             ];
+
+            var_dump($dataImports);
+            die;
 
             if (count($nuptkImport) < 1) {
                 $response = new \stdClass;
