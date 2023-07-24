@@ -191,7 +191,7 @@ class Spjtpg extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('situgu/opsr/verifikasi/spj/tpg/data'));
+        return redirect()->to(base_url('situgu/opsr/verifikasi/spjtpg/data'));
     }
 
     public function data()
