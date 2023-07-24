@@ -65,8 +65,8 @@
                                 <th rowspan="2">#</th>
                                 <th rowspan="2">NAMA</th>
                                 <th rowspan="2">NUPTK</th>
-                                <th colspan="4">DATA SPJ</th>
-                                <th colspan="4">DATA UPLOAD</th>
+                                <th colspan="6">DATA SPJ</th>
+                                <th colspan="6">DATA UPLOAD</th>
                                 <th rowspan="2">KETERANGAN</th>
                                 <th rowspan="2">AKSI</th>
                             </tr>
@@ -74,10 +74,14 @@
                                 <th>GAJI POKOK 1</th>
                                 <th>GAJI POKOK 2</th>
                                 <th>GAJI POKOK 3</th>
+                                <th>IURAN BPJS</th>
+                                <th>PPH21</th>
                                 <th>JUMLAH DITERIMA</th>
                                 <th>TF GAJI POKOK 1</th>
                                 <th>TF GAJI POKOK 2</th>
                                 <th>TF GAJI POKOK 3</th>
+                                <th>IURAN BPJS</th>
+                                <th>PPH21</th>
                                 <th>TF JUMLAH DITERIMA</th>
                             </tr>
 
@@ -144,11 +148,15 @@
                     const gajiPokok1Cell = document.createElement("td");
                     const gajiPokok2Cell = document.createElement("td");
                     const gajiPokok3Cell = document.createElement("td");
+                    const iuranBpjsCell = document.createElement("td");
+                    const pph21Cell = document.createElement("td");
                     const jumlahDiterimaCell = document.createElement("td");
                     const usKetCell = document.createElement("td");
                     const tfGajiPokok1Cell = document.createElement("td");
                     const tfGajiPokok2Cell = document.createElement("td");
                     const tfGajiPokok3Cell = document.createElement("td");
+                    const tfIuranBpjsCell = document.createElement("td");
+                    const tfPph21Cell = document.createElement("td");
                     const tfJumlahDiterimaCell = document.createElement("td");
                     numberCell.textContent = 1 + i;
                     namaCell.textContent = data.data[i].nama;
@@ -156,10 +164,14 @@
                     gajiPokok1Cell.textContent = data.data[i].gaji_pokok_1;
                     gajiPokok2Cell.textContent = data.data[i].gaji_pokok_2;
                     gajiPokok3Cell.textContent = data.data[i].gaji_pokok_3;
+                    iuranBpjsCell.textContent = data.data[i].gaji_pokok_3;
+                    pph21Cell.textContent = data.data[i].gaji_pokok_3;
                     jumlahDiterimaCell.textContent = data.data[i].jumlah_diterima;
                     tfGajiPokok1Cell.textContent = data.data[i].tf_gaji_pokok_1;
                     tfGajiPokok2Cell.textContent = data.data[i].tf_gaji_pokok_2;
                     tfGajiPokok3Cell.textContent = data.data[i].tf_gaji_pokok_3;
+                    tfIuranBpjsCell.textContent = data.data[i].gaji_pokok_3;
+                    tfPph21Cell.textContent = data.data[i].gaji_pokok_3;
                     tfJumlahDiterimaCell.textContent = data.data[i].tf_jumlah_diterima;
                     usKetCell.textContent = data.data[i].us_keterangan;
                     row.appendChild(numberCell);
@@ -168,10 +180,14 @@
                     row.appendChild(gajiPokok1Cell);
                     row.appendChild(gajiPokok2Cell);
                     row.appendChild(gajiPokok3Cell);
+                    row.appendChild(iuranBpjsCell);
+                    row.appendChild(pph21Cell);
                     row.appendChild(jumlahDiterimaCell);
                     row.appendChild(tfGajiPokok1Cell);
                     row.appendChild(tfGajiPokok2Cell);
                     row.appendChild(tfGajiPokok3Cell);
+                    row.appendChild(tfIuranBpjsCell);
+                    row.appendChild(tfPph21Cell);
                     row.appendChild(tfJumlahDiterimaCell);
                     row.appendChild(usKetCell);
                     row.classList.add(data.data[i].status);

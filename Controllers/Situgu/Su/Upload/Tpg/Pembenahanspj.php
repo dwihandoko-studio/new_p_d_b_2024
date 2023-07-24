@@ -436,7 +436,7 @@ class Pembenahanspj extends BaseController
                 } else {
                     $keterangan = "";
 
-                    if ($v['data_usulan']['tf_gaji_pokok_1'] == $v['gaji_pokok_1'] && $v['data_usulan']['tf_gaji_pokok_2'] == $v['gaji_pokok_2'] && $v['data_usulan']['tf_gaji_pokok_3'] == $v['gaji_pokok_3'] && $v['data_usulan']['tf_jumlah_uang'] == $v['jumlah_uang'] && $v['data_usulan']['tf_iuran_bpjs'] == $v['iuran_bpjs'] && $v['data_usulan']['tf_pph21'] == $v['pph21'] && $v['data_usulan']['tf_jumlah_diterima'] == $v['jumlah_diterima']) {
+                    if ((int)$v['data_usulan']['tf_gaji_pokok_1'] == (int)$v['gaji_pokok_1'] && (int)$v['data_usulan']['tf_gaji_pokok_2'] == (int)$v['gaji_pokok_2'] && (int)$v['data_usulan']['tf_gaji_pokok_3'] == (int)$v['gaji_pokok_3'] && (int)$v['data_usulan']['tf_jumlah_uang'] == (int)$v['jumlah_uang'] && (int)$v['data_usulan']['tf_iuran_bpjs'] == (int)$v['iuran_bpjs'] && (int)$v['data_usulan']['tf_pph21'] == (int)$v['pph21'] && (int)$v['data_usulan']['tf_jumlah_diterima'] == (int)$v['jumlah_diterima']) {
 
                         $item['number'] = $key + 1;
                         $item['nuptk'] = $v['nuptk'];
