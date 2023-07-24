@@ -700,7 +700,7 @@ class Pembenahanspj extends BaseController
             if ($current) {
                 $this->_db->transBegin();
 
-                if ($status == "table-success") {
+                if ($status == "table-danger") {
                     // $this->_db->table('_tb_usulan_tpg_siap_sk')->where('id', $current->id_usulan)->update(['status_usulan' => 7, 'updated_at' => date('Y-m-d H:i:s'), 'date_prosestransfer' => date('Y-m-d H:i:s'), 'admin_prosestransfer' => $user->data->id]);
                     // if ($this->_db->affectedRows() > 0) {
 

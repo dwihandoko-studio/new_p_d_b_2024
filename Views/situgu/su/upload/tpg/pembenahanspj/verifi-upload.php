@@ -65,8 +65,8 @@
                                 <th rowspan="2">#</th>
                                 <th rowspan="2">NAMA</th>
                                 <th rowspan="2">NUPTK</th>
-                                <th colspan="6">DATA SPJ</th>
                                 <th colspan="6">DATA UPLOAD</th>
+                                <th colspan="6">DATA SPJ</th>
                                 <th rowspan="2">KETERANGAN</th>
                                 <th rowspan="2">AKSI</th>
                             </tr>
