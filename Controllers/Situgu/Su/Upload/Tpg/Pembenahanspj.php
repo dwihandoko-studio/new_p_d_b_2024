@@ -470,8 +470,6 @@ class Pembenahanspj extends BaseController
                         $item['id_tahun_tw'] = $v['data_usulan']['id_tahun_tw'];
                         $item['sort'] = "88";
                         $lolos += 1;
-
-                        $response_aksi[] = $item;
                     } else {
                         $item['number'] = $key + 1;
                         $item['nuptk'] = $v['nuptk'];
@@ -505,6 +503,8 @@ class Pembenahanspj extends BaseController
                         $item['id_tahun_tw'] = $v['data_usulan']['id_tahun_tw'];
                         $item['sort'] = "1";
                         $gagal += 1;
+
+                        $response_aksi[] = $item;
                     }
                 }
 
@@ -710,13 +710,13 @@ class Pembenahanspj extends BaseController
                     // if ($ptk) {
                     if ($this->_db->affectedRows() > 0) {
                         $this->_db->table('_tb_spj_tpg')->where('id', $current->id_usulan)->update([
-                            'tf_gaji_pokok_1' => $gaji_pokok_1,
-                            'tf_gaji_pokok_2' => $gaji_pokok_2,
-                            'tf_gaji_pokok_3' => $gaji_pokok_3,
-                            'tf_jumlah_uang' => $jumlah_uang,
-                            'tf_iuran_bpjs' => $iuran_bpjs,
-                            'tf_pph21' => $pph21,
-                            'tf_jumlah_diterima' => $jumlah_diterima,
+                            'tf_gaji_pokok_1' => (int)$gaji_pokok_1,
+                            'tf_gaji_pokok_2' => (int)$gaji_pokok_2,
+                            'tf_gaji_pokok_3' => (int)$gaji_pokok_3,
+                            'tf_jumlah_uang' => (int)$jumlah_uang,
+                            'tf_iuran_bpjs' => (int)$iuran_bpjs,
+                            'tf_pph21' => (int)$pph21,
+                            'tf_jumlah_diterima' => (int)$jumlah_diterima,
                             'tf_keterangan' => $keterangan,
                             'tf_no_rekening' => $no_rekening,
                         ]);
@@ -784,7 +784,7 @@ class Pembenahanspj extends BaseController
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->message = "Gagal menyimpan data usulan.";
+                    $response->message = "Skip menyimpan data usulan.";
                     return json_encode($response);
                     // }
                 }
