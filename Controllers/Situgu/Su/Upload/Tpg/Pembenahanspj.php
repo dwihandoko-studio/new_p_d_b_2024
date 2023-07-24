@@ -433,7 +433,7 @@ class Pembenahanspj extends BaseController
                 } else {
                     $keterangan = "";
 
-                    if ($v['tf_gaji_pokok_1'] == $v['gaji_pokok_1'] && $v['tf_gaji_pokok_2'] == $v['gaji_pokok_2'] && $v['tf_gaji_pokok_3'] == $v['gaji_pokok_3'] && $v['tf_jumlah_uang'] == $v['jumlah_uang'] && $v['tf_iuran_bpjs'] == $v['iuran_bpjs'] && $v['tf_pph21'] == $v['pph21'] && $v['tf_jumlah_diterima'] == $v['jumlah_diterima']) {
+                    if ($v['data_usulan']['tf_gaji_pokok_1'] == $v['gaji_pokok_1'] && $v['data_usulan']['tf_gaji_pokok_2'] == $v['gaji_pokok_2'] && $v['data_usulan']['tf_gaji_pokok_3'] == $v['gaji_pokok_3'] && $v['data_usulan']['tf_jumlah_uang'] == $v['jumlah_uang'] && $v['data_usulan']['tf_iuran_bpjs'] == $v['iuran_bpjs'] && $v['data_usulan']['tf_pph21'] == $v['pph21'] && $v['data_usulan']['tf_jumlah_diterima'] == $v['jumlah_diterima']) {
 
                         $item['number'] = $key + 1;
                         $item['nuptk'] = $v['nuptk'];
