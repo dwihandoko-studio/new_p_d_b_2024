@@ -192,7 +192,7 @@ class Tpg extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('situgu/opk/verifikasi/spj/tpg/data'));
+        return redirect()->to(base_url('situgu/adm/verifikasi/spj/tpg/data'));
     }
 
     public function data()
