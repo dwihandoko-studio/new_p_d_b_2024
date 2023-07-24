@@ -709,7 +709,7 @@ class Pembenahanspj extends BaseController
                     // $ptk = $this->_db->table('_tb_spj_tpg')->where('id', $current->id_usulan)->get()->getRowObject();
                     // if ($ptk) {
                     // if ($this->_db->affectedRows() > 0) {
-                    $this->_db->table('_tb_spj_tpg')->where('id', $current->id_usulan)->update([
+                    $this->_db->table('_tb_spj_tpg')->where('id', $current->id)->update([
                         'tf_gaji_pokok_1' => (int)$gaji_pokok_1,
                         'tf_gaji_pokok_2' => (int)$gaji_pokok_2,
                         'tf_gaji_pokok_3' => (int)$gaji_pokok_3,
