@@ -77,7 +77,7 @@
 
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
+                        <!-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle arrow-none <?= ($uri->getSegment(2) == "opk" && $uri->getSegment(3) == "spj") ? ' active-menu-href' : '' ?>" href="javascript:;" id="topnav-spj" role="button">
                                 <i class="bx bx-task me-2"></i>
                                 <span key="t-spj"> SPJ</span>
@@ -105,7 +105,7 @@
                                 </div>
 
                             </div>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a class="nav-link" href="javascript:aksiLogout(this);">
                                 <i class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i><span key="t-logout">Logout</span>
