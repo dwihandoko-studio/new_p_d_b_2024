@@ -293,8 +293,8 @@ class Pembenahanspj extends BaseController
                 'data' => $dataImport,
             ];
 
-            var_dump($dataImports);
-            die;
+            // var_dump($dataImports);
+            // die;
 
             if (count($nuptkImport) < 1) {
                 $response = new \stdClass;
