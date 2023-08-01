@@ -63,8 +63,7 @@ class Tamsil extends BaseController
             }
         }
 
-        $kecamatan = $this->_helpLib->getKecamatan($userId);
-        $npsns = $this->_helpLib->getSekolahKecamatanArray($kecamatan, [5]);
+        $npsns = $this->_helpLib->getSekolahNaungan($userId);
         // var_dump($npsns);
         // die;
 
