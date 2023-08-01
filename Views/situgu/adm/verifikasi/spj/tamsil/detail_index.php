@@ -137,7 +137,7 @@
                         'warning'
                     );
                 } else {
-                    $('#content-detailModalLabel').html('DETAIL PELAPORAN SPJ PTK ' + nama);
+                    $('#content-detailModalLabel').html('DETAIL LAPORAN SPJ PTK ' + nama);
                     $('.contentBodyModal').html(resul.data);
                     $('.content-detailModal').modal({
                         backdrop: 'static',

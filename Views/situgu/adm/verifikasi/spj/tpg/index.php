@@ -138,7 +138,7 @@
                         'warning'
                     );
                 } else {
-                    $('#content-detailModalLabel').html('DETAIL USULAN PTK ' + nama);
+                    $('#content-detailModalLabel').html('DETAIL PELAPORAN SPJ PTK ' + nama);
                     $('.contentBodyModal').html(resul.data);
                     $('.content-detailModal').modal({
                         backdrop: 'static',

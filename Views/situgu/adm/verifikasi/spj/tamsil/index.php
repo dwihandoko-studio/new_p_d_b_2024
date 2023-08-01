@@ -8,13 +8,13 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0 font-size-18">VERIFIKASI LAPORAN SPJ <?= $kode_usulan ?></h4>
+                    <h4 class="mb-sm-0 font-size-18">VERIFIKASI LAPORAN SPJ TAMSIL</h4>
 
-                    <div class="page-title-right">
+                    <!-- <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="./data" class="btn btn-primary btn-rounded waves-effect waves-light">Kembali</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:actionSyncAll(this);" class="btn btn-primary btn-rounded waves-effect waves-light">Syncrone Semua Data PTK</a></li>
                         </ol>
-                    </div>
+                    </div> -->
 
                 </div>
             </div>
@@ -27,7 +27,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-6">
-                                <h4 class="card-title">Data LAPORAN SPJ <?= $kode_usulan ?></h4>
+                                <h4 class="card-title">Data Laporan SPJ TAMSIL</h4>
                             </div>
                             <!-- <div class="col-6">
                                 <div class="mb-3">
@@ -49,11 +49,12 @@
                                 <tr>
                                     <th data-orderable="false">#</th>
                                     <th data-orderable="false">Aksi</th>
-                                    <th>Kode</th>
-                                    <th>Nama</th>
-                                    <th>NIK</th>
-                                    <th>NUPTK</th>
-                                    <th>Jenis PTK</th>
+                                    <th>NAMA</th>
+                                    <th>NPSN</th>
+                                    <th>BENTUK PENDIDIKAN</th>
+                                    <th>STATUS</th>
+                                    <th>KECAMATAN</th>
+                                    <th>JUMLAH PTK</th>
                                 </tr>
                             </thead>
                         </table>
@@ -200,10 +201,10 @@
             "serverSide": true,
             "order": [],
             "ajax": {
-                "url": "./getAllDetail",
+                "url": "./getAll",
                 "type": "POST",
                 "data": function(data) {
-                    data.id = '<?= $kode_usulan ?>';
+                    data.tw = '<?= $tw->id ?>';
                 }
             },
             language: {
