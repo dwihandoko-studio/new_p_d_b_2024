@@ -37,19 +37,19 @@
                         <div class="col-sm-4">
                             <label class="col-form-label">Bulan 1 :</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" aria-describedby="bulan_1" aria-label="BULAN 1" value="<?= rpAwalan($data->tf_gaji_pokok_1) ?>" readonly />
+                                <input type="text" class="form-control" aria-describedby="bulan_1" aria-label="BULAN 1" value="<?= ($data->jumlah_bulan >= 1) ? rpAwalan($data->us_gaji_pokok) : rpAwalan(0) ?>" readonly />
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <label class="col-form-label">Bulan 2 :</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" aria-describedby="bulan_2" aria-label="BULAN 2" value="<?= rpAwalan($data->tf_gaji_pokok_2) ?>" readonly />
+                                <input type="text" class="form-control" aria-describedby="bulan_2" aria-label="BULAN 2" value="<?= ($data->jumlah_bulan >= 2) ? rpAwalan($data->us_gaji_pokok) : rpAwalan(0) ?>" readonly />
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <label class="col-form-label">Bulan 3 :</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" aria-describedby="bulan_3" aria-label="BULAN 3" value="<?= rpAwalan($data->tf_gaji_pokok_3) ?>" readonly />
+                                <input type="text" class="form-control" aria-describedby="bulan_3" aria-label="BULAN 3" value="<?= ($data->jumlah_bulan >= 3) ? rpAwalan($data->us_gaji_pokok) : rpAwalan(0) ?>" readonly />
                             </div>
                         </div>
                     <?php } ?>
@@ -86,12 +86,6 @@
                 <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_rekening_koran ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_rekening_koran ?>" id="nik">
                     Rekening Koran
                 </a>
-                <?php if ($data->lampiran_sk_dirgen === null || $data->lampiran_sk_dirgen === "") {
-                } else { ?>
-                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_sk_dirgen ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_sk_dirgen ?>" id="nik">
-                        SKTP
-                    </a>
-                <?php } ?>
             </div>
 
         </div>
