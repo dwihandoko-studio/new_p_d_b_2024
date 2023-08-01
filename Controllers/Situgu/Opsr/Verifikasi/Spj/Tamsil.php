@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controllers\Situgu\Opk\Verifikasi\Spj;
+namespace App\Controllers\Situgu\Opsr\Verifikasi\Spj;
 
 use App\Controllers\BaseController;
-use App\Models\Situgu\Opk\Spj\VerifikasispjtamsildetailModel;
-use App\Models\Situgu\Opk\Spj\VerifikasispjtamsilsekolahModel;
+use App\Models\Situgu\Opsr\Spj\VerifikasispjtamsildetailModel;
+use App\Models\Situgu\Opsr\Spj\VerifikasispjtamsilsekolahModel;
 use Config\Services;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -192,7 +192,7 @@ class Tamsil extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('situgu/opk/verifikasi/spj/tamsil/data'));
+        return redirect()->to(base_url('situgu/opsr/verifikasi/spj/tamsil/data'));
     }
 
     public function data()
@@ -208,7 +208,7 @@ class Tamsil extends BaseController
         $id = $this->_helpLib->getPtkId($user->data->id);
         $data['user'] = $user->data;
         $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
-        return view('situgu/opk/verifikasi/spj/tamsil/index', $data);
+        return view('situgu/opsr/verifikasi/spj/tamsil/index', $data);
     }
 
     public function datalist()
@@ -227,7 +227,7 @@ class Tamsil extends BaseController
         $data['user'] = $user->data;
         $data['kode_usulan'] = $id;
         $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
-        return view('situgu/opk/verifikasi/spj/tamsil/detail_index', $data);
+        return view('situgu/opsr/verifikasi/spj/tamsil/detail_index', $data);
     }
 
     public function detail()
@@ -308,7 +308,7 @@ class Tamsil extends BaseController
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Permintaan diizinkan";
-                $response->data = view('situgu/opk/verifikasi/spj/tamsil/detail', $data);
+                $response->data = view('situgu/opsr/verifikasi/spj/tamsil/detail', $data);
                 return json_encode($response);
             } else {
                 $response = new \stdClass;
@@ -498,7 +498,7 @@ class Tamsil extends BaseController
             $response = new \stdClass;
             $response->status = 200;
             $response->message = "Permintaan diizinkan";
-            $response->data = view('situgu/opk/verifikasi/spj/tamsil/tolak', $data);
+            $response->data = view('situgu/opsr/verifikasi/spj/tamsil/tolak', $data);
             return json_encode($response);
         }
     }

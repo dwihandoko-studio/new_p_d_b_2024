@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controllers\Situgu\Opk\Verifikasi\Spj;
+namespace App\Controllers\Situgu\Adm\Verifikasi\Spj;
 
 use App\Controllers\BaseController;
-use App\Models\Situgu\Opk\Spj\VerifikasispjtamsildetailModel;
-use App\Models\Situgu\Opk\Spj\VerifikasispjtamsilsekolahModel;
+use App\Models\Situgu\Adm\Spj\VerifikasispjtamsildetailModel;
+use App\Models\Situgu\Adm\Spj\VerifikasispjtamsilsekolahModel;
 use Config\Services;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -63,12 +63,12 @@ class Tamsil extends BaseController
             }
         }
 
-        $kecamatan = $this->_helpLib->getKecamatan($userId);
-        $npsns = $this->_helpLib->getSekolahKecamatanArray($kecamatan, [5]);
+        // $kecamatan = $this->_helpLib->getKecamatan($userId);
+        // $npsns = $this->_helpLib->getSekolahKecamatanArray($kecamatan, [5]);
         // var_dump($npsns);
         // die;
 
-        $lists = $datamodel->get_datatables($npsns, 'tpg');
+        $lists = $datamodel->get_datatables('tpg');
         $data = [];
         $no = $request->getPost("start");
         foreach ($lists as $list) {
@@ -104,8 +104,8 @@ class Tamsil extends BaseController
         }
         $output = [
             "draw" => $request->getPost('draw'),
-            "recordsTotal" => $datamodel->count_all($npsns, 'tamsil'),
-            "recordsFiltered" => $datamodel->count_filtered($npsns, 'tamsil'),
+            "recordsTotal" => $datamodel->count_all('tamsil'),
+            "recordsFiltered" => $datamodel->count_filtered('tamsil'),
             "data" => $data
         ];
         echo json_encode($output);
@@ -192,7 +192,7 @@ class Tamsil extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('situgu/opk/verifikasi/spj/tamsil/data'));
+        return redirect()->to(base_url('situgu/adm/verifikasi/spj/tamsil/data'));
     }
 
     public function data()
