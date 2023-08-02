@@ -865,6 +865,7 @@ class Upload extends BaseController
 
             $data = [
                 'updated_at' => date('Y-m-d H:i:s'),
+                'status_usulan' => 0,
             ];
 
             $dir = "";
@@ -1023,6 +1024,7 @@ class Upload extends BaseController
 
             $data = [
                 'updated_at' => date('Y-m-d H:i:s'),
+                'status_usulan' => 0,
             ];
 
             $dir = "";
