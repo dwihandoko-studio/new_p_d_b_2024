@@ -672,7 +672,7 @@ class Lanjutkantw extends BaseController
             $no_rekening = htmlspecialchars($this->request->getVar('no_rekening'), true);
 
             $current = $this->_db->table('_tb_spj_tpg a')
-                ->select("a.id as id_usulan, a.us_pang_golongan, a.us_pang_tmt, a.us_pang_mk_tahun, a.us_pang_mk_bulan, a.us_pang_jenis, a.us_gaji_pokok, a.no_sk_dirjen, a.no_urut_sk, a.admin_approve, a.date_approve, a.admin_matching, a.date_matching, a.admin_terbitsk, a.date_terbitsk, a.date_approve_ks, a.date_approve_sptjm, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, e.cuti as lampiran_cuti, e.pensiun as lampiran_pensiun, e.kematian as lampiran_kematian")
+                ->select("a.id as id_usulan, a.us_pang_golongan, a.us_pang_tgl, a.us_pang_tmt, a.us_pang_mk_tahun, a.us_pang_mk_bulan, a.us_pang_jenis, a.us_gaji_pokok, a.no_sk_dirjen, a.no_urut_sk, a.admin_approve, a.date_approve, a.admin_matching, a.date_matching, a.admin_terbitsk, a.date_terbitsk, a.date_approve_ks, a.date_approve_sptjm, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, e.cuti as lampiran_cuti, e.pensiun as lampiran_pensiun, e.kematian as lampiran_kematian")
                 ->join('_ptk_tb b', 'a.id_ptk = b.id')
                 ->join('_upload_data_attribut e', 'a.id_ptk = e.id_ptk AND (a.id_tahun_tw = e.id_tahun_tw)')
                 ->where('a.id', $id_usulan)
