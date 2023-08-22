@@ -677,7 +677,7 @@ class Lanjutkantw extends BaseController
                 ->join('_upload_data_attribut e', 'a.id_ptk = e.id_ptk AND (a.id_tahun_tw = e.id_tahun_tw)')
                 ->where('a.id', $id_usulan)
                 ->where('a.lanjutkan_tw', 0)
-                ->where('a.id_tahun_tw', $tw)
+                ->where('a.id_tahun_tw', $current_tw)
                 ->get()->getRowObject();
 
             if (!$current) {
