@@ -83,6 +83,7 @@
                                             <a href="<?= base_url('situgu/su/upload/tpg/matching') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "tpg"  && $uri->getSegment(5) == "matching") ? ' active-menu-href' : '' ?>" key="t-upload-tpg-matching">Matching Simtun</a>
                                             <a href="<?= base_url('situgu/su/upload/tpg/skterbit') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "tpg"  && $uri->getSegment(5) == "skterbit") ? ' active-menu-href' : '' ?>" key="t-upload-tpg-skterbit">SK Terbit</a>
                                             <a href="<?= base_url('situgu/su/upload/tpg/prosestransfer') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "tpg"  && $uri->getSegment(5) == "prosestransfer") ? ' active-menu-href' : '' ?>" key="t-upload-tpg-prosestransfer">Proses Transfer</a>
+                                            <a href="<?= base_url('situgu/su/upload/tpg/lanjutkantw') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "tpg"  && $uri->getSegment(5) == "lanjutkantw") ? ' active-menu-href' : '' ?>" key="t-upload-tpg-lanjutkantw">Lanjutkan TW</a>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">

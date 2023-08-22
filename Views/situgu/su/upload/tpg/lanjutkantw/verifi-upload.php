@@ -201,7 +201,7 @@
                         "Proses Matching Data Berhasil.",
                         'success'
                     ).then((valRes) => {
-                        document.location.href = "<?= base_url('situgu/su/us/tpg/lanjutkantw'); ?>";
+                        document.location.href = "<?= base_url('situgu/su/home'); ?>";
                     })
                     return; // guard condition
                 }
@@ -232,7 +232,7 @@
                                     "Proses Matching Data Berhasil.",
                                     'success'
                                 ).then((valRes) => {
-                                    document.location.href = "<?= base_url('situgu/su/us/tpg/prosestransfer'); ?>";
+                                    document.location.href = "<?= base_url('situgu/su/home'); ?>";
                                 })
                             }
                         } else {
@@ -251,7 +251,7 @@
                                     "Proses Matching Data Berhasil.",
                                     'success'
                                 ).then((valRes) => {
-                                    document.location.href = "<?= base_url('situgu/su/us/tpg/prosestransfer'); ?>";
+                                    document.location.href = "<?= base_url('situgu/su/home'); ?>";
                                 })
                             }
                         }
