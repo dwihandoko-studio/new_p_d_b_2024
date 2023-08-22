@@ -711,7 +711,7 @@ class Lanjutkantw extends BaseController
                 $uuid = $uuidLib->v4();
                 $this->_db->table('_tb_spj_tpg')->insert([
                     'id' => $uuid,
-                    'id_usulan_current' => $current->id,
+                    'id_usulan_current' => $current->id_usulan,
                     'kode_usulan_different' => $current->kode_usulan,
                     'id_ptk' => $current->id_ptk,
                     'id_tahun_tw' => $tw,
