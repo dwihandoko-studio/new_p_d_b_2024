@@ -71,6 +71,42 @@
                                 </tbody>
                             </table>
                             <hr />
+                            <h4 class="mb-2">Verifikasi SPJ TPG</h4>
+                            <table class="table table-bordered border-success mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Mulai Verifikasi</th>
+                                        <th>Akhir Verifikasi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><?= $verifikasiSpjTpg->max_download_verifikasi ?></td>
+                                        <td><?= $verifikasiSpjTpg->max_upload_verifikasi ?></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr />
+                            <h4 class="mb-2 mt-2">Verifikasi SPJ TAMSIL</h4>
+                            <table class="table table-bordered border-info mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Mulai Verifikasi</th>
+                                        <th>Akhir Verifikasi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><?= $verifikasiSpjTamsil->max_download_verifikasi ?></td>
+                                        <td><?= $verifikasiSpjTamsil->max_upload_verifikasi ?></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr />
                             <h4 class="mb-2 mt-2">Verifikasi PGHM</h4>
                             <table class="table table-bordered border-warning mb-0">
                                 <thead>

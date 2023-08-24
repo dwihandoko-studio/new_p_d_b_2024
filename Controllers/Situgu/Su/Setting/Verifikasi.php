@@ -40,6 +40,8 @@ class Verifikasi extends BaseController
         $data['verifikasi'] = $this->_db->table('_setting_verifikasi_tb')->whereIn('id', [2])->get()->getRowObject();
         $data['verifikasiTamsil'] = $this->_db->table('_setting_verifikasi_tb')->whereIn('id', [3])->get()->getRowObject();
         $data['verifikasiPghm'] = $this->_db->table('_setting_verifikasi_tb')->whereIn('id', [4])->get()->getRowObject();
+        $data['verifikasiSpjTpg'] = $this->_db->table('_setting_verifikasi_tb')->whereIn('id', [5])->get()->getRowObject();
+        $data['verifikasiSpjTamsil'] = $this->_db->table('_setting_verifikasi_tb')->whereIn('id', [6])->get()->getRowObject();
 
         return view('situgu/su/setting/verifikasi/index', $data);
     }
