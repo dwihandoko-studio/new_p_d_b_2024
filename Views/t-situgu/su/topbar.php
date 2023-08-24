@@ -90,6 +90,7 @@
                                         <h6> TAMSIL</h6>
                                         <div>
                                             <a href="<?= base_url('situgu/su/upload/tamsil/prosestransfer') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "tamsil"  && $uri->getSegment(5) == "prosestransfer") ? ' active-menu-href' : '' ?>" key="t-upload-tamsil-prosestransfer">Proses Transfer</a>
+                                            <a href="<?= base_url('situgu/su/upload/tamsil/lanjutkantw') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "tamsil"  && $uri->getSegment(5) == "lanjutkantw") ? ' active-menu-href' : '' ?>" key="t-upload-tamsil-lanjutkantw">Lanjutkan TW</a>
                                         </div>
                                     </div>
                                 </div>
