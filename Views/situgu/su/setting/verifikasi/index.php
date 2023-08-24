@@ -14,7 +14,9 @@
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript:settingTpg(this);" class="btn btn-primary btn-rounded waves-effect waves-light">Setting Verifikasi TPG</a></li>
                             <li class="breadcrumb-item"><a href="javascript:settingTamsil(this);" class="btn btn-dark btn-rounded waves-effect waves-light">Setting Verifikasi TAMSIL</a></li>
-                            <li class="breadcrumb-item"><a href="javascript:settingPghm(this);" class="btn btn-info btn-rounded waves-effect waves-light">Setting Verifikasi PGHM</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:settingSpjTpg(this);" class="btn btn-primary btn-rounded waves-effect waves-light">Setting Verifikasi SPJ TPG</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:settingSpjTamsil(this);" class="btn btn-dark btn-rounded waves-effect waves-light">Setting Verifikasi SPJ TAMSIL</a></li>
+                            <!-- <li class="breadcrumb-item"><a href="javascript:settingPghm(this);" class="btn btn-info btn-rounded waves-effect waves-light">Setting Verifikasi PGHM</a></li> -->
                         </ol>
                     </div>
 
@@ -278,6 +280,90 @@
                 });
             }
         })
+    }
+
+    function settingTpgTpg(event) {
+        $.ajax({
+            url: "./edit",
+            type: 'POST',
+            data: {
+                id: '5',
+            },
+            dataType: 'JSON',
+            beforeSend: function() {
+                $('div.main-content').block({
+                    message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                });
+            },
+            success: function(resul) {
+                $('div.main-content').unblock();
+                if (resul.status !== 200) {
+                    Swal.fire(
+                        'Failed!',
+                        resul.message,
+                        'warning'
+                    );
+                } else {
+                    $('#content-detailModalLabel').html('SETTING VERIFIKASI SPJ TPG');
+                    $('.contentBodyModal').html(resul.data);
+                    $('.content-detailModal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                    });
+                    $('.content-detailModal').modal('show');
+                }
+            },
+            error: function() {
+                $('div.main-content').unblock();
+                Swal.fire(
+                    'Failed!',
+                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                    'warning'
+                );
+            }
+        });
+    }
+
+    function settingSpjTamsil(event) {
+        $.ajax({
+            url: "./edit",
+            type: 'POST',
+            data: {
+                id: '6',
+            },
+            dataType: 'JSON',
+            beforeSend: function() {
+                $('div.main-content').block({
+                    message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                });
+            },
+            success: function(resul) {
+                $('div.main-content').unblock();
+                if (resul.status !== 200) {
+                    Swal.fire(
+                        'Failed!',
+                        resul.message,
+                        'warning'
+                    );
+                } else {
+                    $('#content-detailModalLabel').html('SETTING VERIFIKASI SPJ TAMSIL');
+                    $('.contentBodyModal').html(resul.data);
+                    $('.content-detailModal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                    });
+                    $('.content-detailModal').modal('show');
+                }
+            },
+            error: function() {
+                $('div.main-content').unblock();
+                Swal.fire(
+                    'Failed!',
+                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                    'warning'
+                );
+            }
+        });
     }
 
     function settingTpg(event) {
