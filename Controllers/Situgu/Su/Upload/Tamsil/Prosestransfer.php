@@ -234,7 +234,7 @@ class Prosestransfer extends BaseController
             $spreadsheet = $reader->load($fileLocation);
             $sheet = $spreadsheet->getActiveSheet()->toArray();
 
-            $total_line = (count($sheet) > 0) ? count($sheet) - 5 : 0;
+            $total_line = (count($sheet) > 0) ? count($sheet) - 6 : 0;
 
             $dataImport = [];
 

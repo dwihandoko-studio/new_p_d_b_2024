@@ -241,7 +241,7 @@ class Lanjutkantw extends BaseController
             $spreadsheet = $reader->load($fileLocation);
             $sheet = $spreadsheet->getActiveSheet()->toArray();
 
-            $total_line = (count($sheet) > 0) ? count($sheet) - 8 : 0;
+            $total_line = (count($sheet) > 0) ? count($sheet) - 6 : 0;
 
             $dataImport = [];
 
@@ -256,8 +256,6 @@ class Lanjutkantw extends BaseController
             unset($sheet[3]);
             unset($sheet[4]);
             unset($sheet[5]);
-            unset($sheet[6]);
-            unset($sheet[7]);
 
             foreach ($sheet as $key => $data) {
 
@@ -265,27 +263,45 @@ class Lanjutkantw extends BaseController
                     // if($data[1] == "") {
                     continue;
                 }
-
                 $dataInsert = [
-                    'nrg' => $data[3],
-                    'nuptk' => $data[5],
-                    'nama' => $data[6],
-                    'golongan_code' => $data[9],
-                    'golongan' => $data[9],
-                    'gaji_pokok_1' => str_replace(",", "", $data[11]),
-                    'gaji_pokok_2' => str_replace(",", "", $data[12]),
-                    'gaji_pokok_3' => str_replace(",", "", $data[13]),
-                    'jumlah_uang' => str_replace(",", "", $data[14]),
-                    'iuran_bpjs' => str_replace(",", "", $data[15]),
-                    'pph21' => str_replace(",", "", $data[16]),
-                    'jumlah_diterima' => str_replace(",", "", $data[17]),
-                    'no_rekening' => $data[18],
-                    'no_sktp' => $data[1],
-                    'no_urut' => $data[2],
-                    'ket_tambahan' => $data[19],
+                    'nuptk' => str_replace("'", "", $data[1]),
+                    'nama' => $data[2],
+                    'golongan_code' => $data[7],
+                    'golongan' => $data[7],
+                    'status_kepegawaian' => $data[3],
+                    'jumlah_perbulan' => str_replace(",", "", $data[10]),
+                    'jumlah_bulan' => str_replace(",", "", $data[11]),
+                    'nip' => str_replace(",", "", $data[6]),
+                    'jumlah_uang' => str_replace(",", "", $data[12]),
+                    'iuran_bpjs' => str_replace(",", "", $data[13]),
+                    'pph21' => str_replace(",", "", $data[14]),
+                    'jumlah_diterima' => str_replace(",", "", $data[15]),
+                    'no_rekening' => $data[16],
+                    'ket_tambahan' => $data[17],
                     'id_tahun_tw' => $tw,
                     'id_current_tahun_tw' => $current_tw,
                 ];
+
+                // $dataInsert = [
+                //     'nrg' => $data[3],
+                //     'nuptk' => $data[5],
+                //     'nama' => $data[6],
+                //     'golongan_code' => $data[9],
+                //     'golongan' => $data[9],
+                //     'gaji_pokok_1' => str_replace(",", "", $data[11]),
+                //     'gaji_pokok_2' => str_replace(",", "", $data[12]),
+                //     'gaji_pokok_3' => str_replace(",", "", $data[13]),
+                //     'jumlah_uang' => str_replace(",", "", $data[14]),
+                //     'iuran_bpjs' => str_replace(",", "", $data[15]),
+                //     'pph21' => str_replace(",", "", $data[16]),
+                //     'jumlah_diterima' => str_replace(",", "", $data[17]),
+                //     'no_rekening' => $data[18],
+                //     'no_sktp' => $data[1],
+                //     'no_urut' => $data[2],
+                //     'ket_tambahan' => $data[19],
+                //     'id_tahun_tw' => $tw,
+                //     'id_current_tahun_tw' => $current_tw,
+                // ];
 
                 $dataInsert['data_usulan'] = $this->_db->table('_tb_spj_tamsil a')
                     ->select("a.id as id_usulan, a.us_pang_golongan, a.us_pang_mk_tahun, a.us_gaji_pokok, a.date_approve, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, a.date_approve_sptjm, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, e.cuti as lampiran_cuti, e.pensiun as lampiran_pensiun, e.kematian as lampiran_kematian")
@@ -320,9 +336,9 @@ class Lanjutkantw extends BaseController
                 'created_at' => date('Y-m-d H:i:s')
             ];
 
-            $dir = FCPATH . "upload/matching-lanjutkantw";
+            $dir = FCPATH . "upload/matching-lanjutkantw-tamsil";
             $field_db = 'filename';
-            $table_db = 'tb_matching_lanjutkantw';
+            $table_db = 'tb_matching_lanjutkantw_tamsil';
 
             if ($lampiran->isValid() && !$lampiran->hasMoved()) {
                 $lampiran->move($dir, $newNamelampiran);
@@ -375,7 +391,7 @@ class Lanjutkantw extends BaseController
                 $response->status = 200;
                 $x['data'] = [];
                 $x['id'] = $newNamelampiran;
-                $response->data = view('situgu/su/upload/tpg/lanjutkantw/verifi-upload', $x);
+                $response->data = view('situgu/su/upload/tamsil/lanjutkantw/verifi-upload', $x);
                 $response->message = "Data berhasil disimpan.";
                 return json_encode($response);
             } else {
@@ -393,7 +409,7 @@ class Lanjutkantw extends BaseController
     public function get_data_json()
     {
         $id = htmlspecialchars($this->request->getGet('id'), true);
-        $datas = json_decode(file_get_contents(FCPATH . "upload/matching-lanjutkantw/$id.json"), true);
+        $datas = json_decode(file_get_contents(FCPATH . "upload/matching-lanjutkantw-tamsil/$id.json"), true);
 
         // var_dump($datas);
         // die;
@@ -413,16 +429,12 @@ class Lanjutkantw extends BaseController
                     $item['number'] = $key + 1;
                     $item['nuptk'] = $v['nuptk'];
                     $item['nama'] = $v['nama'];
-                    $item['gaji_pokok_1'] = $v['gaji_pokok_1'];
-                    $item['gaji_pokok_2'] = $v['gaji_pokok_2'];
-                    $item['gaji_pokok_3'] = $v['gaji_pokok_3'];
+                    $item['jumlah_bulan'] = $v['jumlah_bulan'];
                     $item['jumlah_uang'] = $v['jumlah_uang'];
                     $item['iuran_bpjs'] = $v['iuran_bpjs'];
                     $item['pph21'] = $v['pph21'];
                     $item['jumlah_diterima'] = $v['jumlah_diterima'];
                     $item['no_rekening'] = $v['no_rekening'];
-                    $item['no_sktp'] = $v['no_sktp'];
-                    $item['no_urut'] = $v['no_urut'];
                     $item['us_nuptk'] = "";
                     $item['us_nama'] = "";
                     $item['us_keterangan'] = "";
@@ -435,6 +447,32 @@ class Lanjutkantw extends BaseController
                     $item['id_tahun_tw'] = "";
                     $item['sort'] = "99";
                     $belumusul += 1;
+
+                    // $item['number'] = $key + 1;
+                    // $item['nuptk'] = $v['nuptk'];
+                    // $item['nama'] = $v['nama'];
+                    // $item['gaji_pokok_1'] = $v['gaji_pokok_1'];
+                    // $item['gaji_pokok_2'] = $v['gaji_pokok_2'];
+                    // $item['gaji_pokok_3'] = $v['gaji_pokok_3'];
+                    // $item['jumlah_uang'] = $v['jumlah_uang'];
+                    // $item['iuran_bpjs'] = $v['iuran_bpjs'];
+                    // $item['pph21'] = $v['pph21'];
+                    // $item['jumlah_diterima'] = $v['jumlah_diterima'];
+                    // $item['no_rekening'] = $v['no_rekening'];
+                    // $item['no_sktp'] = $v['no_sktp'];
+                    // $item['no_urut'] = $v['no_urut'];
+                    // $item['us_nuptk'] = "";
+                    // $item['us_nama'] = "";
+                    // $item['us_keterangan'] = "";
+                    // $item['keterangan'] = "Belum Proses Transfer";
+                    // $item['aksi'] = "Aksi";
+                    // $item['status'] = "table-info";
+                    // $item['id_usulan'] = "";
+                    // $item['kode_usulan'] = "";
+                    // $item['id_ptk'] = "";
+                    // $item['id_tahun_tw'] = "";
+                    // $item['sort'] = "99";
+                    // $belumusul += 1;
                 } else {
                     $keterangan = "";
                     if (($v['data_usulan']['lampiran_cuti'] == NULL || $v['data_usulan']['lampiran_cuti'] == "") && ($v['data_usulan']['lampiran_pensiun'] == NULL || $v['data_usulan']['lampiran_pensiun'] == "") && ($v['data_usulan']['lampiran_kematian'] == NULL || $v['data_usulan']['lampiran_kematian'] == "")) {
@@ -457,16 +495,12 @@ class Lanjutkantw extends BaseController
                     $item['number'] = $key + 1;
                     $item['nuptk'] = $v['nuptk'];
                     $item['nama'] = $v['nama'];
-                    $item['gaji_pokok_1'] = $v['gaji_pokok_1'];
-                    $item['gaji_pokok_2'] = $v['gaji_pokok_2'];
-                    $item['gaji_pokok_3'] = $v['gaji_pokok_3'];
+                    $item['jumlah_bulan'] = $v['jumlah_bulan'];
                     $item['jumlah_uang'] = $v['jumlah_uang'];
                     $item['iuran_bpjs'] = $v['iuran_bpjs'];
                     $item['pph21'] = $v['pph21'];
                     $item['jumlah_diterima'] = $v['jumlah_diterima'];
                     $item['no_rekening'] = $v['no_rekening'];
-                    $item['no_sktp'] = $v['no_sktp'];
-                    $item['no_urut'] = $v['no_urut'];
                     $item['us_nuptk'] = $v['data_usulan']['nuptk'];
                     $item['us_nama'] = $v['data_usulan']['nama'];
                     $item['us_keterangan'] = $keterangan . ' ' . $v['ket_tambahan'];
@@ -476,12 +510,41 @@ class Lanjutkantw extends BaseController
                     $item['id_usulan'] = $v['data_usulan']['id_usulan'];
                     $item['kode_usulan'] = $v['data_usulan']['kode_usulan'];
                     $item['id_ptk'] = $v['data_usulan']['id_ptk'];
-                    $item['id_tahun_tw'] = $v['id_tahun_tw'];
+                    $item['id_tahun_tw'] = $v['data_usulan']['id_tahun_tw'];
                     $item['id_current_tahun_tw'] = $v['id_current_tahun_tw'];
                     $item['sort'] = "88";
                     $lolos += 1;
 
                     $response_aksi[] = $item;
+
+                    // $item['number'] = $key + 1;
+                    // $item['nuptk'] = $v['nuptk'];
+                    // $item['nama'] = $v['nama'];
+                    // $item['gaji_pokok_1'] = $v['gaji_pokok_1'];
+                    // $item['gaji_pokok_2'] = $v['gaji_pokok_2'];
+                    // $item['gaji_pokok_3'] = $v['gaji_pokok_3'];
+                    // $item['jumlah_uang'] = $v['jumlah_uang'];
+                    // $item['iuran_bpjs'] = $v['iuran_bpjs'];
+                    // $item['pph21'] = $v['pph21'];
+                    // $item['jumlah_diterima'] = $v['jumlah_diterima'];
+                    // $item['no_rekening'] = $v['no_rekening'];
+                    // $item['no_sktp'] = $v['no_sktp'];
+                    // $item['no_urut'] = $v['no_urut'];
+                    // $item['us_nuptk'] = $v['data_usulan']['nuptk'];
+                    // $item['us_nama'] = $v['data_usulan']['nama'];
+                    // $item['us_keterangan'] = $keterangan . ' ' . $v['ket_tambahan'];
+                    // $item['keterangan'] = "Sudah Proses Transfer";
+                    // $item['aksi'] = "Aksi";
+                    // $item['status'] = "table-success";
+                    // $item['id_usulan'] = $v['data_usulan']['id_usulan'];
+                    // $item['kode_usulan'] = $v['data_usulan']['kode_usulan'];
+                    // $item['id_ptk'] = $v['data_usulan']['id_ptk'];
+                    // $item['id_tahun_tw'] = $v['id_tahun_tw'];
+                    // $item['id_current_tahun_tw'] = $v['id_current_tahun_tw'];
+                    // $item['sort'] = "88";
+                    // $lolos += 1;
+
+                    // $response_aksi[] = $item;
                 }
 
                 $response[] = $item;
@@ -552,34 +615,10 @@ class Lanjutkantw extends BaseController
                     'required' => 'Status tidak boleh kosong. ',
                 ]
             ],
-            'no_sktp' => [
+            'jumlah_bulan' => [
                 'rules' => 'required|trim',
                 'errors' => [
-                    'required' => 'No SKTP tidak boleh kosong. ',
-                ]
-            ],
-            'no_urut' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'No Urut tidak boleh kosong. ',
-                ]
-            ],
-            'gaji_pokok_1' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'Gaji 1 tidak boleh kosong. ',
-                ]
-            ],
-            'gaji_pokok_2' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'Gaji 2 tidak boleh kosong. ',
-                ]
-            ],
-            'gaji_pokok_3' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'Gaji 3 tidak boleh kosong. ',
+                    'required' => 'Jumlah bulan tidak boleh kosong. ',
                 ]
             ],
             'jumlah_uang' => [
@@ -628,11 +667,7 @@ class Lanjutkantw extends BaseController
                 . $this->validator->getError('id_tahun_tw')
                 . $this->validator->getError('id_current_tahun_tw')
                 . $this->validator->getError('status')
-                . $this->validator->getError('no_sktp')
-                . $this->validator->getError('no_urut')
-                . $this->validator->getError('gaji_pokok_1')
-                . $this->validator->getError('gaji_pokok_2')
-                . $this->validator->getError('gaji_pokok_3')
+                . $this->validator->getError('jumlah_bulan')
                 . $this->validator->getError('jumlah_uang')
                 . $this->validator->getError('iuran_bpjs')
                 . $this->validator->getError('pph21')
@@ -660,19 +695,15 @@ class Lanjutkantw extends BaseController
             $tw = htmlspecialchars($this->request->getVar('id_tahun_tw'), true);
             $current_tw = htmlspecialchars($this->request->getVar('id_current_tahun_tw'), true);
             $kode_usulan = htmlspecialchars($this->request->getVar('kode_usulan'), true);
-            $no_sktp = htmlspecialchars($this->request->getVar('no_sktp'), true);
-            $no_urut = htmlspecialchars($this->request->getVar('no_urut'), true);
-            $gaji_pokok_1 = htmlspecialchars($this->request->getVar('gaji_pokok_1'), true);
-            $gaji_pokok_2 = htmlspecialchars($this->request->getVar('gaji_pokok_2'), true);
-            $gaji_pokok_3 = htmlspecialchars($this->request->getVar('gaji_pokok_3'), true);
+            $jumlah_bulan = htmlspecialchars($this->request->getVar('jumlah_bulan'), true);
             $jumlah_uang = htmlspecialchars($this->request->getVar('jumlah_uang'), true);
             $iuran_bpjs = htmlspecialchars($this->request->getVar('iuran_bpjs'), true);
             $pph21 = htmlspecialchars($this->request->getVar('pph21'), true);
             $jumlah_diterima = htmlspecialchars($this->request->getVar('jumlah_diterima'), true);
             $no_rekening = htmlspecialchars($this->request->getVar('no_rekening'), true);
 
-            $current = $this->_db->table('_tb_spj_tpg a')
-                ->select("a.id as id_usulan, a.us_pang_golongan, a.us_pang_tgl, a.us_pang_tmt, a.us_pang_mk_tahun, a.us_pang_mk_bulan, a.us_pang_jenis, a.us_gaji_pokok, a.no_sk_dirjen, a.no_urut_sk, a.admin_approve, a.date_approve, a.admin_matching, a.date_matching, a.admin_terbitsk, a.date_terbitsk, a.date_approve_ks, a.date_approve_sptjm, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, e.cuti as lampiran_cuti, e.pensiun as lampiran_pensiun, e.kematian as lampiran_kematian")
+            $current = $this->_db->table('_tb_spj_tamsil a')
+                ->select("a.id as id_usulan, a.us_pang_golongan, a.us_pang_tgl, a.us_pang_tmt, a.us_pang_mk_tahun, a.us_pang_mk_bulan, a.us_pang_jenis, a.us_gaji_pokok, a.admin_approve, a.date_approve, a.admin_matching, a.date_matching, a.admin_terbitsk, a.date_terbitsk, a.date_approve_ks, a.date_approve_sptjm, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, e.cuti as lampiran_cuti, e.pensiun as lampiran_pensiun, e.kematian as lampiran_kematian")
                 ->join('_ptk_tb b', 'a.id_ptk = b.id')
                 ->join('_upload_data_attribut e', 'a.id_ptk = e.id_ptk AND (a.id_tahun_tw = e.id_tahun_tw)')
                 ->where('a.id', $id_usulan)
@@ -695,7 +726,7 @@ class Lanjutkantw extends BaseController
                 return json_encode($response);
             }
 
-            $dataAlready = $this->_db->table('_tb_spj_tpg')->where(['id_ptk' => $current->id_ptk, 'id_tahun_tw' => $tw])->get()->getRowObject();
+            $dataAlready = $this->_db->table('_tb_spj_tamsil')->where(['id_ptk' => $current->id_ptk, 'id_tahun_tw' => $tw])->get()->getRowObject();
             if ($dataAlready) {
                 $response = new \stdClass;
                 $response->status = 400;
@@ -725,11 +756,7 @@ class Lanjutkantw extends BaseController
                     'us_gaji_pokok' => $current->us_gaji_pokok,
                     'status_usulan' => 0,
                     'generate_spj' => 0,
-                    'no_sk_dirjen' => $current->no_sk_dirjen,
-                    'no_urut_sk' => $current->no_urut_sk,
-                    'tf_gaji_pokok_1' => $gaji_pokok_1,
-                    'tf_gaji_pokok_2' => $gaji_pokok_2,
-                    'tf_gaji_pokok_3' => $gaji_pokok_3,
+                    'jumlah_bulan' => $jumlah_bulan,
                     'tf_jumlah_uang' => $jumlah_uang,
                     'tf_iuran_bpjs' => $iuran_bpjs,
                     'tf_pph21' => $pph21,
@@ -757,7 +784,7 @@ class Lanjutkantw extends BaseController
 
                     try {
                         $notifLib = new NotificationLib();
-                        $notifLib->create("Proses Transfer", "Usulan lanjutan triwulan " . $dataTw->tw . ' tahun ' . $dataTw->tahun . ' dengan kode usulan baru' . $current->kode_usulan . " telah memasuki tahap proses trasnfer dengan total nominal: " . Rupiah($jumlah_diterima), "success", $user->data->id, $current->id_ptk, base_url('situgu/ptk/us/tpg/lanjutkantw'));
+                        $notifLib->create("Proses Transfer", "Usulan lanjutan tamsil triwulan " . $dataTw->tw . ' tahun ' . $dataTw->tahun . ' dengan kode usulan baru' . $current->kode_usulan . " telah memasuki tahap proses trasnfer dengan total nominal: " . Rupiah($jumlah_diterima), "success", $user->data->id, $current->id_ptk, base_url('situgu/ptk/us/tamsil/lanjutkantw'));
                     } catch (\Throwable $th) {
                         //throw $th;
                     }
@@ -843,7 +870,7 @@ class Lanjutkantw extends BaseController
                 return json_encode($response);
             }
 
-            $current = $this->_db->table('tb_matching_lanjutkantw')
+            $current = $this->_db->table('tb_matching_lanjutkantw_tamsil')
                 ->where('id', $id)
                 ->get()->getRowObject();
 
@@ -851,7 +878,7 @@ class Lanjutkantw extends BaseController
 
                 $this->_db->transBegin();
                 try {
-                    $this->_db->table('tb_matching_lanjutkantw')->where('id', $current->id)->delete();
+                    $this->_db->table('tb_matching_lanjutkantw_tamsil')->where('id', $current->id)->delete();
                 } catch (\Throwable $th) {
                     $this->_db->transRollback();
                     $response = new \stdClass;
@@ -865,8 +892,8 @@ class Lanjutkantw extends BaseController
                     $this->_db->transCommit();
                     try {
                         $file = $current->filename;
-                        unlink(FCPATH . "upload/matching-lanjutkantw/$file.json");
-                        unlink(FCPATH . "upload/matching-lanjutkantw/$file");
+                        unlink(FCPATH . "upload/matching-lanjutkantw-tamsil/$file.json");
+                        unlink(FCPATH . "upload/matching-lanjutkantw-tamsil/$file");
                     } catch (\Throwable $th) {
                         //throw $th;
                     }
