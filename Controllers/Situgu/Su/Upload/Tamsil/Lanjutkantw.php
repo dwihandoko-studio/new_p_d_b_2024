@@ -259,7 +259,7 @@ class Lanjutkantw extends BaseController
 
             foreach ($sheet as $key => $data) {
 
-                if ($data[5] == "" || strlen($data[5]) < 5) {
+                if ($data[1] == "" || strlen($data[1]) < 5) {
                     // if($data[1] == "") {
                     continue;
                 }
@@ -314,7 +314,7 @@ class Lanjutkantw extends BaseController
                     ->get()->getRowObject();
 
                 $dataImport[] = $dataInsert;
-                $nuptkImport[] = $data[5];
+                $nuptkImport[] = $data[1];
             }
 
             $dataImports = [
