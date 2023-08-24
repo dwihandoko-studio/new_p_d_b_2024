@@ -695,7 +695,7 @@ class Lanjutkantw extends BaseController
                 return json_encode($response);
             }
 
-            $dataAlready = $this->_db->table('_tb_spj_tpg')->where(['id_ptk' => $current->id_ptk, 'id_tahun_tw' => $tw])->get()->getRowObject();
+            $dataAlready = $this->_db->table('_tb_spj_tpg')->where(['id_ptk' => $current->id_ptk, 'id_tahun_tw' => $tw, 'lanjutkan_tw' => 1])->get()->getRowObject();
             if ($dataAlready) {
                 $response = new \stdClass;
                 $response->status = 400;
@@ -725,6 +725,7 @@ class Lanjutkantw extends BaseController
                     'us_gaji_pokok' => $current->us_gaji_pokok,
                     'status_usulan' => 0,
                     'generate_spj' => 0,
+                    'lanjutkan_tw' => 1,
                     'no_sk_dirjen' => $current->no_sk_dirjen,
                     'no_urut_sk' => $current->no_urut_sk,
                     'tf_gaji_pokok_1' => $gaji_pokok_1,
