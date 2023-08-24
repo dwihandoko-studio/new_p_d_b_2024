@@ -309,7 +309,8 @@ class Lanjutkantw extends BaseController
                     ->join('_upload_data_attribut e', 'a.id_ptk = e.id_ptk AND (a.id_tahun_tw = e.id_tahun_tw)')
                     ->where('a.lanjutkan_tw', 0)
                     ->where('a.id_tahun_tw', $current_tw)
-                    ->where('b.nuptk', $data[5])
+                    // ->where('b.nuptk', $data[5])
+                    ->where('b.nuptk', str_replace("'", "", $data[1]))
                     ->get()->getRowObject();
 
                 $dataImport[] = $dataInsert;
