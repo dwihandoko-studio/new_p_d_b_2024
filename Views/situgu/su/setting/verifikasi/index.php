@@ -282,7 +282,7 @@
         })
     }
 
-    function settingTpgTpg(event) {
+    function settingSpjTpg(event) {
         $.ajax({
             url: "./edit",
             type: 'POST',
