@@ -4,12 +4,12 @@
         <div class="modal-body" style="padding-top: 0px; padding-bottom: 0px;">
             <div class="mb-3">
                 <label for="_awal" class="form-label">Batas Awal</label>
-                <input class="form-control awal" type="datetime-local" id="_awal" name="_awal" value="<?= str_replace(" ", "T", $data->max_download_verifikasi) ?>" onfocusin="inputFocus(this);">
+                <input class="form-control awal" type="datetime-local" id="_awal" name="_awal" value="<?= str_replace(" ", "T", $data->max_download_spj) ?>" onfocusin="inputFocus(this);">
                 <div class="help-block _awal"></div>
             </div>
             <div class="mb-3">
                 <label for="_akhir" class="form-label">Batas Akhir</label>
-                <input class="form-control akhir" type="datetime-local" id="_akhir" name="_akhir" value="<?= str_replace(" ", "T", $data->max_upload_verifikasi) ?>" onfocusin="inputFocus(this);">
+                <input class="form-control akhir" type="datetime-local" id="_akhir" name="_akhir" value="<?= str_replace(" ", "T", $data->max_upload_spj) ?>" onfocusin="inputFocus(this);">
                 <div class="help-block _akhir"></div>
             </div>
         </div>
