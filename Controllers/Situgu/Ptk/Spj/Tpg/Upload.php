@@ -708,6 +708,12 @@ class Upload extends BaseController
             $tw = htmlspecialchars($this->request->getVar('tw'), true);
             $title = htmlspecialchars($this->request->getVar('title'), true);
 
+            $canUpload = canUploadSpjTpg();
+
+            if ($canUpload && $canUpload->code !== 200) {
+                return json_encode($canUpload);
+            }
+
             $data['id'] = $id;
             $data['title'] = $title;
             $data['jenis'] = $jenis;
@@ -777,6 +783,12 @@ class Upload extends BaseController
             $tw = htmlspecialchars($this->request->getVar('tw'), true);
             $title = htmlspecialchars($this->request->getVar('title'), true);
             $old = htmlspecialchars($this->request->getVar('old'), true);
+
+            $canUpload = canUploadSpjTpg();
+
+            if ($canUpload && $canUpload->code !== 200) {
+                return json_encode($canUpload);
+            }
 
             $data['id'] = $id;
             $data['title'] = $title;
@@ -856,6 +868,12 @@ class Upload extends BaseController
                 $response->status = 401;
                 $response->message = "Permintaan diizinkan";
                 return json_encode($response);
+            }
+
+            $canUpload = canUploadSpjTpg();
+
+            if ($canUpload && $canUpload->code !== 200) {
+                return json_encode($canUpload);
             }
 
             $id = htmlspecialchars($this->request->getVar('id'), true);
@@ -1016,6 +1034,12 @@ class Upload extends BaseController
                 return json_encode($response);
             }
 
+            $canUpload = canUploadSpjTpg();
+
+            if ($canUpload && $canUpload->code !== 200) {
+                return json_encode($canUpload);
+            }
+
             $jenis = htmlspecialchars($this->request->getVar('jenis'), true);
             $title = htmlspecialchars($this->request->getVar('title'), true);
             $tw = htmlspecialchars($this->request->getVar('tw'), true);
@@ -1166,6 +1190,12 @@ class Upload extends BaseController
             $jenis = htmlspecialchars($this->request->getVar('jenis'), true);
             $old = htmlspecialchars($this->request->getVar('old'), true);
             $id = htmlspecialchars($this->request->getVar('id'), true);
+
+            $canUpload = canUploadSpjTpg();
+
+            if ($canUpload && $canUpload->code !== 200) {
+                return json_encode($canUpload);
+            }
 
             $Profilelib = new Profilelib();
             $user = $Profilelib->user();

@@ -708,6 +708,12 @@ class Upload extends BaseController
             $tw = htmlspecialchars($this->request->getVar('tw'), true);
             $title = htmlspecialchars($this->request->getVar('title'), true);
 
+            $canUpload = canUploadSpjTamsil();
+
+            if ($canUpload && $canUpload->code !== 200) {
+                return json_encode($canUpload);
+            }
+
             $data['id'] = $id;
             $data['title'] = $title;
             $data['jenis'] = $jenis;
@@ -777,6 +783,12 @@ class Upload extends BaseController
             $tw = htmlspecialchars($this->request->getVar('tw'), true);
             $title = htmlspecialchars($this->request->getVar('title'), true);
             $old = htmlspecialchars($this->request->getVar('old'), true);
+
+            $canUpload = canUploadSpjTamsil();
+
+            if ($canUpload && $canUpload->code !== 200) {
+                return json_encode($canUpload);
+            }
 
             $data['id'] = $id;
             $data['title'] = $title;
@@ -856,6 +868,12 @@ class Upload extends BaseController
                 $response->status = 401;
                 $response->message = "Permintaan diizinkan";
                 return json_encode($response);
+            }
+
+            $canUpload = canUploadSpjTamsil();
+
+            if ($canUpload && $canUpload->code !== 200) {
+                return json_encode($canUpload);
             }
 
             $id = htmlspecialchars($this->request->getVar('id'), true);
@@ -1014,6 +1032,12 @@ class Upload extends BaseController
                 $response->status = 401;
                 $response->message = "Permintaan diizinkan";
                 return json_encode($response);
+            }
+
+            $canUpload = canUploadSpjTamsil();
+
+            if ($canUpload && $canUpload->code !== 200) {
+                return json_encode($canUpload);
             }
 
             $jenis = htmlspecialchars($this->request->getVar('jenis'), true);
@@ -1176,6 +1200,12 @@ class Upload extends BaseController
                 $response->status = 401;
                 $response->message = "Permintaan diizinkan";
                 return json_encode($response);
+            }
+
+            $canUpload = canUploadSpjTamsil();
+
+            if ($canUpload && $canUpload->code !== 200) {
+                return json_encode($canUpload);
             }
 
             switch ($jenis) {

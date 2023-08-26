@@ -1473,6 +1473,102 @@ function canUsulTpg()
 	}
 }
 
+function canUploadSpjTamsil()
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$limit = $db->table('_setting_upspj_tb')
+		->where('id', 3)
+		->get()->getRowObject();
+	if ($limit) {
+		$waktuSekarang = date('Y-m-d H:i:s');
+		// $setinganUplaodVerifikasi = new \DateTime($settingVerifikasi->max_upload_verifikasi);
+
+		$waktuSekarang = str_replace("-", "", $waktuSekarang);
+		$waktuSekarang = str_replace(" ", "", $waktuSekarang);
+		$waktuSekarang = str_replace(":", "", $waktuSekarang);
+
+		$setinganDownloadSpj = str_replace("-", "", $limit->max_download_spj);
+		$setinganDownloadSpj = str_replace(" ", "", $setinganDownloadSpj);
+		$setinganDownloadSpj = str_replace(":", "", $setinganDownloadSpj);
+
+		$setinganUplaodSpj = str_replace("-", "", $limit->max_upload_spj);
+		$setinganUplaodSpj = str_replace(" ", "", $setinganUplaodSpj);
+		$setinganUplaodSpj = str_replace(":", "", $setinganUplaodSpj);
+
+		if ((int)$waktuSekarang > (int)$setinganUplaodSpj) {
+			$response = new \stdClass;
+			$response->code = 400;
+			$response->message = "Upload Laporan SPJ Tamsil sudah Ditutup, Batas akhir Upload Laporan SPJ Tamsil adalah " . $limit->max_upload_spj;
+			return $response;
+		}
+		if ((int)$waktuSekarang < (int)$setinganDownloadSpj) {
+			$response = new \stdClass;
+			$response->code = 400;
+			$response->message = "Upload Laporan SPJ Tamsil belum dibuka, Jadwal Upload Laporan SPJ Tamsil adalah " . $limit->max_download_spj;
+			return $response;
+		}
+		$response = new \stdClass;
+		$response->code = 200;
+		$response->message = "";
+		return $response;
+	} else {
+		$response = new \stdClass;
+		$response->code = 400;
+		$response->message = "Jadwal tidak ditemukan";
+		return $response;
+	}
+}
+
+function canUploadSpjTpg()
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$limit = $db->table('_setting_upspj_tb')
+		->where('id', 2)
+		->get()->getRowObject();
+	if ($limit) {
+		$waktuSekarang = date('Y-m-d H:i:s');
+		// $setinganUplaodVerifikasi = new \DateTime($settingVerifikasi->max_upload_verifikasi);
+
+		$waktuSekarang = str_replace("-", "", $waktuSekarang);
+		$waktuSekarang = str_replace(" ", "", $waktuSekarang);
+		$waktuSekarang = str_replace(":", "", $waktuSekarang);
+
+		$setinganDownloadSpj = str_replace("-", "", $limit->max_download_spj);
+		$setinganDownloadSpj = str_replace(" ", "", $setinganDownloadSpj);
+		$setinganDownloadSpj = str_replace(":", "", $setinganDownloadSpj);
+
+		$setinganUplaodSpj = str_replace("-", "", $limit->max_upload_spj);
+		$setinganUplaodSpj = str_replace(" ", "", $setinganUplaodSpj);
+		$setinganUplaodSpj = str_replace(":", "", $setinganUplaodSpj);
+
+		if ((int)$waktuSekarang > (int)$setinganUplaodSpj) {
+			$response = new \stdClass;
+			$response->code = 400;
+			$response->message = "Upload Laporan SPJ TPG sudah Ditutup, Batas akhir Upload Laporan SPJ TPG adalah " . $limit->max_upload_spj;
+			return $response;
+		}
+		if ((int)$waktuSekarang < (int)$setinganDownloadSpj) {
+			$response = new \stdClass;
+			$response->code = 400;
+			$response->message = "Upload Laporan SPJ TPG belum dibuka, Jadwal Upload Laporan SPJ TPG adalah " . $limit->max_download_spj;
+			return $response;
+		}
+		$response = new \stdClass;
+		$response->code = 200;
+		$response->message = "";
+		return $response;
+	} else {
+		$response = new \stdClass;
+		$response->code = 400;
+		$response->message = "Jadwal tidak ditemukan";
+		return $response;
+	}
+}
+
 function canVerifikasiSpjTpg()
 {
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
