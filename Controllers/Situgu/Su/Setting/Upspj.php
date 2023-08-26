@@ -21,6 +21,11 @@ class Upspj extends BaseController
 
     public function index()
     {
+        return redirect()->to(base_url('situgu/su/setting/upspj/data'));
+    }
+
+    public function data()
+    {
         $data['title'] = 'SETTING UPLOAD SPJ';
         $Profilelib = new Profilelib();
         $user = $Profilelib->user();
