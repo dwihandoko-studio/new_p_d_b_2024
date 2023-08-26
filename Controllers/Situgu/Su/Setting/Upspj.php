@@ -109,15 +109,15 @@ class Upspj extends BaseController
         } else {
             $id = htmlspecialchars($this->request->getVar('id'), true);
 
-            $current = $this->_db->table('_users_tb')
-                ->where('uid', $id)->get()->getRowObject();
+            $current = $this->_db->table('_setting_upspj_tb')
+                ->where('id', $id)->get()->getRowObject();
 
             if ($current) {
                 $data['data'] = $current;
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Permintaan diizinkan";
-                $response->data = view('a/setting/pengguna/edit', $data);
+                $response->data = view('situgu/su/setting/upspj/edit', $data);
                 return json_encode($response);
             } else {
                 $response = new \stdClass;
@@ -288,70 +288,26 @@ class Upspj extends BaseController
                     'required' => 'Id buku tidak boleh kosong. ',
                 ]
             ],
-            'nama' => [
+            'awal' => [
                 'rules' => 'required|trim',
                 'errors' => [
-                    'required' => 'Nama tidak boleh kosong. ',
+                    'required' => 'Batas Awal tidak boleh kosong. ',
                 ]
             ],
-            'email' => [
+            'akhir' => [
                 'rules' => 'required|trim',
                 'errors' => [
-                    'required' => 'Email tidak boleh kosong. ',
-                ]
-            ],
-            'nohp' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'No handphone tidak boleh kosong. ',
-                ]
-            ],
-            'nip' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'NIP tidak boleh kosong. ',
-                ]
-            ],
-            'alamat' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Alamat tidak boleh kosong. ',
-                ]
-            ],
-            'status' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Status tidak boleh kosong. ',
+                    'required' => 'Batas Akhir tidak boleh kosong. ',
                 ]
             ],
         ];
 
-        $filenamelampiran = dot_array_search('file.name', $_FILES);
-        if ($filenamelampiran != '') {
-            $lampiranVal = [
-                'file' => [
-                    'rules' => 'uploaded[file]|max_size[file,512]|is_image[file]',
-                    'errors' => [
-                        'uploaded' => 'Pilih gambar profil terlebih dahulu. ',
-                        'max_size' => 'Ukuran gambar profil terlalu besar. ',
-                        'is_image' => 'Ekstensi yang anda upload harus berekstensi gambar. '
-                    ]
-                ],
-            ];
-            $rules = array_merge($rules, $lampiranVal);
-        }
-
         if (!$this->validate($rules)) {
             $response = new \stdClass;
             $response->status = 400;
-            $response->message = $this->validator->getError('nama')
-                . $this->validator->getError('id')
-                . $this->validator->getError('email')
-                . $this->validator->getError('nohp')
-                . $this->validator->getError('nip')
-                . $this->validator->getError('alamat')
-                . $this->validator->getError('status')
-                . $this->validator->getError('file');
+            $response->message = $this->validator->getError('id')
+                . $this->validator->getError('awal')
+                . $this->validator->getError('akhir');
             return json_encode($response);
         } else {
             $Profilelib = new Profilelib();
@@ -366,105 +322,21 @@ class Upspj extends BaseController
             }
 
             $id = htmlspecialchars($this->request->getVar('id'), true);
-            $nama = htmlspecialchars($this->request->getVar('nama'), true);
-            $email = htmlspecialchars($this->request->getVar('email'), true);
-            $nohp = htmlspecialchars($this->request->getVar('nohp'), true);
-            $nip = htmlspecialchars($this->request->getVar('nip'), true);
-            $alamat = htmlspecialchars($this->request->getVar('alamat'), true);
-            $status = htmlspecialchars($this->request->getVar('status'), true);
+            $awal = htmlspecialchars($this->request->getVar('awal'), true);
+            $akhir = htmlspecialchars($this->request->getVar('akhir'), true);
 
-            $oldData =  $this->_db->table('_users_tb')->where('uid', $id)->get()->getRowObject();
+            $this->_db->table('_setting_upspj_tb')->where('id', $id)->update(['max_upload_spj' => str_replace("T", " ", $akhir), 'max_download_spj' => str_replace("T", " ", $awal), 'updated_at' => date('Y-m-d H:i:s')]);
 
-            if (!$oldData) {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Data tidak ditemukan.";
-                return json_encode($response);
-            }
-
-            if (
-                $nama === $oldData->fullname
-                && $email === $oldData->email
-                && $nohp === $oldData->no_hp
-                && $nip === $oldData->nip
-                && $alamat === $oldData->alamat
-                && (int)$status === (int)$oldData->is_active
-            ) {
-                if ($filenamelampiran == '') {
-                    $response = new \stdClass;
-                    $response->status = 201;
-                    $response->message = "Tidak ada perubahan data yang disimpan.";
-                    $response->redirect = base_url('a/setting/pengguna/data');
-                    return json_encode($response);
-                }
-            }
-
-            if ($email !== $oldData->email) {
-                $cekData = $this->_db->table('_users_tb')->where(['email' => $email])->get()->getRowObject();
-                if ($cekData) {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Email sudah terdaftar.";
-                    return json_encode($response);
-                }
-            }
-
-            $data = [
-                'email' => $email,
-                'fullname' => $nama,
-                'no_hp' => $nohp,
-                'nip' => $nip,
-                'alamat' => $alamat,
-                'is_active' => $status,
-                'updated_at' => date('Y-m-d H:i:s'),
-            ];
-            $dir = FCPATH . "uploads/user";
-
-            if ($filenamelampiran != '') {
-                $lampiran = $this->request->getFile('file');
-                $filesNamelampiran = $lampiran->getName();
-                $newNamelampiran = _create_name_foto($filesNamelampiran);
-
-                if ($lampiran->isValid() && !$lampiran->hasMoved()) {
-                    $lampiran->move($dir, $newNamelampiran);
-                    $data['image'] = $newNamelampiran;
-                } else {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Gagal mengupload gambar.";
-                    return json_encode($response);
-                }
-            }
-
-            $this->_db->transBegin();
-            try {
-                $this->_db->table('_users_tb')->where('uid', $oldData->uid)->update($data);
-            } catch (\Exception $e) {
-                unlink($dir . '/' . $newNamelampiran);
-                $this->_db->transRollback();
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Gagal menyimpan gambar baru.";
-                return json_encode($response);
-            }
 
             if ($this->_db->affectedRows() > 0) {
-                try {
-                    unlink($dir . '/' . $oldData->image);
-                } catch (\Throwable $th) {
-                }
-                $this->_db->transCommit();
                 $response = new \stdClass;
                 $response->status = 200;
-                $response->message = "Data berhasil diupdate.";
-                $response->redirect = base_url('a/setting/pengguna/data');
+                $response->message = "Setting Jadwal Upload SPJ berhasil disimpan.";
                 return json_encode($response);
             } else {
-                unlink($dir . '/' . $newNamelampiran);
-                $this->_db->transRollback();
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = "Gagal mengupate data";
+                $response->message = "Gagal menyimpan Setting Upload SPJ.";
                 return json_encode($response);
             }
         }
