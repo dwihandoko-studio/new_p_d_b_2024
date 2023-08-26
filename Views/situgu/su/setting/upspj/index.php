@@ -12,8 +12,8 @@
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript:settingTpg(this);" class="btn btn-primary btn-rounded waves-effect waves-light">Setting SPJ TPG</a></li>
-                            <li class="breadcrumb-item"><a href="javascript:settingTamsil(this);" class="btn btn-dark btn-rounded waves-effect waves-light">Setting SPJ TAMSIL</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:settingSpjTpg(this);" class="btn btn-primary btn-rounded waves-effect waves-light">Setting SPJ TPG</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:settingSpjTamsil(this);" class="btn btn-dark btn-rounded waves-effect waves-light">Setting SPJ TAMSIL</a></li>
                         </ol>
                     </div>
 
