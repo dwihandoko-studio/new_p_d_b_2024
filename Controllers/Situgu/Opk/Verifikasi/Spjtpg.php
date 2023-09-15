@@ -104,8 +104,8 @@ class Spjtpg extends BaseController
         }
         $output = [
             "draw" => $request->getPost('draw'),
-            "recordsTotal" => $datamodel->count_all($npsns, 'tamsil'),
-            "recordsFiltered" => $datamodel->count_filtered($npsns, 'tamsil'),
+            "recordsTotal" => $datamodel->count_all($npsns, 'tpg'),
+            "recordsFiltered" => $datamodel->count_filtered($npsns, 'tpg'),
             "data" => $data
         ];
         echo json_encode($output);
