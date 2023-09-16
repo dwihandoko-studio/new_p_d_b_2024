@@ -55,7 +55,7 @@ class VerifikasispjtpgsekolahModel extends Model
         if ($this->request->getPost('tw') !== "") {
             $this->dt->where('a.id_tahun_tw', $this->request->getPost('tw'));
         }
-        $this->dt->whereIn("SUBSTRING_INDEX(SUBSTRING_INDEX(a.kode_usulan, '-', -2), '-', 1)", $npsns);
+        // $this->dt->whereIn("SUBSTRING_INDEX(SUBSTRING_INDEX(a.kode_usulan, '-', -2), '-', 1)", $npsns);
         $this->dt->groupBy('a.kode_usulan');
         $this->_get_datatables_query();
         if ($this->request->getPost('length') != -1)
@@ -71,7 +71,7 @@ class VerifikasispjtpgsekolahModel extends Model
         if ($this->request->getPost('tw') !== "") {
             $this->dt->where('a.id_tahun_tw', $this->request->getPost('tw'));
         }
-        $this->dt->whereIn("SUBSTRING_INDEX(SUBSTRING_INDEX(a.kode_usulan, '-', -2), '-', 1)", $npsns);
+        // $this->dt->whereIn("SUBSTRING_INDEX(SUBSTRING_INDEX(a.kode_usulan, '-', -2), '-', 1)", $npsns);
         $this->dt->groupBy('a.kode_usulan');
         $this->_get_datatables_query();
 
@@ -85,7 +85,7 @@ class VerifikasispjtpgsekolahModel extends Model
         if ($this->request->getPost('tw') !== "") {
             $this->dt->where('a.id_tahun_tw', $this->request->getPost('tw'));
         }
-        $this->dt->whereIn("SUBSTRING_INDEX(SUBSTRING_INDEX(a.kode_usulan, '-', -2), '-', 1)", $npsns);
+        // $this->dt->whereIn("SUBSTRING_INDEX(SUBSTRING_INDEX(a.kode_usulan, '-', -2), '-', 1)", $npsns);
         $this->dt->groupBy('a.kode_usulan');
         $this->_get_datatables_query();
 
