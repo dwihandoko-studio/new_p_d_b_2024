@@ -29,18 +29,22 @@
                             <div class="col-6">
                                 <h4 class="card-title">Data Laporan SPJ TAMSIL</h4>
                             </div>
-                            <!-- <div class="col-6">
+                            <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="_status" class="col-form-label">Filter Status:</label>
-                                    <select class="form-control" id="_status" name="_status" required>
+                                    <label for="_tw" class="col-form-label">Filter TW:</label>
+                                    <select class="form-control" id="_tw" name="_tw" required>
                                         <option value="">--Pilih--</option>
-                                        <option value="0">Antrian</option>
-                                        <option value="1">Ditolak</option>
-                                        <option value="pghm">PGHM</option>
+                                        <?php if (isset($tws)) { ?>
+                                            <?php if (count($tws) > 0) { ?>
+                                                <?php foreach ($tws as $key => $value) { ?>
+                                                    <option value="<?= $value->id ?>" <?= ($tw->id == $value->id) ? ' selected' : '' ?>><?= 'Tahun ' . $value->tahun . ' - TW. ' . $value->tw ?></option>
+                                                <?php } ?>
+                                            <?php } ?>
+                                        <?php } ?>
                                     </select>
                                     <div class="help-block _status"></div>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -204,7 +208,7 @@
                 "url": "./getAll",
                 "type": "POST",
                 "data": function(data) {
-                    data.tw = '<?= $tw->id ?>';
+                    data.tw = $('#_tw').val();
                 }
             },
             language: {
@@ -214,6 +218,10 @@
                 "targets": 0,
                 "orderable": false,
             }],
+        });
+
+        $('#_tw').change(function() {
+            tableDatatables.draw();
         });
 
     });

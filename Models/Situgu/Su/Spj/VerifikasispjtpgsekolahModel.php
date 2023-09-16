@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\Situgu\Adm\Spj;
+namespace App\Models\Situgu\Su\Spj;
 
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\Model;
 
-class VerifikasispjtamsilsekolahModel extends Model
+class VerifikasispjtpgsekolahModel extends Model
 {
-    protected $table = "_tb_spj_tamsil a";
+    protected $table = "_tb_spj_tpg a";
     protected $column_order = array(null, null, 'b.nama', 'b.npsn', 'b.bentuk_pendidikan', 'b.status_sekolah', 'b.kecamatan', null);
     protected $column_search = array('b.npsn', 'b.nama');
     protected $order = array('a.date_prosestransfer' => 'asc');

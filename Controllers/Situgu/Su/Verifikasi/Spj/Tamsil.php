@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controllers\Situgu\Opsr\Verifikasi\Spj;
+namespace App\Controllers\Situgu\Su\Verifikasi\Spj;
 
 use App\Controllers\BaseController;
-use App\Models\Situgu\Opsr\Spj\VerifikasispjtamsildetailModel;
-use App\Models\Situgu\Opsr\Spj\VerifikasispjtamsilsekolahModel;
+use App\Models\Situgu\Su\Spj\VerifikasispjtamsildetailModel;
+use App\Models\Situgu\Su\Spj\VerifikasispjtamsilsekolahModel;
 use Config\Services;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -63,11 +63,12 @@ class Tamsil extends BaseController
             }
         }
 
-        $npsns = $this->_helpLib->getSekolahNaungan($userId);
+        // $kecamatan = $this->_helpLib->getKecamatan($userId);
+        // $npsns = $this->_helpLib->getSekolahKecamatanArray($kecamatan, [5]);
         // var_dump($npsns);
         // die;
 
-        $lists = $datamodel->get_datatables($npsns, 'tpg');
+        $lists = $datamodel->get_datatables('tpg');
         $data = [];
         $no = $request->getPost("start");
         foreach ($lists as $list) {
@@ -103,8 +104,8 @@ class Tamsil extends BaseController
         }
         $output = [
             "draw" => $request->getPost('draw'),
-            "recordsTotal" => $datamodel->count_all($npsns, 'tamsil'),
-            "recordsFiltered" => $datamodel->count_filtered($npsns, 'tamsil'),
+            "recordsTotal" => $datamodel->count_all('tamsil'),
+            "recordsFiltered" => $datamodel->count_filtered('tamsil'),
             "data" => $data
         ];
         echo json_encode($output);
@@ -191,7 +192,7 @@ class Tamsil extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('situgu/opsr/verifikasi/spj/tamsil/data'));
+        return redirect()->to(base_url('situgu/su/verifikasi/spj/tamsil/data'));
     }
 
     public function data()
@@ -208,7 +209,7 @@ class Tamsil extends BaseController
         $data['user'] = $user->data;
         $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
         $data['tws'] = $this->_db->table('_ref_tahun_tw')->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getResult();
-        return view('situgu/opsr/verifikasi/spj/tamsil/index', $data);
+        return view('situgu/su/verifikasi/spj/tamsil/index', $data);
     }
 
     public function datalist()
@@ -227,7 +228,8 @@ class Tamsil extends BaseController
         $data['user'] = $user->data;
         $data['kode_usulan'] = $id;
         $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
-        return view('situgu/opsr/verifikasi/spj/tamsil/detail_index', $data);
+        // $data['tws'] = $this->_db->table('_ref_tahun_tw')->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getResult();
+        return view('situgu/su/verifikasi/spj/tamsil/detail_index', $data);
     }
 
     public function detail()
@@ -308,7 +310,7 @@ class Tamsil extends BaseController
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Permintaan diizinkan";
-                $response->data = view('situgu/opsr/verifikasi/spj/tamsil/detail', $data);
+                $response->data = view('situgu/su/verifikasi/spj/tamsil/detail', $data);
                 return json_encode($response);
             } else {
                 $response = new \stdClass;
@@ -498,7 +500,7 @@ class Tamsil extends BaseController
             $response = new \stdClass;
             $response->status = 200;
             $response->message = "Permintaan diizinkan";
-            $response->data = view('situgu/opsr/verifikasi/spj/tamsil/tolak', $data);
+            $response->data = view('situgu/su/verifikasi/spj/tamsil/tolak', $data);
             return json_encode($response);
         }
     }

@@ -1,4 +1,4 @@
-<?= $this->extend('t-situgu/adm/index'); ?>
+<?= $this->extend('t-situgu/su/index'); ?>
 
 <?= $this->section('content'); ?>
 <div class="page-content">
@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0 font-size-18">VERIFIKASI LAPORAN SPJ TAMSIL</h4>
+                    <h4 class="mb-sm-0 font-size-18">VERIFIKASI LAPORAN SPJ TPG</h4>
 
                     <!-- <div class="page-title-right">
                         <ol class="breadcrumb m-0">
@@ -27,7 +27,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-6">
-                                <h4 class="card-title">Data Laporan SPJ TAMSIL</h4>
+                                <h4 class="card-title">Data Laporan SPJ TPG</h4>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">

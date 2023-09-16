@@ -208,7 +208,8 @@ class Tamsil extends BaseController
         $id = $this->_helpLib->getPtkId($user->data->id);
         $data['user'] = $user->data;
         $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
-        return view('situgu/opk/verifikasi/spj/tamsil/index', $data);
+        $data['tws'] = $this->_db->table('_ref_tahun_tw')->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getResult();
+        return view('situgu/adm/verifikasi/spj/tamsil/index', $data);
     }
 
     public function datalist()
@@ -227,7 +228,8 @@ class Tamsil extends BaseController
         $data['user'] = $user->data;
         $data['kode_usulan'] = $id;
         $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
-        return view('situgu/opk/verifikasi/spj/tamsil/detail_index', $data);
+        // $data['tws'] = $this->_db->table('_ref_tahun_tw')->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getResult();
+        return view('situgu/adm/verifikasi/spj/tamsil/detail_index', $data);
     }
 
     public function detail()
@@ -308,7 +310,7 @@ class Tamsil extends BaseController
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Permintaan diizinkan";
-                $response->data = view('situgu/opk/verifikasi/spj/tamsil/detail', $data);
+                $response->data = view('situgu/adm/verifikasi/spj/tamsil/detail', $data);
                 return json_encode($response);
             } else {
                 $response = new \stdClass;
@@ -498,7 +500,7 @@ class Tamsil extends BaseController
             $response = new \stdClass;
             $response->status = 200;
             $response->message = "Permintaan diizinkan";
-            $response->data = view('situgu/opk/verifikasi/spj/tamsil/tolak', $data);
+            $response->data = view('situgu/adm/verifikasi/spj/tamsil/tolak', $data);
             return json_encode($response);
         }
     }

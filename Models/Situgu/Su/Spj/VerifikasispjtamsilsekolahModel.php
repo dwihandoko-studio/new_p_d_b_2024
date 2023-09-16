@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Situgu\Adm\Spj;
+namespace App\Models\Situgu\Su\Spj;
 
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\Model;

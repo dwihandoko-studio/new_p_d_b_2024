@@ -1,4 +1,4 @@
-<?= $this->extend('t-situgu/adm/index'); ?>
+<?= $this->extend('t-situgu/su/index'); ?>
 
 <?= $this->section('content'); ?>
 <div class="page-content">
@@ -8,13 +8,13 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0 font-size-18">VERIFIKASI LAPORAN SPJ TAMSIL</h4>
+                    <h4 class="mb-sm-0 font-size-18">VERIFIKASI LAPORAN SPJ <?= $kode_usulan ?></h4>
 
-                    <!-- <div class="page-title-right">
+                    <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript:actionSyncAll(this);" class="btn btn-primary btn-rounded waves-effect waves-light">Syncrone Semua Data PTK</a></li>
+                            <li class="breadcrumb-item"><a href="./data" class="btn btn-primary btn-rounded waves-effect waves-light">Kembali</a></li>
                         </ol>
-                    </div> -->
+                    </div>
 
                 </div>
             </div>
@@ -27,24 +27,20 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-6">
-                                <h4 class="card-title">Data Laporan SPJ TAMSIL</h4>
+                                <h4 class="card-title">Data LAPORAN SPJ <?= $kode_usulan ?></h4>
                             </div>
-                            <div class="col-6">
+                            <!-- <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="_tw" class="col-form-label">Filter TW:</label>
-                                    <select class="form-control" id="_tw" name="_tw" required>
+                                    <label for="_status" class="col-form-label">Filter Status:</label>
+                                    <select class="form-control" id="_status" name="_status" required>
                                         <option value="">--Pilih--</option>
-                                        <?php if (isset($tws)) { ?>
-                                            <?php if (count($tws) > 0) { ?>
-                                                <?php foreach ($tws as $key => $value) { ?>
-                                                    <option value="<?= $value->id ?>" <?= ($tw->id == $value->id) ? ' selected' : '' ?>><?= 'Tahun ' . $value->tahun . ' - TW. ' . $value->tw ?></option>
-                                                <?php } ?>
-                                            <?php } ?>
-                                        <?php } ?>
+                                        <option value="0">Antrian</option>
+                                        <option value="1">Ditolak</option>
+                                        <option value="pghm">PGHM</option>
                                     </select>
                                     <div class="help-block _status"></div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="card-body">
@@ -53,12 +49,11 @@
                                 <tr>
                                     <th data-orderable="false">#</th>
                                     <th data-orderable="false">Aksi</th>
-                                    <th>NAMA</th>
-                                    <th>NPSN</th>
-                                    <th>BENTUK PENDIDIKAN</th>
-                                    <th>STATUS</th>
-                                    <th>KECAMATAN</th>
-                                    <th>JUMLAH PTK</th>
+                                    <th>Kode</th>
+                                    <th>Nama</th>
+                                    <th>NIK</th>
+                                    <th>NUPTK</th>
+                                    <th>Jenis PTK</th>
                                 </tr>
                             </thead>
                         </table>
@@ -205,10 +200,10 @@
             "serverSide": true,
             "order": [],
             "ajax": {
-                "url": "./getAll",
+                "url": "./getAllDetail",
                 "type": "POST",
                 "data": function(data) {
-                    data.tw = $('#_tw').val();
+                    data.id = '<?= $kode_usulan ?>';
                 }
             },
             language: {
@@ -218,10 +213,6 @@
                 "targets": 0,
                 "orderable": false,
             }],
-        });
-
-        $('#_tw').change(function() {
-            tableDatatables.draw();
         });
 
     });
