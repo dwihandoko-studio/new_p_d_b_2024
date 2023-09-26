@@ -551,7 +551,7 @@ class Spjtpg extends BaseController
 
             $downloadLib = new Downloadlib();
 
-            $responseD =  $downloadLib->downloaded($filed, $ptks[0]->kode_verifikasi . ".pdf", "tpg");
+            $responseD =  $downloadLib->downloaded($filed, $ptks[0]->kode_verifikasi . ".pdf", "spjtpg");
 
             return $responseD;
             // if ($responseD->status == 200) {
