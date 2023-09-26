@@ -226,6 +226,66 @@ class Spjtpg extends BaseController
         }
     }
 
+    public function addGetTW()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            $response = new \stdClass;
+            $response->status = 401;
+            $response->message = "Session telah habis";
+            $response->redirect = base_url('auth');
+            return json_encode($response);
+        }
+
+        $rules = [
+            'id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('id')
+                . $this->validator->getError('tw');
+            return json_encode($response);
+        } else {
+            $jenis_tunjangan = htmlspecialchars($this->request->getVar('id'), true);
+            $tw = htmlspecialchars($this->request->getVar('tw'), true);
+
+            $tws = $this->_db->table('_ref_tahun_tw')->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getResult();
+
+            if (count($tws) > 0) {
+                // $data['data'] = $current;
+                $data['tw'] = $tw;
+                $data['tws'] = $tws;
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('situgu/opk/sptjm/spjtpg/get_tw', $data);
+                return json_encode($response);
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Tidak ada data verifikasi untuk dibuatkan SPTJM.";
+                return json_encode($response);
+            }
+        }
+    }
+
     public function add()
     {
         if ($this->request->getMethod() != 'post') {

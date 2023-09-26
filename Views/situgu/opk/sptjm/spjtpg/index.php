@@ -12,7 +12,7 @@
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript:actionAdd(this);" class="btn btn-primary btn-rounded waves-effect waves-light">BUAT SPTJM VERIFIKASI TPG</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:actionAdd(this);" class="btn btn-primary btn-rounded waves-effect waves-light">BUAT SPTJM VERIFIKASI SPJ TPG</a></li>
                         </ol>
                     </div>
 
@@ -66,6 +66,18 @@
 <!-- End Page-content -->
 
 <!-- Modal -->
+<div id="content-detailpilihModal" class="modal fade content-detailpilihModal" tabindex="-1" role="dialog" aria-labelledby="content-detailpilihModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-loading">
+            <div class="modal-header">
+                <h5 class="modal-title" id="content-detailpilihModalLabel">Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="contentpilihBodyModal">
+            </div>
+        </div>
+    </div>
+</div>
 <div id="content-detailModal" class="modal fade content-detailModal" tabindex="-1" role="dialog" aria-labelledby="content-detailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content modal-content-loading">
@@ -155,7 +167,7 @@
 
     function actionAdd(event) {
         $.ajax({
-            url: "./add",
+            url: "./addGetTW",
             type: 'POST',
             data: {
                 id: 'tpg',
@@ -176,13 +188,13 @@
                         'warning'
                     );
                 } else {
-                    $('#content-detailModalLabel').html('BUAT SPTJM VERIFIKASI SPJ TPG');
-                    $('.contentBodyModal').html(resul.data);
-                    $('.content-detailModal').modal({
+                    $('#content-detailpilihModalLabel').html('PILIH TRIWULAN SPTJM VERIFIKASI SPJ TPG');
+                    $('.contentpilihBodyModal').html(resul.data);
+                    $('.content-detailpilihModal').modal({
                         backdrop: 'static',
                         keyboard: false,
                     });
-                    $('.content-detailModal').modal('show');
+                    $('.content-detailpilihModal').modal('show');
                 }
             },
             error: function() {
@@ -195,6 +207,49 @@
             }
         });
     }
+
+    // function actionAdd(event) {
+    //     $.ajax({
+    //         url: "./add",
+    //         type: 'POST',
+    //         data: {
+    //             id: 'tpg',
+    //             tw: '<?= $tw->id ?>'
+    //         },
+    //         dataType: 'JSON',
+    //         beforeSend: function() {
+    //             $('div.main-content').block({
+    //                 message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+    //             });
+    //         },
+    //         success: function(resul) {
+    //             $('div.main-content').unblock();
+    //             if (resul.status !== 200) {
+    //                 Swal.fire(
+    //                     'Failed!',
+    //                     resul.message,
+    //                     'warning'
+    //                 );
+    //             } else {
+    //                 $('#content-detailModalLabel').html('BUAT SPTJM VERIFIKASI SPJ TPG');
+    //                 $('.contentBodyModal').html(resul.data);
+    //                 $('.content-detailModal').modal({
+    //                     backdrop: 'static',
+    //                     keyboard: false,
+    //                 });
+    //                 $('.content-detailModal').modal('show');
+    //             }
+    //         },
+    //         error: function() {
+    //             $('div.main-content').unblock();
+    //             Swal.fire(
+    //                 'Failed!',
+    //                 "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+    //                 'warning'
+    //             );
+    //         }
+    //     });
+    // }
 
     function actionDownload(id, tahun, tw) {
         $.ajax({
