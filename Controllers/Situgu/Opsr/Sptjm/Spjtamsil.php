@@ -131,7 +131,7 @@ class Spjtamsil extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('situgu/oprs/sptjm/spjtamsil/data'));
+        return redirect()->to(base_url('situgu/opsr/sptjm/spjtamsil/data'));
     }
 
     public function data()
@@ -421,7 +421,7 @@ class Spjtamsil extends BaseController
             $this->_db->transBegin();
 
             try {
-                $kodeVerifikasi = "Vspjtamsil-" . $twActive->tahun . '-' . $twActive->tw . '-' . time();
+                $kodeVerifikasi = "VSPJTAMSIL-" . $twActive->tahun . '-' . $twActive->tw . '-' . time();
 
                 $this->_db->table('_tb_sptjm_spj_verifikasi')
                     ->where(['jenis_usulan' => 'tamsil', 'generate_sptjm' => 0, 'user_id' => $user->data->id, 'id_tahun_tw' => $tw])
