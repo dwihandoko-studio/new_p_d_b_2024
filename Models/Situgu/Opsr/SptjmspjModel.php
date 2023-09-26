@@ -53,6 +53,7 @@ class SptjmspjModel extends Model
         $this->dt->join('_ref_tahun_tw b', 'a.id_tahun_tw = b.id');
         $this->dt->where('a.jenis_usulan', $jenis);
         $this->dt->where('a.user_id', $user_id);
+        $this->dt->where('a.generate_sptjm', 1);
         if ($this->request->getPost('tw')) {
             $this->dt->where('a.id_tahun_tw', $this->request->getPost('tw'));
         }
@@ -69,6 +70,7 @@ class SptjmspjModel extends Model
         $this->dt->join('_ref_tahun_tw b', 'a.id_tahun_tw = b.id');
         $this->dt->where('a.jenis_usulan', $jenis);
         $this->dt->where('a.user_id', $user_id);
+        $this->dt->where('a.generate_sptjm', 1);
         if ($this->request->getPost('tw')) {
             $this->dt->where('a.id_tahun_tw', $this->request->getPost('tw'));
         }
@@ -83,6 +85,7 @@ class SptjmspjModel extends Model
         $this->dt->join('_ref_tahun_tw b', 'a.id_tahun_tw = b.id');
         $this->dt->where('a.jenis_usulan', $jenis);
         $this->dt->where('a.user_id', $user_id);
+        $this->dt->where('a.generate_sptjm', 1);
         if ($this->request->getPost('tw')) {
             $this->dt->where('a.id_tahun_tw', $this->request->getPost('tw'));
         }
