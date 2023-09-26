@@ -40,7 +40,7 @@
                 url: "./add",
                 type: 'POST',
                 data: {
-                    jenis: 'tpg',
+                    id: 'tpg',
                     tw: tw,
                 },
                 dataType: 'JSON',
