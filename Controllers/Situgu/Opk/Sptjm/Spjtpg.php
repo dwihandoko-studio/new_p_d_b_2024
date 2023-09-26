@@ -111,7 +111,7 @@ class Spjtpg extends BaseController
                 $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/verifikasi/sptjm') . '/' . $list->lampiran_sptjm . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/verifikasi/sptjm') . '/' . $list->lampiran_sptjm . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
             } else {
                 if ($list->lampiran_sptjm == null || $list->lampiran_sptjm == "") {
-                    $row[] = '<a class="btn btn-sm btn-primary waves-effect waves-light" target="_blank" href="' . base_url('situgu/opk/sptjm/tpg/download') . '?id=' . $list->kode_verifikasi . '"><i class="bx bxs-cloud-download font-size-16 align-middle me-2"></i> Download</a>&nbsp;&nbsp;'
+                    $row[] = '<a class="btn btn-sm btn-primary waves-effect waves-light" target="_blank" href="' . base_url('situgu/opk/sptjm/spjtpg/download') . '?id=' . $list->kode_verifikasi . '"><i class="bx bxs-cloud-download font-size-16 align-middle me-2"></i> Download</a>&nbsp;&nbsp;'
                         . '<a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionUpload(\'' . $list->kode_verifikasi . '\',\'' . $list->tahun . '\',\'' . $list->tw . '\');"><i class="bx bxs-cloud-upload font-size-16 align-middle me-2"></i> Upload</a>';
                 } else {
                     $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/verifikasi/sptjm') . '/' . $list->lampiran_sptjm . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/verifikasi/sptjm') . '/' . $list->lampiran_sptjm . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
