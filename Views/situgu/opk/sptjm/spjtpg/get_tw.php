@@ -1,4 +1,4 @@
-<?php if (isset($data)) { ?>
+<?php if (isset($tws)) { ?>
     <div class="modal-body">
         <div class="col-lg-12">
             <div class="mb-3">
