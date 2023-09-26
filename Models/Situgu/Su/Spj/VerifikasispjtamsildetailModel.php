@@ -55,6 +55,7 @@ class VerifikasispjtamsildetailModel extends Model
     {
         $this->dt->where('a.kode_usulan', $kode_usulan);
         $this->dt->where('a.status_usulan', 0);
+        $this->dt->where("a.lampiran_pernyataan IS NOT NULL");
         $this->_get_datatables_query();
         if ($this->request->getPost('length') != -1)
             $this->dt->limit($this->request->getPost('length'), $this->request->getPost('start'));
@@ -65,6 +66,7 @@ class VerifikasispjtamsildetailModel extends Model
     {
         $this->dt->where('a.kode_usulan', $kode_usulan);
         $this->dt->where('a.status_usulan', 0);
+        $this->dt->where("a.lampiran_pernyataan IS NOT NULL");
         $this->_get_datatables_query();
 
         return $this->dt->countAllResults();
@@ -73,6 +75,7 @@ class VerifikasispjtamsildetailModel extends Model
     {
         $this->dt->where('a.kode_usulan', $kode_usulan);
         $this->dt->where('a.status_usulan', 0);
+        $this->dt->where("a.lampiran_pernyataan IS NOT NULL");
         $this->_get_datatables_query();
 
         return $this->dt->countAllResults();
