@@ -80,15 +80,15 @@
             <div class="col-lg-12 mt-2">
                 <label class="col-form-label">Lampiran Dokumen SPJ:</label>
                 <br />
-                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_pernyataan ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_pernyataan ?>" id="nik">
+                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tamsil') . '/' . $data->lampiran_pernyataan ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tamsil') . '/' . $data->lampiran_pernyataan ?>" id="nik">
                     Pernyataan
                 </a>
-                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_rekening_koran ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_rekening_koran ?>" id="nik">
+                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tamsil') . '/' . $data->lampiran_rekening_koran ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tamsil') . '/' . $data->lampiran_rekening_koran ?>" id="nik">
                     Rekening Koran
                 </a>
                 <?php if ($data->lampiran_sk_dirgen === null || $data->lampiran_sk_dirgen === "") {
                 } else { ?>
-                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_sk_dirgen ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_sk_dirgen ?>" id="nik">
+                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tamsil') . '/' . $data->lampiran_sk_dirgen ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tamsil') . '/' . $data->lampiran_sk_dirgen ?>" id="nik">
                         SKTP
                     </a>
                 <?php } ?>
