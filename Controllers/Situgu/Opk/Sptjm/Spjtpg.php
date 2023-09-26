@@ -146,6 +146,7 @@ class Spjtpg extends BaseController
         }
         $id = $this->_helpLib->getPtkId($user->data->id);
         $data['user'] = $user->data;
+        $data['tws'] = $this->_db->table('_ref_tahun_tw')->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getResult();
         $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
         return view('situgu/opk/sptjm/spjtpg/index', $data);
     }
