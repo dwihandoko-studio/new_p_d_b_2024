@@ -203,7 +203,7 @@ class Spjtpg extends BaseController
             $tw = htmlspecialchars($this->request->getVar('tw'), true);
             $tahun = htmlspecialchars($this->request->getVar('tahun'), true);
 
-            $currents = $this->_db->table('_tb_sptjm_verifikasi a')
+            $currents = $this->_db->table('_tb_sptjm_spj_verifikasi a')
                 ->select("a.id, a.kode_verifikasi, a.kode_usulan, a.id_ptks, a.id_tahun_tw, a.aksi, a.keterangan, a.created_at, b.nama as nama_ptk, b.nuptk, b.npsn, b.tempat_tugas as nama_sekolah")
                 ->join('_ptk_tb b', 'a.id_ptks = b.id')
                 ->where('kode_verifikasi', $id)
@@ -272,7 +272,7 @@ class Spjtpg extends BaseController
             $jenis_tunjangan = htmlspecialchars($this->request->getVar('id'), true);
             $tw = htmlspecialchars($this->request->getVar('tw'), true);
 
-            $current = $this->_db->table('_tb_sptjm_verifikasi')
+            $current = $this->_db->table('_tb_sptjm_spj_verifikasi')
                 ->select("*, count(id) as jumlah")
                 ->where(['jenis_usulan' => 'tpg', 'generate_sptjm' => 0, 'user_id' => $user->data->id, 'id_tahun_tw' => $tw])
                 ->groupBy('user_id')
@@ -353,16 +353,16 @@ class Spjtpg extends BaseController
             if (!$twActive) {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = "Gagal mengenerate SPTJM verifikasi TPG. TW active tidak ditemukan.";
+                $response->message = "Gagal mengenerate SPTJM verifikasi SPJ TPG. TW active tidak ditemukan.";
                 return json_encode($response);
             }
 
             $this->_db->transBegin();
 
             try {
-                $kodeVerifikasi = "VTPG-" . $twActive->tahun . '-' . $twActive->tw . '-' . time();
+                $kodeVerifikasi = "VSPJTPG-" . $twActive->tahun . '-' . $twActive->tw . '-' . time();
 
-                $this->_db->table('_tb_sptjm_verifikasi')
+                $this->_db->table('_tb_sptjm_spj_verifikasi')
                     ->where(['jenis_usulan' => 'tpg', 'generate_sptjm' => 0, 'user_id' => $user->data->id, 'id_tahun_tw' => $tw])
                     ->update(
                         [
@@ -375,13 +375,13 @@ class Spjtpg extends BaseController
                     $this->_db->transCommit();
                     $response = new \stdClass;
                     $response->status = 200;
-                    $response->message = "SPTJM Verifikasi TPG Tahun {$twActive->tahun} TW {$twActive->tw} berhasil digenerate.";
+                    $response->message = "SPTJM Verifikasi SPJ TPG Tahun {$twActive->tahun} TW {$twActive->tw} berhasil digenerate.";
                     return json_encode($response);
                 } else {
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->message = "Gagal Mengenerate SPTJM Verifikasi TPG.";
+                    $response->message = "Gagal Mengenerate SPTJM Verifikasi SPJ TPG.";
                     return json_encode($response);
                 }
             } catch (\Throwable $th) {
@@ -389,7 +389,7 @@ class Spjtpg extends BaseController
                 $response = new \stdClass;
                 $response->status = 400;
                 $response->error = var_dump($th);
-                $response->message = "Gagal Mengenerate SPTJM Verifikasi TPG.";
+                $response->message = "Gagal Mengenerate SPTJM Verifikasi SPJ TPG.";
                 return json_encode($response);
             }
         }
@@ -410,7 +410,7 @@ class Spjtpg extends BaseController
 
         $id = htmlspecialchars($this->request->getGet('id'), true);
 
-        $currents = $this->_db->table('_tb_sptjm_verifikasi a')
+        $currents = $this->_db->table('_tb_sptjm_spj_verifikasi a')
             ->select("a.id, a.kode_verifikasi, a.kode_usulan, a.id_ptks, a.id_tahun_tw, a.aksi, a.keterangan, a.created_at, b.nama as nama_ptk, b.nuptk, b.npsn, b.tempat_tugas as nama_sekolah")
             ->join('_ptk_tb b', 'a.id_ptks = b.id')
             ->where('kode_verifikasi', $id)
@@ -419,7 +419,7 @@ class Spjtpg extends BaseController
         if (count($currents) < 1) {
             $response = new \stdClass;
             $response->status = 400;
-            $response->message = "SPTJM tidak ditemukan. Silahkan Generate terlebih dahulu.";
+            $response->message = "SPTJM SPJ tidak ditemukan. Silahkan Generate terlebih dahulu.";
             return json_encode($response);
         }
 
@@ -427,7 +427,7 @@ class Spjtpg extends BaseController
         if (!$twActive) {
             $response = new \stdClass;
             $response->status = 400;
-            $response->message = "Gagal mendowload SPTJM verifikasi TPG. TW active tidak ditemukan.";
+            $response->message = "Gagal mendowload SPTJM verifikasi SPJ TPG. TW active tidak ditemukan.";
             return json_encode($response);
         }
 
@@ -581,7 +581,7 @@ class Spjtpg extends BaseController
             $response = new \stdClass;
             $response->status = 200;
             $response->message = "Permintaan diizinkan";
-            $response->data = view('situgu/opk/sptjm/tpg/upload_edit', $data);
+            $response->data = view('situgu/opk/sptjm/spjtpg/upload_edit', $data);
             return json_encode($response);
         }
     }
@@ -648,7 +648,7 @@ class Spjtpg extends BaseController
             $tw = htmlspecialchars($this->request->getVar('tw'), true);
             $id = htmlspecialchars($this->request->getVar('id'), true);
 
-            $current = $this->_db->table('_tb_sptjm_verifikasi')->where(['kode_verifikasi' => $id])->get()->getResult();
+            $current = $this->_db->table('_tb_sptjm_spj_verifikasi')->where(['kode_verifikasi' => $id])->get()->getResult();
 
             if (count($current) < 1) {
                 $response = new \stdClass;
@@ -672,7 +672,7 @@ class Spjtpg extends BaseController
 
             $dir = FCPATH . "upload/verifikasi/sptjm";
             $field_db = 'lampiran_sptjm';
-            $table_db = '_tb_sptjm_verifikasi';
+            $table_db = '_tb_sptjm_spj_verifikasi';
 
             $lampiran = $this->request->getFile('_file');
             $filesNamelampiran = $lampiran->getName();
@@ -841,7 +841,7 @@ class Spjtpg extends BaseController
             $tw = htmlspecialchars($this->request->getVar('tw'), true);
             $id = htmlspecialchars($this->request->getVar('id'), true);
 
-            $current = $this->_db->table('_tb_sptjm_verifikasi')->where(['kode_verifikasi' => $id])->get()->getResult();
+            $current = $this->_db->table('_tb_sptjm_spj_verifikasi')->where(['kode_verifikasi' => $id])->get()->getResult();
 
             if (count($current) < 1) {
                 $response = new \stdClass;
@@ -856,7 +856,7 @@ class Spjtpg extends BaseController
 
             $dir = FCPATH . "upload/verifikasi/sptjm";
             $field_db = 'lampiran_sptjm';
-            $table_db = '_tb_sptjm_verifikasi';
+            $table_db = '_tb_sptjm_spj_verifikasi';
 
             $lampiran = $this->request->getFile('_file');
             $filesNamelampiran = $lampiran->getName();

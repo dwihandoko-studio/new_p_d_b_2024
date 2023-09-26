@@ -401,7 +401,7 @@ class Spjtpg extends BaseController
                     //     $this->_db->table('_ptk_tb')->where(['id' => $oldData->id_ptk])->update(['is_locked' => 1]);
 
                     $verifikasiLib = new Verifikasiadminlib();
-                    $verifikasiLib->create($user->data->id, $oldData->kode_usulan, 'tpg', $oldData->id_ptk, $oldData->id_tahun_tw, 'Approve SPJ');
+                    $verifikasiLib->createSpj($user->data->id, $oldData->kode_usulan, 'tpg', $oldData->id_ptk, $oldData->id_tahun_tw, 'Approve SPJ');
                     // } catch (\Throwable $th) {
                     //     $this->_db->transRollback();
                     //     $response = new \stdClass;
@@ -593,7 +593,7 @@ class Spjtpg extends BaseController
                     //     $this->_db->table('_ptk_tb')->where(['id' => $oldData->id_ptk])->update(['is_locked' => 0]);
 
                     $verifikasiLib = new Verifikasiadminlib();
-                    $verifikasiLib->create($user->data->id, $oldData->kode_usulan, 'tpg', $oldData->id_ptk, $oldData->id_tahun_tw, 'Ditolak SPJ', $keterangan);
+                    $verifikasiLib->createSpj($user->data->id, $oldData->kode_usulan, 'tpg', $oldData->id_ptk, $oldData->id_tahun_tw, 'Ditolak SPJ', $keterangan);
                     // } catch (\Throwable $th) {
                     //     $this->_db->transRollback();
                     //     $response = new \stdClass;
