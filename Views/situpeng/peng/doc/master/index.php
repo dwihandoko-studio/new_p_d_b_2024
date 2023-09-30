@@ -45,6 +45,7 @@
                                     <th data-orderable="false">SK 80%</th>
                                     <th data-orderable="false">SK 100%</th>
                                     <th data-orderable="false">Buku Rekening</th>
+                                    <th data-orderable="false">SK JABFUNG</th>
                                     <th data-orderable="false">Status</th>
                                 </tr>
                             </thead>
@@ -64,6 +65,7 @@
                                             $row[] = $ptk->lampiran_sk80 ? '<a href="' . base_url('upload/pengawas/sk80') . '/' . $ptk->lampiran_sk80 . '" target="_blank"><span class="badge rounded-pill badge-soft-primary font-size-11">Lampiran SK 80%</span></a>' : '-';
                                             $row[] = $ptk->lampiran_sk100 ? '<a href="' . base_url('upload/pengawas/sk100') . '/' . $ptk->lampiran_sk100 . '" target="_blank"><span class="badge rounded-pill badge-soft-primary font-size-11">Lampiran SK 100%</span></a>' : '-';
                                             $row[] = $ptk->lampiran_buku_rekening ? '<a href="' . base_url('upload/pengawas/bukurekening') . '/' . $ptk->lampiran_buku_rekening . '" target="_blank"><span class="badge rounded-pill badge-soft-primary font-size-11">Lampiran Buku Rekening</span></a>' : '-';
+                                            $row[] = $ptk->lampiran_sk_jabfung ? '<a href="' . base_url('upload/pengawas/skjabfung') . '/' . $ptk->lampiran_sk_jabfung . '" target="_blank"><span class="badge rounded-pill badge-soft-primary font-size-11">Lampiran SK JABFUNG</span></a>' : '-';
                                             $row[] = '<div class="text-center">
                                             <span class="badge rounded-pill badge-soft-success font-size-11">Terkunci</span>
                                             </div>';
@@ -174,6 +176,15 @@
                                                 <i class="bx bxs-edit-alt font-size-16 align-middle"></i></button>
                                             </a>' :
                                                 '<a href="javascript:actionUpload(\'Buku Rekening\',\'buku_rekening\')" class="btn btn-primary waves-effect waves-light">
+                                                <i class="bx bx-upload font-size-16 align-middle me-2"></i> Upload
+                                            </a>';
+                                            $row[] = $ptk->lampiran_sk_jabfung ? '<a target="_blank" href="' . base_url('upload/pengawas/skjabfung') . '/' . $ptk->lampiran_sk_jabfung . '"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+                                                <i class="bx bxs-show font-size-16 align-middle"></i></button>
+                                            </a>
+                                            <a href="javascript:actionEditFile(\'SK Jabfung\',\'sk_jabfung\',\'' . $ptk->lampiran_sk_jabfung . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+                                                <i class="bx bxs-edit-alt font-size-16 align-middle"></i></button>
+                                            </a>' :
+                                                '<a href="javascript:actionUpload(\'SK Jabfung\',\'sk_jabfung\')" class="btn btn-primary waves-effect waves-light">
                                                 <i class="bx bx-upload font-size-16 align-middle me-2"></i> Upload
                                             </a>';
                                             $row[] = '<div class="text-center">

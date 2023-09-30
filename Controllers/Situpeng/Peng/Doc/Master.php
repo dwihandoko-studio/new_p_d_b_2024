@@ -226,6 +226,9 @@ class Master extends BaseController
                 case 'buku_rekening':
                     $data['old_url'] = base_url('upload/pengawas/bukurekening') . '/' . $old;
                     break;
+                case 'sk_jabfung':
+                    $data['old_url'] = base_url('upload/pengawas/skjabfung') . '/' . $old;
+                    break;
                 case 'ijazah':
                     $data['old_url'] = base_url('upload/pengawas/ijazah') . '/' . $old;
                     break;
@@ -416,6 +419,11 @@ class Master extends BaseController
                 case 'buku_rekening':
                     $dir = FCPATH . "upload/pengawas/bukurekening";
                     $field_db = 'lampiran_buku_rekening';
+                    $table_db = '__pengawas_tb';
+                    break;
+                case 'sk_jabfung':
+                    $dir = FCPATH . "upload/pengawas/skjabfung";
+                    $field_db = 'lampiran_sk_jabfung';
                     $table_db = '__pengawas_tb';
                     break;
                 case 'ijazah':
@@ -663,6 +671,11 @@ class Master extends BaseController
                     $field_db = 'lampiran_buku_rekening';
                     $table_db = '__pengawas_tb';
                     break;
+                case 'sk_jabfung':
+                    $dir = FCPATH . "upload/pengawas/skjabfung";
+                    $field_db = 'lampiran_sk_jabfung';
+                    $table_db = '__pengawas_tb';
+                    break;
                 case 'ijazah':
                     $dir = FCPATH . "upload/pengawas/ijazah";
                     $field_db = 'lampiran_ijazah';
@@ -822,6 +835,11 @@ class Master extends BaseController
                 case 'sk100':
                     $dir = FCPATH . "upload/pengawas/sk100";
                     $field_db = 'lampiran_sk100';
+                    $table_db = '__pengawas_tb';
+                    break;
+                case 'sk_jabfung':
+                    $dir = FCPATH . "upload/pengawas/skjabfung";
+                    $field_db = 'lampiran_sk_jabfung';
                     $table_db = '__pengawas_tb';
                     break;
                 case 'inpassing':
