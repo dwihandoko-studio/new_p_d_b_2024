@@ -267,6 +267,107 @@ class Reftw extends BaseController
         }
     }
 
+    public function aktifkan()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id tidak boleh kosong. ',
+                ]
+            ],
+            'tahun' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Tahun tidak boleh kosong. ',
+                ]
+            ],
+            'tw' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'TW tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('id') .
+                $this->validator->getError('tahun') .
+                $this->validator->getError('tw');
+            return json_encode($response);
+        } else {
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Permintaan diizinkan";
+                return json_encode($response);
+            }
+            $current = $this->_db->table('_ref_tahun_tw')
+                ->where('id', $id)->get()->getRowObject();
+
+            if ($current) {
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('_ref_tahun_tw')->where("id IS NOT NULL")->update(['is_current' => 0]);
+                    if ($this->_db->affectedRows() > 0) {
+                        $this->_db->table('_ref_tahun_tw')->where('id', $id)->update(['is_current' => 1, 'updated_at' => date('Y-m-d H:i:s')]);
+
+                        if ($this->_db->affectedRows() > 0) {
+                            // try {
+                            //     $dir = FCPATH . "uploads/user";
+                            //     unlink($dir . '/' . $current->image);
+                            // } catch (\Throwable $err) {
+                            // }
+                            $this->_db->transCommit();
+                            $response = new \stdClass;
+                            $response->status = 200;
+                            $response->message = "Data berhasil dihapus.";
+                            return json_encode($response);
+                        } else {
+                            $this->_db->transRollback();
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Data gagal dihapus.";
+                            return json_encode($response);
+                        }
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Data gagal disimpan.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data gagal dihapus.";
+                    return json_encode($response);
+                }
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan";
+                return json_encode($response);
+            }
+        }
+    }
+
     public function delete()
     {
         if ($this->request->getMethod() != 'post') {
