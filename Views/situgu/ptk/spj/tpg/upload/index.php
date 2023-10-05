@@ -97,6 +97,14 @@
 <script src="<?= base_url() ?>/assets/libs/dropzone/min/dropzone.min.js"></script>
 
 <script>
+    function showNotifUpload(event) {
+        Swal.fire(
+            'PERINGATAN!',
+            "Untuk Mengupload Laporan SPJ, Silahkan hubungi admin situgu.",
+            'warning'
+        );
+    }
+
     function actionAdd(event) {
         $.ajax({
             url: "./add",
