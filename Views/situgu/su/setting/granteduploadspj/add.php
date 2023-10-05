@@ -83,7 +83,7 @@
     }
 
     function formatRepoSelection(repo) {
-        return repo.nama + " - " + repo.nuptk + " - " + repo.npsn || repo.text;
+        return repo.nama || repo.text;
     }
 
     $("#formAddModalData").on("submit", function(e) {
