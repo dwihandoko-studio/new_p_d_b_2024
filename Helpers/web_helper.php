@@ -1043,6 +1043,35 @@ function canGrantedVerifikasiPengawas($user_id)
 	return $response;
 }
 
+function canGrantedUploadSpj($idPtk)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$ptkId = $db->table('_ptk_tb')->select("id")->where('id_ptk', $idPtk)->get()->getRowObject();
+	if (!$ptkId) {
+		$response = new \stdClass;
+		$response->code = 400;
+		$response->message = "Akses untuk upload spj tidak ada.";
+		$response->redirect = "";
+		return $response;
+	}
+
+	$grandted = $db->table('granted_upload_spj')->where('ptk_id', $ptkId->id)->get()->getRowObject();
+	if (!$grandted) {
+		$response = new \stdClass;
+		$response->code = 400;
+		$response->message = "Akses untuk upload spj tidak ada.";
+		$response->redirect = "";
+		return $response;
+	}
+
+	$response = new \stdClass;
+	$response->code = 200;
+	$response->message = "";
+	return $response;
+}
+
 function canGrantedVerifikasi($user_id)
 {
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
