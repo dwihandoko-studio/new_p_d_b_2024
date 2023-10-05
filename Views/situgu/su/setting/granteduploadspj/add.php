@@ -88,19 +88,12 @@
 
     $("#formAddModalData").on("submit", function(e) {
         e.preventDefault();
-        const role = document.getElementsByName('_role')[0].value;
-        const pengguna = document.getElementsByName('_pengguna')[0].value;
+        const ptk = document.getElementsByName('_ptk')[0].value;
 
-        if (role === "") {
-            $("select#_role").css("color", "#dc3545");
-            $("select#_role").css("border-color", "#dc3545");
-            $('._role').html('<ul role="alert" style="color: #dc3545; list-style-type:none; padding-inline-start: 10px;"><li style="color: #dc3545;">Silahkan pilih role.</li></ul>');
-            return false;
-        }
-        if (pengguna === "") {
-            $("select#_pengguna").css("color", "#dc3545");
-            $("select#_pengguna").css("border-color", "#dc3545");
-            $('._pengguna').html('<ul role="alert" style="color: #dc3545; list-style-type:none; padding-inline-start: 10px;"><li style="color: #dc3545;">Silahkan pilih pengguna.</li></ul>');
+        if (ptk === "") {
+            $("select#_ptk").css("color", "#dc3545");
+            $("select#_ptk").css("border-color", "#dc3545");
+            $('._ptk').html('<ul role="alert" style="color: #dc3545; list-style-type:none; padding-inline-start: 10px;"><li style="color: #dc3545;">Silahkan pilih PTK.</li></ul>');
             return false;
         }
 
@@ -108,8 +101,7 @@
             url: "./addSave",
             type: 'POST',
             data: {
-                role: role,
-                pengguna: pengguna,
+                id: ptk,
             },
             dataType: 'JSON',
             beforeSend: function() {
