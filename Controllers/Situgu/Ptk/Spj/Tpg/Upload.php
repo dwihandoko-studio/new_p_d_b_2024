@@ -715,16 +715,29 @@ class Upload extends BaseController
                 . $this->validator->getError('title');
             return json_encode($response);
         } else {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Permintaan diizinkan";
+                return json_encode($response);
+            }
+
+            $canUploadSpj = canUploadSpjTpg();
+            if ($canUploadSpj->code !== 200) {
+                $canGrantedUploadSpj = canGrantedUploadSpj($user->data->ptk_id);
+                if ($canGrantedUploadSpj->code !== 200) {
+                    return json_encode($canUploadSpj);
+                }
+            }
+
             $id = htmlspecialchars($this->request->getVar('id'), true);
             $jenis = htmlspecialchars($this->request->getVar('jenis'), true);
             $tw = htmlspecialchars($this->request->getVar('tw'), true);
             $title = htmlspecialchars($this->request->getVar('title'), true);
-
-            $canUpload = canUploadSpjTpg();
-
-            if ($canUpload && $canUpload->code !== 200) {
-                return json_encode($canUpload);
-            }
 
             $data['id'] = $id;
             $data['title'] = $title;
@@ -790,17 +803,30 @@ class Upload extends BaseController
                 . $this->validator->getError('title');
             return json_encode($response);
         } else {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Permintaan diizinkan";
+                return json_encode($response);
+            }
+
+            $canUploadSpj = canUploadSpjTpg();
+            if ($canUploadSpj->code !== 200) {
+                $canGrantedUploadSpj = canGrantedUploadSpj($user->data->ptk_id);
+                if ($canGrantedUploadSpj->code !== 200) {
+                    return json_encode($canUploadSpj);
+                }
+            }
+
             $id = htmlspecialchars($this->request->getVar('id'), true);
             $jenis = htmlspecialchars($this->request->getVar('file'), true);
             $tw = htmlspecialchars($this->request->getVar('tw'), true);
             $title = htmlspecialchars($this->request->getVar('title'), true);
             $old = htmlspecialchars($this->request->getVar('old'), true);
-
-            $canUpload = canUploadSpjTpg();
-
-            if ($canUpload && $canUpload->code !== 200) {
-                return json_encode($canUpload);
-            }
 
             $data['id'] = $id;
             $data['title'] = $title;
@@ -882,10 +908,12 @@ class Upload extends BaseController
                 return json_encode($response);
             }
 
-            $canUpload = canUploadSpjTpg();
-
-            if ($canUpload && $canUpload->code !== 200) {
-                return json_encode($canUpload);
+            $canUploadSpj = canUploadSpjTpg();
+            if ($canUploadSpj->code !== 200) {
+                $canGrantedUploadSpj = canGrantedUploadSpj($user->data->ptk_id);
+                if ($canGrantedUploadSpj->code !== 200) {
+                    return json_encode($canUploadSpj);
+                }
             }
 
             $id = htmlspecialchars($this->request->getVar('id'), true);
@@ -1046,10 +1074,12 @@ class Upload extends BaseController
                 return json_encode($response);
             }
 
-            $canUpload = canUploadSpjTpg();
-
-            if ($canUpload && $canUpload->code !== 200) {
-                return json_encode($canUpload);
+            $canUploadSpj = canUploadSpjTpg();
+            if ($canUploadSpj->code !== 200) {
+                $canGrantedUploadSpj = canGrantedUploadSpj($user->data->ptk_id);
+                if ($canGrantedUploadSpj->code !== 200) {
+                    return json_encode($canUploadSpj);
+                }
             }
 
             $jenis = htmlspecialchars($this->request->getVar('jenis'), true);
@@ -1203,10 +1233,12 @@ class Upload extends BaseController
             $old = htmlspecialchars($this->request->getVar('old'), true);
             $id = htmlspecialchars($this->request->getVar('id'), true);
 
-            $canUpload = canUploadSpjTpg();
-
-            if ($canUpload && $canUpload->code !== 200) {
-                return json_encode($canUpload);
+            $canUploadSpj = canUploadSpjTpg();
+            if ($canUploadSpj->code !== 200) {
+                $canGrantedUploadSpj = canGrantedUploadSpj($user->data->ptk_id);
+                if ($canGrantedUploadSpj->code !== 200) {
+                    return json_encode($canUploadSpj);
+                }
             }
 
             $Profilelib = new Profilelib();
