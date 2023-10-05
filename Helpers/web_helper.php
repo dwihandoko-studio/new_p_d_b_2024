@@ -968,6 +968,16 @@ function canGrantedPengajuan($id_ptk, $tw)
 		}
 	}
 
+	$spjTpg = $db->table('_tb_spj_tpg')->where('id_ptk', $id_ptk)->whereIn('status_usulan', [0, 3])->countAllResults();
+	$spjTamsil = $db->table('_tb_spj_tamsil')->where('id_ptk', $id_ptk)->whereIn('status_usulan', [0, 3])->countAllResults();
+	if ($spjTpg > 0 || $spjTamsil > 0) {
+		$response = new \stdClass;
+		$response->code = 400;
+		$response->message = "Anda terdeteksi belum mengupload Laporan SPJ Penerimaan Tunjangan atau Laporan SPJ Penerimaan Tunjangan belum diverifikasi oleh Admin. Silahkan hubungi Admin Tunjangan untuk Informasi Lebih Lanjut.";
+		$response->redirect = "";
+		return $response;
+	}
+
 	$response = new \stdClass;
 	$response->code = 200;
 	$response->message = "";
