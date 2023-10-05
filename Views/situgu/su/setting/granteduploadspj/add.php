@@ -19,7 +19,7 @@
     // initSelect2("_role", ".content-detailModal");
     // initSelect2("_ptk", ".content-detailModal");
 
-    $('#' + event).select2({
+    $('#_ptk').select2({
         dropdownParent: ".content-detailModal",
         ajax: {
             url: "./getPtk",
