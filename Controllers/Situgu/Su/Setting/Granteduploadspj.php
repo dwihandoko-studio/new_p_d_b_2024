@@ -140,6 +140,15 @@ class Granteduploadspj extends BaseController
                 return json_encode($response);
             }
 
+            $cekDataPtk = $this->_db->table('_ptk_tb')->where(['id' => $id])->get()->getRowObject();
+
+            if (!$cekDataPtk) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "PTK tidak ditemukan.";
+                return json_encode($response);
+            }
+
             $this->_db->transBegin();
             $data = [
                 'ptk_id' => $id,
