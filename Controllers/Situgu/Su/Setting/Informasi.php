@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\Situgu\Su\InformasiModel;
 use Config\Services;
 use App\Libraries\Profilelib;
+use App\Libraries\Uuid;
 
 class Informasi extends BaseController
 {
@@ -401,7 +402,10 @@ class Informasi extends BaseController
                 $roles = "ALL";
             }
 
+            $uuidLib = new Uuid();
+
             $data = [
+                'id' => $uuidLib->v4(),
                 'judul' => $judul,
                 'status' => $status,
                 'tampil' => $status,
