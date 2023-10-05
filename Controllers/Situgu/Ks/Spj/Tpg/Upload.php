@@ -92,9 +92,21 @@ class Upload extends BaseController
             $row[] = $list->tw;
             // $row[] = rpAwalan($list->tf_jumlah_diterima);
             if ($list->lock_upload_spj == 1) {
-                $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_pernyataan . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_pernyataan . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
-                $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_rekening_koran . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_rekening_koran . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
-                $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_sk_dirgen . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_sk_dirgen . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
+                if ($list->lampiran_pernyataan == NULL || $list->lampiran_pernyataan == "") {
+                    $row[] = '<span class="badge rounded-pill badge-warning">Belum Upload</span>';
+                } else {
+                    $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_pernyataan . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_pernyataan . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
+                }
+                if ($list->lampiran_rekening_koran == NULL || $list->lampiran_rekening_koran == "") {
+                    $row[] = '<span class="badge rounded-pill badge-warning">Belum Upload</span>';
+                } else {
+                    $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_rekening_koran . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_rekening_koran . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
+                }
+                if ($list->lampiran_sk_dirgen == NULL || $list->lampiran_sk_dirgen == "") {
+                    $row[] = '<span class="badge rounded-pill badge-warning">Belum Upload</span>';
+                } else {
+                    $row[] = '<a target="popup" onclick="window.open(\'' . base_url('upload/spj/tpg') . '/' . $list->lampiran_sk_dirgen . '\',\'popup\',\'width=600,height=600\'); return false;" href="' . base_url('upload/spj/tpg') . '/' . $list->lampiran_sk_dirgen . '"><span class="badge rounded-pill badge-soft-dark">Lihat</span></a>';
+                }
             } else {
                 if ($list->lampiran_pernyataan == null || $list->lampiran_pernyataan == "") {
                     // $row[] = '<a class="btn btn-sm btn-primary waves-effect waves-light" target="_blank" href="' . base_url('situgu/ptk/spj/tpg/download') . '?id=' . $list->id . '"><i class="bx bxs-cloud-download font-size-16 align-middle me-2"></i> Download</a>&nbsp;&nbsp;'
