@@ -733,10 +733,10 @@ class Upload extends BaseController
 
             $canUploadSpj = canUploadSpjTpg();
             if ($canUploadSpj->code !== 200) {
-                // $canGrantedUploadSpj = canGrantedUploadSpj($user->data->ptk_id);
-                // if ($canGrantedUploadSpj->code !== 200) {
-                return json_encode($canUploadSpj);
-                // }
+                $canGrantedUploadSpj = canGrantedUploadSpj($user->data->ptk_id);
+                if ($canGrantedUploadSpj->code !== 200) {
+                    return json_encode($canUploadSpj);
+                }
             }
 
             $data['id'] = $id;
