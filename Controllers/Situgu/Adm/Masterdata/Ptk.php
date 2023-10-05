@@ -80,6 +80,8 @@ class Ptk extends BaseController
                         <a class="dropdown-item" href="javascript:actionSync(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="bx bx-transfer-alt font-size-16 align-middle"></i> &nbsp;Tarik Data</a>
                         <a class="dropdown-item" href="javascript:actionSyncDataPembenahan(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="bx bx-transfer-alt font-size-16 align-middle"></i> &nbsp;Syncrone Data Pembenahan</a>
                         <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Ajukan Hapus Data</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="javascript:actionUnlockSpj(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="mdi mdi-upload-lock font-size-16 align-middle"></i> &nbsp;Unlock Upload SPJ</a>
                     </div>
                 </div>';
             } else {
@@ -92,6 +94,8 @@ class Ptk extends BaseController
                         <a class="dropdown-item" href="javascript:actionSync(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="bx bx-transfer-alt font-size-16 align-middle"></i> &nbsp;Tarik Data</a>
                         <a class="dropdown-item" href="javascript:actionSyncDataPembenahan(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="bx bx-transfer-alt font-size-16 align-middle"></i> &nbsp;Syncrone Data Pembenahan</a>
                         <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Ajukan Hapus Data</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="javascript:actionUnlockSpj(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="mdi mdi-upload-lock font-size-16 align-middle"></i> &nbsp;Unlock Upload SPJ</a>
                     </div>
                 </div>';
             }
@@ -856,6 +860,98 @@ class Ptk extends BaseController
                 $response = new \stdClass;
                 $response->status = 400;
                 $response->message = "Tidak ada Pembaharuan Data Atribut PTK $nama";
+                return json_encode($response);
+            }
+        }
+    }
+
+    public function unlockuploadspj()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'ptk_id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id PTK tidak boleh kosong. ',
+                ]
+            ],
+            'nama' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Nama tidak boleh kosong. ',
+                ]
+            ],
+            'npsn' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'NPSN tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('ptk_id')
+                . $this->validator->getError('nama')
+                . $this->validator->getError('npsn');
+            return json_encode($response);
+        } else {
+            $idPtk = htmlspecialchars($this->request->getVar('ptk_id'), true);
+            $nama = htmlspecialchars($this->request->getVar('nama'), true);
+            $npsn = htmlspecialchars($this->request->getVar('npsn'), true);
+
+            $ptk = $this->_db->table('_ptk_tb')->where('id_ptk', $idPtk)->get()->getRowObject();
+
+            if (!$ptk) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data PTK tidak ditemukan.";
+                return json_encode($response);
+            }
+
+            $spjTpg = $this->_db->table('_tb_spj_tpg')->select("id, id_ptk")->where('id_ptk', $ptk->id)->whereIn('status_usulan', [0, 3])->get()->getResult();
+            $spjTamsil = $this->_db->table('_tb_spj_tamsil')->select("id, id_ptk")->where('id_ptk', $ptk->id)->whereIn('status_usulan', [0, 3])->get()->getResult();
+            if (count($spjTpg) > 0 || count($spjTamsil) > 0) {
+                $idPtknya = NULL;
+                if (count($spjTpg) > 0) {
+                    $idsSpj = [];
+                    foreach ($spjTpg as $key => $value) {
+                        $idsSpj[] = $value->id;
+                        $idPtknya = $value->id_ptk;
+                    }
+
+                    $this->_db->table('_tb_spj_tpg')->whereIn('id', $idsSpj)->update(['lock_upload_spj' => 0, 'updated_at' => date('Y-m-d H:i:s')]);
+                }
+                if (count($spjTamsil) > 0) {
+                    $idsSpjTamsil = [];
+                    foreach ($spjTamsil as $key => $value) {
+                        $idsSpjTamsil[] = $value->id;
+                        $idPtknya = $value->id_ptk;
+                    }
+
+                    $this->_db->table('_tb_spj_tamsil')->whereIn('id', $idsSpjTamsil)->update(['lock_upload_spj' => 0, 'updated_at' => date('Y-m-d H:i:s')]);
+                }
+
+                try {
+                    $this->_db->table('granted_upload_spj')->insert(['ptk_id' => $idPtknya, 'created_at' => date('Y-m-d H:i:s')]);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Upload SPJ untuk PTK $nama berhasil dilakukan.";
+                return json_encode($response);
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Tidak ada SPJ yang perlu di unlock, karena sudah terverifikasi.";
                 return json_encode($response);
             }
         }
