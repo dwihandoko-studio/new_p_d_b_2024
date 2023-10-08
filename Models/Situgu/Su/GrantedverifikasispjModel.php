@@ -25,7 +25,7 @@ class GrantedverifikasispjModel extends Model
     }
     private function _get_datatables_query()
     {
-        $select = "a.id, b.fullname, c.role as role_name, d.nama_kecamatan";
+        $select = "a.id, b.fullname, c.role as role_name";
 
         $this->dt->select($select);
         $this->dt->join('_profil_users_tb b', 'a.id = b.id');
