@@ -40,7 +40,7 @@ class Grantedverifikasispj extends BaseController
             $row[] = $action;
             $row[] = $list->fullname;
             $row[] = $list->role_name;
-            $row[] = $list->kecamatan;
+            $row[] = $list->nama_kecamatan;
 
             $data[] = $row;
         }
@@ -181,7 +181,7 @@ class Grantedverifikasispj extends BaseController
         }
     }
 
-    public function getPtk()
+    public function getPengguna()
     {
         if ($this->request->getMethod() != 'post') {
             $response = new \stdClass;
@@ -207,8 +207,8 @@ class Grantedverifikasispj extends BaseController
         } else {
             $keyword = htmlspecialchars($this->request->getVar('keyword'), true);
 
-            $current = $this->_db->table('_ptk_tb')->select("id, nama, nuptk, npsn")
-                ->where("id_ptk IS NOT NULL AND (nuptk = '$keyword' OR nama LIKE '%$keyword%')")->get()->getResult();
+            $current = $this->_db->table('_profil_users_tb')->select("id, fullname, email, kecamatan")
+                ->where("role_user IN (2,3,4) AND (fullname = '$keyword' OR email LIKE '%$keyword%')")->get()->getResult();
 
             if (count($current) > 0) {
                 $response = new \stdClass;
