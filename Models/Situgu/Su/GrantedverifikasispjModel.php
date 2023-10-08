@@ -8,7 +8,7 @@ use CodeIgniter\Model;
 class GrantedverifikasispjModel extends Model
 {
     protected $table = "granted_verifikasi_spj a";
-    protected $column_order = array(null, null, 'b.fullname', 'c.role', 'c.kecamatan');
+    protected $column_order = array(null, null, 'b.fullname', 'c.role');
     protected $column_search = array('b.fullname');
     protected $order = array('b.fullname' => 'asc');
     protected $request;
@@ -30,7 +30,7 @@ class GrantedverifikasispjModel extends Model
         $this->dt->select($select);
         $this->dt->join('_profil_users_tb b', 'a.id = b.id');
         $this->dt->join('_role_user c', 'b.role_user = c.id', 'LEFT');
-        $this->dt->join('ref_kecamatan d', 'b.kecamatan = d.id', 'LEFT');
+        // $this->dt->join('ref_kecamatan d', 'b.kecamatan = d.id', 'LEFT');
 
         $i = 0;
         foreach ($this->column_search as $item) {

@@ -39,7 +39,7 @@
                                     <th data-orderable="false">Aksi</th>
                                     <th>NAMA</th>
                                     <th>ROLE</th>
-                                    <th>KECAMATAN</th>
+                                    <!-- <th>KECAMATAN</th> -->
                                 </tr>
                             </thead>
                         </table>

@@ -40,7 +40,7 @@ class Grantedverifikasispj extends BaseController
             $row[] = $action;
             $row[] = $list->fullname;
             $row[] = $list->role_name;
-            $row[] = $list->nama_kecamatan;
+            // $row[] = $list->nama_kecamatan;
 
             $data[] = $row;
         }
