@@ -128,6 +128,7 @@
                                 <a href="<?= base_url('situgu/su/setting/accesstugu') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "setting" && $uri->getSegment(4) == "accesstugu") ? ' active-menu-href' : '' ?>" key="t-setting-accessmt">Granted Access Admin Situgu</a>
                                 <a href="<?= base_url('situgu/su/setting/grantedsynbakbone') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "setting" && $uri->getSegment(4) == "grantedsynbakbone") ? ' active-menu-href' : '' ?>" key="t-setting-grantsyncrone">Granted Access Syncrone Backbone</a>
                                 <a href="<?= base_url('situgu/su/setting/granteduploadspj') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "setting" && $uri->getSegment(4) == "granteduploadspj") ? ' active-menu-href' : '' ?>" key="t-setting-granteduploadspj">Granted Upload SPJ</a>
+                                <a href="<?= base_url('situgu/su/setting/grantedverifikasispj') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "setting" && $uri->getSegment(4) == "grantedverifikasispj") ? ' active-menu-href' : '' ?>" key="t-setting-grantedverifikasidspj">Granted Verifikasi SPJ</a>
                             </div>
                         </li>
                         <li class="nav-item">
