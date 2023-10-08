@@ -30,7 +30,7 @@ class GrantedverifikasispjModel extends Model
         $this->dt->select($select);
         $this->dt->join('_profil_users_tb b', 'a.id = b.id');
         $this->dt->join('_role_user c', 'b.role_user = c.id', 'LEFT');
-        $this->dt->join('ref_kecamatan d', 'b.nama_kecamatan = d.id', 'LEFT');
+        $this->dt->join('ref_kecamatan d', 'b.kecamatan = d.id', 'LEFT');
 
         $i = 0;
         foreach ($this->column_search as $item) {
