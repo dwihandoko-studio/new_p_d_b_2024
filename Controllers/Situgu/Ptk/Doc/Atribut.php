@@ -110,7 +110,7 @@ class Atribut extends BaseController
                     <a href="javascript:actionEditFile(\'Pangkat Terakhir\',\'pangkat\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\',\'' . $list->pangkat_terakhir . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
                         <i class="bx bxs-edit-alt font-size-16 align-middle"></i></button>
                     </a>' :
-                            '<a href="javascript:actionUpload(\'Pangkat Terakhir\',\'pangkat\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\')" class="btn btn-primary waves-effect waves-light">
+                            '<a href="javascript:actionUpload(\'Pangkat Terakhir\',\'pangkat\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\', 1)" class="btn btn-primary waves-effect waves-light">
                         <i class="bx bx-upload font-size-16 align-middle me-2"></i> Upload
                     </a>';
                         $row[] = $list->kgb_terakhir ? '<a target="_blank" href="' . base_url('upload/ptk/kgb') . '/' . $list->kgb_terakhir . '"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
@@ -122,7 +122,7 @@ class Atribut extends BaseController
                     <a href="javascript:actionHapusFile(\'Berkala Terakhir\',\'kgb\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\',\'' . $list->kgb_terakhir . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
                         <i class="mdi mdi-trash-can-outline font-size-16 align-middle"></i></button>
                     </a>' :
-                            '<a href="javascript:actionUpload(\'Berkala Terakhir\',\'kgb\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\')" class="btn btn-primary waves-effect waves-light">
+                            '<a href="javascript:actionUpload(\'Berkala Terakhir\',\'kgb\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\', 1)" class="btn btn-primary waves-effect waves-light">
                         <i class="bx bx-upload font-size-16 align-middle me-2"></i> Upload
                     </a>';
                         $row[] = $list->pernyataan_24jam ? '<a target="_blank" href="' . base_url('upload/ptk/pernyataanindividu') . '/' . $list->pernyataan_24jam . '"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">

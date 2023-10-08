@@ -155,49 +155,64 @@
         });
     }
 
-    function actionUpload(title, bulan, tw, id_ptk) {
-        $.ajax({
-            url: "./formupload",
-            type: 'POST',
-            data: {
-                bulan: bulan,
-                tw: tw,
-                id_ptk: id_ptk,
-                title: title,
-            },
-            dataType: 'JSON',
-            beforeSend: function() {
-                $('div.main-content').block({
-                    message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
-                });
-            },
-            success: function(resul) {
-                $('div.main-content').unblock();
-                if (resul.status !== 200) {
+    function actionUpload(title, bulan, tw, id_ptk, fromOld = 0) {
+        if (fromOld === 1) {
+            Swal.fire({
+                title: 'Apakah anda yakin ingin menghapus lampiran file ini?',
+                text: "Hapus Lampiran File: " + title,
+                showCancelButton: true,
+                icon: 'question',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Tidak',
+            }).then((result) => {
+                if (result.value) {}
+            });
+        } else {
+            $.ajax({
+                url: "./formupload",
+                type: 'POST',
+                data: {
+                    bulan: bulan,
+                    tw: tw,
+                    id_ptk: id_ptk,
+                    title: title,
+                },
+                dataType: 'JSON',
+                beforeSend: function() {
+                    $('div.main-content').block({
+                        message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                    });
+                },
+                success: function(resul) {
+                    $('div.main-content').unblock();
+                    if (resul.status !== 200) {
+                        Swal.fire(
+                            'Failed!',
+                            resul.message,
+                            'warning'
+                        );
+                    } else {
+                        $('#content-detailModalLabel').html('Upload Lampiran ' + title);
+                        $('.contentBodyModal').html(resul.data);
+                        $('.content-detailModal').modal({
+                            backdrop: 'static',
+                            keyboard: false,
+                        });
+                        $('.content-detailModal').modal('show');
+                    }
+                },
+                error: function() {
+                    $('div.main-content').unblock();
                     Swal.fire(
                         'Failed!',
-                        resul.message,
+                        "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
                         'warning'
                     );
-                } else {
-                    $('#content-detailModalLabel').html('Upload Lampiran ' + title);
-                    $('.contentBodyModal').html(resul.data);
-                    $('.content-detailModal').modal({
-                        backdrop: 'static',
-                        keyboard: false,
-                    });
-                    $('.content-detailModal').modal('show');
                 }
-            },
-            error: function() {
-                $('div.main-content').unblock();
-                Swal.fire(
-                    'Failed!',
-                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
-                    'warning'
-                );
-            }
-        });
+            });
+        }
     }
 
     function actionHapusFile(title, bulan, tw, id_ptk, old) {
