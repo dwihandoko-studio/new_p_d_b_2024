@@ -131,27 +131,27 @@ class Grantedverifikasispj extends BaseController
 
             $id = htmlspecialchars($this->request->getVar('id'), true);
 
-            $cekData = $this->_db->table('granted_verifikasi_spj')->where(['ptk_id' => $id])->get()->getRowObject();
+            $cekData = $this->_db->table('granted_verifikasi_spj')->where(['id' => $id])->get()->getRowObject();
 
             if ($cekData) {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = "PTK sudah ada dalam list.";
+                $response->message = "Pengguna sudah ada dalam list.";
                 return json_encode($response);
             }
 
-            $cekDataPtk = $this->_db->table('_ptk_tb')->where(['id' => $id])->get()->getRowObject();
+            $cekDataPtk = $this->_db->table('_profil_users_tb')->where(['id' => $id])->get()->getRowObject();
 
             if (!$cekDataPtk) {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = "PTK tidak ditemukan.";
+                $response->message = "Pengguna tidak ditemukan.";
                 return json_encode($response);
             }
 
             $this->_db->transBegin();
             $data = [
-                'ptk_id' => $id,
+                'id' => $id,
                 'created_at' => date('Y-m-d H:i:s')
             ];
 
