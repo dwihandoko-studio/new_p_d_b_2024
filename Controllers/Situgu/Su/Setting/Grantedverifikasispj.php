@@ -264,7 +264,7 @@ class Grantedverifikasispj extends BaseController
 
             $this->_db->transBegin();
             try {
-                $this->_db->table('granted_verifikasi_spj')->where('ptk_id', $id)->delete();
+                $this->_db->table('granted_verifikasi_spj')->where('id', $id)->delete();
 
                 if ($this->_db->affectedRows() > 0) {
                     $this->_db->transCommit();
