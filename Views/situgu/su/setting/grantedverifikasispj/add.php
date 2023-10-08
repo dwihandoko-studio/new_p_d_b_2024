@@ -22,7 +22,7 @@
     $('#_ptk').select2({
         dropdownParent: ".content-detailModal",
         ajax: {
-            url: "./getPtk",
+            url: "./getPengguna",
             type: 'POST',
             dataType: 'json',
             delay: 250,
