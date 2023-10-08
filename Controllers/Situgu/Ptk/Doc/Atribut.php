@@ -680,12 +680,9 @@ class Atribut extends BaseController
                 return json_encode($response);
             }
 
-            $data = new \stdClass;
-            $data->bulan = $bulan;
-            $data->tw = $tw;
-            $data->title = $title;
-            $data->id_ptk = $id_ptk;
-            $data->doc = $dir . '/' . $currentFile->file;
+            $data = [
+                'updated_at' => date('Y-m-d H:i:s'),
+            ];
 
             $newNamelampiran = _create_name_file($currentFile->file);
 
