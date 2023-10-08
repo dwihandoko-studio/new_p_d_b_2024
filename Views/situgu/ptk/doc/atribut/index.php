@@ -201,7 +201,69 @@
                     }).then((result) => {
                         /* Read more about isConfirmed, isDenied below */
                         if (result.isConfirmed) {
-                            Swal.fire('Saved!', '', 'success')
+                            $.ajax({
+                                url: "./gunakanDokumenSebelumnya",
+                                type: 'POST',
+                                data: {
+                                    title: title,
+                                    bulan: bulan,
+                                    old: old,
+                                    tw: tw,
+                                    id_ptk: id_ptk,
+                                },
+                                dataType: 'JSON',
+                                beforeSend: function() {
+                                    $('div.main-content').block({
+                                        message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                                    });
+                                },
+                                success: function(resul) {
+                                    $('div.main-content').unblock();
+                                    if (resul.status !== 200) {
+                                        if (resul.status !== 201) {
+                                            if (resul.status === 401) {
+                                                Swal.fire(
+                                                    'Failed!',
+                                                    resul.message,
+                                                    'warning'
+                                                ).then((valRes) => {
+                                                    reloadPage();
+                                                });
+                                            } else {
+                                                Swal.fire(
+                                                    'GAGAL!',
+                                                    resul.message,
+                                                    'warning'
+                                                );
+                                            }
+                                        } else {
+                                            Swal.fire(
+                                                'Peringatan!',
+                                                resul.message,
+                                                'success'
+                                            ).then((valRes) => {
+                                                reloadPage();
+                                            })
+                                        }
+                                    } else {
+                                        Swal.fire(
+                                            'SELAMAT!',
+                                            resul.message,
+                                            'success'
+                                        ).then((valRes) => {
+                                            reloadPage();
+                                        })
+                                    }
+                                },
+                                error: function() {
+                                    $('div.main-content').unblock();
+                                    Swal.fire(
+                                        'Failed!',
+                                        "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                                        'warning'
+                                    );
+                                }
+                            });
                         } else if (result.isDenied) {
                             $.ajax({
                                 url: "./getDokumenSebelumnya",
