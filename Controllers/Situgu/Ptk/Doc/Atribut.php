@@ -568,6 +568,122 @@ class Atribut extends BaseController
         }
     }
 
+    public function getDokumenSebelumnya()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'bulan' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Bulan tidak boleh kosong. ',
+                ]
+            ],
+            'tw' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'TW tidak boleh kosong. ',
+                ]
+            ],
+            'title' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Title tidak boleh kosong. ',
+                ]
+            ],
+            'id_ptk' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id PTK tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('bulan')
+                . $this->validator->getError('tw')
+                . $this->validator->getError('title')
+                . $this->validator->getError('id_ptk');
+            return json_encode($response);
+        } else {
+            $bulan = htmlspecialchars($this->request->getVar('bulan'), true);
+            $tw = htmlspecialchars($this->request->getVar('tw'), true);
+            $title = htmlspecialchars($this->request->getVar('title'), true);
+            $id_ptk = htmlspecialchars($this->request->getVar('id_ptk'), true);
+
+            switch ($bulan) {
+                case 'pangkat':
+                    $dir = base_url("upload/ptk/pangkat");
+                    $field_db = 'pangkat_terakhir';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'kgb':
+                    $dir = base_url("upload/ptk/kgb");
+                    $field_db = 'kgb_terakhir';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'pernyataan24':
+                    $dir = base_url("upload/ptk/pernyataanindividu");
+                    $field_db = 'pernyataan_24jam';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'cuti':
+                    $dir = base_url("upload/ptk/keterangancuti");
+                    $field_db = 'cuti';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'pensiun':
+                    $dir = base_url("upload/ptk/pensiun");
+                    $field_db = 'pensiun';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'kematian':
+                    $dir = base_url("upload/ptk/kematian");
+                    $field_db = 'kematian';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'attr_lainnya':
+                    $dir = base_url("upload/ptk/lainnya");
+                    $field_db = 'lainnya';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                default:
+                    $dir = base_url("upload/sekolah/doc-lainnya");
+                    $field_db = 'qrcode';
+                    $table_db = 'info_gtk';
+                    break;
+            }
+
+            $currentFile = $this->_db->table($table_db)->select("$field_db AS file, id")->where("id_tahun_tw != '$tw' AND id_ptk = '$id_ptk'")->orderBy('created_at', 'desc')->get()->getRowObject();
+            if (!$currentFile) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Dokumen Sebelumnya Tidak Ditemukan.";
+                return json_encode($response);
+            }
+
+            $data = new \stdClass;
+            $data->bulan = $bulan;
+            $data->tw = $tw;
+            $data->title = $title;
+            $data->id_ptk = $id_ptk;
+            $data->doc = $dir . '/' . $currentFile->file;
+
+            $response = new \stdClass;
+            $response->status = 200;
+            $response->message = "Permintaan diizinkan";
+            $response->data = $data;
+            return json_encode($response);
+        }
+    }
+
     public function formupload()
     {
         if ($this->request->getMethod() != 'post') {

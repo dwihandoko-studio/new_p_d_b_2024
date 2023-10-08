@@ -181,126 +181,145 @@
             })
 
             if (pilihanUpload) {
-                Swal.fire(`You selected: ${pilihanUpload}`)
+                if (pilihanUpload === "old_dokumen") {
+                    Swal.fire({
+                        title: 'Apakah anda yakin ingin menggunakan lampiran dokumen sebelumnya?',
+                        showDenyButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: 'Ya, Gunakan.',
+                        denyButtonText: `Lihat Dokumen`,
+                        closeButtonText: `Batal`,
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            Swal.fire('Saved!', '', 'success')
+                        } else if (result.isDenied) {
+                            $.ajax({
+                                url: "./getDokumenSebelumnya",
+                                type: 'POST',
+                                data: {
+                                    bulan: bulan,
+                                    tw: tw,
+                                    id_ptk: id_ptk,
+                                    title: title,
+                                },
+                                dataType: 'JSON',
+                                // beforeSend: function() {
+                                //     $('div.main-content').block({
+                                //         message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                                //     });
+                                // },
+                                success: function(resul) {
+                                    // $('div.main-content').unblock();
+                                    if (resul.status !== 200) {
+                                        Swal.fire(
+                                            'Failed!',
+                                            resul.message,
+                                            'warning'
+                                        );
+                                    } else {
+                                        console.log(resul);
+                                    }
+                                },
+                                error: function() {
+                                    // $('div.main-content').unblock();
+                                    Swal.fire(
+                                        'Failed!',
+                                        "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                                        'warning'
+                                    );
+                                }
+                            });
+                        }
+                    })
+                } else if (pilihanUpload === "upload_dokumen_baru") {
+                    $.ajax({
+                        url: "./formupload",
+                        type: 'POST',
+                        data: {
+                            bulan: bulan,
+                            tw: tw,
+                            id_ptk: id_ptk,
+                            title: title,
+                        },
+                        dataType: 'JSON',
+                        beforeSend: function() {
+                            $('div.main-content').block({
+                                message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                            });
+                        },
+                        success: function(resul) {
+                            $('div.main-content').unblock();
+                            if (resul.status !== 200) {
+                                Swal.fire(
+                                    'Failed!',
+                                    resul.message,
+                                    'warning'
+                                );
+                            } else {
+                                $('#content-detailModalLabel').html('Upload Lampiran ' + title);
+                                $('.contentBodyModal').html(resul.data);
+                                $('.content-detailModal').modal({
+                                    backdrop: 'static',
+                                    keyboard: false,
+                                });
+                                $('.content-detailModal').modal('show');
+                            }
+                        },
+                        error: function() {
+                            $('div.main-content').unblock();
+                            Swal.fire(
+                                'Failed!',
+                                "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                                'warning'
+                            );
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        url: "./formupload",
+                        type: 'POST',
+                        data: {
+                            bulan: bulan,
+                            tw: tw,
+                            id_ptk: id_ptk,
+                            title: title,
+                        },
+                        dataType: 'JSON',
+                        beforeSend: function() {
+                            $('div.main-content').block({
+                                message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                            });
+                        },
+                        success: function(resul) {
+                            $('div.main-content').unblock();
+                            if (resul.status !== 200) {
+                                Swal.fire(
+                                    'Failed!',
+                                    resul.message,
+                                    'warning'
+                                );
+                            } else {
+                                $('#content-detailModalLabel').html('Upload Lampiran ' + title);
+                                $('.contentBodyModal').html(resul.data);
+                                $('.content-detailModal').modal({
+                                    backdrop: 'static',
+                                    keyboard: false,
+                                });
+                                $('.content-detailModal').modal('show');
+                            }
+                        },
+                        error: function() {
+                            $('div.main-content').unblock();
+                            Swal.fire(
+                                'Failed!',
+                                "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                                'warning'
+                            );
+                        }
+                    });
+                }
             }
-
-
-            // const inputOptionsUpload = new Promise((resolve) => {
-            //     setTimeout(() => {
-            //         resolve({
-            //             'old_dokumen': 'Gunakan Dokumen Sebelumnya',
-            //             'upload_dokumen_baru': 'Upload Dokumen Baru',
-            //             'lihat_dokumen_sebelumnya': 'Lihat Dokumen Sebelumnya'
-            //         })
-            //     }, 1000)
-            // })
-
-            // const {
-            //     value: pilihanUpload
-            // } = await Swal.fire({
-            //     title: 'Pilih Opsi Upload Dokumen',
-            //     input: 'radio',
-            //     inputOptions: inputOptionsUpload,
-            //     inputValidator: (value) => {
-            //         if (!value) {
-            //             return 'Silahkan Pilih Salah Satu!!'
-            //         }
-            //     }
-            // })
-
-            // if (pilihanUpload) {
-            //     if (pilihanUpload === "old_dokumen") {
-            //         Swal.fire({
-            //             html: `You selected: ${pilihanUpload}`
-            //         })
-            //     } else if (pilihanUpload === "upload_dokumen_baru") {
-            //         $.ajax({
-            //             url: "./formupload",
-            //             type: 'POST',
-            //             data: {
-            //                 bulan: bulan,
-            //                 tw: tw,
-            //                 id_ptk: id_ptk,
-            //                 title: title,
-            //             },
-            //             dataType: 'JSON',
-            //             beforeSend: function() {
-            //                 $('div.main-content').block({
-            //                     message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
-            //                 });
-            //             },
-            //             success: function(resul) {
-            //                 $('div.main-content').unblock();
-            //                 if (resul.status !== 200) {
-            //                     Swal.fire(
-            //                         'Failed!',
-            //                         resul.message,
-            //                         'warning'
-            //                     );
-            //                 } else {
-            //                     $('#content-detailModalLabel').html('Upload Lampiran ' + title);
-            //                     $('.contentBodyModal').html(resul.data);
-            //                     $('.content-detailModal').modal({
-            //                         backdrop: 'static',
-            //                         keyboard: false,
-            //                     });
-            //                     $('.content-detailModal').modal('show');
-            //                 }
-            //             },
-            //             error: function() {
-            //                 $('div.main-content').unblock();
-            //                 Swal.fire(
-            //                     'Failed!',
-            //                     "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
-            //                     'warning'
-            //                 );
-            //             }
-            //         });
-            //     } else {
-            //         $.ajax({
-            //             url: "./formupload",
-            //             type: 'POST',
-            //             data: {
-            //                 bulan: bulan,
-            //                 tw: tw,
-            //                 id_ptk: id_ptk,
-            //                 title: title,
-            //             },
-            //             dataType: 'JSON',
-            //             beforeSend: function() {
-            //                 $('div.main-content').block({
-            //                     message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
-            //                 });
-            //             },
-            //             success: function(resul) {
-            //                 $('div.main-content').unblock();
-            //                 if (resul.status !== 200) {
-            //                     Swal.fire(
-            //                         'Failed!',
-            //                         resul.message,
-            //                         'warning'
-            //                     );
-            //                 } else {
-            //                     $('#content-detailModalLabel').html('Upload Lampiran ' + title);
-            //                     $('.contentBodyModal').html(resul.data);
-            //                     $('.content-detailModal').modal({
-            //                         backdrop: 'static',
-            //                         keyboard: false,
-            //                     });
-            //                     $('.content-detailModal').modal('show');
-            //                 }
-            //             },
-            //             error: function() {
-            //                 $('div.main-content').unblock();
-            //                 Swal.fire(
-            //                     'Failed!',
-            //                     "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
-            //                     'warning'
-            //                 );
-            //             }
-            //         });
-            //     }
-            // }
         } else {
             $.ajax({
                 url: "./formupload",
