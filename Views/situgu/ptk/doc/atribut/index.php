@@ -207,7 +207,6 @@
                                 data: {
                                     title: title,
                                     bulan: bulan,
-                                    old: old,
                                     tw: tw,
                                     id_ptk: id_ptk,
                                 },
