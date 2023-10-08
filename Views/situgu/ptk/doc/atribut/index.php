@@ -180,8 +180,8 @@
                 }
             })
 
-            if (fruit) {
-                Swal.fire(`You selected: ${fruit}`)
+            if (pilihanUpload) {
+                Swal.fire(`You selected: ${pilihanUpload}`)
             }
 
 
