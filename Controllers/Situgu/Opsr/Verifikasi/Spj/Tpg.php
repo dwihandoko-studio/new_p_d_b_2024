@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controllers\Situgu\Opk\Verifikasi\Spj;
+namespace App\Controllers\Situgu\Opsr\Verifikasi\Spj;
 
 use App\Controllers\BaseController;
-use App\Models\Situgu\Opk\Spj\VerifikasispjtpgdetailModel;
-use App\Models\Situgu\Opk\Spj\VerifikasispjtpgsekolahModel;
+use App\Models\Situgu\Opsr\Spj\VerifikasispjtpgdetailModel;
+use App\Models\Situgu\Opsr\Spj\VerifikasispjtpgsekolahModel;
 use Config\Services;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -63,8 +63,7 @@ class Tpg extends BaseController
             }
         }
 
-        $kecamatan = $this->_helpLib->getKecamatan($userId);
-        $npsns = $this->_helpLib->getSekolahKecamatanArray($kecamatan, [5]);
+        $npsns = $this->_helpLib->getSekolahNaungan($userId);
         // var_dump($npsns);
         // die;
 
@@ -104,8 +103,8 @@ class Tpg extends BaseController
         }
         $output = [
             "draw" => $request->getPost('draw'),
-            "recordsTotal" => $datamodel->count_all($npsns, 'tpg'),
-            "recordsFiltered" => $datamodel->count_filtered($npsns, 'tpg'),
+            "recordsTotal" => $datamodel->count_all($npsns, 'tamsil'),
+            "recordsFiltered" => $datamodel->count_filtered($npsns, 'tamsil'),
             "data" => $data
         ];
         echo json_encode($output);
@@ -192,7 +191,7 @@ class Tpg extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('situgu/opk/verifikasi/spj/tpg/data'));
+        return redirect()->to(base_url('situgu/opsr/verifikasi/spj/tpg/data'));
     }
 
     public function data()
@@ -209,7 +208,7 @@ class Tpg extends BaseController
         $data['user'] = $user->data;
         $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
         $data['tws'] = $this->_db->table('_ref_tahun_tw')->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getResult();
-        return view('situgu/opk/verifikasi/spj/tpg/index', $data);
+        return view('situgu/opsr/verifikasi/spj/tpg/index', $data);
     }
 
     public function datalist()
@@ -228,7 +227,7 @@ class Tpg extends BaseController
         $data['user'] = $user->data;
         $data['kode_usulan'] = $id;
         $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
-        return view('situgu/opk/verifikasi/spj/tpg/detail_index', $data);
+        return view('situgu/opsr/verifikasi/spj/tpg/detail_index', $data);
     }
 
     public function detail()
@@ -338,7 +337,7 @@ class Tpg extends BaseController
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Permintaan diizinkan";
-                $response->data = view('situgu/opk/verifikasi/spj/tpg/detail', $data);
+                $response->data = view('situgu/opsr/verifikasi/spj/tpg/detail', $data);
                 return json_encode($response);
             } else {
                 $response = new \stdClass;
@@ -538,7 +537,7 @@ class Tpg extends BaseController
             $response = new \stdClass;
             $response->status = 200;
             $response->message = "Permintaan diizinkan";
-            $response->data = view('situgu/opk/verifikasi/spj/tpg/tolak', $data);
+            $response->data = view('situgu/opsr/verifikasi/spj/tpg/tolak', $data);
             return json_encode($response);
         }
     }

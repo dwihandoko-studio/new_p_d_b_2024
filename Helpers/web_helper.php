@@ -1082,6 +1082,35 @@ function canGrantedUploadSpj($idPtk)
 	return $response;
 }
 
+function canGrantedVerifikasiSpj($user_id)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$ptkId = $db->table('_profil_users_tb')->select("id")->where('id', $user_id)->get()->getRowObject();
+	if (!$ptkId) {
+		$response = new \stdClass;
+		$response->code = 400;
+		$response->message = "Akses untuk verifikasi spj tidak ada.";
+		$response->redirect = "";
+		return $response;
+	}
+
+	$grandted = $db->table('granted_verifikasi_spj')->where('id', $ptkId->id)->get()->getRowObject();
+	if (!$grandted) {
+		$response = new \stdClass;
+		$response->code = 400;
+		$response->message = "Akses untuk verifikasi spj tidak ada.";
+		$response->redirect = "";
+		return $response;
+	}
+
+	$response = new \stdClass;
+	$response->code = 200;
+	$response->message = "";
+	return $response;
+}
+
 function canGrantedVerifikasi($user_id)
 {
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
@@ -1594,6 +1623,54 @@ function canUploadSpjTpg()
 			$response = new \stdClass;
 			$response->code = 400;
 			$response->message = "Upload Laporan SPJ TPG belum dibuka, Jadwal Upload Laporan SPJ TPG adalah " . $limit->max_download_spj;
+			return $response;
+		}
+		$response = new \stdClass;
+		$response->code = 200;
+		$response->message = "";
+		return $response;
+	} else {
+		$response = new \stdClass;
+		$response->code = 400;
+		$response->message = "Jadwal tidak ditemukan";
+		return $response;
+	}
+}
+
+function canVerifikasiSpjTamsil()
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$limit = $db->table('_setting_verifikasi_tb')
+		->where('id', 6)
+		->get()->getRowObject();
+	if ($limit) {
+		$waktuSekarang = date('Y-m-d H:i:s');
+		// $setinganUplaodVerifikasi = new \DateTime($settingVerifikasi->max_upload_verifikasi);
+
+		$waktuSekarang = str_replace("-", "", $waktuSekarang);
+		$waktuSekarang = str_replace(" ", "", $waktuSekarang);
+		$waktuSekarang = str_replace(":", "", $waktuSekarang);
+
+		$setinganDownloadVerifikasi = str_replace("-", "", $limit->max_download_verifikasi);
+		$setinganDownloadVerifikasi = str_replace(" ", "", $setinganDownloadVerifikasi);
+		$setinganDownloadVerifikasi = str_replace(":", "", $setinganDownloadVerifikasi);
+
+		$setinganUplaodVerifikasi = str_replace("-", "", $limit->max_upload_verifikasi);
+		$setinganUplaodVerifikasi = str_replace(" ", "", $setinganUplaodVerifikasi);
+		$setinganUplaodVerifikasi = str_replace(":", "", $setinganUplaodVerifikasi);
+
+		if ((int)$waktuSekarang > (int)$setinganUplaodVerifikasi) {
+			$response = new \stdClass;
+			$response->code = 400;
+			$response->message = "Verifikasi Laporan SPJ Tamsil sudah Ditutup, Batas akhir Verifikasi Laporan SPJ Tamsil adalah " . $limit->max_upload_verifikasi;
+			return $response;
+		}
+		if ((int)$waktuSekarang < (int)$setinganDownloadVerifikasi) {
+			$response = new \stdClass;
+			$response->code = 400;
+			$response->message = "Verifikasi Laporan SPJ Tamsil belum dibuka, Jadwal Verifikasi Laporan SPJ Tamsil adalah " . $limit->max_download_verifikasi;
 			return $response;
 		}
 		$response = new \stdClass;

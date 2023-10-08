@@ -275,6 +275,35 @@ class Spjtpg extends BaseController
                 . $this->validator->getError('nama');
             return json_encode($response);
         } else {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Session telah habis";
+                $response->redirect = base_url('auth');
+                return json_encode($response);
+            }
+
+            $canGrantedVerifikasi = canGrantedVerifikasi($user->data->id);
+
+            if ($canGrantedVerifikasi && $canGrantedVerifikasi->code !== 200) {
+                return json_encode($canGrantedVerifikasi);
+            }
+
+            $canUsulTamsil = canVerifikasiSpjTpg();
+
+            if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
+
+                $canGrantedVerifikasi = canGrantedVerifikasiSpj($user->data->id);
+
+                if ($canGrantedVerifikasi && $canGrantedVerifikasi->code !== 200) {
+                    return json_encode($canUsulTamsil);
+                }
+            }
+
             $id = htmlspecialchars($this->request->getVar('id'), true);
             $id_ptk = htmlspecialchars($this->request->getVar('id_ptk'), true);
             $tw = htmlspecialchars($this->request->getVar('tw'), true);
@@ -371,7 +400,12 @@ class Spjtpg extends BaseController
             $canUsulTamsil = canVerifikasiSpjTpg();
 
             if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
-                return json_encode($canUsulTamsil);
+
+                $canGrantedVerifikasi = canGrantedVerifikasiSpj($user->data->id);
+
+                if ($canGrantedVerifikasi && $canGrantedVerifikasi->code !== 200) {
+                    return json_encode($canUsulTamsil);
+                }
             }
 
             $id = htmlspecialchars($this->request->getVar('id'), true);
@@ -487,7 +521,12 @@ class Spjtpg extends BaseController
             $canUsulTamsil = canVerifikasiSpjTpg();
 
             if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
-                return json_encode($canUsulTamsil);
+
+                $canGrantedVerifikasi = canGrantedVerifikasiSpj($user->data->id);
+
+                if ($canGrantedVerifikasi && $canGrantedVerifikasi->code !== 200) {
+                    return json_encode($canUsulTamsil);
+                }
             }
 
             $id = htmlspecialchars($this->request->getVar('id'), true);
@@ -562,7 +601,12 @@ class Spjtpg extends BaseController
             $canUsulTamsil = canVerifikasiSpjTpg();
 
             if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
-                return json_encode($canUsulTamsil);
+
+                $canGrantedVerifikasi = canGrantedVerifikasiSpj($user->data->id);
+
+                if ($canGrantedVerifikasi && $canGrantedVerifikasi->code !== 200) {
+                    return json_encode($canUsulTamsil);
+                }
             }
 
             $id = htmlspecialchars($this->request->getVar('id'), true);
