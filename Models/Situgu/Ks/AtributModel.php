@@ -39,13 +39,14 @@ class AtributModel extends Model
             }
             $i++;
         }
-
-        if ($this->request->getPost('order')) {
-            $this->dt->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
-        } else if (isset($this->order)) {
-            $order = $this->order;
-            $this->dt->orderBy(key($order), $order[key($order)]);
-        }
+        $this->dt->orderBy("b.tahun", "desc");
+        $this->dt->orderBy("b.tw", "desc");
+        // if ($this->request->getPost('order')) {
+        //     $this->dt->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
+        // } else if (isset($this->order)) {
+        //     $order = $this->order;
+        //     $this->dt->orderBy(key($order), $order[key($order)]);
+        // }
     }
     function get_datatables($id)
     {
