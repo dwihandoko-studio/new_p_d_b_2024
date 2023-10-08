@@ -286,7 +286,7 @@
                     });
                 } else {
                     $.ajax({
-                        url: "./formupload",
+                        url: "./getDokumenSebelumnya",
                         type: 'POST',
                         data: {
                             bulan: bulan,
@@ -309,13 +309,7 @@
                                     'warning'
                                 );
                             } else {
-                                $('#content-detailModalLabel').html('Upload Lampiran ' + title);
-                                $('.contentBodyModal').html(resul.data);
-                                $('.content-detailModal').modal({
-                                    backdrop: 'static',
-                                    keyboard: false,
-                                });
-                                $('.content-detailModal').modal('show');
+                                openFileInNewTab(resul.data.doc);
                             }
                         },
                         error: function() {
