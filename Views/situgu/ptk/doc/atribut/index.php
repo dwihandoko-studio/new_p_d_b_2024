@@ -113,6 +113,15 @@
 <script src="<?= base_url() ?>/assets/libs/dropzone/min/dropzone.min.js"></script>
 
 <script>
+    function openFileInNewTab(url) {
+        const newTab = window.open(url, '_blank');
+        if (newTab) {
+            newTab.focus();
+        } else {
+            alert('Please allow pop-ups for this site');
+        }
+    }
+
     function actionAdd(event) {
         $.ajax({
             url: "./add",
@@ -204,13 +213,13 @@
                                     title: title,
                                 },
                                 dataType: 'JSON',
-                                // beforeSend: function() {
-                                //     $('div.main-content').block({
-                                //         message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
-                                //     });
-                                // },
+                                beforeSend: function() {
+                                    $('div.main-content').block({
+                                        message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                                    });
+                                },
                                 success: function(resul) {
-                                    // $('div.main-content').unblock();
+                                    $('div.main-content').unblock();
                                     if (resul.status !== 200) {
                                         Swal.fire(
                                             'Failed!',
@@ -218,11 +227,11 @@
                                             'warning'
                                         );
                                     } else {
-                                        console.log(resul);
+                                        openFileInNewTab(resul.data.doc);
                                     }
                                 },
                                 error: function() {
-                                    // $('div.main-content').unblock();
+                                    $('div.main-content').unblock();
                                     Swal.fire(
                                         'Failed!',
                                         "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
