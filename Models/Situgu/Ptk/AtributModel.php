@@ -10,7 +10,7 @@ class AtributModel extends Model
     protected $table = "_upload_data_attribut a";
     protected $column_order = array(null, null, 'b.tahun', 'b.tw', 'a.is_locked', 'c.is_locked');
     protected $column_search = array('b.tahun', 'b.tw');
-    protected $order = array('b.tahun' => 'desc', 'b.tw' => 'desc');
+    // protected $order = array('b.tahun' => 'desc', 'b.tw' => 'desc');
     protected $request;
     protected $db;
     protected $dt;
@@ -40,12 +40,14 @@ class AtributModel extends Model
             $i++;
         }
 
-        if ($this->request->getPost('order')) {
-            $this->dt->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
-        } else if (isset($this->order)) {
-            $order = $this->order;
-            $this->dt->orderBy(key($order), $order[key($order)]);
-        }
+        $this->dt->orderBy("b.tahun", "desc");
+        $this->dt->orderBy("b.tw", "desc");
+        // if ($this->request->getPost('order')) {
+        //     $this->dt->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
+        // } else if (isset($this->order)) {
+        //     $order = $this->order;
+        //     $this->dt->orderBy(key($order), $order[key($order)]);
+        // }
     }
     function get_datatables($id)
     {
