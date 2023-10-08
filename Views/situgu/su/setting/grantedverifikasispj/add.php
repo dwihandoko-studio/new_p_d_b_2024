@@ -56,7 +56,7 @@
             },
             cache: true
         },
-        placeholder: 'Cari TPK',
+        placeholder: 'Cari Admin, OPK / OPSR',
         minimumInputLength: 3,
         templateResult: formatRepo,
         templateSelection: formatRepoSelection
@@ -76,14 +76,14 @@
             "</div>"
         );
 
-        $container.find(".select2-result-repository__title").text(repo.nama);
-        $container.find(".select2-result-repository__description").text(repo.nuptk + " (" + repo.npsn + ")");
+        $container.find(".select2-result-repository__title").text(repo.fullname);
+        $container.find(".select2-result-repository__description").text(repo.email);
 
         return $container;
     }
 
     function formatRepoSelection(repo) {
-        return repo.nama || repo.text;
+        return repo.fullname || repo.text;
     }
 
     $("#formAddModalData").on("submit", function(e) {
