@@ -1078,7 +1078,8 @@ function canGrantedAjuanPengecualian($idPtk)
 
 	$response = new \stdClass;
 	$response->code = 400;
-	$response->message = "Akses untuk pengusulan tidak diizinkan. Silahkan hubungi admin tunjangan.";
+	$response->message = "Berdasarkan salinan Permendikbud Nomor 45 Tahun 2023. Data anda bukan termasuk penerima Tunjangan TAMSIL.";
+	// $response->message = "Akses untuk pengusulan tidak diizinkan. Silahkan hubungi admin tunjangan.";
 	return $response;
 }
 
