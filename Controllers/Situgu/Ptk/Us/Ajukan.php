@@ -128,6 +128,12 @@ class Ajukan extends BaseController
                 return json_encode($canGrantedPengajuan);
             }
 
+            $canGrantedPengajuanPengecualian = canGrantedAjuanPengecualian($user->data->ptk_id);
+
+            if ($canGrantedPengajuanPengecualian && $canGrantedPengajuanPengecualian->code !== 200) {
+                return json_encode($canGrantedPengajuanPengecualian);
+            }
+
             $oldDataAbsen = $this->_db->table('_absen_kehadiran')->where(['id_ptk' => $id, 'id_tahun_tw' => $tw])->orderBy('created_at', 'desc')->get()->getRowObject();
             if (!$oldDataAbsen) {
                 $response = new \stdClass;
@@ -295,6 +301,14 @@ class Ajukan extends BaseController
                     return json_encode($canUsulTpg);
                 }
 
+
+                $canGrantedPengajuanPengecualian = canGrantedAjuanPengecualian($user->data->ptk_id);
+
+                if ($canGrantedPengajuanPengecualian && $canGrantedPengajuanPengecualian->code !== 200) {
+                    return json_encode($canGrantedPengajuanPengecualian);
+                }
+
+
                 if ($ptk->nuptk === null || $ptk->nuptk === "" || $ptk->nrg === null || $ptk->nrg === "" || $ptk->no_peserta === ""  || $ptk->no_peserta === null || $ptk->bidang_studi_sertifikasi === null || $ptk->bidang_studi_sertifikasi === "") {
                     $response->status = 400;
                     $response->message = "Untuk mendapatkan Tunjangan Sertifikasi Guru, Harus Wajib mempunyai NUPTK, NRG, No Peserta, dan Bidang Studi Sertifikasi!!";
@@ -358,6 +372,12 @@ class Ajukan extends BaseController
 
                 if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
                     return json_encode($canUsulTamsil);
+                }
+
+                $canGrantedPengajuanPengecualian = canGrantedAjuanPengecualian($user->data->ptk_id);
+
+                if ($canGrantedPengajuanPengecualian && $canGrantedPengajuanPengecualian->code !== 200) {
+                    return json_encode($canGrantedPengajuanPengecualian);
                 }
 
                 if ($ptk->nuptk === null || $ptk->nuptk === "") {
@@ -428,6 +448,12 @@ class Ajukan extends BaseController
 
                 if ($canUsulPghm && $canUsulPghm->code !== 200) {
                     return json_encode($canUsulPghm);
+                }
+
+                $canGrantedPengajuanPengecualian = canGrantedAjuanPengecualian($user->data->ptk_id);
+
+                if ($canGrantedPengajuanPengecualian && $canGrantedPengajuanPengecualian->code !== 200) {
+                    return json_encode($canGrantedPengajuanPengecualian);
                 }
 
                 if ($ptk->status_kepegawaian === "Guru Honor Sekolah") {
@@ -538,6 +564,12 @@ class Ajukan extends BaseController
                     return json_encode($canUsulTpg);
                 }
 
+                $canGrantedPengajuanPengecualian = canGrantedAjuanPengecualian($user->data->ptk_id);
+
+                if ($canGrantedPengajuanPengecualian && $canGrantedPengajuanPengecualian->code !== 200) {
+                    return json_encode($canGrantedPengajuanPengecualian);
+                }
+
                 $uuidLib = new Uuid();
                 $data = [
                     'id' => $uuidLib->v4(),
@@ -562,6 +594,12 @@ class Ajukan extends BaseController
                     return json_encode($canUsulTamsil);
                 }
 
+                $canGrantedPengajuanPengecualian = canGrantedAjuanPengecualian($user->data->ptk_id);
+
+                if ($canGrantedPengajuanPengecualian && $canGrantedPengajuanPengecualian->code !== 200) {
+                    return json_encode($canGrantedPengajuanPengecualian);
+                }
+
                 $uuidLib = new Uuid();
                 $data = [
                     'id' => $uuidLib->v4(),
@@ -584,6 +622,12 @@ class Ajukan extends BaseController
 
                 if ($canUsulPghm && $canUsulPghm->code !== 200) {
                     return json_encode($canUsulPghm);
+                }
+
+                $canGrantedPengajuanPengecualian = canGrantedAjuanPengecualian($user->data->ptk_id);
+
+                if ($canGrantedPengajuanPengecualian && $canGrantedPengajuanPengecualian->code !== 200) {
+                    return json_encode($canGrantedPengajuanPengecualian);
                 }
 
                 $uuidLib = new Uuid();

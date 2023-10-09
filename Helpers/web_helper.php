@@ -1053,6 +1053,35 @@ function canGrantedVerifikasiPengawas($user_id)
 	return $response;
 }
 
+function canGrantedAjuanPengecualian($idPtk)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$ptkId = $db->table('_ptk_tb')->select("nuptk")->where('id_ptk', $idPtk)->get()->getRowObject();
+	if (!$ptkId) {
+		$response = new \stdClass;
+		$response->code = 200;
+		$response->message = "Akses untuk pengusulan diizinkan.";
+		$response->redirect = "";
+		return $response;
+	}
+
+	$grandted = $db->table('pengecualian_can_usul')->where('nuptk', $ptkId->nuptk)->get()->getRowObject();
+	if (!$grandted) {
+		$response = new \stdClass;
+		$response->code = 200;
+		$response->message = "Akses untuk pengusulan diizinkan.";
+		$response->redirect = "";
+		return $response;
+	}
+
+	$response = new \stdClass;
+	$response->code = 400;
+	$response->message = "Akses untuk pengusulan tidak diizinkan, karena anda sudah memiliki sertifikat pendidikan tahun 2023";
+	return $response;
+}
+
 function canGrantedUploadSpj($idPtk)
 {
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
