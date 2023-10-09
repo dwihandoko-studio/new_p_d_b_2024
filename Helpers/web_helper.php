@@ -1078,7 +1078,7 @@ function canGrantedAjuanPengecualian($idPtk)
 
 	$response = new \stdClass;
 	$response->code = 400;
-	$response->message = "Akses untuk pengusulan tidak diizinkan, karena anda sudah memiliki sertifikat pendidikan tahun 2023";
+	$response->message = "Akses untuk pengusulan tidak diizinkan. Silahkan hubungi admin tunjangan.";
 	return $response;
 }
 
