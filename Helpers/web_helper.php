@@ -1061,13 +1061,13 @@ function canGrantedAjuanPengecualian($idPtk)
 	$ptkId = $db->table('_ptk_tb')->select("nuptk")->where('id_ptk', $idPtk)->get()->getRowObject();
 	if (!$ptkId) {
 		$response = new \stdClass;
-		$response->code = 200;
-		$response->message = "Akses untuk pengusulan diizinkan.";
+		$response->code = 400;
+		$response->message = "Akses untuk pengusulan diizinkan. NUPTK tidak ditemukan.";
 		$response->redirect = "";
 		return $response;
 	}
 
-	$grandted = $db->table('pengecualian_can_usul')->where('nuptk', $ptkId->nuptk)->get()->getRowObject();
+	$grandted = $db->table('pengecualian_can_usul')->where(['nuptk' => $ptkId->nuptk, 'status' => 0])->get()->getRowObject();
 	if (!$grandted) {
 		$response = new \stdClass;
 		$response->code = 200;
