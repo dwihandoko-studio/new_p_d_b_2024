@@ -439,31 +439,35 @@ class Pengguna extends BaseController
                     if ($value->id_ptk == NULL || $value->id_ptk == "") {
                         continue;
                     } else {
-                        $profilUser = $this->_db->table('_profil_users_tb')->select("id, role_user")->where('ptk_id', $value->id_ptk)->get()->getRowObject();
+                        $profilUser = $this->_db->table('_profil_users_tb')->select("id, role_user, npsn")->where('ptk_id', $value->id_ptk)->get()->getRowObject();
                         if ($profilUser) {
-                            if ((int)$profilUser->role_user == 6 || (int)$profilUser->role_user == 7) {
-                                $this->_db->transBegin();
-                                try {
-                                    $this->_db->table('_profil_users_tb')->where('id', $profilUser->id)->update(['npsn' => $value->npsn, 'kecamatan' => $value->id_kecamatan, 'updated_at' => date('Y-m-d H:i:s')]);
-                                    if ($this->_db->affectedRows() > 0) {
-                                        $this->_db->transCommit();
-                                        continue;
-                                    } else {
+                            if ($profilUser->npsn == $value->npsn) {
+                                continue;
+                            } else {
+                                if ((int)$profilUser->role_user == 6 || (int)$profilUser->role_user == 7) {
+                                    $this->_db->transBegin();
+                                    try {
+                                        $this->_db->table('_profil_users_tb')->where('id', $profilUser->id)->update(['npsn' => $value->npsn, 'kecamatan' => $value->id_kecamatan, 'updated_at' => date('Y-m-d H:i:s')]);
+                                        if ($this->_db->affectedRows() > 0) {
+                                            $this->_db->transCommit();
+                                            continue;
+                                        } else {
+                                            $this->_db->transRollback();
+                                            $response = new \stdClass;
+                                            $response->status = 400;
+                                            $response->message = "Gagal sync akun.";
+                                            return json_encode($response);
+                                        }
+                                    } catch (\Throwable $th) {
                                         $this->_db->transRollback();
                                         $response = new \stdClass;
                                         $response->status = 400;
                                         $response->message = "Gagal sync akun.";
                                         return json_encode($response);
                                     }
-                                } catch (\Throwable $th) {
-                                    $this->_db->transRollback();
-                                    $response = new \stdClass;
-                                    $response->status = 400;
-                                    $response->message = "Gagal sync akun.";
-                                    return json_encode($response);
+                                } else {
+                                    continue;
                                 }
-                            } else {
-                                continue;
                             }
                         } else {
                             continue;
