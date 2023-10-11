@@ -72,17 +72,18 @@ class Pengguna extends BaseController
             $row = [];
 
             $row[] = $no;
-            if ($list->ptk_id === null) {
-                $action = '<div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
-                        <div class="dropdown-menu" style="">
-                            <a class="dropdown-item" href="javascript:actionTautkanAkun(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->fullname))  . '\', \'' . $list->email  . '\', \'' . $list->npsn . '\');"><i class="bx bx-link-alt font-size-16 align-middle"></i> &nbsp;Tautkan Akun PTK</a>
-                            <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->fullname))  . '\', \'' . $list->email  . '\', \'' . $list->npsn . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
-                        </div>
-                    </div>';
-            } else {
-                switch ((int)$list->role_user) {
-                    case 6:
+
+            switch ((int)$list->role_user) {
+                case 6:
+                    if ($list->ptk_id === null) {
+                        $action = '<div class="btn-group">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+                                    <div class="dropdown-menu" style="">
+                                        <a class="dropdown-item" href="javascript:actionTautkanAkun(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->fullname))  . '\', \'' . $list->email  . '\', \'' . $list->npsn . '\');"><i class="bx bx-link-alt font-size-16 align-middle"></i> &nbsp;Tautkan Akun PTK</a>
+                                        <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->fullname))  . '\', \'' . $list->email  . '\', \'' . $list->npsn . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
+                                    </div>
+                                </div>';
+                    } else {
                         $action = '<div class="btn-group">
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
                                 <div class="dropdown-menu" style="">
@@ -92,8 +93,18 @@ class Pengguna extends BaseController
                                     <a class="dropdown-item" href="javascript:actionBatalKs(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->fullname))  . '\', \'' . $list->email  . '\', \'' . $list->npsn . '\');"><i class="bx bx-user-x font-size-16 align-middle"></i> &nbsp;Batal Jadikan KS</i></a>
                                 </div>
                             </div>';
-                        break;
-                    case 7:
+                    }
+                    break;
+                case 7:
+                    if ($list->ptk_id === null) {
+                        $action = '<div class="btn-group">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+                                    <div class="dropdown-menu" style="">
+                                        <a class="dropdown-item" href="javascript:actionTautkanAkun(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->fullname))  . '\', \'' . $list->email  . '\', \'' . $list->npsn . '\');"><i class="bx bx-link-alt font-size-16 align-middle"></i> &nbsp;Tautkan Akun PTK</a>
+                                        <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->fullname))  . '\', \'' . $list->email  . '\', \'' . $list->npsn . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
+                                    </div>
+                                </div>';
+                    } else {
                         $action = '<div class="btn-group">
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
                                 <div class="dropdown-menu" style="">
@@ -103,10 +114,11 @@ class Pengguna extends BaseController
                                     <a class="dropdown-item" href="javascript:actionJadikanKs(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->fullname))  . '\', \'' . $list->email  . '\', \'' . $list->npsn . '\');"><i class="bx bx-user-plus font-size-16 align-middle"></i> &nbsp;Jadikan KS</i></a>
                                 </div>
                             </div>';
-                        break;
+                    }
+                    break;
 
-                    default:
-                        $action = '<div class="btn-group">
+                default:
+                    $action = '<div class="btn-group">
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
                                 <div class="dropdown-menu" style="">
                                     <a class="dropdown-item" href="javascript:actionResetPassword(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->fullname))  . '\', \'' . $list->email  . '\', \'' . $list->npsn . '\');"><i class="bx bx-key font-size-16 align-middle"></i> &nbsp;Reset Password</a>
@@ -114,18 +126,18 @@ class Pengguna extends BaseController
                                     <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->fullname))  . '\', \'' . $list->email . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
                                 </div>
                             </div>';
-                        break;
-                }
-                // $action = '<div class="btn-group">
-                //         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
-                //         <div class="dropdown-menu" style="">
-                //             <a class="dropdown-item" href="javascript:actionResetPassword(\'' . $list->id . '\', \'' . str_replace("'", "", $list->fullname)  . '\', \'' . $list->email  . '\', \'' . $list->npsn . '\');"><i class="bx bx-key font-size-16 align-middle"></i> &nbsp;Reset Password</a>
-                //             <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . str_replace("'", "", $list->fullname)  . '\', \'' . $list->email . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
-                //             <div class="dropdown-divider"></div>
-                //             <a class="dropdown-item" href="javascript:actionUnlockSpj(\'' . $list->id . '\', \'' . str_replace("'", "", $list->fullname)  . '\', \'' . $list->email . '\');"><i class="bx bx-lock-open-alt font-size-16 align-middle"></i> &nbsp;Unlock SPJ</i></a>
-                //         </div>
-                //     </div>';
+                    break;
             }
+            // $action = '<div class="btn-group">
+            //         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+            //         <div class="dropdown-menu" style="">
+            //             <a class="dropdown-item" href="javascript:actionResetPassword(\'' . $list->id . '\', \'' . str_replace("'", "", $list->fullname)  . '\', \'' . $list->email  . '\', \'' . $list->npsn . '\');"><i class="bx bx-key font-size-16 align-middle"></i> &nbsp;Reset Password</a>
+            //             <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . str_replace("'", "", $list->fullname)  . '\', \'' . $list->email . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
+            //             <div class="dropdown-divider"></div>
+            //             <a class="dropdown-item" href="javascript:actionUnlockSpj(\'' . $list->id . '\', \'' . str_replace("'", "", $list->fullname)  . '\', \'' . $list->email . '\');"><i class="bx bx-lock-open-alt font-size-16 align-middle"></i> &nbsp;Unlock SPJ</i></a>
+            //         </div>
+            //     </div>';
+            // }
             // $action = '<a href="javascript:actionDetail(\'' . $list->id . '\', \'' . str_replace("'", "", $list->nama) . '\');"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
             //     <i class="bx bxs-show font-size-16 align-middle"></i></button>
             //     </a>
