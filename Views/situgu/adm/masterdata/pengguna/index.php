@@ -338,6 +338,89 @@
         })
     }
 
+    function actionResetPasswordPopup(id, nama, email, npsn) {
+        Swal.fire({
+            title: 'Apakah anda yakin ingin mereset password Akun OPS Sekolah ini?',
+            text: "Reset Password Akun OPS Sekolah : " + npsn,
+            showCancelButton: true,
+            icon: 'question',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Reset Password!'
+        }).then((result) => {
+            if (result.value) {
+                Swal.fire({
+                    title: "Masukkan password baru (Khusus untuk Akun OPS, masukkan kode registrasi sekolah)",
+                    input: "text",
+                    showCancelButton: !0,
+                    confirmButtonText: "Kirim",
+                    showLoaderOnConfirm: !0,
+                    confirmButtonColor: "#556ee6",
+                    cancelButtonColor: "#f46a6a",
+                    preConfirm: function(n) {
+                        return new Promise(function(t, e) {
+                            setTimeout(function() {
+                                n.length < 6 ? e("Panjang password minimal 6.") : t()
+                            }, 2e3)
+                        })
+                    },
+                    allowOutsideClick: !1
+                }).then(function(t) {
+                    $.ajax({
+                        url: "./resetPasswordPop",
+                        type: 'POST',
+                        data: {
+                            id: id,
+                            nama: nama,
+                            email: email,
+                            npsn: npsn,
+                            password: t.value,
+                        },
+                        dataType: 'JSON',
+                        beforeSend: function() {
+                            $('div.main-content').block({
+                                message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                            });
+                        },
+                        success: function(resul) {
+                            $('div.main-content').unblock();
+
+                            if (resul.status !== 200) {
+                                Swal.fire(
+                                    'Failed!',
+                                    resul.message,
+                                    'warning'
+                                );
+                            } else {
+                                Swal.fire(
+                                    'SELAMAT!',
+                                    resul.message,
+                                    'success'
+                                ).then((valRes) => {
+                                    reloadPage();
+                                })
+                            }
+                        },
+                        error: function() {
+                            $('div.main-content').unblock();
+                            Swal.fire(
+                                'Failed!',
+                                "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                                'warning'
+                            );
+                        }
+                    });
+                    // Swal.fire({
+                    //     icon: "success",
+                    //     title: "Ajax request finished!",
+                    //     html: "Submitted email: " + t,
+                    //     confirmButtonColor: "#556ee6"
+                    // })
+                })
+            }
+        })
+    }
+
     function actionResetPassword(id, nama, email, npsn) {
         Swal.fire({
             title: 'Apakah anda yakin ingin mereset password Akun PTK ini?',

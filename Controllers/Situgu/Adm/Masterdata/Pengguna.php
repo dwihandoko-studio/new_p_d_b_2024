@@ -116,7 +116,16 @@ class Pengguna extends BaseController
                             </div>';
                     }
                     break;
-
+                case 5:
+                    $action = '<div class="btn-group">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+                                <div class="dropdown-menu" style="">
+                                    <a class="dropdown-item" href="javascript:actionResetPasswordPopup(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->fullname))  . '\', \'' . $list->email  . '\', \'' . $list->npsn . '\');"><i class="bx bx-key font-size-16 align-middle"></i> &nbsp;Reset Password</a>
+                                    <a class="dropdown-item" href="javascript:actionResetAkun(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->fullname))  . '\', \'' . $list->email  . '\', \'' . $list->npsn . '\');"><i class="bx bx-reset font-size-16 align-middle"></i> &nbsp;Reset Akun</a>
+                                    <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->fullname))  . '\', \'' . $list->email . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
+                                </div>
+                            </div>';
+                    break;
                 default:
                     $action = '<div class="btn-group">
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
@@ -750,6 +759,99 @@ class Pengguna extends BaseController
                     $response = new \stdClass;
                     $response->status = 400;
                     $response->message = "Gagal reset akun.";
+                    return json_encode($response);
+                }
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan";
+                return json_encode($response);
+            }
+        }
+    }
+
+    public function resetPasswordPop()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id tidak boleh kosong. ',
+                ]
+            ],
+            'nama' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Nama tidak boleh kosong. ',
+                ]
+            ],
+            'email' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Email tidak boleh kosong. ',
+                ]
+            ],
+            'npsn' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'NPSN tidak boleh kosong. ',
+                ]
+            ],
+            'password' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Password tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('id')
+                . $this->validator->getError('nama')
+                . $this->validator->getError('npsn')
+                . $this->validator->getError('password')
+                . $this->validator->getError('email');
+            return json_encode($response);
+        } else {
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+            $npsn = htmlspecialchars($this->request->getVar('npsn'), true);
+            $nama = htmlspecialchars($this->request->getVar('nama'), true);
+            $email = htmlspecialchars($this->request->getVar('email'), true);
+            $password = htmlspecialchars($this->request->getVar('password'), true);
+
+            $current = $this->_db->table('v_user')
+                ->where("id = '$id'")->get()->getRowObject();
+            if ($current) {
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('_users_tb')->where('id', $id)->update(['password' => password_hash($password, PASSWORD_DEFAULT), 'updated_at' => date('Y-m-d H:i:s')]);
+                    if ($this->_db->affectedRows() > 0) {
+                        $this->_db->transCommit();
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->message = "Reset Password PTK $nama berhasil. Password default : $password";
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal reset password.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal reset password.";
                     return json_encode($response);
                 }
             } else {
