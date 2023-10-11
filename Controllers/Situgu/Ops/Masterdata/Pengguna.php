@@ -405,6 +405,84 @@ class Pengguna extends BaseController
         }
     }
 
+    public function sync()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'npsn' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Npsn tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('npsn');
+            return json_encode($response);
+        } else {
+            $npsn = htmlspecialchars($this->request->getVar('npsn'), true);
+
+            $current = $this->_db->table('_ptk_tb')
+                ->select("id, id_ptk, id_kecamatan, npsn")
+                ->where("npsn = '$npsn'")->get()->getResult();
+            if (count($current) > 0) {
+                foreach ($current as $key => $value) {
+                    if ($value->id_ptk == NULL || $value->id_ptk == "") {
+                        continue;
+                    } else {
+                        $profilUser = $this->_db->table('_profil_users_tb')->select("id, role_user")->where('ptk_id', $value->id_ptk)->get()->getRowObject();
+                        if ($profilUser) {
+                            if ((int)$profilUser->role_user == 6 || (int)$profilUser->role_user == 7) {
+                                $this->_db->transBegin();
+                                try {
+                                    $this->_db->table('_profil_users_tb')->where('id', $profilUser->id)->update(['npsn' => $value->npsn, 'kecamatan' => $value->id_kecamatan, 'updated_at' => date('Y-m-d H:i:s')]);
+                                    if ($this->_db->affectedRows() > 0) {
+                                        $this->_db->transCommit();
+                                        continue;
+                                    } else {
+                                        $this->_db->transRollback();
+                                        $response = new \stdClass;
+                                        $response->status = 400;
+                                        $response->message = "Gagal sync akun.";
+                                        return json_encode($response);
+                                    }
+                                } catch (\Throwable $th) {
+                                    $this->_db->transRollback();
+                                    $response = new \stdClass;
+                                    $response->status = 400;
+                                    $response->message = "Gagal sync akun.";
+                                    return json_encode($response);
+                                }
+                            } else {
+                                continue;
+                            }
+                        } else {
+                            continue;
+                        }
+                    }
+                }
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Sync semua Akun Berhasil.";
+                return json_encode($response);
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan";
+                return json_encode($response);
+            }
+        }
+    }
+
     public function tautkan()
     {
         if ($this->request->getMethod() != 'post') {
