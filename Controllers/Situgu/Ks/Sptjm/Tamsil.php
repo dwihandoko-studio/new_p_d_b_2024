@@ -727,7 +727,7 @@ class Tamsil extends BaseController
                                 <div class="row">
                                     <div style="text-align: center;margin-top: 30px; border:1px solid black;">
                                         <h3 style="margin: 0rem;font-size: 14px;">SURAT PERNYATAAN TANGGUNG JAWAB MUTLAK (SPTJM)</h3>
-                                        <h3 style="margin: 0rem;font-size: 14px;">USULAN PENCARIAN TUNJANGAN TAMBAHAN PENGHASILAN GURU PNS NON-SERTIFIKASI (TAMSIL)</h3>
+                                        <h3 style="margin: 0rem;font-size: 14px;">USULAN PENCAIRAN TUNJANGAN TAMBAHAN PENGHASILAN GURU PNS NON-SERTIFIKASI (TAMSIL)</h3>
                                         <h3 style="margin: 0rem;font-size: 14px;">TRIWULAN ';
             $html   .=                          $ptks[0]->tw_tw;
             $html   .=                          ' TAHUN ANGGARAN ';
@@ -778,7 +778,7 @@ class Tamsil extends BaseController
                                             Menyatakan dengan sesungguhnya bahwa: 
                                             <ol style="font-size: 12px;">
                                                 <li style="font-size: 12px;">Bertanggung jawab penuh atas kebenaran dan kemutakhiran data yang diusulkan dan dikirimkan oleh masing-masing PTK di sekolahan kami, melalui aplikasi Si-Tugu (Sistem Informasi Tunjangan Guru) Kabupaten Lampung Tengah <b>Periode TW. ' . $ptks[0]->tw_tw . ' Tahun ' . $ptks[0]->tw_tahun . '</b>.</li>
-                                                <li style="font-size: 12px;">Saya telah melakukan verifikasi dan validasi data guru yang diajukan, serta melakukan monitoring proses kinerja masing-masing guru di Satuan Pendidikan yang saya pimpin. Apabila dari data guru yang mengajukan, dari hasil verifikasi validasi data oleh Admin Dinas, ditemukan syarat dalam proses usulan pencairan TPG yang diatur berdasarkan PP 41 2017 dan PP 19 tentang Perubahan atas PP 41 tahun 2009, tidak sesuai/belum memenuhi persyaratan dengan kondisi keadaan yang sebenarnya, maka saya menerima usulan tersebut ditolak untuk dapat diperbaiki dan diajukan kembali pada periode jadwal yang telah ditetapkan.</li>
+                                                <li style="font-size: 12px;">Saya telah melakukan verifikasi dan validasi data guru yang diajukan, serta melakukan monitoring proses kinerja masing-masing guru di Satuan Pendidikan yang saya pimpin. Apabila dari data guru yang mengajukan, dari hasil verifikasi validasi data oleh Admin Dinas, ditemukan syarat dalam proses usulan pencairan Tunjangan Tambahan Penghasilan Guru PNS Non-Sertifikasi (TAMSIL) yang diatur berdasarkan PP 41 2017 dan PP 19 tentang Perubahan atas PP 41 tahun 2009, tidak sesuai/belum memenuhi persyaratan dengan kondisi keadaan yang sebenarnya, maka saya menerima usulan tersebut ditolak untuk dapat diperbaiki dan diajukan kembali pada periode jadwal yang telah ditetapkan.</li>
                                                 <li style="font-size: 12px;">Apabila di kemudian hari terdapat ketidaksesuaian antara data yang dikirimkan/diajukan dengan keadaan yang sebenarnya, kami bertanggung jawab sepenuhnya dan bersedia menerima sanksi sesuai dengan ketentuan peraturan perundang-undangan.</li>
                                             </ol>
                                         </p>
