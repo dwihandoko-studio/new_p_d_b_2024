@@ -52,8 +52,8 @@ class PenggunaModel extends Model
         // $this->dt->where("npsn IN (select npsn from ref_sekolah where kode_kecamatan = '$kecamatan' AND bentuk_pendidikan_id = 5)");
         // $this->dt->whereIn('npsn', $npsn);
         $this->dt->whereNotIn('role_user', [1, 2]);
-        if ($this->request->getPost('filter_role')) {
-            $this->dt->where('role_user', $this->request->getPost('filter_role'));
+        if ($this->request->getPost('role')) {
+            $this->dt->where('role_user', $this->request->getPost('role'));
         }
         $this->_get_datatables_query();
         if ($this->request->getPost('length') != -1)
@@ -65,8 +65,8 @@ class PenggunaModel extends Model
     {
         // $this->dt->where("npsn IN (select npsn from ref_sekolah where kode_kecamatan = '$kecamatan' AND bentuk_pendidikan_id = 5)");
         $this->dt->whereNotIn('role_user', [1, 2]);
-        if ($this->request->getPost('filter_role')) {
-            $this->dt->where('role_user', $this->request->getPost('filter_role'));
+        if ($this->request->getPost('role')) {
+            $this->dt->where('role_user', $this->request->getPost('role'));
         }
         $this->_get_datatables_query();
 
@@ -76,8 +76,8 @@ class PenggunaModel extends Model
     {
         // $this->dt->where("npsn IN (select npsn from ref_sekolah where kode_kecamatan = '$kecamatan' AND bentuk_pendidikan_id = 5)");
         $this->dt->whereNotIn('role_user', [1, 2]);
-        if ($this->request->getPost('filter_role')) {
-            $this->dt->where('role_user', $this->request->getPost('filter_role'));
+        if ($this->request->getPost('role')) {
+            $this->dt->where('role_user', $this->request->getPost('role'));
         }
         $this->_get_datatables_query();
 
