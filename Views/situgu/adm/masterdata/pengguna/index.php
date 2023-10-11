@@ -29,6 +29,19 @@
                             <div class="col-6">
                                 <h4 class="card-title">Data Pengguna</h4>
                             </div>
+                            <div class="col-3">
+                                <label for="filter_role" class="col-form-label">Pilih Role:</label>
+                                <select class="form-control filter-role" id="filter_role" name="filter_role" style="width: 100%">
+                                    <option value="">&nbsp;</option>
+                                    <?php if (isset($roles)) {
+                                        if (count($roles) > 0) {
+                                            foreach ($roles as $key => $value) { ?>
+                                                <option value="<?= $value->id ?>"><?= $value->role ?></option>
+                                    <?php }
+                                        }
+                                    } ?>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -567,7 +580,9 @@
             "ajax": {
                 "url": "./getAll",
                 "type": "POST",
-
+                "data": function(data) {
+                    data.role = $('#filter_role').val();
+                }
             },
             language: {
                 processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> ',
@@ -576,6 +591,10 @@
                 "targets": 0,
                 "orderable": false,
             }],
+        });
+
+        $('#filter_role').change(function() {
+            tableDatatables.draw();
         });
 
     });

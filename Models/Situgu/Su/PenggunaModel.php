@@ -51,8 +51,8 @@ class PenggunaModel extends Model
     {
         $this->dt->select("a.*, b.nama_kecamatan");
         $this->dt->join('ref_kecamatan b', 'a.kecamatan = b.kode_kecamatan');
-        if ($this->request->getPost('role')) {
-            $this->dt->where('a.role_user', $this->request->getPost('role'));
+        if ($this->request->getPost('filter_role')) {
+            $this->dt->where('a.role_user', $this->request->getPost('filter_role'));
         }
         $this->_get_datatables_query();
         if ($this->request->getPost('length') != -1)
@@ -62,16 +62,16 @@ class PenggunaModel extends Model
     }
     function count_filtered()
     {
-        if ($this->request->getPost('role')) {
-            $this->dt->where('a.role_user', $this->request->getPost('role'));
+        if ($this->request->getPost('filter_role')) {
+            $this->dt->where('a.role_user', $this->request->getPost('filter_role'));
         }
         $this->_get_datatables_query();
         return $this->dt->countAllResults();
     }
     public function count_all()
     {
-        if ($this->request->getPost('role')) {
-            $this->dt->where('a.role_user', $this->request->getPost('role'));
+        if ($this->request->getPost('filter_role')) {
+            $this->dt->where('a.role_user', $this->request->getPost('filter_role'));
         }
         $this->_get_datatables_query();
         return $this->dt->countAllResults();

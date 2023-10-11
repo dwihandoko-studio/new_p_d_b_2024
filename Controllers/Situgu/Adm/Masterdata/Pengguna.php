@@ -206,6 +206,7 @@ class Pengguna extends BaseController
         }
 
         $data['user'] = $user->data;
+        $data['roles'] = $this->_db->table('_role_user')->whereIn('id', [3, 4, 5, 6, 7])->get()->getResult();
 
         return view('situgu/adm/masterdata/pengguna/index', $data);
     }
