@@ -234,7 +234,7 @@ class Ptk extends BaseController
                     <a href="javascript:actionEditFile(\'Pangkat Terakhir\',\'pangkat\',\'' . $list->id_tahun_tw . '\',\'' . $list->npsn . '\',\'' . $list->doc_pangkat_terakhir . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
                         <i class="bx bxs-edit-alt font-size-16 align-middle"></i></button>
                     </a>' :
-                            '<a href="javascript:actionUpload(\'Pangkat Terakhir\',\'pangkat\',\'' . $list->id_tahun_tw . '\',\'' . $list->npsn . '\')" class="btn btn-primary waves-effect waves-light">
+                            '<a href="javascript:actionUpload(\'Pangkat Terakhir\',\'pangkat\',\'' . $list->id_tahun_tw . '\',\'' . $list->npsn . '\',1)" class="btn btn-primary waves-effect waves-light">
                         <i class="bx bx-upload font-size-16 align-middle me-2"></i> Upload
                     </a>';
                         $row[] = $list->doc_kgb_terakhir ? '<a target="_blank" href="' . base_url('upload/ptk/kgb') . '/' . $list->doc_kgb_terakhir . '"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
@@ -243,7 +243,7 @@ class Ptk extends BaseController
                     <a href="javascript:actionEditFile(\'Berkala Terakhir\',\'kgb\',\'' . $list->id_tahun_tw . '\',\'' . $list->npsn . '\',\'' . $list->doc_kgb_terakhir . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
                         <i class="bx bxs-edit-alt font-size-16 align-middle"></i></button>
                     </a>' :
-                            '<a href="javascript:actionUpload(\'Berkala Terakhir\',\'kgb\',\'' . $list->id_tahun_tw . '\',\'' . $list->npsn . '\')" class="btn btn-primary waves-effect waves-light">
+                            '<a href="javascript:actionUpload(\'Berkala Terakhir\',\'kgb\',\'' . $list->id_tahun_tw . '\',\'' . $list->npsn . '\',1)" class="btn btn-primary waves-effect waves-light">
                         <i class="bx bx-upload font-size-16 align-middle me-2"></i> Upload
                     </a>';
                         $row[] = $list->doc_pernyataan_24jam ? '<a target="_blank" href="' . base_url('upload/ptk/pernyataanindividu') . '/' . $list->doc_pernyataan_24jam . '"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
@@ -520,6 +520,334 @@ class Ptk extends BaseController
         }
         $data['ptk'] = $ptk;
         return view('situgu/ops/doc/ptk/detail', $data);
+    }
+
+    public function gunakanDokumenSebelumnya()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'bulan' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Bulan tidak boleh kosong. ',
+                ]
+            ],
+            'tw' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'TW tidak boleh kosong. ',
+                ]
+            ],
+            'title' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Title tidak boleh kosong. ',
+                ]
+            ],
+            'npsn' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'NPSN tidak boleh kosong. ',
+                ]
+            ],
+            'id_ptk' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id PTK tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('bulan')
+                . $this->validator->getError('tw')
+                . $this->validator->getError('title')
+                . $this->validator->getError('npsn')
+                . $this->validator->getError('id_ptk');
+            return json_encode($response);
+        } else {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Permintaan diizinkan";
+                return json_encode($response);
+            }
+
+            $bulan = htmlspecialchars($this->request->getVar('bulan'), true);
+            $tw = htmlspecialchars($this->request->getVar('tw'), true);
+            $title = htmlspecialchars($this->request->getVar('title'), true);
+            $npsn = htmlspecialchars($this->request->getVar('npsn'), true);
+            $id_ptk = htmlspecialchars($this->request->getVar('id_ptk'), true);
+
+            switch ($bulan) {
+                case 'pangkat':
+                    $dir = FCPATH . "upload/ptk/pangkat";
+                    $field_db = 'pangkat_terakhir';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'kgb':
+                    $dir = FCPATH . "upload/ptk/kgb";
+                    $field_db = 'kgb_terakhir';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'pernyataan24':
+                    $dir = FCPATH . "upload/ptk/pernyataanindividu";
+                    $field_db = 'pernyataan_24jam';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'cuti':
+                    $dir = FCPATH . "upload/ptk/keterangancuti";
+                    $field_db = 'cuti';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'pensiun':
+                    $dir = FCPATH . "upload/ptk/pensiun";
+                    $field_db = 'pensiun';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'kematian':
+                    $dir = FCPATH . "upload/ptk/kematian";
+                    $field_db = 'kematian';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'attr_lainnya':
+                    $dir = FCPATH . "upload/ptk/lainnya";
+                    $field_db = 'lainnya';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                default:
+                    $dir = FCPATH . "upload/sekolah/doc-lainnya";
+                    $field_db = 'qrcode';
+                    $table_db = 'info_gtk';
+                    break;
+            }
+
+            $currentFile = $this->_db->table($table_db)->select("$field_db AS file, id")->where("id_tahun_tw != '$tw' AND id_ptk = '$id_ptk'")->orderBy('created_at', 'desc')->get()->getRowObject();
+            if (!$currentFile) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Dokumen Sebelumnya Tidak Ditemukan.";
+                return json_encode($response);
+            }
+
+            $data = [
+                'updated_at' => date('Y-m-d H:i:s'),
+            ];
+
+            $newNamelampiran = _create_name_file($currentFile->file);
+
+            if (file_exists($dir . '/' . $currentFile->file)) {
+                copy($dir . '/' . $currentFile->file, $dir . '/' . $newNamelampiran);
+                $data[$field_db] = $newNamelampiran;
+                // echo 'File berhasil disalin dan disimpan di folder tujuan.';
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal mengupload file.";
+                return json_encode($response);
+            }
+
+            $ptkNya = $this->_db->table('_ptk_tb')->where('id', $id_ptk)->get()->getRowObject();
+
+            if (!$ptkNya) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "PTK Tidak ditemukan.";
+                return json_encode($response);
+            }
+
+            $this->_db->transBegin();
+            try {
+                $cekCurrent = $this->_db->table($table_db)->where(['id_tahun_tw' => $tw, 'id_ptk' => $id_ptk])->countAllResults();
+                if ($cekCurrent > 0) {
+                    $data['pang_golongan'] = $ptkNya->pangkat_golongan;
+                    $data['pang_jenis'] = ($ptkNya->tmt_sk_kgb > $ptkNya->tmt_pangkat) ? 'kgb' : 'pangkat';
+                    $data['pang_no'] = ($ptkNya->tmt_sk_kgb > $ptkNya->tmt_pangkat) ? $ptkNya->sk_kgb : $ptkNya->nomor_sk_pangkat;
+                    $data['pang_tmt'] = ($ptkNya->tmt_sk_kgb > $ptkNya->tmt_pangkat) ? $ptkNya->tmt_sk_kgb : $ptkNya->tmt_pangkat;
+                    $data['pang_tgl'] = ($ptkNya->tmt_sk_kgb > $ptkNya->tmt_pangkat) ? $ptkNya->tgl_sk_kgb : $ptkNya->tgl_sk_pangkat;
+                    $data['pang_tahun'] = ($ptkNya->tmt_sk_kgb > $ptkNya->tmt_pangkat) ? ($ptkNya->masa_kerja_tahun_kgb !== null ? $ptkNya->masa_kerja_tahun_kgb : 0) : ($ptkNya->masa_kerja_tahun !== null ? $ptkNya->masa_kerja_tahun : 0);
+                    $data['pang_bulan'] = ($ptkNya->tmt_sk_kgb > $ptkNya->tmt_pangkat) ? ($ptkNya->masa_kerja_bulan_kgb !== null ? $ptkNya->masa_kerja_bulan_kgb : 0) : ($ptkNya->masa_kerja_bulan !== null ? $ptkNya->masa_kerja_bulan : 0);
+                    $this->_db->table($table_db)->where(['id_tahun_tw' => $tw, 'id_ptk' => $id_ptk, 'is_locked' => 0])->update($data);
+                } else {
+                    $uuidLib = new Uuid();
+                    $data['id'] = $uuidLib->v4();
+                    $data['id_tahun_tw'] = $tw;
+                    $data['id_ptk'] = $id_ptk;
+                    $data['pang_golongan'] = $ptkNya->pangkat_golongan;
+                    $data['pang_jenis'] = ($ptkNya->tmt_sk_kgb > $ptkNya->tmt_pangkat) ? 'kgb' : 'pangkat';
+                    $data['pang_no'] = ($ptkNya->tmt_sk_kgb > $ptkNya->tmt_pangkat) ? $ptkNya->sk_kgb : $ptkNya->nomor_sk_pangkat;
+                    $data['pang_tmt'] = ($ptkNya->tmt_sk_kgb > $ptkNya->tmt_pangkat) ? $ptkNya->tmt_sk_kgb : $ptkNya->tmt_pangkat;
+                    $data['pang_tgl'] = ($ptkNya->tmt_sk_kgb > $ptkNya->tmt_pangkat) ? $ptkNya->tgl_sk_kgb : $ptkNya->tgl_sk_pangkat;
+                    $data['pang_tahun'] = ($ptkNya->tmt_sk_kgb > $ptkNya->tmt_pangkat) ? ($ptkNya->masa_kerja_tahun_kgb !== null ? $ptkNya->masa_kerja_tahun_kgb : 0) : ($ptkNya->masa_kerja_tahun !== null ? $ptkNya->masa_kerja_tahun : 0);
+                    $data['pang_bulan'] = ($ptkNya->tmt_sk_kgb > $ptkNya->tmt_pangkat) ? ($ptkNya->masa_kerja_bulan_kgb !== null ? $ptkNya->masa_kerja_bulan_kgb : 0) : ($ptkNya->masa_kerja_bulan !== null ? $ptkNya->masa_kerja_bulan : 0);
+                    $data['created_at'] = date('Y-m-d H:i:s');
+                    $this->_db->table($table_db)->insert($data);
+                }
+            } catch (\Exception $e) {
+                unlink($dir . '/' . $newNamelampiran);
+
+                $this->_db->transRollback();
+
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->error = var_dump($e);
+                $response->message = "Gagal menyimpan data.";
+                return json_encode($response);
+            }
+
+            if ($this->_db->affectedRows() > 0) {
+                createAktifitas($user->data->id, "Menggunakan dokumen sebelumnya pada lampiran data atribut pada lampiran $field_db", "Menggunakan Lampiran Atribut $field_db sebelumnya", "upload", $tw);
+                $this->_db->transCommit();
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Data berhasil disimpan.";
+                return json_encode($response);
+            } else {
+                unlink($dir . '/' . $newNamelampiran);
+
+                $this->_db->transRollback();
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal menyimpan data";
+                return json_encode($response);
+            }
+        }
+    }
+
+    public function getDokumenSebelumnya()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'bulan' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Bulan tidak boleh kosong. ',
+                ]
+            ],
+            'tw' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'TW tidak boleh kosong. ',
+                ]
+            ],
+            'title' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Title tidak boleh kosong. ',
+                ]
+            ],
+            'npsn' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'NPSN tidak boleh kosong. ',
+                ]
+            ],
+            'id_ptk' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id PTK tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('bulan')
+                . $this->validator->getError('tw')
+                . $this->validator->getError('title')
+                . $this->validator->getError('npsn')
+                . $this->validator->getError('id_ptk');
+            return json_encode($response);
+        } else {
+            $bulan = htmlspecialchars($this->request->getVar('bulan'), true);
+            $tw = htmlspecialchars($this->request->getVar('tw'), true);
+            $title = htmlspecialchars($this->request->getVar('title'), true);
+            $npsn = htmlspecialchars($this->request->getVar('npsn'), true);
+            $id_ptk = htmlspecialchars($this->request->getVar('id_ptk'), true);
+
+            switch ($bulan) {
+                case 'pangkat':
+                    $dir = base_url("upload/ptk/pangkat");
+                    $field_db = 'pangkat_terakhir';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'kgb':
+                    $dir = base_url("upload/ptk/kgb");
+                    $field_db = 'kgb_terakhir';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'pernyataan24':
+                    $dir = base_url("upload/ptk/pernyataanindividu");
+                    $field_db = 'pernyataan_24jam';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'cuti':
+                    $dir = base_url("upload/ptk/keterangancuti");
+                    $field_db = 'cuti';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'pensiun':
+                    $dir = base_url("upload/ptk/pensiun");
+                    $field_db = 'pensiun';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'kematian':
+                    $dir = base_url("upload/ptk/kematian");
+                    $field_db = 'kematian';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'attr_lainnya':
+                    $dir = base_url("upload/ptk/lainnya");
+                    $field_db = 'lainnya';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                default:
+                    $dir = base_url("upload/sekolah/doc-lainnya");
+                    $field_db = 'qrcode';
+                    $table_db = 'info_gtk';
+                    break;
+            }
+
+            $currentFile = $this->_db->table($table_db)->select("$field_db AS file, id")->where("id_tahun_tw != '$tw' AND id_ptk = '$id_ptk'")->orderBy('created_at', 'desc')->get()->getRowObject();
+            if (!$currentFile) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Dokumen Sebelumnya Tidak Ditemukan.";
+                return json_encode($response);
+            }
+
+            $data = new \stdClass;
+            $data->bulan = $bulan;
+            $data->tw = $tw;
+            $data->title = $title;
+            $data->id_ptk = $id_ptk;
+            $data->doc = $dir . '/' . $currentFile->file;
+
+            $response = new \stdClass;
+            $response->status = 200;
+            $response->message = "Permintaan diizinkan";
+            $response->data = $data;
+            return json_encode($response);
+        }
     }
 
     public function formupload()

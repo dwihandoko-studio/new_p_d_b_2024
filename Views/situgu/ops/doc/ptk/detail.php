@@ -125,7 +125,287 @@
 <script src="<?= base_url() ?>/assets/libs/dropzone/min/dropzone.min.js"></script>
 
 <script>
-    function actionUpload(title, bulan, tw, npsn) {
+    function openFileInNewTab(url) {
+        const newTab = window.open(url, '_blank');
+        if (newTab) {
+            newTab.focus();
+        } else {
+            alert('Please allow pop-ups for this site');
+        }
+    }
+
+    async function actionUpload(title, bulan, tw, id_ptk, fromOld = 0) {
+        if (fromOld === 1) {
+            const {
+                value: pilihanUpload
+            } = await Swal.fire({
+                title: 'Silahkan Pilih Metode Upload Dokumen:',
+                input: 'select',
+                inputOptions: {
+                    'old_dokumen': 'Gunakan Dokumen Sebelumnya',
+                    'upload_dokumen_baru': 'Upload Dokumen Baru',
+                    'lihat_dokumen_sebelumnya': 'Lihat Dokumen Sebelumnya'
+                },
+                inputPlaceholder: '-- Pilih Metode ---',
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    return new Promise((resolve) => {
+                        if (value === '' || value === undefined) {
+                            resolve('Silahkan pilih metode...')
+                        } else {
+                            resolve()
+                        }
+                    })
+                }
+            })
+
+            if (pilihanUpload) {
+                if (pilihanUpload === "old_dokumen") {
+                    Swal.fire({
+                        title: 'Apakah anda yakin ingin menggunakan lampiran dokumen sebelumnya?',
+                        showDenyButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: 'Ya, Gunakan.',
+                        denyButtonText: `Lihat Dokumen`,
+                        closeButtonText: `Batal`,
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: "./gunakanDokumenSebelumnya",
+                                type: 'POST',
+                                data: {
+                                    title: title,
+                                    bulan: bulan,
+                                    npsn: npsn,
+                                    title: title,
+                                    id_ptk: '<?= $id ?>',
+                                },
+                                dataType: 'JSON',
+                                beforeSend: function() {
+                                    $('div.main-content').block({
+                                        message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                                    });
+                                },
+                                success: function(resul) {
+                                    $('div.main-content').unblock();
+                                    if (resul.status !== 200) {
+                                        if (resul.status !== 201) {
+                                            if (resul.status === 401) {
+                                                Swal.fire(
+                                                    'Failed!',
+                                                    resul.message,
+                                                    'warning'
+                                                ).then((valRes) => {
+                                                    reloadPage();
+                                                });
+                                            } else {
+                                                Swal.fire(
+                                                    'GAGAL!',
+                                                    resul.message,
+                                                    'warning'
+                                                );
+                                            }
+                                        } else {
+                                            Swal.fire(
+                                                'Peringatan!',
+                                                resul.message,
+                                                'success'
+                                            ).then((valRes) => {
+                                                reloadPage();
+                                            })
+                                        }
+                                    } else {
+                                        Swal.fire(
+                                            'SELAMAT!',
+                                            resul.message,
+                                            'success'
+                                        ).then((valRes) => {
+                                            reloadPage();
+                                        })
+                                    }
+                                },
+                                error: function() {
+                                    $('div.main-content').unblock();
+                                    Swal.fire(
+                                        'Failed!',
+                                        "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                                        'warning'
+                                    );
+                                }
+                            });
+                        } else if (result.isDenied) {
+                            $.ajax({
+                                url: "./getDokumenSebelumnya",
+                                type: 'POST',
+                                data: {
+                                    bulan: bulan,
+                                    tw: tw,
+                                    npsn: npsn,
+                                    title: title,
+                                    id_ptk: '<?= $id ?>',
+                                },
+                                dataType: 'JSON',
+                                beforeSend: function() {
+                                    $('div.main-content').block({
+                                        message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                                    });
+                                },
+                                success: function(resul) {
+                                    $('div.main-content').unblock();
+                                    if (resul.status !== 200) {
+                                        Swal.fire(
+                                            'Failed!',
+                                            resul.message,
+                                            'warning'
+                                        );
+                                    } else {
+                                        openFileInNewTab(resul.data.doc);
+                                    }
+                                },
+                                error: function() {
+                                    $('div.main-content').unblock();
+                                    Swal.fire(
+                                        'Failed!',
+                                        "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                                        'warning'
+                                    );
+                                }
+                            });
+                        }
+                    })
+                } else if (pilihanUpload === "upload_dokumen_baru") {
+                    $.ajax({
+                        url: "./formupload",
+                        type: 'POST',
+                        data: {
+                            bulan: bulan,
+                            tw: tw,
+                            npsn: npsn,
+                            title: title,
+                            id_ptk: '<?= $id ?>',
+                        },
+                        dataType: 'JSON',
+                        beforeSend: function() {
+                            $('div.main-content').block({
+                                message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                            });
+                        },
+                        success: function(resul) {
+                            $('div.main-content').unblock();
+                            if (resul.status !== 200) {
+                                Swal.fire(
+                                    'Failed!',
+                                    resul.message,
+                                    'warning'
+                                );
+                            } else {
+                                $('#content-detailModalLabel').html('Upload Lampiran ' + title);
+                                $('.contentBodyModal').html(resul.data);
+                                $('.content-detailModal').modal({
+                                    backdrop: 'static',
+                                    keyboard: false,
+                                });
+                                $('.content-detailModal').modal('show');
+                            }
+                        },
+                        error: function() {
+                            $('div.main-content').unblock();
+                            Swal.fire(
+                                'Failed!',
+                                "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                                'warning'
+                            );
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        url: "./getDokumenSebelumnya",
+                        type: 'POST',
+                        data: {
+                            bulan: bulan,
+                            tw: tw,
+                            npsn: npsn,
+                            title: title,
+                            id_ptk: '<?= $id ?>',
+                        },
+                        dataType: 'JSON',
+                        beforeSend: function() {
+                            $('div.main-content').block({
+                                message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                            });
+                        },
+                        success: function(resul) {
+                            $('div.main-content').unblock();
+                            if (resul.status !== 200) {
+                                Swal.fire(
+                                    'Failed!',
+                                    resul.message,
+                                    'warning'
+                                );
+                            } else {
+                                openFileInNewTab(resul.data.doc);
+                            }
+                        },
+                        error: function() {
+                            $('div.main-content').unblock();
+                            Swal.fire(
+                                'Failed!',
+                                "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                                'warning'
+                            );
+                        }
+                    });
+                }
+            }
+        } else {
+            $.ajax({
+                url: "./formupload",
+                type: 'POST',
+                data: {
+                    bulan: bulan,
+                    tw: tw,
+                    npsn: npsn,
+                    title: title,
+                    id_ptk: '<?= $id ?>',
+                },
+                dataType: 'JSON',
+                beforeSend: function() {
+                    $('div.main-content').block({
+                        message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                    });
+                },
+                success: function(resul) {
+                    $('div.main-content').unblock();
+                    if (resul.status !== 200) {
+                        Swal.fire(
+                            'Failed!',
+                            resul.message,
+                            'warning'
+                        );
+                    } else {
+                        $('#content-detailModalLabel').html('Upload Lampiran ' + title);
+                        $('.contentBodyModal').html(resul.data);
+                        $('.content-detailModal').modal({
+                            backdrop: 'static',
+                            keyboard: false,
+                        });
+                        $('.content-detailModal').modal('show');
+                    }
+                },
+                error: function() {
+                    $('div.main-content').unblock();
+                    Swal.fire(
+                        'Failed!',
+                        "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                        'warning'
+                    );
+                }
+            });
+        }
+    }
+
+    function actionUpload(title, bulan, tw, npsn, fromOld = 0) {
         $.ajax({
             url: "./formupload",
             type: 'POST',

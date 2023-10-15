@@ -543,22 +543,49 @@ class Ptk extends BaseController
                 $tahun = $ptk->masa_kerja_tahun_impassing;
                 $bulan = $ptk->masa_kerja_bulan_impassing;
             } else {
-                if ($ptk->tmt_sk_kgb > $ptk->tmt_pangkat) {
-                    $tgl = $ptk->tgl_sk_kgb;
-                    $golongan = $ptk->pangkat_golongan_kgb;
-                    $tmt = $ptk->tmt_sk_kgb;
-                    $no = $ptk->sk_kgb;
-                    $jenis = "kgb";
-                    $tahun = $ptk->masa_kerja_tahun_kgb;
-                    $bulan = $ptk->masa_kerja_bulan_kgb;
+                if ($ptk->tmt_sk_kgb == NULL || $ptk->tmt_sk_kgb == "" || $ptk->tmt_pangkat == NULL || $ptk->tmt_pangkat == "") {
+                    if ($ptk->tmt_pangkat == NULL || $ptk->tmt_pangkat == "") {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal melakukan pembaharuan data attribut. Riwayat Kepangkatan pada master data PTK masih kosong.";
+                        return json_encode($response);
+                    } else {
+                        if ($ptk->tmt_sk_kgb > $ptk->tmt_pangkat) {
+                            $tgl = $ptk->tgl_sk_kgb;
+                            $golongan = $ptk->pangkat_golongan_kgb;
+                            $tmt = $ptk->tmt_sk_kgb;
+                            $no = $ptk->sk_kgb;
+                            $jenis = "kgb";
+                            $tahun = $ptk->masa_kerja_tahun_kgb;
+                            $bulan = $ptk->masa_kerja_bulan_kgb;
+                        } else {
+                            $tgl = $ptk->tgl_sk_pangkat;
+                            $golongan = $ptk->pangkat_golongan;
+                            $tmt = $ptk->tmt_pangkat;
+                            $no = $ptk->nomor_sk_pangkat;
+                            $jenis = "pangkat";
+                            $tahun = $ptk->masa_kerja_tahun;
+                            $bulan = $ptk->masa_kerja_bulan;
+                        }
+                    }
                 } else {
-                    $tgl = $ptk->tgl_sk_pangkat;
-                    $golongan = $ptk->pangkat_golongan;
-                    $tmt = $ptk->tmt_pangkat;
-                    $no = $ptk->nomor_sk_pangkat;
-                    $jenis = "pangkat";
-                    $tahun = $ptk->masa_kerja_tahun;
-                    $bulan = $ptk->masa_kerja_bulan;
+                    if ($ptk->tmt_sk_kgb > $ptk->tmt_pangkat) {
+                        $tgl = $ptk->tgl_sk_kgb;
+                        $golongan = $ptk->pangkat_golongan_kgb;
+                        $tmt = $ptk->tmt_sk_kgb;
+                        $no = $ptk->sk_kgb;
+                        $jenis = "kgb";
+                        $tahun = $ptk->masa_kerja_tahun_kgb;
+                        $bulan = $ptk->masa_kerja_bulan_kgb;
+                    } else {
+                        $tgl = $ptk->tgl_sk_pangkat;
+                        $golongan = $ptk->pangkat_golongan;
+                        $tmt = $ptk->tmt_pangkat;
+                        $no = $ptk->nomor_sk_pangkat;
+                        $jenis = "pangkat";
+                        $tahun = $ptk->masa_kerja_tahun;
+                        $bulan = $ptk->masa_kerja_bulan;
+                    }
                 }
             }
 
