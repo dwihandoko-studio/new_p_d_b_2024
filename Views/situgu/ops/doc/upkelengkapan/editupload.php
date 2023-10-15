@@ -11,7 +11,7 @@
                         <div class="mt-3">
                             <label for="_file" class="form-label"><?= $title ?>: </label>
                             <input class="form-control" placeholder="<?= $old ?>" type="file" id="_file" name="_file" onFocus="inputFocus(this);" accept="image/*,application/pdf" onchange="loadFile()">
-                            <p class="font-size-11">Format : <code data-toggle="tooltip" data-placement="bottom" title="jpg, png, jpeg, pdf">Files</code> and Maximum File Size <code>2 Mb</code></p>
+                            <p class="font-size-11">Format : <code data-toggle="tooltip" data-placement="bottom" title="jpg, png, jpeg, pdf">Files</code> and Maximum File Size <code>3 Mb</code></p>
                             <p class="font-size-11"><a href="<?= $old_url ?>" target="_blank"><span class="badge rounded-pill bg-dark">Lihat File Saat Ini.</span></a></p>
                             <div class="help-block _file" for="_file"></div>
                         </div>
@@ -105,12 +105,12 @@
                 return false;
             }
 
-            if (file.size > 2 * 1024 * 1000) {
+            if (file.size > 3 * 1024 * 1000) {
                 input.value = "";
                 $('.imagePreviewUpload').attr('src', '');
                 Swal.fire(
                     'Warning!!!',
-                    "Ukuran file tidak boleh lebih dari 2 Mb.",
+                    "Ukuran file tidak boleh lebih dari 3 Mb.",
                     'warning'
                 );
                 return false;

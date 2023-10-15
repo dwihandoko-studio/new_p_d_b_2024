@@ -10,7 +10,7 @@
                         <div class="mt-3">
                             <label for="_file" class="form-label"><?= $title ?>: </label>
                             <input class="form-control" type="file" id="_file" name="_file" onFocus="inputFocus(this);" accept="image/*,application/pdf" onchange="loadFile()">
-                            <p class="font-size-11">Format : <code data-toggle="tooltip" data-placement="bottom" title="jpg, png, jpeg, pdf">Files</code> and Maximum File Size <code>2 Mb</code></p>
+                            <p class="font-size-11">Format : <code data-toggle="tooltip" data-placement="bottom" title="jpg, png, jpeg, pdf">Files</code> and Maximum File Size <code>3 Mb</code></p>
                             <div class="help-block _file" for="_file"></div>
                         </div>
                     </div>
