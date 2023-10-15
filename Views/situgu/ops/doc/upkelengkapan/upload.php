@@ -103,12 +103,12 @@
                 return false;
             }
 
-            if (file.size > 2 * 1024 * 1000) {
+            if (file.size > 3 * 1024 * 1000) {
                 input.value = "";
                 $('.imagePreviewUpload').attr('src', '');
                 Swal.fire(
                     'Warning!!!',
-                    "Ukuran file tidak boleh lebih dari 2 Mb.",
+                    "Ukuran file tidak boleh lebih dari 3 Mb.",
                     'warning'
                 );
                 return false;
