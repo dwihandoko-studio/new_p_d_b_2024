@@ -55,7 +55,7 @@ class Home extends BaseController
 
                 $dataReq = [
                     'chat_id' => $getChatId,
-                    'message' => $message,
+                    'text' => $message,
                 ];
 
                 $ch = curl_init("https://api.telegram.org/bot$tokenTele/sendMessage");
