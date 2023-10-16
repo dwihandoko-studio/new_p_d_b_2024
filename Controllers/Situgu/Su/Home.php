@@ -70,8 +70,10 @@ class Home extends BaseController
 
                 $server_output = curl_exec($ch);
                 curl_close($ch);
+
+                var_dump($server_output);
             } catch (\Throwable $th) {
-                //throw $th;
+                var_dump($th);
             }
         }
     }
