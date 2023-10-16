@@ -7037,7 +7037,8 @@
                 aktivasiTele += '</div>';
                 aktivasiTele += '</div>';
                 aktivasiTele += '<div class="modal-footer">';
-                aktivasiTele += '<button type="button" onclick="aksiLogout(this);" class="btn btn-secondary waves-effect waves-light">Keluar</button>';
+                aktivasiTele += '<button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>';
+                // aktivasiTele += '<button type="button" onclick="aksiLogout(this);" class="btn btn-secondary waves-effect waves-light">Keluar</button>';
                 aktivasiTele += '<a href="https://t.me/layanandisdikbudlt_bot" target="_blank" id="aktivasi-button-tele" class="btn btn-primary waves-effect waves-light aktivasi-button-tele">Aktivasi Sekarang</button>';
                 aktivasiTele += '</div>';
                 $('.contentAktivasiBodyModal').html(aktivasiTele);

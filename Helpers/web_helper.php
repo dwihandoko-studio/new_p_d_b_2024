@@ -1222,6 +1222,23 @@ function grantTarikDataBackbone()
 	return true;
 }
 
+function getHasActivationTeleFromPengguna($ptk_id)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$grandted = $db->table('_profil_users_tb')->select("chat_id_telegram")->where(['id_ptk' => $ptk_id])->get()->getRowObject();
+	if (!$grandted) {
+		return 0;
+	} else {
+		if ($grandted->chat_id_telegram == NULL || $grandted->chat_id_telegram == "") {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+}
+
 function grantCreatedAduan()
 {
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'

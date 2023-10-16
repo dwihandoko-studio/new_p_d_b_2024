@@ -50,7 +50,7 @@
                                 </tr>
                                 <tr>
                                     <th>EMAIL</th>
-                                    <th>WA</th>
+                                    <th>TELEGRAM</th>
                                 </tr>
                             </thead>
                         </table>

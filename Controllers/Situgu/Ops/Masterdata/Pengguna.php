@@ -141,6 +141,7 @@ class Pengguna extends BaseController
             $row[] = $list->email;
             $row[] = $list->no_hp;
             $row[] = $list->role_name;
+            $getActiTele = getHasActivationTeleFromPengguna($list->ptk_id);
             switch ($list->ptk_id) {
                 case null:
                     $row[] = '<div class="text-center">
@@ -170,7 +171,7 @@ class Pengguna extends BaseController
                     </div>';
                     break;
             }
-            switch ($list->wa_verified) {
+            switch ($getActiTele) {
                 case 1:
                     $row[] = '<div class="text-center">
                             <span class="badge rounded-pill badge-soft-success font-size-11">Ya</span>
