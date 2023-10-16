@@ -7027,6 +7027,28 @@
             $('.content-aktivasiModal').modal('show');
 
         <?php } ?>
+        <?php if ($ptk) { ?>
+            <?php if ($ptk->chat_id_telegram == NULL || $ptk->chat_id_telegram == "") { ?>
+                $('#content-aktivasiModalLabel').html('PERINGATAN AKUN BELUM AKTIVASI TELEGRAM');
+                let aktivasiTele = '';
+                aktivasiTele += '<div class="modal-body" style="padding-top: 0px; padding-bottom: 0px;">';
+                aktivasiTele += '<div class="alert alert-danger" role="alert">';
+                aktivasiTele += 'Akun anda terdeteksi belum melakukan aktivasi Nomor Telegram.\nSilahkan untuk melakukan aktivasi Nomor Telegram terlebih dahulu.';
+                aktivasiTele += '</div>';
+                aktivasiTele += '</div>';
+                aktivasiTele += '<div class="modal-footer">';
+                aktivasiTele += '<button type="button" onclick="aksiLogout(this);" class="btn btn-secondary waves-effect waves-light">Keluar</button>';
+                aktivasiTele += '<a href="https://t.me/layanandisdikbudlt_bot" target="_blank" id="aktivasi-button-tele" class="btn btn-primary waves-effect waves-light aktivasi-button-tele">Aktivasi Sekarang</button>';
+                aktivasiTele += '</div>';
+                $('.contentAktivasiBodyModal').html(aktivasiTele);
+                $('.content-aktivasiModal').modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                });
+                $('.content-aktivasiModal').modal('show');
+
+            <?php } ?>
+        <?php } ?>
         <?php if ($ptk && !$verified_wa) { ?>
             $('#content-aktivasiModalLabel').html('PERINGATAN AKUN BELUM AKTIVASI WHATSAPP');
             let aktivasiWa = '';
@@ -7071,6 +7093,65 @@
             type: 'POST',
             data: {
                 id: 'wa',
+            },
+            dataType: 'JSON',
+            beforeSend: function() {
+                $('.aktivasi-button-wa').attr('disabled', true);
+                $('div.modal-content-loading').block({
+                    message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                });
+            },
+            success: function(resul) {
+                $('div.modal-content-loading').unblock();
+                if (resul.status == 200) {
+                    $('.contentAktivasiBodyModal').html(resul.data);
+                } else {
+                    if (resul.status == 404) {
+                        Swal.fire(
+                            'PERINGATAN!',
+                            resul.message,
+                            'warning'
+                        ).then((valRes) => {
+                            reloadPage(resul.redirrect);
+                        })
+                    } else {
+                        if (resul.status == 401) {
+                            Swal.fire(
+                                'PERINGATAN!',
+                                resul.message,
+                                'warning'
+                            ).then((valRes) => {
+                                reloadPage();
+                            })
+                        } else {
+                            $('.aktivasi-button-wa').attr('disabled', false);
+                            Swal.fire(
+                                'PERINGATAN!!!',
+                                resul.message,
+                                'warning'
+                            );
+                        }
+                    }
+                }
+            },
+            error: function(data) {
+                $('.aktivasi-button-wa').attr('disabled', false);
+                $('div.modal-content-loading').unblock();
+                Swal.fire(
+                    'PERINGATAN!',
+                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                    'warning'
+                );
+            }
+        });
+    }
+
+    function aksiAktivasiTele(event) {
+        $.ajax({
+            url: './home/getAktivasiTele',
+            type: 'POST',
+            data: {
+                id: 'tele',
             },
             dataType: 'JSON',
             beforeSend: function() {

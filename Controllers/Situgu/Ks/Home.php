@@ -138,6 +138,65 @@ class Home extends BaseController
         }
     }
 
+    public function getAktivasiTele()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('id');
+            return json_encode($response);
+        } else {
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+
+            if (!$user || $user->status !== 200) {
+                session()->destroy();
+                delete_cookie('jwt');
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Session expired.";
+                return json_encode($response);
+            }
+
+            if ($id == "tele") {
+                $x['user'] = $user->data;
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('situgu/ks/home/aktivasi/tele', $x);
+                return json_encode($response);
+            } else if ($id == "email") {
+                $x['user'] = $user->data;
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('situgu/ks/home/aktivasi/email', $x);
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan";
+                return json_encode($response);
+            }
+        }
+    }
+
     public function kirimAktivasiWa()
     {
         if ($this->request->getMethod() != 'post') {
