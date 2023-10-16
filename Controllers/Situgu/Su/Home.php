@@ -50,11 +50,12 @@ class Home extends BaseController
         $getChatId = getChatIdTelegramPTK($oldData->id_ptk);
         if ($getChatId) {
             $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
-            $message = "Hallo **$nama**....!!!\n______________________________________________________\n\n*USULAN ANDA* pada **SI-TUGU** dengan kode usulan : \n**$oldData->kode_usulan**\nTelah disetujui oleh admin verifikasi:\n**$oldData->admin**\n\n\nPesan otomatis dari **SI-TUGU Kab. Lampung Tengah**\n_________________________________________________";
+            $message = "Hallo <b>$nama</b>....!!!\n______________________________________________________\n\n<b>USULAN ANDA</b> pada <b>SI-TUGU</b> dengan kode usulan : \n<b>$oldData->kode_usulan</b>\nTelah disetujui oleh Admin Verifikator:\n<b>$oldData->admin</b>\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
             try {
 
                 $dataReq = [
                     'chat_id' => $getChatId,
+                    "parse_mode" => "HTML",
                     'text' => $message,
                 ];
 
