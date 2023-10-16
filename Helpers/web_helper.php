@@ -1227,7 +1227,7 @@ function getHasActivationTeleFromPengguna($ptk_id)
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
 	$db      = \Config\Database::connect();
 
-	$grandted = $db->table('_profil_users_tb')->select("chat_id_telegram")->where(['id_ptk' => $ptk_id])->get()->getRowObject();
+	$grandted = $db->table('_ptk_tb')->select("chat_id_telegram")->where(['id_ptk' => $ptk_id])->get()->getRowObject();
 	if (!$grandted) {
 		return 0;
 	} else {
@@ -1237,6 +1237,19 @@ function getHasActivationTeleFromPengguna($ptk_id)
 			return 1;
 		}
 	}
+}
+
+function getChatIdTelegramPTK($ptk_id)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$grandted = $db->table('_ptk_tb')->select("chat_id_telegram")->where(['id' => $ptk_id])->get()->getRowObject();
+	if (!$grandted) {
+		return null;
+	}
+
+	return $grandted->chat_id_telegram;
 }
 
 function grantCreatedAduan()

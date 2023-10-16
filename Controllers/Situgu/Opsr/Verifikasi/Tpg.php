@@ -391,28 +391,32 @@ class Tpg extends BaseController
                         $verifikasiLib = new Verifikasiadminlib();
                         $verifikasiLib->create($user->data->id, $oldData->kode_usulan, 'tpg', $oldData->id_ptk, $oldData->id_tahun_tw, 'Lolos');
 
-                        // try {
-                        //     $message = "Hallo *$nama*....!!!\n______________________________________________________\n\n*PENGADUAN ANDA* pada *SI-TUGU* mengenai : \n$oldData->isi\nBerhasil diproses dengan keterangan:\n*$keterangan*\n\n\nPesan otomatis dari *SI-TUGU Kab. Lampung Tengah*\n_________________________________________________";
+                        // $getChatId = getChatIdTelegramPTK($oldData->id_ptk);
+                        // if ($getChatId) {
+                        //     $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
+                        //     try {
+                        //         $message = "Hallo *$nama*....!!!\n______________________________________________________\n\n*PENGADUAN ANDA* pada *SI-TUGU* mengenai : \n$oldData->isi\nBerhasil diproses dengan keterangan:\n*$keterangan*\n\n\nPesan otomatis dari *SI-TUGU Kab. Lampung Tengah*\n_________________________________________________";
 
-                        //     $dataReq = [
-                        //         'chat_id' => getChatId,
-                        //         'message' => $message,
-                        //     ];
+                        //         $dataReq = [
+                        //             'chat_id' => $getChatId,
+                        //             'message' => $message,
+                        //         ];
 
-                        //     $ch = curl_init("https://whapi.kntechline.id/send-message");
-                        //     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                        //     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dataReq));
-                        //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        //     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                        //         'Content-Type: application/json'
-                        //     ));
-                        //     curl_setopt($ch, CURLOPT_TIMEOUT, 20);
-                        //     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
+                        //         $ch = curl_init("https://api.telegram.org/bot$tokenTele/sendMessage");
+                        //         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                        //         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dataReq));
+                        //         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        //         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                        //             'Content-Type: application/json'
+                        //         ));
+                        //         curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+                        //         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
 
-                        //     $server_output = curl_exec($ch);
-                        //     curl_close($ch);
-                        // } catch (\Throwable $th) {
-                        //     //throw $th;
+                        //         $server_output = curl_exec($ch);
+                        //         curl_close($ch);
+                        //     } catch (\Throwable $th) {
+                        //         //throw $th;
+                        //     }
                         // }
                     } catch (\Throwable $th) {
                         $this->_db->transRollback();
