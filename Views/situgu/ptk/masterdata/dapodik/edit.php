@@ -27,6 +27,12 @@
                 <input type="text" class="form-control cabang_bank" id="_cabang_bank" name="_cabang_bank" value="<?= $data->cabang_bank ?>" placeholder="Cabang Bank..." onfocusin="inputFocus(this);">
                 <div class="help-block _cabang_bank"></div>
             </div>
+            <div class="mb-3">
+                <label for="_bidang_studi_sertifikasi" class="form-label">Bidang Studi Sertifikasi</label>
+                <input type="text" class="form-control bidang_studi_sertifikasi" id="_bidang_studi_sertifikasi" name="_bidang_studi_sertifikasi" value="<?= $data->bidang_studi_sertifikasi ?>" onfocusin="inputFocus(this);">
+                <p class="font-size-11">Keterangan : <code>Wajib diisi jika sudah mempunyai sertifikat pendidikan.</code></p>
+                <div class="help-block _bidang_studi_sertifikasi"></div>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
@@ -43,6 +49,7 @@
             const npwp = document.getElementsByName('_npwp')[0].value;
             const no_rekening = document.getElementsByName('_no_rekening')[0].value;
             const cabang_bank = document.getElementsByName('_cabang_bank')[0].value;
+            const bidang_studi_sertifikasi = document.getElementsByName('_bidang_studi_sertifikasi')[0].value;
 
             if (nrg === "") {
                 $("input#_nrg").css("color", "#dc3545");
@@ -95,6 +102,7 @@
                             npwp: npwp,
                             no_rekening: no_rekening,
                             cabang_bank: cabang_bank,
+                            bidang_studi_sertifikasi: bidang_studi_sertifikasi,
                         },
                         dataType: 'JSON',
                         beforeSend: function() {
