@@ -39,7 +39,7 @@
                         }
                     } ?>
                 </select>
-                <p class="font-size-11">Keterangan : <code>Wajib diisi jika sudah mempunyai sertifikat pendidikan.</code></p>
+                <p class="font-size-11">Keterangan : <code>Wajib diisi jika sudah mempunyai sertifikat pendidikan. Jika belum mempunyai sertifikat pendidik, silahkan kosongkan bagian ini.</code></p>
                 <div class="help-block _bidang_studi_sertifikasi"></div>
             </div>
         </div>
