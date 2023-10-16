@@ -30,6 +30,7 @@
             <div class="mb-3">
                 <label for="_bidang_studi_sertifikasi" class="col-form-label">Bidang Studi Sertifikasi:</label>
                 <select class="select2 form-control" id="_bidang_studi_sertifikasi" name="_bidang_studi_sertifikasi" style="width: 100%" data-placeholder="Bidang Studi Sertifikasi...">
+                    <option value="">&nbsp;</option>
                     <?php if (isset($ref_serti)) {
                         if (count($ref_serti) > 0) {
                             foreach ($ref_serti as $key => $value) { ?>
