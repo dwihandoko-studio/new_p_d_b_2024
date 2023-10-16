@@ -28,8 +28,16 @@
                 <div class="help-block _cabang_bank"></div>
             </div>
             <div class="mb-3">
-                <label for="_bidang_studi_sertifikasi" class="form-label">Bidang Studi Sertifikasi</label>
-                <input type="text" class="form-control bidang_studi_sertifikasi" id="_bidang_studi_sertifikasi" name="_bidang_studi_sertifikasi" value="<?= $data->bidang_studi_sertifikasi ?>" onfocusin="inputFocus(this);">
+                <label for="_bidang_studi_sertifikasi" class="col-form-label">Bidang Studi Sertifikasi:</label>
+                <select class="select2 form-control select2-multiple" id="_bidang_studi_sertifikasi" name="_bidang_studi_sertifikasi[]" style="width: 100%" multiple="multiple" data-placeholder="Pilih PTK ...">
+                    <?php if (isset($ref_serti)) {
+                        if (count($ref_serti) > 0) {
+                            foreach ($ref_serti as $key => $value) { ?>
+                                <option value="<?= $value ?>" <?= $value == $data->bidang_studi_sertifikasi ? 'selected' : '' ?>><?= $value ?></option>
+                    <?php }
+                        }
+                    } ?>
+                </select>
                 <p class="font-size-11">Keterangan : <code>Wajib diisi jika sudah mempunyai sertifikat pendidikan.</code></p>
                 <div class="help-block _bidang_studi_sertifikasi"></div>
             </div>
