@@ -6963,6 +6963,28 @@
             $('.content-aktivasiModal').modal('show');
 
         <?php } ?>
+        <?php if ($ptk) { ?>
+            <?php if ($ptk->chat_id_telegram == NULL || $ptk->chat_id_telegram == "") { ?>
+                $('#content-aktivasiModalLabel').html('PERINGATAN AKUN BELUM AKTIVASI TELEGRAM');
+                let aktivasiTele = '';
+                aktivasiTele += '<div class="modal-body" style="padding-top: 0px; padding-bottom: 0px;">';
+                aktivasiTele += '<div class="alert alert-danger" role="alert">';
+                aktivasiTele += 'Akun anda terdeteksi belum melakukan aktivasi Nomor Telegram.\nSilahkan untuk melakukan aktivasi Nomor Telegram terlebih dahulu.';
+                aktivasiTele += '</div>';
+                aktivasiTele += '</div>';
+                aktivasiTele += '<div class="modal-footer">';
+                aktivasiTele += '<button type="button" onclick="aksiLogout(this);" class="btn btn-secondary waves-effect waves-light">Keluar</button>';
+                aktivasiTele += '<a href="https://t.me/layanandisdikbudlt_bot" target="_blank" id="aktivasi-button-tele" class="btn btn-primary waves-effect waves-light aktivasi-button-tele">Aktivasi Sekarang</button>';
+                aktivasiTele += '</div>';
+                $('.contentAktivasiBodyModal').html(aktivasiTele);
+                $('.content-aktivasiModal').modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                });
+                $('.content-aktivasiModal').modal('show');
+
+            <?php } ?>
+        <?php } ?>
         <?php if ($ptk && !$verified_wa) { ?>
             $('#content-aktivasiModalLabel').html('PERINGATAN AKUN BELUM AKTIVASI WHATSAPP');
             let aktivasiWa = '';
