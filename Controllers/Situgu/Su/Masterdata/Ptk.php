@@ -201,7 +201,7 @@ class Ptk extends BaseController
             $current = $this->_db->table('_ptk_tb a')
                 ->select("a.*, b.no_hp as nohpAkun, b.email as emailAkun, b.wa_verified, b.image, c.kecamatan as kecamatan_sekolah")
                 ->join('v_user b', 'a.id_ptk = b.ptk_id', 'left')
-                ->join('ref_sekolah c', 'a.npsn = c.npsn')
+                ->join('ref_sekolah c', 'a.npsn = c.npsn', 'left')
                 ->where('a.id', $id)->get()->getRowObject();
 
             if ($current) {

@@ -436,6 +436,8 @@ class Tamsil extends BaseController
 
                     $verifikasiLib = new Verifikasiadminlib();
                     $verifikasiLib->createSpj($user->data->id, $oldData->kode_usulan, 'tamsil', $oldData->id_ptk, $oldData->id_tahun_tw, 'Approve SPJ');
+                    createAktifitas($user->data->id, "Memverifikasi Laporan SPJ Tamsil untuk PTK atas nama $nama dengan kode usulan: $oldData->kode_usulan", "Memverifikasi Laporan SPJ Tamsil PTK", "edit", $oldData->id_tahun_tw);
+
                     // } catch (\Throwable $th) {
                     //     $this->_db->transRollback();
                     //     $response = new \stdClass;
@@ -447,6 +449,37 @@ class Tamsil extends BaseController
                     // }
 
                     $this->_db->transCommit();
+                    $getChatId = getChatIdTelegramPTK($oldData->id_ptk);
+                    if ($getChatId) {
+                        $admin = $user->data;
+                        $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
+                        $message = "Hallo <b>$nama</b>....!!!\n______________________________________________________\n\n<b>PROSES PELAPORAN SPJ TAMSIL</b> anda pada <b>SI-TUGU</b> dengan kode usulan : \n<b>$oldData->kode_usulan</b>\nTelah disetujui oleh Admin Verifikator:\n<b>$admin->fullname</b>.\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                        try {
+
+                            $dataReq = [
+                                'chat_id' => $getChatId,
+                                "parse_mode" => "HTML",
+                                'text' => $message,
+                            ];
+
+                            $ch = curl_init("https://api.telegram.org/bot$tokenTele/sendMessage");
+                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dataReq));
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                                'Content-Type: application/json'
+                            ));
+                            curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+                            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
+
+                            $server_output = curl_exec($ch);
+                            curl_close($ch);
+
+                            // var_dump($server_output);
+                        } catch (\Throwable $th) {
+                            // var_dump($th);
+                        }
+                    }
                     $response = new \stdClass;
                     $response->status = 200;
                     $response->message = "Laporan SPJ $nama berhasil diverifikasi dan disetujui.";
@@ -638,6 +671,7 @@ class Tamsil extends BaseController
 
                     $verifikasiLib = new Verifikasiadminlib();
                     $verifikasiLib->createSpj($user->data->id, $oldData->kode_usulan, 'tamsil', $oldData->id_ptk, $oldData->id_tahun_tw, 'Ditolak SPJ', $keterangan);
+                    createAktifitas($user->data->id, "Menolak Laporan SPJ Tamsil untuk PTK atas nama $nama dengan kode usulan: $oldData->kode_usulan, \nDengan keterangan: $keterangan", "Menolak Laporan SPJ Tamsil PTK", "edit", $oldData->id_tahun_tw);
                     // } catch (\Throwable $th) {
                     //     $this->_db->transRollback();
                     //     $response = new \stdClass;
@@ -649,6 +683,37 @@ class Tamsil extends BaseController
                     // }
 
                     $this->_db->transCommit();
+                    $getChatId = getChatIdTelegramPTK($oldData->id_ptk);
+                    if ($getChatId) {
+                        $admin = $user->data;
+                        $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
+                        $message = "Hallo <b>$nama</b>....!!!\n______________________________________________________\n\n<b>PROSES PELAPORAN SPJ TAMSIL</b> anda pada <b>SI-TUGU</b> dengan kode usulan : \n<b>$oldData->kode_usulan</b>\n<b>DITOLAH</b> oleh Admin Verifikator:\n<b>$admin->fullname</b>\nDengan keterangan:\n<b>$keterangan</b>.\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                        try {
+
+                            $dataReq = [
+                                'chat_id' => $getChatId,
+                                "parse_mode" => "HTML",
+                                'text' => $message,
+                            ];
+
+                            $ch = curl_init("https://api.telegram.org/bot$tokenTele/sendMessage");
+                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dataReq));
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                                'Content-Type: application/json'
+                            ));
+                            curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+                            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
+
+                            $server_output = curl_exec($ch);
+                            curl_close($ch);
+
+                            // var_dump($server_output);
+                        } catch (\Throwable $th) {
+                            // var_dump($th);
+                        }
+                    }
                     $response = new \stdClass;
                     $response->status = 200;
                     $response->message = "Laporan SPJ $nama berhasil diverifikasi dan ditolak.";

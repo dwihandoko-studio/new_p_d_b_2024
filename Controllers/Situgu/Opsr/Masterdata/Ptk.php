@@ -75,6 +75,7 @@ class Ptk extends BaseController
                             <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama)) . '\');"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
                             <a class="dropdown-item" href="javascript:actionSync(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="bx bx-transfer-alt font-size-16 align-middle"></i> &nbsp;Tarik Data</a>
                             <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Ajukan Hapus Data</a>
+                            <a class="dropdown-item" href="javascript:actionUnlockDataMaster(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="mdi mdi-upload-lock font-size-16 align-middle"></i> &nbsp;Unlock Data Master & Dokumen</a>
                         </div>
                     </div>';
             // $action = '<a href="javascript:actionDetail(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama)) . '\');"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
@@ -440,6 +441,143 @@ class Ptk extends BaseController
                 $response = new \stdClass;
                 $response->status = 400;
                 $response->message = "Gagal Tarik Data";
+                return json_encode($response);
+            }
+        }
+    }
+
+    public function unlockDataMaster()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'ptk_id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id PTK tidak boleh kosong. ',
+                ]
+            ],
+            'nama' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Nama tidak boleh kosong. ',
+                ]
+            ],
+            'npsn' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'NPSN tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('ptk_id')
+                . $this->validator->getError('nama')
+                . $this->validator->getError('npsn');
+            return json_encode($response);
+        } else {
+            $idPtk = htmlspecialchars($this->request->getVar('ptk_id'), true);
+            $nama = htmlspecialchars($this->request->getVar('nama'), true);
+            $npsn = htmlspecialchars($this->request->getVar('npsn'), true);
+
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Permintaan diizinkan";
+                return json_encode($response);
+            }
+
+            $tw = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
+
+            if (!$tw) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Triwulan aktif tidak ditemukan.";
+                return json_encode($response);
+            }
+            $canUnlock = canGrantedPengajuan($idPtk, $tw->id);
+            if ($canUnlock->code == 200) {
+                $ptk = $this->_db->table('_ptk_tb')->where('id', $idPtk)->get()->getRowObject();
+                if (!$ptk) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "PTK tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('_ptk_tb')->where(['id' => $ptk->id, 'is_locked' => 1])->update(['is_locked' => 0, 'updated_at' => date('Y-m-d H:i:s')]);
+                    if ($this->_db->affectedRows() > 0) {
+                        createAktifitas($user->data->id, "Mengunlock Data Master dan Dokumen PTK atas nama $ptk->nama (NUPTK: $ptk->nuptk)", "Mengunlock Data Master dan Dokumen PTK", "edit", $tw->id);
+
+                        $this->_db->transCommit();
+                        $getChatId = getChatIdTelegramPTK($ptk->id);
+                        if ($getChatId) {
+                            $admin = $user->data;
+                            $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
+                            $message = "Hallo <b>$nama</b>....!!!\n______________________________________________________\n\n<b>DATA MASTER DAN DOKUMEN</b> pada <b>SI-TUGU</b> Telah di unlock oleh Admin Verifikator:\n<b>$admin->fullname</b>\nSelanjutnya silahkan Perbaiki Dokumen atau data anda.\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                            try {
+
+                                $dataReq = [
+                                    'chat_id' => $getChatId,
+                                    "parse_mode" => "HTML",
+                                    'text' => $message,
+                                ];
+
+                                $ch = curl_init("https://api.telegram.org/bot$tokenTele/sendMessage");
+                                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dataReq));
+                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                                    'Content-Type: application/json'
+                                ));
+                                curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+                                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
+
+                                $server_output = curl_exec($ch);
+                                curl_close($ch);
+
+                                // var_dump($server_output);
+                            } catch (\Throwable $th) {
+                                // var_dump($th);
+                            }
+                        }
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->message = "Berhasil Mengunlock Data Master dan Dokumen PTK data.";
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal mengunlock data master dan dokumen PTK.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->error = var_dump($th);
+                    $response->message = "Gagal mengunlock data master dan dokumen PTK.";
+                    return json_encode($response);
+                }
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Akses unlock tidak diizinkan. dikarenakan PTK masih dalam usulan aktif.";
                 return json_encode($response);
             }
         }
