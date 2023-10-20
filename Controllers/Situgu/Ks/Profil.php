@@ -92,7 +92,7 @@ class Profil extends BaseController
             }
 
             $current = $this->_db->table('_ptk_tb a')
-                ->select("b.*, a.lampiran_foto, a.nama, a.nuptk, a.nip, a.nik, a.email as email_dapodik, a.no_hp as nohp_dapodik, c.role")
+                ->select("b.*, a.lampiran_foto, a.nama, a.nuptk, a.nip, a.nik, a.email as email_dapodik, a.no_hp as nohp_dapodik, a.chat_id_telegram, c.role")
                 ->join('v_user b', 'a.id_ptk = b.ptk_id', 'left')
                 ->join('_role_user c', 'b.role_user = c.id', 'left')
                 ->where('a.id_ptk', $user->data->ptk_id)->get()->getRowObject();
@@ -169,7 +169,7 @@ class Profil extends BaseController
             }
 
             $current = $this->_db->table('_ptk_tb a')
-                ->select("b.*, a.lampiran_foto, a.nama, a.nuptk, a.nip, a.nik, a.email as email_dapodik, a.no_hp as nohp_dapodik, c.role")
+                ->select("b.*, a.lampiran_foto, a.nama, a.nuptk, a.nip, a.nik, a.email as email_dapodik, a.no_hp as nohp_dapodik, a.chat_id_telegram, c.role")
                 ->join('v_user b', 'a.id_ptk = b.ptk_id', 'left')
                 ->join('_role_user c', 'b.role_user = c.id', 'left')
                 ->where('a.id_ptk', $user->data->ptk_id)->get()->getRowObject();

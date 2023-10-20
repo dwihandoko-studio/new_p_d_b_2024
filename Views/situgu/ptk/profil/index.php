@@ -58,8 +58,8 @@
                                             <p class="text-muted mb-0"><?= $data->email_verified == 1 ? '<span class="badge rounded-pill badge-soft-success">Ya</span>' : '<a href="javascript:actionAktivasi(\'Email\', \'aktivasi_email\');"><span class="badge rounded-pill badge-soft-danger">Tidak</span></a>' ?></p>
                                         </div>
                                         <div class="col-6">
-                                            <h5 class="font-size-15">WA Verified</h5>
-                                            <p class="text-muted mb-0"><?= $data->wa_verified == 1 ? '<span class="badge rounded-pill badge-soft-success">Ya</span>' : '<a href="javascript:actionAktivasi(\'WA\', \'aktivasi_wa\');"><span class="badge rounded-pill badge-soft-danger">Tidak</span></a>' ?></p>
+                                            <h5 class="font-size-15">Telegram Verified</h5>
+                                            <p class="text-muted mb-0"><?= $data->chat_id_telegram == null || $data->chat_id_telegram == "" ? '<a href="javascript:actionAktivasi(\'Telegram\', \'aktivasi_telegram\');"><span class="badge rounded-pill badge-soft-danger">Tidak</span></a>' : '<a href="javascript:actionUbahAktivasi(\'Telegram\', \'aktivasi_telegram\');"><span class="badge rounded-pill badge-soft-success">Ya</span></a>' ?></p>
                                         </div>
                                     </div>
                                     <div class="mt-4">
@@ -228,6 +228,48 @@
                     );
                 } else {
                     $('#content-aktivasiModalLabel').html('AKTIVASI ' + event + ' AKUN <?= $data->fullname ?>');
+                    $('.contentAktivasiBodyModal').html(resul.data);
+                    $('.content-aktivasiModal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                    });
+                    $('.content-aktivasiModal').modal('show');
+                }
+            },
+            error: function() {
+                $('div.main-content').unblock();
+                Swal.fire(
+                    'Failed!',
+                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                    'warning'
+                );
+            }
+        });
+    }
+
+    function actionUbahAktivasi(event, ak) {
+        $.ajax({
+            url: "./actubah",
+            type: 'POST',
+            data: {
+                action: ak,
+            },
+            dataType: 'JSON',
+            beforeSend: function() {
+                $('div.main-content').block({
+                    message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                });
+            },
+            success: function(resul) {
+                $('div.main-content').unblock();
+                if (resul.status !== 200) {
+                    Swal.fire(
+                        'Failed!',
+                        resul.message,
+                        'warning'
+                    );
+                } else {
+                    $('#content-aktivasiModalLabel').html('UBAH TAUTAN AKUN ' + event + ' KE AKUN <?= $data->fullname ?>');
                     $('.contentAktivasiBodyModal').html(resul.data);
                     $('.content-aktivasiModal').modal({
                         backdrop: 'static',
