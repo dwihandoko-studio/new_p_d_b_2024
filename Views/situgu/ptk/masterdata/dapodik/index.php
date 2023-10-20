@@ -283,7 +283,7 @@
                                                                                 } ?>" readonly />
                             </div>
                         </div>
-                        <div class="row mt-2">
+                        <!-- <div class="row mt-2">
                             <h2>DATA KEPEGAWAIAN</h2>
                             <div class="col-lg-6">
                                 <label class="col-form-label">Jenis Pangkat/KGB:</label>
@@ -313,7 +313,7 @@
                                 <label class="col-form-label">Masa Kerja Bulan:</label>
                                 <div><?= ($data->tmt_sk_kgb > $data->tmt_pangkat) ? ($data->masa_kerja_bulan_kgb !== null ? $data->masa_kerja_bulan_kgb : 0) : ($data->masa_kerja_bulan !== null ? $data->masa_kerja_bulan : 0) ?></div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
