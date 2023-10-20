@@ -25,6 +25,7 @@ class AntrianModel extends Model
     }
     private function _get_datatables_query()
     {
+        $this->dt->select("id, id_usulan, id_ptk, id_tahun_tw, nama, kode_usulan, nik, nuptk, jenis_ptk, created_at");
         $i = 0;
         foreach ($this->column_search as $item) {
             if ($this->request->getPost('search')['value']) {
