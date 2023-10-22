@@ -989,6 +989,7 @@ class Ptk extends BaseController
             $response->status = 200;
             $response->message = "Permintaan diizinkan";
             $response->name = $oldData->nama;
+            $response->npsn = $oldData->npsn;
             $response->data = view('situgu/ops/doc/ptk/editnomorsk', $x);
             return json_encode($response);
         }

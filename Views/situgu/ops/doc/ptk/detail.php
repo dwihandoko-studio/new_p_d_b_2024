@@ -492,7 +492,7 @@
                         'warning'
                     );
                 } else {
-                    $('#content-editModalLabel').html('Edit SK Kepegawaian ' + resul.name);
+                    $('#content-editModalLabel').html('Edit SK Kepegawaian ' + resul.name + "(" + resul.npsn + ")");
                     $('.contenteditBodyModal').html(resul.data);
                     $('.content-editModal').modal({
                         backdrop: 'static',

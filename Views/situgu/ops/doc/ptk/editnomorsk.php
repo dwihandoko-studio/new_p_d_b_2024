@@ -5,23 +5,8 @@
         <input type="hidden" id="_tw" name="_tw" value="<?= $data->id_tahun_tw ?>" />
         <div class="modal-body" style="padding-top: 0px; padding-bottom: 0px;">
             <div class="mb-3">
-                <label for="_nrg" class="form-label">Nama PTK</label>
-                <input type="text" class="form-control nrg" value="<?= $data->nama ?>" id="_nrg" name="_nrg" placeholder="NRG..." readonly>
-                <div class="help-block _nrg"></div>
-            </div>
-            <div class="mb-3">
-                <label for="_no_peserta" class="form-label">NPSN</label>
-                <input type="text" class="form-control no_peserta" value="<?= $data->npsn ?>" id="_no_peserta" name="_no_peserta" placeholder="No Peserta..." readonly>
-                <div class="help-block _no_peserta"></div>
-            </div>
-            <div class="mb-3">
                 <label for="_pangkat" class="form-label">Jenis Kepangkatan</label>
                 <input type="text" class="form-control pangkat" value="<?= $data->pang_jenis ? $data->pang_jenis : '' ?>" id="_pangkat" name="_pangkat" placeholder="Pangkat (example: IV/A)..." readonly>
-                <div class="help-block _pangkat"></div>
-            </div>
-            <div class="mb-3">
-                <label for="_pangkat" class="form-label">Pangkat</label>
-                <input type="text" class="form-control pangkat" value="<?= $data->pang_golongan ?>" id="_pangkat" name="_pangkat" placeholder="Pangkat (example: IV/A)..." readonly>
                 <div class="help-block _pangkat"></div>
             </div>
             <div class="mb-3">
@@ -33,6 +18,11 @@
                 <label for="_tgl_pangkat" class="form-label">Tanggal SK</label>
                 <input type="date" class="form-control tgl-pangkat" value="<?= $data->pang_tgl ?>" id="_tgl_pangkat" name="_tgl_pangkat" onfocusin="inputFocus(this);">
                 <div class="help-block _tgl_pangkat"></div>
+            </div>
+            <div class="mb-3">
+                <label for="_pangkat" class="form-label">Pangkat</label>
+                <input type="text" class="form-control pangkat" value="<?= $data->pang_golongan ?>" id="_pangkat" name="_pangkat" placeholder="Pangkat (example: IV/A)..." readonly>
+                <div class="help-block _pangkat"></div>
             </div>
             <div class="mb-3">
                 <label for="_tmt_pangkat" class="form-label">TMT Pangkat Terakhir</label>
