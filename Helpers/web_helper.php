@@ -984,6 +984,149 @@ function canGrantedPengajuan($id_ptk, $tw)
 	return $response;
 }
 
+function canGrantedPengajuanSyncrone($id_ptk, $tw)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$grandted = $db->table('_tb_temp_usulan_detail')->where("id_ptk = '$id_ptk' AND id_tahun_tw = '$tw' AND (status_usulan IN (0,2,5))")->get()->getRowObject();
+	if ($grandted) {
+		if ($grandted->status_usulan == 5) {
+			if ($grandted->jenis_tunjangan == 'tpg') {
+				$grandtedAntrianTransfer = $db->table('_tb_usulan_tpg_siap_sk')->where("id_ptk = '$id_ptk' AND id_tahun_tw = '$tw' AND (status_usulan IN (0,2,5,6,7))")->get()->getRowObject();
+				if ($grandtedAntrianTransfer) {
+					$grandtedTransferTamsilUnblock = $db->table('tb_pengecualian_usulan')->where("nuptk = (SELECT nuptk FROM _ptk_tb WHERE id = '$id_ptk')")->get()->getRowObject();
+
+					if (!$grandtedTransferTamsilUnblock) {
+						$response = new \stdClass;
+						$response->code = 400;
+						$response->message = "Anda sebelumnya sudah mengajukan usulan tunjangan dan masih dalam proses. Silahkan cek pada Progres Usulan Anda.";
+						$response->redirect = "";
+						return $response;
+					}
+				}
+
+				$grandtedAntrian = $db->table('_tb_usulan_detail_tpg')->where("id_ptk = '$id_ptk' AND id_tahun_tw = '$tw' AND (status_usulan IN (0,2,5,6,7))")->get()->getRowObject();
+				if ($grandtedAntrian) {
+					$grandtedTransferTamsilUnblock = $db->table('tb_pengecualian_usulan')->where("nuptk = (SELECT nuptk FROM _ptk_tb WHERE id = '$id_ptk')")->get()->getRowObject();
+
+					if (!$grandtedTransferTamsilUnblock) {
+						$response = new \stdClass;
+						$response->code = 400;
+						$response->message = "Anda sebelumnya sudah mengajukan usulan tunjangan dan masih dalam proses. Silahkan cek pada Progres Usulan Anda.";
+						$response->redirect = "";
+						return $response;
+					}
+				}
+			}
+			if ($grandted->jenis_tunjangan == 'tamsil') {
+				$grandtedAntrian = $db->table('_tb_usulan_tamsil_transfer')->where("id_ptk = '$id_ptk' AND id_tahun_tw = '$tw' AND (status_usulan IN (0,2,5,6,7))")->get()->getRowObject();
+				if ($grandtedAntrianTransfer) {
+					$grandtedTransferTamsilUnblock = $db->table('tb_pengecualian_usulan')->where("nuptk = (SELECT nuptk FROM _ptk_tb WHERE id = '$id_ptk')")->get()->getRowObject();
+
+					if (!$grandtedTransferTamsilUnblock) {
+						$response = new \stdClass;
+						$response->code = 400;
+						$response->message = "Anda sebelumnya sudah mengajukan usulan tunjangan dan masih dalam proses. Silahkan cek pada Progres Usulan Anda.";
+						$response->redirect = "";
+						return $response;
+					}
+				}
+
+				$grandtedAntrian = $db->table('_tb_usulan_detail_tamsil')->where("id_ptk = '$id_ptk' AND id_tahun_tw = '$tw' AND (status_usulan IN (0,2,5,6,7))")->get()->getRowObject();
+				if ($grandtedAntrian) {
+					$grandtedTransferTamsilUnblock = $db->table('tb_pengecualian_usulan')->where("nuptk = (SELECT nuptk FROM _ptk_tb WHERE id = '$id_ptk')")->get()->getRowObject();
+
+					if (!$grandtedTransferTamsilUnblock) {
+						$response = new \stdClass;
+						$response->code = 400;
+						$response->message = "Anda sebelumnya sudah mengajukan usulan tunjangan dan masih dalam proses. Silahkan cek pada Progres Usulan Anda.";
+						$response->redirect = "";
+						return $response;
+					}
+				}
+			}
+		} else {
+			$grandtedTransferTamsilUnblock = $db->table('tb_pengecualian_usulan')->where("nuptk = (SELECT nuptk FROM _ptk_tb WHERE id = '$id_ptk')")->get()->getRowObject();
+
+			if (!$grandtedTransferTamsilUnblock) {
+				$response = new \stdClass;
+				$response->code = 400;
+				$response->message = "Anda sebelumnya sudah mengajukan usulan tunjangan dan masih dalam proses. Silahkan cek pada Progres Usulan Anda.";
+				$response->redirect = "";
+				return $response;
+			}
+		}
+	} else {
+		$grandtedAntrianTransfer = $db->table('_tb_usulan_tpg_siap_sk')->where("id_ptk = '$id_ptk' AND id_tahun_tw = '$tw' AND (status_usulan IN (0,2,5,6,7))")->get()->getRowObject();
+		if ($grandtedAntrianTransfer) {
+			$grandtedTransferTamsilUnblock = $db->table('tb_pengecualian_usulan')->where("nuptk = (SELECT nuptk FROM _ptk_tb WHERE id = '$id_ptk')")->get()->getRowObject();
+
+			if (!$grandtedTransferTamsilUnblock) {
+				$response = new \stdClass;
+				$response->code = 400;
+				$response->message = "Anda sebelumnya sudah mengajukan usulan tunjangan dan masih dalam proses. Silahkan cek pada Progres Usulan Anda.";
+				$response->redirect = "";
+				return $response;
+			}
+		}
+
+		$grandtedAntrian = $db->table('_tb_usulan_detail_tpg')->where("id_ptk = '$id_ptk' AND id_tahun_tw = '$tw' AND (status_usulan IN (0,2,5,6,7))")->get()->getRowObject();
+		if ($grandtedAntrian) {
+			$grandtedTransferTamsilUnblock = $db->table('tb_pengecualian_usulan')->where("nuptk = (SELECT nuptk FROM _ptk_tb WHERE id = '$id_ptk')")->get()->getRowObject();
+
+			if (!$grandtedTransferTamsilUnblock) {
+				$response = new \stdClass;
+				$response->code = 400;
+				$response->message = "Anda sebelumnya sudah mengajukan usulan tunjangan dan masih dalam proses. Silahkan cek pada Progres Usulan Anda.";
+				$response->redirect = "";
+				return $response;
+			}
+		}
+
+		$grandtedTransferTamsil = $db->table('_tb_usulan_tamsil_transfer')->where("id_ptk = '$id_ptk' AND id_tahun_tw = '$tw' AND (status_usulan IN (0,2,5,6,7))")->get()->getRowObject();
+		if ($grandtedTransferTamsil) {
+			$grandtedTransferTamsilUnblock = $db->table('tb_pengecualian_usulan')->where("nuptk = (SELECT nuptk FROM _ptk_tb WHERE id = '$id_ptk')")->get()->getRowObject();
+
+			if (!$grandtedTransferTamsilUnblock) {
+				$response = new \stdClass;
+				$response->code = 400;
+				$response->message = "Anda sebelumnya sudah mengajukan usulan tunjangan dan masih dalam proses. Silahkan cek pada Progres Usulan Anda.";
+				$response->redirect = "";
+				return $response;
+			}
+		}
+
+		$grandtedAntrianTamsil = $db->table('_tb_usulan_detail_tamsil')->where("id_ptk = '$id_ptk' AND id_tahun_tw = '$tw' AND (status_usulan IN (0,2,5,6,7))")->get()->getRowObject();
+		if ($grandtedAntrianTamsil) {
+			$grandtedTransferTamsilUnblock = $db->table('tb_pengecualian_usulan')->where("nuptk = (SELECT nuptk FROM _ptk_tb WHERE id = '$id_ptk')")->get()->getRowObject();
+
+			if (!$grandtedTransferTamsilUnblock) {
+				$response = new \stdClass;
+				$response->code = 400;
+				$response->message = "Anda sebelumnya sudah mengajukan usulan tunjangan dan masih dalam proses. Silahkan cek pada Progres Usulan Anda.";
+				$response->redirect = "";
+				return $response;
+			}
+		}
+	}
+
+	$spjTpg = $db->table('_tb_spj_tpg')->where('id_ptk', $id_ptk)->whereIn('status_usulan', [0, 3])->countAllResults();
+	$spjTamsil = $db->table('_tb_spj_tamsil')->where('id_ptk', $id_ptk)->whereIn('status_usulan', [0, 3])->countAllResults();
+	if ($spjTpg > 0 || $spjTamsil > 0) {
+		$response = new \stdClass;
+		$response->code = 400;
+		$response->message = "Anda terdeteksi belum mengupload Laporan SPJ Penerimaan Tunjangan atau Laporan SPJ Penerimaan Tunjangan belum diverifikasi oleh Admin. Silahkan hubungi Admin Tunjangan untuk Informasi Lebih Lanjut.";
+		$response->redirect = "";
+		return $response;
+	}
+
+	$response = new \stdClass;
+	$response->code = 200;
+	$response->message = "";
+	return $response;
+}
+
 function createAktifitas($user_id, $keterangan, $aksi, $icon, $tw = "")
 {
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'

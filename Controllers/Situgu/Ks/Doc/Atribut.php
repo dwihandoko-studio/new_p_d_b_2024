@@ -71,7 +71,18 @@ class Atribut extends BaseController
             $row[] = $no;
             $row[] = $list->tahun;
             $row[] = $list->tw;
-            $row[] = $list->pang_golongan;
+            if ($list->status_kepegawaian == "GTY/PTY") {
+                switch ($list->is_locked) {
+                    case 1:
+                        $row[] = $list->pang_golongan;
+                        break;
+                    default:
+                        $row[] = $list->pang_golongan . '&nbsp; <a href="javascript:actionEditPang(\'' . $list->id . '\')" class="badge rounded-pill bg-info float-end" key="t-edit-inpassing">Edit</a>';
+                        break;
+                }
+            } else {
+                $row[] = $list->pang_golongan;
+            }
             $row[] = $list->pang_no;
             $row[] = $list->pang_tmt;
             $row[] = $list->pang_tgl;
