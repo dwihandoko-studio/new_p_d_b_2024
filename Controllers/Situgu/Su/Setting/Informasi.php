@@ -329,6 +329,18 @@ class Informasi extends BaseController
                     'required' => 'Status tidak boleh kosong. ',
                 ]
             ],
+            'status_web' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Status Web tidak boleh kosong. ',
+                ]
+            ],
+            'status_tele' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Status Tele tidak boleh kosong. ',
+                ]
+            ],
         ];
 
         $filenamelampiran = dot_array_search('_file.name', $_FILES);
@@ -367,6 +379,8 @@ class Informasi extends BaseController
             $response->message = $this->validator->getError('judul')
                 . $this->validator->getError('isi')
                 . $this->validator->getError('status')
+                . $this->validator->getError('status_web')
+                . $this->validator->getError('status_tele')
                 . $this->validator->getError('_file_lampiran')
                 . $this->validator->getError('_file');
             return json_encode($response);
@@ -385,109 +399,178 @@ class Informasi extends BaseController
             $judul = htmlspecialchars($this->request->getVar('judul'), true);
             $isi = $this->request->getVar('isi');
             $status = htmlspecialchars($this->request->getVar('status'), true);
+            $status_web = htmlspecialchars($this->request->getVar('status_web'), true);
+            $status_tele = htmlspecialchars($this->request->getVar('status_tele'), true);
 
             $roles = $this->request->getVar('roles');
 
-            $slug = generateSlug($judul);
+            if ((int)$status_web == 1) {
 
-            $cekData = $this->_db->table('_tb_infopop')->where(['url' => $slug . '.html'])->get()->getRowObject();
+                $slug = generateSlug($judul);
 
-            if ($cekData) {
-                $slug = $slug . "-" . date('Y-m-d');
-            }
+                $cekData = $this->_db->table('_tb_infopop')->where(['url' => $slug . '.html'])->get()->getRowObject();
 
-            $isi = str_replace('<img src=', '<img style="max-width: 100%;" src=', $isi);
-
-            if ($roles == "" || $roles == " ") {
-                $roles = "ALL";
-            }
-
-            $uuidLib = new Uuid();
-
-            $data = [
-                'id' => $uuidLib->v4(),
-                'judul' => $judul,
-                'status' => $status,
-                'tampil' => $status,
-                'tujuan_role' => $roles,
-                'url' => $slug . '.html',
-                'isi' => $isi,
-                'uploader' => $user->data->id,
-                'created_at' => date('Y-m-d H:i:s'),
-            ];
-
-            $dir = FCPATH . "uploads/pengumuman";
-
-            if ($filenamelampiran != '') {
-                $lampiran = $this->request->getFile('_file');
-                $filesNamelampiran = $lampiran->getName();
-                $newNamelampiran = _create_name_foto($filesNamelampiran);
-
-                if ($lampiran->isValid() && !$lampiran->hasMoved()) {
-                    $lampiran->move($dir, $newNamelampiran);
-                    $data['image'] = $newNamelampiran;
-                } else {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Gagal mengupload gambar.";
-                    return json_encode($response);
+                if ($cekData) {
+                    $slug = $slug . "-" . date('Y-m-d');
                 }
-            }
 
-            if ($filenamelampiranFile != '') {
-                $lampiranFile = $this->request->getFile('_file_lampiran');
-                $filesNamelampiranFile = $lampiranFile->getName();
-                $newNamelampiranFile = _create_name_foto($filesNamelampiranFile);
+                $isi = str_replace('<img src=', '<img style="max-width: 100%;" src=', $isi);
 
-                if ($lampiranFile->isValid() && !$lampiranFile->hasMoved()) {
-                    $lampiranFile->move($dir, $newNamelampiranFile);
-                    $data['lampiran'] = $newNamelampiranFile;
-                } else {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Gagal mengupload file.";
-                    return json_encode($response);
+                if ($roles == "" || $roles == " ") {
+                    $roles = "ALL";
                 }
-            }
 
-            $this->_db->transBegin();
-            try {
-                $this->_db->table('_tb_infopop')->insert($data);
-            } catch (\Exception $e) {
+                $uuidLib = new Uuid();
+
+                $data = [
+                    'id' => $uuidLib->v4(),
+                    'judul' => $judul,
+                    'status' => $status,
+                    'tampil' => $status,
+                    'tujuan_role' => $roles,
+                    'url' => $slug . '.html',
+                    'isi' => $isi,
+                    'uploader' => $user->data->id,
+                    'created_at' => date('Y-m-d H:i:s'),
+                ];
+
+                $dir = FCPATH . "uploads/pengumuman";
+
                 if ($filenamelampiran != '') {
-                    unlink($dir . '/' . $newNamelampiran);
+                    $lampiran = $this->request->getFile('_file');
+                    $filesNamelampiran = $lampiran->getName();
+                    $newNamelampiran = _create_name_foto($filesNamelampiran);
+
+                    if ($lampiran->isValid() && !$lampiran->hasMoved()) {
+                        $lampiran->move($dir, $newNamelampiran);
+                        $data['image'] = $newNamelampiran;
+                    } else {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal mengupload gambar.";
+                        return json_encode($response);
+                    }
                 }
+
                 if ($filenamelampiranFile != '') {
-                    unlink($dir . '/' . $newNamelampiranFile);
+                    $lampiranFile = $this->request->getFile('_file_lampiran');
+                    $filesNamelampiranFile = $lampiranFile->getName();
+                    $newNamelampiranFile = _create_name_foto($filesNamelampiranFile);
+
+                    if ($lampiranFile->isValid() && !$lampiranFile->hasMoved()) {
+                        $lampiranFile->move($dir, $newNamelampiranFile);
+                        $data['lampiran'] = $newNamelampiranFile;
+                    } else {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal mengupload file.";
+                        return json_encode($response);
+                    }
                 }
-                $this->_db->transRollback();
 
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->error = var_dump($e);
-                $response->message = "Gagal menyimpan data.";
-                return json_encode($response);
-            }
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('_tb_infopop')->insert($data);
+                } catch (\Exception $e) {
+                    if ($filenamelampiran != '') {
+                        unlink($dir . '/' . $newNamelampiran);
+                    }
+                    if ($filenamelampiranFile != '') {
+                        unlink($dir . '/' . $newNamelampiranFile);
+                    }
+                    $this->_db->transRollback();
 
-            if ($this->_db->affectedRows() > 0) {
-                $this->_db->transCommit();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->error = var_dump($e);
+                    $response->message = "Gagal menyimpan data.";
+                    return json_encode($response);
+                }
+
+                if ($this->_db->affectedRows() > 0) {
+                    $this->_db->transCommit();
+                    if ((int)$status_tele == 1) {
+                        $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
+                        $message = "<b>INFORMASI...!!!</b>\n$judul\n______________________________________________________\n\n$isi\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                        try {
+
+                            $dataReq = [
+                                'chat_id' => "-1001704311879",
+                                "parse_mode" => "HTML",
+                                'text' => $message,
+                            ];
+
+                            $ch = curl_init("https://api.telegram.org/bot$tokenTele/sendMessage");
+                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dataReq));
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                                'Content-Type: application/json'
+                            ));
+                            curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+                            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
+
+                            $server_output = curl_exec($ch);
+                            curl_close($ch);
+
+                            // var_dump($server_output);
+                        } catch (\Throwable $th) {
+                            // var_dump($th);
+                        }
+                    }
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->message = "Data berhasil disimpan.";
+                    $response->redirect = base_url('situgu/su/setting/informasi/data');
+                    return json_encode($response);
+                } else {
+                    if ($filenamelampiran != '') {
+                        unlink($dir . '/' . $newNamelampiran);
+                    }
+                    if ($filenamelampiranFile != '') {
+                        unlink($dir . '/' . $newNamelampiranFile);
+                    }
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal menyimpan data";
+                    return json_encode($response);
+                }
+            } else {
+                if ((int)$status_tele == 1) {
+                    $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
+                    $message = "<b>INFORMASI...!!!</b>\n$judul\n______________________________________________________\n\n$isi\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                    try {
+
+                        $dataReq = [
+                            'chat_id' => "-1001704311879",
+                            "parse_mode" => "HTML",
+                            'text' => $message,
+                        ];
+
+                        $ch = curl_init("https://api.telegram.org/bot$tokenTele/sendMessage");
+                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dataReq));
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                            'Content-Type: application/json'
+                        ));
+                        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+                        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
+
+                        $server_output = curl_exec($ch);
+                        curl_close($ch);
+
+                        // var_dump($server_output);
+                    } catch (\Throwable $th) {
+                        // var_dump($th);
+                    }
+                }
+
                 $response = new \stdClass;
                 $response->status = 200;
-                $response->message = "Data berhasil disimpan.";
+                $response->message = "Informasi berhasil dikirim ke group telegram.";
                 $response->redirect = base_url('situgu/su/setting/informasi/data');
-                return json_encode($response);
-            } else {
-                if ($filenamelampiran != '') {
-                    unlink($dir . '/' . $newNamelampiran);
-                }
-                if ($filenamelampiranFile != '') {
-                    unlink($dir . '/' . $newNamelampiranFile);
-                }
-                $this->_db->transRollback();
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Gagal menyimpan data";
-                return json_encode($response);
             }
         }
     }

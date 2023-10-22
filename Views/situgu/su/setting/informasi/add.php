@@ -57,11 +57,30 @@
                 </div>
             </div>
             <div class="col-lg-12 text-end">
-                <h5 class="font-size-14 mb-3">Status Publikasi</h5>
-                <div>
-                    <input type="checkbox" id="status_publikasi" name="status_publikasi" switch="success" checked />
-                    <label for="status_publikasi" data-on-label="Yes" data-off-label="No"></label>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <h5 class="font-size-14 mb-3">Status Publikasi</h5>
+                        <div>
+                            <input type="checkbox" id="status_publikasi" name="status_publikasi" switch="success" checked />
+                            <label for="status_publikasi" data-on-label="Yes" data-off-label="No"></label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <h5 class="font-size-14 mb-3">Tampil Di WEB</h5>
+                        <div>
+                            <input type="checkbox" id="status_publikasi_web" name="status_publikasi_web" switch="success" checked />
+                            <label for="status_publikasi_web" data-on-label="Yes" data-off-label="No"></label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <h5 class="font-size-14 mb-3">Tampil Di Group Telegram</h5>
+                        <div>
+                            <input type="checkbox" id="status_publikasi_tele" name="status_publikasi_tele" switch="success" checked />
+                            <label for="status_publikasi_tele" data-on-label="Yes" data-off-label="No"></label>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -201,6 +220,20 @@
             status = "0";
         }
 
+        let status_web;
+        if ($('#status_publikasi_web').is(":checked")) {
+            status_web = "1";
+        } else {
+            status_web = "0";
+        }
+
+        let status_tele;
+        if ($('#status_publikasi_tele').is(":checked")) {
+            status_tele = "1";
+        } else {
+            status_tele = "0";
+        }
+
         if (judul === "") {
             $("input#_judul").css("color", "#dc3545");
             $("input#_judul").css("border-color", "#dc3545");
@@ -243,6 +276,8 @@
         formUpload.append('judul', judul);
         formUpload.append('isi', isi);
         formUpload.append('status', status);
+        formUpload.append('status_web', status_web);
+        formUpload.append('status_tele', status_tele);
         formUpload.append('roles', selectedRoles);
 
         $.ajax({
