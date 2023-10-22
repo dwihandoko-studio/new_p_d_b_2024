@@ -49,7 +49,7 @@ class DocptkModel extends Model
     }
     function get_datatables()
     {
-        $select = "c.*, b.tahun, b.tw, a.lampiran_absen1, a.lampiran_absen2, a.lampiran_absen3, a.pembagian_tugas, a.slip_gaji, a.id_tahun_tw, a.doc_lainnya, a.is_locked as lockedAbsen, d.pangkat_terakhir as doc_pangkat_terakhir, d.kgb_terakhir as doc_kgb_terakhir, d.pernyataan_24jam as doc_pernyataan_24jam, d.cuti as doc_cuti, d.pensiun as doc_pensiun, d.kematian as doc_kematian, d.lainnya as doc_attr_lainnya, d.is_locked as lockedAttr";
+        $select = "c.*, b.tahun, b.tw, a.lampiran_absen1, a.lampiran_absen2, a.lampiran_absen3, a.pembagian_tugas, a.slip_gaji, a.id_tahun_tw, a.doc_lainnya, a.is_locked as lockedAbsen, d.pang_golongan as pang_golongan_atribut, d.pang_jenis as pang_jenis_atribut, d.pang_no as pang_no_sk_atribut, d.pang_tgl as pang_tgl_atribut, d.pang_tmt as pang_tmt_atribut, d.pangkat_terakhir as doc_pangkat_terakhir, d.kgb_terakhir as doc_kgb_terakhir, d.pernyataan_24jam as doc_pernyataan_24jam, d.cuti as doc_cuti, d.pensiun as doc_pensiun, d.kematian as doc_kematian, d.lainnya as doc_attr_lainnya, d.is_locked as lockedAttr";
 
         $this->dt->select($select);
         $this->dt->join('_ref_tahun_tw b', 'a.id_tahun_tw = b.id', 'LEFT');

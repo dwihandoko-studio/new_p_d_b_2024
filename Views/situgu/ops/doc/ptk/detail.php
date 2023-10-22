@@ -44,7 +44,7 @@
                                         <div class="text-center">Dokumen Sekolah</div>
                                     </th>
                                     <th rowspan="2">Status</th>
-                                    <th colspan="7" data-orderable="false">
+                                    <th colspan="12" data-orderable="false">
                                         <div class="text-center">Dokumen Atribut</div>
                                     </th>
                                     <th rowspan="2">Status</th>
@@ -62,6 +62,11 @@
                                     <th>Pembagian Tugas</th>
                                     <th>Slip Gaji</th>
                                     <th>Doc Lainnya</th>
+                                    <th>Jenis Kepangkatan</th>
+                                    <th>Pangkat Golongan</th>
+                                    <th>No SK</th>
+                                    <th>Tanggal SK</th>
+                                    <th>TMT SK</th>
                                     <th>Pangkat</th>
                                     <th>KGB</th>
                                     <th>Pernyataan</th>

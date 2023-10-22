@@ -213,6 +213,12 @@ class Ptk extends BaseController
                     break;
             }
 
+            $row[] = $list->pang_jenis_atribut;
+            $row[] = $list->pang_golongan_atribut;
+            $row[] = $list->pang_no_sk_atribut;
+            $row[] = $list->pang_tgl_atribut;
+            $row[] = $list->pang_tmt_atribut;
+
             switch ($list->lockedAttr) {
                 case 1:
                     $row[] = $list->doc_pangkat_terakhir ? '<a href="' . base_url('upload/ptk/pangkat') . '/' . $list->doc_pangkat_terakhir . '" target="_blank"><span class="badge rounded-pill badge-soft-primary font-size-11">Lampiran Pangkat</span></a>' : '-';
