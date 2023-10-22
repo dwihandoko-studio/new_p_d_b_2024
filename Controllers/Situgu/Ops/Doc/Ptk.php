@@ -215,8 +215,10 @@ class Ptk extends BaseController
 
             $row[] = $list->pang_jenis_atribut;
             $row[] = $list->pang_golongan_atribut;
-            $row[] = $list->pang_no_sk_atribut;
-            $row[] = $list->pang_tgl_atribut;
+            $row[] = $list->pang_no_sk_atribut ? $list->pang_no_sk_atribut . '<a href="javascript:actionEditNomorSk(\'' . $list->id_tahun_tw . '\',\'' . $list->npsn . '\',\'' . $list->id . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+            <i class="bx bxs-edit-alt font-size-16 align-middle"></i></button>' : '';
+            $row[] = $list->pang_tgl_atribut ? $list->pang_tgl_atribut . '<a href="javascript:actionEditNomorSk(\'' . $list->id_tahun_tw . '\',\'' . $list->npsn . '\',\'' . $list->id . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+            <i class="bx bxs-edit-alt font-size-16 align-middle"></i></button>' : '';
             $row[] = $list->pang_tmt_atribut;
 
             switch ($list->lockedAttr) {
@@ -924,6 +926,188 @@ class Ptk extends BaseController
             $response->message = "Permintaan diizinkan";
             $response->data = view('situgu/ops/doc/ptk/upload', $data);
             return json_encode($response);
+        }
+    }
+
+    public function editformsk()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'tw' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'TW tidak boleh kosong. ',
+                ]
+            ],
+            'npsn' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'NPSN tidak boleh kosong. ',
+                ]
+            ],
+            'id_ptk' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id PTK tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('tw')
+                . $this->validator->getError('id_ptk')
+                . $this->validator->getError('npsn');
+            return json_encode($response);
+        } else {
+            $tw = htmlspecialchars($this->request->getVar('tw'), true);
+            $npsn = htmlspecialchars($this->request->getVar('npsn'), true);
+            $id_ptk = htmlspecialchars($this->request->getVar('id_ptk'), true);
+
+            $oldData = $this->_db->table('_upload_data_attribut a')
+                ->select("a.*, b.nama, b.npsn")
+                ->join('_ptk_tb b', 'b.id = a.id_ptk')
+                ->where(['a.id_tahun_tw' => $tw, 'a.id_ptk' => $id_ptk])
+                ->get()->getRowObject();
+
+            if (!$oldData) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data attribut PTK untuk triwulan ini tidak ditemukan.";
+                return json_encode($response);
+            }
+
+            $x['data'] = $oldData;
+            $response = new \stdClass;
+            $response->status = 200;
+            $response->message = "Permintaan diizinkan";
+            $response->data = view('situgu/ops/doc/ptk/editnomorsk', $x);
+            return json_encode($response);
+        }
+    }
+
+    public function editSaveNomorSk()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id tidak boleh kosong. ',
+                ]
+            ],
+            'id_ptk' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'ID PTK tidak boleh kosong. ',
+                ]
+            ],
+            'tw' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'TW tidak boleh kosong. ',
+                ]
+            ],
+            'no_sk' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'NO SK tidak boleh kosong. ',
+                ]
+            ],
+            'tgl_sk' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Tanggal SK tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('id')
+                . $this->validator->getError('id_ptk')
+                . $this->validator->getError('tw')
+                . $this->validator->getError('no_sk')
+                . $this->validator->getError('tgl_sk');
+            return json_encode($response);
+        } else {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Permintaan diizinkan";
+                return json_encode($response);
+            }
+
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+            $id_ptk = htmlspecialchars($this->request->getVar('id_ptk'), true);
+            $tw = htmlspecialchars($this->request->getVar('tw'), true);
+            $tw = htmlspecialchars($this->request->getVar('tw'), true);
+            $no_sk = htmlspecialchars($this->request->getVar('no_sk'), true);
+            $tgl_sk = htmlspecialchars($this->request->getVar('tgl_sk'), true);
+
+            $oldData =  $this->_db->table('_upload_data_attribut')->where(['id' => $id, 'id_ptk' => $id_ptk])->get()->getRowObject();
+
+            if (!$oldData) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan.";
+                return json_encode($response);
+            }
+
+            $canGrantedPengajuan = canGrantedPengajuan($id_ptk, $tw);
+
+            if ($canGrantedPengajuan && $canGrantedPengajuan->code !== 200) {
+                return json_encode($canGrantedPengajuan);
+            }
+
+            $data = [
+                'pang_no' => $no_sk,
+                'pang_tgl' => $tgl_sk,
+                'updated_at' => date('Y-m-d H:i:s'),
+            ];
+
+            $this->_db->transBegin();
+            try {
+                $this->_db->table('_upload_data_attribut')->where('id', $oldData->id)->update($data);
+            } catch (\Exception $e) {
+                $this->_db->transRollback();
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal mengupdate data baru.";
+                return json_encode($response);
+            }
+
+            if ($this->_db->affectedRows() > 0) {
+                $this->_db->transCommit();
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Data berhasil diupdate.";
+                return json_encode($response);
+            } else {
+                $this->_db->transRollback();
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal mengupate data";
+                return json_encode($response);
+            }
         }
     }
 
