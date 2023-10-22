@@ -424,7 +424,7 @@ class Ptk extends BaseController
                 return json_encode($response);
             }
 
-            $canGrantedPengajuan = canGrantedPengajuan($id, $tw->id);
+            $canGrantedPengajuan = canGrantedPengajuan($id, $tw);
 
             if ($canGrantedPengajuan && $canGrantedPengajuan->code !== 200) {
                 return json_encode($canGrantedPengajuan);
