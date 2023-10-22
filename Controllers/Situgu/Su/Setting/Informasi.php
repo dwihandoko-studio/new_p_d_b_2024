@@ -491,7 +491,12 @@ class Informasi extends BaseController
                     $this->_db->transCommit();
                     if ((int)$status_tele == 1) {
                         $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
-                        $message = "<b>INFORMASI...!!!</b>\n$judul\n______________________________________________________\n\n$isi\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                        $isis = str_replace("<p>", "\n", $isi);
+                        $isis = str_replace("</p>", "\n", $isis);
+                        $isis = str_replace("<strong>", "", $isis);
+                        $isis = str_replace("</strong>", "", $isis);
+                        $isis = str_replace("<br>", "\n", $isis);
+                        $message = "<b>INFORMASI...!!!</b>\n$judul\n______________________________________________________\n\n$isis\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
                         try {
 
                             $dataReq = [
@@ -539,7 +544,12 @@ class Informasi extends BaseController
             } else {
                 if ((int)$status_tele == 1) {
                     $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
-                    $message = "<b>INFORMASI...!!!</b>\n$judul\n______________________________________________________\n\n$isi\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                    $isis = str_replace("<p>", "\n", $isi);
+                    $isis = str_replace("</p>", "\n", $isis);
+                    $isis = str_replace("<strong>", "", $isis);
+                    $isis = str_replace("</strong>", "", $isis);
+                    $isis = str_replace("<br>", "\n", $isis);
+                    $message = "<b>INFORMASI...!!!</b>\n$judul\n______________________________________________________\n\n$isis\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
                     try {
 
                         $dataReq = [
@@ -559,11 +569,25 @@ class Informasi extends BaseController
                         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
 
                         $server_output = curl_exec($ch);
+                        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                         curl_close($ch);
+
+                        if ($http_status == 200 || $http_status == 201) {
+                        } else {
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Informasi gagal dikirim ke group telegram.";
+                            return json_encode($response);
+                        }
 
                         // var_dump($server_output);
                     } catch (\Throwable $th) {
-                        // var_dump($th);
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->error = var_dump($th);
+                        $response->message = "Informasi gagal dikirim ke group telegram.";
+                        // $response->redirect = base_url('situgu/su/setting/informasi/data');
+                        return json_encode($response);
                     }
                 }
 
@@ -571,6 +595,7 @@ class Informasi extends BaseController
                 $response->status = 200;
                 $response->message = "Informasi berhasil dikirim ke group telegram.";
                 $response->redirect = base_url('situgu/su/setting/informasi/data');
+                return json_encode($response);
             }
         }
     }
