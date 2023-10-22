@@ -382,6 +382,12 @@ class Ptk extends BaseController
                     'required' => 'Id PTK tidak boleh kosong. ',
                 ]
             ],
+            'id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id tidak boleh kosong. ',
+                ]
+            ],
             'nama' => [
                 'rules' => 'required|trim',
                 'errors' => [
@@ -400,10 +406,12 @@ class Ptk extends BaseController
             $response = new \stdClass;
             $response->status = 400;
             $response->message = $this->validator->getError('ptk_id')
+                . $this->validator->getError('id')
                 . $this->validator->getError('nama')
                 . $this->validator->getError('npsn');
             return json_encode($response);
         } else {
+            $id = htmlspecialchars($this->request->getVar('id'), true);
             $idPtk = htmlspecialchars($this->request->getVar('ptk_id'), true);
             $nama = htmlspecialchars($this->request->getVar('nama'), true);
             $npsn = htmlspecialchars($this->request->getVar('npsn'), true);
@@ -414,6 +422,12 @@ class Ptk extends BaseController
                 $response->status = 400;
                 $response->message = "Tahun Triwulan Active tidak ditemukan.";
                 return json_encode($response);
+            }
+
+            $canGrantedPengajuan = canGrantedPengajuan($id, $tw->id);
+
+            if ($canGrantedPengajuan && $canGrantedPengajuan->code !== 200) {
+                return json_encode($canGrantedPengajuan);
             }
 
             $apiLib = new Apilib();
