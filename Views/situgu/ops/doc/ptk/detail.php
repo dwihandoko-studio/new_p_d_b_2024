@@ -493,7 +493,7 @@
                     );
                 } else {
                     $('#content-editModalLabel').html('Edit SK Kepegawaian ' + resul.name);
-                    $('.contentBodyModal').html(resul.data);
+                    $('.contenteditBodyModal').html(resul.data);
                     $('.content-editModal').modal({
                         backdrop: 'static',
                         keyboard: false,
