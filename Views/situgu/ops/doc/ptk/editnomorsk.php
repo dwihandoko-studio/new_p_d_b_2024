@@ -25,8 +25,8 @@
                 <div class="help-block _pangkat"></div>
             </div>
             <div class="mb-3">
-                <label for="_tmt_pangkat" class="form-label">TMT Pangkat Terakhir</label>
-                <input type="date" class="form-control tmt-pangkat" value="<?= $data->pang_tmt ?>" id="_tmt_pangkat" name="_tmt_pangkat" readonly>
+                <label for="_tmt_pangkat" class="form-label">TMT SK</label>
+                <input type="text" class="form-control tmt-pangkat" value="<?= $data->pang_tmt ?>" id="_tmt_pangkat" name="_tmt_pangkat" readonly>
                 <div class="help-block _tmt_pangkat"></div>
             </div>
             <div class="mb-3">
