@@ -21,22 +21,22 @@
             </div>
             <div class="mb-3">
                 <label for="_pangkat" class="form-label">Pangkat</label>
-                <input type="text" class="form-control pangkat" value="<?= $data->pang_golongan ?>" id="_pangkat" name="_pangkat" placeholder="Pangkat (example: IV/A)..." readonly>
+                <input type="text" class="form-control pangkat" value="<?= $data->pang_golongan ?>" id="_pangkat" name="_pangkat" placeholder="Pangkat (example: IV/A)..." disabled>
                 <div class="help-block _pangkat"></div>
             </div>
             <div class="mb-3">
                 <label for="_tmt_pangkat" class="form-label">TMT SK</label>
-                <input type="text" class="form-control tmt-pangkat" value="<?= $data->pang_tmt ?>" id="_tmt_pangkat" name="_tmt_pangkat" readonly>
+                <input type="text" class="form-control tmt-pangkat" value="<?= $data->pang_tmt ?>" id="_tmt_pangkat" name="_tmt_pangkat" disabled>
                 <div class="help-block _tmt_pangkat"></div>
             </div>
             <div class="mb-3">
                 <label for="_mkt_pangkat" class="form-label">Masa Kerja Tahun</label>
-                <input type="number" class="form-control mkt-pangkat" value="<?= $data->pang_tahun ?>" id="_mkt_pangkat" name="_mkt_pangkat" readonly">
+                <input type="number" class="form-control mkt-pangkat" value="<?= $data->pang_tahun ?>" id="_mkt_pangkat" name="_mkt_pangkat" disabled>
                 <div class="help-block _mkt_pangkat"></div>
             </div>
             <div class="mb-3">
                 <label for="_mkb_pangkat" class="form-label">Masa Kerja Bulan</label>
-                <input type="number" class="form-control mkt-pangkat" value="<?= $data->pang_bulan ?>" id="_mkb_pangkat" name="_mkb_pangkat" readonly">
+                <input type="number" class="form-control mkt-pangkat" value="<?= $data->pang_bulan ?>" id="_mkb_pangkat" name="_mkb_pangkat" disabled>
                 <div class="help-block _mkb_pangkat"></div>
             </div>
         </div>
