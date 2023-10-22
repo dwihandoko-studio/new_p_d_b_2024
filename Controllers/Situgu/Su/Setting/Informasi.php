@@ -496,7 +496,8 @@ class Informasi extends BaseController
                         $isis = str_replace("<strong>", "", $isis);
                         $isis = str_replace("</strong>", "", $isis);
                         $isis = str_replace("<br>", "\n", $isis);
-                        $message = "<b>INFORMASI...!!!</b>\n$judul\n______________________________________________________\n\n$isis\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                        $juduls = strtoupper($judul);
+                        $message = "<b>$juduls</b>\n______________________________________________________\n\n$isis\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
                         try {
 
                             $dataReq = [
@@ -549,7 +550,8 @@ class Informasi extends BaseController
                     $isis = str_replace("<strong>", "", $isis);
                     $isis = str_replace("</strong>", "", $isis);
                     $isis = str_replace("<br>", "\n", $isis);
-                    $message = "<b>INFORMASI...!!!</b>\n$judul\n______________________________________________________\n\n$isis\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                    $juduls = strtoupper($judul);
+                    $message = "<b>$juduls</b>\n______________________________________________________\n\n$isis\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
                     try {
 
                         $dataReq = [
