@@ -354,7 +354,8 @@ class Ajukan extends BaseController
                     }
                     $response->data = view('situgu/ptk/us/ajukan/tpg-asn', $data);
                 } else {
-                    if ($ptk->nomor_sk_impassing !== null) {
+                    if ($ptk->pang_golongan == null || $ptk->pang_golongan == "") {
+                    } else {
                         if ($ptk->lampiran_impassing === null || $ptk->lampiran_impassing === "") {
                             $response->status = 404;
                             $response->message = "Lampiran Dokumen Master Impassing tidak boleh kosong. Silahkan untuk melengkapi terlebih dahulu!!.";
