@@ -120,6 +120,18 @@
                             </div>
                         </td>
                     </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td><label class="form-check-label" for="_gaji_pokok">Gaji Pokok</label></td>
+                        <td>
+                            <span class="badge rounded-pill badge-soft-dark"><?= $ptk->gajiPokok == NULL || $ptk->gajiPokok == "" ? 1500000 : $ptk->gajiPokok ?></span>
+                        </td>
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="_gaji_pokok" onchange="changeChecked()" name="hasil[]">
+                            </div>
+                        </td>
+                    </tr>
                 <?php } else { ?>
                     <tr>
                         <th scope="row">1</th>
@@ -182,6 +194,18 @@
                         <td>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="_pang_mk" onchange="changeChecked()" name="hasil[]">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">7</th>
+                        <td><label class="form-check-label" for="_gaji_pokok">Gaji Pokok</label></td>
+                        <td>
+                            <span class="badge rounded-pill badge-soft-dark"><?= $ptk->gajiPokok == NULL || $ptk->gajiPokok == "" ? 1500000 : $ptk->gajiPokok ?></span>
+                        </td>
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="_gaji_pokok" onchange="changeChecked()" name="hasil[]">
                             </div>
                         </td>
                     </tr>

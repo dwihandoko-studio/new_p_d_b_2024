@@ -120,6 +120,18 @@
                             </div>
                         </td>
                     </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td><label class="form-check-label" for="_gaji_pokok">Gaji Pokok</label></td>
+                        <td>
+                            <span class="badge rounded-pill badge-soft-dark"><?= $ptk->gajiPokok == NULL || $ptk->gajiPokok == "" ? 1500000 : $ptk->gajiPokok ?></span>
+                        </td>
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="_gaji_pokok" onchange="changeChecked()" name="hasil[]">
+                            </div>
+                        </td>
+                    </tr>
                 <?php } else { ?>
                     <tr>
                         <th scope="row">1</th>
@@ -136,7 +148,7 @@
                     <tr>
                         <th scope="row">2</th>
                         <td><label class="form-check-label" for="_pang_golongan">Pangkat Golongan Ruang</label></td>
-                        <td><label class="form-check-label" for="_pang_golongan"><?= $ptk->pangkat_golongan_ruang ?></label></td>
+                        <td><label class="form-check-label" for="_pang_golongan"><?= $ptk->pang_golongan ?></label></td>
                         <td>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="_pang_golongan" onchange="changeChecked()" name="hasil[]">
@@ -147,7 +159,7 @@
                         <th scope="row">3</th>
                         <td><label class="form-check-label" for="_pang_no">No SK Inpassing</label></td>
                         <td>
-                            <a class="badge rounded-pill badge-soft-dark" target="popup" onclick="window.open('<?= base_url('upload/ptk/impassing') . '/' . $ptk->lampiran_impassing ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/impassing') . '/' . $ptk->lampiran_impassing ?>"><?= $ptk->nomor_sk_impassing ?></a>
+                            <a class="badge rounded-pill badge-soft-dark" target="popup" onclick="window.open('<?= base_url('upload/ptk/impassing') . '/' . $ptk->lampiran_impassing ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/impassing') . '/' . $ptk->lampiran_impassing ?>"><?= $ptk->pang_no ?></a>
                         </td>
                         <td>
                             <div class="form-check">
@@ -158,7 +170,7 @@
                     <tr>
                         <th scope="row">4</th>
                         <td><label class="form-check-label" for="_pang_tmt">TMT Inpassing</label></td>
-                        <td><label class="form-check-label" for="_pang_tmt"><?= $ptk->tmt_sk_impassing ?></label></td>
+                        <td><label class="form-check-label" for="_pang_tmt"><?= $ptk->pang_tmt ?></label></td>
                         <td>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="_pang_tmt" onchange="changeChecked()" name="hasil[]">
@@ -168,7 +180,7 @@
                     <tr>
                         <th scope="row">5</th>
                         <td><label class="form-check-label" for="_pang_tgl">Tanggal SK Inpassing</label></td>
-                        <td><label class="form-check-label" for="_pang_tgl"><?= $ptk->tgl_sk_impassing ?></label></td>
+                        <td><label class="form-check-label" for="_pang_tgl"><?= $ptk->pang_tgl ?></label></td>
                         <td>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="_pang_tgl" onchange="changeChecked()" name="hasil[]">
@@ -178,10 +190,22 @@
                     <tr>
                         <th scope="row">6</th>
                         <td><label class="form-check-label" for="_pang_mk">Masa Kerja ( Tahun / Bulan )</label></td>
-                        <td><label class="form-check-label" for="_pang_mk"><?= $ptk->masa_kerja_tahun_impassing ?? '0' ?> Tahun / <?= $ptk->masa_kerja_bulan_impassing ?? '0' ?> Bulan</label></td>
+                        <td><label class="form-check-label" for="_pang_mk"><?= $ptk->pang_tahun ?? '0' ?> Tahun / <?= $ptk->pang_bulan ?? '0' ?> Bulan</label></td>
                         <td>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="_pang_mk" onchange="changeChecked()" name="hasil[]">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">7</th>
+                        <td><label class="form-check-label" for="_gaji_pokok">Gaji Pokok</label></td>
+                        <td>
+                            <span class="badge rounded-pill badge-soft-dark"><?= $ptk->gajiPokok == NULL || $ptk->gajiPokok == "" ? 1500000 : $ptk->gajiPokok ?></span>
+                        </td>
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="_gaji_pokok" onchange="changeChecked()" name="hasil[]">
                             </div>
                         </td>
                     </tr>
