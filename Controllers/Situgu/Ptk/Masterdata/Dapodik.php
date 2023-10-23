@@ -195,6 +195,7 @@ class Dapodik extends BaseController
             $no_rekening = htmlspecialchars($this->request->getVar('no_rekening'), true);
             $cabang_bank = htmlspecialchars($this->request->getVar('cabang_bank'), true);
             $bidang_studi_sertifikasi = htmlspecialchars($this->request->getVar('bidang_studi_sertifikasi'), true);
+            $pendidikan = htmlspecialchars($this->request->getVar('pendidikan'), true);
 
             $oldData =  $this->_db->table('_ptk_tb')->where('id_ptk', $id)->get()->getRowObject();
 
@@ -219,18 +220,35 @@ class Dapodik extends BaseController
                     return json_encode($response);
                 }
             } else {
-                if (
-                    $nrg === $oldData->nrg
-                    && $no_peserta === $oldData->no_peserta
-                    && $npwp === $oldData->npwp
-                    && $no_rekening === $oldData->no_rekening
-                    && $cabang_bank === $oldData->cabang_bank
-                    && $bidang_studi_sertifikasi === $oldData->bidang_studi_sertifikasi
-                ) {
-                    $response = new \stdClass;
-                    $response->status = 201;
-                    $response->message = "Tidak ada perubahan data yang disimpan.";
-                    return json_encode($response);
+                if ($pendidikan == NULL || $pendidikan == "") {
+                    if (
+                        $nrg === $oldData->nrg
+                        && $no_peserta === $oldData->no_peserta
+                        && $npwp === $oldData->npwp
+                        && $no_rekening === $oldData->no_rekening
+                        && $cabang_bank === $oldData->cabang_bank
+                        && $bidang_studi_sertifikasi === $oldData->bidang_studi_sertifikasi
+                    ) {
+                        $response = new \stdClass;
+                        $response->status = 201;
+                        $response->message = "Tidak ada perubahan data yang disimpan.";
+                        return json_encode($response);
+                    }
+                } else {
+                    if (
+                        $nrg === $oldData->nrg
+                        && $no_peserta === $oldData->no_peserta
+                        && $npwp === $oldData->npwp
+                        && $no_rekening === $oldData->no_rekening
+                        && $cabang_bank === $oldData->cabang_bank
+                        && $bidang_studi_sertifikasi === $oldData->bidang_studi_sertifikasi
+                        && $pendidikan === $oldData->pendidikan
+                    ) {
+                        $response = new \stdClass;
+                        $response->status = 201;
+                        $response->message = "Tidak ada perubahan data yang disimpan.";
+                        return json_encode($response);
+                    }
                 }
             }
 
@@ -246,6 +264,11 @@ class Dapodik extends BaseController
             if ($bidang_studi_sertifikasi == NULL || $bidang_studi_sertifikasi == "") {
             } else {
                 $data['bidang_studi_sertifikasi'] = $bidang_studi_sertifikasi;
+            }
+
+            if ($pendidikan == NULL || $pendidikan == "") {
+            } else {
+                $data['pendidikan'] = $pendidikan;
             }
 
             $this->_db->transBegin();
