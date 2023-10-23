@@ -158,6 +158,18 @@
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row">6</th>
+                    <td><label class="form-check-label" for="_gaji_pokok">Gaji Pokok</label></td>
+                    <td>
+                        <span class="badge rounded-pill badge-soft-dark"><?= $ptk->gajiPokok == NULL || $ptk->gajiPokok == "" ? rpAwalan(1500000) : rpAwalan((int)$ptk->gajiPokok) ?></span>
+                    </td>
+                    <td>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="_gaji_pokok" onchange="changeChecked()" name="hasil[]">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
                     <td scope="row" colspan="4">Data Absensi</td>
                 </tr>
                 <tr>
