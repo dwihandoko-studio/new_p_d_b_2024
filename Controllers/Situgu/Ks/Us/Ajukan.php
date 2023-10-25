@@ -333,6 +333,7 @@ class Ajukan extends BaseController
                     $response->data = view('situgu/ks/us/ajukan/tpg-asn', $data);
                 } else {
                     if ($ptk->pang_golongan === null || $ptk->pang_golongan === "") {
+                    } else {
                         if ($ptk->lampiran_impassing === null || $ptk->lampiran_impassing === "") {
                             $response->status = 404;
                             $response->error = $ptk;
