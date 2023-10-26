@@ -41,7 +41,8 @@
                                     <th>EMAIL</th>
                                     <th>ROLE PENGGUNA</th>
                                     <th>KECAMATAN</th>
-                                    <th>AKTIF</th>
+                                    <th>TPG</th>
+                                    <th>TAMSIL</th>
                                 </tr>
                             </thead>
                         </table>
@@ -91,6 +92,51 @@
     function aksiChange(event, id, val) {
         $.ajax({
             url: "./edit",
+            type: 'POST',
+            data: {
+                id: id,
+                val: val,
+            },
+            dataType: 'JSON',
+            beforeSend: function() {
+                $('div.main-content').block({
+                    message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                });
+            },
+            success: function(resul) {
+                $('div.main-content').unblock();
+                if (resul.status !== 200) {
+                    Swal.fire(
+                        'Failed!',
+                        resul.message,
+                        'warning'
+                    ).then((valRes) => {
+                        reloadPage();
+                    })
+                } else {
+                    Swal.fire(
+                        'SELAMAT!',
+                        resul.message,
+                        'success'
+                    );
+                }
+            },
+            error: function() {
+                $('div.main-content').unblock();
+                Swal.fire(
+                    'Failed!',
+                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                    'warning'
+                ).then((valRes) => {
+                    reloadPage();
+                });
+            }
+        });
+    }
+
+    function aksiChangeTamsil(event, id, val) {
+        $.ajax({
+            url: "./editTamsil",
             type: 'POST',
             data: {
                 id: id,

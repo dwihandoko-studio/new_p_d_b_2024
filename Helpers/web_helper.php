@@ -817,6 +817,18 @@ function cekGrantedVerifikasi($user_id)
 	return true;
 }
 
+function cekGrantedVerifikasiTamsil($user_id)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$grandted = $db->table('access_verifikasi_tamsil')->where('user_id', $user_id)->get()->getRowObject();
+	if (!$grandted) {
+		return false;
+	}
+	return true;
+}
+
 function getDetailSekolahNaungan($npsn)
 {
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
@@ -1285,6 +1297,46 @@ function canGrantedVerifikasiSpj($user_id)
 }
 
 function canGrantedVerifikasi($user_id)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$grandted = $db->table('access_verifikasi')->where('user_id', $user_id)->get()->getRowObject();
+	if (!$grandted) {
+		$response = new \stdClass;
+		$response->code = 400;
+		$response->message = "Akses untuk proses verval terkunci. Silahkan hubungi Admin Tunjangan.";
+		$response->redirect = "";
+		return $response;
+	}
+
+	$response = new \stdClass;
+	$response->code = 200;
+	$response->message = "";
+	return $response;
+}
+
+function canGrantedVerifikasiTamsil($user_id)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$grandted = $db->table('access_verifikasi_tamsil')->where('user_id', $user_id)->get()->getRowObject();
+	if (!$grandted) {
+		$response = new \stdClass;
+		$response->code = 400;
+		$response->message = "Akses untuk proses verval tamsil terkunci. Silahkan hubungi Admin Tunjangan.";
+		$response->redirect = "";
+		return $response;
+	}
+
+	$response = new \stdClass;
+	$response->code = 200;
+	$response->message = "";
+	return $response;
+}
+
+function canGrantedVerifikasiTpg($user_id)
 {
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
 	$db      = \Config\Database::connect();

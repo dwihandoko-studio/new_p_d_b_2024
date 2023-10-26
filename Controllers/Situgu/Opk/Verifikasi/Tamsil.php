@@ -203,6 +203,7 @@ class Tamsil extends BaseController
             session()->destroy();
             return redirect()->to(base_url('auth'));
         }
+
         $id = $this->_helpLib->getPtkId($user->data->id);
         $data['user'] = $user->data;
         $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
@@ -278,6 +279,23 @@ class Tamsil extends BaseController
             $tw = htmlspecialchars($this->request->getVar('tw'), true);
             $nama = htmlspecialchars($this->request->getVar('nama'), true);
 
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Session telah habis";
+                return json_encode($response);
+            }
+
+            $canGrantedVerifikasi = canGrantedVerifikasiTamsil($user->data->id);
+
+            if ($canGrantedVerifikasi && $canGrantedVerifikasi->code !== 200) {
+                return json_encode($canGrantedVerifikasi);
+            }
+
             $current = $this->_db->table('v_antrian_usulan_tamsil a')
                 ->select("a.*, b.kecamatan as kecamatan_sekolah, c.lampiran_sptjm, d.gaji_pokok as gaji_pokok_referensi")
                 ->join('ref_sekolah b', 'a.npsn = b.npsn')
@@ -351,7 +369,7 @@ class Tamsil extends BaseController
                 return json_encode($response);
             }
 
-            $canGrantedVerifikasi = canGrantedVerifikasi($user->data->id);
+            $canGrantedVerifikasi = canGrantedVerifikasiTamsil($user->data->id);
 
             if ($canGrantedVerifikasi && $canGrantedVerifikasi->code !== 200) {
                 return json_encode($canGrantedVerifikasi);
@@ -498,7 +516,7 @@ class Tamsil extends BaseController
                 return json_encode($response);
             }
 
-            $canGrantedVerifikasi = canGrantedVerifikasi($user->data->id);
+            $canGrantedVerifikasi = canGrantedVerifikasiTamsil($user->data->id);
 
             if ($canGrantedVerifikasi && $canGrantedVerifikasi->code !== 200) {
                 return json_encode($canGrantedVerifikasi);
@@ -574,7 +592,7 @@ class Tamsil extends BaseController
             }
 
 
-            $canGrantedVerifikasi = canGrantedVerifikasi($user->data->id);
+            $canGrantedVerifikasi = canGrantedVerifikasiTamsil($user->data->id);
 
             if ($canGrantedVerifikasi && $canGrantedVerifikasi->code !== 200) {
                 return json_encode($canGrantedVerifikasi);
