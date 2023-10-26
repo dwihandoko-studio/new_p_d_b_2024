@@ -8,8 +8,8 @@ use CodeIgniter\Model;
 class AduanModel extends Model
 {
     protected $table = "aduan_tb";
-    protected $column_order = array(null, 'status_ajuan', 'created_at', 'jenis', 'isi', 'status');
-    protected $column_search = array('created_at', 'jenis', 'isi', 'npsn');
+    protected $column_order = array(null, 'status_ajuan', 'created_at', 'jenis', 'kategori', 'isi', 'status');
+    protected $column_search = array('created_at', 'jenis', 'kategori', 'isi', 'npsn');
     protected $order = array('created_at' => 'desc');
     protected $request;
     protected $db;
@@ -53,6 +53,9 @@ class AduanModel extends Model
         if ($this->request->getPost('jenis')) {
             $this->dt->where('jenis', $this->request->getPost('jenis'));
         }
+        if ($this->request->getPost('kategori')) {
+            $this->dt->where('kategori', $this->request->getPost('kategori'));
+        }
         $this->_get_datatables_query();
         if ($this->request->getPost('length') != -1)
             $this->dt->limit($this->request->getPost('length'), $this->request->getPost('start'));
@@ -65,6 +68,9 @@ class AduanModel extends Model
         if ($this->request->getPost('jenis')) {
             $this->dt->where('jenis', $this->request->getPost('jenis'));
         }
+        if ($this->request->getPost('kategori')) {
+            $this->dt->where('kategori', $this->request->getPost('kategori'));
+        }
         $this->_get_datatables_query();
 
         return $this->dt->countAllResults();
@@ -74,6 +80,9 @@ class AduanModel extends Model
         $this->dt->where('status_ajuan', $status);
         if ($this->request->getPost('jenis')) {
             $this->dt->where('jenis', $this->request->getPost('jenis'));
+        }
+        if ($this->request->getPost('kategori')) {
+            $this->dt->where('kategori', $this->request->getPost('kategori'));
         }
         $this->_get_datatables_query();
 

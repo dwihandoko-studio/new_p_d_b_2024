@@ -113,6 +113,7 @@ class Cs extends BaseController
             }
             $row[] = $list->created_at;
             $row[] = $list->jenis;
+            $row[] = $list->kategori;
             $row[] = $list->npsn;
             $row[] = $list->isi;
             switch ($list->status) {

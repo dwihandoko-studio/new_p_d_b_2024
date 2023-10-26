@@ -26,13 +26,28 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <h4 class="card-title">Data Pengaduan</h4>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <!-- <div class="mb-3"> -->
                                 <label class="col-form-label">Jenis Aduan: </label>
                                 <select class="form-control select2" name="filter_jenis" id="filter_jenis" style="width: 100%" required>
+                                    <option value="">-- Pilih --</option>
+                                    <option value="TPG">TPG</option>
+                                    <option value="TAMSIL">TAMSIL</option>
+                                    <!-- <option value="riwayat-pangkat">Riwayat Pangkat / Berkala</option>
+                                    <option value="akun-ptk">Akun PTK</option>
+                                    <option value="jumlah-ptk">Jumlah PTK</option>
+                                    <option value="lainnya">Lainnya</option> -->
+                                </select>
+                                <!-- </div> -->
+                                <div class="help-block filter_jenis" for="filter_jenis"></div>
+                            </div>
+                            <div class="col-4">
+                                <!-- <div class="mb-3"> -->
+                                <label class="col-form-label">Kategori Aduan: </label>
+                                <select class="form-control select2" name="filter_kategori" id="filter_kategori" style="width: 100%" required>
                                     <option value="">-- Pilih --</option>
                                     <option value="tarik-data">Tarik Data</option>
                                     <option value="riwayat-sertifikasi">Riwayat Sertifikasi</option>
@@ -42,7 +57,7 @@
                                     <option value="lainnya">Lainnya</option>
                                 </select>
                                 <!-- </div> -->
-                                <div class="help-block filter_jenis" for="filter_jenis"></div>
+                                <div class="help-block filter_kategori" for="filter_kategori"></div>
                             </div>
                         </div>
                     </div>
@@ -55,6 +70,7 @@
                                     <th>STATUS</th>
                                     <th>DATE</th>
                                     <th>JENIS</th>
+                                    <th>KATEGORI</th>
                                     <th>NPSN</th>
                                     <th>DESKRIPSI</th>
                                     <th>URGENT</th>
@@ -303,6 +319,7 @@
                 "type": "POST",
                 "data": function(data) {
                     data.jenis = $('#filter_jenis').val();
+                    data.kategori = $('#filter_kategori').val();
                 }
             },
             language: {
@@ -314,6 +331,9 @@
             }],
         });
         $('#filter_jenis').change(function() {
+            tableDatatables.draw();
+        });
+        $('#filter_kategori').change(function() {
             tableDatatables.draw();
         });
     });
