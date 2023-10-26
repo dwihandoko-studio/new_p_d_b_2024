@@ -303,6 +303,12 @@ class Cs extends BaseController
                     'required' => 'Jenis tidak boleh kosong. ',
                 ]
             ],
+            'kategori' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Kategori tidak boleh kosong. ',
+                ]
+            ],
             'npsn' => [
                 'rules' => 'required',
                 'errors' => [
@@ -344,6 +350,8 @@ class Cs extends BaseController
             $response->message = $this->validator->getError('id')
                 . $this->validator->getError('npsn')
                 . $this->validator->getError('isi')
+                . $this->validator->getError('kategori')
+                . $this->validator->getError('jenis')
                 . $this->validator->getError('status')
                 . $this->validator->getError('_file');
             return json_encode($response);
@@ -360,6 +368,7 @@ class Cs extends BaseController
             }
 
             $jenis = htmlspecialchars($this->request->getVar('jenis'), true);
+            $kategori = htmlspecialchars($this->request->getVar('kategori'), true);
             $npsn = htmlspecialchars($this->request->getVar('npsn'), true);
             $ptks = $this->request->getVar('ptks');
             $isi = htmlspecialchars($this->request->getVar('isi'), true);
@@ -374,6 +383,7 @@ class Cs extends BaseController
             $data = [
                 'user_id' => $user->data->id,
                 'jenis' => $jenis,
+                'kategori' => $kategori,
                 'npsn' => $npsn,
                 'ptks' => $ptks,
                 'isi' => $isi,

@@ -6,6 +6,21 @@
                 <label class="col-form-label">Jenis Aduan: </label>
                 <select class="form-control select2" name="_jenis" id="_jenis" style="width: 100%" required>
                     <option value="">-- Pilih --</option>
+                    <option value="TPG">TPG</option>
+                    <option value="TAMSIL">TAMSIL</option>
+                    <!-- <option value="riwayat-pangkat">PGHM</option>
+                    <option value="akun-ptk">Akun PTK</option>
+                    <option value="jumlah-ptk">Jumlah PTK</option>
+                    <option value="lainnya">Lainnya</option> -->
+                </select>
+                <!-- </div> -->
+                <div class="help-block _jenis" for="_jenis"></div>
+            </div>
+            <div class="col-lg-6">
+                <!-- <div class="mb-3"> -->
+                <label class="col-form-label">Kategori Aduan: </label>
+                <select class="form-control select2" name="_kategori" id="_kategori" style="width: 100%" required>
+                    <option value="">-- Pilih --</option>
                     <option value="tarik-data">Tarik Data</option>
                     <option value="riwayat-sertifikasi">Riwayat Sertifikasi</option>
                     <option value="riwayat-pangkat">Riwayat Pangkat / Berkala</option>
@@ -14,7 +29,7 @@
                     <option value="lainnya">Lainnya</option>
                 </select>
                 <!-- </div> -->
-                <div class="help-block _jenis" for="_jenis"></div>
+                <div class="help-block _kategori" for="_kategori"></div>
             </div>
             <div class="col-lg-6">
                 <label for="_npsn" class="col-form-label">NPSN:</label>
@@ -144,6 +159,7 @@
     $("#formAddModalData").on("submit", function(e) {
         e.preventDefault();
         const jenis = document.getElementsByName('_jenis')[0].value;
+        const kategori = document.getElementsByName('_kategori')[0].value;
         const npsn = document.getElementsByName('_npsn')[0].value;
         const ptks = document.getElementById('_ptks');
         // const isi = editorAdd.getData();
@@ -172,6 +188,13 @@
             $("select#_jenis").css("color", "#dc3545");
             $("select#_jenis").css("border-color", "#dc3545");
             $('._jenis').html('<ul role="alert" style="color: #dc3545; list-style-type:none; padding-inline-start: 10px;"><li style="color: #dc3545;">Silahkan pilih jenis aduan.</li></ul>');
+            return false;
+        }
+
+        if (kategori === "") {
+            $("select#_kategori").css("color", "#dc3545");
+            $("select#_kategori").css("border-color", "#dc3545");
+            $('._kategori').html('<ul role="alert" style="color: #dc3545; list-style-type:none; padding-inline-start: 10px;"><li style="color: #dc3545;">Silahkan pilih jenis aduan.</li></ul>');
             return false;
         }
 
@@ -204,6 +227,7 @@
             formUpload.append('_file', file);
         }
         formUpload.append('jenis', jenis);
+        formUpload.append('kategori', kategori);
         formUpload.append('npsn', npsn);
         formUpload.append('ptks', selectedPtks);
         formUpload.append('isi', isi);
