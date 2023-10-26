@@ -46,11 +46,11 @@ class Grantedverifikasi extends BaseController
                         <label for="' . $list->id . '" data-on-label="On" data-off-label="Off"></label>';
             }
             if (cekGrantedVerifikasiTamsil($list->id)) {
-                $row[] = '<input type="checkbox" onchange="aksiChangeTamsil(this, \'' . $list->id . '\',\'0\')" id="' . $list->id . '" switch="none" checked />
-                        <label for="' . $list->id . '" data-on-label="On" data-off-label="Off"></label>';
+                $row[] = '<input type="checkbox" onchange="aksiChangeTamsil(this, \'' . $list->id . '\',\'0\')" id="' . $list->id . '_tamsil" switch="none" checked />
+                        <label for="' . $list->id . '_tamsil" data-on-label="On" data-off-label="Off"></label>';
             } else {
-                $row[] = '<input type="checkbox" onchange="aksiChangeTamsil(this, \'' . $list->id . '\',\'1\')" id="' . $list->id . '" switch="none" />
-                        <label for="' . $list->id . '" data-on-label="On" data-off-label="Off"></label>';
+                $row[] = '<input type="checkbox" onchange="aksiChangeTamsil(this, \'' . $list->id . '\',\'1\')" id="' . $list->id . '_tamsil" switch="none" />
+                        <label for="' . $list->id . '_tamsil" data-on-label="On" data-off-label="Off"></label>';
             }
 
             $data[] = $row;
