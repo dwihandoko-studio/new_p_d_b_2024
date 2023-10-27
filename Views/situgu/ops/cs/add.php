@@ -26,6 +26,7 @@
                     <option value="riwayat-pangkat">Riwayat Pangkat / Berkala</option>
                     <option value="akun-ptk">Akun PTK</option>
                     <option value="jumlah-ptk">Jumlah PTK</option>
+                    <option value="laporan-spj">Laporan SPJ</option>
                     <option value="lainnya">Lainnya</option>
                 </select>
                 <!-- </div> -->
