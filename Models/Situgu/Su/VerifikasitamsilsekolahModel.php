@@ -11,6 +11,7 @@ class VerifikasitamsilsekolahModel extends Model
     protected $column_order = array(null, null, 'b.nama', 'b.npsn', 'b.bentuk_pendidikan', 'b.status_sekolah', 'b.kecamatan', null);
     protected $column_search = array('b.npsn', 'b.nama');
     protected $order = array('a.date_approve_sptjm' => 'asc');
+    
     protected $request;
     protected $db;
     protected $dt;

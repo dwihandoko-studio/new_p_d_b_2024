@@ -7,10 +7,14 @@ use CodeIgniter\Model;
 
 class AntrianModel extends Model
 {
-    protected $table = "v_antrian_usulan_tamsil";
-    protected $column_order = array(null, null, 'kode_usulan', 'nama', 'nik', 'nuptk', 'jenis_ptk', 'created_at');
-    protected $column_search = array('nik', 'nuptk', 'nama', 'kode_usulan');
-    protected $order = array('created_at' => 'asc', 'nama' => 'asc');
+    // protected $table = "v_antrian_usulan_tamsil";
+    // protected $column_order = array(null, null, 'kode_usulan', 'nama', 'nik', 'nuptk', 'jenis_ptk', 'created_at');
+    // protected $column_search = array('nik', 'nuptk', 'nama', 'kode_usulan');
+    // protected $order = array('created_at' => 'asc', 'nama' => 'asc');
+    protected $table = "_tb_usulan_detail_tamsil a";
+    protected $column_order = array(null, null, 'a.kode_usulan', 'b.nama', 'b.nik', 'b.nuptk', 'b.jenis_ptk', 'a.date_approve_sptjm');
+    protected $column_search = array('b.nama', 'b.nuptk', 'a.kode_usulan');
+    protected $order = array('a.date_approve_sptjm' => 'asc');
     protected $request;
     protected $db;
     protected $dt;
@@ -25,6 +29,8 @@ class AntrianModel extends Model
     }
     private function _get_datatables_query()
     {
+        $this->dt->select("a.id as id_usulan, a.id_tahun_tw, a.kode_usulan, a.date_approve_sptjm, b.nama, b.npsn, b.nik, b.nuptk, b.jenis_ptk");
+        $this->dt->join('_ptk_tb b', "b.id = a.id_ptk");
         $i = 0;
         foreach ($this->column_search as $item) {
             if ($this->request->getPost('search')['value']) {
@@ -52,7 +58,7 @@ class AntrianModel extends Model
         if ($this->request->getPost('tw')) {
             if ($this->request->getPost('tw') !== "") {
 
-                $this->dt->where('id_tahun_tw', $this->request->getPost('tw'));
+                $this->dt->where('a.id_tahun_tw', $this->request->getPost('tw'));
             }
         }
         $this->_get_datatables_query();
@@ -66,7 +72,7 @@ class AntrianModel extends Model
         if ($this->request->getPost('tw')) {
             if ($this->request->getPost('tw') !== "") {
 
-                $this->dt->where('id_tahun_tw', $this->request->getPost('tw'));
+                $this->dt->where('a.id_tahun_tw', $this->request->getPost('tw'));
             }
         }
         $this->_get_datatables_query();
@@ -78,7 +84,7 @@ class AntrianModel extends Model
         if ($this->request->getPost('tw')) {
             if ($this->request->getPost('tw') !== "") {
 
-                $this->dt->where('id_tahun_tw', $this->request->getPost('tw'));
+                $this->dt->where('a.id_tahun_tw', $this->request->getPost('tw'));
             }
         }
         $this->_get_datatables_query();
