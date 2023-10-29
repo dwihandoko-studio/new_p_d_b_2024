@@ -421,7 +421,7 @@ class Ptk extends BaseController
                         'masa_kerja_tahun_impassing' => NULL,
                         'masa_kerja_bulan_impassing' => NULL,
                         'jumlah_tunjangan_pokok_impassing' => NULL,
-                        'lampiran_inpassing' => NULL,
+                        'lampiran_impassing' => NULL,
                         'updated_at' => date('Y-m-d H:i:s')
                     ]);
                 } catch (\Exception $e) {
