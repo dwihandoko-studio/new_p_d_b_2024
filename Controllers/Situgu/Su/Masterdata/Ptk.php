@@ -428,6 +428,7 @@ class Ptk extends BaseController
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
+                    $response->error = var_dump($e);
                     $response->message = "Gagal mendefault data inpassing.";
                     return json_encode($response);
                 }
@@ -443,6 +444,7 @@ class Ptk extends BaseController
                 } else {
                     $this->_db->transRollback();
                     $response = new \stdClass;
+                    $response->error = "tidak ada perubahan data";
                     $response->status = 400;
                     $response->message = "Gagal mendefault data inpassing.";
                     return json_encode($response);
