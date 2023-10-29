@@ -29,7 +29,7 @@ class AntrianModel extends Model
     }
     private function _get_datatables_query()
     {
-        $this->dt->select("a.id as id_usulan, a.id_tahun_tw, a.kode_usulan, a.date_approve_sptjm, b.nama, b.npsn, b.nik, b.nuptk, b.jenis_ptk");
+        $this->dt->select("a.id as id_usulan, a.id_ptk, a.id_tahun_tw, a.kode_usulan, a.date_approve_sptjm, b.nama, b.npsn, b.nik, b.nuptk, b.jenis_ptk");
         $this->dt->join('_ptk_tb b', "b.id = a.id_ptk");
         $i = 0;
         foreach ($this->column_search as $item) {
