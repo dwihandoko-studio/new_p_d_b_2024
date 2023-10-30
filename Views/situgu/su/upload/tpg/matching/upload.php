@@ -87,11 +87,11 @@
             const fileName = document.getElementsByName('_file')[0].value;
 
             const formUpload = new FormData();
+            formUpload.append('tw', tw);
             if (fileName !== "") {
                 const file = document.getElementsByName('_file')[0].files[0];
                 formUpload.append('_file', file);
             }
-            formUpload.append('tw', tw);
 
             $.ajax({
                 xhr: function() {
