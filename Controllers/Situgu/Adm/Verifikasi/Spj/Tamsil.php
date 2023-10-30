@@ -373,7 +373,12 @@ class Tamsil extends BaseController
             $canUsulTamsil = canVerifikasiSpjTamsil();
 
             if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
-                return json_encode($canUsulTamsil);
+
+                $canGrantedVerifikasi = canGrantedVerifikasiSpj($user->data->id);
+
+                if ($canGrantedVerifikasi && $canGrantedVerifikasi->code !== 200) {
+                    return json_encode($canUsulTamsil);
+                }
             }
 
             $id = htmlspecialchars($this->request->getVar('id'), true);
@@ -520,7 +525,12 @@ class Tamsil extends BaseController
             $canUsulTamsil = canVerifikasiSpjTamsil();
 
             if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
-                return json_encode($canUsulTamsil);
+
+                $canGrantedVerifikasi = canGrantedVerifikasiSpj($user->data->id);
+
+                if ($canGrantedVerifikasi && $canGrantedVerifikasi->code !== 200) {
+                    return json_encode($canUsulTamsil);
+                }
             }
 
             $id = htmlspecialchars($this->request->getVar('id'), true);
@@ -595,7 +605,12 @@ class Tamsil extends BaseController
             $canUsulTamsil = canVerifikasiSpjTamsil();
 
             if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
-                return json_encode($canUsulTamsil);
+
+                $canGrantedVerifikasi = canGrantedVerifikasiSpj($user->data->id);
+
+                if ($canGrantedVerifikasi && $canGrantedVerifikasi->code !== 200) {
+                    return json_encode($canUsulTamsil);
+                }
             }
 
             $id = htmlspecialchars($this->request->getVar('id'), true);
