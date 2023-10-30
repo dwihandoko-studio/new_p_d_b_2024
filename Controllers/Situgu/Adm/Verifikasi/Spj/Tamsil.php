@@ -370,7 +370,7 @@ class Tamsil extends BaseController
                 return json_encode($canGrantedVerifikasi);
             }
 
-            $canUsulTamsil = canVerifikasiSpjTpg();
+            $canUsulTamsil = canVerifikasiSpjTamsil();
 
             if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
                 return json_encode($canUsulTamsil);
@@ -517,7 +517,7 @@ class Tamsil extends BaseController
                 return json_encode($canGrantedVerifikasi);
             }
 
-            $canUsulTamsil = canVerifikasiSpjTpg();
+            $canUsulTamsil = canVerifikasiSpjTamsil();
 
             if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
                 return json_encode($canUsulTamsil);
@@ -592,7 +592,7 @@ class Tamsil extends BaseController
                 return json_encode($canGrantedVerifikasi);
             }
 
-            $canUsulTamsil = canVerifikasiSpjTpg();
+            $canUsulTamsil = canVerifikasiSpjTamsil();
 
             if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
                 return json_encode($canUsulTamsil);
