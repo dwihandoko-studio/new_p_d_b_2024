@@ -86,6 +86,8 @@
             const tw = document.getElementsByName('_tw')[0].value;
             const fileName = document.getElementsByName('_file')[0].value;
 
+            console.log(tw);
+
             const formUpload = new FormData();
             formUpload.append('tw', tw);
             if (fileName !== "") {
