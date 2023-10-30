@@ -941,6 +941,38 @@ class Matching extends BaseController
                                     try {
                                         $notifLib = new NotificationLib();
                                         $notifLib->create("Lolos Matching Simtun", "Usulan " . $ptk->kode_usulan . " telah lolos matching simtun.", "success", $user->data->id, $ptk->id_ptk, base_url('situgu/ptk/us/tpg/siapsk'));
+                                        // createAktifitas($user->data->id, "Memverifikasi usulan Tamsil untuk PTK atas nama $nama dengan kode usulan: $oldData->kode_usulan", "Memverifikasi usulan Tamsil PTK", "edit", $oldData->id_tahun_tw);
+                                        $getChatIdName = getChatIdTelegramPTKName($ptk->id_ptk);
+                                        if ($getChatIdName) {
+                                            // $admin = $user->data;
+                                            $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
+                                            $message = "Hallo <b>$$getChatIdName->nama</b>....!!!\n______________________________________________________\n\n<b>USULAN ANDA</b> pada <b>SI-TUGU</b> dengan kode usulan : \n<b>$ptk->kode_usulan</b>\n<b>Telah lolos matching Simtun</b>.\nSelanjutnya silahkan menunggu proses penerbitan SKTP.\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                                            try {
+
+                                                $dataReq = [
+                                                    'chat_id' => $getChatIdName->chat_id_telegram,
+                                                    "parse_mode" => "HTML",
+                                                    'text' => $message,
+                                                ];
+
+                                                $ch = curl_init("https://api.telegram.org/bot$tokenTele/sendMessage");
+                                                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                                                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dataReq));
+                                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                                                    'Content-Type: application/json'
+                                                ));
+                                                curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+                                                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
+
+                                                $server_output = curl_exec($ch);
+                                                curl_close($ch);
+
+                                                // var_dump($server_output);
+                                            } catch (\Throwable $th) {
+                                                // var_dump($th);
+                                            }
+                                        }
                                     } catch (\Throwable $th) {
                                         //throw $th;
                                     }
@@ -987,6 +1019,37 @@ class Matching extends BaseController
                         try {
                             $notifLib = new NotificationLib();
                             $notifLib->create("Gagal Matching Simtun", "Usulan " . $current->kode_usulan . " gagal untuk lolos matching simtun dengan keterangan: " . $keterangan, "danger", $user->data->id, $current->id_ptk, base_url('situgu/ptk/us/tpg/siapsk'));
+                            $getChatIdName = getChatIdTelegramPTKName($current->id_ptk);
+                            if ($getChatIdName) {
+                                // $admin = $user->data;
+                                $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
+                                $message = "Hallo <b>$$getChatIdName->nama</b>....!!!\n______________________________________________________\n\n<b>USULAN ANDA</b> pada <b>SI-TUGU</b> dengan kode usulan : \n<b>$current->kode_usulan</b>\ngagal untuk lolos matching simtun dengan keterangan: <b>$keterangan</b>.\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                                try {
+
+                                    $dataReq = [
+                                        'chat_id' => $getChatIdName->chat_id_telegram,
+                                        "parse_mode" => "HTML",
+                                        'text' => $message,
+                                    ];
+
+                                    $ch = curl_init("https://api.telegram.org/bot$tokenTele/sendMessage");
+                                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dataReq));
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                                        'Content-Type: application/json'
+                                    ));
+                                    curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+                                    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
+
+                                    $server_output = curl_exec($ch);
+                                    curl_close($ch);
+
+                                    // var_dump($server_output);
+                                } catch (\Throwable $th) {
+                                    // var_dump($th);
+                                }
+                            }
                         } catch (\Throwable $th) {
                             //throw $th;
                         }

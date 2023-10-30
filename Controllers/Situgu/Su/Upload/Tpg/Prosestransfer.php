@@ -718,6 +718,37 @@ class Prosestransfer extends BaseController
                                     try {
                                         $notifLib = new NotificationLib();
                                         $notifLib->create("Proses Transfer", "Usulan " . $ptk->kode_usulan . " telah memasuki tahap proses trasnfer dengan total nominal: " . Rupiah($jumlah_diterima), "success", $user->data->id, $ptk->id_ptk, base_url('situgu/ptk/us/tpg/prosestransfer'));
+                                        $getChatIdName = getChatIdTelegramPTKName($ptk->id_ptk);
+                                        if ($getChatIdName) {
+                                            // $admin = $user->data;
+                                            $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
+                                            $message = "Hallo <b>$$getChatIdName->nama</b>....!!!\n______________________________________________________\n\n<b>USULAN ANDA</b> pada <b>SI-TUGU</b> dengan kode usulan : \n<b>$ptk->kode_usulan</b>\ntelah memasuki tahap proses transfer dengan total nominal: " . Rupiah($jumlah_diterima) . ".\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                                            try {
+
+                                                $dataReq = [
+                                                    'chat_id' => $getChatIdName->chat_id_telegram,
+                                                    "parse_mode" => "HTML",
+                                                    'text' => $message,
+                                                ];
+
+                                                $ch = curl_init("https://api.telegram.org/bot$tokenTele/sendMessage");
+                                                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                                                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dataReq));
+                                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                                                    'Content-Type: application/json'
+                                                ));
+                                                curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+                                                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
+
+                                                $server_output = curl_exec($ch);
+                                                curl_close($ch);
+
+                                                // var_dump($server_output);
+                                            } catch (\Throwable $th) {
+                                                // var_dump($th);
+                                            }
+                                        }
                                     } catch (\Throwable $th) {
                                         //throw $th;
                                     }

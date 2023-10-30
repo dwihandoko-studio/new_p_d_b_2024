@@ -594,6 +594,37 @@ class Skterbit extends BaseController
                                 try {
                                     $notifLib = new NotificationLib();
                                     $notifLib->create("SKTP Telah Terbit", "Usulan " . $ptk->kode_usulan . " telah Terbit dengan No SK: " . $no_sktp . " No Urut: " . $no_urut, "success", $user->data->id, $ptk->id_ptk, base_url('situgu/ptk/us/tpg/skterbit'));
+                                    $getChatIdName = getChatIdTelegramPTKName($ptk->id_ptk);
+                                    if ($getChatIdName) {
+                                        // $admin = $user->data;
+                                        $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
+                                        $message = "Hallo <b>$$getChatIdName->nama</b>....!!!\n______________________________________________________\n\n<b>USULAN ANDA</b> pada <b>SI-TUGU</b> dengan kode usulan : \n<b>$ptk->kode_usulan</b>\nTelah terbit SKTP dengan No. SK : <b>$no_sktp</b> dengan No. Urut: <b>$no_urut</b>.\nSelanjutnya silahkan menunggu untuk proses Transfer.\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                                        try {
+
+                                            $dataReq = [
+                                                'chat_id' => $getChatIdName->chat_id_telegram,
+                                                "parse_mode" => "HTML",
+                                                'text' => $message,
+                                            ];
+
+                                            $ch = curl_init("https://api.telegram.org/bot$tokenTele/sendMessage");
+                                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                                            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dataReq));
+                                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                                                'Content-Type: application/json'
+                                            ));
+                                            curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+                                            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
+
+                                            $server_output = curl_exec($ch);
+                                            curl_close($ch);
+
+                                            // var_dump($server_output);
+                                        } catch (\Throwable $th) {
+                                            // var_dump($th);
+                                        }
+                                    }
                                 } catch (\Throwable $th) {
                                     //throw $th;
                                 }
