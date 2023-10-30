@@ -198,6 +198,7 @@ class Matching extends BaseController
         if (!$this->validate($rules)) {
             $response = new \stdClass;
             $response->status = 400;
+            $response->error = "error validation";
             $response->message = $this->validator->getError('tw');
             // . $this->validator->getError('_file');
             return json_encode($response);
