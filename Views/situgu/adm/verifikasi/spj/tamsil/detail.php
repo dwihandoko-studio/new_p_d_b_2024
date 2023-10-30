@@ -37,7 +37,7 @@
                         <div class="col-sm-4">
                             <label class="col-form-label">Bulan 1 :</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" aria-describedby="bulan_1" aria-label="BULAN 1" value="<?= rpAwalan($data->tf_jumlah_uang / $data->jumlah_bulan) ?>" readonly />
+                                <input type="text" class="form-control" aria-describedby="bulan_1" aria-label="BULAN 1" value="<?= rpAwalan($data->tf_jumlah_uang / $data->jumlah_bulan) ?>" readonly /> 
                             </div>
                         </div>
                         <div class="col-sm-4">
