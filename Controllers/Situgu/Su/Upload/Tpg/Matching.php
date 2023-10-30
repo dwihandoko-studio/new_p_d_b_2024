@@ -590,7 +590,7 @@ class Matching extends BaseController
                                             $item['us_masa_kerja'] = $v['data_usulan']['us_pang_mk_tahun'];
                                             $item['us_gaji_pokok'] = $v['data_usulan']['us_gaji_pokok'];
                                             $item['us_keterangan'] = $keterangan;
-                                            $item['keterangan'] = "Belum Update Dapodik";
+                                            $item['keterangan'] = "Belum Update Dapodik. Silahkan perbaiki inputan riwayat Inpassing.";
                                             $item['aksi'] = "Aksi";
                                             $item['status'] = "table-danger";
                                             $item['id_usulan'] = $v['data_usulan']['id_usulan'];
@@ -688,7 +688,7 @@ class Matching extends BaseController
                                                     $item['us_masa_kerja'] = $v['data_usulan']['us_pang_mk_tahun'];
                                                     $item['us_gaji_pokok'] = $v['data_usulan']['us_gaji_pokok'];
                                                     $item['us_keterangan'] = $keterangan;
-                                                    $item['keterangan'] = "Belum Update Dapodik";
+                                                    $item['keterangan'] = "Belum Update Dapodik. Silahkan perbaiki inputan riwayat Kepangkatan dan atau Riwayat KGB.";
                                                     $item['aksi'] = "Aksi";
                                                     $item['status'] = "table-danger";
                                                     $item['id_usulan'] = $v['data_usulan']['id_usulan'];
@@ -712,7 +712,7 @@ class Matching extends BaseController
                                                 $item['us_masa_kerja'] = $v['data_usulan']['us_pang_mk_tahun'];
                                                 $item['us_gaji_pokok'] = $v['data_usulan']['us_gaji_pokok'];
                                                 $item['us_keterangan'] = $keterangan;
-                                                $item['keterangan'] = "Belum Update Dapodik";
+                                                $item['keterangan'] = "Belum Update Dapodik. Silahkan perbaiki inputan riwayat Kepangkatan dan atau Riwayat KGB.";
                                                 $item['aksi'] = "Aksi";
                                                 $item['status'] = "table-danger";
                                                 $item['id_usulan'] = $v['data_usulan']['id_usulan'];
