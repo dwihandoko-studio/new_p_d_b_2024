@@ -1060,60 +1060,67 @@ class Matching extends BaseController
                         return json_encode($response);
                     }
                 } else {
-                    $this->_db->table('_tb_usulan_detail_tpg')->where('id', $current->id_usulan)->update(['status_usulan' => 4, 'updated_at' => date('Y-m-d H:i:s'), 'date_matching' => date('Y-m-d H:i:s'), 'admin_matching' => $user->data->id, 'keterangan_reject' => $keterangan]);
-                    if ($this->_db->affectedRows() > 0) {
-                        $this->_db->table('_upload_data_attribut')->where(['id_ptk' => $current->id_ptk, 'id_tahun_tw' => $current->id_tahun_tw])->update(['is_locked' => 0]);
-                        $this->_db->table('_absen_kehadiran')->where(['id_ptk' => $current->id_ptk, 'id_tahun_tw' => $current->id_tahun_tw])->update(['is_locked' => 0]);
-                        $this->_db->table('_ptk_tb')->where(['id' => $current->id_ptk])->update(['is_locked' => 0]);
-
-                        $this->_db->transCommit();
-                        try {
-                            $notifLib = new NotificationLib();
-                            $notifLib->create("Gagal Matching Simtun", "Usulan " . $current->kode_usulan . " gagal untuk lolos matching simtun dengan keterangan: " . $keterangan, "danger", $user->data->id, $current->id_ptk, base_url('situgu/ptk/us/tpg/siapsk'));
-                            $getChatIdName = getChatIdTelegramPTKName($current->id_ptk);
-                            if ($getChatIdName) {
-                                // $admin = $user->data;
-                                $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
-                                $message = "Hallo <b>$getChatIdName->nama ($getChatIdName->nuptk)</b>....!!!\n______________________________________________________\n\n<b>USULAN ANDA</b> pada <b>SI-TUGU</b> dengan kode usulan : \n<b>$current->kode_usulan</b>\ngagal untuk lolos matching simtun dengan keterangan: <b>$keterangan</b>.\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
-                                try {
-
-                                    $dataReq = [
-                                        'chat_id' => $getChatIdName->chat_id_telegram,
-                                        "parse_mode" => "HTML",
-                                        'text' => $message,
-                                    ];
-
-                                    $ch = curl_init("https://api.telegram.org/bot$tokenTele/sendMessage");
-                                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dataReq));
-                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                                        'Content-Type: application/json'
-                                    ));
-                                    curl_setopt($ch, CURLOPT_TIMEOUT, 20);
-                                    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
-
-                                    $server_output = curl_exec($ch);
-                                    curl_close($ch);
-
-                                    // var_dump($server_output);
-                                } catch (\Throwable $th) {
-                                    // var_dump($th);
-                                }
-                            }
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                        }
+                    if ($status == "table-info") {
                         $response = new \stdClass;
                         $response->status = 200;
-                        $response->message = "Data berhasil disimpan.";
+                        $response->message = "Data diskip.";
                         return json_encode($response);
                     } else {
-                        $this->_db->transRollback();
-                        $response = new \stdClass;
-                        $response->status = 400;
-                        $response->message = "Gagal menyimpan data usulan.";
-                        return json_encode($response);
+                        $this->_db->table('_tb_usulan_detail_tpg')->where('id', $current->id_usulan)->update(['status_usulan' => 4, 'updated_at' => date('Y-m-d H:i:s'), 'date_matching' => date('Y-m-d H:i:s'), 'admin_matching' => $user->data->id, 'keterangan_reject' => $keterangan]);
+                        if ($this->_db->affectedRows() > 0) {
+                            $this->_db->table('_upload_data_attribut')->where(['id_ptk' => $current->id_ptk, 'id_tahun_tw' => $current->id_tahun_tw])->update(['is_locked' => 0]);
+                            $this->_db->table('_absen_kehadiran')->where(['id_ptk' => $current->id_ptk, 'id_tahun_tw' => $current->id_tahun_tw])->update(['is_locked' => 0]);
+                            $this->_db->table('_ptk_tb')->where(['id' => $current->id_ptk])->update(['is_locked' => 0]);
+
+                            $this->_db->transCommit();
+                            try {
+                                $notifLib = new NotificationLib();
+                                $notifLib->create("Gagal Matching Simtun", "Usulan " . $current->kode_usulan . " gagal untuk lolos matching simtun dengan keterangan: " . $keterangan, "danger", $user->data->id, $current->id_ptk, base_url('situgu/ptk/us/tpg/siapsk'));
+                                $getChatIdName = getChatIdTelegramPTKName($current->id_ptk);
+                                if ($getChatIdName) {
+                                    // $admin = $user->data;
+                                    $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
+                                    $message = "Hallo <b>$getChatIdName->nama ($getChatIdName->nuptk)</b>....!!!\n______________________________________________________\n\n<b>USULAN ANDA</b> pada <b>SI-TUGU</b> dengan kode usulan : \n<b>$current->kode_usulan</b>\ngagal untuk lolos matching simtun dengan keterangan: <b>$keterangan</b>.\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                                    try {
+
+                                        $dataReq = [
+                                            'chat_id' => $getChatIdName->chat_id_telegram,
+                                            "parse_mode" => "HTML",
+                                            'text' => $message,
+                                        ];
+
+                                        $ch = curl_init("https://api.telegram.org/bot$tokenTele/sendMessage");
+                                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                                        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dataReq));
+                                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                                            'Content-Type: application/json'
+                                        ));
+                                        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+                                        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
+
+                                        $server_output = curl_exec($ch);
+                                        curl_close($ch);
+
+                                        // var_dump($server_output);
+                                    } catch (\Throwable $th) {
+                                        // var_dump($th);
+                                    }
+                                }
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                            }
+                            $response = new \stdClass;
+                            $response->status = 200;
+                            $response->message = "Data berhasil disimpan.";
+                            return json_encode($response);
+                        } else {
+                            $this->_db->transRollback();
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Gagal menyimpan data usulan.";
+                            return json_encode($response);
+                        }
                     }
                 }
             } else {
