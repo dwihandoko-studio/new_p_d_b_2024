@@ -6944,6 +6944,11 @@
 <script src="<?= base_url() ?>/assets/js/pages/coming-soon.init.js"></script>
 <script>
     $(document).ready(function() {
+        console.log("DATA:", "<?= json_encode($data) ?>");
+        console.log("DATA TF TAMSIL:", "<?= $data_antrian_tamsil_transfer ? json_encode($data_antrian_tamsil_transfer) : "-" ?>");
+        console.log("DATA TF TPG:", "<?= $data_antrian_tpg_transfer ? json_encode($data_antrian_tpg_transfer) : "-" ?>");
+        console.log("DATA ANTRIAN TAMSIL:", "<?= $data_antrian_tamsil ? json_encode($data_antrian_tamsil) : "-" ?>");
+        console.log("DATA ANTRIAN TPG:", "<?= $data_antrian_tpg ? json_encode($data_antrian_tpg) : "-" ?>");
         <?php if (!$ptk) { ?>
             $('#content-aktivasiModalLabel').html('PERINGATAN AKUN BELUM TERKAIT KE DATA PTK');
             let akuntertautNya = '';

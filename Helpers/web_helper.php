@@ -1452,7 +1452,7 @@ function getChatIdTelegramPTKName($ptk_id)
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
 	$db      = \Config\Database::connect();
 
-	$grandted = $db->table('_ptk_tb')->select("chat_id_telegram, nama")->where(['id' => $ptk_id])->get()->getRowObject();
+	$grandted = $db->table('_ptk_tb')->select("chat_id_telegram, nama, nuptk")->where(['id' => $ptk_id])->get()->getRowObject();
 	if (!$grandted) {
 		return null;
 	}

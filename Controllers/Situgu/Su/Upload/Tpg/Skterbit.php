@@ -598,7 +598,7 @@ class Skterbit extends BaseController
                                     if ($getChatIdName) {
                                         // $admin = $user->data;
                                         $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
-                                        $message = "Hallo <b>$$getChatIdName->nama</b>....!!!\n______________________________________________________\n\n<b>USULAN ANDA</b> pada <b>SI-TUGU</b> dengan kode usulan : \n<b>$ptk->kode_usulan</b>\nTelah terbit SKTP dengan No. SK : <b>$no_sktp</b> dengan No. Urut: <b>$no_urut</b>.\nSelanjutnya silahkan menunggu untuk proses Transfer.\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                                        $message = "Hallo <b>$getChatIdName->nama ($getChatIdName->nuptk)</b>....!!!\n______________________________________________________\n\n<b>USULAN ANDA</b> pada <b>SI-TUGU</b> dengan kode usulan : \n<b>$ptk->kode_usulan</b>\nTelah terbit SKTP dengan No. SK : <b>$no_sktp</b> dengan No. Urut: <b>$no_urut</b>.\nSelanjutnya silahkan menunggu untuk proses Transfer.\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
                                         try {
 
                                             $dataReq = [

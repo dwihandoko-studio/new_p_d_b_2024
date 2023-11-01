@@ -997,7 +997,7 @@ class Matching extends BaseController
                                         if ($getChatIdName) {
                                             // $admin = $user->data;
                                             $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
-                                            $message = "Hallo <b>$$getChatIdName->nama</b>....!!!\n______________________________________________________\n\n<b>USULAN ANDA</b> pada <b>SI-TUGU</b> dengan kode usulan : \n<b>$ptk->kode_usulan</b>\n<b>Telah lolos matching Simtun</b>.\nSelanjutnya silahkan menunggu proses penerbitan SKTP.\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                                            $message = "Hallo <b>$getChatIdName->nama ($getChatIdName->nuptk)</b>....!!!\n______________________________________________________\n\n<b>USULAN ANDA</b> pada <b>SI-TUGU</b> dengan kode usulan : \n<b>$ptk->kode_usulan</b>\n<b>Telah lolos matching Simtun</b>.\nSelanjutnya silahkan menunggu proses penerbitan SKTP.\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
                                             try {
 
                                                 $dataReq = [
@@ -1074,7 +1074,7 @@ class Matching extends BaseController
                             if ($getChatIdName) {
                                 // $admin = $user->data;
                                 $tokenTele = "6504819187:AAEtykjIx2Gjd229nUgDHRlwJ5xGNTMjO0A";
-                                $message = "Hallo <b>$$getChatIdName->nama</b>....!!!\n______________________________________________________\n\n<b>USULAN ANDA</b> pada <b>SI-TUGU</b> dengan kode usulan : \n<b>$current->kode_usulan</b>\ngagal untuk lolos matching simtun dengan keterangan: <b>$keterangan</b>.\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
+                                $message = "Hallo <b>$getChatIdName->nama ($getChatIdName->nuptk)</b>....!!!\n______________________________________________________\n\n<b>USULAN ANDA</b> pada <b>SI-TUGU</b> dengan kode usulan : \n<b>$current->kode_usulan</b>\ngagal untuk lolos matching simtun dengan keterangan: <b>$keterangan</b>.\n\n\nPesan otomatis dari <b>SI-TUGU Kab. Lampung Tengah</b>\n_________________________________________________";
                                 try {
 
                                     $dataReq = [
