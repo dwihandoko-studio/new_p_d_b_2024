@@ -106,7 +106,7 @@ class Lolosmatchingkembali extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('situgu/su/us/tpg/lolosmatchingkembali/data'));
+        return redirect()->to(base_url('situgu/su/us/tpg/siapskkembali/data'));
     }
 
     public function data()
