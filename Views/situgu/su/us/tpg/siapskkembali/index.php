@@ -114,8 +114,8 @@
 <script>
     function actionKembali(id, id_ptk, tw, nama) {
         Swal.fire({
-            title: 'Apakah anda yakin ingin mengembalikan usulan ini ke antrian?',
-            text: "Kembalikan Usulan PTK: " + nama + " ke Antrian",
+            title: 'Apakah anda yakin ingin mengembalikan usulan ini ke lolos berkas?',
+            text: "Kembalikan Usulan PTK: " + nama + " ke Lolos Berkas",
             showCancelButton: true,
             icon: 'question',
             confirmButtonColor: '#3085d6',
