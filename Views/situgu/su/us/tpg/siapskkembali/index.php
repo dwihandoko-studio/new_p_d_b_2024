@@ -53,7 +53,7 @@
                                     <th>NAMA</th>
                                     <th>NIK</th>
                                     <th>NUPTK</th>
-                                    <th>TANGGAL VERIFIKASI</th>
+                                    <th>TANGGAL MATCHING</th>
                                 </tr>
                             </thead>
                         </table>
