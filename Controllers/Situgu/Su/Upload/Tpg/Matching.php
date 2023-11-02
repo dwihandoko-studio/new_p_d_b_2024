@@ -981,6 +981,7 @@ class Matching extends BaseController
                                 'date_approve' => $ptk->date_approve,
                                 'admin_matching' => $user->data->id,
                                 'date_matching' => date('Y-m-d H:i:s'),
+                                'created_at' => $ptk->created_at,
                                 'updated_at' => date('Y-m-d H:i:s'),
                             ]);
                             if ($this->_db->affectedRows() > 0) {
