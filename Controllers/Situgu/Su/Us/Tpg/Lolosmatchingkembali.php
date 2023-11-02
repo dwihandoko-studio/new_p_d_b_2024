@@ -106,7 +106,7 @@ class Lolosmatchingkembali extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('situgu/su/us/tpg/siapskkembali/data'));
+        return redirect()->to(base_url('situgu/su/us/tpg/lolosmatchingkembali/data'));
     }
 
     public function data()
@@ -123,7 +123,7 @@ class Lolosmatchingkembali extends BaseController
         $data['user'] = $user->data;
         $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
         $data['tws'] = $this->_db->table('_ref_tahun_tw')->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
-        return view('situgu/su/us/tpg/lolosmatchingkembali/index', $data);
+        return view('situgu/su/us/tpg/siapskkembali/index', $data);
     }
 
     public function kembalikan()
