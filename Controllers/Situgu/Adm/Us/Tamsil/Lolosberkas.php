@@ -294,7 +294,7 @@ class Lolosberkas extends BaseController
                         ($item->us_gaji_pokok * 3) * 0.01,
                         ($item->us_gaji_pokok * 3) * $pph21,
                         ($item->us_gaji_pokok * 3) - (($item->us_gaji_pokok * 3) * 0.01) - (($item->us_gaji_pokok * 3) * $pph21),
-                        "'" . substr(str_replace("-", "", str_replace("-", "", $item->no_rekening)), 0),
+                        substr(str_replace("-", "", str_replace("-", "", $item->no_rekening)), 0),
                         $item->cabang_bank,
                         $item->npsn,
                         $item->kecamatan,
