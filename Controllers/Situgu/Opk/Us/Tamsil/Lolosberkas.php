@@ -12,6 +12,8 @@ use App\Libraries\Apilib;
 use App\Libraries\Helplib;
 use App\Libraries\Situgu\Kehadiranptklib;
 use App\Libraries\Uuid;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Lolosberkas extends BaseController
 {
@@ -93,6 +95,8 @@ class Lolosberkas extends BaseController
             $row[] = $list->nik;
             $row[] = $list->nuptk;
             $row[] = $list->jenis_ptk;
+            $row[] = $list->no_rekening;
+            $row[] = $list->cabang_bank;
             $row[] = $list->created_at;
 
             $data[] = $row;
@@ -203,6 +207,89 @@ class Lolosberkas extends BaseController
                 $response->message = "Data tidak ditemukan";
                 return json_encode($response);
             }
+        }
+    }
+
+    public function download()
+    {
+        $tw = htmlspecialchars($this->request->getGet('tw'), true);
+        if ($tw == "") {
+            return view('404');
+        }
+
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
+
+        try {
+
+            $spreadsheet = new Spreadsheet();
+
+            // $spreadsheet->getDefaultStyle()->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
+            // $spreadsheet->getDefaultStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            // Membuat objek worksheet
+            $worksheet = $spreadsheet->getActiveSheet();
+
+            // Menulis nama kolom ke dalam baris pertama worksheet
+            $worksheet->fromArray(['NO', 'NAMA', 'NIK', 'NUPTK', 'JENIS PTK', 'NOMOR REKENING', 'CABANG BANK', 'TANGGAL USULAN'], NULL, 'A3');
+
+            // Mengambil data dari database
+            $dataTw = $this->_db->table('_ref_tahun_tw')->where('id', $tw)->get()->getRowObject();
+            // $query = $this->_db->table('_tb_usulan_detail_tamsil a')
+            //     ->select("a.id as id_usulan, a.us_pang_golongan, a.us_pang_mk_tahun, a.us_pang_mk_bulan, a.us_gaji_pokok, a.date_approve, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, a.date_approve_sptjm, b.nama, b.nik, CONCAT('\'', b.nip) as nip, b.tempat_tugas, b.npsn, CONCAT('\'',b.no_rekening) as no_rekening, CONCAT('\'', b.nuptk) as nuptk, b.jenis_ptk, c.kecamatan, c.bentuk_pendidikan, d.fullname as verifikator, e.cuti as lampiran_cuti, e.pensiun as lampiran_pensiun, e.kematian as lampiran_kematian, f.gaji_pokok as gaji_pokok_referensi")
+            //     ->join('_ptk_tb b', 'a.id_ptk = b.id')
+            //     ->join('ref_sekolah c', 'b.npsn = c.npsn')
+            //     ->join('_profil_users_tb d', 'a.admin_approve = d.id')
+            //     ->join('_upload_data_attribut e', 'a.id_ptk = e.id_ptk AND (a.id_tahun_tw = e.id_tahun_tw)')
+            //     ->join('ref_gaji f', 'a.us_pang_golongan = f.pangkat AND ((IF(a.us_pang_mk_tahun > 32, 32, a.us_pang_mk_tahun)) = f.masa_kerja)', 'LEFT')
+            //     ->where('a.status_usulan', 2)
+            //     ->where('a.id_tahun_tw', $tw)
+            //     ->get();
+            $kecamatan = $this->_helpLib->getKecamatan($user->data->id);
+            $npsns = $this->_helpLib->getSekolahKecamatanArray($kecamatan, [5]);
+            $query = $this->_db->table('v_lolosberkas_usulan_tamsil')
+                ->whereIn('npsn', $npsns)
+                ->where('id_tahun_tw', $tw)->get();
+
+            // Menulis data ke dalam worksheet
+            $data = $query->getResult();
+            $row = 4;
+            if (count($data) > 0) {
+                foreach ($data as $key => $item) {
+                    $itemCreate = [
+                        $key + 1,
+                        $item->nama,
+                        substr($item->nik, 0),
+                        substr($item->nuptk, 0),
+                        $item->jenis_ptk,
+                        substr($item->no_rekening, 0),
+                        $item->cabang_bank,
+                        $item->created_usulan,
+                    ];
+
+                    $worksheet->fromArray($itemCreate, NULL, 'A' . $row);
+
+                    $row++;
+                }
+            }
+
+            // Menyiapkan objek writer untuk menulis file Excel
+            $writer = new Xlsx($spreadsheet);
+
+            // Menuliskan file Excel
+            $filename = 'data_lolosberkas_usulan_tamsil_tahun_' . $dataTw->tahun . '_tw_' . $dataTw->tw . '.xlsx';
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+            exit();
+            //code...
+        } catch (\Throwable $th) {
+            var_dump($th);
         }
     }
 }
