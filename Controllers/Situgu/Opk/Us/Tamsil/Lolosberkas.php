@@ -266,7 +266,7 @@ class Lolosberkas extends BaseController
                         "'" . substr($item->nik, 0),
                         "'" . substr($item->nuptk, 0),
                         $item->jenis_ptk,
-                        "'" . substr(str_replace("-", "", str_replace("-", "", $item->no_rekening)), 0),
+                        "'" . substr(str_replace(" ", "", str_replace("-", "", $item->no_rekening)), 0),
                         $item->cabang_bank,
                         $item->create_usulan,
                     ];
