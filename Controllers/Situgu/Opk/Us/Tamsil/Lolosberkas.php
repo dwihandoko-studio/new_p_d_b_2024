@@ -263,10 +263,10 @@ class Lolosberkas extends BaseController
                     $itemCreate = [
                         $key + 1,
                         $item->nama,
-                        substr($item->nik, 0),
-                        substr($item->nuptk, 0),
+                        "'" . substr($item->nik, 0),
+                        "'" . substr($item->nuptk, 0),
                         $item->jenis_ptk,
-                        substr($item->no_rekening, 0),
+                        "'" . substr($item->no_rekening, 0),
                         $item->cabang_bank,
                         $item->create_usulan,
                     ];
