@@ -268,7 +268,7 @@ class Lolosberkas extends BaseController
                         $item->jenis_ptk,
                         substr($item->no_rekening, 0),
                         $item->cabang_bank,
-                        $item->created_usulan,
+                        $item->create_usulan,
                     ];
 
                     $worksheet->fromArray($itemCreate, NULL, 'A' . $row);
