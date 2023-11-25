@@ -2308,7 +2308,7 @@
                                                         <p class="text-muted">Generate dan Upload SPTJM Kepala Sekolah.</p>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> 
 
                                             <div class="item event-list">
                                                 <div>
