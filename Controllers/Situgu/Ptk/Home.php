@@ -71,8 +71,8 @@ class Home extends BaseController
         $data['cut_off_spj'] = $this->_db->table('_setting_upspj_tb')->get()->getResult();
         $data['informasis'] = $this->_db->table('_tb_infopop')->select("*, (SELECT count(*) FROM _tb_infopop WHERE tampil = 1 AND (tujuan_role LIKE '%PTK%' OR tujuan_role LIKE '%ALL%')) as jumlah_all")->where("tampil = 1 AND (tujuan_role LIKE '%PTK%' OR tujuan_role LIKE '%ALL%')")->orderBy('created_at', 'DESC')->limit(5)->get()->getResult();
 
-        var_dump($data);
-        die;
+        // var_dump($data);
+        // die;
         return view('situgu/ptk/home/index', $data);
     }
 

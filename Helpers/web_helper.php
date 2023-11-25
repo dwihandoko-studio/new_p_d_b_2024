@@ -2109,3 +2109,250 @@ function getCodePangkatFromMatching($code = "")
 			break;
 	}
 }
+
+function getStatusIndikatorUsulan($data_antrian_tamsil_transfer, $data_antrian_tpg_transfer, $data_antrian_pghm_transfer, $data_antrian_tamsil, $data_antrian_tpg, $data_antrian_pghm)
+{
+	if ($data_antrian_tamsil_transfer) {
+		if ($data_antrian_tpg_transfer) {
+			if ($data_antrian_tpg_transfer->created_at > $data_antrian_tamsil_transfer->created_at) {
+				$response = new \stdClass;
+				$response->jenis = 'tpg_transfer';
+				$response->data = $data_antrian_tpg_transfer;
+				return $response;
+			} else {
+				$response = new \stdClass;
+				$response->jenis = 'tamsil_transfer';
+				$response->data = $data_antrian_tamsil_transfer;
+				return $response;
+			}
+		} else {
+			if ($data_antrian_pghm_transfer) {
+				if ($data_antrian_pghm_transfer->created_at > $data_antrian_tamsil_transfer->created_at) {
+					$response = new \stdClass;
+					$response->jenis = 'pghm_transfer';
+					$response->data = $data_antrian_pghm_transfer;
+					return $response;
+				} else {
+					$response = new \stdClass;
+					$response->jenis = 'tamsil_transfer';
+					$response->data = $data_antrian_tamsil_transfer;
+					return $response;
+				}
+			} else {
+				if ($data_antrian_tamsil) {
+					if ($data_antrian_tamsil->created_at > $data_antrian_tamsil_transfer->created_at) {
+						$response = new \stdClass;
+						$response->jenis = 'tamsil';
+						$response->data = $data_antrian_tamsil;
+						return $response;
+					} else {
+						$response = new \stdClass;
+						$response->jenis = 'tamsil_transfer';
+						$response->data = $data_antrian_tamsil_transfer;
+						return $response;
+					}
+				} else {
+					if ($data_antrian_tpg) {
+						if ($data_antrian_tpg->created_at > $data_antrian_tamsil_transfer->created_at) {
+							$response = new \stdClass;
+							$response->jenis = 'tpg';
+							$response->data = $data_antrian_tpg;
+							return $response;
+						} else {
+							$response = new \stdClass;
+							$response->jenis = 'tamsil_transfer';
+							$response->data = $data_antrian_tamsil_transfer;
+							return $response;
+						}
+					} else {
+						if ($data_antrian_pghm) {
+							if ($data_antrian_pghm->created_at > $data_antrian_tamsil_transfer->created_at) {
+								$response = new \stdClass;
+								$response->jenis = 'pghm';
+								$response->data = $data_antrian_pghm;
+								return $response;
+							} else {
+								$response = new \stdClass;
+								$response->jenis = 'tamsil_transfer';
+								$response->data = $data_antrian_tamsil_transfer;
+								return $response;
+							}
+						} else {
+							$response = new \stdClass;
+							$response->jenis = 'tamsil_transfer';
+							$response->data = $data_antrian_tamsil_transfer;
+							return $response;
+						}
+					}
+				}
+			}
+		}
+	} else if ($data_antrian_tpg_transfer) {
+		if ($data_antrian_pghm_transfer) {
+			if ($data_antrian_pghm_transfer->created_at > $data_antrian_tpg_transfer->created_at) {
+				$response = new \stdClass;
+				$response->jenis = 'pghm_transfer';
+				$response->data = $data_antrian_pghm_transfer;
+				return $response;
+			} else {
+				$response = new \stdClass;
+				$response->jenis = 'tpg_transfer';
+				$response->data = $data_antrian_tpg_transfer;
+				return $response;
+			}
+		} else {
+			if ($data_antrian_tamsil) {
+				if ($data_antrian_tamsil->created_at > $data_antrian_tpg_transfer->created_at) {
+					$response = new \stdClass;
+					$response->jenis = 'tamsil';
+					$response->data = $data_antrian_tamsil;
+					return $response;
+				} else {
+					$response = new \stdClass;
+					$response->jenis = 'tpg_transfer';
+					$response->data = $data_antrian_tpg_transfer;
+					return $response;
+				}
+			} else {
+				if ($data_antrian_tpg) {
+					if ($data_antrian_tpg->created_at > $data_antrian_tpg_transfer->created_at) {
+						$response = new \stdClass;
+						$response->jenis = 'tpg';
+						$response->data = $data_antrian_tpg;
+						return $response;
+					} else {
+						$response = new \stdClass;
+						$response->jenis = 'tpg_transfer';
+						$response->data = $data_antrian_tpg_transfer;
+						return $response;
+					}
+				} else {
+					if ($data_antrian_pghm) {
+						if ($data_antrian_pghm->created_at > $data_antrian_tpg_transfer->created_at) {
+							$response = new \stdClass;
+							$response->jenis = 'pghm';
+							$response->data = $data_antrian_pghm;
+							return $response;
+						} else {
+							$response = new \stdClass;
+							$response->jenis = 'tpg_transfer';
+							$response->data = $data_antrian_tpg_transfer;
+							return $response;
+						}
+					} else {
+						$response = new \stdClass;
+						$response->jenis = 'tpg_transfer';
+						$response->data = $data_antrian_tpg_transfer;
+						return $response;
+					}
+				}
+			}
+		}
+	} else if ($data_antrian_pghm_transfer) {
+		if ($data_antrian_tamsil) {
+			if ($data_antrian_tamsil->created_at > $data_antrian_pghm_transfer->created_at) {
+				$response = new \stdClass;
+				$response->jenis = 'tamsil';
+				$response->data = $data_antrian_tamsil;
+				return $response;
+			} else {
+				$response = new \stdClass;
+				$response->jenis = 'pghm_transfer';
+				$response->data = $data_antrian_pghm_transfer;
+				return $response;
+			}
+		} else {
+			if ($data_antrian_tpg) {
+				if ($data_antrian_tpg->created_at > $data_antrian_pghm_transfer->created_at) {
+					$response = new \stdClass;
+					$response->jenis = 'tpg';
+					$response->data = $data_antrian_tpg;
+					return $response;
+				} else {
+					$response = new \stdClass;
+					$response->jenis = 'pghm_transfer';
+					$response->data = $data_antrian_pghm_transfer;
+					return $response;
+				}
+			} else {
+				if ($data_antrian_pghm) {
+					if ($data_antrian_pghm->created_at > $data_antrian_pghm_transfer->created_at) {
+						$response = new \stdClass;
+						$response->jenis = 'pghm';
+						$response->data = $data_antrian_pghm;
+						return $response;
+					} else {
+						$response = new \stdClass;
+						$response->jenis = 'pghm_transfer';
+						$response->data = $data_antrian_pghm_transfer;
+						return $response;
+					}
+				} else {
+					$response = new \stdClass;
+					$response->jenis = 'pghm_transfer';
+					$response->data = $data_antrian_pghm_transfer;
+					return $response;
+				}
+			}
+		}
+	} else if ($data_antrian_tamsil) {
+		if ($data_antrian_tpg) {
+			if ($data_antrian_tpg->created_at > $data_antrian_tamsil->created_at) {
+				$response = new \stdClass;
+				$response->jenis = 'tpg';
+				$response->data = $data_antrian_tpg;
+				return $response;
+			} else {
+				$response = new \stdClass;
+				$response->jenis = 'tamsil';
+				$response->data = $data_antrian_tamsil;
+				return $response;
+			}
+		} else {
+			if ($data_antrian_pghm) {
+				if ($data_antrian_pghm->created_at > $data_antrian_tamsil->created_at) {
+					$response = new \stdClass;
+					$response->jenis = 'pghm';
+					$response->data = $data_antrian_pghm;
+					return $response;
+				} else {
+					$response = new \stdClass;
+					$response->jenis = 'tamsil';
+					$response->data = $data_antrian_tamsil;
+					return $response;
+				}
+			} else {
+				$response = new \stdClass;
+				$response->jenis = 'tamsil';
+				$response->data = $data_antrian_tamsil;
+				return $response;
+			}
+		}
+	} else if ($data_antrian_tpg) {
+		if ($data_antrian_pghm) {
+			if ($data_antrian_pghm->created_at > $data_antrian_tpg->created_at) {
+				$response = new \stdClass;
+				$response->jenis = 'pghm';
+				$response->data = $data_antrian_pghm;
+				return $response;
+			} else {
+				$response = new \stdClass;
+				$response->jenis = 'tpg';
+				$response->data = $data_antrian_tpg;
+				return $response;
+			}
+		} else {
+			$response = new \stdClass;
+			$response->jenis = 'tpg';
+			$response->data = $data_antrian_tpg;
+			return $response;
+		}
+	} else if ($data_antrian_pghm) {
+		$response = new \stdClass;
+		$response->jenis = 'pghm';
+		$response->data = $data_antrian_pghm;
+		return $response;
+	} else {
+		return null;
+	}
+}
