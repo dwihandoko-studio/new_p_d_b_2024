@@ -66,8 +66,8 @@ class SpjtpgsekolahModel extends Model
     }
     function count_filtered($jenis)
     {
-        $this->dt->select("a.id_ptk");
-        // $this->dt->join('_ptk_tb b', "b.id = a.id_ptk", 'LEFT');
+        $this->dt->select("a.id_ptk, b.nama");
+        $this->dt->join('_ptk_tb b', "b.id = a.id_ptk", 'LEFT');
         $this->dt->where('a.status_usulan', 2);
         $this->dt->where("a.lampiran_pernyataan IS NOT NULL");
         if ($this->request->getPost('tw') !== "") {
@@ -81,8 +81,8 @@ class SpjtpgsekolahModel extends Model
     }
     public function count_all($jenis)
     {
-        $this->dt->select("a.id_ptk");
-        // $this->dt->join('_ptk_tb b', "b.id = a.id_ptk", 'LEFT');
+        $this->dt->select("a.id_ptk, b.nama");
+        $this->dt->join('_ptk_tb b', "b.id = a.id_ptk", 'LEFT');
         $this->dt->where('a.status_usulan', 2);
         $this->dt->where("a.lampiran_pernyataan IS NOT NULL");
         if ($this->request->getPost('tw') !== "") {
