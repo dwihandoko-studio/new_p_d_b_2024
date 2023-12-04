@@ -332,6 +332,8 @@ class Tpg extends BaseController
                 //     ->where("a.jenis_keluar IS NULL")
                 //     ->orderBy('a.ptk_induk', 'DESC')->get()->getResult();
                 // $data['igd'] = $this->_db->table('_info_gtk')->where('ptk_id', $current->id_ptk)->get()->getRowObject();
+                var_dump($data);
+                die;
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Permintaan diizinkan";
