@@ -113,14 +113,14 @@
                 <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/ptk/pernyataanindividu') . '/' . $doc_attribut->pernyataan_24jam ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/pernyataanindividu') . '/' . $doc_attribut->pernyataan_24jam ?>" id="nik">
                     Pernyataan 24 Jam
                 </a>
-                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_bulan1 ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_bulan1 ?>" id="nik">
-                    Absen Bulan (I)
+                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_absen1 ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_absen1 ?>" id="nik">
+                    Absen (I)
                 </a>
-                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_bulan2 ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_bulan2 ?>" id="nik">
-                    Absen Bulan (II)
+                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_absen2 ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_absen2 ?>" id="nik">
+                    Absen (II)
                 </a>
-                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_bulan3 ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_bulan3 ?>" id="nik">
-                    Absen Bulan (III)
+                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_absen3 ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_absen3 ?>" id="nik">
+                    Absen (III)
                 </a>
                 <?php if ($doc_sekolah->doc_lainnya === null || $doc_sekolah->doc_lainnya === "") {
                 } else { ?>
