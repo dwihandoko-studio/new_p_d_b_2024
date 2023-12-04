@@ -320,10 +320,10 @@ class Tpg extends BaseController
                 $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('id', $tw)->get()->getRowObject();
                 if ($current->lanjutkan_tw == 0) {
                     $data['doc_attribut'] = $this->_db->table('_upload_data_attribut')->where(['id_ptk' => $current->id_ptk, 'id_tahun_tw' => $current->id_tahun_tw])->get()->getRowObject();
-                    $data['doc_sekolah'] = $this->_db->table('_absen_kehadiran')->where(['id_ptk' => $current->id_tahun_tw, 'id_tahun_tw' => $current->id_tahun_tw])->get()->getRowObject();
+                    $data['doc_sekolah'] = $this->_db->table('_absen_kehadiran')->where(['id_ptk' => $current->id_ptk, 'id_tahun_tw' => $current->id_tahun_tw])->get()->getRowObject();
                 } else {
                     $data['doc_attribut'] = $this->_db->table('_upload_data_attribut')->where(['id_ptk' => $current->id_ptk, 'id_tahun_tw' => $current->id_current_tahun_tw])->get()->getRowObject();
-                    $data['doc_sekolah'] = $this->_db->table('_absen_kehadiran')->where(['id_ptk' => $current->id_current_tahun_tw, 'id_tahun_tw' => $current->id_current_tahun_tw])->get()->getRowObject();
+                    $data['doc_sekolah'] = $this->_db->table('_absen_kehadiran')->where(['id_ptk' => $current->id_ptk, 'id_tahun_tw' => $current->id_current_tahun_tw])->get()->getRowObject();
                 }
                 // $data['penugasans'] = $this->_db->table('_ptk_tb_dapodik a')
                 //     ->select("a.*, b.npsn, b.nama as namaSekolah, b.kecamatan as kecamatan_sekolah, (SELECT SUM(jam_mengajar_per_minggu) FROM _pembelajaran_dapodik WHERE ptk_id = a.ptk_id AND sekolah_id = a.sekolah_id AND semester_id = a.semester_id) as jumlah_total_jam_mengajar_perminggu")
