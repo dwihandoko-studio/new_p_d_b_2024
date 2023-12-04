@@ -743,6 +743,7 @@ class Ptk extends BaseController
                 $response->message = "Permintaan diizinkan";
                 return json_encode($response);
             }
+            
             $current = $this->_db->table('_ptk_tb')
                 ->where('id', $id)->get()->getRowObject();
 
