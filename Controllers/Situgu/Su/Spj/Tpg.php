@@ -83,7 +83,10 @@ class Tpg extends BaseController
             //                 <a class="dropdown-item" href="javascript:actionSync(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace("'", "", $list->nama)  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><i class="bx bx-transfer-alt font-size-16 align-middle"></i> &nbsp;Sync Dapodik</a>
             //             </div>
             //         </div>';
-            $action = '<a href="./datalist?n=' . $list->kode_usulan . '"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+            // $action = '<a href="./datalist?n=' . $list->kode_usulan . '"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+            //     <i class="bx bxs-show font-size-16 align-middle"></i> DETAIL</button>
+            //     </a>';
+            $action = '<a href="javascript:actionDetail(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . $list->id_tahun_tw . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama)) . '\');"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
                 <i class="bx bxs-show font-size-16 align-middle"></i> DETAIL</button>
                 </a>';
             //     <a href="javascript:actionSync(\'' . $list->id . '\', \'' . $list->id_ptk . '\', \'' . str_replace("'", "", $list->nama)  . '\', \'' . $list->nuptk  . '\', \'' . $list->npsn . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
@@ -306,7 +309,7 @@ class Tpg extends BaseController
             //     ->get()->getRowObject();
 
             $current = $this->_db->table('_tb_spj_tpg a')
-                ->select("a.*, b.nama, b.nik, b.nuptk, b.nip, b.jenis_ptk")
+                ->select("a.*, b.nama, b.nik, b.nuptk, b.nip, b.jenis_ptk, b.npsn")
                 ->join('_ptk_tb b', 'b.id = a.id_ptk')
                 // ->join('_tb_sptjm c', 'a.kode_usulan = c.kode_usulan')
                 // ->join('ref_gaji d', 'a.us_pang_golongan = d.pangkat AND (d.masa_kerja = (IF(a.us_pang_mk_tahun > 32, 32, a.us_pang_mk_tahun)))', 'LEFT')
@@ -315,6 +318,13 @@ class Tpg extends BaseController
             if ($current) {
                 $data['data'] = $current;
                 $data['tw'] = $this->_db->table('_ref_tahun_tw')->where('id', $tw)->get()->getRowObject();
+                if ($current->lanjutkan_tw == 0) {
+                    $data['doc_attribut'] = $this->_db->table('_upload_data_attribut')->where(['id_ptk' => $current->id_ptk, 'id_tahun_tw' => $current->id_tahun_tw])->get()->getRowObject();
+                    $data['doc_sekolah'] = $this->_db->table('_upload_kelengkapan_sekolah')->where(['npsn' => $current->npsn, 'id_tahun_tw' => $current->id_tahun_tw])->get()->getRowObject();
+                } else {
+                    $data['doc_attribut'] = $this->_db->table('_upload_data_attribut')->where(['id_ptk' => $current->id_ptk, 'id_tahun_tw' => $current->id_current_tahun_tw])->get()->getRowObject();
+                    $data['doc_sekolah'] = $this->_db->table('_upload_kelengkapan_sekolah')->where(['npsn' => $current->npsn, 'id_tahun_tw' => $current->id_current_tahun_tw])->get()->getRowObject();
+                }
                 // $data['penugasans'] = $this->_db->table('_ptk_tb_dapodik a')
                 //     ->select("a.*, b.npsn, b.nama as namaSekolah, b.kecamatan as kecamatan_sekolah, (SELECT SUM(jam_mengajar_per_minggu) FROM _pembelajaran_dapodik WHERE ptk_id = a.ptk_id AND sekolah_id = a.sekolah_id AND semester_id = a.semester_id) as jumlah_total_jam_mengajar_perminggu")
                 //     ->join('ref_sekolah b', 'a.sekolah_id = b.id')
