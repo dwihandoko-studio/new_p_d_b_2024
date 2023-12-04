@@ -112,6 +112,16 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle arrow-none <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "spj") ? ' active-menu-href' : '' ?>" href="#" id="topnav-spj" role="button">
+                                <i class="bx bx-spreadsheet me-2"></i><span key="t-spj">SPJ</span>
+                                <div class="arrow-down"></div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-spj">
+                                <a href="<?= base_url('situgu/su/spj/tpg') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "spj" && $uri->getSegment(4) == "tpg") ? ' active-menu-href' : '' ?>" key="t-spj-tpg">Tunjangan Profesi Guru</a>
+                                <!-- <a href="<?= base_url('situgu/su/spj/tamsil') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "spj" && $uri->getSegment(4) == "tamsil") ? ' active-menu-href' : '' ?>" key="t-spj-tamsil">Tamsil</a> -->
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle arrow-none <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "setting") ? ' active-menu-href' : '' ?>" href="#" id="topnav-setting" role="button">
                                 <i class="bx bx-cog me-2"></i><span key="t-setting">SETTING</span>
                                 <div class="arrow-down"></div>
