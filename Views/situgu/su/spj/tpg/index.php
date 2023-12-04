@@ -54,11 +54,15 @@
                                     <th data-orderable="false">#</th>
                                     <th data-orderable="false">Aksi</th>
                                     <th>NAMA</th>
+                                    <th>NUPTK</th>
+                                    <th>STATUS KEPEGAWAIAN</th>
                                     <th>NPSN</th>
-                                    <th>BENTUK PENDIDIKAN</th>
-                                    <th>STATUS</th>
-                                    <th>KECAMATAN</th>
-                                    <th>JUMLAH PTK</th>
+                                    <th>PANGKAT</th>
+                                    <th>BULAN 1</th>
+                                    <th>BULAN 2</th>
+                                    <th>BULAN 3</th>
+                                    <th>JUMLAH DITERIMA</th>
+                                    <th>NO REKENING</th>
                                 </tr>
                             </thead>
                         </table>

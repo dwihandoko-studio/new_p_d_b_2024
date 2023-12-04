@@ -93,12 +93,27 @@ class Tpg extends BaseController
             //     <i class="bx bx-trash font-size-16 align-middle"></i></button>
             //     </a>';
             $row[] = $action;
+
             $row[] = str_replace('&#039;', "`", str_replace("'", "`", $list->nama));
+            $row[] = $list->nuptk;
+            $row[] = $list->status_kepegawaian;
             $row[] = $list->npsn;
-            $row[] = $list->bentuk_pendidikan;
-            $row[] = $list->status_sekolah;
-            $row[] = $list->kecamatan;
-            $row[] = $list->jumlah_ptk;
+            $row[] = $list->us_pang_golongan;
+            $row[] = $list->us_pang_tmt;
+            $row[] = $list->us_pang_mk_tahun;
+            $row[] = $list->tf_gaji_pokok_1;
+            $row[] = $list->tf_gaji_pokok_2;
+            $row[] = $list->tf_gaji_pokok_3;
+            $row[] = $list->tf_jumlah_diterima;
+            $row[] = $list->tf_no_rekening;
+            //
+            // $row[] = str_replace('&#039;', "`", str_replace("'", "`", $list->nama));
+            // $row[] = $list->npsn;
+            // $row[] = $list->bentuk_pendidikan;
+            // $row[] = $list->status_sekolah;
+            // $row[] = $list->kecamatan;
+            // $row[] = $list->jumlah_ptk;
+            //
 
             $data[] = $row;
         }
