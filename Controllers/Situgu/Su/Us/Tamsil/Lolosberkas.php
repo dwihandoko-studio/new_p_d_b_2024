@@ -237,7 +237,8 @@ class Lolosberkas extends BaseController
                 ->join('ref_sekolah c', 'b.npsn = c.npsn')
                 ->join('_profil_users_tb d', 'a.admin_approve = d.id')
                 ->join('_upload_data_attribut e', 'a.id_ptk = e.id_ptk AND (a.id_tahun_tw = e.id_tahun_tw)')
-                ->join('ref_gaji f', 'a.us_pang_golongan = f.pangkat AND (IF(a.us_pang_mk_tahun > 32, 32, a.us_pang_mk_tahun) = f.masa_kerja)', 'LEFT')
+                // ->join('ref_gaji f', 'a.us_pang_golongan = f.pangkat AND (IF(a.us_pang_mk_tahun > 32, 32, a.us_pang_mk_tahun) = f.masa_kerja)', 'LEFT')
+                ->join('ref_gaji f', 'a.us_pang_golongan = f.pangkat AND (f.masa_kerja = (IF(a.us_pang_mk_tahun > 32, 32, a.us_pang_mk_tahun)))', 'LEFT')
                 ->where('a.status_usulan', 2)
                 ->where('a.id_tahun_tw', $tw)
                 ->get();
