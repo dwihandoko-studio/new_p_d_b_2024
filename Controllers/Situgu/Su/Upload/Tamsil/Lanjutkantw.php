@@ -752,6 +752,7 @@ class Lanjutkantw extends BaseController
                     'id_tahun_tw' => $tw,
                     'lanjutkan_tw' => 1,
                     'id_current_tahun_tw' => $current->id_tahun_tw,
+                    'id_tahun_tw' => $tw,
                     'us_pang_golongan' => $current->us_pang_golongan,
                     'us_pang_tmt' => $current->us_pang_tmt,
                     'us_pang_tgl' => $current->us_pang_tgl,
