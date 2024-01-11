@@ -142,7 +142,7 @@
                         'warning'
                     );
                 } else {
-                    $('#content-detailModalLabel').html('UPLOAD DATA MATCHING PROSES TRANSFER');
+                    $('#content-detailModalLabel').html('UPLOAD DATA MATCHING TW LANJUTAN PROSES TRANSFER');
                     $('.contentBodyModal').html(resul.data);
                     $('.content-detailModal').modal({
                         backdrop: 'static',
