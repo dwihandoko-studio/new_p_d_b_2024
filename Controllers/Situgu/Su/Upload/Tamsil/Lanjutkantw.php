@@ -747,7 +747,7 @@ class Lanjutkantw extends BaseController
                     'id' => $uuid,
                     'id_usulan_different' => $current->id_usulan,
                     'kode_usulan_different' => $current->kode_usulan,
-                    'kode_usulan' => $twEx[0] + "-" + $twEx[1] + "-" + (string)$twSelX + "-" + $twEx[3] + "-" + $twEx[4],
+                    'kode_usulan' => $twEx[0] . "-" . $twEx[1] . "-" . (string)$twSelX . "-" . $twEx[3] . "-" . $twEx[4],
                     'id_ptk' => $current->id_ptk,
                     'id_tahun_tw' => $tw,
                     'lanjutkan_tw' => 1,
