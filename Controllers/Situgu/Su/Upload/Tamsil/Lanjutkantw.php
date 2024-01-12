@@ -511,7 +511,7 @@ class Lanjutkantw extends BaseController
                     $item['id_usulan'] = $v['data_usulan']['id_usulan'];
                     $item['kode_usulan'] = $v['data_usulan']['kode_usulan'];
                     $item['id_ptk'] = $v['data_usulan']['id_ptk'];
-                    $item['id_tahun_tw'] = $v['data_usulan']['id_tahun_tw'];
+                    $item['id_tahun_tw'] = $v['id_tahun_tw'];
                     $item['id_current_tahun_tw'] = $v['id_current_tahun_tw'];
                     $item['sort'] = "88";
                     $lolos += 1;
