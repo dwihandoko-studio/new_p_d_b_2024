@@ -241,7 +241,7 @@ class Lanjutkantw extends BaseController
             $spreadsheet = $reader->load($fileLocation);
             $sheet = $spreadsheet->getActiveSheet()->toArray();
 
-            $total_line = (count($sheet) > 0) ? count($sheet) - 8 : 0;
+            $total_line = (count($sheet) > 0) ? count($sheet) - 3 : 0;
 
             $dataImport = [];
 
@@ -253,11 +253,11 @@ class Lanjutkantw extends BaseController
             unset($sheet[0]);
             unset($sheet[1]);
             unset($sheet[2]);
-            unset($sheet[3]);
-            unset($sheet[4]);
-            unset($sheet[5]);
-            unset($sheet[6]);
-            unset($sheet[7]);
+            // unset($sheet[3]);
+            // unset($sheet[4]);
+            // unset($sheet[5]);
+            // unset($sheet[6]);
+            // unset($sheet[7]);
 
             foreach ($sheet as $key => $data) {
 
