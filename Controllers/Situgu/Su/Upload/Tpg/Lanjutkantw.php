@@ -709,10 +709,13 @@ class Lanjutkantw extends BaseController
             if ($status == "table-success") {
                 $uuidLib = new Uuid();
                 $uuid = $uuidLib->v4();
+                $twEx = explode("-", $current->kode_usulan);
+                $twSelX = (int)$twEx[2] + 1;
                 $this->_db->table('_tb_spj_tpg')->insert([
                     'id' => $uuid,
                     'id_usulan_different' => $current->id_usulan,
                     'kode_usulan_different' => $current->kode_usulan,
+                    'kode_usulan' => $twEx[0] . "-" . $twEx[1] . "-" . (string)$twSelX . "-" . $twEx[3] . "-" . $twEx[4],
                     'id_ptk' => $current->id_ptk,
                     'id_tahun_tw' => $tw,
                     'id_current_tahun_tw' => $current->id_tahun_tw,
