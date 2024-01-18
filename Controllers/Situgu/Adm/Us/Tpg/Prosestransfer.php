@@ -90,7 +90,8 @@ class Prosestransfer extends BaseController
             $row[] = str_replace('&#039;', "`", str_replace("'", "`", $list->nama));
             $row[] = $list->nik;
             $row[] = $list->nuptk;
-            $row[] = $list->jenis_ptk;
+            $row[] = $list->no_sk_dirjen;
+            $row[] = $list->no_urut_sk;
             $row[] = $list->date_prosestransfer;
 
             $data[] = $row;

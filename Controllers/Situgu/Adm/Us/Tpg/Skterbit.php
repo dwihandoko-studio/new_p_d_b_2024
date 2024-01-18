@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\Situgu\Adm\Tpg\TerbitskModel;
 use Config\Services;
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key; 
+use Firebase\JWT\Key;
 use App\Libraries\Profilelib;
 use App\Libraries\Apilib;
 use App\Libraries\Helplib;
@@ -90,7 +90,8 @@ class Skterbit extends BaseController
             $row[] = str_replace('&#039;', "`", str_replace("'", "`", $list->nama));
             $row[] = $list->nik;
             $row[] = $list->nuptk;
-            $row[] = $list->jenis_ptk;
+            $row[] = $list->no_sk_dirjen;
+            $row[] = $list->no_urut_sk;
             $row[] = $list->date_terbitsk;
 
             $data[] = $row;

@@ -52,7 +52,8 @@
                                     <th>NAMA</th>
                                     <th>NIK</th>
                                     <th>NUPTK</th>
-                                    <th>JENIS PTK</th>
+                                    <th>NO SKTP</th>
+                                    <th>NO URUT SK</th>
                                     <th>TANGGAL TERBIT SK</th>
                                 </tr>
                             </thead>
