@@ -10,7 +10,7 @@ class TerbitskModel extends Model
     protected $table = "_tb_usulan_tpg_siap_sk a";
     protected $column_order = array(null, null, 'b.nama', 'b.nik', 'b.nuptk', 'b.jenis_ptk', 'a.date_terbitsk');
     protected $column_search = array('b.nik', 'b.nuptk', 'b.nama');
-    protected $order = array('a.date_terbitsk' => 'asc'); 
+    protected $order = array('a.date_terbitsk' => 'asc');
     protected $request;
     protected $db;
     protected $dt;
@@ -49,7 +49,7 @@ class TerbitskModel extends Model
     }
     function get_datatables($npsns)
     {
-        $this->dt->select("a.id as id_usulan, a.date_approve, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, a.date_approve_sptjm, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, a.date_matching, a.date_terbitsk");
+        $this->dt->select("a.id as id_usulan, a.no_sk_dirjen, a.no_urut_sk, a.date_approve, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, a.date_approve_sptjm, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, a.date_matching, a.date_terbitsk");
         $this->dt->join('_ptk_tb b', 'a.id_ptk = b.id');
         $this->dt->whereIn('a.status_usulan', [6]);
         if ($this->request->getPost('tw')) {
@@ -68,7 +68,7 @@ class TerbitskModel extends Model
 
     function count_filtered($npsns)
     {
-        $this->dt->select("a.id as id_usulan, a.date_approve, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, a.date_approve_sptjm, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, a.date_matching, a.date_terbitsk");
+        $this->dt->select("a.id as id_usulan, a.no_sk_dirjen, a.no_urut_sk, a.date_approve, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, a.date_approve_sptjm, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, a.date_matching, a.date_terbitsk");
         $this->dt->join('_ptk_tb b', 'a.id_ptk = b.id');
         $this->dt->whereIn('a.status_usulan', [6]);
         if ($this->request->getPost('tw')) {
@@ -85,7 +85,7 @@ class TerbitskModel extends Model
 
     public function count_all($npsns)
     {
-        $this->dt->select("a.id as id_usulan, a.date_approve, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, a.date_approve_sptjm, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, a.date_matching, a.date_terbitsk");
+        $this->dt->select("a.id as id_usulan, a.no_sk_dirjen, a.no_urut_sk, a.date_approve, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, a.date_approve_sptjm, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, a.date_matching, a.date_terbitsk");
         $this->dt->join('_ptk_tb b', 'a.id_ptk = b.id');
         $this->dt->whereIn('a.status_usulan', [6]);
         if ($this->request->getPost('tw')) {
