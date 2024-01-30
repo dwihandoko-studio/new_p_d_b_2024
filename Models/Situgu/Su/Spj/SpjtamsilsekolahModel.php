@@ -49,7 +49,7 @@ class SpjtamsilsekolahModel extends Model
     }
     function get_datatables($jenis)
     {
-        $this->dt->select("a.kode_usulan, a.kode_usulan_different, a.lanjutkan_tw, a.id, a.id_usulan_different, a.id_ptk, a.id_tahun_tw, a.id_current_tahun_tw, a.us_pang_golongan, a.us_pang_tmt, a.us_pang_mk_tahun, a.us_gaji_pokok, a.no_sk_dirjen, a.no_urut_sk, a.tf_gaji_pokok_1, a.tf_gaji_pokok_2, a.tf_gaji_pokok_3, a.tf_jumlah_uang, a.tf_iuran_bpjs, a.tf_pph21, a.tf_jumlah_diterima, a.tf_no_rekening, a.lampiran_pernyataan, a.lampiran_rekening_koran, a.lampiran_sk_dirgen, b.nama, b.nuptk, b.status_kepegawaian, b.npsn");
+        $this->dt->select("a.kode_usulan, a.kode_usulan_different, a.lanjutkan_tw, a.id, a.id_usulan_different, a.id_ptk, a.id_tahun_tw, a.id_current_tahun_tw, a.us_pang_golongan, a.us_pang_tmt, a.us_pang_mk_tahun, a.us_gaji_pokok, a.tf_gaji_pokok_1, a.tf_gaji_pokok_2, a.tf_gaji_pokok_3, a.tf_jumlah_uang, a.tf_iuran_bpjs, a.tf_pph21, a.tf_jumlah_diterima, a.tf_no_rekening, a.lampiran_pernyataan, a.lampiran_rekening_koran, a.lampiran_sk_dirgen, b.nama, b.nuptk, b.status_kepegawaian, b.npsn");
         $this->dt->join('_ptk_tb b', "b.id = a.id_ptk", 'LEFT');
         $this->dt->where('a.status_usulan', 2);
         $this->dt->where("a.lampiran_pernyataan IS NOT NULL");
