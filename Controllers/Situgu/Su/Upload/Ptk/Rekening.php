@@ -392,7 +392,7 @@ class Rekening extends BaseController
                     $item['nuptk_up'] = $v['nuptk'];
                     $item['no_rekening_up'] = $v['no_rekening'];
                     $item['cabang_bank_up'] = $v['cabang_bank'];
-                    $item['nama'] = $v['data_ptk']['data_ptk']['nama'];
+                    $item['nama'] = $v['data_ptk']['nama'];
                     $item['nuptk'] = $v['data_ptk']['nuptk'];
                     $item['no_rekening'] = $v['data_ptk']['no_rekening'];
                     $item['cabang_bank'] = $v['data_ptk']['cabang_bank'];
