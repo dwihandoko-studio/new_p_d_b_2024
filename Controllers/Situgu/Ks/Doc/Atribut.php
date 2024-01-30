@@ -72,7 +72,7 @@ class Atribut extends BaseController
                 if ($list->is_locked_pembaharuan == 1) {
                     $row[] = " ";
                 } else {
-                    $row[] = '<a href="javascript:actionPembaharuan(\'Pembaharuan Doc\',\'pembaharuandoc\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\')"><span class="badge rounded-pill badge-warning">Update Doc</span></a>';
+                    $row[] = '<a href="javascript:actionPembaharuan(\'Pembaharuan Doc\',\'pembaharuandoc\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\')"><span class="badge rounded-pill badge-soft-warning font-size-11">Update Doc</span></a>';
                 }
             } else {
                 $row[] = " ";
