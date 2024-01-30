@@ -118,7 +118,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="topnav-spj">
                                 <a href="<?= base_url('situgu/su/spj/tpg') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "spj" && $uri->getSegment(4) == "tpg") ? ' active-menu-href' : '' ?>" key="t-spj-tpg">Tunjangan Profesi Guru</a>
-                                <!-- <a href="<?= base_url('situgu/su/spj/tamsil') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "spj" && $uri->getSegment(4) == "tamsil") ? ' active-menu-href' : '' ?>" key="t-spj-tamsil">Tamsil</a> -->
+                                <a href="<?= base_url('situgu/su/spj/tamsil') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "spj" && $uri->getSegment(4) == "tamsil") ? ' active-menu-href' : '' ?>" key="t-spj-tamsil">Tamsil</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
