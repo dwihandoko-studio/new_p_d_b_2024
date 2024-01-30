@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0 font-size-18">VERIFIKASI LAPORAN SPJ <?= $kode_usulan ?></h4>
+                    <h4 class="mb-sm-0 font-size-18">DATA LAPORAN SPJ <?= $kode_usulan ?></h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
@@ -27,7 +27,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-6">
-                                <h4 class="card-title">Data LAPORAN SPJ <?= $kode_usulan ?></h4>
+                                <h4 class="card-title">DATA LAPORAN SPJ <?= $kode_usulan ?></h4>
                             </div>
                             <!-- <div class="col-6">
                                 <div class="mb-3">
@@ -137,7 +137,7 @@
                         'warning'
                     );
                 } else {
-                    $('#content-detailModalLabel').html('DETAIL LAPORAN SPJ PTK ' + nama);
+                    $('#content-detailModalLabel').html('DETAIL PELAPORAN SPJ PTK ' + nama);
                     $('.contentBodyModal').html(resul.data);
                     $('.content-detailModal').modal({
                         backdrop: 'static',

@@ -37,19 +37,19 @@
                         <div class="col-sm-4">
                             <label class="col-form-label">Bulan 1 :</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" aria-describedby="bulan_1" aria-label="BULAN 1" value="<?= rpAwalan($data->tf_jumlah_uang / $data->jumlah_bulan) ?>" readonly /> 
+                                <input type="text" class="form-control" aria-describedby="bulan_1" aria-label="BULAN 1" value="<?= rpAwalan($data->tf_gaji_pokok_1) ?>" readonly />
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <label class="col-form-label">Bulan 2 :</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" aria-describedby="bulan_2" aria-label="BULAN 2" value="<?= rpAwalan($data->tf_jumlah_uang / $data->jumlah_bulan) ?>" readonly />
+                                <input type="text" class="form-control" aria-describedby="bulan_2" aria-label="BULAN 2" value="<?= rpAwalan($data->tf_gaji_pokok_2) ?>" readonly />
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <label class="col-form-label">Bulan 3 :</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" aria-describedby="bulan_3" aria-label="BULAN 3" value="<?= rpAwalan($data->tf_jumlah_uang / $data->jumlah_bulan) ?>" readonly />
+                                <input type="text" class="form-control" aria-describedby="bulan_3" aria-label="BULAN 3" value="<?= rpAwalan($data->tf_gaji_pokok_3) ?>" readonly />
                             </div>
                         </div>
                     <?php } ?>
@@ -78,241 +78,86 @@
                 </div>
             </div>
             <div class="col-lg-12 mt-2">
-                <label class="col-form-label">Lampiran Dokumen SPJ:</label>
+                <label class="col-form-label">Lampiran Dokumen:</label>
                 <br />
-                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tamsil') . '/' . $data->lampiran_pernyataan ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tamsil') . '/' . $data->lampiran_pernyataan ?>" id="nik">
-                    Pernyataan
+                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_pernyataan ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_pernyataan ?>" id="nik">
+                    Pernyataan SPJ
                 </a>
-                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tamsil') . '/' . $data->lampiran_rekening_koran ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tamsil') . '/' . $data->lampiran_rekening_koran ?>" id="nik">
-                    Rekening Koran
+                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_rekening_koran ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_rekening_koran ?>" id="nik">
+                    Rekening Koran SPJ
                 </a>
                 <?php if ($data->lampiran_sk_dirgen === null || $data->lampiran_sk_dirgen === "") {
                 } else { ?>
-                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tamsil') . '/' . $data->lampiran_sk_dirgen ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tamsil') . '/' . $data->lampiran_sk_dirgen ?>" id="nik">
-                        SKTP
+                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_sk_dirgen ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/spj/tpg') . '/' . $data->lampiran_sk_dirgen ?>" id="nik">
+                        SKTP SPJ
                     </a>
                 <?php } ?>
+                <?php if ($doc_attribut->pangkat_terakhir === null || $doc_attribut->pangkat_terakhir === "") {
+                } else { ?>
+                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/ptk/pangkat') . '/' . $doc_attribut->pangkat_terakhir ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/pangkat') . '/' . $doc_attribut->pangkat_terakhir ?>" id="nik">
+                        Pangkat
+                    </a>
+                <?php } ?>
+                <?php if ($doc_attribut->kgb_terakhir === null || $doc_attribut->kgb_terakhir === "") {
+                } else { ?>
+                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/ptk/kgb') . '/' . $doc_attribut->kgb_terakhir ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/kgb') . '/' . $doc_attribut->kgb_terakhir ?>" id="nik">
+                        KGB
+                    </a>
+                <?php } ?>
+                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/sekolah/pembagian-tugas') . '/' . $doc_sekolah->pembagian_tugas ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/pembagian-tugas') . '/' . $doc_sekolah->pembagian_tugas ?>" id="nik">
+                    Pembagian Tugas
+                </a>
+                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/sekolah/slip-gaji') . '/' . $doc_sekolah->slip_gaji ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/slip-gaji') . '/' . $doc_sekolah->slip_gaji ?>" id="nik">
+                    Slip Gaji
+                </a>
+                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/ptk/pernyataanindividu') . '/' . $doc_attribut->pernyataan_24jam ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/pernyataanindividu') . '/' . $doc_attribut->pernyataan_24jam ?>" id="nik">
+                    Pernyataan 24 Jam
+                </a>
+                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_absen1 ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_absen1 ?>" id="nik">
+                    Absen (I)
+                </a>
+                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_absen2 ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_absen2 ?>" id="nik">
+                    Absen (II)
+                </a>
+                <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_absen3 ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/kehadiran') . '/' . $doc_sekolah->lampiran_absen3 ?>" id="nik">
+                    Absen (III)
+                </a>
+                <?php if ($doc_sekolah->doc_lainnya === null || $doc_sekolah->doc_lainnya === "") {
+                } else { ?>
+                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/sekolah/doc-lainnya') . '/' . $doc_sekolah->doc_lainnya ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/sekolah/doc-lainnya') . '/' . $doc_sekolah->doc_lainnya ?>" id="nik">
+                        Doc Sekolah Lainnya
+                    </a>
+                <?php } ?>
+                <?php if ($doc_attribut->cuti === null || $doc_attribut->cuti === "") {
+                } else { ?>
+                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/ptk/keterangancuti') . '/' . $doc_attribut->cuti ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/keterangancuti') . '/' . $doc_attribut->cuti ?>" id="nik">
+                        Cuti
+                    </a>
+                <?php } ?>
+                <?php if ($doc_attribut->pensiun === null || $doc_attribut->pensiun === "") {
+                } else { ?>
+                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/ptk/pensiun') . '/' . $doc_attribut->pensiun ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/pensiun') . '/' . $doc_attribut->pensiun ?>" id="nik">
+                        Pensiun
+                    </a>
+                <?php } ?>
+                <?php if ($doc_attribut->kematian === null || $doc_attribut->kematian === "") {
+                } else { ?>
+                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/ptk/kematian') . '/' . $doc_attribut->kematian ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/kematian') . '/' . $doc_attribut->kematian ?>" id="nik">
+                        Kematian
+                    </a>
+                <?php } ?>
+                <?php if ($doc_attribut->lainnya === null || $doc_attribut->lainnya === "") {
+                } else { ?>
+                    <a class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1" target="popup" onclick="window.open('<?= base_url('upload/ptk/lainnya') . '/' . $doc_attribut->lainnya ?>','popup','width=600,height=600'); return false;" href="<?= base_url('upload/ptk/lainnya') . '/' . $doc_attribut->lainnya ?>" id="nik">
+                        Atribut Lainnya
+                    </a>
+                <?php } ?>
+
             </div>
 
         </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
-        <button type="button" onclick="actionTolak(this)" class="btn btn-danger waves-effect waves-light">Tolak Laporan SPJ Tamsil</button>
-        <button type="button" onclick="actionApprove(this)" class="btn btn-success waves-effect waves-light">Setujui Laporan SPJ Tamsil</button>
     </div>
-    <script>
-        function actionTolak(e) {
-            const nama = '<?= str_replace('&#039;', "`", str_replace("'", "`", $data->nama)) ?>';
-            Swal.fire({
-                title: 'Apakah anda yakin ingin menolak Laporan SPJ Tamsil ini?',
-                text: "Tolak Pelaporan SPJ Tamsil PTK: <?= str_replace('&#039;', "`", str_replace("'", "`", $data->nama)) ?>",
-                showCancelButton: true,
-                icon: 'question',
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Tolak!'
-            }).then((result) => {
-                if (result.value) {
-                    $.ajax({
-                        url: "./formtolak",
-                        type: 'POST',
-                        data: {
-                            id: '<?= $data->id ?>',
-                            nama: nama,
-                        },
-                        dataType: 'JSON',
-                        beforeSend: function() {
-                            $('div.modal-content-loading').block({
-                                message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
-                            });
-                        },
-                        success: function(resul) {
-                            $('div.modal-content-loading').unblock();
-                            if (resul.status !== 200) {
-                                Swal.fire(
-                                    'Failed!',
-                                    resul.message,
-                                    'warning'
-                                );
-                            } else {
-                                $('#content-tolakModalLabel').html('TOLAK LAPORAN SPJ TAMSIL ' + nama);
-                                $('.contentTolakBodyModal').html(resul.data);
-                                $('.content-tolakModal').modal({
-                                    backdrop: 'static',
-                                    keyboard: false,
-                                });
-                                $('.content-tolakModal').modal('show');
-                            }
-                        },
-                        error: function() {
-                            $('div.modal-content-loading').unblock();
-                            Swal.fire(
-                                'Failed!',
-                                "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
-                                'warning'
-                            );
-                        }
-                    });
-                }
-            })
-        }
-
-        function simpanTolak(e) {
-            const id = '<?= $data->id ?>';
-            const nama = '<?= str_replace('&#039;', "`", str_replace("'", "`", $data->nama)) ?>';
-            const keterangan = document.getElementsByName('_keterangan_tolak')[0].value;
-
-            $.ajax({
-                url: "./tolak",
-                type: 'POST',
-                data: {
-                    id: id,
-                    nama: nama,
-                    keterangan: keterangan,
-                },
-                dataType: 'JSON',
-                beforeSend: function() {
-                    e.disabled = true;
-                    $('div.modal-content-loading').block({
-                        message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
-                    });
-                },
-                success: function(resul) {
-                    $('div.modal-content-loading').unblock();
-
-                    if (resul.status !== 200) {
-                        if (resul.status !== 201) {
-                            if (resul.status === 401) {
-                                Swal.fire(
-                                    'Failed!',
-                                    resul.message,
-                                    'warning'
-                                ).then((valRes) => {
-                                    reloadPage();
-                                });
-                            } else {
-                                e.disabled = false;
-                                Swal.fire(
-                                    'GAGAL!',
-                                    resul.message,
-                                    'warning'
-                                );
-                            }
-                        } else {
-                            Swal.fire(
-                                'Peringatan!',
-                                resul.message,
-                                'success'
-                            ).then((valRes) => {
-                                reloadPage();
-                            })
-                        }
-                    } else {
-                        Swal.fire(
-                            'SELAMAT!',
-                            resul.message,
-                            'success'
-                        ).then((valRes) => {
-                            reloadPage();
-                        })
-                    }
-                },
-                error: function(erro) {
-                    console.log(erro);
-                    // e.attr('disabled', false);
-                    e.disabled = false
-                    $('div.modal-content-loading').unblock();
-                    Swal.fire(
-                        'PERINGATAN!',
-                        "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
-                        'warning'
-                    );
-                }
-            });
-        };
-
-        function actionApprove(e) {
-            const id = '<?= $data->id ?>';
-            const nama = '<?= str_replace('&#039;', "`", str_replace("'", "`", $data->nama)) ?>';
-            Swal.fire({
-                title: 'Apakah anda yakin ingin menyetujui Laporan SPJ Tamsil ini?',
-                text: "Setujui Laporan SPJ Tamsil PTK: <?= str_replace('&#039;', "`", str_replace("'", "`", $data->nama)) ?>",
-                showCancelButton: true,
-                icon: 'question',
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Setujui!'
-            }).then((result) => {
-                if (result.value) {
-                    $.ajax({
-                        url: "./approve",
-                        type: 'POST',
-                        data: {
-                            id: id,
-                            nama: nama,
-                        },
-                        dataType: 'JSON',
-                        beforeSend: function() {
-                            e.disabled = true;
-                            $('div.modal-content-loading').block({
-                                message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
-                            });
-                        },
-                        success: function(resul) {
-                            $('div.modal-content-loading').unblock();
-
-                            if (resul.status !== 200) {
-                                if (resul.status !== 201) {
-                                    if (resul.status === 401) {
-                                        Swal.fire(
-                                            'Failed!',
-                                            resul.message,
-                                            'warning'
-                                        ).then((valRes) => {
-                                            reloadPage();
-                                        });
-                                    } else {
-                                        e.disabled = false;
-                                        Swal.fire(
-                                            'GAGAL!',
-                                            resul.message,
-                                            'warning'
-                                        );
-                                    }
-                                } else {
-                                    Swal.fire(
-                                        'Peringatan!',
-                                        resul.message,
-                                        'success'
-                                    ).then((valRes) => {
-                                        reloadPage();
-                                    })
-                                }
-                            } else {
-                                Swal.fire(
-                                    'SELAMAT!',
-                                    resul.message,
-                                    'success'
-                                ).then((valRes) => {
-                                    reloadPage();
-                                })
-                            }
-                        },
-                        error: function(erro) {
-                            console.log(erro);
-                            // e.attr('disabled', false);
-                            e.disabled = false
-                            $('div.modal-content-loading').unblock();
-                            Swal.fire(
-                                'PERINGATAN!',
-                                "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
-                                'warning'
-                            );
-                        }
-                    });
-                }
-            })
-        };
-    </script>
 <?php } ?>
