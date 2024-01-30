@@ -67,7 +67,15 @@ class Atribut extends BaseController
         foreach ($lists as $list) {
             $no++;
             $row = [];
-
+            if ($list->is_locked == 1) {
+                if ($list->is_locked_pembaharuan == 1) {
+                    $row[] = '<a href="javascript:actionPembaharuan(\'Pembaharuan Doc\',\'pembaharuandoc\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\')"><span class="badge rounded-pill badge-warning">Update Doc</span></a>';
+                } else {
+                    $row[] = "";
+                }
+            } else {
+                $row[] = "";
+            }
             $row[] = $no;
             $row[] = $list->tahun;
             $row[] = $list->tw;
@@ -98,6 +106,7 @@ class Atribut extends BaseController
                     $row[] = $list->pensiun ? '<a href="' . base_url('upload/ptk/pensiun') . '/' . $list->pensiun . '" target="_blank"><span class="badge rounded-pill badge-soft-primary font-size-11">Lampiran Pensiun</span></a>' : '-';
                     $row[] = $list->kematian ? '<a href="' . base_url('upload/ptk/kematian') . '/' . $list->kematian . '" target="_blank"><span class="badge rounded-pill badge-soft-primary font-size-11">Lampiran Kematian</span></a>' : '-';
                     $row[] = $list->lainnya ? '<a href="' . base_url('upload/ptk/lainnya') . '/' . $list->lainnya . '" target="_blank"><span class="badge rounded-pill badge-soft-primary font-size-11">Lampiran Atribut Lainnya</span></a>' : '-';
+                    $row[] = $list->pangkat_kgb_pembaharuan ? '<a href="' . base_url('upload/ptk/pembaharuandoc') . '/' . $list->pangkat_kgb_pembaharuan . '" target="_blank"><span class="badge rounded-pill badge-soft-primary font-size-11">Lampiran Pembaharuan Doc</span></a>' : '-';
                     $row[] = '<div class="text-center">
                     <span class="badge rounded-pill badge-soft-success font-size-11">Terkunci</span>
                     </div>';
@@ -182,6 +191,18 @@ class Atribut extends BaseController
                             '<a href="javascript:actionUpload(\'Dokumen Atribut Lainnya\',\'attr_lainnya\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\')" class="btn btn-primary waves-effect waves-light">
                     <i class="bx bx-upload font-size-16 align-middle me-2"></i> Upload
                 </a>';
+                        $row[] = $list->pangkat_kgb_pembaharuan ? '<a target="_blank" href="' . base_url('upload/ptk/pembaharuandoc') . '/' . $list->pangkat_kgb_pembaharuan . '"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+                    <i class="bx bxs-show font-size-16 align-middle"></i></button>
+                </a>
+                <a href="javascript:actionEditFile(\'Pembaharuan Doc\',\'pembaharuandoc\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\',\'' . $list->pangkat_kgb_pembaharuan . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+                    <i class="bx bxs-edit-alt font-size-16 align-middle"></i></button>
+                </a>
+                <a href="javascript:actionHapusFile(\'Pembaharuan Doc\',\'pembaharuandoc\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\',\'' . $list->pangkat_kgb_pembaharuan . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+                    <i class="mdi mdi-trash-can-outline font-size-16 align-middle"></i></button>
+                </a>' :
+                            '<a href="javascript:actionUpload(\'Pembaharuan Doc\',\'pembaharuandoc\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\')" class="btn btn-primary waves-effect waves-light">
+                    <i class="bx bx-upload font-size-16 align-middle me-2"></i> Upload
+                </a>';
                     } else {
                         $row[] = '-';
                         $row[] = '-';
@@ -240,6 +261,18 @@ class Atribut extends BaseController
                     <i class="mdi mdi-trash-can-outline font-size-16 align-middle"></i></button>
                 </a>' :
                             '<a href="javascript:actionUpload(\'Dokumen Atribut Lainnya\',\'attr_lainnya\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\')" class="btn btn-primary waves-effect waves-light">
+                    <i class="bx bx-upload font-size-16 align-middle me-2"></i> Upload
+                </a>';
+                        $row[] = $list->pangkat_kgb_pembaharuan ? '<a target="_blank" href="' . base_url('upload/ptk/pembaharuandoc') . '/' . $list->pangkat_kgb_pembaharuan . '"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+                    <i class="bx bxs-show font-size-16 align-middle"></i></button>
+                </a>
+                <a href="javascript:actionEditFile(\'Pembaharuan Doc\',\'pembaharuandoc\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\',\'' . $list->pangkat_kgb_pembaharuan . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+                    <i class="bx bxs-edit-alt font-size-16 align-middle"></i></button>
+                </a>
+                <a href="javascript:actionHapusFile(\'Pembaharuan Doc\',\'pembaharuandoc\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\',\'' . $list->pangkat_kgb_pembaharuan . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+                    <i class="mdi mdi-trash-can-outline font-size-16 align-middle"></i></button>
+                </a>' :
+                            '<a href="javascript:actionUpload(\'Pembaharuan Doc\',\'pembaharuandoc\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\')" class="btn btn-primary waves-effect waves-light">
                     <i class="bx bx-upload font-size-16 align-middle me-2"></i> Upload
                 </a>';
                     }
@@ -566,6 +599,68 @@ class Atribut extends BaseController
         }
     }
 
+    public function formuploadpembaharuan()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'bulan' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Bulan tidak boleh kosong. ',
+                ]
+            ],
+            'tw' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'TW tidak boleh kosong. ',
+                ]
+            ],
+            'title' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Title tidak boleh kosong. ',
+                ]
+            ],
+            'id_ptk' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id PTK tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('bulan')
+                . $this->validator->getError('tw')
+                . $this->validator->getError('title')
+                . $this->validator->getError('id_ptk');
+            return json_encode($response);
+        } else {
+            $bulan = htmlspecialchars($this->request->getVar('bulan'), true);
+            $tw = htmlspecialchars($this->request->getVar('tw'), true);
+            $title = htmlspecialchars($this->request->getVar('title'), true);
+            $id_ptk = htmlspecialchars($this->request->getVar('id_ptk'), true);
+
+            $data['bulan'] = $bulan;
+            $data['tw'] = $tw;
+            $data['title'] = $title;
+            $data['id_ptk'] = $id_ptk;
+            $response = new \stdClass;
+            $response->status = 200;
+            $response->message = "Permintaan diizinkan";
+            $response->data = view('situgu/ks/doc/atribut/uploadpembaharuan', $data);
+            return json_encode($response);
+        }
+    }
+
     public function formupload()
     {
         if ($this->request->getMethod() != 'post') {
@@ -712,6 +807,9 @@ class Atribut extends BaseController
                     break;
                 case 'attr_lainnya':
                     $data['old_url'] = base_url('upload/ptk/lainnya') . '/' . $old;
+                    break;
+                case 'pembaharuandoc':
+                    $data['old_url'] = base_url('upload/ptk/pembaharuandoc') . '/' . $old;
                     break;
                 default:
                     $data['old_url'] = base_url('upload/sekolah/doc-lainnya') . '/' . $old;
@@ -1143,6 +1241,11 @@ class Atribut extends BaseController
                     $field_db = 'lainnya';
                     $table_db = '_upload_data_attribut';
                     break;
+                case 'pembaharuandoc':
+                    $dir = FCPATH . "upload/ptk/pembaharuandoc";
+                    $field_db = 'pangkat_kgb_pembaharuan';
+                    $table_db = '_upload_data_attribut';
+                    break;
                 default:
                     $dir = FCPATH . "upload/sekolah/doc-lainnya";
                     $field_db = 'qrcode';
@@ -1188,6 +1291,157 @@ class Atribut extends BaseController
                 $response = new \stdClass;
                 $response->status = 400;
                 $response->message = "Gagal menghapus file lampiran $title";
+                return json_encode($response);
+            }
+        }
+    }
+
+    public function uploadSavePembaharuan()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'name' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Name tidak boleh kosong. ',
+                ]
+            ],
+            'tw' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Tw tidak boleh kosong. ',
+                ]
+            ],
+            'id_ptk' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Id PTK tidak boleh kosong. ',
+                ]
+            ],
+            '_file' => [
+                'rules' => 'uploaded[_file]|max_size[_file,2048]|mime_in[_file,image/jpeg,image/jpg,image/png,application/pdf]',
+                'errors' => [
+                    'uploaded' => 'Pilih file terlebih dahulu. ',
+                    'max_size' => 'Ukuran file terlalu besar, Maximum 2Mb. ',
+                    'mime_in' => 'Ekstensi yang anda upload harus berekstensi gambar dan pdf. '
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('name')
+                . $this->validator->getError('tw')
+                . $this->validator->getError('id_ptk')
+                . $this->validator->getError('_file');
+            return json_encode($response);
+        } else {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Permintaan diizinkan";
+                return json_encode($response);
+            }
+
+            $name = htmlspecialchars($this->request->getVar('name'), true);
+            $tw = htmlspecialchars($this->request->getVar('tw'), true);
+            $id_ptk = htmlspecialchars($this->request->getVar('id_ptk'), true);
+
+            $data = [
+                'updated_at' => date('Y-m-d H:i:s'),
+            ];
+
+            $dir = "";
+            $field_db = '';
+            $table_db = '';
+
+            switch ($name) {
+                case 'pembaharuandoc':
+                    $dir = FCPATH . "upload/ptk/pembaharuandoc";
+                    $field_db = 'pangkat_kgb_pembaharuan';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                default:
+                    $dir = FCPATH . "upload/ptk/pembaharuandoc";
+                    $field_db = 'pangkat_kgb_pembaharuan';
+                    $table_db = '_upload_data_attribut';
+                    break;
+            }
+
+            $lampiran = $this->request->getFile('_file');
+            $filesNamelampiran = $lampiran->getName();
+            $newNamelampiran = _create_name_file($filesNamelampiran);
+
+            if ($lampiran->isValid() && !$lampiran->hasMoved()) {
+                $lampiran->move($dir, $newNamelampiran);
+                $data[$field_db] = $newNamelampiran;
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal mengupload file.";
+                return json_encode($response);
+            }
+
+            $ptkNya = $this->_db->table('_ptk_tb')->where('id', $id_ptk)->get()->getRowObject();
+
+            if (!$ptkNya) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "PTK Tidak ditemukan.";
+                return json_encode($response);
+            }
+
+            $this->_db->transBegin();
+            try {
+                $cekCurrent = $this->_db->table($table_db)->where(['id_tahun_tw' => $tw, 'id_ptk' => $id_ptk])->countAllResults();
+                if ($cekCurrent > 0) {
+                    $this->_db->table($table_db)->where(['id_tahun_tw' => $tw, 'id_ptk' => $id_ptk])->update($data);
+                } else {
+                    unlink($dir . '/' . $newNamelampiran);
+                    $this->_db->transRollback();
+
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal menyimpan data.";
+                    return json_encode($response);
+                }
+            } catch (\Exception $e) {
+                unlink($dir . '/' . $newNamelampiran);
+
+                $this->_db->transRollback();
+
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->error = var_dump($e);
+                $response->message = "Gagal menyimpan data.";
+                return json_encode($response);
+            }
+
+            if ($this->_db->affectedRows() > 0) {
+                createAktifitas($user->data->id, "Mengupload lampiran data atribut pada lampiran $field_db", "Mengupload Lampiran Atribut $field_db", "upload", $tw);
+                $this->_db->transCommit();
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Data berhasil disimpan.";
+                return json_encode($response);
+            } else {
+                unlink($dir . '/' . $newNamelampiran);
+
+                $this->_db->transRollback();
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal menyimpan data";
                 return json_encode($response);
             }
         }
@@ -1297,6 +1551,11 @@ class Atribut extends BaseController
                 case 'attr_lainnya':
                     $dir = FCPATH . "upload/ptk/lainnya";
                     $field_db = 'lainnya';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'pembaharuandoc':
+                    $dir = FCPATH . "upload/ptk/pembaharuandoc";
+                    $field_db = 'pangkat_kgb_pembaharuan';
                     $table_db = '_upload_data_attribut';
                     break;
                 default:
@@ -1499,6 +1758,11 @@ class Atribut extends BaseController
                 case 'attr_lainnya':
                     $dir = FCPATH . "upload/ptk/lainnya";
                     $field_db = 'lainnya';
+                    $table_db = '_upload_data_attribut';
+                    break;
+                case 'pembaharuandoc':
+                    $dir = FCPATH . "upload/ptk/pembaharuandoc";
+                    $field_db = 'pangkat_kgb_pembaharuan';
                     $table_db = '_upload_data_attribut';
                     break;
                 default:
