@@ -104,9 +104,8 @@ class Tamsil extends BaseController
             $row[] = $list->us_pang_golongan;
             $row[] = $list->us_pang_tmt;
             $row[] = $list->us_pang_mk_tahun;
-            $row[] = $list->tf_gaji_pokok_1;
-            $row[] = $list->tf_gaji_pokok_2;
-            $row[] = $list->tf_gaji_pokok_3;
+            $row[] = $list->jumlah_bulan;
+            $row[] = $list->tf_jumlah_uang;
             $row[] = $list->tf_jumlah_diterima;
             $row[] = $list->tf_no_rekening;
             //

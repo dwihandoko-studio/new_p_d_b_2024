@@ -58,9 +58,8 @@
                                     <th>STATUS KEPEGAWAIAN</th>
                                     <th>NPSN</th>
                                     <th>PANGKAT</th>
-                                    <th>BULAN 1</th>
-                                    <th>BULAN 2</th>
-                                    <th>BULAN 3</th>
+                                    <th>JUMLAH BULAN</th>
+                                    <th>JUMLAH UANG</th>
                                     <th>JUMLAH DITERIMA</th>
                                     <th>NO REKENING</th>
                                 </tr>
