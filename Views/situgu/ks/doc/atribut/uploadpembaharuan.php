@@ -10,7 +10,7 @@
                         <div class="mt-3">
                             <label for="_file" class="form-label"><?= $title ?>: </label>
                             <input class="form-control" type="file" id="_file" name="_file" onFocus="inputFocus(this);" accept="image/*,application/pdf" onchange="loadFile()">
-                            <p class="font-size-11">Format : <code data-toggle="tooltip" data-placement="bottom" title="jpg, png, jpeg, pdf">Files</code> and Maximum File Size <code>2 Mb</code></p>
+                            <p class="font-size-11">Format : <code data-toggle="tooltip" data-placement="bottom" title="jpg, png, jpeg, pdf">Files</code> and Maximum File Size <code>2 Mb</code><br />Dokumen yang diunggah berupa: <code>Dokumen Kepangkatan / KGB</code>, bagi yang memiliki update data terbaru.<br />Jika tidak memiliki Dokumen Kepangkatan / KGB terbaru, silahkan untuk diabaikan.</p>
                             <div class="help-block _file" for="_file"></div>
                         </div>
                     </div>
