@@ -67,16 +67,16 @@ class Atribut extends BaseController
         foreach ($lists as $list) {
             $no++;
             $row = [];
+            $row[] = $no;
             if ($list->is_locked == 1) {
                 if ($list->is_locked_pembaharuan == 1) {
                     $row[] = '<a href="javascript:actionPembaharuan(\'Pembaharuan Doc\',\'pembaharuandoc\',\'' . $list->id_tahun_tw . '\',\'' . $list->id_ptk . '\')"><span class="badge rounded-pill badge-warning">Update Doc</span></a>';
                 } else {
-                    $row[] = "";
+                    $row[] = " ";
                 }
             } else {
-                $row[] = "";
+                $row[] = " ";
             }
-            $row[] = $no;
             $row[] = $list->tahun;
             $row[] = $list->tw;
             if ($list->status_kepegawaian == "GTY/PTY") {
