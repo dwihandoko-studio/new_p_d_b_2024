@@ -679,7 +679,7 @@ class Rekening extends BaseController
                 return json_encode($response);
             }
 
-            $current = $this->_db->table('tb_matching_prosestransfer')
+            $current = $this->_db->table('tb_ptk_rekening')
                 ->where('id', $id)
                 ->get()->getRowObject();
 
@@ -687,13 +687,13 @@ class Rekening extends BaseController
 
                 $this->_db->transBegin();
                 try {
-                    $this->_db->table('tb_matching_prosestransfer')->where('id', $current->id)->delete();
+                    $this->_db->table('tb_ptk_rekening')->where('id', $current->id)->delete();
                 } catch (\Throwable $th) {
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
                     $response->error = var_dump($th);
-                    $response->message = "Data matching gagal dihapus.";
+                    $response->message = "Data ptk rekening gagal dihapus.";
                     return json_encode($response);
                 }
 
@@ -701,20 +701,20 @@ class Rekening extends BaseController
                     $this->_db->transCommit();
                     try {
                         $file = $current->filename;
-                        unlink(FCPATH . "upload/matching-prosestransfer/$file.json");
-                        unlink(FCPATH . "upload/matching-prosestransfer/$file");
+                        unlink(FCPATH . "upload/ptk-rekening/$file.json");
+                        unlink(FCPATH . "upload/ptk-rekening/$file");
                     } catch (\Throwable $th) {
                         //throw $th;
                     }
                     $response = new \stdClass;
                     $response->status = 200;
-                    $response->message = "Data matching berhasil dihapus.";
+                    $response->message = "Data rekening ptk berhasil dihapus.";
                     return json_encode($response);
                 } else {
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->message = "Data matching gagal dihapus.";
+                    $response->message = "Data rekening ptk gagal dihapus.";
                     return json_encode($response);
                 }
             } else {
