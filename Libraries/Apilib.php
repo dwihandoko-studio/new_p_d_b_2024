@@ -111,10 +111,14 @@ class Apilib
     {
         $jwt = get_cookie('jwt');
         if ($jwt) {
+            $tmtTarikan = getTmtTarikanSync();
+            if ($tmtTarikan->code !== 200) {
+                return false;
+            }
             $data = [
                 'npsn' => $npsn,
                 'tw' => $tw,
-                'batas_tmt' => "2023-07-01",
+                'batas_tmt' => $tmtTarikan->data,
             ];
             $add         = $this->_send_post($data, 'syncptk', $jwt);
             $send_data         = curl_exec($add);
@@ -140,11 +144,15 @@ class Apilib
     {
         $jwt = get_cookie('jwt');
         if ($jwt) {
+            $tmtTarikan = getTmtTarikanSync();
+            if ($tmtTarikan->code !== 200) {
+                return false;
+            }
             $data = [
                 'id_ptk' => $idPtk,
                 'npsn' => $npsn,
                 'tw' => $tw,
-                'batas_tmt' => "2023-07-01",
+                'batas_tmt' => $tmtTarikan->data,
             ];
             $add         = $this->_send_post($data, 'syncptkid', $jwt);
             $send_data         = curl_exec($add);

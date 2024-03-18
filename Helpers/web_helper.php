@@ -2049,6 +2049,29 @@ function canVerifikasiTpg()
 	}
 }
 
+function getTmtTarikanSync()
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$limit = $db->table('_batas_tmt_tarikan')
+		->where('id', 1)
+		->get()->getRowObject();
+	if ($limit) {
+
+		$response = new \stdClass;
+		$response->code = 200;
+		$response->data = $limit->tgl;
+		$response->message = "";
+		return $response;
+	} else {
+		$response = new \stdClass;
+		$response->code = 400;
+		$response->message = "Tmt Tarikan tidak ditemukan";
+		return $response;
+	}
+}
+
 function getCodePangkatFromMatching($code = "")
 {
 	switch ($code) {
