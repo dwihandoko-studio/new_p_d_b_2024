@@ -50,26 +50,6 @@ class Database extends Config
         'port'     => 3306,
     ];
 
-    public $sigaji = [
-        'DSN'      => '',
-        'hostname' => '192.168.33.12',
-        'port'     => 33049,
-        'username' => 'gaji',
-        'password' => 'kominfo@2020',
-        'database' => 'gaji',
-        'DBDriver' => 'MySQLi',
-        'DBPrefix' => '',
-        'pConnect' => false,
-        'DBDebug'  => (ENVIRONMENT !== 'production'),
-        'charset'  => 'utf8',
-        'DBCollat' => 'utf8_general_ci',
-        'swapPre'  => '',
-        'encrypt'  => false,
-        'compress' => false,
-        'strictOn' => false,
-        'failover' => [],
-    ];
-
     /**
      * This database connection is used when
      * running PHPUnit database tests.
@@ -95,6 +75,26 @@ class Database extends Config
         'failover'    => [],
         'port'        => 3306,
         'foreignKeys' => true,
+    ];
+
+    public $sigaji = [
+        'DSN'      => '',
+        'hostname' => '192.168.33.12',
+        'port'     => 33049,
+        'username' => 'gaji',
+        'password' => 'kominfo@2020',
+        'database' => 'gaji',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
     ];
 
     public function __construct()

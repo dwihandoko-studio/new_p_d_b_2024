@@ -1,4 +1,4 @@
-<?= $this->extend('t-sigaji//index'); ?>
+<?= $this->extend('t-sigaji/su/index'); ?>
 
 <?= $this->section('content'); ?>
 <div class="page-content">
