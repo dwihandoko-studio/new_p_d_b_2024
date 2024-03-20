@@ -104,8 +104,8 @@ class Home extends BaseController
             return redirect()->to(base_url('auth'));
         }
 
-        $layanan = json_decode(file_get_contents(FCPATH . "uploads/layanans_silastri.json"), true);
-        $data['layanans'] = [];
+        // $layanan = json_decode(file_get_contents(FCPATH . "uploads/layanans_silastri.json"), true);
+        // $data['layanans'] = [];
         // var_dump("PENG");
         // die;
         $data['user'] = $user->data;
