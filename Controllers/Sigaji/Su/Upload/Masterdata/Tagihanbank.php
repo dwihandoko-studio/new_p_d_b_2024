@@ -28,7 +28,7 @@ class Tagihanbank extends BaseController
     function __construct()
     {
         helper(['text', 'file', 'form', 'session', 'array', 'imageurl', 'web', 'filesystem']);
-        $this->_db      = \Config\Database::connect();
+        $this->_db      = \Config\Database::connect('sigaji');
         $this->_helpLib = new Helplib();
     }
 

@@ -18,7 +18,7 @@ class KorpriModel extends Model
     function __construct(RequestInterface $request)
     {
         parent::__construct();
-        $this->db = db_connect();
+        $this->db = db_connect('sigaji');
         $this->request = $request;
 
         $this->dt = $this->db->table($this->table);
