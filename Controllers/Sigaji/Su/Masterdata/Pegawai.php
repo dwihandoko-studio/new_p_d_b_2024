@@ -20,7 +20,7 @@ extends BaseController
     function __construct()
     {
         helper(['text', 'file', 'form', 'session', 'array', 'imageurl', 'web', 'filesystem']);
-        $this->_db      = \Config\Database::connect();
+        $this->_db      = \Config\Database::connect('sigaji');
         $this->_helpLib = new Helplib();
     }
 
@@ -68,7 +68,7 @@ extends BaseController
             $row[] = $list->golongan;
             $row[] = $list->mk_golongan;
             // $row[] = $list->nama_kecamatan;
-            // $row[] = $list->kode_instansi;
+            // $row[] = $list->kode_instansi; 
 
             $data[] = $row;
         }

@@ -1,4 +1,4 @@
-<?= $this->extend('t-sigaji//index'); ?>
+<?= $this->extend('t-sigaji/su/index'); ?>
 
 <?= $this->section('content'); ?>
 <div class="page-content">
@@ -33,7 +33,39 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table id="data-datatables" class="table table-bordered dt-responsive  nowrap w-100">
+                        
+                        <div class="table-rep-plugin">
+                            <div class="table-responsive mb-0" data-pattern="priority-columns">
+                                <table id="_table_responsive" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Aksi</th>
+                                            <th data-priority="1">Nama</th>
+                                            <th data-priority="1">NIP</th>
+                                            <th data-priority="1">NIK</th>
+                                            <th data-priority="3">Golongan</th>
+                                            <th data-priority="3">MK Golongan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>GOOG <span class="co-name">Google Inc.</span></th>
+                                            <td>597.74</td>
+                                            <td>12:12PM</td>
+                                            <td>14.81 (2.54%)</td>
+                                            <td>582.93</td>
+                                            <td>597.95</td>
+                                            <td>597.73 x 100</td>
+                                            <td>597.91 x 300</td>
+                                            <td>731.10</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        <!-- <table id="data-datatables" class="table table-bordered dt-responsive  nowrap w-100">
                             <thead>
                                 <tr>
                                     <th data-orderable="false">#</th>
@@ -43,11 +75,9 @@
                                     <th>NIP</th>
                                     <th>GOLONGAN</th>
                                     <th>MK GOLONGAN</th>
-                                    <!-- <th>KECAMATAN</th>
-                                    <th>NPSN</th> -->
                                 </tr>
                             </thead>
-                        </table>
+                        </table> -->
                     </div>
                 </div>
             </div>
@@ -88,21 +118,15 @@
 <script src="<?= base_url() ?>/assets/libs/select2/js/select2.min.js"></script>
 <script src="<?= base_url() ?>/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
 <script src="<?= base_url() ?>/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
-<script src="<?= base_url() ?>/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="<?= base_url() ?>/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="<?= base_url() ?>/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-<script src="<?= base_url() ?>/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-<script src="<?= base_url() ?>/assets/libs/jszip/jszip.min.js"></script>
-<script src="<?= base_url() ?>/assets/libs/pdfmake/build/pdfmake.min.js"></script>
-<script src="<?= base_url() ?>/assets/libs/pdfmake/build/vfs_fonts.js"></script>
-<script src="<?= base_url() ?>/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-<script src="<?= base_url() ?>/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-<script src="<?= base_url() ?>/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-<script src="<?= base_url() ?>/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="<?= base_url() ?>/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-<script src="<?= base_url() ?>/assets/libs/dropzone/min/dropzone.min.js"></script>
+<script src="<?= base_url() ?>assets/libs/admin-resources/rwd-table/rwd-table.min.js"></script>
 
 <script>
+    $(function() {
+        $(".table-responsive").responsiveTable({
+            addDisplayAllBtn: "btn btn-secondary"
+        }), $(".btn-toolbar [data-toggle=dropdown]").attr("data-bs-toggle", "dropdown")
+    });
+
     function actionSyncDataPembenahan(id, ptkId, nama, nuptk, npsn) {
         Swal.fire({
             title: 'Apakah anda yakin ingin pembaharuan data atribut ptk ini dari master data ptk?',
@@ -529,12 +553,7 @@
 
 <?= $this->section('scriptTop'); ?>
 <link href="<?= base_url() ?>/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
-<link href="<?= base_url() ?>/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css" />
-<link href="<?= base_url() ?>/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-<link href="<?= base_url() ?>/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-<link href="<?= base_url() ?>/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-<script src="<?= base_url() ?>/assets/libs/ckeditor5-custom/build/ckeditor.js"></script>
-<link href="<?= base_url() ?>/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+<link href="<?= base_url() ?>/assets/libs/admin-resources/rwd-table/rwd-table.min.css" rel="stylesheet" type="text/css" />
 
 <style>
     .preview-image-upload {
