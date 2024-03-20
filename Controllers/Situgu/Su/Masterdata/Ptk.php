@@ -229,6 +229,92 @@ class Ptk extends BaseController
         }
     }
 
+    public function unlockAll()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('id');
+            return json_encode($response);
+        } else {
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Session telah habis.";
+                return json_encode($response);
+            }
+
+            $current = $this->_db->table('_ptk_tb')
+                ->where(['id' => $id, 'id_ptk' => $ptk_id, 'npsn' => $npsn])->get()->getRowObject();
+
+            if ($current) {
+                if ((int)$current->is_locked == 0) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Status Unlock PTK sudah terbuka.";
+                    return json_encode($response);
+                }
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('_ptk_tb')->where(['id' => $current->id, 'is_locked' => 1])->update([
+                        'is_locked' => 0,
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+                } catch (\Exception $e) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal mengunlock data ptk.";
+                    return json_encode($response);
+                }
+
+                if ($this->_db->affectedRows() > 0) {
+                    $this->_db->transCommit();
+
+                    createAktifitas($user->data->id, "Mengunlock dapa PTK $nama dengan NUPTK: $current->nuptk", "Mengunlock data PTK", "edit");
+
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->message = "Data PTK berhasil diunlock.";
+                    return json_encode($response);
+                } else {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal mengunlock data PTK.";
+                    return json_encode($response);
+                }
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan";
+                return json_encode($response);
+            }
+        }
+    }
+
     public function unlockdataptk()
     {
         if ($this->request->getMethod() != 'post') {

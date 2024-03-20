@@ -11,10 +11,10 @@ class Mtlib
         $this->_db      = \Config\Database::connect();
     }
 
-    public function get($id = 1)
+    public function get($id = 1, $table = '_tb_maintenance')
     {
 
-        $user = $this->_db->table('_tb_maintenance')
+        $user = $this->_db->table($table)
             ->where(['id' => $id, 'status' => 1])
             ->countAllResults();
 

@@ -38,6 +38,7 @@ class Refgaji extends BaseController
                         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
                         <div class="dropdown-menu" style="">
                             <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->id . '\', \'' . $list->pangkat . '\', \'' . $list->masa_kerja . '\');"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
+                            <a class="dropdown-item" href="javascript:actionEdit(\'' . $list->id . '\', \'' . $list->pangkat . '\', \'' . $list->masa_kerja . '\');"><i class="mdi mdi-clipboard-edit-outline font-size-16 align-middle"></i> &nbsp;Edit</a>
                             <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . $list->pangkat . '\', \'' . $list->masa_kerja . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
                         </div>
                     </div>';
@@ -67,6 +68,11 @@ class Refgaji extends BaseController
     }
 
     public function index()
+    {
+        return redirect()->to(base_url('situgu/su/masterdata/refgaji/data'));
+    }
+
+    public function data()
     {
         $data['title'] = 'Sekolah';
         $Profilelib = new Profilelib();
@@ -143,61 +149,16 @@ class Refgaji extends BaseController
                     'required' => 'Id tidak boleh kosong. ',
                 ]
             ],
-        ];
-
-        if (!$this->validate($rules)) {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = $this->validator->getError('id');
-            return json_encode($response);
-        } else {
-            $id = htmlspecialchars($this->request->getVar('id'), true);
-
-            $current = $this->_db->table('_users_tb')
-                ->where('uid', $id)->get()->getRowObject();
-
-            if ($current) {
-                $data['data'] = $current;
-                $response = new \stdClass;
-                $response->status = 200;
-                $response->message = "Permintaan diizinkan";
-                $response->data = view('a/setting/pengguna/edit', $data);
-                return json_encode($response);
-            } else {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Data tidak ditemukan";
-                return json_encode($response);
-            }
-        }
-    }
-
-    public function sync()
-    {
-        if ($this->request->getMethod() != 'post') {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = "Permintaan tidak diizinkan";
-            return json_encode($response);
-        }
-
-        $rules = [
-            'id' => [
+            'pangkat' => [
                 'rules' => 'required|trim',
                 'errors' => [
-                    'required' => 'Id tidak boleh kosong. ',
+                    'required' => 'Pangkat tidak boleh kosong. ',
                 ]
             ],
-            'nama' => [
+            'mk' => [
                 'rules' => 'required|trim',
                 'errors' => [
-                    'required' => 'Nama tidak boleh kosong. ',
-                ]
-            ],
-            'kecamatan' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'Kecamatan tidak boleh kosong. ',
+                    'required' => 'Masa Kerja tidak boleh kosong. ',
                 ]
             ],
         ];
@@ -206,33 +167,28 @@ class Refgaji extends BaseController
             $response = new \stdClass;
             $response->status = 400;
             $response->message = $this->validator->getError('id')
-                . $this->validator->getError('nama')
-                . $this->validator->getError('kecamatan');
+                . $this->validator->getError('pangkat')
+                . $this->validator->getError('mk');
             return json_encode($response);
         } else {
             $id = htmlspecialchars($this->request->getVar('id'), true);
-            $nama = htmlspecialchars($this->request->getVar('nama'), true);
-            $kecamatan = htmlspecialchars($this->request->getVar('kecamatan'), true);
+            $pangkat = htmlspecialchars($this->request->getVar('pangkat'), true);
+            $mk = htmlspecialchars($this->request->getVar('mk'), true);
 
-            $apiLib = new Apilib();
-            $result = $apiLib->syncSekolah($id, $kecamatan);
+            $current = $this->_db->table('ref_gaji')
+                ->where('id', $id)->get()->getRowObject();
 
-            if ($result) {
-                if ($result->status == 200) {
-                    $response = new \stdClass;
-                    $response->status = 200;
-                    $response->message = "Syncrone Data Sekolah Berhasil Dilakukan.";
-                    return json_encode($response);
-                } else {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Gagal Syncrone Data";
-                    return json_encode($response);
-                }
+            if ($current) {
+                $data['data'] = $current;
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('situgu/su/masterdata/refgaji/edit', $data);
+                return json_encode($response);
             } else {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = "Gagal Syncrone Data";
+                $response->message = "Data tidak ditemukan";
                 return json_encode($response);
             }
         }
@@ -329,73 +285,36 @@ class Refgaji extends BaseController
             'id' => [
                 'rules' => 'required|trim',
                 'errors' => [
-                    'required' => 'Id buku tidak boleh kosong. ',
+                    'required' => 'Id tidak boleh kosong. ',
                 ]
             ],
-            'nama' => [
+            'pangkat' => [
                 'rules' => 'required|trim',
                 'errors' => [
-                    'required' => 'Nama tidak boleh kosong. ',
+                    'required' => 'Pangkat tidak boleh kosong. ',
                 ]
             ],
-            'email' => [
+            'masa_kerja' => [
                 'rules' => 'required|trim',
                 'errors' => [
-                    'required' => 'Email tidak boleh kosong. ',
+                    'required' => 'Masa kerja tidak boleh kosong. ',
                 ]
             ],
-            'nohp' => [
+            'gaji_pokok' => [
                 'rules' => 'required|trim',
                 'errors' => [
-                    'required' => 'No handphone tidak boleh kosong. ',
-                ]
-            ],
-            'nip' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'NIP tidak boleh kosong. ',
-                ]
-            ],
-            'alamat' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Alamat tidak boleh kosong. ',
-                ]
-            ],
-            'status' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Status tidak boleh kosong. ',
+                    'required' => 'Gaji pokok tidak boleh kosong. ',
                 ]
             ],
         ];
 
-        $filenamelampiran = dot_array_search('file.name', $_FILES);
-        if ($filenamelampiran != '') {
-            $lampiranVal = [
-                'file' => [
-                    'rules' => 'uploaded[file]|max_size[file,512]|is_image[file]',
-                    'errors' => [
-                        'uploaded' => 'Pilih gambar profil terlebih dahulu. ',
-                        'max_size' => 'Ukuran gambar profil terlalu besar. ',
-                        'is_image' => 'Ekstensi yang anda upload harus berekstensi gambar. '
-                    ]
-                ],
-            ];
-            $rules = array_merge($rules, $lampiranVal);
-        }
-
         if (!$this->validate($rules)) {
             $response = new \stdClass;
             $response->status = 400;
-            $response->message = $this->validator->getError('nama')
-                . $this->validator->getError('id')
-                . $this->validator->getError('email')
-                . $this->validator->getError('nohp')
-                . $this->validator->getError('nip')
-                . $this->validator->getError('alamat')
-                . $this->validator->getError('status')
-                . $this->validator->getError('file');
+            $response->message = $this->validator->getError('id')
+                . $this->validator->getError('pangkat')
+                . $this->validator->getError('masa_kerja')
+                . $this->validator->getError('gaji_pokok');
             return json_encode($response);
         } else {
             $Profilelib = new Profilelib();
@@ -410,14 +329,11 @@ class Refgaji extends BaseController
             }
 
             $id = htmlspecialchars($this->request->getVar('id'), true);
-            $nama = htmlspecialchars($this->request->getVar('nama'), true);
-            $email = htmlspecialchars($this->request->getVar('email'), true);
-            $nohp = htmlspecialchars($this->request->getVar('nohp'), true);
-            $nip = htmlspecialchars($this->request->getVar('nip'), true);
-            $alamat = htmlspecialchars($this->request->getVar('alamat'), true);
-            $status = htmlspecialchars($this->request->getVar('status'), true);
+            $pangkat = htmlspecialchars($this->request->getVar('pangkat'), true);
+            $masa_kerja = htmlspecialchars($this->request->getVar('masa_kerja'), true);
+            $gaji_pokok = htmlspecialchars($this->request->getVar('gaji_pokok'), true);
 
-            $oldData =  $this->_db->table('_users_tb')->where('uid', $id)->get()->getRowObject();
+            $oldData =  $this->_db->table('ref_gaji')->where('id', $id)->get()->getRowObject();
 
             if (!$oldData) {
                 $response = new \stdClass;
@@ -427,84 +343,43 @@ class Refgaji extends BaseController
             }
 
             if (
-                $nama === $oldData->fullname
-                && $email === $oldData->email
-                && $nohp === $oldData->no_hp
-                && $nip === $oldData->nip
-                && $alamat === $oldData->alamat
-                && (int)$status === (int)$oldData->is_active
+                $pangkat === $oldData->pangkat
+                && $masa_kerja === $oldData->masa_kerja
+                && $gaji_pokok === $oldData->gaji_pokok
             ) {
-                if ($filenamelampiran == '') {
-                    $response = new \stdClass;
-                    $response->status = 201;
-                    $response->message = "Tidak ada perubahan data yang disimpan.";
-                    $response->redirect = base_url('a/setting/pengguna/data');
-                    return json_encode($response);
-                }
-            }
-
-            if ($email !== $oldData->email) {
-                $cekData = $this->_db->table('_users_tb')->where(['email' => $email])->get()->getRowObject();
-                if ($cekData) {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Email sudah terdaftar.";
-                    return json_encode($response);
-                }
+                $response = new \stdClass;
+                $response->status = 201;
+                $response->message = "Tidak ada perubahan data yang disimpan.";
+                $response->redirect = base_url('situgu/su/masterdata/refgaji/data');
+                return json_encode($response);
             }
 
             $data = [
-                'email' => $email,
-                'fullname' => $nama,
-                'no_hp' => $nohp,
-                'nip' => $nip,
-                'alamat' => $alamat,
-                'is_active' => $status,
+                'pangkat' => $pangkat,
+                'masa_kerja' => $masa_kerja,
+                'gaji_pokok' => $gaji_pokok,
                 'updated_at' => date('Y-m-d H:i:s'),
             ];
-            $dir = FCPATH . "uploads/user";
-
-            if ($filenamelampiran != '') {
-                $lampiran = $this->request->getFile('file');
-                $filesNamelampiran = $lampiran->getName();
-                $newNamelampiran = _create_name_foto($filesNamelampiran);
-
-                if ($lampiran->isValid() && !$lampiran->hasMoved()) {
-                    $lampiran->move($dir, $newNamelampiran);
-                    $data['image'] = $newNamelampiran;
-                } else {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Gagal mengupload gambar.";
-                    return json_encode($response);
-                }
-            }
 
             $this->_db->transBegin();
             try {
-                $this->_db->table('_users_tb')->where('uid', $oldData->uid)->update($data);
+                $this->_db->table('ref_gaji')->where('id', $oldData->id)->update($data);
             } catch (\Exception $e) {
-                unlink($dir . '/' . $newNamelampiran);
                 $this->_db->transRollback();
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = "Gagal menyimpan gambar baru.";
+                $response->message = "Gagal menyimpan data.";
                 return json_encode($response);
             }
 
             if ($this->_db->affectedRows() > 0) {
-                try {
-                    unlink($dir . '/' . $oldData->image);
-                } catch (\Throwable $th) {
-                }
                 $this->_db->transCommit();
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Data berhasil diupdate.";
-                $response->redirect = base_url('a/setting/pengguna/data');
+                $response->redirect = base_url('situgu/su/masterdata/refgaji/data');
                 return json_encode($response);
             } else {
-                unlink($dir . '/' . $newNamelampiran);
                 $this->_db->transRollback();
                 $response = new \stdClass;
                 $response->status = 400;

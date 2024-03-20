@@ -8,14 +8,13 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0 font-size-18">REFERENSI GAJI</h4>
+                    <h4 class="mb-sm-0 font-size-18">ACCESS ADMIN SITUGU</h4>
 
-                    <!-- <div class="page-title-right">
+                    <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Layouts</a></li>
-                            <li class="breadcrumb-item active">Horizontal Boxed Width</li>
+                            <li class="breadcrumb-item"><a href="javascript:actionAdd(this);" class="btn btn-primary btn-rounded waves-effect waves-light">Add Granted Admin Situgu</a></li>
                         </ol>
-                    </div> -->
+                    </div>
 
                 </div>
             </div>
@@ -28,7 +27,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-6">
-                                <h4 class="card-title">Data Referensi Gaji</h4>
+                                <h4 class="card-title">Data Granted Access Admin SITUGU</h4>
                             </div>
                         </div>
                     </div>
@@ -38,9 +37,10 @@
                                 <tr>
                                     <th data-orderable="false">#</th>
                                     <th data-orderable="false">Aksi</th>
-                                    <th>PANGKAT</th>
-                                    <th>MASA KERJA (TAHUN)</th>
-                                    <th>GAJI POKOK</th>
+                                    <th>NAMA</th>
+                                    <th>EMAIL</th>
+                                    <th>NO HP</th>
+                                    <th>ROLE</th>
                                 </tr>
                             </thead>
                         </table>
@@ -54,7 +54,7 @@
 
 <!-- Modal -->
 <div id="content-detailModal" class="modal fade content-detailModal" tabindex="-1" role="dialog" aria-labelledby="content-detailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-content-loading">
             <div class="modal-header">
                 <h5 class="modal-title" id="content-detailModalLabel">Details</h5>
@@ -87,124 +87,10 @@
 <script src="<?= base_url() ?>/assets/libs/dropzone/min/dropzone.min.js"></script>
 
 <script>
-    function actionSync(id, nama, kecamatan) {
-        Swal.fire({
-            title: 'Apakah anda yakin ingin pembaharuan data sekolah ini dari backbone dapodik?',
-            text: "Tarik Data Dari Backbone Untuk Sekolah : " + nama,
-            showCancelButton: true,
-            icon: 'question',
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Syncrone Data!'
-        }).then((result) => {
-            if (result.value) {
-                $.ajax({
-                    url: "<?= base_url('situgu/su/masterdata/sekolah/sync') ?>",
-                    type: 'POST',
-                    data: {
-                        id: id,
-                        nama: nama,
-                        kecamatan: kecamatan,
-                    },
-                    dataType: 'JSON',
-                    beforeSend: function() {
-                        $('div.main-content').block({
-                            message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
-                        });
-                    },
-                    success: function(resul) {
-                        $('div.main-content').unblock();
-
-                        if (resul.status !== 200) {
-                            Swal.fire(
-                                'Failed!',
-                                resul.message,
-                                'warning'
-                            );
-                        } else {
-                            Swal.fire(
-                                'SELAMAT!',
-                                resul.message,
-                                'success'
-                            ).then((valRes) => {
-                                reloadPage();
-                            })
-                        }
-                    },
-                    error: function() {
-                        $('div.main-content').unblock();
-                        Swal.fire(
-                            'Failed!',
-                            "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
-                            'warning'
-                        );
-                    }
-                });
-            }
-        })
-    }
-
-    function actionEdit(id, pangkat, mk) {
-        Swal.fire({
-            title: 'Apakah anda yakin ingin mengedit data ini?',
-            text: "Edit referensi gaji : " + pangkat + " Masa Kerja (" + mk + ")",
-            showCancelButton: true,
-            icon: 'question',
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Edit!'
-        }).then((result) => {
-            if (result.value) {
-                $.ajax({
-                    url: "./edit",
-                    type: 'POST',
-                    data: {
-                        id: id,
-                        pangkat: pangkat,
-                        mk: mk,
-                    },
-                    dataType: 'JSON',
-                    beforeSend: function() {
-                        $('div.main-content').block({
-                            message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
-                        });
-                    },
-                    success: function(resul) {
-                        $('div.main-content').unblock();
-
-                        if (resul.status !== 200) {
-                            Swal.fire(
-                                'Failed!',
-                                resul.message,
-                                'warning'
-                            );
-                        } else {
-                            $('#content-detailModalLabel').html('EDIT REFERENSI ' + title);
-                            $('.contentBodyModal').html(resul.data);
-                            $('.content-detailModal').modal({
-                                backdrop: 'static',
-                                keyboard: false,
-                            });
-                            $('.content-detailModal').modal('show');
-                        }
-                    },
-                    error: function() {
-                        $('div.main-content').unblock();
-                        Swal.fire(
-                            'Failed!',
-                            "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
-                            'warning'
-                        );
-                    }
-                });
-            }
-        })
-    }
-
-    function actionHapus(event, title = "") {
+    function actionHapus(id, nama, nuptk) {
         Swal.fire({
             title: 'Apakah anda yakin ingin menghapus data ini?',
-            text: "Hapus pengguna : " + title,
+            text: "Hapus PTK : " + nama + " ( " + nuptk + " )",
             showCancelButton: true,
             icon: 'question',
             confirmButtonColor: '#3085d6',
@@ -213,10 +99,10 @@
         }).then((result) => {
             if (result.value) {
                 $.ajax({
-                    url: "<?= base_url('situgu/su/masterdata/sekolah/delete') ?>",
+                    url: "<?= base_url('situgu/su/setting/accesstugu/delete') ?>",
                     type: 'POST',
                     data: {
-                        id: event,
+                        id: id,
                     },
                     dataType: 'JSON',
                     beforeSend: function() {
@@ -256,12 +142,12 @@
         })
     }
 
-    function actionDetail(event, title) {
+    function actionAdd(event) {
         $.ajax({
-            url: "<?= base_url('situgu/su/masterdata/sekolah/detail') ?>",
+            url: "<?= base_url('situgu/su/setting/accesstugu/add') ?>",
             type: 'POST',
             data: {
-                id: event,
+                action: 'Add',
             },
             dataType: 'JSON',
             beforeSend: function() {
@@ -278,7 +164,7 @@
                         'warning'
                     );
                 } else {
-                    $('#content-detailModalLabel').html('DETAIL SEKOLAH ' + title);
+                    $('#content-detailModalLabel').html('Tambah Grand Access Maintenance');
                     $('.contentBodyModal').html(resul.data);
                     $('.content-detailModal').modal({
                         backdrop: 'static',
@@ -341,7 +227,7 @@
             "serverSide": true,
             "order": [],
             "ajax": {
-                "url": "./getAll",
+                "url": "<?= base_url('situgu/su/setting/accesstugu/getAll') ?>",
                 "type": "POST",
 
             },

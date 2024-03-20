@@ -50,7 +50,7 @@ class Filters extends BaseConfig
                     'home', 'home/*',
                     'auth', 'auth/*',
                     'situgu', 'situgu/*',
-                    'situgu/ops', 'situgu/ops/*',
+                    'sigaji', 'sigaji/*',
                     'situpeng', 'situpeng/*',
                     'd', 'd/*',
                     'e', 'e/*',

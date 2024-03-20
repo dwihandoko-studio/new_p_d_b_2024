@@ -355,6 +355,70 @@ class Filterauth implements FilterInterface
                                         return redirect()->to(base_url('portal'));
                                     }
                                 }
+                            } else if ($uriMain === "sigaji") {
+                                $uriLevel = $uri->getSegment(2);
+                                $mtLib = new Mtlib();
+                                if ($mtLib->get(3, '_tb_maintenance_gaji')) {
+                                    if (!$mtLib->getAccess($userId)) {
+                                        if ($uriLevel !== "maintenance") {
+                                            return redirect()->to(base_url('sigaji/maintenance'));
+                                        }
+                                    } else {
+                                        if ($level == 1) { //SuperAdmin
+
+                                            if ($uriLevel === "" || $uriLevel === "index") {
+                                                return redirect()->to(base_url('sigaji/su/home'));
+                                            }
+                                            if ($uriLevel != "su") {
+                                                return redirect()->to(base_url('sigaji/su/home'));
+                                            }
+                                        } else if ($level == 2) { //Admin
+                                            if ($uriLevel === "" || $uriLevel === "index") {
+                                                return redirect()->to(base_url('sigaji/adm/home'));
+                                            }
+                                            if ($uriLevel != "adm") {
+                                                return redirect()->to(base_url('sigaji/adm/home'));
+                                            }
+                                        } else if ($level == 3) { //OPK
+                                            if ($uriLevel != "opk") {
+                                                return redirect()->to(base_url('sigaji/opk/home'));
+                                            }
+                                        } else if ($level == 4) { //OPSR
+                                            if ($uriLevel != "opsr") {
+                                                return redirect()->to(base_url('sigaji/opsr/home'));
+                                            }
+                                        } else {
+                                            return redirect()->to(base_url('portal'));
+                                        }
+                                    }
+                                } else {
+                                    if ($level == 1) { //SuperAdmin
+
+                                        if ($uriLevel === "" || $uriLevel === "index") {
+                                            return redirect()->to(base_url('sigaji/su/home'));
+                                        }
+                                        if ($uriLevel != "su") {
+                                            return redirect()->to(base_url('sigaji/su/home'));
+                                        }
+                                    } else if ($level == 2) { //Admin
+                                        if ($uriLevel === "" || $uriLevel === "index") {
+                                            return redirect()->to(base_url('sigaji/adm/home'));
+                                        }
+                                        if ($uriLevel != "adm") {
+                                            return redirect()->to(base_url('sigaji/adm/home'));
+                                        }
+                                    } else if ($level == 3) { //OPK
+                                        if ($uriLevel != "opk") {
+                                            return redirect()->to(base_url('sigaji/opk/home'));
+                                        }
+                                    } else if ($level == 4) { //OPSR
+                                        if ($uriLevel != "opsr") {
+                                            return redirect()->to(base_url('sigaji/opsr/home'));
+                                        }
+                                    } else {
+                                        return redirect()->to(base_url('portal'));
+                                    }
+                                }
                             } else {
                                 return redirect()->to(base_url('portal'));
                             }
