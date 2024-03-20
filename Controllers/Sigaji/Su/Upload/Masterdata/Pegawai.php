@@ -8,7 +8,7 @@ use Config\Services;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use App\Libraries\Profilelib;
-use App\Libraries\Apilib;
+use App\Libraries\Sigaji\Apilib;
 use App\Libraries\Helplib;
 use App\Libraries\Situgu\NotificationLib;
 use App\Libraries\Uuid;

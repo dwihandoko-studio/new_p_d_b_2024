@@ -236,7 +236,7 @@ extends BaseController
                     $response = new \stdClass;
                     $response->status = 200;
                     $response->data = $result;
-                    $response->url = base_url() . "uploads/api/" . $result->data->url;
+                    $response->url = base_url() . "/uploads/api" . $result->data->url;
                     $response->message = "Download Data Berhasil Dilakukan.";
                     return json_encode($response);
                 } else {

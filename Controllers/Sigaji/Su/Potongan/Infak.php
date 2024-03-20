@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\Sigaji\Su\Potongan\InfakModel;
 use Config\Services;
 use App\Libraries\Profilelib;
-use App\Libraries\Apilib;
+use App\Libraries\Sigaji\Apilib;
 use App\Libraries\Helplib;
 
 class Infak
