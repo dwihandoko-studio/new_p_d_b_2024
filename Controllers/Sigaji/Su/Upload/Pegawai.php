@@ -872,8 +872,8 @@ class Pegawai extends BaseController
                     $this->_db->transCommit();
                     try {
                         $file = $current->filename;
-                        unlink(FCPATH . "upload/pegawai/$file.json");
-                        unlink(FCPATH . "upload/pegawai/$file");
+                        unlink(FCPATH . "uploads/api/pegawai/$file.json");
+                        unlink(FCPATH . "uploads/api/pegawai/$file");
                     } catch (\Throwable $th) {
                         //throw $th;
                     }
