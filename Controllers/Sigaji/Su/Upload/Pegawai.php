@@ -426,7 +426,7 @@ class Pegawai extends BaseController
     public function get_data_json()
     {
         $id = htmlspecialchars($this->request->getGet('id'), true);
-        $datas = json_decode(file_get_contents(FCPATH . "upload/pegawai/$id.json"), true);
+        $datas = json_decode(file_get_contents(FCPATH . "uploads/api/pegawai/$id.json"), true);
 
         // var_dump($datas);
         // die;
