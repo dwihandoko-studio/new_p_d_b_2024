@@ -1361,6 +1361,18 @@ class Upload extends BaseController
                 . $this->validator->getError('id');
             return json_encode($response);
         } else {
+
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Permintaan diizinkan";
+                return json_encode($response);
+            }
+
             $tw = htmlspecialchars($this->request->getVar('tw'), true);
             $title = htmlspecialchars($this->request->getVar('title'), true);
             $jenis = htmlspecialchars($this->request->getVar('jenis'), true);
@@ -1373,17 +1385,6 @@ class Upload extends BaseController
                 if ($canGrantedUploadSpj->code !== 200) {
                     return json_encode($canUploadSpj);
                 }
-            }
-
-            $Profilelib = new Profilelib();
-            $user = $Profilelib->user();
-            if ($user->status != 200) {
-                delete_cookie('jwt');
-                session()->destroy();
-                $response = new \stdClass;
-                $response->status = 401;
-                $response->message = "Permintaan diizinkan";
-                return json_encode($response);
             }
 
             switch ($jenis) {
