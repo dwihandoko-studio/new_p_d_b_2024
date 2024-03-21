@@ -35,6 +35,17 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle arrow-none <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "upload") ? ' active-menu-href' : '' ?>" href="#" id="topnav-upload" role="button">
+                                <i class="bx bxs-cloud-upload me-2"></i><span key="t-upload">UPLOAD</span>
+                                <div class="arrow-down"></div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-upload">
+                                <a href="<?= base_url('sigaji/su/upload/pegawai') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "pegawai") ? ' active-menu-href' : '' ?>" key="t-upload-pegawai">Pegawai</a>
+                                <a href="<?= base_url('sigaji/su/upload/gajisipd') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "gajisipd") ? ' active-menu-href' : '' ?>" key="t-upload-gajisipd">Gaji SIPD</a>
+                                <a href="<?= base_url('sigaji/su/upload/tagihanbank') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "tagihanbank") ? ' active-menu-href' : '' ?>" key="t-upload-tagihanbank">Tagihan Bank</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle arrow-none <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "rekap") ? ' active-menu-href' : '' ?>" href="#" id="topnav-rekap" role="button">
                                 <i class="bx bx-rename me-2"></i><span key="t-rekap">REKAP</span>
                                 <div class="arrow-down"></div>
