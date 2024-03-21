@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Sigaji\Su\Masterdata\Upload;
+namespace App\Models\Sigaji\Su\Upload;
 
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\Model;
