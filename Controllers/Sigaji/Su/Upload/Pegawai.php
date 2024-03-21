@@ -547,7 +547,6 @@ class Pegawai extends BaseController
                 $item['jumlah_ditransfer'] = $v['jumlah_ditransfer'];
                 $item['kode_instansi'] = $v['kode_instansi'];
                 $item['nama_instansi'] = $v['nama_instansi'];
-                $item['kode_kecamatan'] = $v['kode_kecamatan'];
                 $item['nama_kecamatan'] = $v['nama_kecamatan'];
 
                 $item['aksi'] = "Aksi";
