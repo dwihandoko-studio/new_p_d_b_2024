@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controllers\Sigaji\Su\Upload\Masterdata;
+namespace App\Controllers\Sigaji\Su\Upload;
 
 use App\Controllers\BaseController;
-use App\Models\Sigaji\Su\Masterdata\Upload\TagihanbankModel;
+use App\Models\Sigaji\Su\Upload\TagihanbankModel;
 use Config\Services;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;

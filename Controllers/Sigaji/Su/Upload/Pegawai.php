@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controllers\Sigaji\Su\Upload\Masterdata;
+namespace App\Controllers\Sigaji\Su\Upload;
 
 use App\Controllers\BaseController;
-use App\Models\Sigaji\Su\Masterdata\Upload\PegawaiModel;
+use App\Models\Sigaji\Su\Upload\PegawaiModel;
 use Config\Services;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -114,7 +114,7 @@ class Pegawai extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('sigaji/su/upload/masterdata/pegawai/data'));
+        return redirect()->to(base_url('sigaji/su/upload/pegawai/data'));
     }
 
     public function data()
