@@ -51,6 +51,8 @@
                                     <th>Pernyataan</th>
                                     <th>Rekening Koran</th>
                                     <th>SK Dirgen</th>
+                                    <th>Aksi</th>
+                                    <th>Ket</th>
                                 </tr>
                             </thead>
                         </table>
@@ -190,6 +192,84 @@
                 );
             }
         });
+    }
+
+    function actionAjukanUlang(id, tahun_tw, tahun, triwulan) {
+        Swal.fire({
+            title: 'Apakah anda yakin ingin mengajukan ulang laporan SPJ ini?',
+            text: "Ajukan Ulang Laporan SPJ Tahun: " + tahun + " Bulan " + triwulan,
+            showCancelButton: true,
+            icon: 'question',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Ajukan Ulang!',
+            cancelButtonText: 'Tidak',
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "./aksiajukanulang",
+                    type: 'POST',
+                    data: {
+                        tahun: tahun,
+                        triwulan: triwulan,
+                        tw: tahun_tw,
+                        id: id,
+                    },
+                    dataType: 'JSON',
+                    beforeSend: function() {
+                        $('div.main-content').block({
+                            message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                        });
+                    },
+                    success: function(resul) {
+                        $('div.main-content').unblock();
+                        if (resul.status !== 200) {
+                            if (resul.status !== 201) {
+                                if (resul.status === 401) {
+                                    Swal.fire(
+                                        'Failed!',
+                                        resul.message,
+                                        'warning'
+                                    ).then((valRes) => {
+                                        reloadPage();
+                                    });
+                                } else {
+                                    Swal.fire(
+                                        'GAGAL!',
+                                        resul.message,
+                                        'warning'
+                                    );
+                                }
+                            } else {
+                                Swal.fire(
+                                    'Peringatan!',
+                                    resul.message,
+                                    'success'
+                                ).then((valRes) => {
+                                    reloadPage();
+                                })
+                            }
+                        } else {
+                            Swal.fire(
+                                'SUKSES!',
+                                resul.message,
+                                'success'
+                            ).then((valRes) => {
+                                reloadPage();
+                            })
+                        }
+                    },
+                    error: function() {
+                        $('div.main-content').unblock();
+                        Swal.fire(
+                            'Failed!',
+                            "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                            'warning'
+                        );
+                    }
+                });
+            }
+        })
     }
 
     function actionHapusFile(title, file, id, tahun_tw, old) {
