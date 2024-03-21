@@ -6,7 +6,7 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\Model;
 
 class AtributModel extends Model
-{
+{ 
     protected $table = "_upload_data_attribut a";
     protected $column_order = array(null, null, 'b.tahun', 'b.tw', 'a.is_locked', 'c.is_locked');
     protected $column_search = array('b.tahun', 'b.tw');

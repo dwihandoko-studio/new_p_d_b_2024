@@ -156,10 +156,10 @@ class Upload extends BaseController
 
             switch ((int)$list->status_usulan) {
                 case 1:
-                    $row[] = '<a href="javascript:actionAjukanUlang(\'' . $list->id . '\',\'' . $list->id_tahun_tw . '\',\'' . $list->tahun . '\',\'' . $list->tw . '\');"><span class="badge rounded-pill badge-info">Ajukan Ulang</span></a>';
+                    $row[] = '<a href="javascript:actionAjukanUlang(\'' . $list->id . '\',\'' . $list->id_tahun_tw . '\',\'' . $list->tahun . '\',\'' . $list->tw . '\');"><span class="badge rounded-pill badge-soft-info font-size-11">Ajukan Ulang</span></a>';
                     break;
                 case 3:
-                    $row[] = '<a href="javascript:actionAjukanUlang(\'' . $list->id . '\',\'' . $list->id_tahun_tw . '\',\'' . $list->tahun . '\',\'' . $list->tw . '\');"><span class="badge rounded-pill badge-info">Ajukan Ulang</span></a>';
+                    $row[] = '<a href="javascript:actionAjukanUlang(\'' . $list->id . '\',\'' . $list->id_tahun_tw . '\',\'' . $list->tahun . '\',\'' . $list->tw . '\');"><span class="badge rounded-pill badge-soft-info font-size-11">Ajukan Ulang</span></a>';
                     break;
                 case 2:
                     $row[] = '<span class="badge rounded-pill badge-success">Terverifikasi</span>';
