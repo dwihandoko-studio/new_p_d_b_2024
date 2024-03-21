@@ -154,6 +154,28 @@ class Upload extends BaseController
                 }
             }
 
+            switch ((int)$list->status_usulan) {
+                case 1:
+                    $row[] = '<a href="javascript:actionAjukanUlang(\'' . $list->id . '\',\'' . $list->id_tahun_tw . '\',\'' . $list->tahun . '\',\'' . $list->tw . '\');"><span class="badge rounded-pill badge-info">Ajukan Ulang</span></a>';
+                    break;
+                case 3:
+                    $row[] = '<a href="javascript:actionAjukanUlang(\'' . $list->id . '\',\'' . $list->id_tahun_tw . '\',\'' . $list->tahun . '\',\'' . $list->tw . '\');"><span class="badge rounded-pill badge-info">Ajukan Ulang</span></a>';
+                    break;
+                case 2:
+                    $row[] = '<span class="badge rounded-pill badge-success">Terverifikasi</span>';
+                    break;
+
+                default:
+                    if ($list->lampiran_pernyataan == NULL || $list->lampiran_pernyataan == "" || $list->lampiran_rekening_koran == null || $list->lampiran_rekening_koran == "" || $list->lampiran_sk_dirgen == null || $list->lampiran_sk_dirgen == "") {
+                        $row[] = '<span class="badge rounded-pill badge-danger">Belum Upload</span>';
+                    } else {
+                        $row[] = '<span class="badge rounded-pill badge-warning">Dalam Antrian</span>';
+                    }
+                    break;
+            }
+
+            $row[] = $list->status_usulan == 1 || $list->status_usulan == 3 ? $list->keterangan_reject : "";
+
             $data[] = $row;
         }
         $output = [
@@ -1170,6 +1192,118 @@ class Upload extends BaseController
                 $response = new \stdClass;
                 $response->status = 400;
                 $response->message = "Gagal menyimpan data";
+                return json_encode($response);
+            }
+        }
+    }
+
+    public function aksiajukanulang()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'tahun' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Tahun tidak boleh kosong. ',
+                ]
+            ],
+            'triwulan' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Triwulan tidak boleh kosong. ',
+                ]
+            ],
+            'id' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Id tidak boleh kosong. ',
+                ]
+            ],
+            'tw' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'TW tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('tahun')
+                . $this->validator->getError('triwulan')
+                . $this->validator->getError('tw')
+                . $this->validator->getError('id');
+            return json_encode($response);
+        } else {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Permintaan diizinkan";
+                return json_encode($response);
+            }
+
+            $canUploadSpj = canUploadSpjTpg();
+            if ($canUploadSpj->code !== 200) {
+                $canGrantedUploadSpj = canGrantedUploadSpj($user->data->ptk_id);
+                if ($canGrantedUploadSpj->code !== 200) {
+                    return json_encode($canUploadSpj);
+                }
+            }
+
+            $tahun = htmlspecialchars($this->request->getVar('tahun'), true);
+            $triwulan = htmlspecialchars($this->request->getVar('triwulan'), true);
+            $tw = htmlspecialchars($this->request->getVar('tw'), true);
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+
+            $data = [
+                'updated_at' => date('Y-m-d H:i:s'),
+                'status_usulan' => 0,
+            ];
+
+            $dir = "";
+            $field_db = '';
+            $table_db = '_tb_spj_tpg';
+
+            $this->_db->transBegin();
+            try {
+                // $this->_db->table($table_db)->where(['id' => $id_ptk, 'is_locked' => 0])->update($data);
+                $this->_db->table($table_db)->where("id = '$id' AND (lock_upload_spj = 0 OR lock_upload_spj IS NULL)")->update($data);
+            } catch (\Exception $e) {
+
+                $this->_db->transRollback();
+
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->error = var_dump($e);
+                $response->message = "Gagal mengajukan ulang laporan spj.";
+                return json_encode($response);
+            }
+
+            if ($this->_db->affectedRows() > 0) {
+                createAktifitas($user->data->id, "Mengajukan ulang laporan SPJ TPG", "Mengajukan Ulang SPJ TPG", "edit");
+                $this->_db->transCommit();
+
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Laporan SPJ TPG Tahun $tahun Tw. $triwulan berhasil diajukan ulang.";
+                return json_encode($response);
+            } else {
+
+                $this->_db->transRollback();
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal mengajukan ulang laporan spj.";
                 return json_encode($response);
             }
         }
