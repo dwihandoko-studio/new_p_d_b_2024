@@ -265,8 +265,12 @@ class Pegawai extends BaseController
                     continue;
                 }
 
+                $nip = $data[0];
+                $nip = str_replace("'", "", $nip);
+                $nip = str_replace("\u200c", "", $nip);
+
                 $dataInsert = [
-                    'nip' => str_replace("'", "", $data[0]),
+                    'nip' => $nip,
                     'nama' => $data[1],
                     'nik' => $data[2],
                     'npwp' => $data[3],
@@ -326,7 +330,7 @@ class Pegawai extends BaseController
                 //     ->get()->getRowObject();
 
                 $dataImport[] = $dataInsert;
-                $nuptkImport[] = str_replace("'", "", $data[0]);
+                $nuptkImport[] = $nip;
             }
 
             $dataImports = [
@@ -349,7 +353,7 @@ class Pegawai extends BaseController
                 'created_at' => date('Y-m-d H:i:s')
             ];
 
-            $dir = FCPATH . "upload/pegawai";
+            $dir = FCPATH . "uploads/api/pegawai";
             $field_db = 'filename';
             $table_db = 'tb_up_masterdata_pegawai';
 
