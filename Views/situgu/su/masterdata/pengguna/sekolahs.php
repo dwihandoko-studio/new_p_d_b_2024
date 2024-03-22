@@ -12,3 +12,6 @@
     </select>
     <div class="help-block _sekolah"></div>
 </div>
+<script>
+    initSelect2("_sekolah", '.content-detailModal');
+</script>

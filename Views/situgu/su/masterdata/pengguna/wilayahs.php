@@ -13,5 +13,5 @@
     <div class="help-block _wilayah"></div>
 </div>
 <script>
-    initSelect2();
+    initSelect2("_wilayah", '.content-detailModal');
 </script>
