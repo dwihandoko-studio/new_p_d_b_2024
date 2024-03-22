@@ -321,6 +321,7 @@
         const fileName = document.getElementsByName('_file')[0].value;
         const role = document.getElementsByName('_role')[0].value;
         const wilayah = document.getElementsByName('_wilayah')[0].value;
+        const sekolah = document.getElementsByName('_sekolah')[0].value;
 
         let status;
         if ($('#status_publikasi').is(":checked")) {
@@ -340,6 +341,13 @@
             $("select#_wilayah").css("color", "#dc3545");
             $("select#_wilayah").css("border-color", "#dc3545");
             $('._wilayah').html('<ul role="alert" style="color: #dc3545; list-style-type:none; padding-inline-start: 10px;"><li style="color: #dc3545;">Silahkan pilih Wilayah Pengguna terlebih dahulu.</li></ul>');
+            return false;
+        }
+
+        if (sekolah === "") {
+            $("select#_sekolah").css("color", "#dc3545");
+            $("select#_sekolah").css("border-color", "#dc3545");
+            $('._sekolah').html('<ul role="alert" style="color: #dc3545; list-style-type:none; padding-inline-start: 10px;"><li style="color: #dc3545;">Silahkan pilih Sekolah Pengguna terlebih dahulu.</li></ul>');
             return false;
         }
 
@@ -404,6 +412,7 @@
         formUpload.append('status', status);
         formUpload.append('role', role);
         formUpload.append('wilayah', wilayah);
+        formUpload.append('sekolah', sekolah);
 
         $.ajax({
             xhr: function() {
