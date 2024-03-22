@@ -208,6 +208,51 @@ class Pengguna extends BaseController
         }
     }
 
+    public function getSekolahShow()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('id');
+            return json_encode($response);
+        } else {
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+
+            $sekolahs = $this->_db->table('ref_sekolah')->select("id, npsn, nama")->where('kode_kecamatan', $id)
+                ->get()->getResult();
+
+            if ($sekolahs) {
+                $data['sekolahs'] = $sekolahs;
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('situgu/su/masterdata/pengguna/sekolahs', $data);
+                return json_encode($response);
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan";
+                return json_encode($response);
+            }
+        }
+    }
+
     public function detail()
     {
         if ($this->request->getMethod() != 'post') {
@@ -382,6 +427,52 @@ class Pengguna extends BaseController
                 $response->status = 200;
                 $response->message = "Permintaan diizinkan";
                 $response->data = view('situgu/su/masterdata/pengguna/add', $data);
+                return json_encode($response);
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan";
+                return json_encode($response);
+            }
+        }
+    }
+
+    public function addAkunSekolah()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'action' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('action');
+            return json_encode($response);
+        } else {
+            $id = htmlspecialchars($this->request->getVar('action'), true);
+
+            $roles = $this->_db->table('_role_user')->whereNotIn('id', [1, 6, 7])->get()->getResult();
+            $wilayahs = $this->_db->table('ref_kecamatan')->orderBy('nama_kecamatan', 'ASC')->get()->getResult();
+
+            if (count($roles) > 0 && count($wilayahs) > 0) {
+                $data['roles'] = $roles;
+                $data['wilayahs'] = $wilayahs;
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('situgu/su/masterdata/pengguna/add_sekolah', $data);
                 return json_encode($response);
             } else {
                 $response = new \stdClass;

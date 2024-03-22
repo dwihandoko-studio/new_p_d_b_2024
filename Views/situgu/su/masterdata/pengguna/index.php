@@ -13,6 +13,7 @@
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript:actionAdd(this);" class="btn btn-primary btn-rounded waves-effect waves-light">Tambah Akun</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:actionAddSekolah(this);" class="btn btn-primary btn-rounded waves-effect waves-light">Tambah Akun Sekolah</a></li>
                         </ol>
                     </div>
 
@@ -135,6 +136,48 @@
                     );
                 } else {
                     $('#content-detailModalLabel').html('TAMBAH AREA NAUNGAN');
+                    $('.contentBodyModal').html(resul.data);
+                    $('.content-detailModal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                    });
+                    $('.content-detailModal').modal('show');
+                }
+            },
+            error: function() {
+                $('div.main-content').unblock();
+                Swal.fire(
+                    'Failed!',
+                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                    'warning'
+                );
+            }
+        });
+    }
+
+    function actionAddSekolah(event) {
+        $.ajax({
+            url: "./addAkunSekolah",
+            type: 'POST',
+            data: {
+                action: 'add',
+            },
+            dataType: 'JSON',
+            beforeSend: function() {
+                $('div.main-content').block({
+                    message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                });
+            },
+            success: function(resul) {
+                $('div.main-content').unblock();
+                if (resul.status !== 200) {
+                    Swal.fire(
+                        'Failed!',
+                        resul.message,
+                        'warning'
+                    );
+                } else {
+                    $('#content-detailModalLabel').html('TAMBAH AKUN SEKOLAH');
                     $('.contentBodyModal').html(resul.data);
                     $('.content-detailModal').modal({
                         backdrop: 'static',
