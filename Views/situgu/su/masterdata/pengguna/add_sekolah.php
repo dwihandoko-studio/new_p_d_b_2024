@@ -109,6 +109,9 @@
 </form>
 
 <script>
+    initSelect2("_wilayah", '.content-detailModal');
+    initSelect2("_sekolah", '.content-detailModal');
+
     function loadFileImage() {
         const input = document.getElementsByName('_file')[0];
         if (input.files && input.files[0]) {

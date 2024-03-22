@@ -1,6 +1,6 @@
 <div class="mb-3">
     <label for="_wilayah" class="col-form-label">Pilih Wilayah:</label>
-    <select class="form-control select2 ptk" id="_wilayah" name="_wilayah" style="width: 100%">
+    <select class="form-control select2 ptk" id="_wilayah" name="_wilayah" onchange="changeWilayah(this)" style="width: 100%">
         <option value="">&nbsp;</option>
         <?php if (isset($wilayahs)) {
             if (count($wilayahs) > 0) {
@@ -12,3 +12,6 @@
     </select>
     <div class="help-block _wilayah"></div>
 </div>
+<script>
+    initSelect2();
+</script>
