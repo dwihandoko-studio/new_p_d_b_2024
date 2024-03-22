@@ -234,7 +234,7 @@ class Pengguna extends BaseController
         } else {
             $id = htmlspecialchars($this->request->getVar('id'), true);
 
-            $sekolahs = $this->_db->table('ref_sekolah')->select("id, npsn, nama")->where('kode_kecamatan', $id)
+            $sekolahs = $this->_db->table('ref_sekolah')->select("id, npsn, nama, kode_kecamatan")->where('kode_kecamatan', $id)
                 ->get()->getResult();
 
             if ($sekolahs) {
