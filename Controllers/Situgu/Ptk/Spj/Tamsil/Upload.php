@@ -1269,7 +1269,7 @@ class Upload extends BaseController
 
             $dir = "";
             $field_db = '';
-            $table_db = '_tb_spj_tpg';
+            $table_db = '_tb_spj_tamsil';
 
             $this->_db->transBegin();
             try {
