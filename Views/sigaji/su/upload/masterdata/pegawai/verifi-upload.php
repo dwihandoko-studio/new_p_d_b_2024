@@ -62,7 +62,7 @@
                     <table class="table table-bordered border-primary mb-0 modals-datatables-datanya" id="modals-datatables-datanya">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th rowspan="2">#</th>
                                 <th colspan="6">DATA UPLOAD</th>
                                 <th colspan="6">DATA DATABASE</th>
                             </tr>
