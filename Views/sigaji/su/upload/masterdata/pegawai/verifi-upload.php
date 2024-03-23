@@ -111,6 +111,8 @@
         const tbody = table.getElementsByTagName("tbody")[0];
         const buttonAksiMatching = document.getElementById("button_aksi_matching");
         buttonAksiMatching.setAttribute("disabled", true);
+        let idFileName;
+        let tahun_bulan;
 
         fetch("./get_data_json?id=<?= $id ?>")
             .then(response => response.json())
@@ -176,6 +178,9 @@
                     row.classList.add(data.aksi[i].status);
                     tbody.appendChild(row);
                 }
+
+                idFileName = '<?= $id ?>';
+                tahun_bulan = '<?= $tahun_bulan ?>';
             });
 
         function aksiMatching() {
@@ -184,8 +189,8 @@
                 url: "./prosesmatching",
                 type: 'POST',
                 data: {
-                    filename: <?= $id ?>,
-                    tahun: <?= $tahun_bulan ?>,
+                    filename: idFileName,
+                    tahun_bulan: tahun_bulan,
                 },
                 dataType: 'JSON',
                 beforeSend: function() {
@@ -203,7 +208,7 @@
                             resul.message,
                             'warning'
                         );
-                        buttonAksiMatching.setAttribute("disabled", false);
+                        buttonAksiMatching.removeAttribute("disabled");
                     } else {
                         Swal.fire(
                             'SUKSES!',
@@ -215,6 +220,7 @@
                     }
                 },
                 error: function() {
+                    buttonAksiMatching.removeAttribute("disabled");
                     $('div.modal-content-loading').unblock();
                     Swal.fire(
                         'Failed!',
