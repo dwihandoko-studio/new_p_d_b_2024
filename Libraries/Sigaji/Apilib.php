@@ -567,7 +567,7 @@ class Apilib
         $jwt = get_cookie('jwt');
         if ($jwt) {
             $data = [
-                'tahun' => $tahun,
+                'tahun_bulan' => $tahun,
                 'filename' => $filename,
             ];
             $add         = $this->_send_post($data, 'importpegawaigajisipd', $jwt);
