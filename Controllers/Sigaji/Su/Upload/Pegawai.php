@@ -595,8 +595,8 @@ class Pegawai extends BaseController
             $result = $apiLib->uploadPegawaiGajiSipd($tahun_bulan, $filename);
 
             if ($result) {
-                var_dump($result);
-                die;
+                // var_dump($result);
+                // die;
                 if ($result->status == 200) {
                     $response = new \stdClass;
                     $response->status = 200;
