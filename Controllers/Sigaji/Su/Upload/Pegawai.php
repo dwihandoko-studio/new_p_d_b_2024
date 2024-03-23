@@ -502,7 +502,33 @@ class Pegawai extends BaseController
                     $response_aksi[] = $item;
                     $insert += 1;
                 } else {
-                    if ($v['nama'] == $v['data_pegawai']['nama'] && $v['nik'] == $v['data_pegawai']['nik'] && $v['golongan'] == $v['data_pegawai']['golongan'] && $v['mk_golongan'] == $v['data_pegawai']['mk_golongan'] && $v['status_asn'] == $v['data_pegawai']['status_asn'] && $v['no_rekening_bank'] == $v['data_pegawai']['no_rekening_bank']) {
+
+                    $nik = $v['nik'];
+                    $nik = str_replace("'", "", $nik);
+                    $nik = str_replace("\u200c", "", $nik);
+
+                    $no_reg = $v['no_rekening_bank'];
+                    $no_reg = str_replace("'", "", $no_reg);
+                    $no_reg = str_replace("\u200c", "", $no_reg);
+
+                    $nama = $v['nama'];
+                    $nama = str_replace("'", " ", $nama);
+                    $nama = str_replace("\u200c", " ", $nama);
+
+                    $nikdb = $v['data_pegawai']['nik'];
+                    $nikdb = str_replace("'", "", $nikdb);
+                    $nikdb = str_replace("\u200c", "", $nikdb);
+
+                    $no_reg_db = $v['data_pegawai']['no_rekening_bank'];
+                    $no_reg_db = str_replace("'", "", $no_reg_db);
+                    $no_reg_db = str_replace("\u200c", "", $no_reg_db);
+
+                    $nama_db = $v['data_pegawai']['nama'];
+                    $nama_db = str_replace("'", " ", $nama_db);
+                    $nama_db = str_replace("\u200c", " ", $nama_db);
+
+                    // if ($v['nama'] == $v['data_pegawai']['nama'] && $v['nik'] == $v['data_pegawai']['nik'] && $v['golongan'] == $v['data_pegawai']['golongan'] && $v['mk_golongan'] == $v['data_pegawai']['mk_golongan'] && $v['status_asn'] == $v['data_pegawai']['status_asn'] && $v['no_rekening_bank'] == $v['data_pegawai']['no_rekening_bank']) {
+                    if ($nama == $nama_db && $nik == $nikdb && $no_reg == $no_reg_db && $v['golongan'] == $v['data_pegawai']['golongan'] && $v['mk_golongan'] == $v['data_pegawai']['mk_golongan'] && $v['status_asn'] == $v['data_pegawai']['status_asn']) {
                         $item['aksi'] = "Aksi";
                         $item['status'] = "table-info";
                         $item['sort'] = "88";
