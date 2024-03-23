@@ -48,8 +48,8 @@ class Apilib
             'Authorization: Bearer ' . $jwt,
             'Content-Type: application/json'
         ));
-        curl_setopt($curlHandle, CURLOPT_TIMEOUT, 120);
-        curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 120);
+        curl_setopt($curlHandle, CURLOPT_TIMEOUT, 1200);
+        curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 1200);
 
 
         return $curlHandle;
