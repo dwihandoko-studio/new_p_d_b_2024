@@ -320,14 +320,10 @@ class Pegawai extends BaseController
                     'kode_instansi' => $data[47],
                 ];
 
-                // $dataInsert['data_pegawai'] = $this->_db->table('tb_pegawai_ a')
-                //     // ->select("a.id as id_usulan, a.us_pang_golongan, a.us_pang_mk_tahun, a.us_gaji_pokok, a.date_approve, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, a.date_approve_sptjm, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, e.cuti as lampiran_cuti, e.pensiun as lampiran_pensiun, e.kematian as lampiran_kematian")
-                //     // ->join('_ptk_tb b', 'a.id_ptk = b.id')
-                //     // ->join('_upload_data_attribut e', 'a.id_ptk = e.id_ptk AND (a.id_tahun_tw = e.id_tahun_tw)')
-                //     // ->where('a.status_usulan', 2)
-                //     // ->where('a.id_tahun_tw', $tw)
-                //     ->where('nip', str_replace("'", "", $data[0]))
-                //     ->get()->getRowObject();
+                $dataInsert['data_pegawai'] = $this->_db->table('tb_pegawai_ a')
+                    ->select("a.id, a.nip, a.nik, a.nama, a.golongan, a.mk_golongan, a.status_asn, a.no_rekening_bank, a.nama_bank")
+                    ->where('a.nip', $nip)
+                    ->get()->getRowObject();
 
                 $dataImport[] = $dataInsert;
                 $nuptkImport[] = $nip;
@@ -435,69 +431,11 @@ class Pegawai extends BaseController
             $result['total'] = count($datas['data']);
             $response = [];
             $response_aksi = [];
-            $lolos = 0;
-            $gagal = 0;
-            $belumusul = 0;
+            $update = 0;
+            $insert = 0;
+            $sama = 0;
             foreach ($datas['data'] as $key => $v) {
                 $item = [];
-                // $tgl_lahir = explode("/", $v['tgl_lahir']);
-                // $tgl_lhr = $tgl_lahir[2] . $tgl_lahir[0] . $tgl_lahir[1];
-                // if ($v['data_pegawai'] == NULL || $v['data_pegawai'] == "") {
-                //     $item['number'] = $key + 1;
-                //     $item['nip'] = $v['nip'];
-                //     $item['nama'] = $v['nama'];
-                //     $item['nik'] = $v['nik'];
-                //     $item['npwp'] = $v['npwp'];
-                //     $item['tgl_lahir'] = $v['tgl_lahir'];
-                //     $item['tipe_jabatan'] = $v['tipe_jabatan'];
-                //     $item['nama_jabatan'] = $v['nama_jabatan'];
-                //     $item['eselon'] = $v['eselon'];
-                //     $item['status_asn'] = $v['status_asn'];
-                //     $item['golongan'] = $v['golongan'];
-                //     $item['mk_golongan'] = $v['mk_golongan'];
-                //     $item['alamat'] = $v['alamat'];
-                //     $item['status_pernikahan'] = $v['status_pernikahan'];
-                //     $item['jumlah_istri_suami'] = $v['jumlah_istri_suami'];
-                //     $item['jumlah_anak'] = $v['jumlah_anak'];
-                //     $item['jumlah_tanggungan'] = $v['jumlah_tanggungan'];
-                //     $item['pasangan_pns'] = $v['pasangan_pns'];
-                //     $item['nip_pasangan'] = $v['nip_pasangan'];
-                //     $item['kode_bank'] = $v['kode_bank'];
-                //     $item['nama_bank'] = $v['nama_bank'];
-                //     $item['no_rekening_bank'] = $v['no_rekening_bank'];
-                //     $item['gaji_pokok'] = $v['gaji_pokok'];
-                //     $item['perhitungan_suami_istri'] = $v['perhitungan_suami_istri'];
-                //     $item['perhitungan_anak'] = $v['perhitungan_anak'];
-                //     $item['tunjangan_keluarga'] = $v['tunjangan_keluarga'];
-                //     $item['tunjangan_jabatan'] = $v['tunjangan_jabatan'];
-                //     $item['tunjangan_fungsional'] = $v['tunjangan_fungsional'];
-                //     $item['tunjangan_fungsional_umum'] = $v['tunjangan_fungsional_umum'];
-                //     $item['tunjangan_beras'] = $v['tunjangan_beras'];
-                //     $item['tunjangan_pph'] = $v['tunjangan_pph'];
-                //     $item['pembulatan_gaji'] = $v['pembulatan_gaji'];
-                //     $item['pembulatan_gaji'] = $v['pembulatan_gaji'];
-                //     $item['iuran_jaminan_kesehatan'] = $v['iuran_jaminan_kesehatan'];
-                //     $item['iuran_jaminan_kecelakaan_kerja'] = $v['iuran_jaminan_kecelakaan_kerja'];
-                //     $item['iuran_jaminan_kematian'] = $v['iuran_jaminan_kematian'];
-                //     $item['iuran_simpanan_tapera'] = $v['iuran_simpanan_tapera'];
-                //     $item['iuran_pensiun'] = $v['iuran_pensiun'];
-                //     $item['tunjangan_khusus_papua'] = $v['tunjangan_khusus_papua'];
-                //     $item['tunjangan_jaminan_hari_tua'] = $v['tunjangan_jaminan_hari_tua'];
-                //     $item['potongan_iwp'] = $v['potongan_iwp'];
-                //     $item['potongan_pph21'] = $v['potongan_pph21'];
-                //     $item['potongan_zakat'] = $v['potongan_zakat'];
-                //     $item['potongan_bulog'] = $v['potongan_bulog'];
-                //     $item['jumlah_gaji_dan_tunjangan'] = $v['jumlah_gaji_dan_tunjangan'];
-                //     $item['jumlah_potongan'] = $v['jumlah_potongan'];
-                //     $item['jumlah_ditransfer'] = $v['jumlah_ditransfer'];
-
-                //     $item['aksi'] = "Aksi";
-                //     $item['status'] = "table-info";
-                //     $item['id_pegawai'] = "";
-                //     // $item['id_tahun_tw'] = "";
-                //     $item['sort'] = "99";
-                //     $belumusul += 1;
-                // } else {
                 $item['number'] = $key + 1;
                 $item['nip'] = $v['nip'];
                 $item['nama'] = $v['nama'];
@@ -548,15 +486,26 @@ class Pegawai extends BaseController
                 $item['kode_instansi'] = $v['kode_instansi'];
                 $item['nama_instansi'] = $v['nama_instansi'];
                 $item['nama_kecamatan'] = $v['nama_kecamatan'];
-
-                $item['aksi'] = "Aksi";
-                $item['status'] = "table-success";
-                // $item['id_pegawai'] = $v['data_pegawai']['id'];
-                // $item['id_tahun_tw'] = $v['data_pegawai']['id_tahun_tw'];
-                $item['sort'] = "88";
-                $lolos += 1;
-
-                $response_aksi[] = $item;
+                if ($v['data_pegawai'] == NULL || $v['data_pegawai'] == "") {
+                    $item['aksi'] = "Aksi";
+                    $item['status'] = "table-success";
+                    $item['sort'] = "99";
+                    $response_aksi[] = $item;
+                    $insert += 1;
+                } else {
+                    if ($v['nama'] == $v['data_pegawai']['nama'] && $v['nik'] == $v['data_pegawai']['nik'] && $v['golongan'] == $v['data_pegawai']['golongan'] && $v['mk_golongan'] == $v['data_pegawai']['mk_golongan'] && $v['status_asn'] == $v['data_pegawai']['status_asn'] && $v['no_rekening_bank'] == $v['data_pegawai']['no_rekening_bank']) {
+                        $item['aksi'] = "Aksi";
+                        $item['status'] = "table-info";
+                        $item['sort'] = "88";
+                        $sama += 1;
+                    } else {
+                        $item['aksi'] = "Aksi";
+                        $item['status'] = "table-warning";
+                        $item['sort'] = "99";
+                        $response_aksi[] = $item;
+                        $update += 1;
+                    }
+                }
                 // }
 
                 $response[] = $item;
@@ -565,16 +514,16 @@ class Pegawai extends BaseController
                 return $a['sort'] - $b['sort'];
             });
 
-            $result['lolos'] = $lolos;
-            $result['gagal'] = $gagal;
-            $result['belumusul'] = $belumusul;
+            $result['update'] = $update;
+            $result['insert'] = $insert;
+            $result['sama'] = $sama;
             $result['data'] = $response;
             $result['aksi'] = $response_aksi;
         } else {
             $result['total'] = 0;
-            $result['lolos'] = 0;
-            $result['gagal'] = 0;
-            $result['belumusul'] = 0;
+            $result['update'] = 0;
+            $result['insert'] = 0;
+            $result['sama'] = 0;
             $result['data'] = [];
         }
 
