@@ -562,6 +562,34 @@ class Apilib
         }
     }
 
+    public function uploadPegawaiGajiSipd($tahun, $filename)
+    {
+        $jwt = get_cookie('jwt');
+        if ($jwt) {
+            $data = [
+                'tahun' => $tahun,
+                'filename' => $filename,
+            ];
+            $add         = $this->_send_post($data, 'importpegawaigajisipd', $jwt);
+            $send_data         = curl_exec($add);
+
+            $result = json_decode($send_data);
+
+
+            if (isset($result->error)) {
+                return false;
+            }
+
+            if ($result) {
+                return $result;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     public function generatePotonganInfak($tahun)
     {
         $jwt = get_cookie('jwt');

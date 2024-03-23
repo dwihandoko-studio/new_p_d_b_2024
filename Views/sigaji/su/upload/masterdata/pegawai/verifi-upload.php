@@ -112,12 +112,12 @@
         const buttonAksiMatching = document.getElementById("button_aksi_matching");
         buttonAksiMatching.setAttribute("disabled", true);
 
-        let dataSendMatching;
+        // let dataSendMatching;
 
         fetch("./get_data_json?id=<?= $id ?>")
             .then(response => response.json())
             .then(data => {
-                dataSendMatching = data.aksi;
+                // dataSendMatching = data.aksi;
                 buttonAksiMatching.removeAttribute("disabled");
 
                 const result_total = document.getElementById("result_total");
@@ -182,107 +182,144 @@
             });
 
         function aksiMatching() {
-            buttonAksiMatching.setAttribute("disabled", true);
-            console.log(dataSendMatching);
-            const progBar = document.getElementById("progressBar");
 
-            progBar.style.display = "block";
+            $.ajax({
+                url: "./prosesmatching",
+                type: 'POST',
+                data: {
+                    filename: <?= $id ?>,
+                    tahun: <?= $tahun_bulan ?>,
+                },
+                dataType: 'JSON',
+                beforeSend: function() {
+                    $('div.modal-content-loading').block({
+                        message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                    });
+                    buttonAksiMatching.setAttribute("disabled", true);
+                },
+                success: function(resul) {
+                    $('div.modal-content-loading').unblock();
+                    if (resul.status !== 200) {
 
-            ambilId("status").innerHTML = "Menyimpan Data . . .";
-
-            let jumlahDataBerhasil = 0;
-            let jumlahDataGagal = 0;
-
-            let sendToServer = function(lines, index) {
-                if (index > lines.length - 1) {
-                    ambilId("progressBar").style.display = "none";
-                    ambilId("status").innerHTML = "Proses Matching Berhasil.";
-                    ambilId("status").style.color = "green";
-                    ambilId("progressBar").value = 0;
-
-                    Swal.fire(
-                        'SELAMAT!',
-                        "Proses Matching Data Berhasil.",
-                        'success'
-                    ).then((valRes) => {
-                        document.location.href = "<?= base_url('sigaji/su/masterdata/pegawai'); ?>";
-                    })
-                    return; // guard condition
-                }
-
-                item = lines[index];
-                let total = ((index + 1) / lines.length) * 100;
-                total = total.toFixed(2);
-
-                $.ajax({
-                    url: "./prosesmatching",
-                    type: 'POST',
-                    data: item,
-                    dataType: 'JSON',
-                    success: function(msg) {
-                        if (msg.code != 200) {
-                            ambilId("status").style.color = "blue";
-                            ambilId("progressBar").value = total;
-                            ambilId("loaded_n_total").innerHTML = total + '%';
-                            console.log(msg.message);
-                            if (index + 1 === lines.length) {
-                                ambilId("progressBar").style.display = "none";
-                                ambilId("status").innerHTML = msg.message;
-                                ambilId("status").style.color = "green";
-                                ambilId("progressBar").value = 0;
-
-                                Swal.fire(
-                                    'SELAMAT!',
-                                    "Proses Matching Data Berhasil.",
-                                    'success'
-                                ).then((valRes) => {
-                                    document.location.href = "<?= base_url('sigaji/su/masterdata/pegawai'); ?>";
-                                })
-                            }
-                        } else {
-                            ambilId("status").style.color = "blue";
-                            ambilId("progressBar").value = total;
-                            ambilId("loaded_n_total").innerHTML = total + '%';
-
-                            if (index + 1 === lines.length) {
-                                ambilId("progressBar").style.display = "none";
-                                ambilId("status").innerHTML = msg.message;
-                                ambilId("status").style.color = "green";
-                                ambilId("progressBar").value = 0;
-
-                                Swal.fire(
-                                    'SELAMAT!',
-                                    "Proses Matching Data Berhasil.",
-                                    'success'
-                                ).then((valRes) => {
-                                    document.location.href = "<?= base_url('sigaji/su/masterdata/pegawai'); ?>";
-                                })
-                            }
-                        }
-
-                        setTimeout(
-                            function() {
-                                sendToServer(lines, index + 1);
-                            },
-                            350 // delay in ms
-                        );
-                    },
-                    error: function(error) {
-                        ambilId("progressBar").style.display = "none";
-                        ambilId("status").innerHTML = msg.message;
-                        ambilId("status").style.color = "green";
-                        ambilId("progressBar").value = 0;
-                        buttonAksiMatching.removeAttribute("disabled");
                         Swal.fire(
                             'Failed!',
-                            "Gagal.",
+                            resul.message,
                             'warning'
                         );
+                        buttonAksiMatching.setAttribute("disabled", false);
+                    } else {
+                        Swal.fire(
+                            'SUKSES!',
+                            "Proses Import Data Berhasil Disimpan.",
+                            'success'
+                        ).then((valRes) => {
+                            document.location.href = "<?= base_url('sigaji/su/masterdata/pegawai'); ?>";
+                        })
                     }
-                });
-            };
+                },
+                error: function() {
+                    $('div.modal-content-loading').unblock();
+                    Swal.fire(
+                        'Failed!',
+                        "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                        'warning'
+                    );
+                }
+            });
 
-            sendToServer(dataSendMatching.aksi, 0);
+            // let jumlahDataBerhasil = 0;
+            // let jumlahDataGagal = 0;
+
+            // let sendToServer = function(lines, index) {
+            //     if (index > lines.length - 1) {
+            //         ambilId("progressBar").style.display = "none";
+            //         ambilId("status").innerHTML = "Proses Matching Berhasil.";
+            //         ambilId("status").style.color = "green";
+            //         ambilId("progressBar").value = 0;
+
+            //         Swal.fire(
+            //             'SELAMAT!',
+            //             "Proses Matching Data Berhasil.",
+            //             'success'
+            //         ).then((valRes) => {
+            //             document.location.href = "<?= base_url('sigaji/su/masterdata/pegawai'); ?>";
+            //         })
+            //         return; // guard condition
+            //     }
+
+            //     item = lines[index];
+            //     let total = ((index + 1) / lines.length) * 100;
+            //     total = total.toFixed(2);
+
+            //     $.ajax({
+            //         url: "./prosesmatching",
+            //         type: 'POST',
+            //         data: item,
+            //         dataType: 'JSON',
+            //         success: function(msg) {
+            //             if (msg.code != 200) {
+            //                 ambilId("status").style.color = "blue";
+            //                 ambilId("progressBar").value = total;
+            //                 ambilId("loaded_n_total").innerHTML = total + '%';
+            //                 console.log(msg.message);
+            //                 if (index + 1 === lines.length) {
+            //                     ambilId("progressBar").style.display = "none";
+            //                     ambilId("status").innerHTML = msg.message;
+            //                     ambilId("status").style.color = "green";
+            //                     ambilId("progressBar").value = 0;
+
+            //                     Swal.fire(
+            //                         'SELAMAT!',
+            //                         "Proses Matching Data Berhasil.",
+            //                         'success'
+            //                     ).then((valRes) => {
+            //                         document.location.href = "<?= base_url('sigaji/su/masterdata/pegawai'); ?>";
+            //                     })
+            //                 }
+            //             } else {
+            //                 ambilId("status").style.color = "blue";
+            //                 ambilId("progressBar").value = total;
+            //                 ambilId("loaded_n_total").innerHTML = total + '%';
+
+            //                 if (index + 1 === lines.length) {
+            //                     ambilId("progressBar").style.display = "none";
+            //                     ambilId("status").innerHTML = msg.message;
+            //                     ambilId("status").style.color = "green";
+            //                     ambilId("progressBar").value = 0;
+
+            //                     Swal.fire(
+            //                         'SELAMAT!',
+            //                         "Proses Matching Data Berhasil.",
+            //                         'success'
+            //                     ).then((valRes) => {
+            //                         document.location.href = "<?= base_url('sigaji/su/masterdata/pegawai'); ?>";
+            //                     })
+            //                 }
+            //             }
+
+            //             setTimeout(
+            //                 function() {
+            //                     sendToServer(lines, index + 1);
+            //                 },
+            //                 350 // delay in ms
+            //             );
+            //         },
+            //         error: function(error) {
+            //             ambilId("progressBar").style.display = "none";
+            //             ambilId("status").innerHTML = msg.message;
+            //             ambilId("status").style.color = "green";
+            //             ambilId("progressBar").value = 0;
+            //             buttonAksiMatching.removeAttribute("disabled");
+            //             Swal.fire(
+            //                 'Failed!',
+            //                 "Gagal.",
+            //                 'warning'
+            //             );
+            //         }
+            //     });
+            // };
+
+            // sendToServer(dataSendMatching.aksi, 0);
         }
     </script>
 <?php } ?>
