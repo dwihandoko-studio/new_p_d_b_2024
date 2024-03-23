@@ -490,6 +490,12 @@ class Pegawai extends BaseController
                     $item['aksi'] = "Aksi";
                     $item['status'] = "table-success";
                     $item['sort'] = "99";
+                    $item['nip_db'] = "";
+                    $item['nik_db'] = "";
+                    $item['nama_db'] = "";
+                    $item['golongan_db'] = "";
+                    $item['mk_db'] = "";
+                    $item['noreg_db'] = "";
                     $response_aksi[] = $item;
                     $insert += 1;
                 } else {
@@ -502,6 +508,12 @@ class Pegawai extends BaseController
                         $item['aksi'] = "Aksi";
                         $item['status'] = "table-warning";
                         $item['sort'] = "99";
+                        $item['nip_db'] = $v['data_pegawai']['nip'];
+                        $item['nik_db'] = $v['data_pegawai']['nik'];
+                        $item['nama_db'] = $v['data_pegawai']['nama'];
+                        $item['golongan_db'] = $v['data_pegawai']['golongan'];
+                        $item['mk_db'] = $v['data_pegawai']['mk_golongan'];
+                        $item['noreg_db'] = $v['data_pegawai']['no_rekening_bank'];
                         $response_aksi[] = $item;
                         $update += 1;
                     }
