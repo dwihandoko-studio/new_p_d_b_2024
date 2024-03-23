@@ -318,6 +318,7 @@ class Pegawai extends BaseController
                     'nama_kecamatan' => $data[45],
                     'nama_instansi' => $data[46],
                     'kode_instansi' => $data[47],
+                    'id_tahun_tw' => $tw,
                 ];
 
                 $dataInsert['data_pegawai'] = $this->_db->table('tb_pegawai_ a')
@@ -486,6 +487,7 @@ class Pegawai extends BaseController
                 $item['kode_instansi'] = $v['kode_instansi'];
                 $item['nama_instansi'] = $v['nama_instansi'];
                 $item['nama_kecamatan'] = $v['nama_kecamatan'];
+                $item['id_tahun_tw'] = $v['id_tahun_tw'];
                 if ($v['data_pegawai'] == NULL || $v['data_pegawai'] == "") {
                     $item['aksi'] = "Aksi";
                     $item['status'] = "table-success";
@@ -606,6 +608,7 @@ class Pegawai extends BaseController
                 return json_encode($response);
             }
 
+            $tahun_bulan = htmlspecialchars($this->request->getVar('id_tahun_tw'), true);
             $kode_instansi = htmlspecialchars($this->request->getVar('kode_instansi'), true);
             $nama_instansi = htmlspecialchars($this->request->getVar('nama_instansi'), true);
             $nama_kecamatan = htmlspecialchars($this->request->getVar('nama_kecamatan'), true);
@@ -680,7 +683,7 @@ class Pegawai extends BaseController
                     // Menggabungkan menjadi format tanggal yang diinginkan
                     $ttl = $y . "-" . $m . "-" . $d;
 
-                    $this->_db->table('tb_pegawai_')->insert([
+                    $dataInsert = [
                         'id' => $uuidLib->v4(),
                         'nip' => $nip,
                         'nik' => $nik,
@@ -709,35 +712,65 @@ class Pegawai extends BaseController
                         'no_rekening_bank' => $no_rekening_bank,
                         'status_active' => 1,
                         'created_at' => date('Y-m-d H:i:s'),
-                    ]);
+                    ];
+
+                    $this->_db->table('tb_pegawai_')->insert($dataInsert);
                     if ($this->_db->affectedRows() > 0) {
-                        // $this->_db->table('_tb_usulan_detail_tpg')->where(['id' => $ptk->id])->delete();
-                        // if ($this->_db->affectedRows() > 0) {
+                        $this->_db->table('tb_gaji_sipd')->insert([
+                            'id' => $uuidLib->v4(),
+                            'id_pegawai' => $dataInsert['id'],
+                            'tahun' => $tahun_bulan,
+                            'gaji_pokok' => $gaji_pokok,
+                            'perhitungan_suami_istri' => $perhitungan_suami_istri,
+                            'perhitungan_anak' => $perhitungan_anak,
+                            'tunjangan_keluarga' => $tunjangan_keluarga,
+                            'tunjangan_jabatan' => $tunjangan_jabatan,
+                            'tunjangan_fungsional' => $tunjangan_fungsional,
+                            'tunjangan_fungsional_umum' => $tunjangan_fungsional_umum,
+                            'tunjangan_beras' => $tunjangan_beras,
+                            'tunjangan_pph' => $tunjangan_pph,
+                            'pembulatan_gaji' => $pembulatan_gaji,
+                            'iuran_jaminan_kesehatan' => $iuran_jaminan_kesehatan,
+                            'iuran_jaminan_kecelakaan_kerja' => $iuran_jaminan_kecelakaan_kerja,
+                            'iuran_jaminan_kematian' => $iuran_jaminan_kematian,
+                            'iuran_simpanan_tapera' => $iuran_simpanan_tapera,
+                            'iuran_pensiun' => $iuran_pensiun,
+                            'tunjangan_jaminan_hari_tua' => $tunjangan_jaminan_hari_tua,
+                            'potongan_iwp' => $potongan_iwp,
+                            'potongan_pph_21' => $potongan_pph21,
+                            'zakat' => $potongan_zakat,
+                            'bulog' => $potongan_bulog,
+                            'jumlah_gaji_dan_tunjangan' => $jumlah_gaji_dan_tunjangan,
+                            'jumlah_potongan' => $jumlah_potongan,
+                            'jumlah_transfer' => $jumlah_ditransfer,
+                            'created_at' => $dataInsert['created_at'],
+                        ]);
+                        if ($this->_db->affectedRows() > 0) {
 
-                        $this->_db->transCommit();
+                            $this->_db->transCommit();
 
-                        // try {
-                        //     $notifLib = new NotificationLib();
-                        //     $notifLib->create("Lolos Matching Simtun", "Usulan " . $ptk->kode_usulan . " telah lolos matching simtun.", "success", $user->data->id, $ptk->id_ptk, base_url('situgu/ptk/us/tpg/siapsk'));
-                        // } catch (\Throwable $th) {
-                        //     //throw $th;
-                        // }
-                        $response = new \stdClass;
-                        $response->status = 200;
-                        $response->message = "Data berhasil disimpan.";
-                        return json_encode($response);
-                        // } else {
-                        //     $this->_db->transRollback();
-                        //     $response = new \stdClass;
-                        //     $response->status = 400;
-                        //     $response->message = "Gagal memindahkan data usulan.";
-                        //     return json_encode($response);
-                        // }
+                            // try {
+                            //     $notifLib = new NotificationLib();
+                            //     $notifLib->create("Lolos Matching Simtun", "Usulan " . $ptk->kode_usulan . " telah lolos matching simtun.", "success", $user->data->id, $ptk->id_ptk, base_url('situgu/ptk/us/tpg/siapsk'));
+                            // } catch (\Throwable $th) {
+                            //     //throw $th;
+                            // }
+                            $response = new \stdClass;
+                            $response->status = 200;
+                            $response->message = "Data berhasil disimpan.";
+                            return json_encode($response);
+                        } else {
+                            $this->_db->transRollback();
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Gagal menyimpan data import pada gaji sipd.";
+                            return json_encode($response);
+                        }
                     } else {
                         $this->_db->transRollback();
                         $response = new \stdClass;
                         $response->status = 400;
-                        $response->message = "Gagal menyimpan data import.";
+                        $response->message = "Gagal menyimpan data import pada data pegawai.";
                         return json_encode($response);
                     }
                 } catch (\Throwable $th) {
@@ -745,7 +778,143 @@ class Pegawai extends BaseController
                     $response = new \stdClass;
                     $response->status = 200;
                     $response->error = var_dump($th);
-                    $response->message = "Gagal memindahkan data import.";
+                    $response->message = "Gagal menyimpan data import. kesalahan";
+                    return json_encode($response);
+                }
+            } else if ($status == "table-warning") {
+                $dataOldPegawai = $this->_db->table('tb_pegawai_')->select("id, nama_kecamatan, kode_kecamatan, kode_instansi, nama_instansi")->where('nip', $nip)->get()->getRowObject();
+                $uuidLib = new Uuid();
+                try {
+                    // $y = substr($nip, 0, 4);
+                    // $m = substr($nip, 4, 2);
+                    // $d = substr($nip, 6, 2);
+
+                    // // Menggabungkan menjadi format tanggal yang diinginkan
+                    // $ttl = $y . "-" . $m . "-" . $d;
+
+                    $dataUpdate = [
+                        'nik' => $nik,
+                        'nama' => $nama,
+                        'npwp' => $npwp,
+                        'tipe_jabatan' => $tipe_jabatan,
+                        'nama_jabatan' => $nama_jabatan,
+                        'eselon' => $eselon,
+                        'status_asn' => $status_asn,
+                        'golongan' => $golongan,
+                        'mk_golongan' => $mk_golongan,
+                        'alamat' => $alamat,
+                        'nama_kecamatan' => $nama_kecamatan == "" ? $dataOldPegawai->nama_kecamatan : $nama_kecamatan,
+                        'kode_kecamatan' => $kode_kecamatan == "" ? $dataOldPegawai->kode_kecamatan : $kode_kecamatan,
+                        'kode_instansi' => $kode_instansi == "" ? $dataOldPegawai->kode_instansi : $kode_instansi,
+                        'nama_instansi' => $nama_instansi == "" ? $dataOldPegawai->nama_instansi : $nama_instansi,
+                        'status_kawin' => $status_pernikahan,
+                        'jumlah_istri' => $jumlah_istri_suami,
+                        'jumlah_anak' => $jumlah_anak,
+                        'jumlah_tanggungan' => $jumlah_tanggungan,
+                        'pasangan_pns' => $pasangan_pns,
+                        'nip_pasangan' => $nip_pasangan,
+                        'kode_bank' => $kode_bank,
+                        'nama_bank' => $nama_bank,
+                        'no_rekening_bank' => $no_rekening_bank,
+                        'status_active' => 1,
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ];
+
+                    $this->_db->table('tb_pegawai_')->where('id', $dataOldPegawai->id)->update($dataUpdate);
+                    if ($this->_db->affectedRows() > 0) {
+                        $cekAnyData = $this->_db->table('tb_gaji_sipd')->where(['id_pegawai' => $dataOldPegawai->id, 'tahun' => $tahun_bulan])->countAllResults();
+                        if ($cekAnyData > 0) {
+                            $this->_db->table('tb_gaji_sipd')->where(['id_pegawai' => $dataOldPegawai->id, 'tahun' => $tahun_bulan])->update([
+                                'gaji_pokok' => $gaji_pokok,
+                                'perhitungan_suami_istri' => $perhitungan_suami_istri,
+                                'perhitungan_anak' => $perhitungan_anak,
+                                'tunjangan_keluarga' => $tunjangan_keluarga,
+                                'tunjangan_jabatan' => $tunjangan_jabatan,
+                                'tunjangan_fungsional' => $tunjangan_fungsional,
+                                'tunjangan_fungsional_umum' => $tunjangan_fungsional_umum,
+                                'tunjangan_beras' => $tunjangan_beras,
+                                'tunjangan_pph' => $tunjangan_pph,
+                                'pembulatan_gaji' => $pembulatan_gaji,
+                                'iuran_jaminan_kesehatan' => $iuran_jaminan_kesehatan,
+                                'iuran_jaminan_kecelakaan_kerja' => $iuran_jaminan_kecelakaan_kerja,
+                                'iuran_jaminan_kematian' => $iuran_jaminan_kematian,
+                                'iuran_simpanan_tapera' => $iuran_simpanan_tapera,
+                                'iuran_pensiun' => $iuran_pensiun,
+                                'tunjangan_jaminan_hari_tua' => $tunjangan_jaminan_hari_tua,
+                                'potongan_iwp' => $potongan_iwp,
+                                'potongan_pph_21' => $potongan_pph21,
+                                'zakat' => $potongan_zakat,
+                                'bulog' => $potongan_bulog,
+                                'jumlah_gaji_dan_tunjangan' => $jumlah_gaji_dan_tunjangan,
+                                'jumlah_potongan' => $jumlah_potongan,
+                                'jumlah_transfer' => $jumlah_ditransfer,
+                                'updated_at' => $dataUpdate['created_at'],
+                            ]);
+                        } else {
+                            $this->_db->table('tb_gaji_sipd')->insert([
+                                'id' => $uuidLib->v4(),
+                                'id_pegawai' => $dataOldPegawai->id,
+                                'tahun' => $tahun_bulan,
+                                'gaji_pokok' => $gaji_pokok,
+                                'perhitungan_suami_istri' => $perhitungan_suami_istri,
+                                'perhitungan_anak' => $perhitungan_anak,
+                                'tunjangan_keluarga' => $tunjangan_keluarga,
+                                'tunjangan_jabatan' => $tunjangan_jabatan,
+                                'tunjangan_fungsional' => $tunjangan_fungsional,
+                                'tunjangan_fungsional_umum' => $tunjangan_fungsional_umum,
+                                'tunjangan_beras' => $tunjangan_beras,
+                                'tunjangan_pph' => $tunjangan_pph,
+                                'pembulatan_gaji' => $pembulatan_gaji,
+                                'iuran_jaminan_kesehatan' => $iuran_jaminan_kesehatan,
+                                'iuran_jaminan_kecelakaan_kerja' => $iuran_jaminan_kecelakaan_kerja,
+                                'iuran_jaminan_kematian' => $iuran_jaminan_kematian,
+                                'iuran_simpanan_tapera' => $iuran_simpanan_tapera,
+                                'iuran_pensiun' => $iuran_pensiun,
+                                'tunjangan_jaminan_hari_tua' => $tunjangan_jaminan_hari_tua,
+                                'potongan_iwp' => $potongan_iwp,
+                                'potongan_pph_21' => $potongan_pph21,
+                                'zakat' => $potongan_zakat,
+                                'bulog' => $potongan_bulog,
+                                'jumlah_gaji_dan_tunjangan' => $jumlah_gaji_dan_tunjangan,
+                                'jumlah_potongan' => $jumlah_potongan,
+                                'jumlah_transfer' => $jumlah_ditransfer,
+                                'created_at' => $dataUpdate['created_at'],
+                            ]);
+                        }
+                        if ($this->_db->affectedRows() > 0) {
+
+                            $this->_db->transCommit();
+
+                            // try {
+                            //     $notifLib = new NotificationLib();
+                            //     $notifLib->create("Lolos Matching Simtun", "Usulan " . $ptk->kode_usulan . " telah lolos matching simtun.", "success", $user->data->id, $ptk->id_ptk, base_url('situgu/ptk/us/tpg/siapsk'));
+                            // } catch (\Throwable $th) {
+                            //     //throw $th;
+                            // }
+                            $response = new \stdClass;
+                            $response->status = 200;
+                            $response->message = "Data berhasil disimpan.";
+                            return json_encode($response);
+                        } else {
+                            $this->_db->transRollback();
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Gagal menyimpan data import pada gaji sipd.";
+                            return json_encode($response);
+                        }
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menyimpan data import pada data pegawai.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->error = var_dump($th);
+                    $response->message = "Gagal menyimpan data import. kesalahan";
                     return json_encode($response);
                 }
             } else {
