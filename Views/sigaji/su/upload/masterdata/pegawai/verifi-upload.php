@@ -63,18 +63,22 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th colspan="5">DATA UPLOAD</th>
-                                <th colspan="5">DATA DATABASE</th>
+                                <th colspan="6">DATA UPLOAD</th>
+                                <th colspan="6">DATA DATABASE</th>
                             </tr>
                             <tr>
                                 <th>NAMA</th>
                                 <th>NIP</th>
                                 <th>NIK</th>
                                 <th>GOLONGAN</th>
+                                <th>MK</th>
+                                <th>NO REKENING</th>
                                 <th>NAMA</th>
                                 <th>NIP</th>
                                 <th>NIK</th>
                                 <th>GOLONGAN</th>
+                                <th>MK</th>
+                                <th>NO REKENING</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -134,12 +138,14 @@
                     const nikCell = document.createElement("td");
                     const golonganCell = document.createElement("td");
                     const mkCell = document.createElement("td");
+                    const noregCell = document.createElement("td");
 
                     const nipCellDb = document.createElement("td");
                     const namaCellDb = document.createElement("td");
                     const nikCellDb = document.createElement("td");
                     const golonganCellDb = document.createElement("td");
                     const mkCellDb = document.createElement("td");
+                    const noregCellDb = document.createElement("td");
 
                     numberCell.textContent = 1 + i;
 
@@ -147,13 +153,15 @@
                     namaCell.textContent = data.aksi[i].nama;
                     nikCell.textContent = data.aksi[i].nik;
                     golonganCell.textContent = data.aksi[i].golongan;
-                    mkCell.textContent = data.aksi[i].golongan;
+                    mkCell.textContent = data.aksi[i].mk_golongan;
+                    noregCell.textContent = data.aksi[i].no_rekening_bank;
 
                     nipCellDb.textContent = data.aksi[i].nip_db;
                     namaCellDb.textContent = data.aksi[i].nama_db;
                     nikCellDb.textContent = data.aksi[i].nik_db;
                     golonganCellDb.textContent = data.aksi[i].golongan_db;
-                    mkCellDb.textContent = data.aksi[i].mk_db;
+                    mkCellDb.textContent = data.aksi[i].mk_golongan_db;
+                    noregCellDb.textContent = data.aksi[i].no_rekening_bank_db;
 
                     row.appendChild(numberCell);
                     row.appendChild(nipCell);
@@ -161,10 +169,13 @@
                     row.appendChild(nikCell);
                     row.appendChild(golonganCell);
                     row.appendChild(mkCell);
+                    row.appendChild(noregCell);
                     row.appendChild(nipCellDb);
                     row.appendChild(namaCellDb);
                     row.appendChild(nikCellDb);
                     row.appendChild(golonganCellDb);
+                    row.appendChild(mkCellDb);
+                    row.appendChild(noregCellDb);
                     row.classList.add(data.aksi[i].status);
                     tbody.appendChild(row);
                 }
