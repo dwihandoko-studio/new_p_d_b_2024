@@ -1224,4 +1224,62 @@ class Matching extends BaseController
             }
         }
     }
+
+    public function synPembenahan()
+    {
+        $data_error = [];
+        $datas = $this->_db->table('_tb_usulan_detail_tpg')->select("id, us_pang_golongan, us_pang_mk_tahun, us_gaji_pokok")->where(['id_tahun_tw' => '8413ae4c-e528-11ee-ad92-0242ac170002', 'status_usulan' => 2])->get()->getResult();
+        if (count($datas) > 0) {
+            foreach ($datas as $key => $value) {
+                $getGapok = $this->_db->table('ref_gaji')->select("pangkat, masa_kerja, gaji_pokok")->where(['pangkat' => $value->us_pang_golongan, 'masa_kerja' => $value->us_pang_mk_tahun])->get()->getRowObject();
+                if (!$getGapok) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gapok tidak ditemukan untuk id: " . $value->id;
+                    return json_encode($response);
+                }
+                if ((int)$value->us_gaji_pokok === (int)$getGapok->gaji_pokok) {
+                    $data_error[] = $value->id;
+                    continue;
+                }
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('_tb_usulan_detail_tpg')->where('id', $value->id)->update([
+                        'us_gaji_pokok' => $getGapok->gaji_pokok,
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ]);
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->error = var_dump($th);
+                    $response->message = "Gagal update Gapok untuk id: " . $value->id;
+                    return json_encode($response);
+                }
+
+                if ($this->_db->affectedRows() > 0) {
+                    $this->_db->transCommit();
+                    continue;
+                } else {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data matching gagal dihapus.";
+                    return json_encode($response);
+                }
+            }
+
+            $response = new \stdClass;
+            $response->status = 200;
+            $response->message = "Data matching berhasil diupdate.";
+            $response->error = $data_error;
+            return json_encode($response);
+        } else {
+            $response = new \stdClass;
+            $response->status = 200;
+            $response->message = "Data matching tidak ditemukan.";
+            $response->error = $data_error;
+            return json_encode($response);
+        }
+    }
 }
