@@ -416,6 +416,7 @@ class Matching extends BaseController
                     $item['nuptk'] = $v['nuptk'];
                     $item['nama'] = $v['nama'];
                     $item['golongan_code'] = $v['golongan_code'];
+                    $item['golongan'] = $v['golongan'];
                     $item['masa_kerja'] = $v['masa_kerja'];
                     $item['gaji_pokok'] = $v['gaji_pokok'];
                     $item['total_jjm_sesuai'] = $v['total_jjm_sesuai'];
@@ -456,7 +457,7 @@ class Matching extends BaseController
                         // if ($v['total_jjm_sesuai'] >= 24 && $v['total_jjm_sesuai'] <= 50) {
 
                         if ($v['golongan'] == "" && !($v['nip'] == NULL || $v['nip'] == "")) {
-                            if ("IX" == $v['data_usulan']['us_pang_golongan'] && $v['gaji_pokok'] == $v['data_usulan']['us_gaji_pokok']) {
+                            if ("IX" == $v['data_usulan']['us_pang_golongan'] && (int)$v['gaji_pokok'] == (int)$v['data_usulan']['us_gaji_pokok']) {
                                 $item['number'] = $key + 1;
                                 $item['nuptk'] = $v['nuptk'];
                                 $item['nama'] = $v['nama'];
@@ -506,7 +507,7 @@ class Matching extends BaseController
                         } else {
                             if ($v['nip'] == NULL || $v['nip'] == "") {
                                 if ($v['golongan'] == NULL || $v['golongan'] == "") {
-                                    if ($v['gaji_pokok'] == $v['data_usulan']['us_gaji_pokok']) {
+                                    if ((int)$v['gaji_pokok'] == (int)$v['data_usulan']['us_gaji_pokok']) {
                                         $item['number'] = $key + 1;
                                         $item['nuptk'] = $v['nuptk'];
                                         $item['nama'] = $v['nama'];
@@ -603,7 +604,7 @@ class Matching extends BaseController
                                     }
                                 }
                             } else {
-                                if ("IX" == $v['data_usulan']['us_pang_golongan'] && $v['gaji_pokok'] == $v['data_usulan']['us_gaji_pokok']) {
+                                if ("IX" == $v['data_usulan']['us_pang_golongan'] && (int)$v['gaji_pokok'] == (int)$v['data_usulan']['us_gaji_pokok']) {
                                     $item['number'] = $key + 1;
                                     $item['nuptk'] = $v['nuptk'];
                                     $item['nama'] = $v['nama'];
@@ -627,11 +628,12 @@ class Matching extends BaseController
                                     $item['sort'] = "88";
                                     $lolos += 1;
                                 } else {
-                                    if ($v['golongan'] == $v['data_usulan']['us_pang_golongan'] && $v['masa_kerja'] == $v['data_usulan']['us_pang_mk_tahun'] && $v['gaji_pokok'] == $v['data_usulan']['us_gaji_pokok']) {
+                                    if ($v['golongan'] == $v['data_usulan']['us_pang_golongan'] && (int)$v['masa_kerja'] == (int)$v['data_usulan']['us_pang_mk_tahun'] && (int)$v['gaji_pokok'] == (int)$v['data_usulan']['us_gaji_pokok']) {
                                         $item['number'] = $key + 1;
                                         $item['nuptk'] = $v['nuptk'];
                                         $item['nama'] = $v['nama'];
                                         $item['golongan_code'] = $v['golongan_code'];
+                                        $item['golongan'] = $v['golongan'];
                                         $item['masa_kerja'] = $v['masa_kerja'];
                                         $item['gaji_pokok'] = $v['gaji_pokok'];
                                         $item['total_jjm_sesuai'] = $v['total_jjm_sesuai'];
@@ -651,12 +653,13 @@ class Matching extends BaseController
                                         $item['sort'] = "88";
                                         $lolos += 1;
                                     } else {
-                                        if ($v['data_usulan']['us_pang_mk_tahun'] > 32) {
-                                            if ($v['golongan'] == $v['data_usulan']['us_pang_golongan'] && $v['gaji_pokok'] == $v['data_usulan']['us_gaji_pokok']) {
+                                        if ((int)$v['data_usulan']['us_pang_mk_tahun'] > 32) {
+                                            if ($v['golongan'] == $v['data_usulan']['us_pang_golongan'] && (int)$v['gaji_pokok'] == (int)$v['data_usulan']['us_gaji_pokok']) {
                                                 $item['number'] = $key + 1;
                                                 $item['nuptk'] = $v['nuptk'];
                                                 $item['nama'] = $v['nama'];
                                                 $item['golongan_code'] = $v['golongan_code'];
+                                                $item['golongan'] = $v['golongan'];
                                                 $item['masa_kerja'] = $v['masa_kerja'];
                                                 $item['gaji_pokok'] = $v['gaji_pokok'];
                                                 $item['total_jjm_sesuai'] = $v['total_jjm_sesuai'];
@@ -680,6 +683,7 @@ class Matching extends BaseController
                                                 $item['nuptk'] = $v['nuptk'];
                                                 $item['nama'] = $v['nama'];
                                                 $item['golongan_code'] = $v['golongan_code'];
+                                                $item['golongan'] = $v['golongan'];
                                                 $item['masa_kerja'] = $v['masa_kerja'];
                                                 $item['gaji_pokok'] = $v['gaji_pokok'];
                                                 $item['total_jjm_sesuai'] = $v['total_jjm_sesuai'];
@@ -704,6 +708,7 @@ class Matching extends BaseController
                                             $item['nuptk'] = $v['nuptk'];
                                             $item['nama'] = $v['nama'];
                                             $item['golongan_code'] = $v['golongan_code'];
+                                            $item['golongan'] = $v['golongan'];
                                             $item['masa_kerja'] = $v['masa_kerja'];
                                             $item['gaji_pokok'] = $v['gaji_pokok'];
                                             $item['total_jjm_sesuai'] = $v['total_jjm_sesuai'];
@@ -813,6 +818,7 @@ class Matching extends BaseController
                         $item['nuptk'] = $v['nuptk'];
                         $item['nama'] = $v['nama'];
                         $item['golongan_code'] = $v['golongan_code'];
+                        $item['golongan'] = $v['golongan'];
                         $item['masa_kerja'] = $v['masa_kerja'];
                         $item['gaji_pokok'] = $v['gaji_pokok'];
                         $item['total_jjm_sesuai'] = $v['total_jjm_sesuai'];

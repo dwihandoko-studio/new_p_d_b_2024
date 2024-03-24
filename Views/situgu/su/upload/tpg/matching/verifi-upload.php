@@ -157,7 +157,7 @@
                     numberCell.textContent = 1 + i;
                     nuptkCell.textContent = data.data[i].nuptk;
                     namaCell.textContent = data.data[i].nama;
-                    golonganCodeCell.textContent = data.data[i].golongan_code;
+                    golonganCodeCell.textContent = data.data[i].golongan;
                     masaKerjaCell.textContent = data.data[i].masa_kerja;
                     gajiPokokCell.textContent = data.data[i].gaji_pokok;
                     totalJjmCell.textContent = data.data[i].total_jjm_sesuai;
