@@ -17,10 +17,10 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="topnav-masterdata">
                                 <a href="<?= base_url('sigaji/su/masterdata/pegawai') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "masterdata" && $uri->getSegment(4) == "pegawai") ? ' active-menu-href' : '' ?>" key="t-masterdata-pegawai">Pegawai</a>
-                                <!-- <a href="<?= base_url('sigaji/su/masterdata/ptk') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "masterdata" && $uri->getSegment(4) == "ptk") ? ' active-menu-href' : '' ?>" key="t-masterdata-ptk">PTK</a>
-                                <a href="<?= base_url('sigaji/su/masterdata/refgaji') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "masterdata" && $uri->getSegment(4) == "refgaji") ? ' active-menu-href' : '' ?>" key="t-masterdata-refgaji">Referensi Gaji</a>
-                                <a href="<?= base_url('sigaji/su/masterdata/reftw') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "masterdata" && $uri->getSegment(4) == "reftw") ? ' active-menu-href' : '' ?>" key="t-masterdata-reftw">Referensi Tahun TW</a>
-                                <a href="<?= base_url('sigaji/su/masterdata/pengguna') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "masterdata" && $uri->getSegment(4) == "pengguna") ? ' active-menu-href' : '' ?>" key="t-masterdata-pengguna">Pengguna</a> -->
+                                <!-- <a href="<?= base_url('sigaji/su/masterdata/ptk') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "masterdata" && $uri->getSegment(4) == "ptk") ? ' active-menu-href' : '' ?>" key="t-masterdata-ptk">PTK</a> -->
+                                <!-- <a href="<?= base_url('sigaji/su/masterdata/refgaji') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "masterdata" && $uri->getSegment(4) == "refgaji") ? ' active-menu-href' : '' ?>" key="t-masterdata-refgaji">Referensi Gaji</a> -->
+                                <a href="<?= base_url('sigaji/su/masterdata/refbulan') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "masterdata" && $uri->getSegment(4) == "refbulan") ? ' active-menu-href' : '' ?>" key="t-masterdata-refbulan">Referensi Tahun Bulan</a>
+                                <!-- <a href="<?= base_url('sigaji/su/masterdata/pengguna') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "masterdata" && $uri->getSegment(4) == "pengguna") ? ' active-menu-href' : '' ?>" key="t-masterdata-pengguna">Pengguna</a> -->
                             </div>
                         </li>
                         <li class="nav-item dropdown">
