@@ -45,6 +45,7 @@
                                     <th>TAHUN</th>
                                     <th>BULAN</th>
                                     <th>BULAN NAME</th>
+                                    <th>STATUS</th>
                                 </tr>
                             </thead>
                         </table>
