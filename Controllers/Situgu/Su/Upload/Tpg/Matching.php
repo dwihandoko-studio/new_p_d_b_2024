@@ -1234,7 +1234,8 @@ class Matching extends BaseController
                 if ((int)$value->us_gaji_pokok === 1500000) {
                     continue;
                 }
-                $getGapok = $this->_db->table('ref_gaji')->select("pangkat, masa_kerja, gaji_pokok")->where(['pangkat' => $value->us_pang_golongan, 'masa_kerja' => $value->us_pang_mk_tahun])->get()->getRowObject();
+                $mk = (int)$value->us_pang_mk_tahun > 32 ? 32 : $value->us_pang_mk_tahun;
+                $getGapok = $this->_db->table('ref_gaji')->select("pangkat, masa_kerja, gaji_pokok")->where(['pangkat' => $value->us_pang_golongan, 'masa_kerja' => $mk])->get()->getRowObject();
                 if (!$getGapok) {
                     $response = new \stdClass;
                     $response->status = 400;
