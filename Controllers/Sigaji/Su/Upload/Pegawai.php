@@ -269,10 +269,18 @@ class Pegawai extends BaseController
                 $nip = str_replace("'", "", $nip);
                 $nip = str_replace("\u200c", "", $nip);
 
+                $nama = $data[1];
+                $nama = str_replace("'", "", $nama);
+                $nama = str_replace("\u200c", "", $nama);
+
+                $nik = $data[2];
+                $nik = str_replace("'", "", $nik);
+                $nik = str_replace("\u200c", "", $nik);
+
                 $dataInsert = [
                     'nip' => $nip,
-                    'nama' => $data[1],
-                    'nik' => $data[2],
+                    'nama' => $nama,
+                    'nik' => $nik,
                     'npwp' => $data[3],
                     'tgl_lahir' => $data[4],
                     'tipe_jabatan' => $data[5],
