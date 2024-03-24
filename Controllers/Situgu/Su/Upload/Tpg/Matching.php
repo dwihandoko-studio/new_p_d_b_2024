@@ -1232,6 +1232,7 @@ class Matching extends BaseController
         if (count($datas) > 0) {
             foreach ($datas as $key => $value) {
                 if ((int)$value->us_gaji_pokok === 1500000) {
+                    $data_error[] = $value->id;
                     continue;
                 }
                 $mk = (int)$value->us_pang_mk_tahun > 32 ? 32 : $value->us_pang_mk_tahun;
