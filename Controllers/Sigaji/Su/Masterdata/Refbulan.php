@@ -56,7 +56,7 @@ class Refbulan extends BaseController
             $row[] = $list->tahun;
             $row[] = $list->bulan;
             $row[] = $list->bulan_name;
-            $row[] = (int)$list->is_current == 1 ? '<span class="badge rounded-pill badge-success">Aktif</span>' : '<span class="badge rounded-pill badge-danger">Tidak Aktif</span>';
+            $row[] = (int)$list->is_current == 1 ? '<span class="badge badge-success">Aktif</span>' : '<span class="badge badge-danger">Tidak Aktif</span>';
 
             $data[] = $row;
         }
