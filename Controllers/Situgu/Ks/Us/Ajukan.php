@@ -298,7 +298,10 @@ class Ajukan extends BaseController
                 $canUsulTpg = canUsulTpg();
 
                 if ($canUsulTpg && $canUsulTpg->code !== 200) {
-                    return json_encode($canUsulTpg);
+                    $grantedCreateUsulan = canGrantedUsulanCustom($user->data->id);
+                    if ($grantedCreateUsulan && $grantedCreateUsulan->code !== 200) {
+                        return json_encode($canUsulTpg);
+                    }
                 }
 
                 // $canGrantedPengajuanPengecualian = canGrantedAjuanPengecualian($user->data->ptk_id);
@@ -371,7 +374,10 @@ class Ajukan extends BaseController
                 $canUsulTamsil = canUsulTamsil();
 
                 if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
-                    return json_encode($canUsulTamsil);
+                    $grantedCreateUsulan = canGrantedUsulanCustom($user->data->id);
+                    if ($grantedCreateUsulan && $grantedCreateUsulan->code !== 200) {
+                        return json_encode($canUsulTamsil);
+                    }
                 }
 
                 $canGrantedPengajuanPengecualian = canGrantedAjuanPengecualian($user->data->ptk_id);
@@ -550,7 +556,10 @@ class Ajukan extends BaseController
                 $canUsulTpg = canUsulTpg();
 
                 if ($canUsulTpg && $canUsulTpg->code !== 200) {
-                    return json_encode($canUsulTpg);
+                    $grantedCreateUsulan = canGrantedUsulanCustom($user->data->id);
+                    if ($grantedCreateUsulan && $grantedCreateUsulan->code !== 200) {
+                        return json_encode($canUsulTpg);
+                    }
                 }
 
                 // $canGrantedPengajuanPengecualian = canGrantedAjuanPengecualian($user->data->ptk_id);
@@ -580,7 +589,10 @@ class Ajukan extends BaseController
                 $canUsulTamsil = canUsulTamsil();
 
                 if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
-                    return json_encode($canUsulTamsil);
+                    $grantedCreateUsulan = canGrantedUsulanCustom($user->data->id);
+                    if ($grantedCreateUsulan && $grantedCreateUsulan->code !== 200) {
+                        return json_encode($canUsulTamsil);
+                    }
                 }
 
                 $canGrantedPengajuanPengecualian = canGrantedAjuanPengecualian($user->data->ptk_id);

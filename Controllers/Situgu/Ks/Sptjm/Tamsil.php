@@ -284,7 +284,10 @@ class Tamsil extends BaseController
             $canUsulTamsil = canUsulTamsil();
 
             if ($canUsulTamsil && $canUsulTamsil->code !== 200) {
-                return json_encode($canUsulTamsil);
+                $grantedCreateUsulan = canGrantedUsulanCustom($user->data->id);
+                if ($grantedCreateUsulan && $grantedCreateUsulan->code !== 200) {
+                    return json_encode($canUsulTamsil);
+                }
             }
 
             $jenis = htmlspecialchars($this->request->getVar('jenis'), true);

@@ -285,7 +285,10 @@ class Tpg extends BaseController
             $canUsulTpg = canUsulTpg();
 
             if ($canUsulTpg && $canUsulTpg->code !== 200) {
-                return json_encode($canUsulTpg);
+                $grantedCreateUsulan = canGrantedUsulanCustom($user->data->id);
+                if ($grantedCreateUsulan && $grantedCreateUsulan->code !== 200) {
+                    return json_encode($canUsulTpg);
+                }
             }
 
             $jenis = htmlspecialchars($this->request->getVar('jenis'), true);

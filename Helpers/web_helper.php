@@ -1787,6 +1787,26 @@ function canVerifikasiTpgPengawas()
 	}
 }
 
+function canGrantedUsulanCustom($user_id)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$grandted = $db->table('granted_usulan_custom')->where('user_id', $user_id)->get()->getRowObject();
+	if (!$grandted) {
+		$response = new \stdClass;
+		$response->code = 400;
+		$response->message = "Akses untuk usulan telah ditutup.";
+		$response->redirect = "";
+		return $response;
+	}
+
+	$response = new \stdClass;
+	$response->code = 200;
+	$response->message = "";
+	return $response;
+}
+
 function canUsulTpg()
 {
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
