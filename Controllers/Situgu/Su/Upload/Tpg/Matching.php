@@ -453,7 +453,7 @@ class Matching extends BaseController
                         $keterangan .= "Kematian ";
                     }
 
-                    if ($v['keterangan_doc_simtun'] == "Siap Diusulkan") {
+                    if ($v['keterangan_doc_simtun'] == "Siap Diusulkan" || $v['keterangan_doc_simtun'] == "Siap Diusulkan SKTP") {
                         // if ($v['total_jjm_sesuai'] >= 24 && $v['total_jjm_sesuai'] <= 50) {
 
                         if ($v['golongan'] == "" && !($v['nip'] == NULL || $v['nip'] == "")) {
