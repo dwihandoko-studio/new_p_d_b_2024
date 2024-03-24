@@ -9,7 +9,10 @@
                                 <div class="col-3">
                                     <div>
                                         <p class="text-muted text-truncate mb-2">Jumlah Data Pegawai Upload</p>
-                                        <h5 class="mb-0 text-info result_total" id="result_total"><i class="mdi mdi-reload mdi-spin"></i></h5>
+                                        <h5 class="mb-0 text-info result_total" id="result_total">
+                                            <?= $jumlah ?>
+                                            <!-- <i class="mdi mdi-reload mdi-spin"></i> -->
+                                        </h5>
                                     </div>
                                 </div>
                                 <div class="col-3">

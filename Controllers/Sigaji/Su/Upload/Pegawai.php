@@ -394,6 +394,7 @@ class Pegawai extends BaseController
                 $x['data'] = [];
                 $x['id'] = $newNamelampiran;
                 $x['tahun_bulan'] = $tw;
+                $x['jumlah'] = $total_line;
                 $response->data = view('sigaji/su/upload/masterdata/pegawai/verifi-upload', $x);
                 $response->message = "Data berhasil disimpan.";
                 return json_encode($response);
