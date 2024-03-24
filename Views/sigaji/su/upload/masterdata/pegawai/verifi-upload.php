@@ -114,74 +114,75 @@
         let idFileName;
         let tahun_bulan;
 
-        fetch("./get_data_json?id=<?= $id ?>")
-            .then(response => response.json())
-            .then(data => {
-                buttonAksiMatching.removeAttribute("disabled");
+        // fetch("./get_data_json?id=<?= $id ?>")
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         buttonAksiMatching.removeAttribute("disabled");
 
-                const result_total = document.getElementById("result_total");
-                result_total.textContent = data.total.toString();
-                const result_update = document.getElementById("result_update");
-                result_update.textContent = data.update.toString();
-                const result_insert = document.getElementById("result_insert");
-                result_insert.textContent = data.insert.toString();
-                const result_sama = document.getElementById("result_sama");
-                result_sama.textContent = data.sama.toString();
+        //         const result_total = document.getElementById("result_total");
+        //         result_total.textContent = data.total.toString();
+        //         const result_update = document.getElementById("result_update");
+        //         result_update.textContent = data.update.toString();
+        //         const result_insert = document.getElementById("result_insert");
+        //         result_insert.textContent = data.insert.toString();
+        //         const result_sama = document.getElementById("result_sama");
+        //         result_sama.textContent = data.sama.toString();
 
-                for (let i = 0; i < data.aksi.length; i++) {
-                    const row = document.createElement("tr");
-                    const numberCell = document.createElement("td");
+        //         for (let i = 0; i < data.aksi.length; i++) {
+        //             const row = document.createElement("tr");
+        //             const numberCell = document.createElement("td");
 
-                    const nipCell = document.createElement("td");
-                    const namaCell = document.createElement("td");
-                    const nikCell = document.createElement("td");
-                    const golonganCell = document.createElement("td");
-                    const mkCell = document.createElement("td");
-                    const noregCell = document.createElement("td");
+        //             const nipCell = document.createElement("td");
+        //             const namaCell = document.createElement("td");
+        //             const nikCell = document.createElement("td");
+        //             const golonganCell = document.createElement("td");
+        //             const mkCell = document.createElement("td");
+        //             const noregCell = document.createElement("td");
 
-                    const nipCellDb = document.createElement("td");
-                    const namaCellDb = document.createElement("td");
-                    const nikCellDb = document.createElement("td");
-                    const golonganCellDb = document.createElement("td");
-                    const mkCellDb = document.createElement("td");
-                    const noregCellDb = document.createElement("td");
+        //             const nipCellDb = document.createElement("td");
+        //             const namaCellDb = document.createElement("td");
+        //             const nikCellDb = document.createElement("td");
+        //             const golonganCellDb = document.createElement("td");
+        //             const mkCellDb = document.createElement("td");
+        //             const noregCellDb = document.createElement("td");
 
-                    numberCell.textContent = 1 + i;
+        //             numberCell.textContent = 1 + i;
 
-                    nipCell.textContent = data.aksi[i].nip;
-                    namaCell.textContent = data.aksi[i].nama;
-                    nikCell.textContent = data.aksi[i].nik;
-                    golonganCell.textContent = data.aksi[i].golongan;
-                    mkCell.textContent = data.aksi[i].mk_golongan;
-                    noregCell.textContent = data.aksi[i].no_rekening_bank;
+        //             nipCell.textContent = data.aksi[i].nip;
+        //             namaCell.textContent = data.aksi[i].nama;
+        //             nikCell.textContent = data.aksi[i].nik;
+        //             golonganCell.textContent = data.aksi[i].golongan;
+        //             mkCell.textContent = data.aksi[i].mk_golongan;
+        //             noregCell.textContent = data.aksi[i].no_rekening_bank;
 
-                    nipCellDb.textContent = data.aksi[i].nip_db;
-                    namaCellDb.textContent = data.aksi[i].nama_db;
-                    nikCellDb.textContent = data.aksi[i].nik_db;
-                    golonganCellDb.textContent = data.aksi[i].golongan_db;
-                    mkCellDb.textContent = data.aksi[i].mk_golongan_db;
-                    noregCellDb.textContent = data.aksi[i].no_rekening_bank_db;
+        //             nipCellDb.textContent = data.aksi[i].nip_db;
+        //             namaCellDb.textContent = data.aksi[i].nama_db;
+        //             nikCellDb.textContent = data.aksi[i].nik_db;
+        //             golonganCellDb.textContent = data.aksi[i].golongan_db;
+        //             mkCellDb.textContent = data.aksi[i].mk_golongan_db;
+        //             noregCellDb.textContent = data.aksi[i].no_rekening_bank_db;
 
-                    row.appendChild(numberCell);
-                    row.appendChild(nipCell);
-                    row.appendChild(namaCell);
-                    row.appendChild(nikCell);
-                    row.appendChild(golonganCell);
-                    row.appendChild(mkCell);
-                    row.appendChild(noregCell);
-                    row.appendChild(nipCellDb);
-                    row.appendChild(namaCellDb);
-                    row.appendChild(nikCellDb);
-                    row.appendChild(golonganCellDb);
-                    row.appendChild(mkCellDb);
-                    row.appendChild(noregCellDb);
-                    row.classList.add(data.aksi[i].status);
-                    tbody.appendChild(row);
-                }
+        //             row.appendChild(numberCell);
+        //             row.appendChild(nipCell);
+        //             row.appendChild(namaCell);
+        //             row.appendChild(nikCell);
+        //             row.appendChild(golonganCell);
+        //             row.appendChild(mkCell);
+        //             row.appendChild(noregCell);
+        //             row.appendChild(nipCellDb);
+        //             row.appendChild(namaCellDb);
+        //             row.appendChild(nikCellDb);
+        //             row.appendChild(golonganCellDb);
+        //             row.appendChild(mkCellDb);
+        //             row.appendChild(noregCellDb);
+        //             row.classList.add(data.aksi[i].status);
+        //             tbody.appendChild(row);
+        //         }
 
-                idFileName = '<?= $id ?>';
-                tahun_bulan = '<?= $tahun_bulan ?>';
-            });
+        idFileName = '<?= $id ?>';
+        tahun_bulan = '<?= $tahun_bulan ?>';
+        buttonAksiMatching.removeAttribute("disabled");
+        // });
 
         function aksiMatching() {
 

@@ -236,121 +236,101 @@ class Pegawai extends BaseController
 
             $total_line = (count($sheet) > 0) ? count($sheet) - 1 : 0;
 
-            $dataImport = [];
+            // $dataImport = [];
 
-            $nuptkImport = [];
+            // $nuptkImport = [];
+            // unset($sheet[0]);
 
-            // $ketSimtunDokumen = $sheet[7][5];
+            // foreach ($sheet as $key => $data) {
 
-            // var_dump($sheet);
-            // die;
+            //     if ($data[0] == "" || strlen($data[0]) < 5) {
+            //         continue;
+            //     }
 
-            unset($sheet[0]);
-            // unset($sheet[1]);
-            // unset($sheet[2]);
-            // unset($sheet[3]);
-            // unset($sheet[4]);
-            // unset($sheet[5]);
-            // unset($sheet[6]);
-            // unset($sheet[7]);
-            // unset($sheet[8]);
-            // unset($sheet[9]);
-            // unset($sheet[10]);
-            // unset($sheet[11]);
+            //     $nip = $data[0];
+            //     $nip = str_replace("'", "", $nip);
+            //     $nip = str_replace("\u200c", "", $nip);
 
-            foreach ($sheet as $key => $data) {
+            //     $nama = $data[1];
+            //     $nama = str_replace("'", "", $nama);
+            //     $nama = str_replace("\u200c", "", $nama);
 
-                if ($data[0] == "" || strlen($data[0]) < 5) {
-                    // if($data[1] == "") {
-                    continue;
-                }
+            //     $nik = $data[2];
+            //     $nik = str_replace("'", "", $nik);
+            //     $nik = str_replace("\u200c", "", $nik);
 
-                $nip = $data[0];
-                $nip = str_replace("'", "", $nip);
-                $nip = str_replace("\u200c", "", $nip);
+            //     $dataInsert = [
+            //         'nip' => $nip,
+            //         'nama' => $nama,
+            //         'nik' => $nik,
+            //         'npwp' => $data[3],
+            //         'tgl_lahir' => $data[4],
+            //         'tipe_jabatan' => $data[5],
+            //         'nama_jabatan' => $data[6],
+            //         'eselon' => $data[7],
+            //         'status_asn' => $data[8],
+            //         'golongan' => $data[9],
+            //         'mk_golongan' => $data[10],
+            //         'alamat' => $data[11],
+            //         'status_pernikahan' => $data[12],
+            //         'jumlah_istri_suami' => $data[13],
+            //         'jumlah_anak' => $data[14],
+            //         'jumlah_tanggungan' => $data[15],
+            //         'pasangan_pns' => $data[16],
+            //         'nip_pasangan' => $data[17],
+            //         'kode_bank' => $data[18],
+            //         'nama_bank' => $data[19],
+            //         'no_rekening_bank' => $data[20],
+            //         'gaji_pokok' => $data[21],
+            //         'perhitungan_suami_istri' => $data[22],
+            //         'perhitungan_anak' => $data[23],
+            //         'tunjangan_keluarga' => $data[24],
+            //         'tunjangan_jabatan' => $data[25],
+            //         'tunjangan_fungsional' => $data[26],
+            //         'tunjangan_fungsional_umum' => $data[27],
+            //         'tunjangan_beras' => $data[28],
+            //         'tunjangan_pph' => $data[29],
+            //         'pembulatan_gaji' => $data[30],
+            //         'iuran_jaminan_kesehatan' => $data[31],
+            //         'iuran_jaminan_kecelakaan_kerja' => $data[32],
+            //         'iuran_jaminan_kematian' => $data[33],
+            //         'iuran_simpanan_tapera' => $data[34],
+            //         'iuran_pensiun' => $data[35],
+            //         'tunjangan_khusus_papua' => $data[36],
+            //         'tunjangan_jaminan_hari_tua' => $data[37],
+            //         'potongan_iwp' => $data[38],
+            //         'potongan_pph21' => $data[39],
+            //         'potongan_zakat' => $data[40],
+            //         'potongan_bulog' => $data[41],
+            //         'jumlah_gaji_dan_tunjangan' => $data[42],
+            //         'jumlah_potongan' => $data[43],
+            //         'jumlah_ditransfer' => $data[44],
+            //         'nama_kecamatan' => $data[45],
+            //         'nama_instansi' => $data[46],
+            //         'kode_instansi' => $data[47],
+            //         'id_tahun_tw' => $tw,
+            //     ];
 
-                $nama = $data[1];
-                $nama = str_replace("'", "", $nama);
-                $nama = str_replace("\u200c", "", $nama);
+            //     $dataInsert['data_pegawai'] = $this->_db->table('tb_pegawai_ a')
+            //         ->select("a.id, a.nip, a.nik, a.nama, a.golongan, a.mk_golongan, a.status_asn, a.no_rekening_bank, a.nama_bank")
+            //         ->where('a.nip', $nip)
+            //         ->get()->getRowObject();
 
-                $nik = $data[2];
-                $nik = str_replace("'", "", $nik);
-                $nik = str_replace("\u200c", "", $nik);
+            //     $dataImport[] = $dataInsert;
+            //     $nuptkImport[] = $nip;
+            // }
 
-                $dataInsert = [
-                    'nip' => $nip,
-                    'nama' => $nama,
-                    'nik' => $nik,
-                    'npwp' => $data[3],
-                    'tgl_lahir' => $data[4],
-                    'tipe_jabatan' => $data[5],
-                    'nama_jabatan' => $data[6],
-                    'eselon' => $data[7],
-                    'status_asn' => $data[8],
-                    'golongan' => $data[9],
-                    'mk_golongan' => $data[10],
-                    'alamat' => $data[11],
-                    'status_pernikahan' => $data[12],
-                    'jumlah_istri_suami' => $data[13],
-                    'jumlah_anak' => $data[14],
-                    'jumlah_tanggungan' => $data[15],
-                    'pasangan_pns' => $data[16],
-                    'nip_pasangan' => $data[17],
-                    'kode_bank' => $data[18],
-                    'nama_bank' => $data[19],
-                    'no_rekening_bank' => $data[20],
-                    'gaji_pokok' => $data[21],
-                    'perhitungan_suami_istri' => $data[22],
-                    'perhitungan_anak' => $data[23],
-                    'tunjangan_keluarga' => $data[24],
-                    'tunjangan_jabatan' => $data[25],
-                    'tunjangan_fungsional' => $data[26],
-                    'tunjangan_fungsional_umum' => $data[27],
-                    'tunjangan_beras' => $data[28],
-                    'tunjangan_pph' => $data[29],
-                    'pembulatan_gaji' => $data[30],
-                    'iuran_jaminan_kesehatan' => $data[31],
-                    'iuran_jaminan_kecelakaan_kerja' => $data[32],
-                    'iuran_jaminan_kematian' => $data[33],
-                    'iuran_simpanan_tapera' => $data[34],
-                    'iuran_pensiun' => $data[35],
-                    'tunjangan_khusus_papua' => $data[36],
-                    'tunjangan_jaminan_hari_tua' => $data[37],
-                    'potongan_iwp' => $data[38],
-                    'potongan_pph21' => $data[39],
-                    'potongan_zakat' => $data[40],
-                    'potongan_bulog' => $data[41],
-                    'jumlah_gaji_dan_tunjangan' => $data[42],
-                    'jumlah_potongan' => $data[43],
-                    'jumlah_ditransfer' => $data[44],
-                    'nama_kecamatan' => $data[45],
-                    'nama_instansi' => $data[46],
-                    'kode_instansi' => $data[47],
-                    'id_tahun_tw' => $tw,
-                ];
+            // $dataImports = [
+            //     'total_line' => $total_line,
+            //     'data' => $dataImport,
+            // ];
 
-                $dataInsert['data_pegawai'] = $this->_db->table('tb_pegawai_ a')
-                    ->select("a.id, a.nip, a.nik, a.nama, a.golongan, a.mk_golongan, a.status_asn, a.no_rekening_bank, a.nama_bank")
-                    ->where('a.nip', $nip)
-                    ->get()->getRowObject();
-
-                $dataImport[] = $dataInsert;
-                $nuptkImport[] = $nip;
-            }
-
-            $dataImports = [
-                'total_line' => $total_line,
-                'data' => $dataImport,
-            ];
-
-            if (count($nuptkImport) < 1) {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Tidak ada data yang di import.";
-                return json_encode($response);
-            }
-
-            // $x['import'] = $dataImports;
+            // if (count($nuptkImport) < 1) {
+            //     $response = new \stdClass;
+            //     $response->status = 400;
+            //     $response->message = "Tidak ada data yang di import.";
+            //     return json_encode($response);
+            // }
 
             $data = [
                 'id_tahun_tw' => $tw,
@@ -396,16 +376,16 @@ class Pegawai extends BaseController
             }
 
             if ($this->_db->affectedRows() > 0) {
-                if (write_file($dir . '/' . $newNamelampiran . '.json', json_encode($dataImports))) {
-                } else {
-                    $this->_db->transRollback();
+                // if (write_file($dir . '/' . $newNamelampiran . '.json', json_encode($dataImports))) {
+                // } else {
+                //     $this->_db->transRollback();
 
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->error = "Gagal membuat file json";
-                    $response->message = "Gagal menyimpan data.";
-                    return json_encode($response);
-                }
+                //     $response = new \stdClass;
+                //     $response->status = 400;
+                //     $response->error = "Gagal membuat file json";
+                //     $response->message = "Gagal menyimpan data.";
+                //     return json_encode($response);
+                // }
 
                 // createAktifitas($user->data->id, "Mengupload matching simtun $filesNamelampiran", "Mengupload Matching Simtun filesNamelampiran", "upload", $tw);
                 $this->_db->transCommit();
