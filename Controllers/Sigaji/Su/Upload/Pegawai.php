@@ -222,7 +222,7 @@ class Pegawai extends BaseController
             // die;
             $extension = $lampiran->getClientExtension();
             $filesNamelampiran = $lampiran->getName();
-            $newNamelampiran = _create_name_file_import($filesNamelampiran);
+            $newNamelampiran = _create_name_file_import_pegawai($filesNamelampiran);
             $fileLocation = $lampiran->getTempName();
 
             if ('xls' == $extension) {
