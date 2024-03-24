@@ -1275,12 +1275,14 @@ class Matching extends BaseController
 
             $response = new \stdClass;
             $response->status = 200;
+            $response->jumlah = count($data_error);
             $response->message = "Data matching berhasil diupdate.";
             $response->error = $data_error;
             return json_encode($response);
         } else {
             $response = new \stdClass;
             $response->status = 200;
+            $response->jumlah = count($data_error);
             $response->message = "Data matching tidak ditemukan.";
             $response->error = $data_error;
             return json_encode($response);
