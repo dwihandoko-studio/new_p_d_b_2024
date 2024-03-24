@@ -1231,6 +1231,9 @@ class Matching extends BaseController
         $datas = $this->_db->table('_tb_usulan_detail_tpg')->select("id, us_pang_golongan, us_pang_mk_tahun, us_gaji_pokok")->where(['id_tahun_tw' => '8413ae4c-e528-11ee-ad92-0242ac170002', 'status_usulan' => 2])->get()->getResult();
         if (count($datas) > 0) {
             foreach ($datas as $key => $value) {
+                if ((int)$value->us_gaji_pokok === 1500000) {
+                    continue;
+                }
                 $getGapok = $this->_db->table('ref_gaji')->select("pangkat, masa_kerja, gaji_pokok")->where(['pangkat' => $value->us_pang_golongan, 'masa_kerja' => $value->us_pang_mk_tahun])->get()->getRowObject();
                 if (!$getGapok) {
                     $response = new \stdClass;
