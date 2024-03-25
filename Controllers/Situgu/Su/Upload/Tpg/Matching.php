@@ -455,6 +455,18 @@ class Matching extends BaseController
 
                     if ($v['keterangan_doc_simtun'] == "Siap Diusulkan" || $v['keterangan_doc_simtun'] == "Siap Diusulkan SKTP") {
                         // if ($v['total_jjm_sesuai'] >= 24 && $v['total_jjm_sesuai'] <= 50) {
+                        if ((int)$v['masa_kerja'] % 2 == 0) {
+                            $golonganUploadF = (int)$v['masa_kerja'];
+                        } else {
+                            $golonganUploadF = (int)$v['masa_kerja'] - 1;
+                        }
+
+                        if ((int)$v['data_usulan']['us_pang_mk_tahun'] % 2 == 0) {
+                            $golonganUploadDb = (int)$v['data_usulan']['us_pang_mk_tahun'];
+                        } else {
+                            $golonganUploadDb = (int)$v['data_usulan']['us_pang_mk_tahun'] - 1;
+                        }
+
 
                         if ($v['golongan'] == "" && !($v['nip'] == NULL || $v['nip'] == "")) {
                             if ("IX" == $v['data_usulan']['us_pang_golongan'] && (int)$v['gaji_pokok'] == (int)$v['data_usulan']['us_gaji_pokok']) {
@@ -628,7 +640,8 @@ class Matching extends BaseController
                                     $item['sort'] = "88";
                                     $lolos += 1;
                                 } else {
-                                    if ($v['golongan'] == $v['data_usulan']['us_pang_golongan'] && (int)$v['masa_kerja'] == (int)$v['data_usulan']['us_pang_mk_tahun'] && (int)$v['gaji_pokok'] == (int)$v['data_usulan']['us_gaji_pokok']) {
+                                    // if ($v['golongan'] == $v['data_usulan']['us_pang_golongan'] && (int)$v['masa_kerja'] == (int)$v['data_usulan']['us_pang_mk_tahun'] && (int)$v['gaji_pokok'] == (int)$v['data_usulan']['us_gaji_pokok']) {
+                                    if ($v['golongan'] == $v['data_usulan']['us_pang_golongan'] && $golonganUploadF == $golonganUploadDb && (int)$v['gaji_pokok'] == (int)$v['data_usulan']['us_gaji_pokok']) {
                                         $item['number'] = $key + 1;
                                         $item['nuptk'] = $v['nuptk'];
                                         $item['nama'] = $v['nama'];
