@@ -84,16 +84,16 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-12">
-                <div class="d-flex">
-                    <h4 class="card-title mb-4 flex-grow-1">DAFTAR APP</h4>
-                    <!-- <div>
-                        <a href="job-list.html" class="btn btn-primary btn-sm">View All <i class="bx bx-right-arrow-alt"></i></a>
-                    </div> -->
-                </div>
-            </div>
             <?php if (isset($layanans)) { ?>
                 <?php if (count($layanans) > 0) { ?>
+                    <div class="col-lg-12">
+                        <div class="d-flex">
+                            <h4 class="card-title mb-4 flex-grow-1">DAFTAR APP</h4>
+                            <!-- <div>
+                                <a href="job-list.html" class="btn btn-primary btn-sm">View All <i class="bx bx-right-arrow-alt"></i></a>
+                            </div> -->
+                        </div>
+                    </div>
                     <?php foreach ($layanans as $key => $v) { ?>
                         <div class="col-xl-4 col-sm-6">
                             <div class="card text-center  _sorot-mouse">
