@@ -32,6 +32,8 @@
                                 <a href="<?= base_url('sigaji/su/potongan/korpri') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "potongan" && $uri->getSegment(4) == "korpri") ? ' active-menu-href' : '' ?>" key="t-potongan-korpri">Korpri</a>
                                 <a href="<?= base_url('sigaji/su/potongan/dharmawanita') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "potongan" && $uri->getSegment(4) == "dharmawanita") ? ' active-menu-href' : '' ?>" key="t-potongan-dharmawanita">Dharma Wanita</a>
                                 <a href="<?= base_url('sigaji/su/potongan/infak') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "potongan" && $uri->getSegment(4) == "infak") ? ' active-menu-href' : '' ?>" key="t-potongan-infak">Infak</a>
+                                <a href="<?= base_url('sigaji/su/potongan/thr') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "potongan" && $uri->getSegment(4) == "thr") ? ' active-menu-href' : '' ?>" key="t-potongan-thr">THR</a>
+                                <a href="<?= base_url('sigaji/su/potongan/gaji13') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "potongan" && $uri->getSegment(4) == "gaji13") ? ' active-menu-href' : '' ?>" key="t-potongan-thr">Gaji 13</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">

@@ -674,6 +674,62 @@ class Apilib
         }
     }
 
+    public function generatePotonganThr($tahun)
+    {
+        $jwt = get_cookie('jwt');
+        if ($jwt) {
+            $data = [
+                'tahun' => $tahun,
+                'jenis_potongan' => 'thr',
+            ];
+            $add         = $this->_send_post($data, 'generatepotongan', $jwt);
+            $send_data         = curl_exec($add);
+
+            $result = json_decode($send_data);
+
+
+            if (isset($result->error)) {
+                return false;
+            }
+
+            if ($result) {
+                return $result;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public function generatePotonganGaji13($tahun)
+    {
+        $jwt = get_cookie('jwt');
+        if ($jwt) {
+            $data = [
+                'tahun' => $tahun,
+                'jenis_potongan' => 'gaji13',
+            ];
+            $add         = $this->_send_post($data, 'generatepotongan', $jwt);
+            $send_data         = curl_exec($add);
+
+            $result = json_decode($send_data);
+
+
+            if (isset($result->error)) {
+                return false;
+            }
+
+            if ($result) {
+                return $result;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     public function syncPtk($npsn, $tw)
     {
         $jwt = get_cookie('jwt');
