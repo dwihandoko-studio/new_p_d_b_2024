@@ -114,7 +114,7 @@ class Tagihanbank extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('sigaji/adm/upload/masterdata/tagihanbank/data'));
+        return redirect()->to(base_url('sigaji/adm/upload/tagihanbank/data'));
     }
 
     public function data()
