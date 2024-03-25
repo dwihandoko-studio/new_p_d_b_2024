@@ -88,7 +88,7 @@ class Grantedverifikasicustom extends BaseController
             return json_encode($response);
         }
 
-        $d['roles'] = $this->_db->table('_role_user')->orderBy('id', 'asc')->get()->getResult();
+        $d['roles'] = $this->_db->table('_role_user')->whereIn('id', [2, 3, 4])->orderBy('id', 'asc')->get()->getResult();
 
         $response = new \stdClass;
         $response->status = 200;
