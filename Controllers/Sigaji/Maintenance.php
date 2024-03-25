@@ -25,7 +25,7 @@ class Maintenance extends BaseController
         }
 
         $data['title'] = "MAINTENANCE";
-        $template = $this->_db->table('_tb_maintenance')->where(['id' => 1, 'template_active' => 1])->get()->getRowObject();
+        $template = $this->_db->table('_tb_maintenance_gaji')->where(['id' => 3, 'template_active' => 1])->get()->getRowObject();
         if ($template) {
             if ($template->template !== null) {
                 $activeTemplate = $template->template;
@@ -35,6 +35,6 @@ class Maintenance extends BaseController
         } else {
             $activeTemplate = 'index';
         }
-        return view('situgu/mt/' . $activeTemplate, $data);
+        return view('sigaji/mt/' . $activeTemplate, $data);
     }
 }
