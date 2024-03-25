@@ -29,8 +29,8 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-muted fw-medium">Job View</p>
-                                <h4 class="mb-0">14,487</h4>
+                                <p class="text-muted fw-medium">Jumlah Pegawai</p>
+                                <h4 class="mb-0"><i class="mdi mdi-reload mdi-spin"></i></h4>
                             </div>
 
                             <div class="flex-shrink-0 align-self-center">
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="card-body border-top py-3">
-                        <p class="mb-0"> <span class="badge badge-soft-success me-1"><i class="bx bx-trending-up align-bottom me-1"></i> 18.89%</span> Increase last month</p>
+                        <!-- <p class="mb-0"> <span class="badge badge-soft-success me-1"><i class="bx bx-trending-up align-bottom me-1"></i> 18.89%</span> Increase last month</p> -->
                     </div>
                 </div>
             </div>
@@ -48,8 +48,8 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-muted fw-medium">New Application</p>
-                                <h4 class="mb-0">7,402</h4>
+                                <p class="text-muted fw-medium">Jumlah Tagihan</p>
+                                <h4 class="mb-0"><i class="mdi mdi-reload mdi-spin"></i></h4>
                             </div>
 
                             <div class="flex-shrink-0 align-self-center">
@@ -58,7 +58,7 @@
                         </div>
                     </div>
                     <div class="card-body border-top py-3">
-                        <p class="mb-0"> <span class="badge badge-soft-success me-1"><i class="bx bx-trending-up align-bottom me-1"></i> 24.07%</span> Increase last month</p>
+                        <!-- <p class="mb-0"> <span class="badge badge-soft-success me-1"><i class="bx bx-trending-up align-bottom me-1"></i> 24.07%</span> Increase last month</p> -->
                     </div>
                 </div>
             </div>
@@ -67,8 +67,8 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-muted fw-medium">Total Rejected</p>
-                                <h4 class="mb-0">12,487</h4>
+                                <p class="text-muted fw-medium">Jumlah Potongan</p>
+                                <h4 class="mb-0"><i class="mdi mdi-reload mdi-spin"></i></h4>
                             </div>
 
                             <div class="flex-shrink-0 align-self-center">
@@ -77,7 +77,7 @@
                         </div>
                     </div>
                     <div class="card-body border-top py-3">
-                        <p class="mb-0"> <span class="badge badge-soft-danger me-1"><i class="bx bx-trending-down align-bottom me-1"></i> 20.63%</span> Decrease last month</p>
+                        <!-- <p class="mb-0"> <span class="badge badge-soft-danger me-1"><i class="bx bx-trending-down align-bottom me-1"></i> 20.63%</span> Decrease last month</p> -->
                     </div>
                 </div>
             </div>
