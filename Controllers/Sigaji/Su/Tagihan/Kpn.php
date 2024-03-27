@@ -139,6 +139,7 @@ extends BaseController
 
             if ($current) {
                 $data['data'] = $current;
+                $data['nama'] = $nama;
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Permintaan diizinkan";

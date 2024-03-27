@@ -40,7 +40,7 @@
 
             Swal.fire({
                 title: 'Apakah anda yakin ingin mengupdate data ini?',
-                text: "Update Data Tagihan KPN: <?= $data->nama ?>",
+                text: "Update Data Tagihan KPN: <?= $nama ?>",
                 showCancelButton: true,
                 icon: 'question',
                 confirmButtonColor: '#3085d6',
