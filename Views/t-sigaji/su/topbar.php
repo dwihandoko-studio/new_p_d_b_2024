@@ -47,6 +47,16 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle arrow-none <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "upload") ? ' active-menu-href' : '' ?>" href="#" id="topnav-upload" role="button">
+                                <i class="bx bxs-cloud-upload me-2"></i><span key="t-gagal">GAGAL UPLOAD</span>
+                                <div class="arrow-down"></div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-gagal">
+                                <a href="<?= base_url('sigaji/su/gagal/uploadtagihan') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "gagal" && $uri->getSegment(4) == "uploadtagihan") ? ' active-menu-href' : '' ?>" key="t-gagalupload-tagihanbank">Tagihan Bank</a>
+                                <a href="<?= base_url('sigaji/su/gagal/uploadinstansi') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "gagal" && $uri->getSegment(4) == "uploadinstansi") ? ' active-menu-href' : '' ?>" key="t-gagalupload-updateinstansi">Update Instansi</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle arrow-none <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "rekap") ? ' active-menu-href' : '' ?>" href="#" id="topnav-rekap" role="button">
                                 <i class="bx bx-rename me-2"></i><span key="t-rekap">REKAP</span>
                                 <div class="arrow-down"></div>
