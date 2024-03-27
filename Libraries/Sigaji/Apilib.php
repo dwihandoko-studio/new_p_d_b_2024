@@ -4,6 +4,7 @@ namespace App\Libraries\Sigaji;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use CURLFile;
 
 class Apilib
 {
