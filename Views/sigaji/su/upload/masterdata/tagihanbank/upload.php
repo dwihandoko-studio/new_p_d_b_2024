@@ -30,8 +30,6 @@
                             <?php }
                                 }
                             } ?>
-                            <option value="00">SHODAQOH</option>
-                            <option value="000">ZAKAT</option>
                         </select>
                         <div class="help-block _bank"></div>
                     </div>

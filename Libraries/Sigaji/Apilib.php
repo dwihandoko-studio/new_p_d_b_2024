@@ -168,7 +168,7 @@ class Apilib
         if ($jwt) {
             $data = [
                 'tahun_bulan' => $tahun,
-                'bank' => "000",
+                'bank' => "2000",
                 'lampiran' => new CURLFile($file),
             ];
 
@@ -199,7 +199,7 @@ class Apilib
         if ($jwt) {
             $data = [
                 'tahun_bulan' => $tahun,
-                'bank' => "00",
+                'bank' => "1000",
                 'lampiran' => new CURLFile($file),
             ];
 
