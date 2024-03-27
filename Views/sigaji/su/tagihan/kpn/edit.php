@@ -55,7 +55,7 @@
                             id: id,
                             besar_pinjaman: besar_pinjaman,
                             jumlah_tagihan: jumlah_tagihan,
-                            jumlah_bulan_angsuran: no_peserta,
+                            jumlah_bulan_angsuran: jumlah_bulan_angsuran,
                             angsuran_ke: angsuran_ke,
                         },
                         dataType: 'JSON',
