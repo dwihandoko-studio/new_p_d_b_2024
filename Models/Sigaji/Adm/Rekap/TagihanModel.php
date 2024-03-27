@@ -55,8 +55,9 @@ class TagihanModel extends Model
         $this->dt->join('tb_potongan_ d', 'a.id_pegawai = d.id_pegawai AND a.tahun = d.tahun', 'LEFT');
         // $this->dt->whereIn('a.status_usulan', [2]);
         if ($this->request->getPost('tw')) {
-            if ($this->request->getPost('tw') !== "") {
-                $this->dt->where('a.tahun', $this->request->getPost('tw'));
+            $tw = htmlspecialchars($this->request->getPost('tw'), true);
+            if ($tw !== "") {
+                $this->dt->where('a.tahun', $tw);
             } else {
                 if ($this->request->getPost('tw_active')) {
                     if ($this->request->getPost('tw_active') !== "") {
@@ -67,7 +68,8 @@ class TagihanModel extends Model
             }
         } else {
             if ($this->request->getPost('tw_active')) {
-                if ($this->request->getPost('tw_active') !== "") {
+                $tw_active = htmlspecialchars($this->request->getPost('tw_active'), true);
+                if ($tw_active) {
 
                     $this->dt->where('a.tahun', $this->request->getPost('tw_active'));
                 }
@@ -86,8 +88,9 @@ class TagihanModel extends Model
         $this->dt->join('tb_pegawai_ b', 'a.id_pegawai = b.id');
         $this->dt->join('tb_potongan_ d', 'a.id_pegawai = d.id_pegawai AND a.tahun = d.tahun', 'LEFT');
         if ($this->request->getPost('tw')) {
-            if ($this->request->getPost('tw') !== "") {
-                $this->dt->where('a.tahun', $this->request->getPost('tw'));
+            $tw = htmlspecialchars($this->request->getPost('tw'), true);
+            if ($tw !== "") {
+                $this->dt->where('a.tahun', $tw);
             } else {
                 if ($this->request->getPost('tw_active')) {
                     if ($this->request->getPost('tw_active') !== "") {
@@ -98,7 +101,8 @@ class TagihanModel extends Model
             }
         } else {
             if ($this->request->getPost('tw_active')) {
-                if ($this->request->getPost('tw_active') !== "") {
+                $tw_active = htmlspecialchars($this->request->getPost('tw_active'), true);
+                if ($tw_active) {
 
                     $this->dt->where('a.tahun', $this->request->getPost('tw_active'));
                 }
@@ -115,8 +119,9 @@ class TagihanModel extends Model
         $this->dt->join('tb_pegawai_ b', 'a.id_pegawai = b.id');
         $this->dt->join('tb_potongan_ d', 'a.id_pegawai = d.id_pegawai AND a.tahun = d.tahun', 'LEFT');
         if ($this->request->getPost('tw')) {
-            if ($this->request->getPost('tw') !== "") {
-                $this->dt->where('a.tahun', $this->request->getPost('tw'));
+            $tw = htmlspecialchars($this->request->getPost('tw'), true);
+            if ($tw !== "") {
+                $this->dt->where('a.tahun', $tw);
             } else {
                 if ($this->request->getPost('tw_active')) {
                     if ($this->request->getPost('tw_active') !== "") {
@@ -127,7 +132,8 @@ class TagihanModel extends Model
             }
         } else {
             if ($this->request->getPost('tw_active')) {
-                if ($this->request->getPost('tw_active') !== "") {
+                $tw_active = htmlspecialchars($this->request->getPost('tw_active'), true);
+                if ($tw_active) {
 
                     $this->dt->where('a.tahun', $this->request->getPost('tw_active'));
                 }
