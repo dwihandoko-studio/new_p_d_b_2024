@@ -331,7 +331,7 @@
                 "type": "POST",
                 "data": function(data) {
                     data.tw_active = '<?= $tw->id ?>';
-                    data.tw = $('#filter_tw').val();
+                    data.tw = $('#_filter_tw').val();
                 }
             },
             language: {
