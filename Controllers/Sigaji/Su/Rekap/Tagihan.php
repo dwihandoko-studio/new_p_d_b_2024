@@ -158,7 +158,7 @@ extends BaseController
             $response = new \stdClass;
             $response->status = 200;
             $response->message = "Permintaan diizinkan";
-            $response->data = view('sigaji/su/rekap/laporan/download', $data);
+            $response->data = view('sigaji/su/rekap/tagihan/download', $data);
             return json_encode($response);
             // } else {
             //     $response = new \stdClass;
