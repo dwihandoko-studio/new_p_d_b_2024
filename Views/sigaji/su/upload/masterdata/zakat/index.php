@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0 font-size-18">DATA TAGIHAN BRI</h4>
+                    <h4 class="mb-sm-0 font-size-18">DATA UPLOAD ZAKAT</h4>
 
                     <!-- <div class="page-title-right">
                         <ol class="breadcrumb m-0">
@@ -27,12 +27,12 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-6">
-                                <h4 class="card-title">Data Tagihan BRI</h4>
-                                <!-- <div><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionGenerate(this);"><i class="bx bx-shape-circle font-size-16 align-middle me-2"></i> Generate Potongan Infak</a>&nbsp;&nbsp;</div> -->
+                                <h4 class="card-title">Data Upload Zakat</h4>
+                                <div><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionUpload(this);"><i class="bx bxs-cloud-upload font-size-16 align-middle me-2"></i> Upload <i class="mdi mdi-file-excel font-size-16 align-middle me-2"></i></a>&nbsp;&nbsp;</div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="_filter_tw" class="col-form-label">Filter TW:</label>
+                                    <label for="_filter_tw" class="col-form-label">Filter Tahun:</label>
                                     <select class="form-control filter-tw" id="_filter_tw" name="_filter_tw" required>
                                         <option value="">--Pilih--</option>
                                         <?php if (isset($tws)) {
@@ -54,15 +54,13 @@
                                 <tr>
                                     <th data-orderable="false">#</th>
                                     <th data-orderable="false">Aksi</th>
-                                    <th data-orderable="false">Tahun Bulan</th>
-                                    <th>NAMA</th>
-                                    <th>NIP</th>
-                                    <th>INSTANSI</th>
-                                    <th>KECAMATAN</th>
-                                    <th align="center">BESAR PINJAMAN</th>
-                                    <th align="center">JUMLAH TAGIHAN</th>
-                                    <th align="center">JUMLAH ANGSURAN BLN</th>
-                                    <th align="center">ANGSURAN KE</th>
+                                    <th>FILENAME</th>
+                                    <th>TAHUN BULAN</th>
+                                    <th>JUMLAH</th>
+                                    <th>LOLOS</th>
+                                    <th>GAGAL</th>
+                                    <th>STATUS</th>
+                                    <th>UPLOADED</th>
                                 </tr>
                             </thead>
                         </table>
@@ -122,6 +120,48 @@
 <script src="<?= base_url() ?>/assets/libs/dropzone/min/dropzone.min.js"></script>
 
 <script>
+    function actionUpload(event) {
+        $.ajax({
+            url: "./upload",
+            type: 'POST',
+            data: {
+                id: 'upload',
+            },
+            dataType: 'JSON',
+            beforeSend: function() {
+                $('div.main-content').block({
+                    message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                });
+            },
+            success: function(resul) {
+                $('div.main-content').unblock();
+                if (resul.status !== 200) {
+                    Swal.fire(
+                        'Failed!',
+                        resul.message,
+                        'warning'
+                    );
+                } else {
+                    $('#content-detailModalLabel').html('UPLOAD DATA MATCHING PROSES TRANSFER');
+                    $('.contentBodyModal').html(resul.data);
+                    $('.content-detailModal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                    });
+                    $('.content-detailModal').modal('show');
+                }
+            },
+            error: function() {
+                $('div.main-content').unblock();
+                Swal.fire(
+                    'Failed!',
+                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                    'warning'
+                );
+            }
+        });
+    }
+
     function actionDetail(id, id_ptk, tw, nama) {
         $.ajax({
             url: "./detail",
@@ -167,10 +207,10 @@
         });
     }
 
-    function actionHapus(id, nama) {
+    function actionHapus(id, filename) {
         Swal.fire({
             title: 'Apakah anda yakin ingin menghapus data ini?',
-            text: "Hapus Tagihan BRI : " + nama,
+            text: "Hapus File Matching : " + filename,
             showCancelButton: true,
             icon: 'question',
             confirmButtonColor: '#3085d6',
@@ -183,7 +223,7 @@
                     type: 'POST',
                     data: {
                         id: id,
-                        nama: nama,
+                        filename: filename,
                     },
                     dataType: 'JSON',
                     beforeSend: function() {
@@ -270,7 +310,7 @@
                 "type": "POST",
                 "data": function(data) {
                     data.tw_active = '<?= $tw->id ?>';
-                    data.tw = $('#_filter_tw').val();
+                    data.tw = $('#filter_tw').val();
                 }
             },
             language: {
@@ -281,9 +321,7 @@
                 "orderable": false,
             }],
         });
-        $('#_filter_tw').change(function() {
-            tableDatatables.draw();
-        });
+
     });
 </script>
 <?= $this->endSection(); ?>
