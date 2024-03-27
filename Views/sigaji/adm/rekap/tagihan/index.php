@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <h4 class="card-title">Data Rekap Tagihan Pegawai</h4>
-                                <div><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionUpload(this);"><i class="bx bxs-cloud-upload font-size-16 align-middle me-2"></i> Upload <i class="mdi mdi-file-excel font-size-16 align-middle me-2"></i></a>&nbsp;&nbsp;</div>
+                                <div><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionDownload(this);"><i class="bx bxs-cloud-download font-size-16 align-middle me-2"></i> Download</a>&nbsp;&nbsp;</div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
@@ -141,6 +141,48 @@
 <script src="<?= base_url() ?>/assets/libs/dropzone/min/dropzone.min.js"></script>
 
 <script>
+    function actionDownload(event) {
+        $.ajax({
+            url: "./download",
+            type: 'POST',
+            data: {
+                id: 'download',
+            },
+            dataType: 'JSON',
+            beforeSend: function() {
+                $('div.main-content').block({
+                    message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                });
+            },
+            success: function(resul) {
+                $('div.main-content').unblock();
+                if (resul.status !== 200) {
+                    Swal.fire(
+                        'Failed!',
+                        resul.message,
+                        'warning'
+                    );
+                } else {
+                    $('#content-detailModalLabel').html('DOWNLOAD DATA LAPORAN SEMUA TAGIHAN');
+                    $('.contentBodyModal').html(resul.data);
+                    $('.content-detailModal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                    });
+                    $('.content-detailModal').modal('show');
+                }
+            },
+            error: function() {
+                $('div.main-content').unblock();
+                Swal.fire(
+                    'Failed!',
+                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                    'warning'
+                );
+            }
+        });
+    }
+
     function actionUpload(event) {
         $.ajax({
             url: "./upload",
