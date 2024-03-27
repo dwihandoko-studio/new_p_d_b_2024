@@ -228,6 +228,117 @@ extends BaseController
         }
     }
 
+    public function uploadUpdateInstansi()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('id');
+            return json_encode($response);
+        } else {
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+            $data['tw'] = $this->_db->table('_ref_tahun_bulan')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getRowObject();
+            $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
+            $response = new \stdClass;
+            $response->status = 200;
+            $response->message = "Permintaan diizinkan";
+            $response->data = view('sigaji/su/masterdata/pegawai/upload_instansi', $data);
+            return json_encode($response);
+        }
+    }
+
+    public function uploadSaveInstansi()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'tahun' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Tw tidak boleh kosong. ',
+                ]
+            ],
+            '_file' => [
+                'rules' => 'uploaded[_file]|max_size[_file,10240]|mime_in[_file,application/vnd.ms-excel,application/msexcel,application/x-msexcel,application/x-ms-excel,application/x-excel,application/x-dos_ms_excel,application/xls,application/x-xls,application/excel,application/download,application/vnd.ms-office,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,application/x-zip]',
+                'errors' => [
+                    'uploaded' => 'Pilih file terlebih dahulu. ',
+                    'max_size' => 'Ukuran file terlalu besar, Maximum 5Mb. ',
+                    'mime_in' => 'Ekstensi yang anda upload harus berekstensi xls atau xlsx. '
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('tw');
+            return json_encode($response);
+        } else {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Session expired";
+                return json_encode($response);
+            }
+
+            $tahun = htmlspecialchars($this->request->getVar('tahun'), true);
+
+            $lampiran = $this->request->getFile('_file');
+            $fileLocation = $lampiran->getTempName();
+
+            $apiLib = new Apilib();
+
+            $result = $apiLib->uploadPegawaiInstansi($tahun, $fileLocation);
+            $namaBank = "Instansi Pegawai";
+
+            if ($result) {
+                if ($result->status == 200) {
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->resss = $result;
+                    $response->message = "Import Data $namaBank Berhasil Dilakukan.";
+                    return json_encode($response);
+                } else {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->error = $result;
+                    $response->message = "Gagal Import Data $namaBank.";
+                    return json_encode($response);
+                }
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal Import Data $namaBank";
+                return json_encode($response);
+            }
+        }
+    }
+
     public function editdefaulpendidikan()
     {
         if ($this->request->getMethod() != 'post') {

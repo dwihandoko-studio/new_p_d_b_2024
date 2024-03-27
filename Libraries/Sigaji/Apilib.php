@@ -531,6 +531,36 @@ class Apilib
         }
     }
 
+    public function uploadPegawaiInstansi($tahun, $file)
+    {
+        $jwt = get_cookie('jwt');
+        if ($jwt) {
+            $data = [
+                'tahun_bulan' => $tahun,
+                'lampiran' => new CURLFile($file),
+            ];
+
+            $add         = $this->_send_post_upload($data, 'importpegawaiinstansi', $jwt);
+
+            $send_data         = curl_exec($add);
+
+            $result = json_decode($send_data);
+
+
+            if (isset($result->error)) {
+                return false;
+            }
+
+            if ($result) {
+                return $result;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     public function downloadLaporanIsntansi($tahun, $instansi, $type)
     {
         $jwt = get_cookie('jwt');
