@@ -180,7 +180,7 @@ class Tagihanbank extends BaseController
         }
 
         $rules = [
-            'tw' => [
+            'tahun' => [
                 'rules' => 'required',
                 'errors' => [
                     'required' => 'Tw tidak boleh kosong. ',
@@ -220,7 +220,7 @@ class Tagihanbank extends BaseController
                 return json_encode($response);
             }
 
-            $tw = htmlspecialchars($this->request->getVar('tw'), true);
+            $tahun = htmlspecialchars($this->request->getVar('tahun'), true);
             $dari_bank = htmlspecialchars($this->request->getVar('_bank'), true);
 
             $lampiran = $this->request->getFile('_file');
@@ -228,101 +228,173 @@ class Tagihanbank extends BaseController
 
             // var_dump($mimeType);
             // die;
-            $extension = $lampiran->getClientExtension();
-            $filesNamelampiran = $lampiran->getName();
-            $newNamelampiran = _create_name_file_import($filesNamelampiran);
+            // $extension = $lampiran->getClientExtension();
+            // $filesNamelampiran = $lampiran->getName();
+            // $newNamelampiran = _create_name_file_import($filesNamelampiran);
             $fileLocation = $lampiran->getTempName();
 
-            if ('xls' == $extension) {
-                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
-            } else {
-                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+            $apiLib = new Apilib();
+            switch ((int)$dari_bank) {
+                case 1:
+                    $result = $apiLib->uploadTagihanBankEkaBandar($tahun, $fileLocation);
+                    $namaBank = "Bank Eka Bandar Jaya";
+                    break;
+                case 2:
+                    $result = $apiLib->uploadTagihanBankEkaMetro($tahun, $fileLocation);
+                    $namaBank = "Bank Eka Metro";
+                    break;
+                case 3:
+                    $result = $apiLib->uploadTagihanBankBpdBandar($tahun, $fileLocation);
+                    $namaBank = "BPD Bandar Jaya";
+                    break;
+                case 4:
+                    $result = $apiLib->uploadTagihanBankBpdKoga($tahun, $fileLocation);
+                    $namaBank = "BPD KOTA GAJAH";
+                    break;
+                case 5:
+                    $result = $apiLib->uploadTagihanBankBpdKalirejo($tahun, $fileLocation);
+                    $namaBank = "BPD KALIREJO";
+                    break;
+                case 6:
+                    $result = $apiLib->uploadTagihanKpn($tahun, $fileLocation);
+                    $namaBank = "KPN";
+                    break;
+                case 7:
+                    $result = $apiLib->uploadTagihanBankBri($tahun, $fileLocation);
+                    $namaBank = "BANK BRI";
+                    break;
+                case 10:
+                    $result = $apiLib->uploadTagihanBankBpdMetro($tahun, $fileLocation);
+                    $namaBank = "BPD METRO";
+                    break;
+                case 9:
+                    $result = $apiLib->uploadTagihanBankBni($tahun, $fileLocation);
+                    $namaBank = "BANK BNI";
+                    break;
+
+                default:
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal Import Data Tagihan bank.";
+                    return json_encode($response);
+                    break;
             }
+            // $result = $apiLib->uploadPegawaiGajiSipd($tahun_bulan, $filename);
 
-            $spreadsheet = $reader->load($fileLocation);
-            $sheet = $spreadsheet->getActiveSheet()->toArray();
-
-            $total_line = (count($sheet) > 0) ? count($sheet) - 4 : 0;
-
-            $dataImport = [];
-
-            $nuptkImport = [];
-
-            // var_dump($ketSimtunDokumen);
-            // die;
-
-            unset($sheet[0]);
-            unset($sheet[1]);
-            unset($sheet[2]);
-            unset($sheet[3]);
-            // unset($sheet[4]);
-
-            foreach ($sheet as $key => $data) {
-
-                if ($data[3] == "" || strlen($data[3]) < 5) {
-                    // if($data[1] == "") {
-                    continue;
+            if ($result) {
+                // var_dump($result);
+                // die;
+                if ($result->status == 200) {
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->resss = $result;
+                    $response->message = "Import Data Tagihan $namaBank Berhasil Dilakukan.";
+                    return json_encode($response);
+                } else {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->error = $result;
+                    $response->message = "Gagal Import Data Tagihan $namaBank.";
+                    return json_encode($response);
                 }
-
-                $dataInsert = [
-                    'nip' => str_replace("'", "", $data[3]),
-                    'nama' => $data[1],
-                    'instansi' => $data[2],
-                    'tahun_bulan' => $tw,
-                    'kecamatan' => $data[4],
-                    'besar_pinjaman' => $data[5],
-                    'jumlah_tagihan' => str_replace(",", "", $data[6]),
-                    'jumlah_bulan_angsuran' => str_replace(",", "", $data[7]),
-                    'angsuran_ke' => str_replace(",", "", $data[8]),
-                    'dari_bank' => $dari_bank,
-                ];
-
-                $dataInsert['data_pegawai'] = $this->_db->table('tb_pegawai_ a')
-                    // ->select("a.id as id_usulan, a.us_pang_golongan, a.us_pang_mk_tahun, a.us_gaji_pokok, a.date_approve, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, a.date_approve_sptjm, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, e.cuti as lampiran_cuti, e.pensiun as lampiran_pensiun, e.kematian as lampiran_kematian")
-                    // ->join('_ptk_tb b', 'a.id_ptk = b.id')
-                    // ->join('_upload_data_attribut e', 'a.id_ptk = e.id_ptk AND (a.id_tahun_tw = e.id_tahun_tw)')
-                    // ->where('a.status_usulan', 6)
-                    // ->where('a.id_tahun_tw', $tw)
-                    ->where('a.nip', str_replace("'", "", $data[3]))
-                    ->get()->getRowObject();
-
-                $dataImport[] = $dataInsert;
-                $nuptkImport[] = str_replace("'", "", $data[3]);
-            }
-
-            $dataImports = [
-                'total_line' => $total_line,
-                'data' => $dataImport,
-            ];
-
-            if (count($nuptkImport) < 1) {
+            } else {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = "Tidak ada data yang di import.";
+                $response->message = "Gagal Import Data Tagihan $namaBank";
                 return json_encode($response);
             }
+
+
+            // if ('xls' == $extension) {
+            //     $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+            // } else {
+            //     $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+            // }
+
+            // $spreadsheet = $reader->load($fileLocation);
+            // $sheet = $spreadsheet->getActiveSheet()->toArray();
+
+            // $total_line = (count($sheet) > 0) ? count($sheet) - 4 : 0;
+
+            // $dataImport = [];
+
+            // $nuptkImport = [];
+
+            // // var_dump($ketSimtunDokumen);
+            // // die;
+
+            // unset($sheet[0]);
+            // unset($sheet[1]);
+            // unset($sheet[2]);
+            // unset($sheet[3]);
+            // // unset($sheet[4]);
+
+            // foreach ($sheet as $key => $data) {
+
+            //     if ($data[3] == "" || strlen($data[3]) < 5) {
+            //         // if($data[1] == "") {
+            //         continue;
+            //     }
+
+            //     $dataInsert = [
+            //         'nip' => str_replace("'", "", $data[3]),
+            //         'nama' => $data[1],
+            //         'instansi' => $data[2],
+            //         'tahun_bulan' => $tw,
+            //         'kecamatan' => $data[4],
+            //         'besar_pinjaman' => $data[5],
+            //         'jumlah_tagihan' => str_replace(",", "", $data[6]),
+            //         'jumlah_bulan_angsuran' => str_replace(",", "", $data[7]),
+            //         'angsuran_ke' => str_replace(",", "", $data[8]),
+            //         'dari_bank' => $dari_bank,
+            //     ];
+
+            //     $dataInsert['data_pegawai'] = $this->_db->table('tb_pegawai_ a')
+            //         // ->select("a.id as id_usulan, a.us_pang_golongan, a.us_pang_mk_tahun, a.us_gaji_pokok, a.date_approve, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, a.date_approve_sptjm, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan, e.cuti as lampiran_cuti, e.pensiun as lampiran_pensiun, e.kematian as lampiran_kematian")
+            //         // ->join('_ptk_tb b', 'a.id_ptk = b.id')
+            //         // ->join('_upload_data_attribut e', 'a.id_ptk = e.id_ptk AND (a.id_tahun_tw = e.id_tahun_tw)')
+            //         // ->where('a.status_usulan', 6)
+            //         // ->where('a.id_tahun_tw', $tw)
+            //         ->where('a.nip', str_replace("'", "", $data[3]))
+            //         ->get()->getRowObject();
+
+            //     $dataImport[] = $dataInsert;
+            //     $nuptkImport[] = str_replace("'", "", $data[3]);
+            // }
+
+            // $dataImports = [
+            //     'total_line' => $total_line,
+            //     'data' => $dataImport,
+            // ];
+
+            // if (count($nuptkImport) < 1) {
+            //     $response = new \stdClass;
+            //     $response->status = 400;
+            //     $response->message = "Tidak ada data yang di import.";
+            //     return json_encode($response);
+            // }
 
             // $x['import'] = $dataImports;
 
-            $data = [
-                'id_tahun_tw' => $tw,
-                'jumlah' => $total_line,
-                'created_at' => date('Y-m-d H:i:s')
-            ];
+            // $data = [
+            //     'id_tahun_tw' => $tw,
+            //     'jumlah' => $total_line,
+            //     'created_at' => date('Y-m-d H:i:s')
+            // ];
 
-            $dir = FCPATH . "upload/tagihanbank";
-            $field_db = 'filename';
-            $table_db = 'tb_up_masterdata_tagihan_bank';
+            // $dir = FCPATH . "upload/tagihanbank";
+            // $field_db = 'filename';
+            // $table_db = 'tb_up_masterdata_tagihan_bank';
 
-            if ($lampiran->isValid() && !$lampiran->hasMoved()) {
-                $lampiran->move($dir, $newNamelampiran);
-                $data[$field_db] = $newNamelampiran;
-            } else {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Gagal mengupload file.";
-                return json_encode($response);
-            }
+            // if ($lampiran->isValid() && !$lampiran->hasMoved()) {
+            //     $lampiran->move($dir, $newNamelampiran);
+            //     $data[$field_db] = $newNamelampiran;
+            // } else {
+            //     $response = new \stdClass;
+            //     $response->status = 400;
+            //     $response->message = "Gagal mengupload file.";
+            //     return json_encode($response);
+            // }
 
             // $dataResult['us_ptk'] = $this->_db->table('_tb_usulan_detail_tpg a')
             //     ->select("a.id as id_usulan, a.us_pang_golongan, a.us_pang_mk_tahun, a.us_gaji_pokok, a.date_approve, a.kode_usulan, a.id_ptk, a.id_tahun_tw, a.status_usulan, a.date_approve_sptjm, b.nama, b.nik, b.nuptk, b.jenis_ptk, b.kecamatan")
@@ -332,51 +404,51 @@ class Tagihanbank extends BaseController
             //     ->whereIn('b.nuptk', $nuptkImport)
             //     ->get()->getResult();
 
-            $this->_db->transBegin();
-            try {
-                $cekCurrent = $this->_db->table($table_db)->insert($data);
-            } catch (\Exception $e) {
-                unlink($dir . '/' . $newNamelampiran);
+            // $this->_db->transBegin();
+            // try {
+            //     $cekCurrent = $this->_db->table($table_db)->insert($data);
+            // } catch (\Exception $e) {
+            //     unlink($dir . '/' . $newNamelampiran);
 
-                $this->_db->transRollback();
+            //     $this->_db->transRollback();
 
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->error = var_dump($e);
-                $response->message = "Gagal menyimpan data.";
-                return json_encode($response);
-            }
+            //     $response = new \stdClass;
+            //     $response->status = 400;
+            //     $response->error = var_dump($e);
+            //     $response->message = "Gagal menyimpan data.";
+            //     return json_encode($response);
+            // }
 
-            if ($this->_db->affectedRows() > 0) {
-                if (write_file($dir . '/' . $newNamelampiran . '.json', json_encode($dataImports))) {
-                } else {
-                    $this->_db->transRollback();
+            // if ($this->_db->affectedRows() > 0) {
+            //     if (write_file($dir . '/' . $newNamelampiran . '.json', json_encode($dataImports))) {
+            //     } else {
+            //         $this->_db->transRollback();
 
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->error = "Gagal membuat file json";
-                    $response->message = "Gagal menyimpan data.";
-                    return json_encode($response);
-                }
+            //         $response = new \stdClass;
+            //         $response->status = 400;
+            //         $response->error = "Gagal membuat file json";
+            //         $response->message = "Gagal menyimpan data.";
+            //         return json_encode($response);
+            //     }
 
-                // createAktifitas($user->data->id, "Mengupload matching simtun $filesNamelampiran", "Mengupload Matching Simtun filesNamelampiran", "upload", $tw);
-                $this->_db->transCommit();
-                $response = new \stdClass;
-                $response->status = 200;
-                $x['data'] = [];
-                $x['id'] = $newNamelampiran;
-                $response->data = view('sigaji/su/upload/masterdata/tagihanbank/verifi-upload', $x);
-                $response->message = "Data berhasil disimpan.";
-                return json_encode($response);
-            } else {
-                unlink($dir . '/' . $newNamelampiran);
+            //     // createAktifitas($user->data->id, "Mengupload matching simtun $filesNamelampiran", "Mengupload Matching Simtun filesNamelampiran", "upload", $tw);
+            //     $this->_db->transCommit();
+            //     $response = new \stdClass;
+            //     $response->status = 200;
+            //     $x['data'] = [];
+            //     $x['id'] = $newNamelampiran;
+            //     $response->data = view('sigaji/su/upload/masterdata/tagihanbank/verifi-upload', $x);
+            //     $response->message = "Data berhasil disimpan.";
+            //     return json_encode($response);
+            // } else {
+            //     unlink($dir . '/' . $newNamelampiran);
 
-                $this->_db->transRollback();
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Gagal menyimpan data";
-                return json_encode($response);
-            }
+            //     $this->_db->transRollback();
+            //     $response = new \stdClass;
+            //     $response->status = 400;
+            //     $response->message = "Gagal menyimpan data";
+            //     return json_encode($response);
+            // }
         }
     }
 

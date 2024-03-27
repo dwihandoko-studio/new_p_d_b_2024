@@ -108,7 +108,7 @@
                 const file = document.getElementsByName('_file')[0].files[0];
                 formUpload.append('_file', file);
             }
-            formUpload.append('tw', tw);
+            formUpload.append('tahun', tw);
             formUpload.append('_bank', bank);
 
             $.ajax({
