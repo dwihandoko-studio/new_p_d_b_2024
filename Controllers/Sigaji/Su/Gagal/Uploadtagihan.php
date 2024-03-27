@@ -41,7 +41,7 @@ extends BaseController
             $action = '<div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
                         <div class="dropdown-menu" style="">
-                            <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->id_pegawai . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama)) . '\');"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
+                            <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->nip . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama)) . '\');"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
                         </div>
                     </div>';
             // $action = '<a href="javascript:actionDetail(\'' . $list->id . '\', \'' . str_replace("'", "", $list->nama) . '\');"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
@@ -55,11 +55,11 @@ extends BaseController
             //     </a>';
             $row[] = $action;
             $row[] = $list->tahun . '-' . $list->bulan;
-            $row[] = $list->nama;
+            $row[] = $list->nama_bank;
             $row[] = $list->nip;
-            $row[] = $list->golongan;
-            $row[] = $list->infak;
-            // $row[] = $list->nama_kecamatan;
+            $row[] = $list->instansi;
+            $row[] = $list->kecamatan;
+            $row[] = $list->jumlah_tagihan;
             // $row[] = $list->kode_instansi;
 
             $data[] = $row;
