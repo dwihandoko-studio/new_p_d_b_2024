@@ -341,7 +341,9 @@
                 "orderable": false,
             }],
         });
-
+        $('#filter_tw').change(function() {
+            tableDatatables.draw();
+        });
     });
 </script>
 <?= $this->endSection(); ?>
