@@ -167,7 +167,7 @@
                                             if ($ptk->status_kepegawaian === "PNS" || $ptk->status_kepegawaian === "PPPK" || $ptk->status_kepegawaian === "PNS Diperbantukan" || $ptk->status_kepegawaian === "PNS Depag" || $ptk->status_kepegawaian === "CPNS") {
                                                 $row[] = '-';
                                             } else {
-                                                $row[] = $ptk->lampiran_impassing ? '<a target="_blank" href="' . base_url('upload/ptk/impassing') . '/' . $ptk->lampiran_impassing . '"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+                                                $row[] = $ptk->lampiran_impassing && !($ptk->lampiran_impassing === NULL || $ptk->lampiran_impassing === "") ? '<a target="_blank" href="' . base_url('upload/ptk/impassing') . '/' . $ptk->lampiran_impassing . '"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
                                                 <i class="bx bxs-show font-size-16 align-middle"></i></button>
                                             </a>
                                             <a href="javascript:actionEditFile(\'Inpassing\',\'inpassing\',\'' . $ptk->lampiran_impassing . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
