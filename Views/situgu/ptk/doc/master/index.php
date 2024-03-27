@@ -173,7 +173,7 @@
                                             <a href="javascript:actionEditFile(\'Inpassing\',\'inpassing\',\'' . $ptk->lampiran_impassing . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
                                                 <i class="bx bxs-edit-alt font-size-16 align-middle"></i></button>
                                             </a>
-                                            <a href="javascript:actionHapusFile(\'Inpassing\',\'inspassing\',\'' . $ptk->lampiran_impassing . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
+                                            <a href="javascript:actionHapusFile(\'Inpassing\',\'inpassing\',\'' . $ptk->lampiran_impassing . '\');"><button type="button" class="btn btn-secondary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
                                                 <i class="mdi mdi-trash-can-outline font-size-16 align-middle"></i></button>
                                             </a>' :
                                                     '<a href="javascript:actionUpload(\'Inpassing\',\'inpassing\')" class="btn btn-primary waves-effect waves-light">
