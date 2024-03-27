@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <h4 class="card-title">Data Tagihan Bank Eka Metro</h4>
-                                <div><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionGenerate(this);"><i class="bx bx-shape-circle font-size-16 align-middle me-2"></i> Generate Potongan Infak</a>&nbsp;&nbsp;</div>
+                                <!-- <div><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionGenerate(this);"><i class="bx bx-shape-circle font-size-16 align-middle me-2"></i> Generate Potongan Infak</a>&nbsp;&nbsp;</div> -->
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
