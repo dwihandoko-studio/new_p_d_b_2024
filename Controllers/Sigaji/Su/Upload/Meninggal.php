@@ -164,7 +164,7 @@ class Meninggal extends BaseController
             $response = new \stdClass;
             $response->status = 200;
             $response->message = "Permintaan diizinkan";
-            $response->data = view('sigaji/su/upload/masterdata/meniggal/upload', $data);
+            $response->data = view('sigaji/su/upload/masterdata/meninggal/upload', $data);
             return json_encode($response);
         }
     }
