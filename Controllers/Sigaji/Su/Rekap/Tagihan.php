@@ -217,7 +217,7 @@ extends BaseController
 
             $apiLib = new Apilib();
 
-            $result = $apiLib->downloadLaporanIsntansi($tahun, $instansi, $type_file);
+            $result = $apiLib->downloadLaporanAll($tahun, $type_file);
 
             if ($result) {
                 // var_dump($result);
