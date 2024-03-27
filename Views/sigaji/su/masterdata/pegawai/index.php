@@ -102,7 +102,7 @@
 <script src="<?= base_url() ?>/assets/libs/dropzone/min/dropzone.min.js"></script>
 
 <script>
-    function actionUpload(event) {
+    function aksiUploadInstansi(event) {
         $.ajax({
             url: "./uploadUpdateInstansi",
             type: 'POST',
