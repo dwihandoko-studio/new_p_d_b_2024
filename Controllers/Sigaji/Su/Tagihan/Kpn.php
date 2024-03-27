@@ -42,6 +42,8 @@ extends BaseController
                         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
                         <div class="dropdown-menu" style="">
                             <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama)) . '\');"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
+                            <a class="dropdown-item" href="javascript:actionEdit(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\');"><i class="bx bx-edit-alt font-size-16 align-middle"></i> &nbsp;Edit</a>
+                            <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
                         </div>
                     </div>';
             // $action = '<a href="javascript:actionDetail(\'' . $list->id . '\', \'' . str_replace("'", "", $list->nama) . '\');"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
@@ -96,5 +98,180 @@ extends BaseController
         $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
 
         return view('sigaji/su/tagihan/kpn/index', $data);
+    }
+
+    public function edit()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id tidak boleh kosong. ',
+                ]
+            ],
+            'nama' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Nama tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('id')
+                . $this->validator->getError('nama');
+            return json_encode($response);
+        } else {
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+            $nama = htmlspecialchars($this->request->getVar('nama'), true);
+
+            $current = $this->_db->table('tb_tagihan_bank')
+                ->where(['id' => $id])->get()->getRowObject();
+
+            if ($current) {
+                $data['data'] = $current;
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('sigaji/su/tagihan/kpn/edit', $data);
+                return json_encode($response);
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan";
+                return json_encode($response);
+            }
+        }
+    }
+
+    public function editSave()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id PTK tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('id');
+            return json_encode($response);
+        } else {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Permintaan diizinkan";
+                return json_encode($response);
+            }
+
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+            $besar_pinjaman = htmlspecialchars($this->request->getVar('besar_pinjaman'), true);
+            $jumlah_tagihan = htmlspecialchars($this->request->getVar('jumlah_tagihan'), true);
+            $jumlah_bulan_angsuran = htmlspecialchars($this->request->getVar('jumlah_bulan_angsuran'), true);
+            $angsuran_ke = htmlspecialchars($this->request->getVar('angsuran_ke'), true);
+
+            $oldData =  $this->_db->table('tb_tagihan_bank')->where('id', $id)->get()->getRowObject();
+
+            if (!$oldData) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan.";
+                return json_encode($response);
+            }
+
+            $data = [
+                'updated_at' => date('Y-m-d H:i:s'),
+            ];
+
+            if ($besar_pinjaman !== "") {
+                $data['besar_pinjaman'] = $besar_pinjaman;
+            } else {
+                $data['besar_pinjaman'] = $oldData->besar_pinjaman;
+            }
+            if ($jumlah_tagihan !== "") {
+                $data['jumlah_tagihan'] = $jumlah_tagihan;
+            } else {
+                $data['jumlah_tagihan'] = $oldData->jumlah_tagihan;
+            }
+            if ($jumlah_bulan_angsuran !== "") {
+                $data['jumlah_bulan_angsuran'] = $jumlah_bulan_angsuran;
+            } else {
+                $data['jumlah_bulan_angsuran'] = $oldData->jumlah_bulan_angsuran;
+            }
+            if ($angsuran_ke !== "") {
+                $data['angsuran_ke'] = $angsuran_ke;
+            } else {
+                $data['angsuran_ke'] = $oldData->angsuran_ke;
+            }
+            $this->_db->transBegin();
+            try {
+                $this->_db->table('tb_tagihan_bank')->where('id', $oldData->id)->update($data);
+            } catch (\Exception $e) {
+                $this->_db->transRollback();
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal menyimpan gambar baru.";
+                return json_encode($response);
+            }
+
+            if ($this->_db->affectedRows() > 0) {
+                $getPotongan = $this->_db->table('tb_potongan_')->where(['id_pegawai' => $oldData->id_pegawai, 'tahun' => $oldData->tahun])->get()->getRowObject();
+                if (!$getPotongan) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal mengambil data potongan.";
+                    return json_encode($response);
+                }
+
+                $this->_db->table('tb_potongan_')->where(['id' => $getPotongan->id])->update([
+                    'updated_at' => $data['updated_at'],
+                    'kpn' => $data['jumlah_tagihan'],
+                ]);
+                if ($this->_db->affectedRows() > 0) {
+                    $this->_db->transCommit();
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->message = "Data berhasil diupdate.";
+                    return json_encode($response);
+                } else {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal mengupate data potongan";
+                    return json_encode($response);
+                }
+            } else {
+                $this->_db->transRollback();
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal mengupate data";
+                return json_encode($response);
+            }
+        }
     }
 }
