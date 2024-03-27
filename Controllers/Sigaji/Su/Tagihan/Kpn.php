@@ -61,7 +61,7 @@ extends BaseController
             $row[] = $list->kecamatan;
             $row[] = $list->besar_pinjaman;
             $row[] = $list->jumlah_tagihan;
-            $row[] = $list->jumlah_angsuran_bulan;
+            $row[] = $list->jumlah_bulan_angsuran;
             $row[] = $list->angsuran_ke;
 
             $data[] = $row;
@@ -82,7 +82,7 @@ extends BaseController
 
     public function data()
     {
-        $data['title'] = 'DATA POTONGAN KPN';
+        $data['title'] = 'DATA TAGIHAN KPN';
         $Profilelib = new Profilelib();
         $user = $Profilelib->user();
         if ($user->status != 200) {

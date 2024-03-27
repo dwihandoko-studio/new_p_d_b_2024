@@ -3,13 +3,13 @@
 namespace App\Controllers\Sigaji\Su\Tagihan;
 
 use App\Controllers\BaseController;
-use App\Models\Sigaji\Su\Tagihan\WajibkpnModel;
+use App\Models\Sigaji\Su\Tagihan\BankekametroModel;
 use Config\Services;
 use App\Libraries\Profilelib;
 use App\Libraries\Sigaji\Apilib;
 use App\Libraries\Helplib;
 
-class Wajibkpn
+class Ekametro
 extends BaseController
 {
     var $folderImage = 'masterdata';
@@ -27,7 +27,7 @@ extends BaseController
     public function getAll()
     {
         $request = Services::request();
-        $datamodel = new WajibkpnModel($request);
+        $datamodel = new BankekametroModel($request);
 
 
         $lists = $datamodel->get_datatables();
@@ -77,12 +77,12 @@ extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('sigaji/su/tagihan/wajibkpn/data'));
+        return redirect()->to(base_url('sigaji/su/tagihan/ekametro/data'));
     }
 
     public function data()
     {
-        $data['title'] = 'DATA TAGIHAN WAJIB KPN';
+        $data['title'] = 'DATA TAGIHAN BANK EKA METRO';
         $Profilelib = new Profilelib();
         $user = $Profilelib->user();
         if ($user->status != 200) {
@@ -95,6 +95,6 @@ extends BaseController
         $data['tw'] = $this->_db->table('_ref_tahun_bulan')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getRowObject();
         $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
 
-        return view('sigaji/su/tagihan/wajibkpn/index', $data);
+        return view('sigaji/su/tagihan/ekametro/index', $data);
     }
 }
