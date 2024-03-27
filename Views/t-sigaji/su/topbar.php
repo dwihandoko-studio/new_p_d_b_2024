@@ -44,6 +44,7 @@
                             <div class="dropdown-menu" aria-labelledby="topnav-upload">
                                 <a href="<?= base_url('sigaji/su/upload/pegawai') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "pegawai") ? ' active-menu-href' : '' ?>" key="t-upload-pegawai">Gaji SIPD</a>
                                 <a href="<?= base_url('sigaji/su/upload/tagihanbank') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "tagihanbank") ? ' active-menu-href' : '' ?>" key="t-upload-tagihanbank">Tagihan Bank</a>
+                                <a href="<?= base_url('sigaji/su/upload/meninggal') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "meninggal") ? ' active-menu-href' : '' ?>" key="t-upload-meninggal">Data Meninggal</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -54,6 +55,7 @@
                             <div class="dropdown-menu" aria-labelledby="topnav-gagal">
                                 <a href="<?= base_url('sigaji/su/gagal/uploadtagihan') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "gagal" && $uri->getSegment(4) == "uploadtagihan") ? ' active-menu-href' : '' ?>" key="t-gagalupload-tagihanbank">Tagihan Bank</a>
                                 <a href="<?= base_url('sigaji/su/gagal/uploadinstansi') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "gagal" && $uri->getSegment(4) == "uploadinstansi") ? ' active-menu-href' : '' ?>" key="t-gagalupload-updateinstansi">Update Instansi</a>
+                                <a href="<?= base_url('sigaji/su/gagal/uploadmeninggal') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "gagal" && $uri->getSegment(4) == "uploadmeninggal") ? ' active-menu-href' : '' ?>" key="t-gagalupload-uploadmeninggal">Data Meninggal</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
