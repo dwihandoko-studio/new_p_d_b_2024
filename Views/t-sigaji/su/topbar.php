@@ -57,6 +57,25 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle arrow-none <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "tagihan") ? ' active-menu-href' : '' ?>" href="#" id="topnav-rekap" role="button">
+                                <i class="bx bx-rename me-2"></i><span key="t-tagihan">TAGIHAN</span>
+                                <div class="arrow-down"></div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-tagihan">
+                                <a href="<?= base_url('sigaji/su/tagihan/kpn') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "tagihan" && $uri->getSegment(4) == "kpn") ? ' active-menu-href' : '' ?>" key="t-tagihan-kpn">KPN</a>
+                                <a href="<?= base_url('sigaji/su/tagihan/wajibkpn') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "tagihan" && $uri->getSegment(4) == "wajibkpn") ? ' active-menu-href' : '' ?>" key="t-tagihan-wajibkpn">Wajib KPN</a>
+                                <a href="<?= base_url('sigaji/su/tagihan/bri') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "tagihan" && $uri->getSegment(4) == "bri") ? ' active-menu-href' : '' ?>" key="t-tagihan-bri">BRI</a>
+                                <a href="<?= base_url('sigaji/su/tagihan/bni') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "tagihan" && $uri->getSegment(4) == "bni") ? ' active-menu-href' : '' ?>" key="t-tagihan-bni">BNI</a>
+                                <a href="<?= base_url('sigaji/su/tagihan/btn') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "tagihan" && $uri->getSegment(4) == "btn") ? ' active-menu-href' : '' ?>" key="t-tagihan-btn">BTN</a>
+                                <a href="<?= base_url('sigaji/su/tagihan/bpdbandar') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "tagihan" && $uri->getSegment(4) == "bpdbandar") ? ' active-menu-href' : '' ?>" key="t-tagihan-bpdbandar">BPD Bandar Jaya</a>
+                                <a href="<?= base_url('sigaji/su/tagihan/bpdkoga') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "tagihan" && $uri->getSegment(4) == "bpdkoga") ? ' active-menu-href' : '' ?>" key="t-tagihan-bpdkoga">BPD Kota Gajah</a>
+                                <a href="<?= base_url('sigaji/su/tagihan/bpdmetro') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "tagihan" && $uri->getSegment(4) == "bpdmetro") ? ' active-menu-href' : '' ?>" key="t-tagihan-bpdmetro">BPD Metro</a>
+                                <a href="<?= base_url('sigaji/su/tagihan/bpdkalirejo') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "tagihan" && $uri->getSegment(4) == "bpdkalirejo") ? ' active-menu-href' : '' ?>" key="t-tagihan-bpdkalirejo">BPD Kalirejo</a>
+                                <a href="<?= base_url('sigaji/su/tagihan/bankekabandar') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "tagihan" && $uri->getSegment(4) == "bankekabandar") ? ' active-menu-href' : '' ?>" key="t-tagihan-bankekabandar">Bank Eka Bandar Jaya</a>
+                                <a href="<?= base_url('sigaji/su/tagihan/bankekametro') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "tagihan" && $uri->getSegment(4) == "bankekametro") ? ' active-menu-href' : '' ?>" key="t-tagihan-bankekametro">Bank Eka Metro</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle arrow-none <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "rekap") ? ' active-menu-href' : '' ?>" href="#" id="topnav-rekap" role="button">
                                 <i class="bx bx-rename me-2"></i><span key="t-rekap">REKAP</span>
                                 <div class="arrow-down"></div>
