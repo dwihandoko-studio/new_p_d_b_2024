@@ -271,6 +271,10 @@ class Tagihanbank extends BaseController
                     $result = $apiLib->uploadTagihanBankBni($tahun, $fileLocation);
                     $namaBank = "BANK BNI";
                     break;
+                case 0:
+                    $result = $apiLib->uploadTagihanWajibKpn($tahun, $fileLocation);
+                    $namaBank = "WAJIB KPN";
+                    break;
 
                 default:
                     $response = new \stdClass;
