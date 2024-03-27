@@ -29,7 +29,7 @@
                             <div class="col-6">
                                 <h4 class="card-title">Data Gagal Upload Tagihan</h4>
                             </div>
-                            <div class="col-6">
+                            <div class="col-3">
                                 <div class="mb-3">
                                     <label for="_filter_tw" class="col-form-label">Filter TW:</label>
                                     <select class="form-control filter-tw" id="_filter_tw" name="_filter_tw" required>
@@ -43,6 +43,22 @@
                                         } ?>
                                     </select>
                                     <div class="help-block _filter_tw"></div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="mb-3">
+                                    <label for="_filter_bank" class="col-form-label">Filter Bank:</label>
+                                    <select class="form-control filter-bank" id="_filter_bank" name="_filter_bank" required>
+                                        <option value="">--Pilih--</option>
+                                        <?php if (isset($banks)) {
+                                            if (count($banks) > 0) {
+                                                foreach ($banks as $key => $v) { ?>
+                                                    <option value="<?= $v->id ?>"><?= $v->nama_bank ?></option>
+                                        <?php }
+                                            }
+                                        } ?>
+                                    </select>
+                                    <div class="help-block _filter_bank"></div>
                                 </div>
                             </div>
                         </div>
@@ -267,6 +283,7 @@
                 "data": function(data) {
                     data.tw_active = '<?= $tw->id ?>';
                     data.tw = $('#_filter_tw').val();
+                    data.bank = $('#_filter_bank').val();
                 }
             },
             language: {
@@ -278,6 +295,9 @@
             }],
         });
         $('#_filter_tw').change(function() {
+            tableDatatables.draw();
+        });
+        $('#_filter_bank').change(function() {
             tableDatatables.draw();
         });
     });

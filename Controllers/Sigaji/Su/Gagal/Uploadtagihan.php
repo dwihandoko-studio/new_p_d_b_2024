@@ -92,6 +92,7 @@ extends BaseController
         $data['user'] = $user->data;
         $data['tw'] = $this->_db->table('_ref_tahun_bulan')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getRowObject();
         $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
+        $data['banks'] = $this->_db->table('ref_bank')->orderBy('nama_bank', 'asc')->get()->getResult();
 
         return view('sigaji/su/gagal/uploadtagihan/index', $data);
     }

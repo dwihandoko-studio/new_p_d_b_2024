@@ -72,6 +72,12 @@ class UploadtagihanModel extends Model
                 }
             }
         }
+        if ($this->request->getPost('bank')) {
+            $bank = htmlspecialchars($this->request->getPost('bank'), true);
+            if ($bank !== "") {
+                $this->dt->where('a.dari_bank', $bank);
+            }
+        }
         $this->_get_datatables_query();
         if ($this->request->getPost('length') != -1)
             $this->dt->limit($this->request->getPost('length'), $this->request->getPost('start'));
@@ -102,6 +108,12 @@ class UploadtagihanModel extends Model
                 }
             }
         }
+        if ($this->request->getPost('bank')) {
+            $bank = htmlspecialchars($this->request->getPost('bank'), true);
+            if ($bank !== "") {
+                $this->dt->where('a.dari_bank', $bank);
+            }
+        }
         $this->_get_datatables_query();
 
         return $this->dt->countAllResults();
@@ -128,6 +140,12 @@ class UploadtagihanModel extends Model
 
                     $this->dt->where('a.tahun', $this->request->getPost('tw_active'));
                 }
+            }
+        }
+        if ($this->request->getPost('bank')) {
+            $bank = htmlspecialchars($this->request->getPost('bank'), true);
+            if ($bank !== "") {
+                $this->dt->where('a.dari_bank', $bank);
             }
         }
         $this->_get_datatables_query();
