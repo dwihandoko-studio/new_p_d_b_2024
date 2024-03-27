@@ -1,4 +1,4 @@
-<?php if (isset($instansis) && isset($tws)) { ?>
+<?php if (isset($tws)) { ?>
     <form id="formAddModalData" action="./uploadSave" method="post" enctype="multipart/form-data">
         <div class="modal-body">
             <div class="row">
@@ -16,20 +16,6 @@
                         } ?>
                     </select>
                     <div class="help-block _tw"></div>
-                </div>
-                <div class="col-lg-12 mt-2">
-                    <label for="_instansi" class="form-label">Instansi:</label>
-                    <select class="form-control" id="_instansi" name="_instansi" style="width: 100%" required>
-                        <option value="">-- PILIH --</option>
-                        <?php if (isset($instansis)) {
-                            if (count($instansis) > 0) {
-                                foreach ($instansis as $key => $value) { ?>
-                                    <option value="<?= $value->kode_instansi ?>"><?= $value->nama_instansi ?> (<?= $value->nama_kecamatan ?>)</option>
-                        <?php }
-                            }
-                        } ?>
-                    </select>
-                    <div class="help-block _instansi"></div>
                 </div>
                 <div class="col-lg-12">
                     <div class="mt-4">
@@ -62,7 +48,6 @@
         $("#formAddModalData").on("submit", function(e) {
             e.preventDefault();
             const tahun = document.getElementsByName('_tw')[0].value;
-            const instansi = document.getElementsByName('_instansi')[0].value;
             var radios = document.getElementsByName('_type_file');
             var selectedValue = "";
             for (var i = 0; i < radios.length; i++) {
@@ -72,7 +57,7 @@
                 }
             }
 
-            if (tahun === "" || instansi === "") {
+            if (tahun === "") {
                 Swal.fire(
                     'PERINGATAN!',
                     "tahun bulan dan instansi harus dipilih",
@@ -83,7 +68,6 @@
 
             const formUpload = new FormData();
             formUpload.append('tahun', tahun);
-            formUpload.append('instansi', instansi);
             formUpload.append('type_file', selectedValue);
 
             $.ajax({
