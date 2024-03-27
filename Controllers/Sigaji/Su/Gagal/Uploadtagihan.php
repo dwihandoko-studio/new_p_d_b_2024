@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Sigaji\Su\Potongan;
+namespace App\Controllers\Sigaji\Su\Gagal;
 
 use App\Controllers\BaseController;
 use App\Models\Sigaji\Su\Gagal\UploadtagihanModel;
