@@ -54,6 +54,7 @@
                                 <tr>
                                     <th rowspan="2" data-orderable="false">#</th>
                                     <th rowspan="2" data-orderable="false">Aksi</th>
+                                    <th rowspan="2" data-orderable="false">Tahun Bulan</th>
                                     <th rowspan="2">NAMA</th>
                                     <th rowspan="2">NIP</th>
                                     <th rowspan="2">GOLONGAN</th>

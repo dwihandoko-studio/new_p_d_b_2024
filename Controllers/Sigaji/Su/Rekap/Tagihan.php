@@ -54,6 +54,7 @@ extends BaseController
             //     <i class="bx bx-trash font-size-16 align-middle"></i></button>
             //     </a>';
             $row[] = $action;
+            $row[] = $list->tahun . '-' . $list->bulan;
             $row[] = $list->nama;
             $row[] = $list->nip;
             $row[] = $list->golongan;
