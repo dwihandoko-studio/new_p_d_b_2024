@@ -117,6 +117,134 @@ extends BaseController
         return view('sigaji/su/rekap/tagihan/index', $data);
     }
 
+    public function download()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'id' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Id tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('id');
+            return json_encode($response);
+        } else {
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                return redirect()->to(base_url('auth'));
+            }
+
+            $data['user'] = $user->data;
+            $data['tw'] = $this->_db->table('_ref_tahun_bulan')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getRowObject();
+            $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
+
+            $response = new \stdClass;
+            $response->status = 200;
+            $response->message = "Permintaan diizinkan";
+            $response->data = view('sigaji/su/rekap/laporan/download', $data);
+            return json_encode($response);
+            // } else {
+            //     $response = new \stdClass;
+            //     $response->status = 400;
+            //     $response->message = "Data tidak ditemukan";
+            //     return json_encode($response);
+            // }
+        }
+    }
+
+    public function aksidownload()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            'tahun' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Tahun bulan tidak boleh kosong. ',
+                ]
+            ],
+            'type_file' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Type file tidak boleh kosong. ',
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('tahun')
+                . $this->validator->getError('type_file');
+            return json_encode($response);
+        } else {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Session expired";
+                return json_encode($response);
+            }
+
+            $tahun = htmlspecialchars($this->request->getVar('tahun'), true);
+            $instansi = htmlspecialchars($this->request->getVar('instansi'), true);
+            $type_file = htmlspecialchars($this->request->getVar('type_file'), true);
+
+            $apiLib = new Apilib();
+
+            $result = $apiLib->downloadLaporanIsntansi($tahun, $instansi, $type_file);
+
+            if ($result) {
+                // var_dump($result);
+                // die;
+                if ($result->status == 200) {
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->data = $result;
+                    $response->url = base_url() . "/uploads/api" . $result->data->url;
+                    $response->message = "Download Data Berhasil Dilakukan.";
+                    return json_encode($response);
+                } else {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->error = $result;
+                    $response->message = "Gagal Tarik Data.";
+                    return json_encode($response);
+                }
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal Tarik Data";
+                return json_encode($response);
+            }
+        }
+    }
+
     public function detailbackbone()
     {
         if ($this->request->getMethod() != 'post') {

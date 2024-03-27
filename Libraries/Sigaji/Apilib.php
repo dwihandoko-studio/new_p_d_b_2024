@@ -593,6 +593,37 @@ class Apilib
         }
     }
 
+    public function downloadLaporanAll($tahun, $type)
+    {
+        $jwt = get_cookie('jwt');
+        if ($jwt) {
+            $data = [
+                'tahun' => $tahun,
+            ];
+            if ($type == "pdf") {
+                $add         = $this->_send_post($data, 'exportlaporanallpdf', $jwt);
+            } else {
+                $add         = $this->_send_post($data, 'exportlaporanall', $jwt);
+            }
+            $send_data         = curl_exec($add);
+
+            $result = json_decode($send_data);
+
+
+            if (isset($result->error)) {
+                return false;
+            }
+
+            if ($result) {
+                return $result;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     public function uploadPegawaiGajiSipd($tahun, $filename)
     {
         $jwt = get_cookie('jwt');
