@@ -418,8 +418,8 @@ class Filterauth implements FilterInterface
                                     } else if ($level == 3 || $level == 4 || $level == 5 || $level == 6 || $level == 7) { //OPK
                                         $accgajLib = new Acclib();
                                         // var_dump($level);
-                                        var_dump($accgajLib->getAccess($userId));
-                                        die;
+                                        // var_dump($accgajLib->getAccess($userId));
+                                        // die;
                                         if (!$accgajLib->getAccess($userId)) {
                                             if ($uriLevel !== "portal") {
                                                 return redirect()->to(base_url('portal'));
