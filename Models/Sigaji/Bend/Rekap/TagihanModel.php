@@ -47,7 +47,7 @@ class TagihanModel extends Model
             $this->dt->orderBy(key($order), $order[key($order)]);
         }
     }
-    function get_datatables()
+    function get_datatables($npsn)
     {
         $this->dt->select("a.id, a.id_pegawai, a.jumlah_transfer, a.tahun, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan, d.bank_eka_bandar_jaya, d.bank_eka_metro, d.bpd_bandar_jaya, d.bpd_koga, d.bpd_metro, d.bpd_kalirejo, d.wajib_kpn, d.kpn, d.bri, d.btn, d.bni, d.dharma_wanita, d.korpri, d.zakat_profesi, d.infak, d.shodaqoh");
         $this->dt->join('_ref_tahun_bulan c', 'a.tahun = c.id');
@@ -81,7 +81,7 @@ class TagihanModel extends Model
         $query = $this->dt->get();
         return $query->getResult();
     }
-    function count_filtered()
+    function count_filtered($npsn)
     {
         $this->dt->select("a.jumlah_transfer, a.tahun, b.nama, b.nip, b.golongan, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan, d.infak");
         $this->dt->join('_ref_tahun_bulan c', 'a.tahun = c.id');
@@ -112,7 +112,7 @@ class TagihanModel extends Model
 
         return $this->dt->countAllResults();
     }
-    public function count_all()
+    public function count_all($npsn)
     {
         $this->dt->select("a.jumlah_transfer, a.tahun, b.nama, b.nip, b.golongan, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan, d.infak");
         $this->dt->join('_ref_tahun_bulan c', 'a.tahun = c.id');

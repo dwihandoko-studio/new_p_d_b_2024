@@ -45,7 +45,7 @@ extends BaseController
         $datamodel = new LaporaninstansiModel($request);
 
 
-        $lists = $datamodel->get_datatables($user->data->id);
+        $lists = $datamodel->get_datatables($user->data->npsn);
         $data = [];
         $no = $request->getPost("start");
         foreach ($lists as $list) {
@@ -101,8 +101,8 @@ extends BaseController
         }
         $output = [
             "draw" => $request->getPost('draw'),
-            "recordsTotal" => $datamodel->count_all($user->data->id),
-            "recordsFiltered" => $datamodel->count_filtered($user->data->id),
+            "recordsTotal" => $datamodel->count_all($user->data->npsn),
+            "recordsFiltered" => $datamodel->count_filtered($user->data->npsn),
             "data" => $data
         ];
         echo json_encode($output);
