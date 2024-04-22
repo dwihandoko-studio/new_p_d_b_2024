@@ -33,8 +33,6 @@ class Filterauth implements FilterInterface
                     $totalSegment = $uri->getTotalSegments();
                     if ($totalSegment > 0) {
                         $uriMain = $uri->getSegment(1);
-                        var_dump($uriMain);
-                        die;
                         if ($uriMain === "" || $uriMain === "home" || $uriMain === "auth" || $uriMain === "portal") {
                         } else {
                             if ($uriMain === "situgu") {
@@ -360,6 +358,8 @@ class Filterauth implements FilterInterface
                                 }
                             } else if ($uriMain === "sigaji") {
                                 $uriLevel = $uri->getSegment(2);
+                                var_dump($uriMain);
+                                die;
                                 $mtLib = new Mtlib();
                                 if ($mtLib->get(3, '_tb_maintenance_gaji')) {
                                     if (!$mtLib->getAccess($userId)) {
