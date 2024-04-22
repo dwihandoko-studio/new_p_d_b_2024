@@ -358,7 +358,7 @@ class Filterauth implements FilterInterface
                                 }
                             } else if ($uriMain === "sigaji") {
                                 $uriLevel = $uri->getSegment(2);
-                                var_dump($uriMain);
+                                var_dump($uriLevel);
                                 die;
                                 $mtLib = new Mtlib();
                                 if ($mtLib->get(3, '_tb_maintenance_gaji')) {
