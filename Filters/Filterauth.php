@@ -8,6 +8,7 @@ use CodeIgniter\Filters\FilterInterface;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use App\Libraries\Mtlib;
+use App\Libraries\Sigaji\Acclib;
 
 class Filterauth implements FilterInterface
 {
@@ -379,13 +380,16 @@ class Filterauth implements FilterInterface
                                             if ($uriLevel != "adm") {
                                                 return redirect()->to(base_url('sigaji/adm/home'));
                                             }
-                                        } else if ($level == 3) { //OPK
-                                            if ($uriLevel != "opk") {
-                                                return redirect()->to(base_url('sigaji/opk/home'));
-                                            }
-                                        } else if ($level == 4) { //OPSR
-                                            if ($uriLevel != "opsr") {
-                                                return redirect()->to(base_url('sigaji/opsr/home'));
+                                        } else if ($level == 3 || $level == 4 || $level == 5 || $level == 6 || $level == 7) { //OPK
+                                            $accgajLib = new Acclib();
+                                            if (!$accgajLib->getAccess($userId)) {
+                                                if ($uriLevel !== "portal") {
+                                                    return redirect()->to(base_url('sigaji/portal'));
+                                                }
+                                            } else {
+                                                if ($uriLevel != "bend") {
+                                                    return redirect()->to(base_url('sigaji/bend/home'));
+                                                }
                                             }
                                         } else {
                                             return redirect()->to(base_url('portal'));
@@ -407,13 +411,16 @@ class Filterauth implements FilterInterface
                                         if ($uriLevel != "adm") {
                                             return redirect()->to(base_url('sigaji/adm/home'));
                                         }
-                                    } else if ($level == 3) { //OPK
-                                        if ($uriLevel != "opk") {
-                                            return redirect()->to(base_url('sigaji/opk/home'));
-                                        }
-                                    } else if ($level == 4) { //OPSR
-                                        if ($uriLevel != "opsr") {
-                                            return redirect()->to(base_url('sigaji/opsr/home'));
+                                    } else if ($level == 3 || $level == 4 || $level == 5 || $level == 6 || $level == 7) { //OPK
+                                        $accgajLib = new Acclib();
+                                        if (!$accgajLib->getAccess($userId)) {
+                                            if ($uriLevel !== "portal") {
+                                                return redirect()->to(base_url('sigaji/portal'));
+                                            }
+                                        } else {
+                                            if ($uriLevel != "bend") {
+                                                return redirect()->to(base_url('sigaji/bend/home'));
+                                            }
                                         }
                                     } else {
                                         return redirect()->to(base_url('portal'));

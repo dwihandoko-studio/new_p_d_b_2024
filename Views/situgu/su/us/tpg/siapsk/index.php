@@ -32,37 +32,42 @@
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="_filter_tw" class="col-form-label">Filter Status:</label>
+                                    <label for="_filter_tw" class="col-form-label">Filter TW:</label>
                                     <select class="form-control filter-tw" id="_filter_tw" name="_filter_tw" required>
                                         <option value="">--Pilih--</option>
-                                        <option value="0">Antrian</option>
-                                        <option value="1">Ditolak</option>
-                                        <option value="pghm">PGHM</option>
+                                        <?php if (isset($tws)) {
+                                            if (count($tws) > 0) {
+                                                foreach ($tws as $key => $value) { ?>
+                                                    <option value="<?= $value->id ?>">Tahun <?= $value->tahun ?> - TW. <?= $value->tw ?></option>
+                                        <?php }
+                                            }
+                                        } ?>
                                     </select>
                                     <div class="help-block _filter_tw"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <table id="data-datatables" class="table table-bordered dt-responsive  nowrap w-100">
-                            <thead>
-                                <tr>
-                                    <th data-orderable="false">#</th>
-                                    <th data-orderable="false">Aksi</th>
-                                    <th>NAMA</th>
-                                    <th>NIK</th>
-                                    <th>NUPTK</th>
-                                    <th>JENIS PTK</th>
-                                    <th>TANGGAL MATCHING SIMTUN</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="data-datatables" class="table table-bordered dt-responsive  nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th data-orderable="false">#</th>
+                                <th data-orderable="false">Aksi</th>
+                                <th>NAMA</th>
+                                <th>NIK</th>
+                                <th>NUPTK</th>
+                                <th>JENIS PTK</th>
+                                <th>TANGGAL MATCHING SIMTUN</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
-    </div> <!-- container-fluid -->
+    </div>
+</div> <!-- container-fluid -->
 </div>
 <!-- End Page-content -->
 
@@ -229,7 +234,9 @@
                 "url": "./getAll",
                 "type": "POST",
                 "data": function(data) {
-                    data.tw = '<?= $tw->id ?>';
+                    // data.tw = '<?= $tw->id ?>';
+                    data.tw_active = '<?= $tw->id ?>';
+                    data.tw = $('#_filter_tw').val();
                 }
             },
             language: {
@@ -239,6 +246,10 @@
                 "targets": 0,
                 "orderable": false,
             }],
+        });
+
+        $('#_filter_tw').change(function() {
+            tableDatatables.draw();
         });
 
     });

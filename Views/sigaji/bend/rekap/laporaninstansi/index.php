@@ -1,4 +1,4 @@
-<?= $this->extend('t-situgu/su/index'); ?>
+<?= $this->extend('t-sigaji/bend/index'); ?>
 
 <?= $this->section('content'); ?>
 <div class="page-content">
@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0 font-size-18">DATA USULAN TPG LOLOS BERKAS</h4>
+                    <h4 class="mb-sm-0 font-size-18">DATA REKAP LAPORAN PER INSTANSI</h4>
 
                     <!-- <div class="page-title-right">
                         <ol class="breadcrumb m-0">
@@ -27,23 +27,39 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-6">
-                                <h4 class="card-title">Data Usulan TPG Lolos Berkas</h4>
-                                <div><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionDownload(this);"><i class="bx bxs-cloud-download font-size-16 align-middle me-2"></i> Download <i class="mdi mdi-file-excel font-size-16 align-middle me-2"></i></a>&nbsp;&nbsp;</div>
+                                <h4 class="card-title">Data Rekap Laporan Per Instansi</h4>
+                                <div><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionDownload(this);"><i class="bx bxs-cloud-download font-size-16 align-middle me-2"></i> Download</a>&nbsp;&nbsp;</div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-3">
                                 <div class="mb-3">
-                                    <label for="_filter_tw" class="col-form-label">Filter TW:</label>
+                                    <label for="_filter_tw" class="col-form-label">Filter Bulan:</label>
                                     <select class="form-control filter-tw" id="_filter_tw" name="_filter_tw" required>
                                         <option value="">--Pilih--</option>
                                         <?php if (isset($tws)) {
                                             if (count($tws) > 0) {
                                                 foreach ($tws as $key => $value) { ?>
-                                                    <option value="<?= $value->id ?>">Tahun <?= $value->tahun ?> - TW. <?= $value->tw ?></option>
+                                                    <option value="<?= $value->id ?>">Tahun <?= $value->tahun ?> - Bulan. <?= $value->bulan ?></option>
                                         <?php }
                                             }
                                         } ?>
                                     </select>
                                     <div class="help-block _filter_tw"></div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="mb-3">
+                                    <label for="_filter_instansi" class="col-form-label">Filter Instansi:</label>
+                                    <select class="form-control filter-instansi" id="_filter_instansi" name="_filter_instansi" required>
+                                        <option value="">--Pilih--</option>
+                                        <?php if (isset($instansis)) {
+                                            if (count($instansis) > 0) {
+                                                foreach ($instansis as $key => $value) { ?>
+                                                    <option value="<?= $value->kode_instansi ?>"><?= $value->nama_instansi ?> (<?= $value->nama_kecamatan ?>)</option>
+                                        <?php }
+                                            }
+                                        } ?>
+                                    </select>
+                                    <div class="help-block _filter_instansi"></div>
                                 </div>
                             </div>
                         </div>
@@ -52,13 +68,35 @@
                         <table id="data-datatables" class="table table-bordered dt-responsive  nowrap w-100">
                             <thead>
                                 <tr>
-                                    <th data-orderable="false">#</th>
-                                    <th data-orderable="false">Aksi</th>
-                                    <th>NAMA</th>
-                                    <th>NIK</th>
-                                    <th>NUPTK</th>
-                                    <th>JENIS PTK</th>
-                                    <th>TANGGAL VERIFIKASI</th>
+                                    <th rowspan="2" data-orderable="false">#</th>
+                                    <th rowspan="2" data-orderable="false">Aksi</th>
+                                    <th rowspan="2">NAMA</th>
+                                    <th rowspan="2">NIP</th>
+                                    <th rowspan="2">GOLONGAN</th>
+                                    <th rowspan="2" align="center">GAJI<br />SESUAI<br />DAFTAR</th>
+                                    <th colspan="16">POTONGAN</th>
+                                    <th rowspan="2">JUMLAH POTONGAN</th>
+                                    <th rowspan="2">JUMLAH GAJI YANG DITERIMA</th>
+                                    <th rowspan="2">NOMOR REKENING</th>
+                                    <th rowspan="2">TANDA TANGAN</th>
+                                </tr>
+                                <tr>
+                                    <th>BANK EKA B.JAYA</th>
+                                    <th>BANK EKA METRO</th>
+                                    <th>BPD B. JAYA</th>
+                                    <th>BPD KOTA GAJAH</th>
+                                    <th>BPD METRO</th>
+                                    <th>BPD KALIREJO</th>
+                                    <th>WAJIB KPN</th>
+                                    <th>KPN</th>
+                                    <th>BRI</th>
+                                    <th>BTN</th>
+                                    <th>BNI</th>
+                                    <th>DHARMA WANITA</th>
+                                    <th>KORPRI</th>
+                                    <th>ZAKAT PROFESI</th>
+                                    <th>INFAQ</th>
+                                    <th>SHODAQOH</th>
                                 </tr>
                             </thead>
                         </table>
@@ -72,7 +110,8 @@
 
 <!-- Modal -->
 <div id="content-detailModal" class="modal fade content-detailModal" tabindex="-1" role="dialog" aria-labelledby="content-detailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <!-- <div class="modal-dialog modal-fullscreen" role="document"> -->
+    <div class="modal-dialog modal-dialog-centered modal-center" role="document">
         <div class="modal-content modal-content-loading">
             <div class="modal-header">
                 <h5 class="modal-title" id="content-detailModalLabel">Details</h5>
@@ -118,40 +157,11 @@
 
 <script>
     function actionDownload(event) {
-        const tw = document.getElementsByName('_filter_tw')[0].value;
-
-        console.log(tw);
-        if (tw === undefined || tw === "") {
-            const linkSource = "<?= base_url('situgu/su/us/tpg/lolosberkas/download') ?>?tw=<?= $tw->id ?>";
-            const downloadLink = document.createElement("a");
-            downloadLink.href = linkSource;
-            downloadLink.onclick = function() {
-                window.open(this.href);
-                return false;
-            };
-            downloadLink.click();
-        } else {
-            const linkSource = "<?= base_url('situgu/su/us/tpg/lolosberkas/download') ?>?tw=" + tw;
-            const downloadLink = document.createElement("a");
-            downloadLink.href = linkSource;
-            downloadLink.onclick = function() {
-                window.open(this.href);
-                return false;
-            };
-            downloadLink.click();
-        }
-    }
-
-    function actionEdit(id, id_ptk, tw, nama, nuptk) {
         $.ajax({
-            url: "./edit",
+            url: "./download",
             type: 'POST',
             data: {
-                id: id,
-                id_ptk: id_ptk,
-                tw: tw,
-                nama: nama,
-                nuptk: nuptk,
+                id: 'download',
             },
             dataType: 'JSON',
             beforeSend: function() {
@@ -168,7 +178,7 @@
                         'warning'
                     );
                 } else {
-                    $('#content-detailModalLabel').html('EDIT USULAN PTK ' + nama);
+                    $('#content-detailModalLabel').html('DOWNLOAD DATA LAPORAN TAGIHAN PER INTANSI');
                     $('.contentBodyModal').html(resul.data);
                     $('.content-detailModal').modal({
                         backdrop: 'static',
@@ -188,7 +198,7 @@
         });
     }
 
-    function actionDetail(id, id_ptk, tw, nama, nuptk) {
+    function actionDetail(id, id_ptk, tw, nama) {
         $.ajax({
             url: "./detail",
             type: 'POST',
@@ -231,6 +241,62 @@
                 );
             }
         });
+    }
+
+    function actionHapus(id, filename) {
+        Swal.fire({
+            title: 'Apakah anda yakin ingin menghapus data ini?',
+            text: "Hapus File Matching : " + filename,
+            showCancelButton: true,
+            icon: 'question',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "./delete",
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        filename: filename,
+                    },
+                    dataType: 'JSON',
+                    beforeSend: function() {
+                        $('div.main-content').block({
+                            message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                        });
+                    },
+                    success: function(resul) {
+                        $('div.main-content').unblock();
+
+                        if (resul.status !== 200) {
+                            Swal.fire(
+                                'Failed!',
+                                resul.message,
+                                'warning'
+                            );
+                        } else {
+                            Swal.fire(
+                                'SELAMAT!',
+                                resul.message,
+                                'success'
+                            ).then((valRes) => {
+                                reloadPage();
+                            })
+                        }
+                    },
+                    error: function() {
+                        $('div.main-content').unblock();
+                        Swal.fire(
+                            'Failed!',
+                            "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                            'warning'
+                        );
+                    }
+                });
+            }
+        })
     }
 
     function changeValidation(event) {
@@ -281,6 +347,7 @@
                 "data": function(data) {
                     data.tw_active = '<?= $tw->id ?>';
                     data.tw = $('#_filter_tw').val();
+                    data.instansi = $('#_filter_instansi').val();
                 }
             },
             language: {
@@ -291,11 +358,12 @@
                 "orderable": false,
             }],
         });
-
+        $('#_filter_instansi').change(function() {
+            tableDatatables.draw();
+        });
         $('#_filter_tw').change(function() {
             tableDatatables.draw();
         });
-
     });
 </script>
 <?= $this->endSection(); ?>
