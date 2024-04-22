@@ -361,8 +361,7 @@ class Filterauth implements FilterInterface
 
                                 $mtLib = new Mtlib();
                                 if ($mtLib->get(3, '_tb_maintenance_gaji')) {
-                                    var_dump($uriLevel);
-                                    die;
+
                                     if (!$mtLib->getAccess($userId)) {
                                         if ($uriLevel !== "maintenance") {
                                             return redirect()->to(base_url('sigaji/maintenance'));
@@ -400,6 +399,8 @@ class Filterauth implements FilterInterface
                                         }
                                     }
                                 } else {
+                                    var_dump($uriLevel);
+                                    die;
                                     if ($level == 1) { //SuperAdmin
 
                                         if ($uriLevel === "" || $uriLevel === "index") {
