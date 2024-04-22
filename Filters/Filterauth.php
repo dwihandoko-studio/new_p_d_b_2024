@@ -33,6 +33,8 @@ class Filterauth implements FilterInterface
                     $totalSegment = $uri->getTotalSegments();
                     if ($totalSegment > 0) {
                         $uriMain = $uri->getSegment(1);
+                        var_dump($uriMain);
+                        die;
                         if ($uriMain === "" || $uriMain === "home" || $uriMain === "auth" || $uriMain === "portal") {
                         } else {
                             if ($uriMain === "situgu") {
@@ -382,8 +384,7 @@ class Filterauth implements FilterInterface
                                             }
                                         } else if ($level == 3 || $level == 4 || $level == 5 || $level == 6 || $level == 7) { //OPK
                                             $accgajLib = new Acclib();
-                                            var_dump($accgajLib->getAccess($userId));
-                                            die;
+
                                             if (!$accgajLib->getAccess($userId)) {
                                                 if ($uriLevel != "portal") {
                                                     return redirect()->to(base_url('portal'));
