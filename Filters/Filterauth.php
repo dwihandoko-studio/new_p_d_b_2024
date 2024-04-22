@@ -384,7 +384,7 @@ class Filterauth implements FilterInterface
                                             $accgajLib = new Acclib();
                                             if (!$accgajLib->getAccess($userId)) {
                                                 if ($uriLevel !== "portal") {
-                                                    return redirect()->to(base_url('sigaji/portal'));
+                                                    return redirect()->to(base_url('portal'));
                                                 }
                                             } else {
                                                 if ($uriLevel != "bend") {
@@ -415,7 +415,7 @@ class Filterauth implements FilterInterface
                                         $accgajLib = new Acclib();
                                         if (!$accgajLib->getAccess($userId)) {
                                             if ($uriLevel !== "portal") {
-                                                return redirect()->to(base_url('sigaji/portal'));
+                                                return redirect()->to(base_url('portal'));
                                             }
                                         } else {
                                             if ($uriLevel != "bend") {
