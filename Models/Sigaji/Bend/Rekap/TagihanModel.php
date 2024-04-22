@@ -53,7 +53,7 @@ class TagihanModel extends Model
         $this->dt->join('_ref_tahun_bulan c', 'a.tahun = c.id');
         $this->dt->join('tb_pegawai_ b', 'a.id_pegawai = b.id');
         $this->dt->join('tb_potongan_ d', 'a.id_pegawai = d.id_pegawai AND a.tahun = d.tahun', 'LEFT');
-        $this->dt->where('b.npsn', $npsn);
+        $this->dt->where('b.kode_instansi', $npsn);
         // $this->dt->whereIn('a.status_usulan', [2]);
         if ($this->request->getPost('tw')) {
             $tw = htmlspecialchars($this->request->getPost('tw'), true);
@@ -88,7 +88,7 @@ class TagihanModel extends Model
         $this->dt->join('_ref_tahun_bulan c', 'a.tahun = c.id');
         $this->dt->join('tb_pegawai_ b', 'a.id_pegawai = b.id');
         $this->dt->join('tb_potongan_ d', 'a.id_pegawai = d.id_pegawai AND a.tahun = d.tahun', 'LEFT');
-        $this->dt->where('b.npsn', $npsn);
+        $this->dt->where('b.kode_instansi', $npsn);
         if ($this->request->getPost('tw')) {
             $tw = htmlspecialchars($this->request->getPost('tw'), true);
             if ($tw !== "") {
@@ -120,7 +120,7 @@ class TagihanModel extends Model
         $this->dt->join('_ref_tahun_bulan c', 'a.tahun = c.id');
         $this->dt->join('tb_pegawai_ b', 'a.id_pegawai = b.id');
         $this->dt->join('tb_potongan_ d', 'a.id_pegawai = d.id_pegawai AND a.tahun = d.tahun', 'LEFT');
-        $this->dt->where('b.npsn', $npsn);
+        $this->dt->where('b.kode_instansi', $npsn);
         if ($this->request->getPost('tw')) {
             $tw = htmlspecialchars($this->request->getPost('tw'), true);
             if ($tw !== "") {
