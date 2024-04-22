@@ -63,8 +63,8 @@
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-        <?= $this->include('t-sigaji/adm/header'); ?>
-        <?= $this->include('t-sigaji/adm/topbar'); ?>
+        <?= $this->include('t-sigaji/bend/header'); ?>
+        <?= $this->include('t-sigaji/bend/topbar'); ?>
 
 
 
@@ -74,7 +74,7 @@
         <div class="main-content">
             <?= $this->renderSection('content'); ?>
 
-            <?= $this->include('t-sigaji/adm/footer'); ?>
+            <?= $this->include('t-sigaji/bend/footer'); ?>
         </div>
         <!-- end main content-->
 
