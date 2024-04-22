@@ -227,12 +227,13 @@ extends BaseController
             }
 
             $tahun = htmlspecialchars($this->request->getVar('tahun'), true);
-            $instansi = htmlspecialchars($this->request->getVar('instansi'), true);
+            // $instansi = htmlspecialchars($this->request->getVar('instansi'), true);
             $type_file = htmlspecialchars($this->request->getVar('type_file'), true);
 
             $apiLib = new Apilib();
 
-            $result = $apiLib->downloadLaporanAll($tahun, $type_file);
+            // $result = $apiLib->downloadLaporanAll($tahun, $type_file);
+            $result = $apiLib->downloadLaporanIsntansi($tahun, $user->data->npsn, $type_file);
 
             if ($result) {
                 // var_dump($result);
