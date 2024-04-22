@@ -416,9 +416,9 @@ class Filterauth implements FilterInterface
                                             return redirect()->to(base_url('sigaji/adm/home'));
                                         }
                                     } else if ($level == 3 || $level == 4 || $level == 5 || $level == 6 || $level == 7) { //OPK
-                                        var_dump($level);
-                                        die;
                                         $accgajLib = new Acclib();
+                                        var_dump($accgajLib->getAccess($userId));
+                                        die;
                                         if (!$accgajLib->getAccess($userId)) {
                                             if ($uriLevel !== "portal") {
                                                 return redirect()->to(base_url('portal'));
