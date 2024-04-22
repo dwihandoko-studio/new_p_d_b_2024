@@ -89,7 +89,7 @@ class Home extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('/sigaji/bend/home/data'));
+        return redirect()->to(base_url('sigaji/bend/home/data'));
     }
 
     public function data()

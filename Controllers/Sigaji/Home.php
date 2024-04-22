@@ -27,9 +27,6 @@ class Home extends BaseController
                     $userId = $decoded->id;
                     $level = $decoded->level;
 
-                    var_dump($level);
-                    die;
-
                     switch ($level) {
                         case 1:
                             return redirect()->to(base_url('sigaji/su/home'));
