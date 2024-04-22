@@ -20,6 +20,8 @@ class Home extends BaseController
     {
         $jwt = get_cookie('jwt');
         $token_jwt = getenv('token_jwt.default.key');
+        var_dump($token_jwt);
+        die;
         if ($jwt) {
             try {
                 $decoded = JWT::decode($jwt, new Key($token_jwt, 'HS256'));
