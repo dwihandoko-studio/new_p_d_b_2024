@@ -8,7 +8,7 @@ class Acclib
     function __construct()
     {
         helper(['text', 'session', 'cookie', 'array', 'filesystem']);
-        $this->_db      = \Config\Database::connect('sigaji');
+        $this->_db      = \Config\Database::connect();
     }
 
     public function getAccess($userId)
