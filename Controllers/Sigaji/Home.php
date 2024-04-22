@@ -33,15 +33,15 @@ class Home extends BaseController
                         case 2:
                             return redirect()->to(base_url('sigaji/adm/home'));
                         case 3:
-                            return redirect()->to(base_url('situgu/bend/home'));
+                            return redirect()->to(base_url('sigaji/bend/home'));
                         case 4:
-                            return redirect()->to(base_url('situgu/bend/home'));
+                            return redirect()->to(base_url('sigaji/bend/home'));
                         case 5:
-                            return redirect()->to(base_url('situgu/bend/home'));
+                            return redirect()->to(base_url('sigaji/bend/home'));
                         case 6:
-                            return redirect()->to(base_url('situgu/bend/home'));
+                            return redirect()->to(base_url('sigaji/bend/home'));
                         case 7:
-                            return redirect()->to(base_url('situgu/bend/home'));
+                            return redirect()->to(base_url('sigaji/bend/home'));
                         default:
                             return redirect()->to(base_url('portal'));
                     }
