@@ -217,9 +217,8 @@ class Accessgaji extends BaseController
             $keyword = htmlspecialchars($this->request->getVar('keyword'), true);
 
             $current = $this->_db->table('_profil_users_tb')
-                ->select("id, fullname, email, npsn, kecamatan")
-                ->where('role_user', $id)
-                ->where("id_ptk IS NOT NULL AND (nuptk = '$keyword' OR nama LIKE '%$keyword%')")->get()->getResult();
+                ->select("id, fullname, email, npsn, kecamatan, nuptk")
+                ->where("role_user = '$id' AND (nuptk LIKE '%$keyword%' OR fullname = '$keyword' OR npsn LIKE '%$keyword%' OR kecamatan LIKE '%$keyword%')")->get()->getResult();
 
             if (count($current) > 0) {
                 $response = new \stdClass;
