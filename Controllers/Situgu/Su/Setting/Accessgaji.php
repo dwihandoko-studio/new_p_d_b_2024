@@ -218,7 +218,7 @@ class Accessgaji extends BaseController
 
             $current = $this->_db->table('_profil_users_tb')
                 ->select("id, fullname, email, npsn, kecamatan, nip")
-                ->where("role_user = $id AND (nip LIKE '%$keyword%' OR fullname = '$keyword' OR npsn LIKE '%$keyword%' OR kecamatan LIKE '%$keyword%')")->get()->getResult();
+                ->where("role_user = $id AND (nip LIKE '%$keyword%' OR fullname = '%$keyword%' OR npsn LIKE '%$keyword%' OR kecamatan LIKE '%$keyword%')")->get()->getResult();
 
             if (count($current) > 0) {
                 $response = new \stdClass;
