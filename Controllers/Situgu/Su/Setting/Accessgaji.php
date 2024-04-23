@@ -198,18 +198,28 @@ class Accessgaji extends BaseController
                     'required' => 'Id tidak boleh kosong. ',
                 ]
             ],
+            'keyword' => [
+                'rules' => 'required|trim',
+                'errors' => [
+                    'required' => 'Keyword tidak boleh kosong. ',
+                ]
+            ],
         ];
 
         if (!$this->validate($rules)) {
             $response = new \stdClass;
             $response->status = 400;
-            $response->message = $this->validator->getError('id');
+            $response->message = $this->validator->getError('id')
+                . $this->validator->getError('keyword');
             return json_encode($response);
         } else {
             $id = htmlspecialchars($this->request->getVar('id'), true);
+            $keyword = htmlspecialchars($this->request->getVar('keyword'), true);
 
             $current = $this->_db->table('_profil_users_tb')
-                ->where('role_user', $id)->get()->getResult();
+                ->select("id, fullname, email, npsn, kecamatan")
+                ->where('role_user', $id)
+                ->where("id_ptk IS NOT NULL AND (nuptk = '$keyword' OR nama LIKE '%$keyword%')")->get()->getResult();
 
             if (count($current) > 0) {
                 $response = new \stdClass;

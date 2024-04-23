@@ -29,53 +29,126 @@
 </form>
 
 <script>
+    let changedRole;
     // initSelect2("_role", ".content-detailModal");
-    initSelect2("_pengguna", ".content-detailModal");
+    // initSelect2WithSearch("_pengguna", ".content-detailModal", changedRole);
+    // initSelect2("_pengguna", ".content-detailModal");
 
     function changeRole(event) {
         const color = $(event).attr('name');
         $(event).removeAttr('style');
         $('.' + color).html('');
+        // $('.pengguna').html("");
 
-        if (event.value !== "") {
-            $.ajax({
-                url: './getPengguna',
-                type: 'POST',
-                data: {
-                    id: event.value,
-                },
-                dataType: 'JSON',
-                beforeSend: function() {
-                    $('div._pengguna-block').block({
-                        message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
-                    });
-                },
-                success: function(msg) {
-                    $('div._pengguna-block').unblock();
-                    if (msg.status == 200) {
-                        let html = "";
-                        html += '<option value="">--Pilih--</option>';
-                        if (msg.data.length > 0) {
-                            for (let step = 0; step < msg.data.length; step++) {
-                                html += '<option value="';
-                                html += msg.data[step].id;
-                                html += '">';
-                                html += msg.data[step].fullname;
-                                html += ' (';
-                                html += msg.data[step].email;
-                                html += ')</option>';
-                            }
+        changedRole = event.value;
 
-                        }
+        // if (event.value !== "") {
+        //     $.ajax({
+        //         url: './getPengguna',
+        //         type: 'POST',
+        //         data: {
+        //             id: event.value,
+        //         },
+        //         dataType: 'JSON',
+        //         beforeSend: function() {
+        //             $('div._pengguna-block').block({
+        //                 message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+        //             });
+        //         },
+        //         success: function(msg) {
+        //             $('div._pengguna-block').unblock();
+        //             if (msg.status == 200) {
+        //                 let html = "";
+        //                 html += '<option value="">--Pilih--</option>';
+        //                 if (msg.data.length > 0) {
+        //                     for (let step = 0; step < msg.data.length; step++) {
+        //                         html += '<option value="';
+        //                         html += msg.data[step].id;
+        //                         html += '">';
+        //                         html += msg.data[step].fullname;
+        //                         html += ' (';
+        //                         html += msg.data[step].email;
+        //                         html += ')</option>';
+        //                     }
 
-                        $('.pengguna').html(html);
-                    }
-                },
-                error: function(data) {
-                    $('div._pengguna-block').unblock();
+        //                 }
+
+        //                 $('.pengguna').html(html);
+        //             }
+        //         },
+        //         error: function(data) {
+        //             $('div._pengguna-block').unblock();
+        //         }
+        //     })
+        // }
+    }
+
+    $('#_pengguna').select2({
+        dropdownParent: ".content-detailModal",
+        ajax: {
+            url: "./getPengguna",
+            type: 'POST',
+            dataType: 'json',
+            delay: 250,
+            data: function(params) {
+                return {
+                    keyword: params.term,
+                    id: changedRole,
+                };
+            },
+            processResults: function(data, params) {
+                // parse the results into the format expected by Select2
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data, except to indicate that infinite
+                // scrolling can be used
+                // params.page = params.page || 1;
+                if (data.status === 200) {
+                    return {
+                        results: data.data
+                    };
+                } else {
+                    return {
+                        results: []
+                    };
                 }
-            })
+
+                // return {
+                //     results: data.items,
+                //     pagination: {
+                //         more: (params.page * 30) < data.total_count
+                //     }
+                // };
+            },
+            cache: true
+        },
+        placeholder: 'Cari Pengguna',
+        minimumInputLength: 3,
+        templateResult: formatRepo,
+        templateSelection: formatRepoSelection
+    });
+
+    function formatRepo(repo) {
+        if (repo.loading) {
+            return repo.text;
         }
+
+        var $container = $(
+            "<div class='select2-result-repository clearfix'>" +
+            "<div class='select2-result-repository__meta'>" +
+            "<div class='select2-result-repository__title'></div>" +
+            "<div class='select2-result-repository__description'></div>" +
+            "</div>" +
+            "</div>"
+        );
+
+        $container.find(".select2-result-repository__title").text(repo.fullname);
+        $container.find(".select2-result-repository__description").text(repo.npsn + " (" + repo.email + ")");
+
+        return $container;
+    }
+
+    function formatRepoSelection(repo) {
+        return repo.fullname || repo.text;
     }
 
     $("#formAddModalData").on("submit", function(e) {

@@ -220,6 +220,24 @@
         });
     }
 
+    function initSelect2WithSearch(event, parrent, level) {
+        $('#' + event).select2({
+            dropdownParent: parrent,
+            ajax: {
+                url: './getPengguna',
+                data: function(params) {
+                    var query = {
+                        search: params.term,
+                        level: level
+                    }
+
+                    // Query parameters will be ?search=[term]&type=public
+                    return query;
+                }
+            }
+        });
+    }
+
     $(document).ready(function() {
 
         let tableDatatables = $('#data-datatables').DataTable({
