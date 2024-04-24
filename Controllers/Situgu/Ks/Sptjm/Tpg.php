@@ -549,7 +549,7 @@ class Tpg extends BaseController
                 ];
             }
             $template_processor->cloneRowAndSetValues('NO', $dataPtnya);
-            $template_processor->setImageValue('BARCODE', array('path' => 'https://chart.googleapis.com/chart?chs=100x100&cht=qr&chl=layanan.disdikbud.lampungtengahkab.go.id/verifiqrcode?token=' . $usulan->kode_usulan . '&choe=UTF-8', 'width' => 150, 'height' => 150, 'ratio' => false));
+            $template_processor->setImageValue('BARCODE', array('path' => 'http://192.168.33.16:8020/generate?data=https://layanan.disdikbud.lampungtengahkab.go.id/verifiqrcode?token=' . $usulan->kode_usulan, 'width' => 150, 'height' => 150, 'ratio' => false));
 
             $filed = FCPATH . "upload/generate/sptjm/tpg/word2/" . $usulan->kode_usulan . ".docx";
 
@@ -576,7 +576,7 @@ class Tpg extends BaseController
             $dataFileGambar = file_get_contents(FCPATH . './uploads/tutwuri.png');
             $base64 = "data:image/png;base64," . base64_encode($dataFileGambar);
 
-            $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=layanan.disdikbud.lampungtengahkab.go.id/verifiqrcode?token=' . $usulan->kode_usulan . '&choe=UTF-8'));
+            $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('http://192.168.33.16:8020/generate?data=https://layanan.disdikbud.lampungtengahkab.go.id/verifiqrcode?token=' . $usulan->kode_usulan));
 
             $alamat = $sekolah->alamat_jalan ? ($sekolah->alamat_jalan !== "" ? $sekolah->alamat_jalan : "-") : "-";
             $no_telp = $sekolah->no_telepon ? ($sekolah->no_telepon !== "" ? $sekolah->no_telepon : "-") : "-";

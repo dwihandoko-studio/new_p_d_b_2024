@@ -531,7 +531,7 @@ class Spjtamsil extends BaseController
                 ];
             }
             $template_processor->cloneRowAndSetValues('NO', $dataPtnya);
-            $template_processor->setImageValue('BARCODE', array('path' => 'https://chart.googleapis.com/chart?chs=100x100&cht=qr&chl=layanan.disdikbud.lampungtengahkab.go.id/verifiqrcodev?token=' . $ptks[0]->kode_verifikasi . '&choe=UTF-8', 'width' => 100, 'height' => 100, 'ratio' => false));
+            $template_processor->setImageValue('BARCODE', array('path' => 'http://192.168.33.16:8020/generate?data=https://layanan.disdikbud.lampungtengahkab.go.id/verifiqrcodev?token=' . $ptks[0]->kode_verifikasi, 'width' => 100, 'height' => 100, 'ratio' => false));
 
             $filed = FCPATH . "upload/generate/verifikasi/spjtamsil/word/" . $ptks[0]->kode_verifikasi . ".docx";
 
