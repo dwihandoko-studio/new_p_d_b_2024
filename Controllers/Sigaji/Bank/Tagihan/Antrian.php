@@ -186,8 +186,9 @@ extends BaseController
         }
 
         $data['user'] = $user->data;
-        // $data['tw'] = $this->_db->table('_ref_tahun_bulan')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getRowObject();
-        $data['tw'] = htmlspecialchars($this->request->getGet('d'), TRUE);
+        $tw = htmlspecialchars($this->request->getGet('d'), TRUE);
+        $data['tw_active'] = $tw;
+        $data['tw'] = $this->_db->table('_ref_tahun_bulan')->where('id', $tw)->get()->getRowObject();
         // $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
 
         return view('sigaji/bank/tagihan/antrian/index_detail', $data);
