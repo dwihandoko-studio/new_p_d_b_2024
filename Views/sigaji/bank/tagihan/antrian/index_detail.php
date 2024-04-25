@@ -59,8 +59,8 @@
                                     <th data-orderable="false">Kecamatan</th>
                                     <th data-orderable="false">Besar Pinjaman</th>
                                     <th data-orderable="false">Jumlah Tagihan</th>
-                                    <th data-orderable="false">Jumlah Bulan<br>Angsuran</th>
-                                    <th data-orderable="false">Angsuran Ke</th>
+                                    <th data-orderable="false">Jml Bulan<br>Angs</th>
+                                    <th data-orderable="false">Angs Ke</th>
                                     <th data-orderable="false"> </th>
                                 </tr>
                             </thead>
