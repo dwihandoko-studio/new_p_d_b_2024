@@ -50,7 +50,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="data-datatables" class="table table-bordered w-100">
+                            <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
                                 <thead>
                                     <tr>
                                         <th data-orderable="false">#</th>
@@ -81,7 +81,7 @@
                                                     <input class="form-check-input" type="checkbox" id="formCheck1">
                                                 </td>
                                                 <td>
-                                                    <select class="form-control filter-tw" id="_filter_tw" name="_filter_tw" required>
+                                                    <select class="form-control filter-pegawai" id="_filter_pegawai" name="_filter_pegawai" required>
                                                         <option value="">--Pilih--</option>
                                                         <?php if (isset($tws)) {
                                                             if (count($tws) > 0) {
@@ -91,6 +91,9 @@
                                                             }
                                                         } ?>
                                                     </select>
+                                                    <script>
+                                                        initSelect2('_filter_pegawai', 'tb-datatables');
+                                                    </script>
                                                 </td>
                                                 <td>
                                                     <input class="form-control" type="text" value="Nip" id="example-text-input">
@@ -124,7 +127,7 @@
                                                 <input class="form-check-input" type="checkbox" id="formCheck1">
                                             </td>
                                             <td>
-                                                <select class="form-control filter-tw" id="_filter_tw" name="_filter_tw" required>
+                                                <select class="form-control filter-pegawai" id="_filter_pegawai" name="_filter_pegawai" required>
                                                     <option value="">--Pilih--</option>
                                                     <?php if (isset($tws)) {
                                                         if (count($tws) > 0) {
@@ -134,6 +137,9 @@
                                                         }
                                                     } ?>
                                                 </select>
+                                                <script>
+                                                    initSelect2('_filter_pegawai', 'tb-datatables');
+                                                </script>
                                             </td>
                                             <td>
                                                 <input class="form-control" type="text" value="Nip" id="example-text-input">
@@ -157,9 +163,7 @@
                                                 <input class="form-control" type="number" value="1" id="example-text-input">
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary waves-effect waves-light">
-                                                    <i class="bx bx-plus font-size-16 align-middle me-2"></i> Tambah
-                                                </button>
+                                                <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light">+</button>
                                             </td>
                                         </tr>
                                     <?php } ?>
