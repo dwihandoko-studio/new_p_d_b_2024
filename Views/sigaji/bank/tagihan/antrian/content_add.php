@@ -91,7 +91,7 @@
                                 );
 
                                 $container.find(".select2-result-repository__title").text(repo.nama);
-                                $container.find(".select2-result-repository__description").text(repo.nip + "\n" + repo.nama_instansi + " ( Kec. " + repo.nama_kecamatan + ")");
+                                $container.find(".select2-result-repository__description").text(repo.nip + " - " + repo.nama_instansi + " ( Kec. " + repo.nama_kecamatan + ")");
 
                                 return $container;
                             }
