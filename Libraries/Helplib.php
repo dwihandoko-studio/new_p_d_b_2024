@@ -5,10 +5,12 @@ namespace App\Libraries;
 class Helplib
 {
     private $_db;
+    private $_db_gaji;
     function __construct()
     {
         helper(['text', 'session', 'cookie', 'array', 'filesystem']);
         $this->_db      = \Config\Database::connect();
+        $this->_db_gaji      = \Config\Database::connect('sigaji');
     }
 
     public function getSekolahNaungan($userId)
@@ -163,6 +165,21 @@ class Helplib
 
         if ($user) {
             return $user->kecamatan;
+        }
+
+        return false;
+    }
+
+    public function getIdBank($userId)
+    {
+
+        $user = $this->_db_gaji->table('_user_bank')
+            ->select("dari_bank")
+            ->where('user_id', $userId)
+            ->get()->getRowObject();
+
+        if ($user) {
+            return $user->dari_bank;
         }
 
         return false;
