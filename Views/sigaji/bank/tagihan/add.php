@@ -1,4 +1,4 @@
-<form id="formAddModalData" action="./addSave" method="post">
+<form id="formAddModalData" method="post">
     <div class="modal-body">
         <div class="mb-3">
             <label for="_bulan" class="col-form-label">Tahun Bulan:</label>
