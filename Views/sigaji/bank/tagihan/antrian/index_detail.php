@@ -49,30 +49,74 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table id="data-datatables" class="table table-bordered dt-responsive  nowrap w-100">
-                            <thead>
-                                <tr>
-                                    <th data-orderable="false">#</th>
-                                    <th data-orderable="false">Nama</th>
-                                    <th data-orderable="false">NIP</th>
-                                    <th data-orderable="false">Instansi</th>
-                                    <th data-orderable="false">Kecamatan</th>
-                                    <th data-orderable="false">Besar Pinjaman</th>
-                                    <th data-orderable="false">Jumlah Tagihan</th>
-                                    <th data-orderable="false">Jml Bulan<br>Angs</th>
-                                    <th data-orderable="false">Angs Ke</th>
-                                    <th data-orderable="false"> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (isset($datas)) { ?>
-                                    <?php if (count($datas) > 0) { ?>
-                                        <?php foreach ($variable as $key => $value) { ?>
-                                            <?php if ($key < 1) { ?>
+                        <div class="table-responsive">
+                            <table id="data-datatables" class="table table-bordered w-100">
+                                <thead>
+                                    <tr>
+                                        <th data-orderable="false">#</th>
+                                        <th data-orderable="false">Nama</th>
+                                        <th data-orderable="false">NIP</th>
+                                        <th data-orderable="false">Instansi</th>
+                                        <th data-orderable="false">Kecamatan</th>
+                                        <th data-orderable="false">Besar Pinjaman</th>
+                                        <th data-orderable="false">Jumlah Tagihan</th>
+                                        <th data-orderable="false">Jml Bulan<br>Angs</th>
+                                        <th data-orderable="false">Angs Ke</th>
+                                        <th data-orderable="false"> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (isset($datas)) { ?>
+                                        <?php if (count($datas) > 0) { ?>
+                                            <?php foreach ($variable as $key => $value) { ?>
+                                                <?php if ($key < 1) { ?>
 
-                                            <?php } else { ?>
+                                                <?php } else { ?>
 
+                                                <?php } ?>
                                             <?php } ?>
+                                        <?php } else { ?>
+                                            <tr>
+                                                <td>
+                                                    <input class="form-check-input" type="checkbox" id="formCheck1">
+                                                </td>
+                                                <td>
+                                                    <select class="form-control filter-tw" id="_filter_tw" name="_filter_tw" required>
+                                                        <option value="">--Pilih--</option>
+                                                        <?php if (isset($tws)) {
+                                                            if (count($tws) > 0) {
+                                                                foreach ($tws as $key => $value) { ?>
+                                                                    <option value="<?= $value->id ?>">Tahun <?= $value->tahun ?> - Bulan. <?= $value->bulan ?></option>
+                                                        <?php }
+                                                            }
+                                                        } ?>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="text" value="Nip" id="example-text-input">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="text" value="instansi" id="example-text-input">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="text" value="kecamatan" id="example-text-input">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="number" value="1" id="example-text-input">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="number" value="1" id="example-text-input">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="number" value="1" id="example-text-input">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="number" value="1" id="example-text-input">
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light">+</button>
+                                                </td>
+                                            </tr>
                                         <?php } ?>
                                     <?php } else { ?>
                                         <tr>
@@ -113,57 +157,15 @@
                                                 <input class="form-control" type="number" value="1" id="example-text-input">
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light">+</button>
+                                                <button type="button" class="btn btn-primary waves-effect waves-light">
+                                                    <i class="bx bx-plus font-size-16 align-middle me-2"></i> Tambah
+                                                </button>
                                             </td>
                                         </tr>
                                     <?php } ?>
-                                <?php } else { ?>
-                                    <tr>
-                                        <td>
-                                            <input class="form-check-input" type="checkbox" id="formCheck1">
-                                        </td>
-                                        <td>
-                                            <select class="form-control filter-tw" id="_filter_tw" name="_filter_tw" required>
-                                                <option value="">--Pilih--</option>
-                                                <?php if (isset($tws)) {
-                                                    if (count($tws) > 0) {
-                                                        foreach ($tws as $key => $value) { ?>
-                                                            <option value="<?= $value->id ?>">Tahun <?= $value->tahun ?> - Bulan. <?= $value->bulan ?></option>
-                                                <?php }
-                                                    }
-                                                } ?>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input class="form-control" type="text" value="Nip" id="example-text-input">
-                                        </td>
-                                        <td>
-                                            <input class="form-control" type="text" value="instansi" id="example-text-input">
-                                        </td>
-                                        <td>
-                                            <input class="form-control" type="text" value="kecamatan" id="example-text-input">
-                                        </td>
-                                        <td>
-                                            <input class="form-control" type="number" value="1" id="example-text-input">
-                                        </td>
-                                        <td>
-                                            <input class="form-control" type="number" value="1" id="example-text-input">
-                                        </td>
-                                        <td>
-                                            <input class="form-control" type="number" value="1" id="example-text-input">
-                                        </td>
-                                        <td>
-                                            <input class="form-control" type="number" value="1" id="example-text-input">
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary waves-effect waves-light">
-                                                <i class="bx bx-plus font-size-16 align-middle me-2"></i> Tambah
-                                            </button>
-                                        </td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
