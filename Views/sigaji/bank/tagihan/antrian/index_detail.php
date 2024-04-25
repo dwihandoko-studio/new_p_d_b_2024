@@ -113,7 +113,7 @@
                                                 <input class="form-control" type="number" value="1" id="example-text-input">
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light"><i class="bx bx-plus align-middle me-2"></i></button>
+                                                <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light">+</button>
                                             </td>
                                         </tr>
                                     <?php } ?>
