@@ -54,7 +54,7 @@
                                 <thead>
                                     <tr>
                                         <th data-orderable="false">#</th>
-                                        <th data-orderable="false">Nama</th>
+                                        <th data-orderable="false" width="20%">Nama</th>
                                         <th data-orderable="false">NIP</th>
                                         <th data-orderable="false">Instansi</th>
                                         <th data-orderable="false">Kecamatan</th>
