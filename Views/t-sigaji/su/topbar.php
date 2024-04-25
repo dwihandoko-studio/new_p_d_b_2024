@@ -48,7 +48,7 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle arrow-none <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "upload") ? ' active-menu-href' : '' ?>" href="#" id="topnav-upload" role="button">
+                            <a class="nav-link dropdown-toggle arrow-none <?= ($uri->getSegment(2) == "su" && $uri->getSegment(3) == "gagal") ? ' active-menu-href' : '' ?>" href="#" id="topnav-gagal" role="button">
                                 <i class="bx bxs-cloud-upload me-2"></i><span key="t-gagal">GAGAL UPLOAD</span>
                                 <div class="arrow-down"></div>
                             </a>
