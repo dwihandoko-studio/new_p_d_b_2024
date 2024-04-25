@@ -193,6 +193,28 @@ extends BaseController
         return view('sigaji/bank/tagihan/index_detail', $data);
     }
 
+    public function add()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            $response = new \stdClass;
+            $response->status = 401;
+            $response->message = "Permintaan diizinkan";
+            return json_encode($response);
+        }
+
+        $d['bulans'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
+
+        $response = new \stdClass;
+        $response->status = 200;
+        $response->message = "Permintaan diizinkan";
+        $response->data = view('sigaji/bank/tagihan/antrian/add', $d);
+        return json_encode($response);
+    }
+
     public function generate()
     {
         if ($this->request->getMethod() != 'post') {

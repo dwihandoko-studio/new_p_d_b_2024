@@ -10,11 +10,11 @@
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                     <h4 class="mb-sm-0 font-size-18">DATA TAGIHAN BANK</h4>
 
-                    <!-- <div class="page-title-right">
+                    <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript:actionSyncAll(this);" class="btn btn-primary btn-rounded waves-effect waves-light">Syncrone Semua Data PTK</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:actionAdd(this);" class="btn btn-primary btn-rounded waves-effect waves-light">Tambah Tagihan</a></li>
                         </ol>
-                    </div> -->
+                    </div>
 
                 </div>
             </div>
@@ -29,22 +29,6 @@
                             <div class="col-6">
                                 <h4 class="card-title">Data Tagihan BANK</h4>
                                 <!-- <div><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionGenerate(this);"><i class="bx bx-shape-circle font-size-16 align-middle me-2"></i> Generate Potongan Infak</a>&nbsp;&nbsp;</div> -->
-                            </div>
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <label for="_filter_tw" class="col-form-label">Filter Tahun Bulan:</label>
-                                    <select class="form-control filter-tw" id="_filter_tw" name="_filter_tw" required>
-                                        <option value="">--Pilih--</option>
-                                        <?php if (isset($tws)) {
-                                            if (count($tws) > 0) {
-                                                foreach ($tws as $key => $value) { ?>
-                                                    <option value="<?= $value->id ?>">Tahun <?= $value->tahun ?> - Bulan. <?= $value->bulan ?></option>
-                                        <?php }
-                                            }
-                                        } ?>
-                                    </select>
-                                    <div class="help-block _filter_tw"></div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -70,8 +54,7 @@
 
 <!-- Modal -->
 <div id="content-detailModal" class="modal fade content-detailModal" tabindex="-1" role="dialog" aria-labelledby="content-detailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen" role="document">
-        <!-- <div class="modal-dialog modal-dialog-centered modal-xl" role="document"> -->
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-content-loading">
             <div class="modal-header">
                 <h5 class="modal-title" id="content-detailModalLabel">Details</h5>
@@ -116,15 +99,12 @@
 <script src="<?= base_url() ?>/assets/libs/dropzone/min/dropzone.min.js"></script>
 
 <script>
-    function actionDetail(id, id_ptk, tw, nama) {
+    function actionAdd(event) {
         $.ajax({
-            url: "./detail",
+            url: "./add",
             type: 'POST',
             data: {
-                id: id,
-                id_ptk: id_ptk,
-                tw: tw,
-                nama: nama,
+                action: 'Add',
             },
             dataType: 'JSON',
             beforeSend: function() {
@@ -141,7 +121,7 @@
                         'warning'
                     );
                 } else {
-                    $('#content-detailModalLabel').html('DETAIL USULAN PTK ' + nama);
+                    $('#content-detailModalLabel').html('Tambah Tagihan');
                     $('.contentBodyModal').html(resul.data);
                     $('.content-detailModal').modal({
                         backdrop: 'static',
@@ -264,7 +244,6 @@
                 "type": "POST",
                 "data": function(data) {
                     data.tw_active = '<?= $tw->id ?>';
-                    data.tw = $('#_filter_tw').val();
                 }
             },
             language: {
@@ -274,9 +253,6 @@
                 "targets": 0,
                 "orderable": false,
             }],
-        });
-        $('#_filter_tw').change(function() {
-            tableDatatables.draw();
         });
     });
 </script>
