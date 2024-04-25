@@ -10,10 +10,15 @@
                                 <i class="bx bx-home-circle me-2"></i>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?= ($uri->getSegment(2) == "bank" && $uri->getSegment(3) == "potongan") ? ' active-menu-href' : '' ?>" href="<?= ($uri->getSegment(2) == "bank" && $uri->getSegment(3) == "potongan") ? 'javascript:;' : base_url('sigaji/bank/potongan') ?>">
-                                <i class="bx bx-rename me-2"> Potongan</i>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle arrow-none <?= ($uri->getSegment(2) == "bank" && $uri->getSegment(3) == "tagihan") ? ' active-menu-href' : '' ?>" href="#" id="topnav-tagihan" role="button">
+                                <i class="bx bx-rename me-2"></i><span key="t-tagihan">TAGIHAN</span>
+                                <div class="arrow-down"></div>
                             </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-tagihan">
+                                <a href="<?= base_url('sigaji/bank/tagihan/antrian') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "bank" && $uri->getSegment(3) == "tagihan" && $uri->getSegment(4) == "antrian") ? ' active-menu-href' : '' ?>" key="t-tagihan-antrian">Antrian</a>
+                                <a href="<?= base_url('sigaji/bank/tagihan/antrian') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "bank" && $uri->getSegment(3) == "tagihan" && $uri->getSegment(4) == "antrian") ? ' active-menu-href' : '' ?>" key="t-tagihan-laporaninstansi">Laporan Per Instansi</a>
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="javascript:aksiLogout(this);">
