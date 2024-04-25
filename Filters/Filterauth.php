@@ -382,7 +382,14 @@ class Filterauth implements FilterInterface
                                             if ($uriLevel != "adm") {
                                                 return redirect()->to(base_url('sigaji/adm/home'));
                                             }
-                                        } else if ($level == 3 || $level == 4 || $level == 5 || $level == 6 || $level == 7) { //OPK
+                                        } else if ($level == 3) { //Opk
+                                            if ($uriLevel === "" || $uriLevel === "index") {
+                                                return redirect()->to(base_url('sigaji/opk/home'));
+                                            }
+                                            if ($uriLevel != "opk") {
+                                                return redirect()->to(base_url('sigaji/opk/home'));
+                                            }
+                                        } else if ($level == 4 || $level == 5 || $level == 6 || $level == 7) { //OPK
                                             $accgajLib = new Acclib();
 
                                             if (!$accgajLib->getAccess($userId)) {
@@ -415,7 +422,14 @@ class Filterauth implements FilterInterface
                                         if ($uriLevel != "adm") {
                                             return redirect()->to(base_url('sigaji/adm/home'));
                                         }
-                                    } else if ($level == 3 || $level == 4 || $level == 5 || $level == 6 || $level == 7) { //OPK
+                                    } else if ($level == 3) { //OPK
+                                        if ($uriLevel === "" || $uriLevel === "index") {
+                                            return redirect()->to(base_url('sigaji/opk/home'));
+                                        }
+                                        if ($uriLevel != "opk") {
+                                            return redirect()->to(base_url('sigaji/opk/home'));
+                                        }
+                                    } else if ($level == 4 || $level == 5 || $level == 6 || $level == 7) { //OPK
                                         $accgajLib = new Acclib();
                                         // var_dump($level);
                                         // var_dump($accgajLib->getAccess($userId));
