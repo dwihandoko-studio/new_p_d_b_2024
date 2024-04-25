@@ -115,7 +115,7 @@
                         <input class="form-control" type="text" value="" id="kecamatan_1" name="kecamatan[]" readonly>
                     </td>
                     <td>
-                        <input class="form-control" type="number" value="" id="jumlah_pinjaman_1" name="jumlah_pinjaman[]" required>
+                        <input class="form-control" type="text" value="" id="jumlah_pinjaman_1" name="jumlah_pinjaman[]" required>
                         <script>
                             let jumlah_pinjaman_1 = document.getElementById('jumlah_pinjaman_1');
                             jumlah_pinjaman_1.addEventListener('keyup', function(e) {
@@ -124,13 +124,13 @@
                         </script>
                     </td>
                     <td>
-                        <input class="form-control" type="number" value="" id="jumlah_tagihan_1" name="jumlah_tagihan[]" required>
+                        <input class="form-control" type="text" value="" id="jumlah_tagihan_1" name="jumlah_tagihan[]" required>
                     </td>
                     <td>
-                        <input class="form-control" type="number" value="" id="jumlah_bulan_angsuran_1" name="jumlah_bulan_angsuran[]" required>
+                        <input class="form-control" type="text" value="" id="jumlah_bulan_angsuran_1" name="jumlah_bulan_angsuran[]" required>
                     </td>
                     <td>
-                        <input class="form-control" type="number" value="" id="angsuran_ke_1" name="angsuran_ke[]" required>
+                        <input class="form-control" type="text" value="" id="angsuran_ke_1" name="angsuran_ke[]" required>
                     </td>
                     <td>
                         <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light">+</button>
