@@ -17,7 +17,7 @@
                                 <div class="arrow-down"></div>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="topnav-rekap">
-                                <a href="<?= base_url('sigaji/opk/rekap/tagihan') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "opk" && $uri->getSegment(3) == "rekap" && $uri->getSegment(4) == "tagihan") ? ' active-menu-href' : '' ?>" key="t-rekap-tagihan">Tagihan</a>
+                                <!-- <a href="<?= base_url('sigaji/opk/rekap/tagihan') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "opk" && $uri->getSegment(3) == "rekap" && $uri->getSegment(4) == "tagihan") ? ' active-menu-href' : '' ?>" key="t-rekap-tagihan">Tagihan</a> -->
                                 <a href="<?= base_url('sigaji/opk/rekap/laporaninstansi') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "opk" && $uri->getSegment(3) == "rekap" && $uri->getSegment(4) == "laporaninstansi") ? ' active-menu-href' : '' ?>" key="t-rekap-laporaninstansi">Laporan Per Instansi</a>
                             </div>
                         </li>

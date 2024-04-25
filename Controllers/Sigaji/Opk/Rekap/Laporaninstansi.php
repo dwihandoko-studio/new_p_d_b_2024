@@ -167,12 +167,13 @@ extends BaseController
                 session()->destroy();
                 return redirect()->to(base_url('auth'));
             }
+            $kecamatan = $this->_helpLib->getKecamatan($user->data->id);
 
             $data['user'] = $user->data;
             $data['tw'] = $this->_db->table('_ref_tahun_bulan')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getRowObject();
             $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
             $data['instansis'] = $this->_db->table('tb_pegawai_')
-                ->select("kode_instansi, nama_instansi, nama_kecamatan, count(kode_instansi) as jumlah")->groupBy("kode_instansi")->orderBy('nama_kecamatan', 'asc')->orderBy('nama_instansi', 'asc')->get()->getResult();
+                ->select("kode_instansi, nama_instansi, kode_kecamatan, nama_kecamatan, count(kode_instansi) as jumlah")->where("kode_kecamatan", $kecamatan)->groupBy("kode_instansi")->orderBy('nama_kecamatan', 'asc')->orderBy('nama_instansi', 'asc')->get()->getResult();
 
             $response = new \stdClass;
             $response->status = 200;
