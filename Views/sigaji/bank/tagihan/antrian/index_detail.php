@@ -362,7 +362,8 @@
     $(document).ready(function() {
 
         let tableDatatables = $('#data-datatables').DataTable({
-            searching: false
+            searching: false,
+            ordering: false
         });
 
     });
