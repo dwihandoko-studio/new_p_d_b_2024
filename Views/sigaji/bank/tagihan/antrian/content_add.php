@@ -115,16 +115,22 @@
                         <input class="form-control" type="text" value="" id="kecamatan_1" name="kecamatan[]" readonly>
                     </td>
                     <td>
-                        <input class="form-control" type="number" value="1" id="example-text-input">
+                        <input class="form-control" type="number" value="" id="jumlah_pinjaman_1" name="jumlah_pinjaman[]" required>
+                        <script>
+                            let jumlah_pinjaman_1 = document.getElementById('jumlah_pinjaman_1');
+                            jumlah_pinjaman_1.addEventListener('keyup', function(e) {
+                                jumlah_pinjaman_1.value = formatRupiah(this.value);
+                            });
+                        </script>
                     </td>
                     <td>
-                        <input class="form-control" type="number" value="1" id="example-text-input">
+                        <input class="form-control" type="number" value="" id="jumlah_tagihan_1" name="jumlah_tagihan[]" required>
                     </td>
                     <td>
-                        <input class="form-control" type="number" value="1" id="example-text-input">
+                        <input class="form-control" type="number" value="" id="jumlah_bulan_angsuran_1" name="jumlah_bulan_angsuran[]" required>
                     </td>
                     <td>
-                        <input class="form-control" type="number" value="1" id="example-text-input">
+                        <input class="form-control" type="number" value="" id="angsuran_ke_1" name="angsuran_ke[]" required>
                     </td>
                     <td>
                         <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light">+</button>
@@ -291,5 +297,21 @@
         //         }
         //     })
         // }
+    }
+
+    function formatRupiah(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
     }
 </script>
