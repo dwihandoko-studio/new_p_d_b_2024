@@ -247,7 +247,8 @@
         const getKecamatan = $('#_filter_pegawai_' + getId).find(':selected').data('custom-kecamatan');
 
         $('#nip_' + getId).val(getNip);
-        // $('#nip_' + getId).val(getNip);
+        $('#instansi_' + getId).val(getInstansi);
+        $('#kecamatan_' + getId).val(getKecamatan);
         // // $(event).removeAttr('style');
         // // $('.' + color).html('');
 
