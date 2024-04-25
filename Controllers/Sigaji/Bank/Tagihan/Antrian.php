@@ -171,7 +171,7 @@ extends BaseController
         $data['tw'] = $this->_db->table('_ref_tahun_bulan')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getRowObject();
         $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
 
-        return view('sigaji/bank/tagihan/index', $data);
+        return view('sigaji/bank/tagihan/antrian/index', $data);
     }
 
     public function datadetail()
@@ -190,7 +190,7 @@ extends BaseController
         $data['tw'] = htmlspecialchars($this->request->getGet('d'), TRUE);
         // $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
 
-        return view('sigaji/bank/tagihan/index_detail', $data);
+        return view('sigaji/bank/tagihan/antrian/index_detail', $data);
     }
 
     public function add()
