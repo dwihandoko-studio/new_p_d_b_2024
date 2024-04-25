@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Sigaji\Tagihan\Bank;
+namespace App\Controllers\Sigaji\Bank\Tagihan;
 
 use App\Controllers\BaseController;
 use App\Models\Sigaji\Bank\Tagihan\AntrianModel;
