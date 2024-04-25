@@ -76,17 +76,75 @@
                 </td>
                 <td>
                     <select class="form-control filter-pegawai" id="_filter_pegawai" name="_filter_pegawai" required>
-                        <option value="">--Pilih--</option>
-                        <?php if (isset($tws)) {
-                            if (count($tws) > 0) {
-                                foreach ($tws as $key => $value) { ?>
-                                    <option value="<?= $value->id ?>">Tahun <?= $value->tahun ?> - Bulan. <?= $value->bulan ?></option>
-                        <?php }
-                            }
-                        } ?>
+                        <option value="">&nbsp;</option>
                     </select>
                     <script>
-                        initSelect2('_filter_pegawai', 'data-contens');
+                        $('#_filter_pegawai').select2({
+                            dropdownParent: ".data-contens",
+                            ajax: {
+                                url: "./getPegawai",
+                                type: 'POST',
+                                dataType: 'json',
+                                delay: 250,
+                                data: function(params) {
+                                    return {
+                                        keyword: params.term,
+                                    };
+                                },
+                                processResults: function(data, params) {
+                                    // parse the results into the format expected by Select2
+                                    // since we are using custom formatting functions we do not need to
+                                    // alter the remote JSON data, except to indicate that infinite
+                                    // scrolling can be used
+                                    // params.page = params.page || 1;
+                                    if (data.status === 200) {
+                                        return {
+                                            results: data.data
+                                        };
+                                    } else {
+                                        return {
+                                            results: []
+                                        };
+                                    }
+
+                                    // return {
+                                    //     results: data.items,
+                                    //     pagination: {
+                                    //         more: (params.page * 30) < data.total_count
+                                    //     }
+                                    // };
+                                },
+                                cache: true
+                            },
+                            placeholder: 'Cari Pegawai',
+                            minimumInputLength: 3,
+                            templateResult: formatRepo,
+                            templateSelection: formatRepoSelection
+                        });
+
+                        function formatRepo(repo) {
+                            if (repo.loading) {
+                                return repo.text;
+                            }
+
+                            var $container = $(
+                                "<div class='select2-result-repository clearfix'>" +
+                                "<div class='select2-result-repository__meta'>" +
+                                "<div class='select2-result-repository__title'></div>" +
+                                "<div class='select2-result-repository__description'></div>" +
+                                "</div>" +
+                                "</div>"
+                            );
+
+                            $container.find(".select2-result-repository__title").text(repo.nama);
+                            $container.find(".select2-result-repository__description").text(repo.nip + " - " + repo.nama_instansi + " ( Kec. " + repo.nama_kecamatan + ")");
+
+                            return $container;
+                        }
+
+                        function formatRepoSelection(repo) {
+                            return repo.fullname || repo.text;
+                        }
                     </script>
                 </td>
                 <td>

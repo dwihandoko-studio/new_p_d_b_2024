@@ -260,6 +260,55 @@ extends BaseController
         return json_encode($response);
     }
 
+    public function getPegawai()
+    {
+        if ($this->request->isAJAX()) {
+            if ($this->request->getMethod() != 'post') {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Permintaan tidak diizinkan";
+                return json_encode($response);
+            }
+
+            $rules = [
+                'keyword' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Keyword tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('keyword');
+                return json_encode($response);
+            } else {
+                $keyword = htmlspecialchars($this->request->getVar('keyword'), true);
+
+                $current = $this->_db->table('tb_pegawai_')
+                    ->select("id, nip, nama, nama_instansi, nama_kecamatan")
+                    ->where("nip LIKE '%$keyword%' OR nama LIKE '%$keyword%' OR nama_instansi LIKE '%$keyword%'")->get()->getResult();
+
+                if (count($current) > 0) {
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->message = "Permintaan diizinkan";
+                    $response->data = $current;
+                    return json_encode($response);
+                } else {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Mohon maaf tidak dapat di proses.');
+        }
+    }
+
     public function generate()
     {
         if ($this->request->getMethod() != 'post') {
