@@ -36,7 +36,7 @@
             return false;
         }
 
-        document.location.href = "<?= base_url('sigaji/bank/tagihan/antrian/datadetail') . '/d='; ?>" + bulan;
+        document.location.href = "<?= base_url('sigaji/bank/tagihan/antrian/datadetail') . '?d='; ?>" + bulan;
 
         // $.ajax({
         //     url: "./addSave",
