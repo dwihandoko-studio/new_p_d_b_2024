@@ -153,7 +153,7 @@ extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('sigaji/bank/tagihan/data'));
+        return redirect()->to(base_url('sigaji/bank/tagihan/antrian/data'));
     }
 
     public function data()
