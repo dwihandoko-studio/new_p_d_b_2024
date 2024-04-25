@@ -111,7 +111,7 @@
     function getdata() {
         $.ajax({
             url: "./ambildataadd",
-            // type: 'POST',
+            type: 'POST',
             data: {
                 id: '<?php isset($tw) ? $tw->id : 'none' ?>',
             },

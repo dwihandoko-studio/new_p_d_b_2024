@@ -206,7 +206,7 @@ extends BaseController
     public function ambildataadd()
     {
         if ($this->request->isAJAX()) {
-            $id = htmlspecialchars($this->request->getVal('id'), true);
+            $id = htmlspecialchars($this->request->getVar('id'), true);
             var_dump($id);
             die;
         } else {
