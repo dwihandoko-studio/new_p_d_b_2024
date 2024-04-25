@@ -117,7 +117,15 @@
             },
             dataType: "json",
             success: function(response) {
-                $('.data-contens').html(response.data);
+                if (response.status == 200) {
+                    $('.data-contens').html(response.data);
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        "gagal mengambil data",
+                        'warning'
+                    );
+                }
             },
             error: function(xhr, ajaxOptions, thrownError) {
                 Swal.fire(
