@@ -97,7 +97,7 @@
                             }
 
                             function formatRepoSelection(repo) {
-                                return repo.fullname || repo.text;
+                                return repo.nama || repo.text;
                             }
                         </script>
                     </td>
@@ -201,7 +201,7 @@
                         }
 
                         function formatRepoSelection(repo) {
-                            return repo.fullname || repo.text;
+                            return repo.nama || repo.text;
                         }
                     </script>
                 </td>
