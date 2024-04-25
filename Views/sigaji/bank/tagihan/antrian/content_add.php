@@ -86,7 +86,7 @@
                         } ?>
                     </select>
                     <script>
-                        initSelect2('_filter_pegawai', 'tb-datatables');
+                        initSelect2('_filter_pegawai', 'data-contens');
                     </script>
                 </td>
                 <td>
