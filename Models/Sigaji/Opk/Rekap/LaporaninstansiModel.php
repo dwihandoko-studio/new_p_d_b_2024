@@ -47,13 +47,12 @@ class LaporaninstansiModel extends Model
             $this->dt->orderBy(key($order), $order[key($order)]);
         }
     }
-    function get_datatables($npsn)
+    function get_datatables()
     {
         $this->dt->select("a.id, a.id_pegawai, a.jumlah_transfer, a.tahun, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan, d.bank_eka_bandar_jaya, d.bank_eka_metro, d.bpd_bandar_jaya, d.bpd_koga, d.bpd_metro, d.bpd_kalirejo, d.wajib_kpn, d.kpn, d.bri, d.btn, d.bni, d.dharma_wanita, d.korpri, d.zakat_profesi, d.infak, d.shodaqoh");
         $this->dt->join('_ref_tahun_bulan c', 'a.tahun = c.id');
         $this->dt->join('tb_pegawai_ b', 'a.id_pegawai = b.id');
         $this->dt->join('tb_potongan_ d', 'a.id_pegawai = d.id_pegawai AND a.tahun = d.tahun', 'LEFT');
-        $this->dt->where('b.kode_instansi', $npsn);
         // $this->dt->whereIn('a.status_usulan', [2]);
         if ($this->request->getPost('instansi')) {
             if ($this->request->getPost('instansi') !== "") {
@@ -93,13 +92,12 @@ class LaporaninstansiModel extends Model
         $query = $this->dt->get();
         return $query->getResult();
     }
-    function count_filtered($npsn)
+    function count_filtered()
     {
         $this->dt->select("a.jumlah_transfer, a.tahun, b.nama, b.nip, b.golongan, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan, d.infak");
         $this->dt->join('_ref_tahun_bulan c', 'a.tahun = c.id');
         $this->dt->join('tb_pegawai_ b', 'a.id_pegawai = b.id');
         $this->dt->join('tb_potongan_ d', 'a.id_pegawai = d.id_pegawai AND a.tahun = d.tahun', 'LEFT');
-        $this->dt->where('b.kode_instansi', $npsn);
         if ($this->request->getPost('instansi')) {
             if ($this->request->getPost('instansi') !== "") {
                 $instansi = htmlspecialchars($this->request->getPost('instansi'), true);
@@ -136,13 +134,12 @@ class LaporaninstansiModel extends Model
 
         return $this->dt->countAllResults();
     }
-    public function count_all($npsn)
+    public function count_all()
     {
         $this->dt->select("a.jumlah_transfer, a.tahun, b.nama, b.nip, b.golongan, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan, d.infak");
         $this->dt->join('_ref_tahun_bulan c', 'a.tahun = c.id');
         $this->dt->join('tb_pegawai_ b', 'a.id_pegawai = b.id');
         $this->dt->join('tb_potongan_ d', 'a.id_pegawai = d.id_pegawai AND a.tahun = d.tahun', 'LEFT');
-        $this->dt->where('b.kode_instansi', $npsn);
         if ($this->request->getPost('instansi')) {
             if ($this->request->getPost('instansi') !== "") {
                 $instansi = htmlspecialchars($this->request->getPost('instansi'), true);
