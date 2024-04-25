@@ -247,15 +247,20 @@ extends BaseController
             $result = $apiLib->downloadLaporanIsntansi($tahun, $instansi, $type_file);
 
             if ($result) {
-                var_dump($result);
-                die;
                 if ($result->status == 200) {
-                    $response = new \stdClass;
-                    $response->status = 200;
-                    $response->data = $result;
-                    $response->url = base_url() . "/uploads/api" . $result->data->url;
-                    $response->message = "Download Data Berhasil Dilakukan.";
-                    return json_encode($response);
+                    if (isset($result->url)) {
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->data = $result;
+                        $response->url = base_url() . "/uploads/api" . $result->data->url;
+                        $response->message = "Download Data Berhasil Dilakukan.";
+                        return json_encode($response);
+                    } else {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = $result->message;
+                        return json_encode($response);
+                    }
                 } else {
                     $response = new \stdClass;
                     $response->status = 400;
