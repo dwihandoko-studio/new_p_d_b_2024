@@ -133,7 +133,7 @@
                         <input class="form-control" type="text" value="" id="angsuran_ke_1" name="angsuran_ke[]" required>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light">+</button>
+                        <button type="button" onclick="aksiTambah(this)" class="btn btn-primary btn-rounded waves-effect waves-light">+</button>
                     </td>
                 </tr>
             <?php } ?>
@@ -313,5 +313,9 @@
 
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
         return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
+
+    function aksiTambah(event) {
+        console.log(jumlah_pinjaman_1);
     }
 </script>
