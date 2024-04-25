@@ -268,11 +268,11 @@
     }
 
     $(document).ready(function() {
-
-        let tableDatatables = $('#data-datatables').DataTable({
-            searching: false,
-            ordering: false
-        });
+        getdata();
+        // let tableDatatables = $('#data-datatables').DataTable({
+        //     searching: false,
+        //     ordering: false
+        // });
 
     });
 </script>
