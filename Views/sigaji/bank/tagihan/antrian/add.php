@@ -2,7 +2,7 @@
     <div class="modal-body">
         <div class="mb-3">
             <label for="_bulan" class="col-form-label">Tahun Bulan:</label>
-            <select class="form-control" id="_bulan" name="_bulan" required>
+            <select class="form-control" id="_bulan" name="_bulan" required style="width: 100%">
                 <option value="">--Pilih--</option>
                 <?php if (isset($bulans)) {
                     if (count($bulans) > 0) {
