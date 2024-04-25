@@ -203,6 +203,17 @@ extends BaseController
         return view('sigaji/bank/tagihan/antrian/index_detail', $data);
     }
 
+    public function ambildataadd()
+    {
+        if ($this->request->isAJAX()) {
+            $id = htmlspecialchars($this->request->getVal('id'), true);
+            var_dump($id);
+            die;
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
     public function add()
     {
         $Profilelib = new Profilelib();
