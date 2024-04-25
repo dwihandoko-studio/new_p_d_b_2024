@@ -316,6 +316,6 @@
     }
 
     function aksiTambah(event) {
-        console.log(jumlah_pinjaman_1);
+        console.log(jumlah_pinjaman_1.value);
     }
 </script>
