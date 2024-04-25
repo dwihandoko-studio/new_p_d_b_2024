@@ -336,6 +336,7 @@
     }
 
     $(document).ready(function() {
+        initSelect2('_filter_instansi', '.page-content');
 
         let tableDatatables = $('#data-datatables').DataTable({
             "processing": true,
