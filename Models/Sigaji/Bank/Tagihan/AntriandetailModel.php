@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 
 class AntriandetailModel extends Model
 {
-    protected $table = "b_tagihan_bank_antrian a";
+    protected $table = "_tagihan_bank_antrian a";
     protected $column_order = array(null, null, 'b.nama', 'b.nip', 'a.instansi', 'a.kecamatan', 'a.besar_pinjaman', 'a.jumlah_tagihan', 'a.jumlah_bulan_angsuran', 'a.angsuran_ke');
     protected $column_search = array('b.nip', 'b.nama');
     protected $order = array('b.nama' => 'asc');
