@@ -389,6 +389,13 @@ class Filterauth implements FilterInterface
                                             if ($uriLevel != "opk") {
                                                 return redirect()->to(base_url('sigaji/opk/home'));
                                             }
+                                        } else if ($level == 9) { //Opk
+                                            if ($uriLevel === "" || $uriLevel === "index") {
+                                                return redirect()->to(base_url('sigaji/bank/home'));
+                                            }
+                                            if ($uriLevel != "bank") {
+                                                return redirect()->to(base_url('sigaji/bank/home'));
+                                            }
                                         } else if ($level == 4 || $level == 5 || $level == 6 || $level == 7) { //OPK
                                             $accgajLib = new Acclib();
 
@@ -428,6 +435,13 @@ class Filterauth implements FilterInterface
                                         }
                                         if ($uriLevel != "opk") {
                                             return redirect()->to(base_url('sigaji/opk/home'));
+                                        }
+                                    } else if ($level == 9) { //Opk
+                                        if ($uriLevel === "" || $uriLevel === "index") {
+                                            return redirect()->to(base_url('sigaji/bank/home'));
+                                        }
+                                        if ($uriLevel != "bank") {
+                                            return redirect()->to(base_url('sigaji/bank/home'));
                                         }
                                     } else if ($level == 4 || $level == 5 || $level == 6 || $level == 7) { //OPK
                                         $accgajLib = new Acclib();

@@ -296,7 +296,7 @@
                                             <?php continue; ?>
                                         <?php } ?>
                                     <?php } else { ?>
-                                        <?php if ($value['layanan_nama'] == "SITUGU" && $user->role_user == 8) { ?>
+                                        <?php if (($value['layanan_nama'] == "SITUGU" && $user->role_user == 8) || ($value['layanan_nama'] == "SITUGU" && $user->role_user == 9)) { ?>
                                             <?php continue; ?>
                                         <?php } else { ?>
                                             <?php if ($value['layanan_nama'] == "SITUGU" && $user->role_user == 2) { ?>

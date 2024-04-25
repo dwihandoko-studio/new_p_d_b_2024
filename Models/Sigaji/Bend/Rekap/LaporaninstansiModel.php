@@ -54,6 +54,7 @@ class LaporaninstansiModel extends Model
         $this->dt->join('tb_pegawai_ b', 'a.id_pegawai = b.id');
         $this->dt->join('tb_potongan_ d', 'a.id_pegawai = d.id_pegawai AND a.tahun = d.tahun', 'LEFT');
         $this->dt->where('b.kode_instansi', $npsn);
+        $this->dt->where('a.is_locked', 1);
         // $this->dt->whereIn('a.status_usulan', [2]);
         if ($this->request->getPost('instansi')) {
             if ($this->request->getPost('instansi') !== "") {
@@ -100,6 +101,7 @@ class LaporaninstansiModel extends Model
         $this->dt->join('tb_pegawai_ b', 'a.id_pegawai = b.id');
         $this->dt->join('tb_potongan_ d', 'a.id_pegawai = d.id_pegawai AND a.tahun = d.tahun', 'LEFT');
         $this->dt->where('b.kode_instansi', $npsn);
+        $this->dt->where('a.is_locked', 1);
         if ($this->request->getPost('instansi')) {
             if ($this->request->getPost('instansi') !== "") {
                 $instansi = htmlspecialchars($this->request->getPost('instansi'), true);
@@ -143,6 +145,7 @@ class LaporaninstansiModel extends Model
         $this->dt->join('tb_pegawai_ b', 'a.id_pegawai = b.id');
         $this->dt->join('tb_potongan_ d', 'a.id_pegawai = d.id_pegawai AND a.tahun = d.tahun', 'LEFT');
         $this->dt->where('b.kode_instansi', $npsn);
+        $this->dt->where('a.is_locked', 1);
         if ($this->request->getPost('instansi')) {
             if ($this->request->getPost('instansi') !== "") {
                 $instansi = htmlspecialchars($this->request->getPost('instansi'), true);
