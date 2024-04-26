@@ -46,13 +46,13 @@
                         <input class="form-control jumlah-pinjaman" type="text" value="" id="jumlah_pinjaman_1" name="jumlah_pinjaman[]" required>
                     </td>
                     <td>
-                        <input class="form-control" type="text" value="" id="jumlah_tagihan_1" name="jumlah_tagihan[]" required>
+                        <input class="form-control jumlah-pinjaman" type="text" value="" id="jumlah_tagihan_1" name="jumlah_tagihan[]" required>
                     </td>
                     <td>
-                        <input class="form-control" type="text" value="" id="jumlah_bulan_angsuran_1" name="jumlah_bulan_angsuran[]" required>
+                        <input class="form-control" type="number" value="" id="jumlah_bulan_angsuran_1" name="jumlah_bulan_angsuran[]" required>
                     </td>
                     <td>
-                        <input class="form-control" type="text" value="" id="angsuran_ke_1" name="angsuran_ke[]" required>
+                        <input class="form-control" type="number" value="" id="angsuran_ke_1" name="angsuran_ke[]" required>
                     </td>
                     <td>
                         <button type="button" onclick="aksiTambah(this)" class="btn btn-primary btn-rounded waves-effect waves-light">+</button>
@@ -257,13 +257,13 @@
                             <input class="form-control jumlah-pinjaman" type="text" value="" id="jumlah_pinjaman_${rowBody}" name="jumlah_pinjaman[]" required>
                         </td>
                         <td>
-                            <input class="form-control" type="text" value="" id="jumlah_tagihan_${rowBody}" name="jumlah_tagihan[]" required>
+                            <input class="form-control  jumlah-pinjaman" type="text" value="" id="jumlah_tagihan_${rowBody}" name="jumlah_tagihan[]" required>
                         </td>
                         <td>
-                            <input class="form-control" type="text" value="" id="jumlah_bulan_angsuran_${rowBody}" name="jumlah_bulan_angsuran[]" required>
+                            <input class="form-control" type="number" value="" id="jumlah_bulan_angsuran_${rowBody}" name="jumlah_bulan_angsuran[]" required>
                         </td>
                         <td>
-                            <input class="form-control" type="text" value="" id="angsuran_ke_${rowBody}" name="angsuran_ke[]" required>
+                            <input class="form-control" type="number" value="" id="angsuran_ke_${rowBody}" name="angsuran_ke[]" required>
                         </td>
                         <td>
                             <button type="button" onclick="aksiTambah(this)" class="btn btn-primary btn-rounded waves-effect waves-light">+</button>
