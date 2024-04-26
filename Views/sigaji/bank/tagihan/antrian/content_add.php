@@ -266,7 +266,7 @@
                             <input class="form-control" type="number" value="" id="angsuran_ke_${rowBody}" name="angsuran_ke[]" required>
                         </td>
                         <td>
-                            <button type="button" onclick="aksiTambah(this)" class="btn btn-primary btn-rounded waves-effect waves-light">+</button>
+                            <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform">x</button>
                         </td>
                     </tr>`;
 
