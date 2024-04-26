@@ -3,11 +3,11 @@
         <tr>
             <th data-orderable="false">#</th>
             <th data-orderable="false" width="20%">Nama</th>
-            <th data-orderable="false" width="15%">NIP</th>
+            <th data-orderable="false" width="13%">NIP</th>
             <th data-orderable="false">Instansi</th>
             <th data-orderable="false">Kecamatan</th>
-            <th data-orderable="false" width="10%">Besar Pinjaman</th>
-            <th data-orderable="false" width="8%">Jumlah Tagihan</th>
+            <th data-orderable="false" width="12%">Besar Pinjaman</th>
+            <th data-orderable="false" width="10%">Jumlah Tagihan</th>
             <th data-orderable="false" width="5%">Jml Bulan<br>Angs</th>
             <th data-orderable="false" width="5%">Angs Ke</th>
             <th data-orderable="false"> </th>
