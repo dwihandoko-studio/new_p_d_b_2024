@@ -115,13 +115,13 @@
                         <input class="form-control" type="text" value="" id="kecamatan_1" name="kecamatan[]" readonly>
                     </td>
                     <td>
-                        <input class="form-control" type="text" value="" id="jumlah_pinjaman_1" name="jumlah_pinjaman[]" required>
-                        <script>
+                        <input class="form-control" type="text" value="" onchange="aksiChangeInput(this)" id="jumlah_pinjaman_1" name="jumlah_pinjaman[]" required>
+                        <!-- <script>
                             let jumlah_pinjaman_1 = document.getElementById('jumlah_pinjaman_1');
                             jumlah_pinjaman_1.addEventListener('keyup', function(e) {
                                 jumlah_pinjaman_1.value = formatRupiah(this.value);
                             });
-                        </script>
+                        </script> -->
                     </td>
                     <td>
                         <input class="form-control" type="text" value="" id="jumlah_tagihan_1" name="jumlah_tagihan[]" required>
@@ -246,6 +246,13 @@
 </table>
 
 <script>
+    function aksiChangeInput(event) {
+        // let jumlah_pinjaman_1 = document.getElementById('jumlah_pinjaman_1');
+        // jumlah_pinjaman_1.addEventListener('keyup', function(e) {
+        jumlah_pinjaman_1.value = formatRupiah(event.value);
+        // });
+    }
+
     function changePegawai(event) {
         const getId = $(event).data('id');
         const getNip = $('#_filter_pegawai_' + getId).find(':selected').data('custom-nip');
