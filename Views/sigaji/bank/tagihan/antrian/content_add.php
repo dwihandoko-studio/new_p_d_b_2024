@@ -291,8 +291,11 @@
         return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
     }
 
+    let rowBody = 1;
+
     $(document).ready(function(e) {
                 $('.btnaddform').click(function(e) {
+                            rowBody++;
                             e.preventDefault();
                             $('.formtambah').append(`
             <tr>
@@ -300,11 +303,11 @@
                         <input class="form-check-input" type="checkbox" id="formCheck1">
                     </td>
                     <td>
-                        <select class="form-control filter-pegawai" id="_filter_pegawai_1" name="_filter_pegawai[]" data-id="1" onchange="changePegawai(this)" required>
+                        <select class="form-control filter-pegawai" id="_filter_pegawai_` + rowBody + `" name="_filter_pegawai[]" data-id="` + rowBody + `" onchange="changePegawai(this)" required>
                             <option value="">&nbsp;</option>
                         </select>
                         <script>
-                            $('#_filter_pegawai_1').select2({
+                            $('#_filter_pegawai_` + rowBody + `').select2({
                                 dropdownParent: ".data-contens",
                                 allowClear: true,
                                 ajax: {
@@ -335,61 +338,34 @@
                                 templateResult: formatRepo,
                                 templateSelection: formatRepoSelection
                             });
-
-                            function formatRepo(repo) {
-                                if (repo.loading) {
-                                    return repo.text;
-                                }
-
-                                var $container = $(
-                                    "<div class='select2-result-repository clearfix'>" +
-                                    "<div class='select2-result-repository__meta'>" +
-                                    "<div class='select2-result-repository__title'></div>" +
-                                    "<div class='select2-result-repository__description'></div>" +
-                                    "</div>" +
-                                    "</div>"
-                                );
-
-                                $container.find(".select2-result-repository__title").text(repo.nama);
-                                $container.find(".select2-result-repository__description").text(repo.nip + " - " + repo.nama_instansi + " ( Kec. " + repo.nama_kecamatan + ")");
-
-                                return $container;
-                            }
-
-                            function formatRepoSelection(repo) {
-                                $(repo.element).attr('data-custom-nip', repo.nip);
-                                $(repo.element).attr('data-custom-instansi', repo.nama_instansi);
-                                $(repo.element).attr('data-custom-kecamatan', repo.nama_kecamatan);
-                                return repo.nama || repo.text;
-                            }
 </script>
 </td>
 <td>
-    <input class="form-control" type="text" value="" id="nip_1" name="nip[]" readonly>
+    <input class="form-control" type="text" value="" id="nip_` + rowBody + `" name="nip[]" readonly>
 </td>
 <td>
-    <input class="form-control" type="text" value="" id="instansi_1" name="instansi[]" readonly>
+    <input class="form-control" type="text" value="" id="instansi_` + rowBody + `" name="instansi[]" readonly>
 </td>
 <td>
-    <input class="form-control" type="text" value="" id="kecamatan_1" name="kecamatan[]" readonly>
+    <input class="form-control" type="text" value="" id="kecamatan_` + rowBody + `" name="kecamatan[]" readonly>
 </td>
 <td>
-    <input class="form-control" type="text" value="" onchange="aksiChangeInput(this)" id="jumlah_pinjaman_1" name="jumlah_pinjaman[]" required>
+    <input class="form-control" type="text" value="" onchange="aksiChangeInput(this)" id="jumlah_pinjaman_` + rowBody + `" name="jumlah_pinjaman[]" required>
     <script>
-        let jumlah_pinjaman_1 = document.getElementById('jumlah_pinjaman_1');
-        jumlah_pinjaman_1.addEventListener('keyup', function(e) {
-            jumlah_pinjaman_1.value = formatRupiah(this.value);
+        let jumlah_pinjaman_` + rowBody + ` = document.getElementById('jumlah_pinjaman_` + rowBody + `');
+        jumlah_pinjaman_` + rowBody + `.addEventListener('keyup', function(e) {
+            jumlah_pinjaman_` + rowBody + `.value = formatRupiah(this.value);
         });
     </script>
 </td>
 <td>
-    <input class="form-control" type="text" value="" id="jumlah_tagihan_1" name="jumlah_tagihan[]" required>
+    <input class="form-control" type="text" value="" id="jumlah_tagihan_` + rowBody + `" name="jumlah_tagihan[]" required>
 </td>
 <td>
-    <input class="form-control" type="text" value="" id="jumlah_bulan_angsuran_1" name="jumlah_bulan_angsuran[]" required>
+    <input class="form-control" type="text" value="" id="jumlah_bulan_angsuran_` + rowBody + `" name="jumlah_bulan_angsuran[]" required>
 </td>
 <td>
-    <input class="form-control" type="text" value="" id="angsuran_ke_1" name="angsuran_ke[]" required>
+    <input class="form-control" type="text" value="" id="angsuran_ke_` + rowBody + `" name="angsuran_ke[]" required>
 </td>
 <td>
     <button type="button" onclick="aksiTambah(this)" class="btn btn-primary btn-rounded waves-effect waves-light">+</button>
