@@ -341,16 +341,16 @@
 </script>
 </td>
 <td>
-    <input class="form-control" type="text" value="" id="nip_` + rowBody + `" name="nip[]" readonly>
+    <input class="form-control" type="text" value="" id="nip_` + rowBody + `" name="nip[]" readonly />
 </td>
 <td>
-    <input class="form-control" type="text" value="" id="instansi_` + rowBody + `" name="instansi[]" readonly>
+    <input class="form-control" type="text" value="" id="instansi_` + rowBody + `" name="instansi[]" readonly />
 </td>
 <td>
-    <input class="form-control" type="text" value="" id="kecamatan_` + rowBody + `" name="kecamatan[]" readonly>
+    <input class="form-control" type="text" value="" id="kecamatan_` + rowBody + `" name="kecamatan[]" readonly />
 </td>
 <td>
-    <input class="form-control" type="text" value="" onchange="aksiChangeInput(this)" id="jumlah_pinjaman_` + rowBody + `" name="jumlah_pinjaman[]" required>
+    <input class="form-control" type="text" value="" onchange="aksiChangeInput(this)" id="jumlah_pinjaman_` + rowBody + `" name="jumlah_pinjaman[]" required />
     <script>
         let jumlah_pinjaman_` + rowBody + ` = document.getElementById('jumlah_pinjaman_` + rowBody + `');
         jumlah_pinjaman_` + rowBody + `.addEventListener('keyup', function(e) {
@@ -359,13 +359,13 @@
     </script>
 </td>
 <td>
-    <input class="form-control" type="text" value="" id="jumlah_tagihan_` + rowBody + `" name="jumlah_tagihan[]" required>
+    <input class="form-control" type="text" value="" id="jumlah_tagihan_` + rowBody + `" name="jumlah_tagihan[]" required />
 </td>
 <td>
-    <input class="form-control" type="text" value="" id="jumlah_bulan_angsuran_` + rowBody + `" name="jumlah_bulan_angsuran[]" required>
+    <input class="form-control" type="text" value="" id="jumlah_bulan_angsuran_` + rowBody + `" name="jumlah_bulan_angsuran[]" required />
 </td>
 <td>
-    <input class="form-control" type="text" value="" id="angsuran_ke_` + rowBody + `" name="angsuran_ke[]" required>
+    <input class="form-control" type="text" value="" id="angsuran_ke_` + rowBody + `" name="angsuran_ke[]" required />
 </td>
 <td>
     <button type="button" onclick="aksiTambah(this)" class="btn btn-primary btn-rounded waves-effect waves-light">+</button>
