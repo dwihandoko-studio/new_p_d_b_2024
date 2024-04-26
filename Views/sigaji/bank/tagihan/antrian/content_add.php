@@ -176,7 +176,7 @@
     }
 
     // Function untuk memformat angka menjadi Rupiah
-    function formatRupiah(angka) {
+    function formatRupiah(angka, prefix) {
         var number_string = angka.replace(/[^,\d]/g, '').toString(),
             split = number_string.split(','),
             sisa = split[0].length % 3,
@@ -191,7 +191,7 @@
         // rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
         // return 'Rp. ' + rupiah;
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        return prefix == undefined ? rupiah : (rupiah ? prefix + rupiah : '');
     }
 
     let rowBody = 1;
