@@ -311,13 +311,12 @@
         $('.formtambah').on('keyup', '.jumlah-pinjaman', function() {
             $(this).val(formatRupiah($(this).val()));
         });
-
-        $('.btnhapusform').click(function(e) {
-            e.preventDefault();
-            $(this).parents('tr').remove();
-        });
     });
 
+    $(document).on('click', '.btnhapusform', function(e) {
+        e.preventDefault();
+        $(this).parents('tr').remove();
+    });
 
     function formatRepo(repo) {
         if (repo.loading) {
