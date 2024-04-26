@@ -8,8 +8,8 @@
             <th data-orderable="false">Kecamatan</th>
             <th data-orderable="false" width="11%">Besar Pinjaman</th>
             <th data-orderable="false" width="10%">Jumlah Tagihan</th>
-            <th data-orderable="false" width="5%">Jml Bulan<br>Angs</th>
-            <th data-orderable="false" width="5%">Angs Ke</th>
+            <th data-orderable="false" width="7%">Jml Bulan<br>Angs</th>
+            <th data-orderable="false" width="7%">Angs Ke</th>
             <th data-orderable="false"> </th>
         </tr>
     </thead>
