@@ -248,7 +248,7 @@ extends BaseController
 
             if ($result) {
                 if ($result->status == 200) {
-                    if (isset($result->url)) {
+                    if (isset($result->data)) {
                         $response = new \stdClass;
                         $response->status = 200;
                         $response->data = $result;
