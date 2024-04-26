@@ -118,7 +118,7 @@ class Grantedcreateaduan extends BaseController
 
             $this->_db->transBegin();
             try {
-                $this->_db->table('granted_syncrone_backbone')->where(['id' => 1, 'status' => 0])->update(['status' => 1]);
+                $this->_db->table('granted_created_pengaduan')->where(['id' => 1, 'status' => 0])->update(['status' => 1]);
 
                 if ($this->_db->affectedRows() > 0) {
                     $this->_db->transCommit();
