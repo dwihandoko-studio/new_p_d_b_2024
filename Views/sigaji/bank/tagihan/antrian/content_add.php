@@ -13,7 +13,7 @@
             <th data-orderable="false"> </th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="formtambah">
         <?php if (isset($datas)) { ?>
             <?php if (count($datas) > 0) { ?>
                 <?php foreach ($variable as $key => $value) { ?>
@@ -47,11 +47,6 @@
                                         };
                                     },
                                     processResults: function(data, params) {
-                                        // parse the results into the format expected by Select2
-                                        // since we are using custom formatting functions we do not need to
-                                        // alter the remote JSON data, except to indicate that infinite
-                                        // scrolling can be used
-                                        // params.page = params.page || 1;
                                         if (data.status === 200) {
                                             return {
                                                 results: data.data
@@ -61,13 +56,6 @@
                                                 results: []
                                             };
                                         }
-
-                                        // return {
-                                        //     results: data.items,
-                                        //     pagination: {
-                                        //         more: (params.page * 30) < data.total_count
-                                        //     }
-                                        // };
                                     },
                                     cache: true
                                 },
@@ -116,12 +104,12 @@
                     </td>
                     <td>
                         <input class="form-control" type="text" value="" onchange="aksiChangeInput(this)" id="jumlah_pinjaman_1" name="jumlah_pinjaman[]" required>
-                        <!-- <script>
+                        <script>
                             let jumlah_pinjaman_1 = document.getElementById('jumlah_pinjaman_1');
                             jumlah_pinjaman_1.addEventListener('keyup', function(e) {
                                 jumlah_pinjaman_1.value = formatRupiah(this.value);
                             });
-                        </script> -->
+                        </script>
                     </td>
                     <td>
                         <input class="form-control" type="text" value="" id="jumlah_tagihan_1" name="jumlah_tagihan[]" required>
@@ -161,11 +149,6 @@
                                     };
                                 },
                                 processResults: function(data, params) {
-                                    // parse the results into the format expected by Select2
-                                    // since we are using custom formatting functions we do not need to
-                                    // alter the remote JSON data, except to indicate that infinite
-                                    // scrolling can be used
-                                    // params.page = params.page || 1;
                                     if (data.status === 200) {
                                         return {
                                             results: data.data
@@ -175,13 +158,6 @@
                                             results: []
                                         };
                                     }
-
-                                    // return {
-                                    //     results: data.items,
-                                    //     pagination: {
-                                    //         more: (params.page * 30) < data.total_count
-                                    //     }
-                                    // };
                                 },
                                 cache: true
                             },
@@ -246,13 +222,6 @@
 </table>
 
 <script>
-    function aksiChangeInput(event) {
-        // let jumlah_pinjaman_1 = document.getElementById('jumlah_pinjaman_1');
-        // jumlah_pinjaman_1.addEventListener('keyup', function(e) {
-        jumlah_pinjaman_1.value = formatRupiah(event.value);
-        // });
-    }
-
     function changePegawai(event) {
         const getId = $(event).data('id');
         const getNip = $('#_filter_pegawai_' + getId).find(':selected').data('custom-nip');
@@ -322,7 +291,111 @@
         return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
     }
 
-    function aksiTambah(event) {
-        console.log(jumlah_pinjaman_1.value);
-    }
+    $(document).ready(function(e) {
+                $('.btnaddform').click(function(e) {
+                            e.preventDefault();
+                            $('.formtambah').append(`
+            <tr>
+                    <td>
+                        <input class="form-check-input" type="checkbox" id="formCheck1">
+                    </td>
+                    <td>
+                        <select class="form-control filter-pegawai" id="_filter_pegawai_1" name="_filter_pegawai[]" data-id="1" onchange="changePegawai(this)" required>
+                            <option value="">&nbsp;</option>
+                        </select>
+                        <script>
+                            $('#_filter_pegawai_1').select2({
+                                dropdownParent: ".data-contens",
+                                allowClear: true,
+                                ajax: {
+                                    url: "./getPegawai",
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    delay: 250,
+                                    data: function(params) {
+                                        return {
+                                            keyword: params.term,
+                                        };
+                                    },
+                                    processResults: function(data, params) {
+                                        if (data.status === 200) {
+                                            return {
+                                                results: data.data
+                                            };
+                                        } else {
+                                            return {
+                                                results: []
+                                            };
+                                        }
+                                    },
+                                    cache: true
+                                },
+                                placeholder: 'Cari Pegawai',
+                                minimumInputLength: 3,
+                                templateResult: formatRepo,
+                                templateSelection: formatRepoSelection
+                            });
+
+                            function formatRepo(repo) {
+                                if (repo.loading) {
+                                    return repo.text;
+                                }
+
+                                var $container = $(
+                                    "<div class='select2-result-repository clearfix'>" +
+                                    "<div class='select2-result-repository__meta'>" +
+                                    "<div class='select2-result-repository__title'></div>" +
+                                    "<div class='select2-result-repository__description'></div>" +
+                                    "</div>" +
+                                    "</div>"
+                                );
+
+                                $container.find(".select2-result-repository__title").text(repo.nama);
+                                $container.find(".select2-result-repository__description").text(repo.nip + " - " + repo.nama_instansi + " ( Kec. " + repo.nama_kecamatan + ")");
+
+                                return $container;
+                            }
+
+                            function formatRepoSelection(repo) {
+                                $(repo.element).attr('data-custom-nip', repo.nip);
+                                $(repo.element).attr('data-custom-instansi', repo.nama_instansi);
+                                $(repo.element).attr('data-custom-kecamatan', repo.nama_kecamatan);
+                                return repo.nama || repo.text;
+                            }
+</script>
+</td>
+<td>
+    <input class="form-control" type="text" value="" id="nip_1" name="nip[]" readonly>
+</td>
+<td>
+    <input class="form-control" type="text" value="" id="instansi_1" name="instansi[]" readonly>
+</td>
+<td>
+    <input class="form-control" type="text" value="" id="kecamatan_1" name="kecamatan[]" readonly>
+</td>
+<td>
+    <input class="form-control" type="text" value="" onchange="aksiChangeInput(this)" id="jumlah_pinjaman_1" name="jumlah_pinjaman[]" required>
+    <script>
+        let jumlah_pinjaman_1 = document.getElementById('jumlah_pinjaman_1');
+        jumlah_pinjaman_1.addEventListener('keyup', function(e) {
+            jumlah_pinjaman_1.value = formatRupiah(this.value);
+        });
+    </script>
+</td>
+<td>
+    <input class="form-control" type="text" value="" id="jumlah_tagihan_1" name="jumlah_tagihan[]" required>
+</td>
+<td>
+    <input class="form-control" type="text" value="" id="jumlah_bulan_angsuran_1" name="jumlah_bulan_angsuran[]" required>
+</td>
+<td>
+    <input class="form-control" type="text" value="" id="angsuran_ke_1" name="angsuran_ke[]" required>
+</td>
+<td>
+    <button type="button" onclick="aksiTambah(this)" class="btn btn-primary btn-rounded waves-effect waves-light">+</button>
+</td>
+</tr>
+`);
+});
+});
 </script>
