@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th data-orderable="false">#</th>
-            <th data-orderable="false" width="20%">Nama</th>
+            <th data-orderable="false" width="19%">Nama</th>
             <th data-orderable="false" width="14.5%">NIP</th>
             <th data-orderable="false">Instansi</th>
             <th data-orderable="false">Kecamatan</th>
