@@ -321,16 +321,15 @@
         })
     }
 
-    function actionEdit(id, ptkId, nama, nuptk, npsn) {
+    function actionEdit(id, nama, nip, nik) {
         $.ajax({
             url: "./edit",
             type: 'POST',
             data: {
                 id: id,
                 nama: nama,
-                ptk_id: ptkId,
-                nuptk: nuptk,
-                npsn: npsn,
+                nip: nip,
+                nik: nik,
             },
             dataType: 'JSON',
             beforeSend: function() {
