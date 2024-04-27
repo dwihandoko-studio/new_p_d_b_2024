@@ -52,7 +52,7 @@
             const nip = document.getElementsByName('_nip')[0].value;
             const kecamatan = document.getElementsByName('_kecamatan')[0].value;
             const kode_instansi = document.getElementsByName('_kode_instansi')[0].value;
-            const instansi = document.getElementsByName('_instansi')[0].value;
+            const instansi = document.getElementsByName('_nama_instansi')[0].value;
 
             // if (pangkat === "") {
             //     $("input#_nrg").css("color", "#dc3545");
