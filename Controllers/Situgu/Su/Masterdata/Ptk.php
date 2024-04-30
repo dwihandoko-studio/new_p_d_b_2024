@@ -830,22 +830,51 @@ class Ptk extends BaseController
                 return json_encode($response);
             }
 
-            $apiLib = new Apilib();
-            $result = $apiLib->syncPtkId($idPtk, $npsn, $tw);
+            $sekolahId = $this->_helpLib->getSekolahId($npsn);
+            if (!$sekolahId) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Sekolah id tidak ditemukan.";
+                return json_encode($response);
+            }
 
-            if ($result) {
-                // var_dump($result);
-                // die;
-                if ($result->status == 200) {
-                    $response = new \stdClass;
-                    $response->status = 200;
-                    $response->message = "Tarik Data PTK $nama Berhasil Dilakukan.";
-                    return json_encode($response);
+            $checkAnySynToday = $this->_helpLib->checkAnySyncToday($npsn);
+            if (!$checkAnySynToday) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data syncrone tidak ditemukan.";
+                return json_encode($response);
+            }
+
+            $apiLib = new Apilib();
+            if ($checkAnySynToday == date('Y-m-d')) {
+                $resultBack = true;
+            } else {
+                $resultBack = $apiLib->syncPtkGetBackbone($npsn, $sekolahId);
+            }
+
+            if ($resultBack) {
+                $result = $apiLib->syncPtkId($idPtk, $npsn, $tw);
+
+                if ($result) {
+                    // var_dump($result);
+                    // die;
+                    if ($result->status == 200) {
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->message = "Tarik Data PTK $nama Berhasil Dilakukan.";
+                        return json_encode($response);
+                    } else {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->error = $result;
+                        $response->message = "Gagal Tarik Data.";
+                        return json_encode($response);
+                    }
                 } else {
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->error = $result;
-                    $response->message = "Gagal Tarik Data.";
+                    $response->message = "Gagal Tarik Data";
                     return json_encode($response);
                 }
             } else {
