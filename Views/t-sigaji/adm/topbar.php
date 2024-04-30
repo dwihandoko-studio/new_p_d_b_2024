@@ -41,7 +41,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="topnav-upload">
                                 <a href="<?= base_url('sigaji/adm/upload/pegawai') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "adm" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "pegawai") ? ' active-menu-href' : '' ?>" key="t-upload-pegawai">Gaji SIPD</a>
-                                <!-- <a href="<?= base_url('sigaji/adm/upload/gajisipd') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "adm" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "gajisipd") ? ' active-menu-href' : '' ?>" key="t-upload-gajisipd">Gaji SIPD</a> -->
+                                <a href="<?= base_url('sigaji/adm/upload/meninggal') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "adm" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "meninggal") ? ' active-menu-href' : '' ?>" key="t-upload-meninggal">Data Meninggal</a>
                                 <a href="<?= base_url('sigaji/adm/upload/tagihanbank') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "adm" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "tagihanbank") ? ' active-menu-href' : '' ?>" key="t-upload-tagihanbank">Tagihan Bank</a>
                             </div>
                         </li>

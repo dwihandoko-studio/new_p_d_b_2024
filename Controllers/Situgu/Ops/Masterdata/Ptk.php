@@ -335,18 +335,27 @@ class Ptk extends BaseController
             }
 
             $apiLib = new Apilib();
-            $result = $apiLib->syncPtk($npsn, $tw);
+            $resultBack = $apiLib->syncPtkGetBackbone($npsn);
 
-            if ($result) {
-                if ($result->status == 200) {
-                    $response = new \stdClass;
-                    $response->status = 200;
-                    $response->message = "Tarik Data Semua PTK Berhasil Dilakukan.";
-                    return json_encode($response);
+            if ($resultBack) {
+                $result = $apiLib->syncPtk($npsn, $tw);
+
+                if ($result) {
+                    if ($result->status == 200) {
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->message = "Tarik Data Semua PTK Berhasil Dilakukan.";
+                        return json_encode($response);
+                    } else {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->result = $result;
+                        $response->message = "Gagal Tarik Data";
+                        return json_encode($response);
+                    }
                 } else {
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->result = $result;
                     $response->message = "Gagal Tarik Data";
                     return json_encode($response);
                 }
@@ -431,19 +440,28 @@ class Ptk extends BaseController
             }
 
             $apiLib = new Apilib();
-            $result = $apiLib->syncPtkId($idPtk, $npsn, $tw);
+            $resultBack = $apiLib->syncPtkGetBackbone($npsn);
 
-            if ($result) {
-                if ($result->status == 200) {
-                    $response = new \stdClass;
-                    $response->status = 200;
-                    $response->message = "Tarik Data PTK $nama Berhasil Dilakukan.";
-                    return json_encode($response);
+            if ($resultBack) {
+                $result = $apiLib->syncPtkId($idPtk, $npsn, $tw);
+
+                if ($result) {
+                    if ($result->status == 200) {
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->message = "Tarik Data PTK $nama Berhasil Dilakukan.";
+                        return json_encode($response);
+                    } else {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->error = $result;
+                        $response->message = "Gagal Tarik Data.";
+                        return json_encode($response);
+                    }
                 } else {
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->error = $result;
-                    $response->message = "Gagal Tarik Data.";
+                    $response->message = "Gagal Tarik Data";
                     return json_encode($response);
                 }
             } else {
@@ -743,7 +761,7 @@ class Ptk extends BaseController
                 $response->message = "Permintaan diizinkan";
                 return json_encode($response);
             }
-            
+
             $current = $this->_db->table('_ptk_tb')
                 ->where('id', $id)->get()->getRowObject();
 
