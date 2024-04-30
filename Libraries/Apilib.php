@@ -14,9 +14,9 @@ class Apilib
         $this->_db      = \Config\Database::connect();
     }
 
-    private function _send_get_backbone($methode, $npsn)
+    private function _send_get_backbone($methode, $npsn, $sekolahId)
     {
-        $urlendpoint = 'http://192.168.33.3:1992/' . $methode;
+        $urlendpoint = 'http://192.168.33.12:1992/' . $methode;
         $apiToken = '0b4e06f30dc26c36f322580591e0a07b';
 
         $curlHandle = curl_init($urlendpoint);
@@ -26,6 +26,7 @@ class Apilib
         curl_setopt($curlHandle, CURLOPT_HTTPHEADER, array(
             'X-API-TOKEN: ' . $apiToken,
             'X-API-NPSN: ' . $npsn,
+            'X-API-SEKOLAHID: ' . $sekolahId,
             'Content-Type: application/json'
         ));
         curl_setopt($curlHandle, CURLOPT_TIMEOUT, 30);
@@ -160,11 +161,11 @@ class Apilib
         }
     }
 
-    public function syncPtkGetBackbone($npsn)
+    public function syncPtkGetBackbone($npsn, $sekolahId)
     {
         $jwt = get_cookie('jwt');
         if ($jwt) {
-            $add         = $this->_send_get_backbone('syncptkbynpsn', $npsn);
+            $add         = $this->_send_get_backbone('syncptkbynpsn', $npsn, $sekolahId);
             $send_data         = curl_exec($add);
 
             $result = json_decode($send_data);

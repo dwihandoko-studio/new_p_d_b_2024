@@ -439,8 +439,16 @@ class Ptk extends BaseController
                 return json_encode($canGrantedPengajuan);
             }
 
+            $sekolahId = $this->_helpLib->getSekolahId($npsn);
+            if (!$sekolahId) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Tahun Triwulan Active tidak ditemukan.";
+                return json_encode($response);
+            }
+
             $apiLib = new Apilib();
-            $resultBack = $apiLib->syncPtkGetBackbone($npsn);
+            $resultBack = $apiLib->syncPtkGetBackbone($npsn, $sekolahId);
 
             if ($resultBack) {
                 $result = $apiLib->syncPtkId($idPtk, $npsn, $tw);

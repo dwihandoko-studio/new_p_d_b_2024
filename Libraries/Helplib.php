@@ -140,6 +140,21 @@ class Helplib
         return false;
     }
 
+    public function getSekolahId($npsn)
+    {
+
+        $user = $this->_db->table('ref_sekolah')
+            ->select("id")
+            ->where('npsn', $npsn)
+            ->get()->getRowObject();
+
+        if ($user) {
+            return $user->id;
+        }
+
+        return false;
+    }
+
     public function getNpsn($userId)
     {
 
