@@ -165,7 +165,7 @@ class Apilib
     {
         $jwt = get_cookie('jwt');
         if ($jwt) {
-            $add         = $this->_send_get_backbone('syncptkbynpsn', $npsn, $sekolahId);
+            $add         = $this->_send_get_backbone('syncptkbysekolahid', $npsn, $sekolahId);
             $send_data         = curl_exec($add);
 
             $result = json_decode($send_data);

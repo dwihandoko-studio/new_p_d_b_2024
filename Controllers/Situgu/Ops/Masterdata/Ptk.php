@@ -338,12 +338,24 @@ class Ptk extends BaseController
             if (!$sekolahId) {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = "Tahun Triwulan Active tidak ditemukan.";
+                $response->message = "Sekolah id tidak ditemukan.";
+                return json_encode($response);
+            }
+
+            $checkAnySynToday = $this->_helpLib->checkAnySyncToday($npsn);
+            if (!$checkAnySynToday) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data syncrone tidak ditemukan.";
                 return json_encode($response);
             }
 
             $apiLib = new Apilib();
-            $resultBack = $apiLib->syncPtkGetBackbone($npsn, $sekolahId);
+            if ($checkAnySynToday == date('Y-m-d')) {
+                $resultBack = true;
+            } else {
+                $resultBack = $apiLib->syncPtkGetBackbone($npsn, $sekolahId);
+            }
 
             if ($resultBack) {
                 $result = $apiLib->syncPtk($npsn, $tw);
@@ -451,12 +463,24 @@ class Ptk extends BaseController
             if (!$sekolahId) {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = "Tahun Triwulan Active tidak ditemukan.";
+                $response->message = "Sekolah id tidak ditemukan.";
+                return json_encode($response);
+            }
+
+            $checkAnySynToday = $this->_helpLib->checkAnySyncToday($npsn);
+            if (!$checkAnySynToday) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data syncrone tidak ditemukan.";
                 return json_encode($response);
             }
 
             $apiLib = new Apilib();
-            $resultBack = $apiLib->syncPtkGetBackbone($npsn, $sekolahId);
+            if ($checkAnySynToday == date('Y-m-d')) {
+                $resultBack = true;
+            } else {
+                $resultBack = $apiLib->syncPtkGetBackbone($npsn, $sekolahId);
+            }
 
             if ($resultBack) {
                 $result = $apiLib->syncPtkId($idPtk, $npsn, $tw);

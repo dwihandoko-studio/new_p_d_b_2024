@@ -155,6 +155,23 @@ class Helplib
         return false;
     }
 
+    public function checkAnySyncToday($npsn)
+    {
+
+        $user = $this->_db->table('tb_syncrone')
+            ->select("last_sync")
+            ->where('npsn', $npsn)
+            ->get()->getRowObject();
+
+        if ($user) {
+            return $user->last_sync;
+        } else {
+            $user = $this->_db->table('tb_syncrone')
+                ->insert(['last_sync' => date('Y-m-d'), 'npsn' => $npsn]);
+            return date('Y-m-d');
+        }
+    }
+
     public function getNpsn($userId)
     {
 
