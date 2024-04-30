@@ -343,14 +343,15 @@ class Ptk extends BaseController
             }
 
             $checkAnySynToday = $this->_helpLib->checkAnySyncToday($npsn);
+            $apiLib = new Apilib();
             if (!$checkAnySynToday) {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Data syncrone tidak ditemukan.";
-                return json_encode($response);
+                $resultBack = $apiLib->syncPtkGetBackbone($npsn, $sekolahId);
+                // $response = new \stdClass;
+                // $response->status = 400;
+                // $response->message = "Data syncrone tidak ditemukan.";
+                // return json_encode($response);
             }
 
-            $apiLib = new Apilib();
             if ($checkAnySynToday == date('Y-m-d')) {
                 $resultBack = true;
             } else {
@@ -468,14 +469,15 @@ class Ptk extends BaseController
             }
 
             $checkAnySynToday = $this->_helpLib->checkAnySyncToday($npsn);
+            $apiLib = new Apilib();
             if (!$checkAnySynToday) {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Data syncrone tidak ditemukan.";
-                return json_encode($response);
+                $resultBack = $apiLib->syncPtkGetBackbone($npsn, $sekolahId);
+                // $response = new \stdClass;
+                // $response->status = 400;
+                // $response->message = "Data syncrone tidak ditemukan.";
+                // return json_encode($response);
             }
 
-            $apiLib = new Apilib();
             if ($checkAnySynToday == date('Y-m-d')) {
                 $resultBack = true;
             } else {

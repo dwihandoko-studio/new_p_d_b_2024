@@ -165,11 +165,15 @@ class Helplib
 
         if ($user) {
             return $user->last_sync;
-        } else {
-            $user = $this->_db->table('tb_syncrone')
-                ->insert(['last_sync' => date('Y-m-d'), 'npsn' => $npsn]);
-            return date('Y-m-d');
         }
+        return false;
+    }
+
+    public function insertSyncToday($npsn)
+    {
+        $this->_db->table('tb_syncrone')
+            ->insert(['last_sync' => date('Y-m-d'), 'npsn' => $npsn]);
+        return date('Y-m-d');
     }
 
     public function getNpsn($userId)
