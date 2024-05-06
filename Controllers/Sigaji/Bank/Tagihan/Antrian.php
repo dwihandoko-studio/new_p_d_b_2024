@@ -199,8 +199,8 @@ extends BaseController
             ->where('a.tahun', $tw)
             ->countAllResults();
 
-        var_dump($data);
-        die;
+        // var_dump($data);
+        // die;
 
         return view('sigaji/bank/tagihan/antrian/index_detail', $data);
     }

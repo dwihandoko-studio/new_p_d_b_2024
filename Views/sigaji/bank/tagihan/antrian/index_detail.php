@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <h4 class="card-title">Data Detail Tagihan BANK Tahun <?= isset($tw) ? $tw->tahun : '' ?> Bulan <?= isset($tw) ? $tw->bulan_name : '' ?></h4>
-                                <?= $datas > 0 ? '<div class="tomboh-ambil-data" style="display: block;"><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionAmbilTagihan(this);"><i class="bx bx-shape-circle font-size-16 align-middle me-2"></i> Ambil Data Tagihan Bulan Sebelumnya</a>&nbsp;&nbsp;</div>' : ''; ?>
+                                <?= $datas > 0 ? '' : '<div class="tomboh-ambil-data" style="display: block;"><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionAmbilTagihan(this);"><i class="bx bx-shape-circle font-size-16 align-middle me-2"></i> Ambil Data Tagihan Bulan Sebelumnya</a>&nbsp;&nbsp;</div>' ?>
                             </div>
                             <!-- <div class="col-6">
                                 <div class="mb-3">
