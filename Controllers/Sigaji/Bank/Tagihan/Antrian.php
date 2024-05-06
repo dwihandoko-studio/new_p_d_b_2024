@@ -266,8 +266,8 @@ extends BaseController
                 ->orderBy('b.nama', 'ASC')
                 ->get()->getResult();
 
-            var_dump($d);
-            die;
+            // var_dump($d);
+            // die;
 
             $response = new \stdClass;
             $response->status = 200;
