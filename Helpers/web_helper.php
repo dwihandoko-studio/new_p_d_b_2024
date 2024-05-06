@@ -1185,7 +1185,7 @@ function getPegawaiByIdSigaji($idPegawai)
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
 	$db      = \Config\Database::connect('sigaji');
 
-	$grandted = $db->table('tb_pegawai')->select("nip, nama, kode_kecamatan, nama_kecamatan, kode_instansi, nama_instansi")->where('id', $idPegawai)->get()->getRowObject();
+	$grandted = $db->table('tb_pegawai_')->select("nip, nama, kode_kecamatan, nama_kecamatan, kode_instansi, nama_instansi")->where('id', $idPegawai)->get()->getRowObject();
 	if (!$grandted) {
 		return false;
 	}
