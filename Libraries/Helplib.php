@@ -209,7 +209,7 @@ class Helplib
     public function getIdBank($userId)
     {
 
-        $user = $this->_db_gaji->table('_user_bank')
+        $user = $this->_db->table('_user_bank')
             ->select("dari_bank")
             ->where('user_id', $userId)
             ->get()->getRowObject();
@@ -219,6 +219,21 @@ class Helplib
         }
 
         return false;
+    }
+
+    public function getNamaBank($bankId)
+    {
+
+        $user = $this->_db->table('ref_bank')
+            ->select("nama_bank")
+            ->where('id', $bankId)
+            ->get()->getRowObject();
+
+        if ($user) {
+            return $user->nama_bank;
+        }
+
+        return "-";
     }
 
     public function getPengawasId($userId)
