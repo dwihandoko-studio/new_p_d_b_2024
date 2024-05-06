@@ -1,3 +1,9 @@
+<?= form_open('./savetagihan', ['class' => 'formsimpanbanyak']) ?>
+<?= csrf_field(); ?>
+<input type="hidden" value="<?= isset($tw) ? $tw->id : 'none' ?>" id="id" name="id" readonly>
+<div class="tomboh-simpan-data" style="display: block;">
+    <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnsimpanbanyak"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</button>
+</div>
 <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
     <thead>
         <tr>
@@ -163,6 +169,7 @@
         <?php } ?>
     </tbody>
 </table>
+<?= form_close(); ?>
 <script>
     // Function untuk mengubah data pegawai saat dipilih
     function changePegawai(event) {
@@ -321,6 +328,44 @@
         });
 
         let tableDatatables = $('#data-datatables').DataTable({});
+
+        $('.formsimpanbanyak').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                dataType: "json",
+                beforeSend: function() {
+                    $('.btnsimpanbanyak').attr('disable', 'disabled');
+                    $('.btnsimpanbanyak').html('<i class="mdi mdi-reload mdi-spin"></i>');
+                },
+                complete: function() {
+                    $('.btnsimpanbanyak').removeAttr('disable')
+                    $('.btnsimpanbanyak').html('<i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail') . "?d=" . isset($tw) ? $tw->id : 'none'; ?>");
+                    } else {
+                        Swal.fire(
+                            'Gagal!',
+                            response.message,
+                            'warning'
+                        );
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    Swal.fire(
+                        'Failed!',
+                        "gagal mengambil data (" + xhr.status.toString + ")",
+                        'warning'
+                    );
+                }
+
+            });
+        })
+
     });
 
     $(document).on('click', '.btnhapusform', function(e) {
