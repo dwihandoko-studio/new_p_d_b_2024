@@ -359,8 +359,16 @@ extends BaseController
 
             $jmlData = count($nips);
             if ($jmlData === count($instansis) && $jmlData === count($kecamatans) && $jmlData === count($jumlah_pinjamans) && $jmlData === count($jumlah_tagihans) && $jmlData === count($jumlah_bulan_angsurans) && $jmlData === count($angsuran_kes)) {
-                $uuidLib = new Uuid();
+
                 $id_bank = $this->_helpLib->getIdBank($user->data->id);
+                $deletedAllData = $this->_db->table('tb_tagihan_bank_antrian')->where(['tahun' => $id, 'dari_bank' => $id_bank])->delete();
+                if (!($this->_db->affectedRows() > 0)) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal memvalidasi data.";
+                    return json_encode($response);
+                }
+                $uuidLib = new Uuid();
                 $dataInserts = [];
 
                 for ($i = 0; $i < $jmlData; $i++) {
