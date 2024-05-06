@@ -328,6 +328,12 @@ extends BaseController
                 return redirect()->to(base_url('auth'));
             }
 
+            $jsonData = htmlspecialchars($this->request->getVar('data'), true);
+            $formData = json_decode($jsonData, true);
+
+            var_dump($formData);
+            die;
+
             $id = htmlspecialchars($this->request->getVar('id'), true);
             $checks = $this->request->getVar('check');
             $nips = $this->request->getVar('_filter_pegawai');

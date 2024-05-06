@@ -332,11 +332,16 @@
 
         $('.formsimpanbanyak').submit(function(e) {
             e.preventDefault();
+            const formData = $(this).serializeArray();
+            const jsonData = JSON.stringify(formData);
             $.ajax({
                 url: './savetagihan',
                 // url: $(this).attr('action'),
                 type: 'POST',
-                data: $(this).serialize(),
+                data: {
+                    data: jsonData,
+                    format: "json"
+                },
                 dataType: "json",
                 beforeSend: function() {
                     $('.btnsimpanbanyak').attr('disable', 'disabled');
@@ -353,7 +358,7 @@
                             response.message + " " + response.data,
                             'success'
                         ).then((valRes) => {
-                            reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail'  . "?d=" . isset($tw) ? $tw->id : 'none') ?>");
+                            reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tw_active) ?>");
                         })
                     } else {
                         Swal.fire(
