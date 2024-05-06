@@ -85,6 +85,7 @@
                 } else {
                     $('.content-detailModal').modal('hide');
                     $('.data-contens').html(resul.data);
+                    $('.tomboh-ambil-data').removeAttr('style');
                     // Swal.fire(
                     //     'SELAMAT!',
                     //     resul.message,

@@ -197,8 +197,7 @@ extends BaseController
             ->join('tb_pegawai_ b', 'a.id_pegawai = b.id')
             ->where('a.dari_bank', $id_bank)
             ->where('a.tahun', $tw)
-            ->orderBy('b.nama', 'ASC')
-            ->get()->getResult();
+            ->countAllResults();
 
         return view('sigaji/bank/tagihan/antrian/index_detail', $data);
     }
