@@ -224,7 +224,7 @@ class Helplib
     public function getNamaBank($bankId)
     {
 
-        $user = $this->_db->table('ref_bank')
+        $user = $this->_db_gaji->table('ref_bank')
             ->select("nama_bank")
             ->where('id', $bankId)
             ->get()->getRowObject();
