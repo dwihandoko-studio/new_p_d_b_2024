@@ -1,6 +1,6 @@
 <?= form_open('./savetagihan', ['class' => 'formsimpanbanyak']) ?>
 
-<input type="hidden" value="<?= isset($tw) ? $tw->id : 'none' ?>" id="id" name="id" readonly>
+<input type="hidden" value="<?= $tw_active ?>" id="id" name="id" readonly>
 <?php if (count($datas) > 0) { ?>
     <div class="tombol-simpan-data" style="display: block;">
         <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnsimpanbanyak"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</button>
@@ -34,7 +34,7 @@
                             </td>
                             <td>
                                 <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" required>
-                                    <option value="<?= $value->id_pegawai; ?>"><?= $value->nama; ?></option>
+                                    <option value="<?= $value->id_pegawai; ?>" selected><?= $value->nama; ?></option>
                                 </select>
                             </td>
                             <td>
@@ -69,7 +69,7 @@
                             </td>
                             <td>
                                 <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" required>
-                                    <option value="<?= $value->id_pegawai; ?>"><?= $value->nama; ?></option>
+                                    <option value="<?= $value->id_pegawai; ?>" selected><?= $value->nama; ?></option>
                                 </select>
                             </td>
                             <td>
