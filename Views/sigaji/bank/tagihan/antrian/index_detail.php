@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <h4 class="card-title">Data Detail Tagihan BANK Tahun <?= isset($tw) ? $tw->tahun : '' ?> Bulan <?= isset($tw) ? $tw->bulan_name : '' ?></h4>
-                                <!-- <div><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionGenerate(this);"><i class="bx bx-shape-circle font-size-16 align-middle me-2"></i> Generate Potongan Infak</a>&nbsp;&nbsp;</div> -->
+                                <div><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionAmbilTagihan(this);"><i class="bx bx-shape-circle font-size-16 align-middle me-2"></i> Ambil Data Tagihan Bulan Sebelumnya</a>&nbsp;&nbsp;</div>
                             </div>
                             <!-- <div class="col-6">
                                 <div class="mb-3">
@@ -62,8 +62,8 @@
 
 <!-- Modal -->
 <div id="content-detailModal" class="modal fade content-detailModal" tabindex="-1" role="dialog" aria-labelledby="content-detailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen" role="document">
-        <!-- <div class="modal-dialog modal-dialog-centered modal-xl" role="document"> -->
+    <!-- <div class="modal-dialog modal-fullscreen" role="document"> -->
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-content-loading">
             <div class="modal-header">
                 <h5 class="modal-title" id="content-detailModalLabel">Details</h5>
@@ -108,6 +108,48 @@
 <script src="<?= base_url() ?>/assets/libs/dropzone/min/dropzone.min.js"></script>
 
 <script>
+    function actionAmbilTagihan(event) {
+        $.ajax({
+            url: "./ambiltagihan",
+            type: 'POST',
+            data: {
+                id: '<?= isset($tw) ? $tw->id : 'none' ?>',
+            },
+            dataType: 'JSON',
+            beforeSend: function() {
+                $('div.main-content').block({
+                    message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                });
+            },
+            success: function(resul) {
+                $('div.main-content').unblock();
+                if (resul.status !== 200) {
+                    Swal.fire(
+                        'Failed!',
+                        resul.message,
+                        'warning'
+                    );
+                } else {
+                    $('#content-detailModalLabel').html('AMBIL DATA TAGIHAN ');
+                    $('.contentBodyModal').html(resul.data);
+                    $('.content-detailModal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                    });
+                    $('.content-detailModal').modal('show');
+                }
+            },
+            error: function() {
+                $('div.main-content').unblock();
+                Swal.fire(
+                    'Failed!',
+                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                    'warning'
+                );
+            }
+        });
+    }
+
     function getdata() {
         $.ajax({
             url: "./ambildataadd",

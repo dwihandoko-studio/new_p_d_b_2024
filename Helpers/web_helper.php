@@ -121,6 +121,11 @@ function rp($inp = 0)
 	return number_format($inp, 2, ',', '.');
 }
 
+function number_rupiah($inp = 0)
+{
+	return number_format($inp, 0, ',', '.');
+}
+
 function rpAwalan($inp = 0)
 {
 	if ($inp == NULL) {
