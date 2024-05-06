@@ -85,7 +85,8 @@
                 } else {
                     $('.content-detailModal').modal('hide');
                     $('.data-contens').html(resul.data);
-                    $('.tomboh-ambil-data').css('display', 'none');
+                    $('.tomboh-ambil-data').html('<div class="tomboh-simpan-data" style="display: block;"><a class="btn btn-sm btn-success waves-effect waves-light" href="javascript:actionSimpanTagihan(this);"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</a>&nbsp;&nbsp;</div>');
+                    // $('.tomboh-ambil-data').css('display', 'none');
                     // Swal.fire(
                     //     'SELAMAT!',
                     //     resul.message,
