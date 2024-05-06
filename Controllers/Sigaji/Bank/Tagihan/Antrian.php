@@ -331,18 +331,31 @@ extends BaseController
             $jsonData = htmlspecialchars($this->request->getVar('data'), true);
             $formData = json_decode($jsonData, true);
 
-            var_dump($formData);
-            die;
+            if (count($formData) !== 9) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data yang dikirim tidak valid. Pegawai tidak ditemukan.";
+                return json_encode($response);
+            }
 
-            $id = htmlspecialchars($this->request->getVar('id'), true);
-            $checks = $this->request->getVar('check');
-            $nips = $this->request->getVar('_filter_pegawai');
-            $instansis = $this->request->getVar('instansi');
-            $kecamatans = $this->request->getVar('kecamatan');
-            $jumlah_pinjamans = $this->request->getVar('jumlah_pinjaman');
-            $jumlah_tagihans = $this->request->getVar('jumlah_tagihan');
-            $jumlah_bulan_angsurans = $this->request->getVar('jumlah_bulan_angsuran');
-            $angsuran_kes = $this->request->getVar('angsuran_ke');
+            $id = $formData['id'];
+            $nips = $formData['_filter_pegawai'];
+            $instansis = $formData['instansis'];
+            $kecamatans = $formData['kecamatans'];
+            $jumlah_pinjamans = $formData['jumlah_pinjamans'];
+            $jumlah_tagihans = $formData['jumlah_tagihans'];
+            $jumlah_bulan_angsurans = $formData['jumlah_bulan_angsurans'];
+            $angsuran_kes = $formData['angsuran_kes'];
+
+            // $id = htmlspecialchars($this->request->getVar('id'), true);
+            // $checks = $this->request->getVar('check');
+            // $nips = $this->request->getVar('_filter_pegawai');
+            // $instansis = $this->request->getVar('instansi');
+            // $kecamatans = $this->request->getVar('kecamatan');
+            // $jumlah_pinjamans = $this->request->getVar('jumlah_pinjaman');
+            // $jumlah_tagihans = $this->request->getVar('jumlah_tagihan');
+            // $jumlah_bulan_angsurans = $this->request->getVar('jumlah_bulan_angsuran');
+            // $angsuran_kes = $this->request->getVar('angsuran_ke');
 
             $jmlData = count($nips);
             if ($jmlData === count($instansis) && $jmlData === count($kecamatans) && $jmlData === count($jumlah_pinjamans) && $jmlData === count($jumlah_tagihans) && $jmlData === count($jumlah_bulan_angsurans) && $jmlData === count($angsuran_kes)) {
