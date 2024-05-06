@@ -340,12 +340,12 @@ extends BaseController
 
             $id = $formData['id'];
             $nips = $formData['_filter_pegawai'];
-            $instansis = $formData['instansis'];
-            $kecamatans = $formData['kecamatans'];
-            $jumlah_pinjamans = $formData['jumlah_pinjamans'];
-            $jumlah_tagihans = $formData['jumlah_tagihans'];
-            $jumlah_bulan_angsurans = $formData['jumlah_bulan_angsurans'];
-            $angsuran_kes = $formData['angsuran_kes'];
+            $instansis = $formData['instansi'];
+            $kecamatans = $formData['kecamatan'];
+            $jumlah_pinjamans = $formData['jumlah_pinjaman'];
+            $jumlah_tagihans = $formData['jumlah_tagihan'];
+            $jumlah_bulan_angsurans = $formData['jumlah_bulan_angsuran'];
+            $angsuran_kes = $formData['angsuran_ke'];
 
             // $id = htmlspecialchars($this->request->getVar('id'), true);
             // $checks = $this->request->getVar('check');
