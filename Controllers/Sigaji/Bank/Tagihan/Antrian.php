@@ -342,7 +342,6 @@ extends BaseController
             if ($jmlData === count($instansis) && $jmlData === count($kecamatans) && $jmlData === count($jumlah_pinjamans) && $jmlData === count($jumlah_tagihans) && $jmlData === count($jumlah_bulan_angsurans) && $jmlData === count($angsuran_kes)) {
                 $uuidLib = new Uuid();
                 $id_bank = $this->_helpLib->getIdBank($user->data->id);
-                // $this->_db->transBegin();
                 $dataInserts = [];
 
                 for ($i = 0; $i < $jmlData; $i++) {
@@ -353,6 +352,19 @@ extends BaseController
                         $response->message = "Data yang dikirim tidak valid. Pegawai tidak ditemukan.";
                         return json_encode($response);
                     }
+
+                    $getAnyTag = $this->_db->table('tb_tagihan_bank_antrian')
+                        ->where([
+                            'tahun' => $id,
+                            'id_pegawai' => $nips[$i],
+                            'dari_bank' => $id_bank,
+                        ])->countAllResults();
+
+                    if ($getAnyTag > 0) {
+                        continue;
+                    }
+
+                    $this->_db->transBegin();
                     $dataRow = [
                         'id' => $uuidLib->v4(),
                         'tahun' => $id,
@@ -369,40 +381,59 @@ extends BaseController
                         'created_at' => date('Y-m-d H:i:s'),
                     ];
 
-                    $dataInserts[] = $dataRow;
-                    // try {
-                    //     $this->_db->table('_user_bank')->insert($data);
-                    //     if ($this->_db->affectedRows() > 0) {
-                    //         $this->_db->transCommit();
-                    //         $response = new \stdClass;
-                    //         $response->status = 200;
-                    //         $response->message = "Data berhasil disimpan.";
-                    //         $response->data = $data;
-                    //         return json_encode($response);
-                    //     } else {
-                    //         $this->_db->transRollback();
-                    //         $response = new \stdClass;
-                    //         $response->status = 400;
-                    //         $response->message = "Gagal menyimpan data.";
-                    //         return json_encode($response);
-                    //     }
-                    // } catch (\Throwable $th) {
-                    //     $this->_db->transRollback();
-                    //     $response = new \stdClass;
-                    //     $response->status = 400;
-                    //     $response->message = "Gagal menyimpan data.";
-                    //     return json_encode($response);
-                    // }
+                    try {
+                        $this->_db->table('tb_tagihan_bank_antrian')->insert($dataRow);
+                        if ($this->_db->affectedRows() > 0) {
+                            $this->_db->transCommit();
+                            $dataInserts[] = $dataRow;
+                            continue;
+                        } else {
+                            $this->_db->transRollback();
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Gagal menyimpan data. " . $dataRow['nip'] . " gagal disimpan.";
+                            return json_encode($response);
+                        }
+                    } catch (\Throwable $th) {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menyimpan data. " . $dataRow['nip'] . " gagal disimpan.";
+                        return json_encode($response);
+                    }
                 }
+                // try {
+                //     $this->_db->table('tb_tagihan_bank_antrian')->insertBatch($dataInserts);
+                //     if ($this->_db->affectedRows() > 0) {
+                //         $this->_db->transCommit();
+                //         $response = new \stdClass;
+                //         $response->status = 200;
+                //         $response->message = "Data berhasil disimpan.";
+                //         $response->data = "Jumlah data yang disimpan adala " . count($dataInserts);
+                //         return json_encode($response);
+                //     } else {
+                //         $this->_db->transRollback();
+                //         $response = new \stdClass;
+                //         $response->status = 400;
+                //         $response->message = "Gagal menyimpan data.";
+                //         return json_encode($response);
+                //     }
+                // } catch (\Throwable $th) {
+                //     $this->_db->transRollback();
+                //     $response = new \stdClass;
+                //     $response->status = 400;
+                //     $response->message = "Gagal menyimpan data.";
+                //     return json_encode($response);
+                // }
 
-                var_dump($dataInserts);
-                die;
+                // var_dump($dataInserts);
+                // die;
                 // $this->_db->transCommit();
-                // $response = new \stdClass;
-                // $response->status = 200;
-                // $response->message = "Data berhasil disimpan.";
-                // $response->data = $data;
-                // return json_encode($response);
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Data berhasil disimpan.";
+                $response->data = "Jumlah data yang disimpan adala " . count($dataInserts);
+                return json_encode($response);
             } else {
                 $response = new \stdClass;
                 $response->status = 400;
