@@ -194,7 +194,15 @@
         return prefix == undefined ? rupiah : (rupiah ? prefix + rupiah : '');
     }
 
-    let rowBody = 1;
+    <?php if (isset($datas)) { ?>
+        <?php if (count($datas) > 0) { ?>
+            rowBody = <?= count($datas) ?>;
+        <?php } else { ?>
+            rowBody = 1;
+        <?php } ?>
+    <?php } else { ?>
+        rowBody = 1;
+    <?php } ?>
 
     $(document).ready(function() {
         $('#_filter_pegawai_' + rowBody).select2({
