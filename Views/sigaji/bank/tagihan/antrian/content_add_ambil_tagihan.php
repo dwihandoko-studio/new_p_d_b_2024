@@ -350,7 +350,7 @@
                     if (response.status == 200) {
                         Swal.fire(
                             'SELAMAT!',
-                            resul.message + " " + resul.data,
+                            response.message + " " + response.data,
                             'success'
                         ).then((valRes) => {
                             reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail'  . "?d=" . isset($tw) ? $tw->id : 'none') ?>");
