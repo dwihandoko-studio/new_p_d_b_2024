@@ -1,5 +1,13 @@
 <?= form_open('./savetagihan', ['class' => 'formsimpanbanyak']) ?>
-<?= count($datas) > 0 ? '<div class="tomboh-simpan-data" style="display: block;"><a class="btn btn-sm btn-success waves-effect waves-light" href="javascript:actionSimpanTagihan(this);"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</a>&nbsp;&nbsp;</div>' : '<div class="tomboh-simpan-data" style="display: block;"><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionAmbilTagihan(this);"><i class="fas fa-assistive-listening-systems font-size-16 align-middle me-2"></i> Ambil Data Dari Bulan Sebelumnya</a>&nbsp;&nbsp;</div>'; ?>
+
+<input type="hidden" value="<?= isset($tw) ? $tw->id : 'none' ?>" id="id" name="id" readonly>
+<?php if (count($datas) > 0) { ?>
+    <div class="tombol-simpan-data" style="display: block;">
+        <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnsimpanbanyak"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</button>
+    </div>
+<?php } else { ?>
+    <div class="tomboh-simpan-data" style="display: block;"><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionAmbilTagihan(this);"><i class="fas fa-assistive-listening-systems font-size-16 align-middle me-2"></i> Ambil Data Dari Bulan Sebelumnya</a>&nbsp;&nbsp;</div>
+<?php } ?>
 <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
     <thead>
         <tr>
