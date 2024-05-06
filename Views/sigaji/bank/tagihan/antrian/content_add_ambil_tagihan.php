@@ -1,5 +1,6 @@
 <?= form_open('./savetagihan', ['class' => 'formsimpanbanyak']) ?>
-<?= csrf_field(); ?>
+<?php //echo csrf_field(); 
+?>
 <input type="hidden" value="<?= isset($tw) ? $tw->id : 'none' ?>" id="id" name="id" readonly>
 <div class="tomboh-simpan-data" style="display: block;">
     <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnsimpanbanyak"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</button>
