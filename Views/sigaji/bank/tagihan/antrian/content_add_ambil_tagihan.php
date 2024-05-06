@@ -319,6 +319,8 @@
         $('.formtambah').on('keyup', '.jumlah-pinjaman', function() {
             $(this).val(formatRupiah($(this).val()));
         });
+
+        let tableDatatables = $('#data-datatables').DataTable({});
     });
 
     $(document).on('click', '.btnhapusform', function(e) {
