@@ -330,7 +330,7 @@ extends BaseController
 
             $id = htmlspecialchars($this->request->getVar('id'), true);
             $checks = $this->request->getVar('check');
-            $nips = $this->request->getVar('nip');
+            $nips = $this->request->getVar('_filter_pegawai');
             $instansis = $this->request->getVar('instansi');
             $kecamatans = $this->request->getVar('kecamatan');
             $jumlah_pinjamans = $this->request->getVar('jumlah_pinjaman');
