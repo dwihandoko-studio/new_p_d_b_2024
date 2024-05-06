@@ -255,13 +255,15 @@ extends BaseController
             $d['tw'] = $this->_db->table('_ref_tahun_bulan')->where('id', $id)->get()->getRowObject();
             // $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
             $id_bank = $this->_helpLib->getIdBank($user->data->id);
+            $d['bank_id'] = $id_bank;
+            $d['tahun_dipilih'] = $tahun;
             $d['datas'] = $this->_db->table('tb_tagihan_bank a')
                 ->select("a.id, a.id_pegawai, a.instansi, a.kecamatan, a.besar_pinjaman, a.jumlah_tagihan, a.jumlah_bulan_angsuran, a.angsuran_ke, a.tahun, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan")
                 ->join('_ref_tahun_bulan c', 'a.tahun = c.id')
                 ->join('tb_pegawai_ b', 'a.id_pegawai = b.id')
                 ->where('a.dari_bank', $id_bank)
                 ->where('a.tahun', $tahun)
-                ->orderBy('b.nama', 'ASCD')
+                ->orderBy('b.nama', 'ASC')
                 ->get()->getResult();
 
             var_dump($d);
