@@ -333,7 +333,8 @@
         $('.formsimpanbanyak').submit(function(e) {
             e.preventDefault();
             $.ajax({
-                url: $(this).attr('action'),
+                url: './savetagihan',
+                // url: $(this).attr('action'),
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: "json",
