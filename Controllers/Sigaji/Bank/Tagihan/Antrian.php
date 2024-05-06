@@ -261,7 +261,7 @@ extends BaseController
                 ->join('tb_pegawai_ b', 'a.id_pegawai = b.id')
                 ->where('a.dari_bank', $id_bank)
                 ->where('a.tahun', $tahun)
-                ->orderBy('b.nama', 'ASC')
+                ->orderBy('b.nama', 'ASCD')
                 ->get()->getResult();
 
             var_dump($d);
