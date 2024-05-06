@@ -16,7 +16,7 @@
     <tbody class="formtambah">
         <?php if (isset($datas)) { ?>
             <?php if (count($datas) > 0) { ?>
-                <?php foreach ($variable as $key => $value) { ?>
+                <?php foreach ($datas as $key => $value) { ?>
                     <?php if ($key < 1) { ?>
                         <tr>
                             <td>
