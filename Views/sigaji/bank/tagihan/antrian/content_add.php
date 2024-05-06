@@ -19,9 +19,75 @@
             <?php if (count($datas) > 0) { ?>
                 <?php foreach ($datas as $key => $value) { ?>
                     <?php if ($key < 1) { ?>
-
+                        <tr>
+                            <td>
+                                <input class="form-check-input" type="checkbox" id="formCheck_<?= $key + 1; ?>" name="check[]" value="">
+                            </td>
+                            <td>
+                                <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" required>
+                                    <option value="<?= $value->id_pegawai; ?>"><?= $value->nama; ?></option>
+                                </select>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" value="<?= $value->nip; ?>" id="nip_<?= $key + 1; ?>" name="nip[]" readonly>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" value="<?= $value->nama_instansi; ?>" id="instansi_<?= $key + 1; ?>" name="instansi[]" readonly>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" value="<?= $value->nama_kecamatan; ?>" id="kecamatan_<?= $key + 1; ?>" name="kecamatan[]" readonly>
+                            </td>
+                            <td>
+                                <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->besar_pinjaman); ?>" id="jumlah_pinjaman_<?= $key + 1; ?>" name="jumlah_pinjaman[]" required>
+                            </td>
+                            <td>
+                                <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->jumlah_tagihan); ?>" id="jumlah_tagihan_<?= $key + 1; ?>" name="jumlah_tagihan[]" required>
+                            </td>
+                            <td>
+                                <input class="form-control" type="number" value="<?= $value->jumlah_bulan_angsuran; ?>" id="jumlah_bulan_angsuran_<?= $key + 1; ?>" name="jumlah_bulan_angsuran[]" required>
+                            </td>
+                            <td>
+                                <input class="form-control" type="number" value="<?= $value->angsuran_ke; ?>" id="angsuran_ke_<?= $key + 1; ?>" name="angsuran_ke[]" required>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
+                            </td>
+                        </tr>
                     <?php } else { ?>
-
+                        <tr>
+                            <td>
+                                <input class="form-check-input" type="checkbox" id="formCheck_<?= $key + 1; ?>" name="check[]" value="">
+                            </td>
+                            <td>
+                                <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" required>
+                                    <option value="<?= $value->id_pegawai; ?>"><?= $value->nama; ?></option>
+                                </select>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" value="<?= $value->nip; ?>" id="nip_<?= $key + 1; ?>" name="nip[]" readonly>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" value="<?= $value->nama_instansi; ?>" id="instansi_<?= $key + 1; ?>" name="instansi[]" readonly>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" value="<?= $value->nama_kecamatan; ?>" id="kecamatan_<?= $key + 1; ?>" name="kecamatan[]" readonly>
+                            </td>
+                            <td>
+                                <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->besar_pinjaman); ?>" id="jumlah_pinjaman_<?= $key + 1; ?>" name="jumlah_pinjaman[]" required>
+                            </td>
+                            <td>
+                                <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->jumlah_tagihan); ?>" id="jumlah_tagihan_<?= $key + 1; ?>" name="jumlah_tagihan[]" required>
+                            </td>
+                            <td>
+                                <input class="form-control" type="number" value="<?= $value->jumlah_bulan_angsuran; ?>" id="jumlah_bulan_angsuran_<?= $key + 1; ?>" name="jumlah_bulan_angsuran[]" required>
+                            </td>
+                            <td>
+                                <input class="form-control" type="number" value="<?= $value->angsuran_ke; ?>" id="angsuran_ke_<?= $key + 1; ?>" name="angsuran_ke[]" required>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
+                            </td>
+                        </tr>
                     <?php } ?>
                 <?php } ?>
             <?php } else { ?>
@@ -194,10 +260,19 @@
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
         return prefix == undefined ? rupiah : (rupiah ? prefix + rupiah : '');
     }
-
     let rowBody = 1;
 
+
     $(document).ready(function() {
+        <?php if (isset($datas)) { ?>
+            <?php if (count($datas) > 0) { ?>
+                rowBody = <?= count($datas) ?>;
+            <?php } else { ?>
+                rowBody = 1;
+            <?php } ?>
+        <?php } else { ?>
+            rowBody = 1;
+        <?php } ?>
         $('#_filter_pegawai_' + rowBody).select2({
             dropdownParent: ".data-contens",
             allowClear: true,

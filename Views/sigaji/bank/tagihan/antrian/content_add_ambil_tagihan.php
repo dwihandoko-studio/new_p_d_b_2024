@@ -348,7 +348,7 @@
                 },
                 success: function(response) {
                     if (response.status == 200) {
-                        reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail') . "?d=" . isset($tw) ? $tw->id : 'none'; ?>");
+                        reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail'  . "?d=" . isset($tw) ? $tw->id : 'none') ?>");
                     } else {
                         Swal.fire(
                             'Gagal!',
