@@ -432,6 +432,7 @@ extends BaseController
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Data berhasil disimpan.";
+                $response->sended_data = $jmlData;
                 $response->data = "Jumlah data yang disimpan adala " . count($dataInserts);
                 return json_encode($response);
             } else {
