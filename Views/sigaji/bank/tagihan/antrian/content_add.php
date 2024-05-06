@@ -1,3 +1,4 @@
+<?= form_open('./savetagihan', ['class' => 'formsimpanbanyak']) ?>
 <?= count($datas) > 0 ? '<div class="tomboh-simpan-data" style="display: block;"><a class="btn btn-sm btn-success waves-effect waves-light" href="javascript:actionSimpanTagihan(this);"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</a>&nbsp;&nbsp;</div>' : '<div class="tomboh-simpan-data" style="display: block;"><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionAmbilTagihan(this);"><i class="fas fa-assistive-listening-systems font-size-16 align-middle me-2"></i> Ambil Data Dari Bulan Sebelumnya</a>&nbsp;&nbsp;</div>'; ?>
 <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
     <thead>
@@ -230,6 +231,7 @@
         <?php } ?>
     </tbody>
 </table>
+<?= form_close(); ?>
 <script>
     // Function untuk mengubah data pegawai saat dipilih
     function changePegawai(event) {
@@ -387,6 +389,69 @@
         $('.formtambah').on('keyup', '.jumlah-pinjaman', function() {
             $(this).val(formatRupiah($(this).val()));
         });
+
+        $('.formsimpanbanyak').submit(function(e) {
+            e.preventDefault();
+            const formData = $(this).serializeArray();
+            let processedData = {};
+            for (let i = 0; i < formData.length; i++) {
+                const field = formData[i].name;
+                const value = formData[i].value;
+
+                if (field.endsWith('[]')) { // Check if field name ends with [] for multiple values
+                    processedData[field.slice(0, -2)] = processedData[field.slice(0, -2)] || []; // Initialize array if needed
+                    processedData[field.slice(0, -2)].push(value);
+                } else {
+                    processedData[field] = value;
+                }
+            }
+
+            const jsonData = JSON.stringify(processedData);
+            // const jsonData = JSON.stringify(formData);
+            $.ajax({
+                url: './savetagihan',
+                // url: $(this).attr('action'),
+                type: 'POST',
+                data: {
+                    data: jsonData,
+                    format: "json"
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    $('.btnsimpanbanyak').attr('disable', 'disabled');
+                    $('.btnsimpanbanyak').html('<i class="mdi mdi-reload mdi-spin"></i>');
+                },
+                complete: function() {
+                    $('.btnsimpanbanyak').removeAttr('disable')
+                    $('.btnsimpanbanyak').html('<i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        Swal.fire(
+                            'SELAMAT!',
+                            response.message + " " + response.data,
+                            'success'
+                        ).then((valRes) => {
+                            reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tw_active) ?>");
+                        })
+                    } else {
+                        Swal.fire(
+                            'Gagal!',
+                            response.message,
+                            'warning'
+                        );
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    Swal.fire(
+                        'Failed!',
+                        "gagal mengambil data (" + xhr.status.toString + ")",
+                        'warning'
+                    );
+                }
+
+            });
+        })
     });
 
     $(document).on('click', '.btnhapusform', function(e) {
