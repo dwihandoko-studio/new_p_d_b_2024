@@ -333,7 +333,21 @@
         $('.formsimpanbanyak').submit(function(e) {
             e.preventDefault();
             const formData = $(this).serializeArray();
-            const jsonData = JSON.stringify(formData);
+            let processedData = {};
+            for (let i = 0; i < formData.length; i++) {
+                const field = formData[i].name;
+                const value = formData[i].value;
+
+                if (field.endsWith('[]')) { // Check if field name ends with [] for multiple values
+                    processedData[field.slice(0, -2)] = processedData[field.slice(0, -2)] || []; // Initialize array if needed
+                    processedData[field.slice(0, -2)].push(value);
+                } else {
+                    processedData[field] = value;
+                }
+            }
+
+            const jsonData = JSON.stringify(processedData);
+            // const jsonData = JSON.stringify(formData);
             $.ajax({
                 url: './savetagihan',
                 // url: $(this).attr('action'),
