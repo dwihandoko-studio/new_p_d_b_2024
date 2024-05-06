@@ -261,8 +261,11 @@ extends BaseController
                 ->join('tb_pegawai_ b', 'a.id_pegawai = b.id')
                 ->where('a.dari_bank', $id_bank)
                 ->where('a.tahun', $tahun)
-                ->orderBy('b.nama', 'ASCD')
+                ->orderBy('b.nama', 'ASC')
                 ->get()->getResult();
+
+            var_dump($d);
+            die;
 
             $response = new \stdClass;
             $response->status = 200;
