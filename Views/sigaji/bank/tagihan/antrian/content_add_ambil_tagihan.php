@@ -328,7 +328,7 @@
             $(this).val(formatRupiah($(this).val()));
         });
 
-        // let tableDatatables = $('#data-datatables').DataTable({});
+        let tableDatatables = $('#data-datatables').DataTable({});
 
         $('.formsimpanbanyak').submit(function(e) {
             e.preventDefault();
