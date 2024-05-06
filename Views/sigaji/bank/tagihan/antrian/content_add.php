@@ -1,3 +1,4 @@
+<?= count($datas) > 0 ? '<div class="tomboh-simpan-data" style="display: block;"><a class="btn btn-sm btn-success waves-effect waves-light" href="javascript:actionSimpanTagihan(this);"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</a>&nbsp;&nbsp;</div>' : '<div class="tomboh-simpan-data" style="display: block;"><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionAmbilTagihan(this);"><i class="fas fa-assistive-listening-systems font-size-16 align-middle me-2"></i> Ambil Data Dari Bulan Sebelumnya</a>&nbsp;&nbsp;</div>'; ?>
 <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
     <thead>
         <tr>
