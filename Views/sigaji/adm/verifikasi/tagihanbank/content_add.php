@@ -121,8 +121,8 @@
                 const rowcheckboxkirimTolak = checkboxkirimTolak.parentElement.parentElement;
                 const keteranganTolak = rowcheckboxkirimTolak.querySelector('textarea[name="keterangan[]"]').value;
 
-                console.log(keteranganTolak);
-                return;
+                // console.log(keteranganTolak);
+                // return;
                 // const keteranganTolak = keteranganKirimTolak[i].value;
                 checkedBoxesKirimTolak.push(checkboxkirimTolak.value); // Add checkbox value to the array
                 if (keteranganTolak === "") {
