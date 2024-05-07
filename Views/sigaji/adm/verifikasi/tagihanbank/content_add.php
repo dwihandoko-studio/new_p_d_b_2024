@@ -355,7 +355,7 @@
                                         response.message + " " + response.data,
                                         'success'
                                     ).then((valRes) => {
-                                        reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tw_active) ?>");
+                                        reloadPage();
                                     })
                                 } else {
                                     Swal.fire(

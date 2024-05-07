@@ -282,6 +282,7 @@ extends BaseController
                 $response->status = 200;
                 $response->message = "Data berhasil diverifikasi.";
                 $response->sended_data = $jmlData;
+
                 $response->data = "Jumlah data yang diverifikasi adalah " . count($dataInserts);
                 return json_encode($response);
             } else {
