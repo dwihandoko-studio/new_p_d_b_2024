@@ -1,23 +1,9 @@
 <?= form_open('./verifikasitagihan', ['class' => 'formsimpanbanyak']) ?>
 
 <input type="hidden" value="<?= $tw_active ?>" id="id" name="id" readonly>
-<?php if (count($datas) > 0) { ?>
-    <div class="tombol-simpan-data" style="display: block;">
-        <?php if (isset($prosesed_ajuan)) { ?>
-            <?php if ($prosesed_ajuan > 0) { ?>
-
-            <?php } else { ?>
-                <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnsimpanbanyak"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</button> &nbsp;&nbsp;
-                <a class="btn btn-sm btn-warning waves-effect waves-light" href="javascript:actionAjukanProsesTagihan(this, '<?= $tw->tahun ?>', '<?= $tw->bulan ?>', '<?= $tw_active ?>');"><i class="fas fa-map-signs font-size-16 align-middle me-2"></i> AJUKAN PROSES TAGIHAN</a>
-            <?php } ?>
-        <?php } else { ?>
-            <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnsimpanbanyak"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</button> &nbsp;&nbsp;
-            <a class="btn btn-sm btn-warning waves-effect waves-light" href="javascript:actionAjukanProsesTagihan(this, '<?= $tw->tahun ?>', '<?= $tw->bulan ?>', '<?= $tw_active ?>');"><i class="fas fa-map-signs font-size-16 align-middle me-2"></i> AJUKAN PROSES TAGIHAN</a>
-        <?php } ?>
-    </div>
-<?php } else { ?>
-    <div class="tomboh-simpan-data" style="display: block;"><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionAmbilTagihan(this);"><i class="fas fa-assistive-listening-systems font-size-16 align-middle me-2"></i> Ambil Data Dari Bulan Sebelumnya</a>&nbsp;&nbsp;</div>
-<?php } ?>
+<input type="hidden" value="<?= $id_bank ?>" id="bank" name="bank" readonly>
+<button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnverifikasi"><i class="bx bx-save font-size-16 align-middle me-2"></i> VEFIKASI</button> &nbsp;&nbsp;
+<!-- <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btntolakverifikasi"><i class="bx bx-save font-size-16 align-middle me-2"></i> TOLAK VEFIKASI</button> &nbsp;&nbsp; -->
 <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
     <thead>
         <tr>
@@ -37,10 +23,10 @@
         <?php if (isset($datas)) { ?>
             <?php if (count($datas) > 0) { ?>
                 <?php foreach ($datas as $key => $value) { ?>
-                    <?php if ($key < 1) { ?>
-                        <tr>
+                    <?php if (($value->jumlah_transfer - ($value->jumlah_tagihan + $value->jumlah_potongan)) > 0) { ?>
+                        <tr class="table-success">
                             <td>
-                                <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="">
+                                <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="<?= $value->id ?>">
                             </td>
                             <td>
                                 <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" aria-readonly="">
@@ -70,9 +56,9 @@
                             </td>
                         </tr>
                     <?php } else { ?>
-                        <tr>
+                        <tr class="table-danger">
                             <td>
-                                <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="">
+                                <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="<?= $value->id ?>">
                             </td>
                             <td>
                                 <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" aria-readonly="">
@@ -112,66 +98,6 @@
 </table>
 <?= form_close(); ?>
 <script>
-    function actionAjukanProsesTagihan(event, tahun, bulan, id) {
-        Swal.fire({
-            title: 'Apakah anda yakin ingin mengajukan proses tagihan data ini?',
-            text: "Ajukan Proses tagihan : " + tahun + " - " + bulan,
-            showCancelButton: true,
-            icon: 'question',
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Ajukan Proses!'
-        }).then((result) => {
-            if (result.value) {
-                $.ajax({
-                    url: "./ajukanprosestagihan",
-                    type: 'POST',
-                    data: {
-                        id: id,
-                        tahun: tahun,
-                        bulan: bulan,
-                    },
-                    dataType: 'JSON',
-                    beforeSend: function() {
-                        $('div.main-content').block({
-                            message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
-                        });
-                    },
-                    complete: function() {
-                        $('div.main-content').unblock();
-                    },
-                    success: function(resul) {
-                        $('div.main-content').unblock();
-
-                        if (resul.status !== 200) {
-                            Swal.fire(
-                                'Failed!',
-                                resul.message,
-                                'warning'
-                            );
-                        } else {
-                            Swal.fire(
-                                'SELAMAT!',
-                                resul.message,
-                                'success'
-                            ).then((valRes) => {
-                                reloadPage(resul.url);
-                            })
-                        }
-                    },
-                    error: function() {
-                        $('div.main-content').unblock();
-                        Swal.fire(
-                            'Failed!',
-                            "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
-                            'warning'
-                        );
-                    }
-                });
-            }
-        })
-    }
-
     // Function untuk mengubah data pegawai saat dipilih
     function changePegawai(event) {
         const getId = $(event).data('id');
@@ -331,65 +257,90 @@
 
         $('.formsimpanbanyak').submit(function(e) {
             e.preventDefault();
-            const formData = $(this).serializeArray();
-            let processedData = {};
-            for (let i = 0; i < formData.length; i++) {
-                const field = formData[i].name;
-                const value = formData[i].value;
 
-                if (field.endsWith('[]')) { // Check if field name ends with [] for multiple values
-                    processedData[field.slice(0, -2)] = processedData[field.slice(0, -2)] || []; // Initialize array if needed
-                    processedData[field.slice(0, -2)].push(value);
-                } else {
-                    processedData[field] = value;
-                }
+            let jmlData = $('.centangIdTag:checked');
+
+            if (jmlData.length === 0) {
+                Swal.fire(
+                    'Perhatian!',
+                    "Maaf, silahkan pilih data yang akan di verifikasi.",
+                    'error'
+                );
+            } else {
+                Swal.fire({
+                    title: 'Apakah anda yakin ingin menyetujui verifikasi proses tagihan data ini?',
+                    text: `Setujui Proses tagihan : <?= $tw->tahun ?> - <?= $tw->bulan ?> untuk Bank <?= getNamaBank($id_bank) ?> Sejumlah ${jmlData.length} data`,
+                    showCancelButton: true,
+                    icon: 'question',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Ajukan Proses!'
+                }).then((result) => {
+                    if (result.value) {
+                        const formData = $(this).serializeArray();
+                        let processedData = {};
+                        for (let i = 0; i < formData.length; i++) {
+                            const field = formData[i].name;
+                            const value = formData[i].value;
+
+                            if (field.endsWith('[]')) { // Check if field name ends with [] for multiple values
+                                processedData[field.slice(0, -2)] = processedData[field.slice(0, -2)] || []; // Initialize array if needed
+                                processedData[field.slice(0, -2)].push(value);
+                            } else {
+                                processedData[field] = value;
+                            }
+                        }
+
+                        const jsonData = JSON.stringify(processedData);
+                        // const jsonData = JSON.stringify(formData);
+                        $.ajax({
+                            url: './verifikasitagihan',
+                            // url: $(this).attr('action'),
+                            type: 'POST',
+                            data: {
+                                data: jsonData,
+                                format: "json"
+                            },
+                            dataType: "json",
+                            beforeSend: function() {
+                                $('.btnverifikasi').attr('disable', 'disabled');
+                                $('.btnverifikasi').html('<i class="mdi mdi-reload mdi-spin"></i>');
+                            },
+                            complete: function() {
+                                $('.btnverifikasi').removeAttr('disable')
+                                $('.btnverifikasi').html('<i class="bx bx-save font-size-16 align-middle me-2"></i> SETUJUI VERIFIKASI');
+                            },
+                            success: function(response) {
+                                if (response.status == 200) {
+                                    Swal.fire(
+                                        'SELAMAT!',
+                                        response.message + " " + response.data,
+                                        'success'
+                                    ).then((valRes) => {
+                                        reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tw_active) ?>");
+                                    })
+                                } else {
+                                    Swal.fire(
+                                        'Gagal!',
+                                        response.message,
+                                        'warning'
+                                    );
+                                }
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                Swal.fire(
+                                    'Failed!',
+                                    "gagal mengambil data (" + xhr.status.toString + ")",
+                                    'warning'
+                                );
+                            }
+
+                        });
+                    }
+                })
             }
 
-            const jsonData = JSON.stringify(processedData);
-            // const jsonData = JSON.stringify(formData);
-            $.ajax({
-                url: './verifikasitagihan',
-                // url: $(this).attr('action'),
-                type: 'POST',
-                data: {
-                    data: jsonData,
-                    format: "json"
-                },
-                dataType: "json",
-                beforeSend: function() {
-                    $('.btnsimpanbanyak').attr('disable', 'disabled');
-                    $('.btnsimpanbanyak').html('<i class="mdi mdi-reload mdi-spin"></i>');
-                },
-                complete: function() {
-                    $('.btnsimpanbanyak').removeAttr('disable')
-                    $('.btnsimpanbanyak').html('<i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN');
-                },
-                success: function(response) {
-                    if (response.status == 200) {
-                        Swal.fire(
-                            'SELAMAT!',
-                            response.message + " " + response.data,
-                            'success'
-                        ).then((valRes) => {
-                            reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tw_active) ?>");
-                        })
-                    } else {
-                        Swal.fire(
-                            'Gagal!',
-                            response.message,
-                            'warning'
-                        );
-                    }
-                },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    Swal.fire(
-                        'Failed!',
-                        "gagal mengambil data (" + xhr.status.toString + ")",
-                        'warning'
-                    );
-                }
 
-            });
         })
 
         $('#centangsemua').click(function(e) {
