@@ -192,7 +192,7 @@ extends BaseController
         }
     }
 
-    public function savetagihan()
+    public function verifikasitagihan()
     {
         if ($this->request->isAJAX()) {
             $Profilelib = new Profilelib();
@@ -214,93 +214,47 @@ extends BaseController
             }
 
             $id = $formData['id'];
-            $nips = $formData['_filter_pegawai'];
-            $instansis = $formData['instansi'];
-            $kecamatans = $formData['kecamatan'];
-            $jumlah_pinjamans = $formData['jumlah_pinjaman'];
-            $jumlah_tagihans = $formData['jumlah_tagihan'];
-            $jumlah_bulan_angsurans = $formData['jumlah_bulan_angsuran'];
-            $angsuran_kes = $formData['angsuran_ke'];
+            $id_bank = $formData['bank'];
+            $id_tags = $formData['id_tag'];
 
-            // $id = htmlspecialchars($this->request->getVar('id'), true);
-            // $checks = $this->request->getVar('check');
-            // $nips = $this->request->getVar('_filter_pegawai');
-            // $instansis = $this->request->getVar('instansi');
-            // $kecamatans = $this->request->getVar('kecamatan');
-            // $jumlah_pinjamans = $this->request->getVar('jumlah_pinjaman');
-            // $jumlah_tagihans = $this->request->getVar('jumlah_tagihan');
-            // $jumlah_bulan_angsurans = $this->request->getVar('jumlah_bulan_angsuran');
-            // $angsuran_kes = $this->request->getVar('angsuran_ke');
-
-            $jmlData = count($nips);
-            if ($jmlData === count($instansis) && $jmlData === count($kecamatans) && $jmlData === count($jumlah_pinjamans) && $jmlData === count($jumlah_tagihans) && $jmlData === count($jumlah_bulan_angsurans) && $jmlData === count($angsuran_kes)) {
-
-                $id_bank = $this->_helpLib->getIdBank($user->data->id);
-                $deletedAllData = $this->_db->table('tb_tagihan_bank_antrian')->where(['tahun' => $id, 'dari_bank' => $id_bank])->delete();
-                if (!($this->_db->affectedRows() > 0)) {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Gagal memvalidasi data.";
-                    return json_encode($response);
-                }
-                $uuidLib = new Uuid();
+            $jmlData = count($id_tags);
+            if ($jmlData > 0) {
+                // $uuidLib = new Uuid();
                 $dataInserts = [];
 
                 for ($i = 0; $i < $jmlData; $i++) {
-                    $pegawai = getPegawaiByIdSigaji($nips[$i]);
-                    if (!$pegawai) {
+                    $tagihan = $this->_db->table('tb_tagihan_bank_antrian')
+                        ->where([
+                            'id' => $id_tags[$i],
+                            'dari_bank' => $id_bank,
+                            'tahun' => $id,
+                            'status_ajuan' => 1,
+                        ])->get()->getRowObject();
+                    if (!$tagihan) {
                         $response = new \stdClass;
                         $response->status = 400;
-                        $response->message = "Data yang dikirim tidak valid. Pegawai tidak ditemukan.";
+                        $response->message = "Data yang dikirim tidak valid. Tagihan tidak ditemukan.";
                         return json_encode($response);
                     }
 
+                    $this->_db->transBegin();
                     $getAnyTag = $this->_db->table('tb_tagihan_bank_antrian')
                         ->where([
-                            'tahun' => $id,
-                            'id_pegawai' => $nips[$i],
+                            'id' => $id_tags[$i],
                             'dari_bank' => $id_bank,
-                        ])->countAllResults();
+                            'tahun' => $id,
+                            'status_ajuan' => 1,
+                        ])->update(['status_ajuan' => 2, 'updated_at' => date('Y-m-d H:i:s')]);
 
-                    if ($getAnyTag > 0) {
+                    if ($this->_db->affectedRows() > 0) {
+                        $this->_db->transCommit();
+                        $dataInserts[] = $id_tags[$i];
                         continue;
-                    }
-
-                    $this->_db->transBegin();
-                    $dataRow = [
-                        'id' => $uuidLib->v4(),
-                        'tahun' => $id,
-                        'id_pegawai' => $nips[$i],
-                        'dari_bank' => $id_bank,
-                        'nip' => $pegawai->nip,
-                        'instansi' => $pegawai->nama_instansi,
-                        'kode_kecamatan' => $pegawai->kode_kecamatan,
-                        'kecamatan' => $pegawai->nama_kecamatan,
-                        'besar_pinjaman' => str_replace(".", "", $jumlah_pinjamans[$i]),
-                        'jumlah_tagihan' => str_replace(".", "", $jumlah_tagihans[$i]),
-                        'jumlah_bulan_angsuran' => $jumlah_bulan_angsurans[$i],
-                        'angsuran_ke' => $angsuran_kes[$i],
-                        'created_at' => date('Y-m-d H:i:s'),
-                    ];
-
-                    try {
-                        $this->_db->table('tb_tagihan_bank_antrian')->insert($dataRow);
-                        if ($this->_db->affectedRows() > 0) {
-                            $this->_db->transCommit();
-                            $dataInserts[] = $dataRow;
-                            continue;
-                        } else {
-                            $this->_db->transRollback();
-                            $response = new \stdClass;
-                            $response->status = 400;
-                            $response->message = "Gagal menyimpan data. " . $dataRow['nip'] . " gagal disimpan.";
-                            return json_encode($response);
-                        }
-                    } catch (\Throwable $th) {
+                    } else {
                         $this->_db->transRollback();
                         $response = new \stdClass;
                         $response->status = 400;
-                        $response->message = "Gagal menyimpan data. " . $dataRow['nip'] . " gagal disimpan.";
+                        $response->message = "Gagal memverifikasi data. " . $id_tags[$i] . ".";
                         return json_encode($response);
                     }
                 }
@@ -333,9 +287,9 @@ extends BaseController
                 // $this->_db->transCommit();
                 $response = new \stdClass;
                 $response->status = 200;
-                $response->message = "Data berhasil disimpan.";
+                $response->message = "Data berhasil diverifikasi.";
                 $response->sended_data = $jmlData;
-                $response->data = "Jumlah data yang disimpan adala " . count($dataInserts);
+                $response->data = "Jumlah data yang diverifikasi adalah " . count($dataInserts);
                 return json_encode($response);
             } else {
                 $response = new \stdClass;

@@ -2,7 +2,7 @@
 
 <input type="hidden" value="<?= $tw_active ?>" id="id" name="id" readonly>
 <input type="hidden" value="<?= $id_bank ?>" id="bank" name="bank" readonly>
-<button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnverifikasi"><i class="bx bx-save font-size-16 align-middle me-2"></i> VEFIKASI</button> &nbsp;&nbsp;
+<button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnverifikasi"><i class="bx bx-save font-size-16 align-middle me-2"></i> SETUJUI VEFIKASI</button> &nbsp;&nbsp;
 <!-- <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btntolakverifikasi"><i class="bx bx-save font-size-16 align-middle me-2"></i> TOLAK VEFIKASI</button> &nbsp;&nbsp; -->
 <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
     <thead>
@@ -274,7 +274,7 @@
                     icon: 'question',
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, Ajukan Proses!'
+                    confirmButtonText: 'Ya, Stujui Proses Tagihan!'
                 }).then((result) => {
                     if (result.value) {
                         const formData = $(this).serializeArray();
