@@ -8,7 +8,7 @@
 <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
     <thead>
         <tr>
-            <th data-orderable="false">#</th>
+            <!-- <th data-orderable="false">#</th> -->
             <th data-orderable="false" width="19%">Nama</th>
             <th data-orderable="false" width="14.5%">NIP</th>
             <th data-orderable="false">Instansi</th>
@@ -26,9 +26,9 @@
                 <?php foreach ($datas as $key => $value) { ?>
                     <?php if ($key < 1) { ?>
                         <tr>
-                            <td>
+                            <!-- <td>
                                 <input class="form-check-input" type="checkbox" id="formCheck_<?= $key + 1; ?>" name="check[]" value="">
-                            </td>
+                            </td> -->
                             <td>
                                 <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" required>
                                     <option value="<?= $value->id_pegawai; ?>"><?= $value->nama; ?></option>
@@ -61,9 +61,9 @@
                         </tr>
                     <?php } else { ?>
                         <tr>
-                            <td>
+                            <!-- <td>
                                 <input class="form-check-input" type="checkbox" id="formCheck_<?= $key + 1; ?>" name="check[]" value="">
-                            </td>
+                            </td> -->
                             <td>
                                 <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" required>
                                     <option value="<?= $value->id_pegawai; ?>"><?= $value->nama; ?></option>
@@ -97,7 +97,7 @@
                     <?php } ?>
                 <?php } ?>
             <?php } else { ?>
-                <tr>
+                <!-- <tr>
                     <td>
                         <input class="form-check-input" type="checkbox" id="formCheck_1" name="check[]" value="">
                     </td>
@@ -130,10 +130,10 @@
                     <td>
                         <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light btnaddform">+</button>
                     </td>
-                </tr>
+                </tr> -->
             <?php } ?>
         <?php } else { ?>
-            <tr>
+            <!-- <tr>
                 <td>
                     <input class="form-check-input" type="checkbox" id="formCheck_1" name="check[]" value="">
                 </td>
@@ -166,7 +166,7 @@
                 <td>
                     <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light btnaddform">+</button>
                 </td>
-            </tr>
+            </tr> -->
         <?php } ?>
     </tbody>
 </table>
