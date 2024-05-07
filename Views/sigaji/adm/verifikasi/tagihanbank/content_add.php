@@ -119,9 +119,9 @@
             // Check if the checkbox is checked
             if (checkboxkirimTolak.checked) {
                 const rowcheckboxkirimTolak = checkboxkirimTolak.parentElement.parentElement;
-                const keteranganTolak = rowcheckboxkirimTolak.classList.contains('keteranganPenolakan').value;
+                const keteranganTolak = rowcheckboxkirimTolak.querySelector('textarea[name="keterangan[]"]')
 
-                console.log(rowcheckboxkirimTolak);
+                console.log(keteranganTolak);
                 return;
                 // const keteranganTolak = keteranganKirimTolak[i].value;
                 checkedBoxesKirimTolak.push(checkboxkirimTolak.value); // Add checkbox value to the array
