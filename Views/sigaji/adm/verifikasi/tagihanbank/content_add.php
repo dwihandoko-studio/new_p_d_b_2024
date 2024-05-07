@@ -103,7 +103,7 @@
 <?= form_close(); ?>
 <script>
     function tolakAjuanProses() {
-        e.preventDefault();
+        // e.preventDefault();
 
         let checkedBoxesKirimTolak = [];
         let keterangansKirimTolak = [];
@@ -227,7 +227,7 @@
     }
 
     function setujuiAjuanProses() {
-        e.preventDefault();
+        // e.preventDefault();
 
         let checkedBoxesKirim = [];
 
