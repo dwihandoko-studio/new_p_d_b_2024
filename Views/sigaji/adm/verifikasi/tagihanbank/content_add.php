@@ -24,8 +24,8 @@
             <?php if (count($datas) > 0) { ?>
                 <?php foreach ($datas as $key => $value) { ?>
                     <?php if (($value->jumlah_transfer - ($value->jumlah_tagihan + $value->jumlah_potongan)) > 0) { ?>
-                        <tr class="table-success">
-                            <td>
+                        <tr>
+                            <td class="table-success">
                                 <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="<?= $value->id ?>">
                             </td>
                             <td>
@@ -56,8 +56,8 @@
                             </td>
                         </tr>
                     <?php } else { ?>
-                        <tr class="table-danger">
-                            <td>
+                        <tr>
+                            <td class="table-danger">
                                 <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="<?= $value->id ?>">
                             </td>
                             <td>
