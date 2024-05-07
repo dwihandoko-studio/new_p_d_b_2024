@@ -38,12 +38,21 @@ class Locktagihan extends BaseController
 
             $row[] = $no;
             $isLocked = $this->_acc_lib->getLockedSIPD($list->id);
-            $action = '<div class="btn-group">
+            if ($isLocked) {
+                $action = '<div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
-                        <div class="dropdown-menu" style="">' .
-                $isLocked ? '<a class="dropdown-item" href="javascript:actionDetail(\'' . $list->id . '\', \'' . $list->tahun . '\', \'' . $list->bulan . '\');"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>' : '<a class="dropdown-item" href="javascript:actionLock(\'' . $list->id . '\', \'' . $list->tahun . '\', \'' . $list->bulan . '\');"><i class="fas fa-lock font-size-16 align-middle"></i> &nbsp;Kunci Tagihan</a>' .
-                '</div>
+                        <div class="dropdown-menu" style="">
+                            <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->id . '\', \'' . $list->tahun . '\', \'' . $list->bulan . '\');"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
+                        </div>
                     </div>';
+            } else {
+                $action = '<div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+                        <div class="dropdown-menu" style="">
+                            <a class="dropdown-item" href="javascript:actionLock(\'' . $list->id . '\', \'' . $list->tahun . '\', \'' . $list->bulan . '\');"><i class="fas fa-lock font-size-16 align-middle"></i> &nbsp;Kunci Tagihan</a>
+                        </div>
+                    </div>';
+            }
             // $action = '<a href="javascript:actionDetail(\'' . $list->id . '\', \'' . str_replace("'", "", $list->nama) . '\');"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
             //     <i class="bx bxs-show font-size-16 align-middle"></i></button>
             //     </a>
