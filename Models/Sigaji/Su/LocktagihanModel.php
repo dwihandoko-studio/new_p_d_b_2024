@@ -10,7 +10,7 @@ class LocktagihanModel extends Model
     protected $table = "_ref_tahun_bulan a";
     protected $column_order = array(null, null, 'a.tahun', 'a.bulan', 'a.bulan_name', null);
     protected $column_search = array('a.tahun', 'a.bulan');
-    protected $order = array('a.tahun' => 'desc', 'a.bulan' => 'desc');
+    // protected $order = array('a.tahun' => 'desc', 'a.bulan' => 'desc');
     protected $request;
     protected $db;
     protected $dt;
@@ -40,12 +40,14 @@ class LocktagihanModel extends Model
             $i++;
         }
 
-        if ($this->request->getPost('order')) {
-            $this->dt->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
-        } else if (isset($this->order)) {
-            $order = $this->order;
-            $this->dt->orderBy(key($order), $order[key($order)]);
-        }
+        $this->dt->orderBy('a.tahun', 'DESC');
+        $this->dt->orderBy('a.bulan', 'DESC');
+        // if ($this->request->getPost('order')) {
+        //     $this->dt->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
+        // } else if (isset($this->order)) {
+        //     $order = $this->order;
+        //     $this->dt->orderBy(key($order), $order[key($order)]);
+        // }
     }
     function get_datatables()
     {
