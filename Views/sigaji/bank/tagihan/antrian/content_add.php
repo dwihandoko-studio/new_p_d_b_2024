@@ -61,9 +61,9 @@
                             </td>
                             <td>
                                 <?php if ($value->status_ajuan > 0) { ?>
-                                    <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
-                                <?php } else { ?>
                                     &nbsp;
+                                <?php } else { ?>
+                                    <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
                                 <?php } ?>
                             </td>
                         </tr>
@@ -100,9 +100,9 @@
                             </td>
                             <td>
                                 <?php if ($value->status_ajuan > 0) { ?>
-                                    <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
-                                <?php } else { ?>
                                     &nbsp;
+                                <?php } else { ?>
+                                    <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
                                 <?php } ?>
                             </td>
                         </tr>
