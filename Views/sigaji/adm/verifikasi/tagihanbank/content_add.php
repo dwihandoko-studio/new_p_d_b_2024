@@ -130,8 +130,8 @@
         for (let i = 0; i < checkboxeshijau.length; i++) {
             const checkboxhijau = checkboxeshijau[i];
             const rowhijau = checkboxhijau.parentElement.parentElement; // Get the parent row (TR)
-            const rowhijau1 = checkboxhijau.parentElement; // Get the parent row (TR)
-            console.log(rowhijau1);
+            // const rowhijau1 = checkboxhijau.parentElement; // Get the parent row (TR)
+            // console.log(rowhijau1);
             // console.log(rowhijau);
 
             // Check if the row has the class "table-success"
@@ -141,7 +141,9 @@
             if (rowhijau.classList.contains('gagalVerifikasi')) {
                 checkboxhijau.checked = true; // Set the checkbox to checked
 
-                const newCell = checkboxhijau.insertCell();
+                const ketCell = document.createElement('td');
+
+                // const newCell = checkboxhijau.insertCell();
 
                 // Create the input element for the new field
                 const newInput = document.createElement('textarea');
@@ -152,7 +154,8 @@
                 newInput.name = 'keterangan[]'; // Set the name attribute for the new field
 
                 // Append the input element to the new cell
-                newCell.appendChild(newInput);
+                ketCell.appendChild(newInput);
+                rowhijau.appendChild(ketCell);
             }
         }
 
