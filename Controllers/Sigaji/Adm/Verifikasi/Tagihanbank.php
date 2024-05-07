@@ -138,7 +138,7 @@ extends BaseController
         // var_dump($data);
         // die;
 
-        return view('sigaji/adm/tagihan/verifikasi/index_detail', $data);
+        return view('sigaji/adm/tagihanbank/verifikasi/index_detail', $data);
     }
 
     public function ambildataadd()
@@ -182,7 +182,7 @@ extends BaseController
             $response = new \stdClass;
             $response->status = 200;
             $response->message = "Permintaan diizinkan";
-            $response->data = view('sigaji/adm/tagihan/verifikasi/content_add', $d);
+            $response->data = view('sigaji/adm/tagihanbank/verifikasi/content_add', $d);
             return json_encode($response);
         } else {
             exit('Maaf tidak dapat diproses');
