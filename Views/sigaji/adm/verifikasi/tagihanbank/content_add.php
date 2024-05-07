@@ -4,7 +4,9 @@
 <input type="hidden" value="<?= $id_bank ?>" id="bank" name="bank" readonly>
 <div class="tomboh-simpan-data" style="display: block;">
     <button type="button" onclick="checkedAllHijau()" class="btn btn-sm btn-primary waves-effect waves-light bntcheckhijau"><i class="fas fa-check-double font-size-16 align-middle me-2"></i> PILIH WARNA HIJAU</button>&nbsp;&nbsp;
+    <button type="button" onclick="checkedAllMerah()" class="btn btn-sm btn-warning waves-effect waves-light bntcheckmerah"><i class="fas fa-check-double font-size-16 align-middle me-2"></i> PILIH WARNA MERAH</button>&nbsp;&nbsp;
     <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnverifikasi"><i class="bx bx-save font-size-16 align-middle me-2"></i> SETUJUI VEFIKASI</button> &nbsp;&nbsp;
+    <button type="button" onclick="tolakAjuanProses()" class="btn btn-sm btn-danger waves-effect waves-light btnverifikasitolak"><i class="bx bx-save font-size-16 align-middle me-2"></i> TOLAK VEFIKASI</button> &nbsp;&nbsp;
 </div>
 <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
     <thead>
@@ -112,6 +114,29 @@
 
             // Check if the row has the class "table-success"
             if (rowhijau.classList.contains('lolosVerifikasi')) {
+                checkboxhijau.checked = true; // Set the checkbox to checked
+            }
+            if (rowhijau.classList.contains('gagalVerifikasi')) {
+                checkboxhijau.checked = false; // Set the checkbox to checked
+            }
+        }
+    }
+
+    function checkedAllMerah() {
+        // console.log("working");
+        let checkboxeshijau = document.querySelectorAll('.centangIdTag');
+
+        // Loop through each checkbox
+        for (let i = 0; i < checkboxeshijau.length; i++) {
+            const checkboxhijau = checkboxeshijau[i];
+            const rowhijau = checkboxhijau.parentElement.parentElement; // Get the parent row (TR)
+            // console.log(rowhijau);
+
+            // Check if the row has the class "table-success"
+            if (rowhijau.classList.contains('lolosVerifikasi')) {
+                checkboxhijau.checked = false; // Set the checkbox to checked
+            }
+            if (rowhijau.classList.contains('gagalVerifikasi')) {
                 checkboxhijau.checked = true; // Set the checkbox to checked
             }
         }
