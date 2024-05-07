@@ -49,7 +49,7 @@ class AntrianModel extends Model
     }
     function get_datatables($dari_bank)
     {
-        $this->dt->select("a.id, a.tahun as id_tahun, a.id_pegawai, b.nama, b.nip, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan, count(a.id_pegawai) as jumlah_pegawai, SUM(a.jumlah_tagihan)");
+        $this->dt->select("a.id, a.tahun as id_tahun, a.id_pegawai, b.nama, b.nip, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan, count(a.id_pegawai) as jumlah_pegawai, SUM(a.jumlah_tagihan) as jumlah_tagihan");
         $this->dt->join('_ref_tahun_bulan c', 'a.tahun = c.id');
         $this->dt->join('tb_pegawai_ b', 'a.id_pegawai = b.id');
         $this->dt->where('a.dari_bank', $dari_bank);
