@@ -17,7 +17,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="topnav-tagihan">
                                 <a href="<?= base_url('sigaji/bank/tagihan/antrian') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "bank" && $uri->getSegment(3) == "tagihan" && $uri->getSegment(4) == "antrian") ? ' active-menu-href' : '' ?>" key="t-tagihan-antrian">Antrian</a>
-                                <a href="<?= base_url('sigaji/bank/tagihan/antrian') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "bank" && $uri->getSegment(3) == "tagihan" && $uri->getSegment(4) == "antrian") ? ' active-menu-href' : '' ?>" key="t-tagihan-laporaninstansi">Laporan Per Instansi</a>
+                                <a href="<?= base_url('sigaji/bank/tagihan/tolak') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "bank" && $uri->getSegment(3) == "tagihan" && $uri->getSegment(4) == "tolak") ? ' active-menu-href' : '' ?>" key="t-tagihan-tolak">Tertolak / Tak Tertagih</a>
                             </div>
                         </li>
                         <li class="nav-item">
