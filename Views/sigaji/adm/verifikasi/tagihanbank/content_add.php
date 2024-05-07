@@ -108,6 +108,7 @@
         for (let i = 0; i < checkboxeshijau.length; i++) {
             const checkboxhijau = checkboxeshijau[i];
             const rowhijau = checkboxhijau.parentElement.parentElement; // Get the parent row (TR)
+            console.log(rowhijau);
 
             // Check if the row has the class "table-success"
             if (rowhijau.classList.contains('table-success')) {
