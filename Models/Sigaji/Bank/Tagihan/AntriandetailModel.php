@@ -49,7 +49,7 @@ class AntriandetailModel extends Model
     }
     function get_datatables($dari_bank)
     {
-        $this->dt->select("a.id, a.id_pegawai, a.instansi, a.kecamatan, a.besar_pinjaman, a.jumlah_tagihan, a.jumlah_bulan_angsuran, a.angsuran_ke, a.tahun, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan");
+        $this->dt->select("a.id, a.id_pegawai, a.instansi, a.kecamatan, a.besar_pinjaman, a.jumlah_tagihan, a.jumlah_bulan_angsuran, a.angsuran_ke, a.tahun as id_tahun, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan");
         $this->dt->join('_ref_tahun_bulan c', 'a.tahun = c.id');
         $this->dt->join('tb_pegawai_ b', 'a.id_pegawai = b.id');
         $this->dt->where('a.dari_bank', $dari_bank);
