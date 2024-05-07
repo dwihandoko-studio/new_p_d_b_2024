@@ -3,7 +3,15 @@
 <input type="hidden" value="<?= $tw_active ?>" id="id" name="id" readonly>
 <?php if (count($datas) > 0) { ?>
     <div class="tombol-simpan-data" style="display: block;">
-        <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnsimpanbanyak"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</button> &nbsp;&nbsp;
+        <?php if (isset($prosesed_ajuan)) { ?>
+            <?php if ($prosesed_ajuan > 0) { ?>
+
+            <?php } else { ?>
+                <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnsimpanbanyak"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</button> &nbsp;&nbsp;
+            <?php } ?>
+        <?php } else { ?>
+            <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnsimpanbanyak"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</button> &nbsp;&nbsp;
+        <?php } ?>
         <a class="btn btn-sm btn-warning waves-effect waves-light" href="javascript:actionAjukanProsesTagihan(this, '<?= $tw->tahun ?>', '<?= $tw->bulan ?>', '<?= $tw_active ?>');"><i class="fas fa-map-signs font-size-16 align-middle me-2"></i> AJUKAN PROSES TAGIHAN</a>
     </div>
 <?php } else { ?>

@@ -318,6 +318,7 @@ extends BaseController
                 ->where('a.tahun', $id)
                 ->orderBy('b.nama', 'ASC')
                 ->get()->getResult();
+            $d['prosesed_ajuan'] = $this->_db->table('tb_tagihan_bank_antrian')->where(['dari_bank' => $id_bank, 'tahun' => $id, 'status_ajuan' => 1])->countAllResults();
 
             $response = new \stdClass;
             $response->status = 200;
