@@ -206,13 +206,6 @@ extends BaseController
             $jsonData = htmlspecialchars($this->request->getVar('data'), true);
             $formData = json_decode($jsonData, true);
 
-            if (count($formData) !== 9) {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Data yang dikirim tidak valid. Pegawai tidak ditemukan.";
-                return json_encode($response);
-            }
-
             $id = $formData['id'];
             $id_bank = $formData['bank'];
             $id_tags = $formData['id_tag'];
