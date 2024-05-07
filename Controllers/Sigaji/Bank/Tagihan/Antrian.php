@@ -29,7 +29,8 @@ extends BaseController
     public function getAll()
     {
         $request = Services::request();
-        $datamodel = new AntriandetailModel($request);
+        $datamodel = new AntrianModel($request);
+        // $datamodel = new AntriandetailModel($request);
         $Profilelib = new Profilelib();
         $user = $Profilelib->user();
         if ($user->status != 200) {
