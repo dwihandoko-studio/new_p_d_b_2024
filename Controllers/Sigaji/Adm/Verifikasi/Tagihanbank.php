@@ -173,7 +173,7 @@ extends BaseController
                 ->join('_ref_tahun_bulan c', 'a.tahun = c.id')
                 ->join('tb_pegawai_ b', 'a.id_pegawai = b.id')
                 ->where('a.dari_bank', $id_bank)
-                ->where('a.tahun', $tw)
+                ->where('a.tahun', $id)
                 ->where('a.status_ajuan', 1)
                 ->orderBy('b.nama', 'ASC')
                 ->get()->getResult();
