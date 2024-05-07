@@ -291,12 +291,23 @@ extends BaseController
             if ($user->status != 200) {
                 delete_cookie('jwt');
                 session()->destroy();
-                return redirect()->to(base_url('auth'));
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "User not authenticated.";
+                return json_encode($response);
             }
 
             $id = htmlspecialchars($this->request->getVar('id'), true);
             $d['tw_active'] = $id;
-            $d['tw'] = $this->_db->table('_ref_tahun_bulan')->where('id', $id)->get()->getRowObject();
+            $tw = $this->_db->table('_ref_tahun_bulan')->where('id', $id)->get()->getRowObject();
+
+            if (!$tw) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan";
+                return json_encode($response);
+            }
+            $d['tw'] = $tw;
             // $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
             $id_bank = $this->_helpLib->getIdBank($user->data->id);
             $d['datas'] = $this->_db->table('tb_tagihan_bank_antrian a')
