@@ -20,7 +20,7 @@
             <th data-orderable="false" width="10%">Jumlah Tagihan</th>
             <th data-orderable="false" width="7.5%">Jml Bulan<br>Angs</th>
             <th data-orderable="false" width="7%">Angs Ke</th>
-            <th data-orderable="false"> </th>
+            <th data-orderable="false" width="11%">&nbsp;</th>
         </tr>
     </thead>
     <tbody class="formtambah">
