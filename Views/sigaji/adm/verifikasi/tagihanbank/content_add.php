@@ -355,6 +355,7 @@
         })
 
         $('#bntcheckhijau').click(function(e) {
+            console.log("working");
             let checkboxeshijau = document.querySelectorAll('.centangIdTag');
 
             // Loop through each checkbox
