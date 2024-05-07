@@ -345,10 +345,12 @@ extends BaseController
             $formData = json_decode($jsonData, true);
 
             if (count($formData) !== 9) {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Data yang dikirim tidak valid. Pegawai tidak ditemukan.";
-                return json_encode($response);
+                if (count($formData) !== 10) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data yang dikirim tidak valid. Pegawai tidak ditemukan.";
+                    return json_encode($response);
+                }
             }
 
             $id = $formData['id'];
@@ -476,7 +478,7 @@ extends BaseController
                 $response->status = 200;
                 $response->message = "Data berhasil disimpan.";
                 $response->sended_data = $jmlData;
-                $response->data = "Jumlah data yang disimpan adala " . count($dataInserts);
+                $response->data = "Jumlah data yang disimpan adalah " . count($dataInserts);
                 return json_encode($response);
             } else {
                 $response = new \stdClass;
