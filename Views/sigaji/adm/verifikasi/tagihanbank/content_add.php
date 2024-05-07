@@ -32,30 +32,30 @@
                             <td>
                                 <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="<?= $value->id ?>">
                             </td>
-                            <td>
+                            <td style="padding: 0 !important;">
                                 <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" aria-readonly="">
                                     <option value="<?= $value->id_pegawai; ?>" selected><?= $value->nama; ?></option>
                                 </select>
                             </td>
-                            <td>
+                            <td style="padding: 0 !important;">
                                 <input class="form-control" type="text" value="<?= $value->nip; ?>" id="nip_<?= $key + 1; ?>" name="nip[]" readonly>
                             </td>
-                            <td>
+                            <td style="padding: 0 !important;">
                                 <input class="form-control" type="text" value="<?= $value->nama_instansi; ?>" id="instansi_<?= $key + 1; ?>" name="instansi[]" readonly>
                             </td>
-                            <td>
+                            <td style="padding: 0 !important;">
                                 <input class="form-control" type="text" value="<?= $value->nama_kecamatan; ?>" id="kecamatan_<?= $key + 1; ?>" name="kecamatan[]" readonly>
                             </td>
-                            <td>
+                            <td style="padding: 0 !important;">
                                 <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->besar_pinjaman); ?>" id="jumlah_pinjaman_<?= $key + 1; ?>" name="jumlah_pinjaman[]" readonly>
                             </td>
-                            <td class="table-success">
+                            <td class="table-success" style="padding: 0 !important;">
                                 <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->jumlah_tagihan); ?>" id="jumlah_tagihan_<?= $key + 1; ?>" name="jumlah_tagihan[]" readonly>
                             </td>
-                            <td>
+                            <td style="padding: 0 !important;">
                                 <input class="form-control" type="number" value="<?= $value->jumlah_bulan_angsuran; ?>" id="jumlah_bulan_angsuran_<?= $key + 1; ?>" name="jumlah_bulan_angsuran[]" readonly>
                             </td>
-                            <td>
+                            <td style="padding: 0 !important;">
                                 <input class="form-control" type="number" value="<?= $value->angsuran_ke; ?>" id="angsuran_ke_<?= $key + 1; ?>" name="angsuran_ke[]" readonly>
                             </td>
                         </tr>
@@ -64,30 +64,30 @@
                             <td>
                                 <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="<?= $value->id ?>">
                             </td>
-                            <td>
+                            <td style="padding: 0 !important;">
                                 <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" aria-readonly="">
                                     <option value="<?= $value->id_pegawai; ?>" selected><?= $value->nama; ?></option>
                                 </select>
                             </td>
-                            <td>
+                            <td style="padding: 0 !important;">
                                 <input class="form-control" type="text" value="<?= $value->nip; ?>" id="nip_<?= $key + 1; ?>" name="nip[]" readonly>
                             </td>
-                            <td>
+                            <td style="padding: 0 !important;">
                                 <input class="form-control" type="text" value="<?= $value->nama_instansi; ?>" id="instansi_<?= $key + 1; ?>" name="instansi[]" readonly>
                             </td>
-                            <td>
+                            <td style="padding: 0 !important;">
                                 <input class="form-control" type="text" value="<?= $value->nama_kecamatan; ?>" id="kecamatan_<?= $key + 1; ?>" name="kecamatan[]" readonly>
                             </td>
-                            <td>
+                            <td style="padding: 0 !important;">
                                 <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->besar_pinjaman); ?>" id="jumlah_pinjaman_<?= $key + 1; ?>" name="jumlah_pinjaman[]" readonly>
                             </td>
-                            <td class="table-danger">
+                            <td class="table-danger" style="padding: 0 !important;">
                                 <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->jumlah_tagihan); ?>" id="jumlah_tagihan_<?= $key + 1; ?>" name="jumlah_tagihan[]" readonly>
                             </td>
-                            <td>
+                            <td style="padding: 0 !important;">
                                 <input class="form-control" type="number" value="<?= $value->jumlah_bulan_angsuran; ?>" id="jumlah_bulan_angsuran_<?= $key + 1; ?>" name="jumlah_bulan_angsuran[]" readonly>
                             </td>
-                            <td>
+                            <td style="padding: 0 !important;">
                                 <input class="form-control" type="number" value="<?= $value->angsuran_ke; ?>" id="angsuran_ke_<?= $key + 1; ?>" name="angsuran_ke[]" readonly>
                             </td>
                         </tr>
