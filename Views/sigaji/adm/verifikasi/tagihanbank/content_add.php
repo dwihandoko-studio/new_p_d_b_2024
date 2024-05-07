@@ -121,7 +121,7 @@
                 const keteranganTolak = keteranganKirimTolak[i].value;
                 checkedBoxesKirimTolak.push(checkboxkirimTolak.value); // Add checkbox value to the array
                 if (keteranganTolak === "") {
-                    keterangansKirimTolak.push("-"); // Add checkbox value to the array
+                    // keterangansKirimTolak.push("-"); // Add checkbox value to the array
                 } else {
                     keterangansKirimTolak.push(keteranganTolak.value); // Add checkbox value to the array
                 }
