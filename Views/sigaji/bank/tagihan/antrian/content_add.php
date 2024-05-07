@@ -60,7 +60,11 @@
                                 <input class="form-control" type="number" value="<?= $value->angsuran_ke; ?>" id="angsuran_ke_<?= $key + 1; ?>" name="angsuran_ke[]" required>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
+                                <?php if ($value->status_ajuan > 0) { ?>
+                                    <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
+                                <?php } else { ?>
+                                    &nbsp;
+                                <?php } ?>
                             </td>
                         </tr>
                     <?php } else { ?>
@@ -95,7 +99,11 @@
                                 <input class="form-control" type="number" value="<?= $value->angsuran_ke; ?>" id="angsuran_ke_<?= $key + 1; ?>" name="angsuran_ke[]" required>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
+                                <?php if ($value->status_ajuan > 0) { ?>
+                                    <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
+                                <?php } else { ?>
+                                    &nbsp;
+                                <?php } ?>
                             </td>
                         </tr>
                     <?php } ?>
