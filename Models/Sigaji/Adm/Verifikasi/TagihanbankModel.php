@@ -10,7 +10,7 @@ class TagihanbankModel extends Model
     protected $table = "tb_tagihan_bank_antrian a";
     protected $column_order = array(null, null, 'b.nama_bank', null, null, null);
     protected $column_search = array('b.nama');
-    protected $order = array('b.tahun' => 'desc', 'b.bulan' => 'desc');
+    protected $order = array('c.tahun' => 'desc', 'c.bulan' => 'desc');
     protected $request;
     protected $db;
     protected $dt;
