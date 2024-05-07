@@ -12,7 +12,7 @@
     <thead>
         <tr>
             <th data-orderable="false"><input class="form-check-input" type="checkbox" id="centangsemua"></th>
-            <th data-orderable="false" width="19%">Nama</th>
+            <th data-orderable="false" width="15%">Nama</th>
             <th data-orderable="false" width="14.5%">NIP</th>
             <th data-orderable="false">Instansi</th>
             <th data-orderable="false">Kecamatan</th>
@@ -20,7 +20,7 @@
             <th data-orderable="false" width="10%">Jumlah Tagihan</th>
             <th data-orderable="false" width="7.5%">Jml Bulan<br>Angs</th>
             <th data-orderable="false" width="7%">Angs Ke</th>
-            <th data-orderable="false" width="11%">&nbsp;</th>
+            <th data-orderable="false" width="15%">&nbsp;</th>
         </tr>
     </thead>
     <tbody class="formtambah">
