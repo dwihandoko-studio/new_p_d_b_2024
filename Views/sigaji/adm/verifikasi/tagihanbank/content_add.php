@@ -128,7 +128,7 @@
                 if (keteranganTolak === "") {
                     // keterangansKirimTolak.push("-"); // Add checkbox value to the array
                 } else {
-                    keterangansKirimTolak.push(keteranganTolak.value); // Add checkbox value to the array
+                    keterangansKirimTolak.push(keteranganTolak); // Add checkbox value to the array
                 }
 
             }
