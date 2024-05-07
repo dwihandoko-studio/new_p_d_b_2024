@@ -121,7 +121,7 @@
                 const rowcheckboxkirimTolak = checkboxkirimTolak.parentElement.parentElement;
                 const keteranganTolak = rowcheckboxkirimTolak.classList.contains('keteranganPenolakan').value;
 
-                console.log(keteranganTolak);
+                console.log(rowcheckboxkirimTolak);
                 return;
                 // const keteranganTolak = keteranganKirimTolak[i].value;
                 checkedBoxesKirimTolak.push(checkboxkirimTolak.value); // Add checkbox value to the array
