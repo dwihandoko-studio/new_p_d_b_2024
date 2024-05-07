@@ -21,7 +21,7 @@
 <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
     <thead>
         <tr>
-            <th data-orderable="false">#</th>
+            <th data-orderable="false"><input class="form-check-input" type="checkbox" id="centangsemua"></th>
             <th data-orderable="false" width="19%">Nama</th>
             <th data-orderable="false" width="14.5%">NIP</th>
             <th data-orderable="false">Instansi</th>
@@ -40,7 +40,7 @@
                     <?php if ($key < 1) { ?>
                         <tr>
                             <td>
-                                <input class="form-check-input" type="checkbox" id="formCheck_<?= $key + 1; ?>" name="check[]" value="">
+                                <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="">
                             </td>
                             <td>
                                 <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" aria-readonly="">
@@ -72,7 +72,7 @@
                     <?php } else { ?>
                         <tr>
                             <td>
-                                <input class="form-check-input" type="checkbox" id="formCheck_<?= $key + 1; ?>" name="check[]" value="">
+                                <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="">
                             </td>
                             <td>
                                 <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" aria-readonly="">
@@ -390,6 +390,15 @@
                 }
 
             });
+        })
+
+        $('#centangsemua').click(function(e) {
+
+            if ($(this).is(':checked')) {
+                $('.centangIdTag').prop('checked', true);
+            } else {
+                $('.centangIdTag').prop('checked', false);
+            }
         })
     });
 
