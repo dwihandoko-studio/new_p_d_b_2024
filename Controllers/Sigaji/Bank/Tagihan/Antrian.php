@@ -581,9 +581,10 @@ extends BaseController
                 ->where(['tahun' => $id, 'dari_bank' => $id_bank, 'status_ajuan' => 0])
                 ->get()->getResult();
 
-            if (count($data) > 0) {
+            $jmlData = count($data);
+            if ($jmlData > 0) {
                 $ids = [];
-                for ($i = 0; $i < $data; $i++) {
+                for ($i = 0; $i < $jmlData; $i++) {
                     $ids[] = $data[$i]->id;
                 }
 
