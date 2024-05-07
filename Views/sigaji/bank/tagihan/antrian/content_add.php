@@ -242,6 +242,66 @@
 </table>
 <?= form_close(); ?>
 <script>
+    function actionAjukanProsesTagihan(event, tahun, bulan, id) {
+        Swal.fire({
+            title: 'Apakah anda yakin ingin mengajukan proses tagihan data ini?',
+            text: "Ajukan Proses tagihan : " + tahun + " - " + bulan,
+            showCancelButton: true,
+            icon: 'question',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Ajukan Proses!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "./ajukanprosestagihan",
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        tahun: tahun,
+                        bulan: bulan,
+                    },
+                    dataType: 'JSON',
+                    beforeSend: function() {
+                        $('div.main-content').block({
+                            message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                        });
+                    },
+                    complete: function() {
+                        $('div.main-content').unblock();
+                    },
+                    success: function(resul) {
+                        $('div.main-content').unblock();
+
+                        if (resul.status !== 200) {
+                            Swal.fire(
+                                'Failed!',
+                                resul.message,
+                                'warning'
+                            );
+                        } else {
+                            Swal.fire(
+                                'SELAMAT!',
+                                resul.message,
+                                'success'
+                            ).then((valRes) => {
+                                reloadPage(resul.url);
+                            })
+                        }
+                    },
+                    error: function() {
+                        $('div.main-content').unblock();
+                        Swal.fire(
+                            'Failed!',
+                            "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                            'warning'
+                        );
+                    }
+                });
+            }
+        })
+    }
+
     // Function untuk mengubah data pegawai saat dipilih
     function changePegawai(event) {
         const getId = $(event).data('id');

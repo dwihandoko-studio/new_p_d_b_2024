@@ -545,57 +545,69 @@ extends BaseController
         }
     }
 
-    public function generate()
+    public function ajukanprosestagihan()
     {
-        if ($this->request->getMethod() != 'post') {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = "Permintaan tidak diizinkan";
-            return json_encode($response);
-        }
+        if ($this->request->isAJAX()) {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "User is not authenticated.";
+                return json_encode($response);
+            }
 
-        $rules = [
-            'tahun' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'Tahun bulan tidak boleh kosong. ',
-                ]
-            ],
-        ];
-
-        if (!$this->validate($rules)) {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = $this->validator->getError('tahun');
-            return json_encode($response);
-        } else {
+            $id = htmlspecialchars($this->request->getVar('id'), true);
             $tahun = htmlspecialchars($this->request->getVar('tahun'), true);
+            $bulan = htmlspecialchars($this->request->getVar('bulan'), true);
 
-            $apiLib = new Apilib();
-            $result = $apiLib->generatePotonganInfak($tahun);
+            $id_bank = $this->_helpLib->getIdBank($user->data->id);
 
-            if ($result) {
-                // var_dump($result);
-                // die;
-                if ($result->status == 200) {
-                    $response = new \stdClass;
-                    $response->status = 200;
-                    $response->resss = $result;
-                    $response->message = "Generate Potongan Infak Berhasil Dilakukan.";
-                    return json_encode($response);
-                } else {
+            $data = $this->_db->table('tb_tagihan_bank_antrian')
+                ->select("id, tahun")
+                ->where(['tahun' => $id, 'dari_bank' => $id_bank, 'status_ajuan' => 0])
+                ->get()->getResult();
+
+            if (count($data) > 0) {
+                $ids = [];
+                for ($i = 0; $i < $data; $i++) {
+                    $ids[] = $data[$i]->id;
+                }
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('tb_tagihan_bank_antrian')->whereIn('id', $ids)->update(['status_ajuan' => 1, 'updated_at' => date('Y-m-d H:i:s')]);
+                    if ($this->_db->affectedRows() > 0) {
+                        $this->_db->transCommit();
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->url = base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $id);
+                        $response->message = "Data " . count($ids) . " tagihan berhasil diproses untuk di validasi.";
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menyimpan data. " . count($ids) . " gagal disimpan.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->error = $result;
-                    $response->message = "Gagal Generate Potongan Infak.";
+                    $response->message = "Gagal menyimpan data. " . count($ids) . " gagal disimpan.";
                     return json_encode($response);
                 }
             } else {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = "Gagal Generate Potongan Infak";
+                $response->message = "Data tagihan tidak ada yang akan di proses.";
                 return json_encode($response);
             }
+        } else {
+            exit('Maaf tidak dapat diproses');
         }
     }
 }
