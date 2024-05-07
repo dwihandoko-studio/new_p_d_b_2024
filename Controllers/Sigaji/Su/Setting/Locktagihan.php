@@ -73,6 +73,11 @@ class Locktagihan extends BaseController
 
     public function index()
     {
+        return redirect()->to(base_url('sigaji/su/setting/locktagihan/data'));
+    }
+
+    public function data()
+    {
         $data['title'] = 'MAINTENANCE';
         $Profilelib = new Profilelib();
         $user = $Profilelib->user();
