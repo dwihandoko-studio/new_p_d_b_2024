@@ -5,7 +5,7 @@
 <div class="tomboh-simpan-data" style="display: block;">
     <button type="button" onclick="checkedAllHijau()" class="btn btn-sm btn-primary waves-effect waves-light bntcheckhijau"><i class="fas fa-check-double font-size-16 align-middle me-2"></i> PILIH WARNA HIJAU</button>&nbsp;&nbsp;
     <button type="button" onclick="checkedAllMerah()" class="btn btn-sm btn-warning waves-effect waves-light bntcheckmerah"><i class="fas fa-check-double font-size-16 align-middle me-2"></i> PILIH WARNA MERAH</button>&nbsp;&nbsp;
-    <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnverifikasi"><i class="bx bx-save font-size-16 align-middle me-2"></i> SETUJUI VEFIKASI</button> &nbsp;&nbsp;
+    <button type="button" onclick="setujuiAjuanProses()" class="btn btn-sm btn-success waves-effect waves-light btnverifikasi"><i class="bx bx-save font-size-16 align-middle me-2"></i> SETUJUI VEFIKASI</button> &nbsp;&nbsp;
     <button type="button" onclick="tolakAjuanProses()" class="btn btn-sm btn-danger waves-effect waves-light btnverifikasitolak"><i class="fas fa-times-circle font-size-16 align-middle me-2"></i> TOLAK VEFIKASI</button> &nbsp;&nbsp;
 </div>
 <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
@@ -102,6 +102,236 @@
 </table>
 <?= form_close(); ?>
 <script>
+    function tolakAjuanProses() {
+        e.preventDefault();
+
+        let checkedBoxesKirimTolak = [];
+        let keterangansKirimTolak = [];
+
+        // Select all checkboxes with class "centangIdTag" (existing code)
+        let checkboxesKirimTolak = document.querySelectorAll('.centangIdTag');
+        let keteranganKirimTolak = document.querySelectorAll('.keteranganPenolakan');
+
+        // Loop through checkboxes
+        for (let i = 0; i < checkboxesKirimTolak.length; i++) {
+            const checkboxkirimTolak = checkboxesKirimTolak[i];
+
+            // Check if the checkbox is checked
+            if (checkboxkirimTolak.checked) {
+                const keteranganTolak = keteranganKirimTolak[i].value;
+                checkedBoxesKirimTolak.push(checkboxkirimTolak.value); // Add checkbox value to the array
+                if (keteranganTolak === "") {
+                    keterangansKirimTolak.push("-"); // Add checkbox value to the array
+                } else {
+                    keterangansKirimTolak.push(keteranganTolak.value); // Add checkbox value to the array
+                }
+
+            }
+        }
+
+
+        // let jmlData = $('.centangIdTag:checked');
+
+        if (checkedBoxesKirimTolak.length === 0) {
+            Swal.fire(
+                'Perhatian!',
+                "Maaf, silahkan pilih data yang akan di verifikasi.",
+                'error'
+            );
+        } else {
+            if (checkedBoxesKirimTolak.length !== keterangansKirimTolak.length) {
+                Swal.fire(
+                    'Maaf!',
+                    "Masih ada keterangan yang kosong, silahkan berikan keterangan penolakan verifikasi pada row yang telah di pilih.",
+                    'error'
+                );
+                return;
+            }
+            Swal.fire({
+                title: 'Apakah anda yakin ingin menyetujui verifikasi proses tagihan data ini?',
+                text: `Setujui Proses tagihan : <?= $tw->tahun ?> - <?= $tw->bulan ?> untuk Bank <?= getNamaBank($id_bank) ?> Sejumlah ${checkedBoxesKirim.length} data`,
+                showCancelButton: true,
+                icon: 'question',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Stujui Proses Tagihan!'
+            }).then((result) => {
+                if (result.value) {
+                    // const formData = $(this).serializeArray();
+                    // let processedData = {};
+                    // for (let i = 0; i < formData.length; i++) {
+                    //     const field = formData[i].name;
+                    //     const value = formData[i].value;
+
+                    //     if (field.endsWith('[]')) { // Check if field name ends with [] for multiple values
+                    //         processedData[field.slice(0, -2)] = processedData[field.slice(0, -2)] || []; // Initialize array if needed
+                    //         processedData[field.slice(0, -2)].push(value);
+                    //     } else {
+                    //         processedData[field] = value;
+                    //     }
+                    // }
+                    let processedDataTolak = {};
+                    processedDataTolak['id_tag'] = checkedBoxesKirimTolak;
+                    processedDataTolak['keterangan'] = keterangansKirimTolak;
+                    processedDataTolak['id'] = document.getElementsByName('id')[0].value;
+                    processedDataTolak['bank'] = document.getElementsByName('bank')[0].value;
+
+                    const jsonDataTolak = JSON.stringify(processedDataTolak);
+                    // const jsonData = JSON.stringify(formData);
+                    $.ajax({
+                        url: './tolakverifikasitagihan',
+                        // url: $(this).attr('action'),
+                        type: 'POST',
+                        data: {
+                            data: jsonDataTolak,
+                            format: "json"
+                        },
+                        dataType: "json",
+                        beforeSend: function() {
+                            $('.btnverifikasitolak').attr('disable', 'disabled');
+                            $('.btnverifikasitolak').html('<i class="mdi mdi-reload mdi-spin"></i>');
+                        },
+                        complete: function() {
+                            $('.btnverifikasitolak').removeAttr('disable')
+                            $('.btnverifikasitolak').html('<i class="fas fa-times-circle font-size-16 align-middle me-2"></i> TOLAK VERIFIKASI');
+                        },
+                        success: function(response) {
+                            if (response.status == 200) {
+                                Swal.fire(
+                                    'SELAMAT!',
+                                    response.message + " " + response.data,
+                                    'success'
+                                ).then((valRes) => {
+                                    reloadPage();
+                                })
+                            } else {
+                                Swal.fire(
+                                    'Gagal!',
+                                    response.message,
+                                    'warning'
+                                );
+                            }
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            Swal.fire(
+                                'Failed!',
+                                "gagal mengambil data (" + xhr.status.toString + ")",
+                                'warning'
+                            );
+                        }
+
+                    });
+                }
+            })
+        }
+    }
+
+    function setujuiAjuanProses() {
+        e.preventDefault();
+
+        let checkedBoxesKirim = [];
+
+        // Select all checkboxes with class "centangIdTag" (existing code)
+        let checkboxesKirim = document.querySelectorAll('.centangIdTag');
+
+        // Loop through checkboxes
+        for (let i = 0; i < checkboxesKirim.length; i++) {
+            const checkboxkirim = checkboxesKirim[i];
+
+            // Check if the checkbox is checked
+            if (checkboxkirim.checked) {
+                checkedBoxesKirim.push(checkboxkirim.value); // Add checkbox value to the array
+            }
+        }
+
+
+        // let jmlData = $('.centangIdTag:checked');
+
+        if (checkedBoxesKirim.length === 0) {
+            Swal.fire(
+                'Perhatian!',
+                "Maaf, silahkan pilih data yang akan di verifikasi.",
+                'error'
+            );
+        } else {
+            Swal.fire({
+                title: 'Apakah anda yakin ingin menyetujui verifikasi proses tagihan data ini?',
+                text: `Setujui Proses tagihan : <?= $tw->tahun ?> - <?= $tw->bulan ?> untuk Bank <?= getNamaBank($id_bank) ?> Sejumlah ${checkedBoxesKirim.length} data`,
+                showCancelButton: true,
+                icon: 'question',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Stujui Proses Tagihan!'
+            }).then((result) => {
+                if (result.value) {
+                    // const formData = $(this).serializeArray();
+                    // let processedData = {};
+                    // for (let i = 0; i < formData.length; i++) {
+                    //     const field = formData[i].name;
+                    //     const value = formData[i].value;
+
+                    //     if (field.endsWith('[]')) { // Check if field name ends with [] for multiple values
+                    //         processedData[field.slice(0, -2)] = processedData[field.slice(0, -2)] || []; // Initialize array if needed
+                    //         processedData[field.slice(0, -2)].push(value);
+                    //     } else {
+                    //         processedData[field] = value;
+                    //     }
+                    // }
+                    let processedData = {};
+                    processedData['id_tag'] = checkedBoxesKirim;
+                    processedData['id'] = document.getElementsByName('id')[0].value;
+                    processedData['bank'] = document.getElementsByName('bank')[0].value;
+
+                    const jsonData = JSON.stringify(processedData);
+                    // const jsonData = JSON.stringify(formData);
+                    $.ajax({
+                        url: './verifikasitagihan',
+                        // url: $(this).attr('action'),
+                        type: 'POST',
+                        data: {
+                            data: jsonData,
+                            format: "json"
+                        },
+                        dataType: "json",
+                        beforeSend: function() {
+                            $('.btnverifikasi').attr('disable', 'disabled');
+                            $('.btnverifikasi').html('<i class="mdi mdi-reload mdi-spin"></i>');
+                        },
+                        complete: function() {
+                            $('.btnverifikasi').removeAttr('disable')
+                            $('.btnverifikasi').html('<i class="bx bx-save font-size-16 align-middle me-2"></i> SETUJUI VERIFIKASI');
+                        },
+                        success: function(response) {
+                            if (response.status == 200) {
+                                Swal.fire(
+                                    'SELAMAT!',
+                                    response.message + " " + response.data,
+                                    'success'
+                                ).then((valRes) => {
+                                    reloadPage();
+                                })
+                            } else {
+                                Swal.fire(
+                                    'Gagal!',
+                                    response.message,
+                                    'warning'
+                                );
+                            }
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            Swal.fire(
+                                'Failed!',
+                                "gagal mengambil data (" + xhr.status.toString + ")",
+                                'warning'
+                            );
+                        }
+
+                    });
+                }
+            })
+        }
+    }
+
     function checkedAllHijau() {
         // console.log("working");
         let checkboxeshijau = document.querySelectorAll('.centangIdTag');
@@ -147,7 +377,7 @@
 
                 // Create the input element for the new field
                 const newInput = document.createElement('textarea');
-                newInput.className = 'form-control';
+                newInput.className = 'form-control keteranganPenolakan';
                 newInput.rows = '3';
                 newInput.placeholder = 'Keterangan penolakan...';
                 newInput.value = ''; // Set your desired value here

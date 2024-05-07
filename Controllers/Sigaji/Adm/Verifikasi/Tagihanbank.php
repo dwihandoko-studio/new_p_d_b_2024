@@ -296,78 +296,7 @@ extends BaseController
         }
     }
 
-    public function add()
-    {
-        $Profilelib = new Profilelib();
-        $user = $Profilelib->user();
-        if ($user->status != 200) {
-            delete_cookie('jwt');
-            session()->destroy();
-            $response = new \stdClass;
-            $response->status = 401;
-            $response->message = "Permintaan diizinkan";
-            return json_encode($response);
-        }
-
-        $d['bulans'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
-
-        $response = new \stdClass;
-        $response->status = 200;
-        $response->message = "Permintaan diizinkan";
-        $response->data = view('sigaji/bank/tagihan/antrian/add', $d);
-        return json_encode($response);
-    }
-
-    public function getPegawai()
-    {
-        if ($this->request->isAJAX()) {
-            if ($this->request->getMethod() != 'post') {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Permintaan tidak diizinkan";
-                return json_encode($response);
-            }
-
-            $rules = [
-                'keyword' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Keyword tidak boleh kosong. ',
-                    ]
-                ],
-            ];
-
-            if (!$this->validate($rules)) {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = $this->validator->getError('keyword');
-                return json_encode($response);
-            } else {
-                $keyword = htmlspecialchars($this->request->getVar('keyword'), true);
-
-                $current = $this->_db->table('tb_pegawai_')
-                    ->select("id, nip, nama, nama_instansi, nama_kecamatan")
-                    ->where("nip LIKE '%$keyword%' OR nama LIKE '%$keyword%' OR nama_instansi LIKE '%$keyword%'")->get()->getResult();
-
-                if (count($current) > 0) {
-                    $response = new \stdClass;
-                    $response->status = 200;
-                    $response->message = "Permintaan diizinkan";
-                    $response->data = $current;
-                    return json_encode($response);
-                } else {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Data tidak ditemukan";
-                    return json_encode($response);
-                }
-            }
-        } else {
-            exit('Mohon maaf tidak dapat di proses.');
-        }
-    }
-
-    public function ajukanprosestagihan()
+    public function tolakverifikasitagihan()
     {
         if ($this->request->isAJAX()) {
             $Profilelib = new Profilelib();
@@ -375,58 +304,96 @@ extends BaseController
             if ($user->status != 200) {
                 delete_cookie('jwt');
                 session()->destroy();
-                $response = new \stdClass;
-                $response->status = 401;
-                $response->message = "User is not authenticated.";
-                return json_encode($response);
+                return redirect()->to(base_url('auth'));
             }
 
-            $id = htmlspecialchars($this->request->getVar('id'), true);
-            $tahun = htmlspecialchars($this->request->getVar('tahun'), true);
-            $bulan = htmlspecialchars($this->request->getVar('bulan'), true);
+            $jsonData = htmlspecialchars($this->request->getVar('data'), true);
+            $formData = json_decode($jsonData, true);
 
-            $id_bank = $this->_helpLib->getIdBank($user->data->id);
+            $id = $formData['id'];
+            $id_bank = $formData['bank'];
+            $id_tags = $formData['id_tag'];
+            $keterangans = $formData['keterangan'];
 
-            $data = $this->_db->table('tb_tagihan_bank_antrian')
-                ->select("id, tahun")
-                ->where(['tahun' => $id, 'dari_bank' => $id_bank, 'status_ajuan' => 0])
-                ->get()->getResult();
-
-            $jmlData = count($data);
+            $jmlData = count($id_tags);
             if ($jmlData > 0) {
-                $ids = [];
-                for ($i = 0; $i < $jmlData; $i++) {
-                    $ids[] = $data[$i]->id;
-                }
+                // $uuidLib = new Uuid();
+                $dataInserts = [];
 
-                $this->_db->transBegin();
-                try {
-                    $this->_db->table('tb_tagihan_bank_antrian')->whereIn('id', $ids)->update(['status_ajuan' => 1, 'updated_at' => date('Y-m-d H:i:s')]);
+                for ($i = 0; $i < $jmlData; $i++) {
+                    $tagihan = $this->_db->table('tb_tagihan_bank_antrian')
+                        ->where([
+                            'id' => $id_tags[$i],
+                            'dari_bank' => $id_bank,
+                            'tahun' => $id,
+                            'status_ajuan' => 1,
+                        ])->get()->getRowObject();
+                    if (!$tagihan) {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Data yang dikirim tidak valid. Tagihan tidak ditemukan.";
+                        return json_encode($response);
+                    }
+
+                    $this->_db->transBegin();
+                    $getAnyTag = $this->_db->table('tb_tagihan_bank_antrian')
+                        ->where([
+                            'id' => $id_tags[$i],
+                            'dari_bank' => $id_bank,
+                            'tahun' => $id,
+                            'status_ajuan' => 1,
+                        ])->update(['status_ajuan' => 3, 'keterangan_penolakan' => $keterangans[$i], 'updated_at' => date('Y-m-d H:i:s')]);
+
                     if ($this->_db->affectedRows() > 0) {
                         $this->_db->transCommit();
-                        $response = new \stdClass;
-                        $response->status = 200;
-                        $response->url = base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $id);
-                        $response->message = "Data " . count($ids) . " tagihan berhasil diproses untuk di validasi.";
-                        return json_encode($response);
+                        $dataInserts[] = $id_tags[$i];
+                        continue;
                     } else {
                         $this->_db->transRollback();
                         $response = new \stdClass;
                         $response->status = 400;
-                        $response->message = "Gagal menyimpan data. " . count($ids) . " gagal disimpan.";
+                        $response->message = "Gagal memverifikasi data. " . $id_tags[$i] . ".";
                         return json_encode($response);
                     }
-                } catch (\Throwable $th) {
-                    $this->_db->transRollback();
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Gagal menyimpan data. " . count($ids) . " gagal disimpan.";
-                    return json_encode($response);
                 }
+                // try {
+                //     $this->_db->table('tb_tagihan_bank_antrian')->insertBatch($dataInserts);
+                //     if ($this->_db->affectedRows() > 0) {
+                //         $this->_db->transCommit();
+                //         $response = new \stdClass;
+                //         $response->status = 200;
+                //         $response->message = "Data berhasil disimpan.";
+                //         $response->data = "Jumlah data yang disimpan adala " . count($dataInserts);
+                //         return json_encode($response);
+                //     } else {
+                //         $this->_db->transRollback();
+                //         $response = new \stdClass;
+                //         $response->status = 400;
+                //         $response->message = "Gagal menyimpan data.";
+                //         return json_encode($response);
+                //     }
+                // } catch (\Throwable $th) {
+                //     $this->_db->transRollback();
+                //     $response = new \stdClass;
+                //     $response->status = 400;
+                //     $response->message = "Gagal menyimpan data.";
+                //     return json_encode($response);
+                // }
+
+                // var_dump($dataInserts);
+                // die;
+                // $this->_db->transCommit();
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Data berhasil diverifikasi.";
+                $response->sended_data = $jmlData;
+
+                $response->data = "Jumlah data yang diverifikasi adalah " . count($dataInserts);
+                return json_encode($response);
             } else {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = "Data tagihan tidak ada yang akan di proses.";
+                $response->message = "Data yang dikirim tidak valid.";
                 return json_encode($response);
             }
         } else {
