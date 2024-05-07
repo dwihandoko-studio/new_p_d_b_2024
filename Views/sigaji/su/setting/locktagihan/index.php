@@ -92,62 +92,19 @@
 <script src="<?= base_url() ?>/assets/libs/dropzone/min/dropzone.min.js"></script>
 
 <script>
-    function actionAdd(event) {
-        $.ajax({
-            url: "./add",
-            type: 'POST',
-            data: {
-                id: 'add',
-            },
-            dataType: 'JSON',
-            beforeSend: function() {
-                $('div.main-content').block({
-                    message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
-                });
-            },
-            success: function(resul) {
-                $('div.main-content').unblock();
-
-                if (resul.status !== 200) {
-                    Swal.fire(
-                        'Failed!',
-                        resul.message,
-                        'warning'
-                    );
-                } else {
-                    $('#content-detailModalLabel').html('TAMBAH REFERENSI TAHUN BULAN');
-                    $('.contentBodyModal').html(resul.data);
-                    $('.content-detailModal').modal({
-                        backdrop: 'static',
-                        keyboard: false,
-                    });
-                    $('.content-detailModal').modal('show');
-                }
-            },
-            error: function() {
-                $('div.main-content').unblock();
-                Swal.fire(
-                    'Failed!',
-                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
-                    'warning'
-                );
-            }
-        });
-    }
-
-    function actionActived(id, tahun, bulan) {
+    function actionLock(id, tahun, bulan) {
         Swal.fire({
-            title: 'Apakah anda yakin ingin mengaktifkan Tahun Bulan ini?',
-            text: "Aktifkan Tahun Bulan : " + tahun + "/" + bulan,
+            title: 'Apakah anda yakin ingin Mengunci Tagihan Tahun Bulan ini?',
+            text: "Kunci Tagihan Tahun Bulan : " + tahun + "/" + bulan,
             showCancelButton: true,
             icon: 'question',
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Aktifkan!'
+            confirmButtonText: 'Ya, Kunci Tagihan!'
         }).then((result) => {
             if (result.value) {
                 $.ajax({
-                    url: "./aktifkan",
+                    url: "./lock",
                     type: 'POST',
                     data: {
                         id: id,
