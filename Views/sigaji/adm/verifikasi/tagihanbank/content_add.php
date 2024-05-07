@@ -138,8 +138,23 @@
             }
             if (rowhijau.classList.contains('gagalVerifikasi')) {
                 checkboxhijau.checked = true; // Set the checkbox to checked
+
+                const newCell = checkboxhijau.insertCell();
+
+                // Create the input element for the new field
+                const newInput = document.createElement('textarea');
+                newInput.className = 'form-control';
+                newInput.rows = '3';
+                newInput.placeholder = 'Keterangan penolakan...';
+                newInput.value = ''; // Set your desired value here
+                newInput.name = 'keterangan[]'; // Set the name attribute for the new field
+
+                // Append the input element to the new cell
+                newCell.appendChild(newInput);
             }
         }
+
+
     }
     // Function untuk mengubah data pegawai saat dipilih
     function changePegawai(event) {
