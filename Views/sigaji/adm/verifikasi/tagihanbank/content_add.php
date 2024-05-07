@@ -26,7 +26,7 @@
             <?php if (count($datas) > 0) { ?>
                 <?php foreach ($datas as $key => $value) { ?>
                     <?php if (($value->jumlah_transfer - ($value->jumlah_tagihan + $value->jumlah_potongan)) > 0) { ?>
-                        <tr>
+                        <tr class="lolosVerifikasi">
                             <td>
                                 <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="<?= $value->id ?>">
                             </td>
@@ -58,7 +58,7 @@
                             </td>
                         </tr>
                     <?php } else { ?>
-                        <tr>
+                        <tr class="gagalVerifikasi">
                             <td>
                                 <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="<?= $value->id ?>">
                             </td>
@@ -101,17 +101,17 @@
 <?= form_close(); ?>
 <script>
     function checkedAllHijau() {
-        console.log("working");
+        // console.log("working");
         let checkboxeshijau = document.querySelectorAll('.centangIdTag');
 
         // Loop through each checkbox
         for (let i = 0; i < checkboxeshijau.length; i++) {
             const checkboxhijau = checkboxeshijau[i];
             const rowhijau = checkboxhijau.parentElement.parentElement; // Get the parent row (TR)
-            console.log(rowhijau);
+            // console.log(rowhijau);
 
             // Check if the row has the class "table-success"
-            if (rowhijau.classList.contains('table-success')) {
+            if (rowhijau.classList.contains('lolosVerifikasi')) {
                 checkboxhijau.checked = true; // Set the checkbox to checked
             }
         }
