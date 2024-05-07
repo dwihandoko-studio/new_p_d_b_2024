@@ -2,182 +2,184 @@
 
 <input type="hidden" value="<?= $tw_active ?>" id="id" name="id" readonly>
 <input type="hidden" value="<?= $id_bank ?>" id="bank" name="bank" readonly>
-<button type="buntton" id="btncheckhijau" class="btn btn-sm btn-primary waves-effect waves-light bntcheckhijau"><i class="fas fa-check-double font-size-16 align-middle me-2"></i> PILIH WARNA HIJAU> &nbsp;&nbsp;
+<div class="tomboh-simpan-data" style="display: block;">
+    <button type="buntton" id="btncheckhijau" class="btn btn-sm btn-primary waves-effect waves-light bntcheckhijau"><i class="fas fa-check-double font-size-16 align-middle me-2"></i> PILIH WARNA HIJAU</button>&nbsp;&nbsp;
     <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnverifikasi"><i class="bx bx-save font-size-16 align-middle me-2"></i> SETUJUI VEFIKASI</button> &nbsp;&nbsp;
-    <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
-        <thead>
-            <tr>
-                <th data-orderable="false"><input class="form-check-input" type="checkbox" id="centangsemua"></th>
-                <th data-orderable="false" width="19%">Nama</th>
-                <th data-orderable="false" width="14.5%">NIP</th>
-                <th data-orderable="false">Instansi</th>
-                <th data-orderable="false">Kecamatan</th>
-                <th data-orderable="false" width="11%">Besar Pinjaman</th>
-                <th data-orderable="false" width="10%">Jumlah Tagihan</th>
-                <th data-orderable="false" width="7.5%">Jml Bulan<br>Angs</th>
-                <th data-orderable="false" width="7%">Angs Ke</th>
-                <th data-orderable="false"> </th>
-            </tr>
-        </thead>
-        <tbody class="formtambah">
-            <?php if (isset($datas)) { ?>
-                <?php if (count($datas) > 0) { ?>
-                    <?php foreach ($datas as $key => $value) { ?>
-                        <?php if (($value->jumlah_transfer - ($value->jumlah_tagihan + $value->jumlah_potongan)) > 0) { ?>
-                            <tr>
-                                <td>
-                                    <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="<?= $value->id ?>">
-                                </td>
-                                <td>
-                                    <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" aria-readonly="">
-                                        <option value="<?= $value->id_pegawai; ?>" selected><?= $value->nama; ?></option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <input class="form-control" type="text" value="<?= $value->nip; ?>" id="nip_<?= $key + 1; ?>" name="nip[]" readonly>
-                                </td>
-                                <td>
-                                    <input class="form-control" type="text" value="<?= $value->nama_instansi; ?>" id="instansi_<?= $key + 1; ?>" name="instansi[]" readonly>
-                                </td>
-                                <td>
-                                    <input class="form-control" type="text" value="<?= $value->nama_kecamatan; ?>" id="kecamatan_<?= $key + 1; ?>" name="kecamatan[]" readonly>
-                                </td>
-                                <td>
-                                    <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->besar_pinjaman); ?>" id="jumlah_pinjaman_<?= $key + 1; ?>" name="jumlah_pinjaman[]" readonly>
-                                </td>
-                                <td class="table-success">
-                                    <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->jumlah_tagihan); ?>" id="jumlah_tagihan_<?= $key + 1; ?>" name="jumlah_tagihan[]" readonly>
-                                </td>
-                                <td>
-                                    <input class="form-control" type="number" value="<?= $value->jumlah_bulan_angsuran; ?>" id="jumlah_bulan_angsuran_<?= $key + 1; ?>" name="jumlah_bulan_angsuran[]" readonly>
-                                </td>
-                                <td>
-                                    <input class="form-control" type="number" value="<?= $value->angsuran_ke; ?>" id="angsuran_ke_<?= $key + 1; ?>" name="angsuran_ke[]" readonly>
-                                </td>
-                            </tr>
-                        <?php } else { ?>
-                            <tr>
-                                <td>
-                                    <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="<?= $value->id ?>">
-                                </td>
-                                <td>
-                                    <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" aria-readonly="">
-                                        <option value="<?= $value->id_pegawai; ?>" selected><?= $value->nama; ?></option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <input class="form-control" type="text" value="<?= $value->nip; ?>" id="nip_<?= $key + 1; ?>" name="nip[]" readonly>
-                                </td>
-                                <td>
-                                    <input class="form-control" type="text" value="<?= $value->nama_instansi; ?>" id="instansi_<?= $key + 1; ?>" name="instansi[]" readonly>
-                                </td>
-                                <td>
-                                    <input class="form-control" type="text" value="<?= $value->nama_kecamatan; ?>" id="kecamatan_<?= $key + 1; ?>" name="kecamatan[]" readonly>
-                                </td>
-                                <td>
-                                    <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->besar_pinjaman); ?>" id="jumlah_pinjaman_<?= $key + 1; ?>" name="jumlah_pinjaman[]" readonly>
-                                </td>
-                                <td class="table-danger">
-                                    <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->jumlah_tagihan); ?>" id="jumlah_tagihan_<?= $key + 1; ?>" name="jumlah_tagihan[]" readonly>
-                                </td>
-                                <td>
-                                    <input class="form-control" type="number" value="<?= $value->jumlah_bulan_angsuran; ?>" id="jumlah_bulan_angsuran_<?= $key + 1; ?>" name="jumlah_bulan_angsuran[]" readonly>
-                                </td>
-                                <td>
-                                    <input class="form-control" type="number" value="<?= $value->angsuran_ke; ?>" id="angsuran_ke_<?= $key + 1; ?>" name="angsuran_ke[]" readonly>
-                                </td>
-                            </tr>
-                        <?php } ?>
+</div>
+<table id="data-datatables" class="table table-bordered w-100 tb-datatables">
+    <thead>
+        <tr>
+            <th data-orderable="false"><input class="form-check-input" type="checkbox" id="centangsemua"></th>
+            <th data-orderable="false" width="19%">Nama</th>
+            <th data-orderable="false" width="14.5%">NIP</th>
+            <th data-orderable="false">Instansi</th>
+            <th data-orderable="false">Kecamatan</th>
+            <th data-orderable="false" width="11%">Besar Pinjaman</th>
+            <th data-orderable="false" width="10%">Jumlah Tagihan</th>
+            <th data-orderable="false" width="7.5%">Jml Bulan<br>Angs</th>
+            <th data-orderable="false" width="7%">Angs Ke</th>
+            <th data-orderable="false"> </th>
+        </tr>
+    </thead>
+    <tbody class="formtambah">
+        <?php if (isset($datas)) { ?>
+            <?php if (count($datas) > 0) { ?>
+                <?php foreach ($datas as $key => $value) { ?>
+                    <?php if (($value->jumlah_transfer - ($value->jumlah_tagihan + $value->jumlah_potongan)) > 0) { ?>
+                        <tr>
+                            <td>
+                                <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="<?= $value->id ?>">
+                            </td>
+                            <td>
+                                <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" aria-readonly="">
+                                    <option value="<?= $value->id_pegawai; ?>" selected><?= $value->nama; ?></option>
+                                </select>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" value="<?= $value->nip; ?>" id="nip_<?= $key + 1; ?>" name="nip[]" readonly>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" value="<?= $value->nama_instansi; ?>" id="instansi_<?= $key + 1; ?>" name="instansi[]" readonly>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" value="<?= $value->nama_kecamatan; ?>" id="kecamatan_<?= $key + 1; ?>" name="kecamatan[]" readonly>
+                            </td>
+                            <td>
+                                <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->besar_pinjaman); ?>" id="jumlah_pinjaman_<?= $key + 1; ?>" name="jumlah_pinjaman[]" readonly>
+                            </td>
+                            <td class="table-success">
+                                <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->jumlah_tagihan); ?>" id="jumlah_tagihan_<?= $key + 1; ?>" name="jumlah_tagihan[]" readonly>
+                            </td>
+                            <td>
+                                <input class="form-control" type="number" value="<?= $value->jumlah_bulan_angsuran; ?>" id="jumlah_bulan_angsuran_<?= $key + 1; ?>" name="jumlah_bulan_angsuran[]" readonly>
+                            </td>
+                            <td>
+                                <input class="form-control" type="number" value="<?= $value->angsuran_ke; ?>" id="angsuran_ke_<?= $key + 1; ?>" name="angsuran_ke[]" readonly>
+                            </td>
+                        </tr>
+                    <?php } else { ?>
+                        <tr>
+                            <td>
+                                <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="<?= $value->id ?>">
+                            </td>
+                            <td>
+                                <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" aria-readonly="">
+                                    <option value="<?= $value->id_pegawai; ?>" selected><?= $value->nama; ?></option>
+                                </select>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" value="<?= $value->nip; ?>" id="nip_<?= $key + 1; ?>" name="nip[]" readonly>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" value="<?= $value->nama_instansi; ?>" id="instansi_<?= $key + 1; ?>" name="instansi[]" readonly>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" value="<?= $value->nama_kecamatan; ?>" id="kecamatan_<?= $key + 1; ?>" name="kecamatan[]" readonly>
+                            </td>
+                            <td>
+                                <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->besar_pinjaman); ?>" id="jumlah_pinjaman_<?= $key + 1; ?>" name="jumlah_pinjaman[]" readonly>
+                            </td>
+                            <td class="table-danger">
+                                <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->jumlah_tagihan); ?>" id="jumlah_tagihan_<?= $key + 1; ?>" name="jumlah_tagihan[]" readonly>
+                            </td>
+                            <td>
+                                <input class="form-control" type="number" value="<?= $value->jumlah_bulan_angsuran; ?>" id="jumlah_bulan_angsuran_<?= $key + 1; ?>" name="jumlah_bulan_angsuran[]" readonly>
+                            </td>
+                            <td>
+                                <input class="form-control" type="number" value="<?= $value->angsuran_ke; ?>" id="angsuran_ke_<?= $key + 1; ?>" name="angsuran_ke[]" readonly>
+                            </td>
+                        </tr>
                     <?php } ?>
-                <?php } else { ?>
-
                 <?php } ?>
             <?php } else { ?>
+
             <?php } ?>
-        </tbody>
-    </table>
-    <?= form_close(); ?>
-    <script>
-        // Function untuk mengubah data pegawai saat dipilih
-        function changePegawai(event) {
-            const getId = $(event).data('id');
-            const selectedOption = $('#_filter_pegawai_' + getId).find(':selected');
+        <?php } else { ?>
+        <?php } ?>
+    </tbody>
+</table>
+<?= form_close(); ?>
+<script>
+    // Function untuk mengubah data pegawai saat dipilih
+    function changePegawai(event) {
+        const getId = $(event).data('id');
+        const selectedOption = $('#_filter_pegawai_' + getId).find(':selected');
 
-            $('#formCheck_' + getId).val(selectedOption.data('custom-idpegawai'));
-            $('#nip_' + getId).val(selectedOption.data('custom-nip'));
-            $('#instansi_' + getId).val(selectedOption.data('custom-instansi'));
-            $('#kecamatan_' + getId).val(selectedOption.data('custom-kecamatan'));
+        $('#formCheck_' + getId).val(selectedOption.data('custom-idpegawai'));
+        $('#nip_' + getId).val(selectedOption.data('custom-nip'));
+        $('#instansi_' + getId).val(selectedOption.data('custom-instansi'));
+        $('#kecamatan_' + getId).val(selectedOption.data('custom-kecamatan'));
+    }
+
+    // Function untuk memformat angka menjadi Rupiah
+    function formatRupiah(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/g);
+
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
         }
 
-        // Function untuk memformat angka menjadi Rupiah
-        function formatRupiah(angka, prefix) {
-            var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                split = number_string.split(','),
-                sisa = split[0].length % 3,
-                rupiah = split[0].substr(0, sisa),
-                ribuan = split[0].substr(sisa).match(/\d{3}/g);
-
-            if (ribuan) {
-                separator = sisa ? '.' : '';
-                rupiah += separator + ribuan.join('.');
-            }
-
-            // rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-            // return 'Rp. ' + rupiah;
-            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-            return prefix == undefined ? rupiah : (rupiah ? prefix + rupiah : '');
-        }
-        let rowBody = 1;
+        // rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        // return 'Rp. ' + rupiah;
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? prefix + rupiah : '');
+    }
+    let rowBody = 1;
 
 
-        $(document).ready(function() {
-            <?php if (isset($datas)) { ?>
-                <?php if (count($datas) > 0) { ?>
-                    rowBody = <?= count($datas) ?>;
-                <?php } else { ?>
-                    rowBody = 1;
-                <?php } ?>
+    $(document).ready(function() {
+        <?php if (isset($datas)) { ?>
+            <?php if (count($datas) > 0) { ?>
+                rowBody = <?= count($datas) ?>;
             <?php } else { ?>
                 rowBody = 1;
             <?php } ?>
-            $('#_filter_pegawai_' + rowBody).select2({
-                dropdownParent: ".data-contens",
-                allowClear: true,
-                ajax: {
-                    url: "./getPegawai",
-                    type: 'POST',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            keyword: params.term,
-                        };
-                    },
-                    processResults: function(data, params) {
-                        if (data.status === 200) {
-                            return {
-                                results: data.data
-                            };
-                        } else {
-                            return {
-                                results: []
-                            };
-                        }
-                    },
-                    cache: true
+        <?php } else { ?>
+            rowBody = 1;
+        <?php } ?>
+        $('#_filter_pegawai_' + rowBody).select2({
+            dropdownParent: ".data-contens",
+            allowClear: true,
+            ajax: {
+                url: "./getPegawai",
+                type: 'POST',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        keyword: params.term,
+                    };
                 },
-                placeholder: 'Cari Pegawai',
-                minimumInputLength: 3,
-                templateResult: formatRepo,
-                templateSelection: formatRepoSelection
-            });
-            // Tambahkan event handler untuk tombol tambah baris
-            $('.btnaddform').click(function(e) {
-                e.preventDefault();
-                rowBody++;
+                processResults: function(data, params) {
+                    if (data.status === 200) {
+                        return {
+                            results: data.data
+                        };
+                    } else {
+                        return {
+                            results: []
+                        };
+                    }
+                },
+                cache: true
+            },
+            placeholder: 'Cari Pegawai',
+            minimumInputLength: 3,
+            templateResult: formatRepo,
+            templateSelection: formatRepoSelection
+        });
+        // Tambahkan event handler untuk tombol tambah baris
+        $('.btnaddform').click(function(e) {
+            e.preventDefault();
+            rowBody++;
 
-                // Tambahkan baris baru ke dalam tabel
-                let newRow = `
+            // Tambahkan baris baru ke dalam tabel
+            let newRow = `
                     <tr>
                         <td>
                             <input class="form-check-input" type="checkbox" id="formCheck_${rowBody}" name="check[]" value="">
@@ -213,196 +215,196 @@
                         </td>
                     </tr>`;
 
-                // Tambahkan baris baru ke tabel
-                $('.formtambah').append(newRow);
+            // Tambahkan baris baru ke tabel
+            $('.formtambah').append(newRow);
 
-                // Inisialisasi Select2 pada elemen terbaru
-                $('#_filter_pegawai_' + rowBody).select2({
-                    dropdownParent: ".data-contens",
-                    allowClear: true,
-                    ajax: {
-                        url: "./getPegawai",
-                        type: 'POST',
-                        dataType: 'json',
-                        delay: 250,
-                        data: function(params) {
-                            return {
-                                keyword: params.term,
-                            };
-                        },
-                        processResults: function(data, params) {
-                            if (data.status === 200) {
-                                return {
-                                    results: data.data
-                                };
-                            } else {
-                                return {
-                                    results: []
-                                };
-                            }
-                        },
-                        cache: true
+            // Inisialisasi Select2 pada elemen terbaru
+            $('#_filter_pegawai_' + rowBody).select2({
+                dropdownParent: ".data-contens",
+                allowClear: true,
+                ajax: {
+                    url: "./getPegawai",
+                    type: 'POST',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            keyword: params.term,
+                        };
                     },
-                    placeholder: 'Cari Pegawai',
-                    minimumInputLength: 3,
-                    templateResult: formatRepo,
-                    templateSelection: formatRepoSelection
-                });
+                    processResults: function(data, params) {
+                        if (data.status === 200) {
+                            return {
+                                results: data.data
+                            };
+                        } else {
+                            return {
+                                results: []
+                            };
+                        }
+                    },
+                    cache: true
+                },
+                placeholder: 'Cari Pegawai',
+                minimumInputLength: 3,
+                templateResult: formatRepo,
+                templateSelection: formatRepoSelection
             });
+        });
 
-            // Event delegation untuk memformat input jumlah pinjaman
-            $('.formtambah').on('keyup', '.jumlah-pinjaman', function() {
-                $(this).val(formatRupiah($(this).val()));
-            });
+        // Event delegation untuk memformat input jumlah pinjaman
+        $('.formtambah').on('keyup', '.jumlah-pinjaman', function() {
+            $(this).val(formatRupiah($(this).val()));
+        });
 
-            $('.formsimpanbanyak').submit(function(e) {
-                e.preventDefault();
+        $('.formsimpanbanyak').submit(function(e) {
+            e.preventDefault();
 
-                let jmlData = $('.centangIdTag:checked');
+            let jmlData = $('.centangIdTag:checked');
 
-                if (jmlData.length === 0) {
-                    Swal.fire(
-                        'Perhatian!',
-                        "Maaf, silahkan pilih data yang akan di verifikasi.",
-                        'error'
-                    );
-                } else {
-                    Swal.fire({
-                        title: 'Apakah anda yakin ingin menyetujui verifikasi proses tagihan data ini?',
-                        text: `Setujui Proses tagihan : <?= $tw->tahun ?> - <?= $tw->bulan ?> untuk Bank <?= getNamaBank($id_bank) ?> Sejumlah ${jmlData.length} data`,
-                        showCancelButton: true,
-                        icon: 'question',
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Ya, Stujui Proses Tagihan!'
-                    }).then((result) => {
-                        if (result.value) {
-                            const formData = $(this).serializeArray();
-                            let processedData = {};
-                            for (let i = 0; i < formData.length; i++) {
-                                const field = formData[i].name;
-                                const value = formData[i].value;
+            if (jmlData.length === 0) {
+                Swal.fire(
+                    'Perhatian!',
+                    "Maaf, silahkan pilih data yang akan di verifikasi.",
+                    'error'
+                );
+            } else {
+                Swal.fire({
+                    title: 'Apakah anda yakin ingin menyetujui verifikasi proses tagihan data ini?',
+                    text: `Setujui Proses tagihan : <?= $tw->tahun ?> - <?= $tw->bulan ?> untuk Bank <?= getNamaBank($id_bank) ?> Sejumlah ${jmlData.length} data`,
+                    showCancelButton: true,
+                    icon: 'question',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Stujui Proses Tagihan!'
+                }).then((result) => {
+                    if (result.value) {
+                        const formData = $(this).serializeArray();
+                        let processedData = {};
+                        for (let i = 0; i < formData.length; i++) {
+                            const field = formData[i].name;
+                            const value = formData[i].value;
 
-                                if (field.endsWith('[]')) { // Check if field name ends with [] for multiple values
-                                    processedData[field.slice(0, -2)] = processedData[field.slice(0, -2)] || []; // Initialize array if needed
-                                    processedData[field.slice(0, -2)].push(value);
-                                } else {
-                                    processedData[field] = value;
-                                }
+                            if (field.endsWith('[]')) { // Check if field name ends with [] for multiple values
+                                processedData[field.slice(0, -2)] = processedData[field.slice(0, -2)] || []; // Initialize array if needed
+                                processedData[field.slice(0, -2)].push(value);
+                            } else {
+                                processedData[field] = value;
                             }
+                        }
 
-                            const jsonData = JSON.stringify(processedData);
-                            // const jsonData = JSON.stringify(formData);
-                            $.ajax({
-                                url: './verifikasitagihan',
-                                // url: $(this).attr('action'),
-                                type: 'POST',
-                                data: {
-                                    data: jsonData,
-                                    format: "json"
-                                },
-                                dataType: "json",
-                                beforeSend: function() {
-                                    $('.btnverifikasi').attr('disable', 'disabled');
-                                    $('.btnverifikasi').html('<i class="mdi mdi-reload mdi-spin"></i>');
-                                },
-                                complete: function() {
-                                    $('.btnverifikasi').removeAttr('disable')
-                                    $('.btnverifikasi').html('<i class="bx bx-save font-size-16 align-middle me-2"></i> SETUJUI VERIFIKASI');
-                                },
-                                success: function(response) {
-                                    if (response.status == 200) {
-                                        Swal.fire(
-                                            'SELAMAT!',
-                                            response.message + " " + response.data,
-                                            'success'
-                                        ).then((valRes) => {
-                                            reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tw_active) ?>");
-                                        })
-                                    } else {
-                                        Swal.fire(
-                                            'Gagal!',
-                                            response.message,
-                                            'warning'
-                                        );
-                                    }
-                                },
-                                error: function(xhr, ajaxOptions, thrownError) {
+                        const jsonData = JSON.stringify(processedData);
+                        // const jsonData = JSON.stringify(formData);
+                        $.ajax({
+                            url: './verifikasitagihan',
+                            // url: $(this).attr('action'),
+                            type: 'POST',
+                            data: {
+                                data: jsonData,
+                                format: "json"
+                            },
+                            dataType: "json",
+                            beforeSend: function() {
+                                $('.btnverifikasi').attr('disable', 'disabled');
+                                $('.btnverifikasi').html('<i class="mdi mdi-reload mdi-spin"></i>');
+                            },
+                            complete: function() {
+                                $('.btnverifikasi').removeAttr('disable')
+                                $('.btnverifikasi').html('<i class="bx bx-save font-size-16 align-middle me-2"></i> SETUJUI VERIFIKASI');
+                            },
+                            success: function(response) {
+                                if (response.status == 200) {
                                     Swal.fire(
-                                        'Failed!',
-                                        "gagal mengambil data (" + xhr.status.toString + ")",
+                                        'SELAMAT!',
+                                        response.message + " " + response.data,
+                                        'success'
+                                    ).then((valRes) => {
+                                        reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tw_active) ?>");
+                                    })
+                                } else {
+                                    Swal.fire(
+                                        'Gagal!',
+                                        response.message,
                                         'warning'
                                     );
                                 }
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                Swal.fire(
+                                    'Failed!',
+                                    "gagal mengambil data (" + xhr.status.toString + ")",
+                                    'warning'
+                                );
+                            }
 
-                            });
-                        }
-                    })
-                }
-
-
-            })
-
-            $('#centangsemua').click(function(e) {
-
-                if ($(this).is(':checked')) {
-                    $('.centangIdTag').prop('checked', true);
-                } else {
-                    $('.centangIdTag').prop('checked', false);
-                }
-            })
-
-            $('#bntcheckhijau').click(function(e) {
-                let checkboxeshijau = document.querySelectorAll('.centangIdTag');
-
-                // Loop through each checkbox
-                for (let i = 0; i < checkboxeshijau.length; i++) {
-                    const checkboxhijau = checkboxeshijau[i];
-                    const rowhijau = checkboxhijau.parentElement.parentElement; // Get the parent row (TR)
-
-                    // Check if the row has the class "table-success"
-                    if (rowhijau.classList.contains('table-success')) {
-                        checkboxhijau.checked = true; // Set the checkbox to checked
+                        });
                     }
-                }
-            })
-        });
-
-        $(document).on('click', '.btnhapusform', function(e) {
-            e.preventDefault();
-            $(this).parents('tr').remove();
-        });
-
-        function formatRepo(repo) {
-            if (repo.loading) {
-                return repo.text;
+                })
             }
 
-            var $container = $(
-                "<div class='select2-result-repository clearfix'>" +
-                "<div class='select2-result-repository__meta'>" +
-                "<div class='select2-result-repository__title'></div>" +
-                "<div class='select2-result-repository__description'></div>" +
-                "</div>" +
-                "</div>"
-            );
 
-            $container.find(".select2-result-repository__title").text(repo.nama);
-            $container.find(".select2-result-repository__description").text(repo.nip + " - " + repo.nama_instansi + " ( Kec. " + repo.nama_kecamatan + ")");
+        })
 
-            return $container;
+        $('#centangsemua').click(function(e) {
+
+            if ($(this).is(':checked')) {
+                $('.centangIdTag').prop('checked', true);
+            } else {
+                $('.centangIdTag').prop('checked', false);
+            }
+        })
+
+        $('#bntcheckhijau').click(function(e) {
+            let checkboxeshijau = document.querySelectorAll('.centangIdTag');
+
+            // Loop through each checkbox
+            for (let i = 0; i < checkboxeshijau.length; i++) {
+                const checkboxhijau = checkboxeshijau[i];
+                const rowhijau = checkboxhijau.parentElement.parentElement; // Get the parent row (TR)
+
+                // Check if the row has the class "table-success"
+                if (rowhijau.classList.contains('table-success')) {
+                    checkboxhijau.checked = true; // Set the checkbox to checked
+                }
+            }
+        })
+    });
+
+    $(document).on('click', '.btnhapusform', function(e) {
+        e.preventDefault();
+        $(this).parents('tr').remove();
+    });
+
+    function formatRepo(repo) {
+        if (repo.loading) {
+            return repo.text;
         }
 
-        function formatRepoSelection(repo) {
-            $(repo.element).attr('data-custom-idpegawai', repo.id);
-            $(repo.element).attr('data-custom-nip', repo.nip);
-            $(repo.element).attr('data-custom-instansi', repo.nama_instansi);
-            $(repo.element).attr('data-custom-kecamatan', repo.nama_kecamatan);
-            return repo.nama || repo.text;
-        }
-    </script>
+        var $container = $(
+            "<div class='select2-result-repository clearfix'>" +
+            "<div class='select2-result-repository__meta'>" +
+            "<div class='select2-result-repository__title'></div>" +
+            "<div class='select2-result-repository__description'></div>" +
+            "</div>" +
+            "</div>"
+        );
 
-    <!-- <script>
+        $container.find(".select2-result-repository__title").text(repo.nama);
+        $container.find(".select2-result-repository__description").text(repo.nip + " - " + repo.nama_instansi + " ( Kec. " + repo.nama_kecamatan + ")");
+
+        return $container;
+    }
+
+    function formatRepoSelection(repo) {
+        $(repo.element).attr('data-custom-idpegawai', repo.id);
+        $(repo.element).attr('data-custom-nip', repo.nip);
+        $(repo.element).attr('data-custom-instansi', repo.nama_instansi);
+        $(repo.element).attr('data-custom-kecamatan', repo.nama_kecamatan);
+        return repo.nama || repo.text;
+    }
+</script>
+
+<!-- <script>
     function changePegawai(event) {
         const getId = $(event).data('id');
         const getNip = $('#_filter_pegawai_' + getId).find(':selected').data('custom-nip');
