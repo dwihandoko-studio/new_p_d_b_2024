@@ -58,7 +58,7 @@ class Locktagihan extends BaseController
             $row[] = $list->tahun;
             $row[] = $list->bulan;
             $row[] = $list->bulan_name;
-            $row[] = $isLocked ? '<span class="badge badge-success">TERKUNCI</span>' : '<span class="badge badge-danger">TERBUKA</span>';
+            $row[] = $isLocked ? '<span class="badge rounded-pill bg-success">TERKUNCI</span>' : '<span class="badge rounded-pill bg-danger">TERBUKA</span>';
 
             $data[] = $row;
         }
