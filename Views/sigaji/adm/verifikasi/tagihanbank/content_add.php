@@ -149,7 +149,7 @@
             }
             Swal.fire({
                 title: 'Apakah anda yakin ingin menyetujui verifikasi proses tagihan data ini?',
-                text: `Setujui Proses tagihan : <?= $tw->tahun ?> - <?= $tw->bulan ?> untuk Bank <?= getNamaBank($id_bank) ?> Sejumlah ${checkedBoxesKirim.length} data`,
+                text: `Setujui Proses tagihan : <?= $tw->tahun ?> - <?= $tw->bulan ?> untuk Bank <?= getNamaBank($id_bank) ?> Sejumlah ${checkedBoxesKirimTolak.length} data`,
                 showCancelButton: true,
                 icon: 'question',
                 confirmButtonColor: '#3085d6',
