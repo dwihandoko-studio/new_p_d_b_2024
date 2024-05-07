@@ -276,9 +276,25 @@
         $('.formsimpanbanyak').submit(function(e) {
             e.preventDefault();
 
-            let jmlData = $('.centangIdTag:checked');
+            let checkedBoxesKirim = [];
 
-            if (jmlData.length === 0) {
+            // Select all checkboxes with class "centangIdTag" (existing code)
+            let checkboxesKirim = document.querySelectorAll('.centangIdTag');
+
+            // Loop through checkboxes
+            for (let i = 0; i < checkboxesKirim.length; i++) {
+                const checkboxkirim = checkboxesKirim[i];
+
+                // Check if the checkbox is checked
+                if (checkboxkirim.checked) {
+                    checkedBoxesKirim.push(checkboxkirim.value); // Add checkbox value to the array
+                }
+            }
+
+
+            // let jmlData = $('.centangIdTag:checked');
+
+            if (checkedBoxesKirim.length === 0) {
                 Swal.fire(
                     'Perhatian!',
                     "Maaf, silahkan pilih data yang akan di verifikasi.",
@@ -287,7 +303,7 @@
             } else {
                 Swal.fire({
                     title: 'Apakah anda yakin ingin menyetujui verifikasi proses tagihan data ini?',
-                    text: `Setujui Proses tagihan : <?= $tw->tahun ?> - <?= $tw->bulan ?> untuk Bank <?= getNamaBank($id_bank) ?> Sejumlah ${jmlData.length} data`,
+                    text: `Setujui Proses tagihan : <?= $tw->tahun ?> - <?= $tw->bulan ?> untuk Bank <?= getNamaBank($id_bank) ?> Sejumlah ${checkedBoxesKirim.length} data`,
                     showCancelButton: true,
                     icon: 'question',
                     confirmButtonColor: '#3085d6',
@@ -295,19 +311,23 @@
                     confirmButtonText: 'Ya, Stujui Proses Tagihan!'
                 }).then((result) => {
                     if (result.value) {
-                        const formData = $(this).serializeArray();
-                        let processedData = {};
-                        for (let i = 0; i < formData.length; i++) {
-                            const field = formData[i].name;
-                            const value = formData[i].value;
+                        // const formData = $(this).serializeArray();
+                        // let processedData = {};
+                        // for (let i = 0; i < formData.length; i++) {
+                        //     const field = formData[i].name;
+                        //     const value = formData[i].value;
 
-                            if (field.endsWith('[]')) { // Check if field name ends with [] for multiple values
-                                processedData[field.slice(0, -2)] = processedData[field.slice(0, -2)] || []; // Initialize array if needed
-                                processedData[field.slice(0, -2)].push(value);
-                            } else {
-                                processedData[field] = value;
-                            }
-                        }
+                        //     if (field.endsWith('[]')) { // Check if field name ends with [] for multiple values
+                        //         processedData[field.slice(0, -2)] = processedData[field.slice(0, -2)] || []; // Initialize array if needed
+                        //         processedData[field.slice(0, -2)].push(value);
+                        //     } else {
+                        //         processedData[field] = value;
+                        //     }
+                        // }
+                        let processedData = {};
+                        processedData['id_tag'] = checkedBoxesKirim;
+                        processedData['id'] = document.getElementsByName('id')[0].value;
+                        processedData['bank'] = document.getElementsByName('bank')[0].value;
 
                         const jsonData = JSON.stringify(processedData);
                         // const jsonData = JSON.stringify(formData);
