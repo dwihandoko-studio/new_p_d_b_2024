@@ -3,7 +3,7 @@
 <input type="hidden" value="<?= $tw_active ?>" id="id" name="id" readonly>
 <input type="hidden" value="<?= $id_bank ?>" id="bank" name="bank" readonly>
 <div class="tomboh-simpan-data" style="display: block;">
-    <button type="button" id="btncheckhijau" class="btn btn-sm btn-primary waves-effect waves-light bntcheckhijau"><i class="fas fa-check-double font-size-16 align-middle me-2"></i> PILIH WARNA HIJAU</button>&nbsp;&nbsp;
+    <button type="button" onclick="checkedAllHijau()" class="btn btn-sm btn-primary waves-effect waves-light bntcheckhijau"><i class="fas fa-check-double font-size-16 align-middle me-2"></i> PILIH WARNA HIJAU</button>&nbsp;&nbsp;
     <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnverifikasi"><i class="bx bx-save font-size-16 align-middle me-2"></i> SETUJUI VEFIKASI</button> &nbsp;&nbsp;
 </div>
 <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
@@ -100,6 +100,21 @@
 </table>
 <?= form_close(); ?>
 <script>
+    function checkedAllHijau() {
+        console.log("working");
+        let checkboxeshijau = document.querySelectorAll('.centangIdTag');
+
+        // Loop through each checkbox
+        for (let i = 0; i < checkboxeshijau.length; i++) {
+            const checkboxhijau = checkboxeshijau[i];
+            const rowhijau = checkboxhijau.parentElement.parentElement; // Get the parent row (TR)
+
+            // Check if the row has the class "table-success"
+            if (rowhijau.classList.contains('table-success')) {
+                checkboxhijau.checked = true; // Set the checkbox to checked
+            }
+        }
+    }
     // Function untuk mengubah data pegawai saat dipilih
     function changePegawai(event) {
         const getId = $(event).data('id');
@@ -354,21 +369,9 @@
             }
         })
 
-        $('#bntcheckhijau').click(function(e) {
-            console.log("working");
-            let checkboxeshijau = document.querySelectorAll('.centangIdTag');
+        // $('#bntcheckhijau').click(function(e) {
 
-            // Loop through each checkbox
-            for (let i = 0; i < checkboxeshijau.length; i++) {
-                const checkboxhijau = checkboxeshijau[i];
-                const rowhijau = checkboxhijau.parentElement.parentElement; // Get the parent row (TR)
-
-                // Check if the row has the class "table-success"
-                if (rowhijau.classList.contains('table-success')) {
-                    checkboxhijau.checked = true; // Set the checkbox to checked
-                }
-            }
-        })
+        // })
     });
 
     $(document).on('click', '.btnhapusform', function(e) {
