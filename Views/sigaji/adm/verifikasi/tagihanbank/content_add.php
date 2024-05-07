@@ -25,7 +25,7 @@
                 <?php foreach ($datas as $key => $value) { ?>
                     <?php if (($value->jumlah_transfer - ($value->jumlah_tagihan + $value->jumlah_potongan)) > 0) { ?>
                         <tr>
-                            <td class="table-success">
+                            <td>
                                 <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="<?= $value->id ?>">
                             </td>
                             <td>
@@ -45,7 +45,7 @@
                             <td>
                                 <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->besar_pinjaman); ?>" id="jumlah_pinjaman_<?= $key + 1; ?>" name="jumlah_pinjaman[]" readonly>
                             </td>
-                            <td>
+                            <td class="table-success">
                                 <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->jumlah_tagihan); ?>" id="jumlah_tagihan_<?= $key + 1; ?>" name="jumlah_tagihan[]" readonly>
                             </td>
                             <td>
@@ -57,7 +57,7 @@
                         </tr>
                     <?php } else { ?>
                         <tr>
-                            <td class="table-danger">
+                            <td>
                                 <input class="form-check-input centangIdTag" type="checkbox" name="id_tag[]" value="<?= $value->id ?>">
                             </td>
                             <td>
@@ -77,7 +77,7 @@
                             <td>
                                 <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->besar_pinjaman); ?>" id="jumlah_pinjaman_<?= $key + 1; ?>" name="jumlah_pinjaman[]" readonly>
                             </td>
-                            <td>
+                            <td class="table-danger">
                                 <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->jumlah_tagihan); ?>" id="jumlah_tagihan_<?= $key + 1; ?>" name="jumlah_tagihan[]" readonly>
                             </td>
                             <td>
