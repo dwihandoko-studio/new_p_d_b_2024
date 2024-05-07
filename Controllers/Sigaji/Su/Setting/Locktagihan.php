@@ -3,27 +3,30 @@
 namespace App\Controllers\Sigaji\Su\Setting;
 
 use App\Controllers\BaseController;
-use App\Models\Sigaji\Su\RefbulanModel;
+use App\Models\Sigaji\Su\LocktagihanModel;
 use Config\Services;
 use App\Libraries\Profilelib;
 use App\Libraries\Apilib;
+use App\Libraries\Sigaji\Acclib;
 
 class Locktagihan extends BaseController
 {
     var $folderImage = 'masterdata';
     private $_db;
+    private $_acc_lib;
     private $model;
 
     function __construct()
     {
         helper(['text', 'file', 'form', 'session', 'array', 'imageurl', 'web', 'filesystem']);
-        $this->_db      = \Config\Database::connect();
+        $this->_db      = \Config\Database::connect('sigaji');
+        $this->_acc_lib      = new Acclib();
     }
 
     public function getAll()
     {
         $request = Services::request();
-        $datamodel = new RefbulanModel($request);
+        $datamodel = new LocktagihanModel($request);
 
 
         $lists = $datamodel->get_datatables();
@@ -34,11 +37,12 @@ class Locktagihan extends BaseController
             $row = [];
 
             $row[] = $no;
+            $isLocked = $this->_acc_lib->getLockedSIPD($list->id);
             $action = '<div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
                         <div class="dropdown-menu" style="">
                             <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->id . '\', \'' . $list->tahun . '\', \'' . $list->bulan . '\');"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>' .
-                ((int)$list->is_current == 1 ? '' : '<!--<a class="dropdown-item" href="javascript:;"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Aktifkan Tahun Bulan</a>') . ' -->
+                            $isLocked ? '' : '<!--<a class="dropdown-item" href="javascript:;"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Aktifkan Tahun Bulan</a>') . ' -->
                         </div>
                     </div>';
             // $action = '<a href="javascript:actionDetail(\'' . $list->id . '\', \'' . str_replace("'", "", $list->nama) . '\');"><button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mr-2 mb-1">
@@ -54,7 +58,7 @@ class Locktagihan extends BaseController
             $row[] = $list->tahun;
             $row[] = $list->bulan;
             $row[] = $list->bulan_name;
-            $row[] = (int)$list->is_current == 1 ? '<span class="badge badge-success">Aktif</span>' : '<span class="badge badge-danger">Tidak Aktif</span>';
+            $row[] = $isLocked ? '<span class="badge badge-success">TERKUNCI</span>' : '<span class="badge badge-danger">TERBUKA</span>';
 
             $data[] = $row;
         }
