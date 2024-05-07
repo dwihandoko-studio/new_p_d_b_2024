@@ -6,7 +6,7 @@
     <button type="button" onclick="checkedAllHijau()" class="btn btn-sm btn-primary waves-effect waves-light bntcheckhijau"><i class="fas fa-check-double font-size-16 align-middle me-2"></i> PILIH WARNA HIJAU</button>&nbsp;&nbsp;
     <button type="button" onclick="checkedAllMerah()" class="btn btn-sm btn-warning waves-effect waves-light bntcheckmerah"><i class="fas fa-check-double font-size-16 align-middle me-2"></i> PILIH WARNA MERAH</button>&nbsp;&nbsp;
     <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnverifikasi"><i class="bx bx-save font-size-16 align-middle me-2"></i> SETUJUI VEFIKASI</button> &nbsp;&nbsp;
-    <button type="button" onclick="tolakAjuanProses()" class="btn btn-sm btn-danger waves-effect waves-light btnverifikasitolak"><i class="bx bx-save font-size-16 align-middle me-2"></i> TOLAK VEFIKASI</button> &nbsp;&nbsp;
+    <button type="button" onclick="tolakAjuanProses()" class="btn btn-sm btn-danger waves-effect waves-light btnverifikasitolak"><i class="fas fa-times-circle font-size-16 align-middle me-2"></i> TOLAK VEFIKASI</button> &nbsp;&nbsp;
 </div>
 <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
     <thead>
