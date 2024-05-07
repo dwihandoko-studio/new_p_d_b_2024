@@ -110,7 +110,7 @@
 
         // Select all checkboxes with class "centangIdTag" (existing code)
         let checkboxesKirimTolak = document.querySelectorAll('.centangIdTag');
-        let keteranganKirimTolak = document.querySelectorAll('.keteranganPenolakan');
+        // let keteranganKirimTolak = document.querySelectorAll('.keteranganPenolakan');
 
         // Loop through checkboxes
         for (let i = 0; i < checkboxesKirimTolak.length; i++) {
@@ -118,7 +118,10 @@
 
             // Check if the checkbox is checked
             if (checkboxkirimTolak.checked) {
-                const keteranganTolak = keteranganKirimTolak[i].value;
+                const rowcheckboxkirimTolak = checkboxkirimTolak.parentElement.parentElement;
+                console.log(rowcheckboxkirimTolak.getAttributeNames);
+                return;
+                // const keteranganTolak = keteranganKirimTolak[i].value;
                 checkedBoxesKirimTolak.push(checkboxkirimTolak.value); // Add checkbox value to the array
                 if (keteranganTolak === "") {
                     // keterangansKirimTolak.push("-"); // Add checkbox value to the array
