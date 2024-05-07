@@ -1193,6 +1193,19 @@ function getPegawaiByIdSigaji($idPegawai)
 	return $grandted;
 }
 
+function getNamaBank($idBank)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect('sigaji');
+
+	$grandted = $db->table('ref_bank')->select("nama_bank")->where('id', $idBank)->get()->getRowObject();
+	if (!$grandted) {
+		return " ";
+	}
+
+	return $grandted->nama_bank;
+}
+
 function cantGrantAccessSitupeng($user_id)
 {
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'

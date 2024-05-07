@@ -121,98 +121,24 @@ extends BaseController
 
         $data['user'] = $user->data;
         $tw = htmlspecialchars($this->request->getGet('d'), TRUE);
+        $id_bank = htmlspecialchars($this->request->getGet('b'), TRUE);
+        $data['id_bank'] = $id_bank;
         $data['tw_active'] = $tw;
         $data['tw'] = $this->_db->table('_ref_tahun_bulan')->where('id', $tw)->get()->getRowObject();
         // $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
-        $id_bank = $this->_helpLib->getIdBank($user->data->id);
         $data['datas'] = $this->_db->table('tb_tagihan_bank_antrian a')
             ->select("a.id, a.id_pegawai, a.instansi, a.kecamatan, a.besar_pinjaman, a.jumlah_tagihan, a.jumlah_bulan_angsuran, a.angsuran_ke, a.tahun, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan")
             ->join('_ref_tahun_bulan c', 'a.tahun = c.id')
             ->join('tb_pegawai_ b', 'a.id_pegawai = b.id')
             ->where('a.dari_bank', $id_bank)
             ->where('a.tahun', $tw)
+            ->where('a.status_ajuan', 1)
             ->countAllResults();
 
         // var_dump($data);
         // die;
 
-        return view('sigaji/bank/tagihan/antrian/index_detail', $data);
-    }
-
-    public function ambiltagihan()
-    {
-        if ($this->request->isAJAX()) {
-            $Profilelib = new Profilelib();
-            $user = $Profilelib->user();
-            if ($user->status != 200) {
-                delete_cookie('jwt');
-                session()->destroy();
-                return redirect()->to(base_url('auth'));
-            }
-
-            $id = htmlspecialchars($this->request->getVar('id'), true);
-            $d['tw_active'] = $id;
-            $d['tw'] = $this->_db->table('_ref_tahun_bulan')->where('id', $id)->get()->getRowObject();
-            $d['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
-            $id_bank = $this->_helpLib->getIdBank($user->data->id);
-            $d['datas'] = $this->_db->table('tb_tagihan_bank a')
-                ->select("a.id, a.id_pegawai, a.instansi, a.kecamatan, a.besar_pinjaman, a.jumlah_tagihan, a.jumlah_bulan_angsuran, a.angsuran_ke, a.tahun, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan")
-                ->join('_ref_tahun_bulan c', 'a.tahun = c.id')
-                ->join('tb_pegawai_ b', 'a.id_pegawai = b.id')
-                ->where('a.dari_bank', $id_bank)
-                ->where('a.tahun', $id)
-                ->orderBy('b.nama', 'ASC')
-                ->get()->getResult();
-
-            $response = new \stdClass;
-            $response->status = 200;
-            $response->message = "Permintaan diizinkan";
-            $response->data = view('sigaji/bank/tagihan/antrian/form_ambil_tagihan', $d);
-            return json_encode($response);
-        } else {
-            exit('Maaf tidak dapat diproses');
-        }
-    }
-
-    public function ambildatatagihan()
-    {
-        if ($this->request->isAJAX()) {
-            $Profilelib = new Profilelib();
-            $user = $Profilelib->user();
-            if ($user->status != 200) {
-                delete_cookie('jwt');
-                session()->destroy();
-                return redirect()->to(base_url('auth'));
-            }
-
-            $id = htmlspecialchars($this->request->getVar('id'), true);
-            $tahun = htmlspecialchars($this->request->getVar('tahun'), true);
-            $d['tw_active'] = $id;
-            $d['tw'] = $this->_db->table('_ref_tahun_bulan')->where('id', $id)->get()->getRowObject();
-            // $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
-            $id_bank = $this->_helpLib->getIdBank($user->data->id);
-            $d['bank_id'] = $id_bank;
-            $d['tahun_dipilih'] = $tahun;
-            $d['datas'] = $this->_db->table('tb_tagihan_bank a')
-                ->select("a.id, a.id_pegawai, a.instansi, a.kecamatan, a.besar_pinjaman, a.jumlah_tagihan, a.jumlah_bulan_angsuran, a.angsuran_ke, a.tahun, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan")
-                ->join('_ref_tahun_bulan c', 'a.tahun = c.id')
-                ->join('tb_pegawai_ b', 'a.id_pegawai = b.id')
-                ->where('a.dari_bank', $id_bank)
-                ->where('a.tahun', $tahun)
-                ->orderBy('b.nama', 'ASC')
-                ->get()->getResult();
-
-            // var_dump($d);
-            // die;
-
-            $response = new \stdClass;
-            $response->status = 200;
-            $response->message = "Permintaan diizinkan";
-            $response->data = view('sigaji/bank/tagihan/antrian/content_add_ambil_tagihan', $d);
-            return json_encode($response);
-        } else {
-            exit('Maaf tidak dapat diproses');
-        }
+        return view('sigaji/adm/tagihan/verifikasi/index_detail', $data);
     }
 
     public function ambildataadd()
@@ -230,6 +156,7 @@ extends BaseController
             }
 
             $id = htmlspecialchars($this->request->getVar('id'), true);
+            $id_bank = htmlspecialchars($this->request->getVar('bank'), true);
             $d['tw_active'] = $id;
             $tw = $this->_db->table('_ref_tahun_bulan')->where('id', $id)->get()->getRowObject();
 
@@ -241,13 +168,13 @@ extends BaseController
             }
             $d['tw'] = $tw;
             // $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
-            $id_bank = $this->_helpLib->getIdBank($user->data->id);
             $d['datas'] = $this->_db->table('tb_tagihan_bank_antrian a')
                 ->select("a.id, a.status_ajuan, a.id_pegawai, a.instansi, a.kecamatan, a.besar_pinjaman, a.jumlah_tagihan, a.jumlah_bulan_angsuran, a.angsuran_ke, a.tahun, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan")
                 ->join('_ref_tahun_bulan c', 'a.tahun = c.id')
                 ->join('tb_pegawai_ b', 'a.id_pegawai = b.id')
                 ->where('a.dari_bank', $id_bank)
-                ->where('a.tahun', $id)
+                ->where('a.tahun', $tw)
+                ->where('a.status_ajuan', 1)
                 ->orderBy('b.nama', 'ASC')
                 ->get()->getResult();
             $d['prosesed_ajuan'] = $this->_db->table('tb_tagihan_bank_antrian')->where(['dari_bank' => $id_bank, 'tahun' => $id, 'status_ajuan' => 1])->countAllResults();
@@ -255,7 +182,7 @@ extends BaseController
             $response = new \stdClass;
             $response->status = 200;
             $response->message = "Permintaan diizinkan";
-            $response->data = view('sigaji/bank/tagihan/antrian/content_add', $d);
+            $response->data = view('sigaji/adm/tagihan/verifikasi/content_add', $d);
             return json_encode($response);
         } else {
             exit('Maaf tidak dapat diproses');
