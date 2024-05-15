@@ -404,7 +404,7 @@
 
         $("#saveImportData").on("click", function(e) {
             e.preventDefault();
-            let data = tableDatatables.$("input, select").serialize();
+            let data = tableDatatables.$("input, select").serializeArray();
             console.log(data);
             alert(
                 "The following data would have been submitted to the server: \n\n" +
