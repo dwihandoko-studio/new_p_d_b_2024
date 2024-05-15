@@ -406,11 +406,11 @@
             e.preventDefault();
             let data = tableDatatables.$("input, select").serializeArray();
             console.log(data);
-            alert(
-                "The following data would have been submitted to the server: \n\n" +
-                data.substr(0, 120) +
-                "..."
-            );
+            // alert(
+            //     "The following data would have been submitted to the server: \n\n" +
+            //     data.substr(0, 120) +
+            //     "..."
+            // );
         });
 
     });
