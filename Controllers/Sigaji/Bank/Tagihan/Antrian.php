@@ -345,6 +345,13 @@ extends BaseController
             $id = htmlspecialchars($this->request->getVar('id'), true);
             $formData = json_decode($jsonData, true);
 
+            if ($id === NULL || $id === "") {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Id tahun tw tidak boleh kosong.";
+                return json_encode($response);
+            }
+
             if (count($formData) !== 9) {
                 if (count($formData) !== 10) {
                     if (count($formData) !== 8) {

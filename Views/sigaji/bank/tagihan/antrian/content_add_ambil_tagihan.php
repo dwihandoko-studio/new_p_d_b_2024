@@ -357,7 +357,7 @@
             }
 
             const jsonData = JSON.stringify(processedData);
-            const id = document.getElementsByName('_id')[0].value;
+            const id = document.getElementsByName('id')[0].value;
             // const jsonData = JSON.stringify(formData);
             $.ajax({
                 url: './savetagihan',
