@@ -346,10 +346,12 @@ extends BaseController
 
             if (count($formData) !== 9) {
                 if (count($formData) !== 10) {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Data yang dikirim tidak valid. Pegawai tidak ditemukan.";
-                    return json_encode($response);
+                    if (count($formData) !== 8) {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Data yang dikirim tidak valid. Pegawai tidak ditemukan.";
+                        return json_encode($response);
+                    }
                 }
             }
 
