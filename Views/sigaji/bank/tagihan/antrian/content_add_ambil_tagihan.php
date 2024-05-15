@@ -406,6 +406,7 @@
         $("#saveImportData").on("click", function(e) {
             e.preventDefault();
             let formData = tableDatatables.$("input, select").serializeArray();
+            console.log(formData);
             let processedData = {};
             for (let i = 0; i < formData.length; i++) {
                 const field = formData[i].name;
