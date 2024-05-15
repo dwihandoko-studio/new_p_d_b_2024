@@ -342,6 +342,7 @@
         $('.formsimpanbanyak').submit(function(e) {
             e.preventDefault();
             const formData = $(this).serializeArray();
+            console.log(formData);
             let processedData = {};
             for (let i = 0; i < formData.length; i++) {
                 const field = formData[i].name;
@@ -404,13 +405,65 @@
 
         $("#saveImportData").on("click", function(e) {
             e.preventDefault();
-            let data = tableDatatables.$("input, select").serializeArray();
-            console.log(data);
-            // alert(
-            //     "The following data would have been submitted to the server: \n\n" +
-            //     data.substr(0, 120) +
-            //     "..."
-            // );
+            let formData = tableDatatables.$("input, select").serializeArray();
+            let processedData = {};
+            for (let i = 0; i < formData.length; i++) {
+                const field = formData[i].name;
+                const value = formData[i].value;
+
+                if (field.endsWith('[]')) { // Check if field name ends with [] for multiple values
+                    processedData[field.slice(0, -2)] = processedData[field.slice(0, -2)] || []; // Initialize array if needed
+                    processedData[field.slice(0, -2)].push(value);
+                } else {
+                    processedData[field] = value;
+                }
+            }
+
+            const jsonData = JSON.stringify(processedData);
+            // const jsonData = JSON.stringify(formData);
+            $.ajax({
+                url: './savetagihan',
+                // url: $(this).attr('action'),
+                type: 'POST',
+                data: {
+                    data: jsonData,
+                    format: "json"
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    $('.btnsimpanbanyak').attr('disable', 'disabled');
+                    $('.btnsimpanbanyak').html('<i class="mdi mdi-reload mdi-spin"></i>');
+                },
+                complete: function() {
+                    $('.btnsimpanbanyak').removeAttr('disable')
+                    $('.btnsimpanbanyak').html('<i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        Swal.fire(
+                            'SELAMAT!',
+                            response.message + " " + response.data,
+                            'success'
+                        ).then((valRes) => {
+                            reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tw_active) ?>");
+                        })
+                    } else {
+                        Swal.fire(
+                            'Gagal!',
+                            response.message,
+                            'warning'
+                        );
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    Swal.fire(
+                        'Failed!',
+                        "gagal mengambil data (" + xhr.status.toString + ")",
+                        'warning'
+                    );
+                }
+
+            });
         });
 
     });
