@@ -3,7 +3,7 @@
 ?>
 <input type="hidden" value="<?= isset($tw) ? $tw->id : 'none' ?>" id="id" name="id" readonly>
 <div class="tomboh-simpan-data" style="display: block;">
-    <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnsimpanbanyak"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</button>
+    <button type="button" onclick="saveImport(this)" class="btn btn-sm btn-success waves-effect waves-light btnsimpanbanyak"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</button>
 </div>
 <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
     <thead>
@@ -212,6 +212,7 @@
         rowBody = 1;
     <?php } ?>
 
+
     $(document).ready(function() {
 
         let tableDatatables = $("#data-datatables").DataTable({
@@ -407,6 +408,11 @@
         e.preventDefault();
         $(this).parents('tr').remove();
     });
+
+    function saveImport(event) {
+        let data = tableDatatables.$("input, select").serialize();
+        console.log(data);
+    }
 
     function formatRepo(repo) {
         if (repo.loading) {
