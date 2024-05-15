@@ -357,6 +357,7 @@
             }
 
             const jsonData = JSON.stringify(processedData);
+            const id = document.getElementsByName('_id')[0].value;
             // const jsonData = JSON.stringify(formData);
             $.ajax({
                 url: './savetagihan',
@@ -364,6 +365,7 @@
                 type: 'POST',
                 data: {
                     data: jsonData,
+                    id: id,
                     format: "json"
                 },
                 dataType: "json",

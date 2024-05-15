@@ -342,6 +342,7 @@ extends BaseController
             }
 
             $jsonData = htmlspecialchars($this->request->getVar('data'), true);
+            $id = htmlspecialchars($this->request->getVar('id'), true);
             $formData = json_decode($jsonData, true);
 
             if (count($formData) !== 9) {
@@ -355,7 +356,7 @@ extends BaseController
                 }
             }
 
-            $id = $formData['id'];
+            // $id = $formData['id'];
             $nips = $formData['_filter_pegawai'];
             $instansis = $formData['instansi'];
             $kecamatans = $formData['kecamatan'];
