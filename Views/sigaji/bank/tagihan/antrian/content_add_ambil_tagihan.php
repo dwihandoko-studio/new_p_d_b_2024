@@ -408,6 +408,7 @@
         $("#saveImportData").on("click", function(e) {
             e.preventDefault();
             let formData = tableDatatables.$("input, select").serializeArray();
+            const id = document.getElementsByName('id')[0].value;
             // console.log(formData);
             let processedData = {};
             for (let i = 0; i < formData.length; i++) {
@@ -430,6 +431,7 @@
                 type: 'POST',
                 data: {
                     data: jsonData,
+                    id: id,
                     format: "json"
                 },
                 dataType: "json",
