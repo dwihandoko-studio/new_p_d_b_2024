@@ -12,6 +12,7 @@ use App\Libraries\Helplib;
 use App\Libraries\Uuid;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 class Antrian
 extends BaseController
@@ -1090,6 +1091,15 @@ extends BaseController
 
                     $row++;
                 }
+            }
+
+            $worksheet->getStyle('G2:G' . $row) // Adjust range as needed
+                ->getNumberFormat()
+                ->setFormatCode('"Rp"#,##0');
+
+            // Auto-size columns
+            foreach (range('A', 'I') as $columnID) {
+                $worksheet->getColumnDimension($columnID)->setAutoSize(true);
             }
 
             // Menyiapkan objek writer untuk menulis file Excel
