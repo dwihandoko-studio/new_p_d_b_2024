@@ -10,6 +10,8 @@ use App\Libraries\Profilelib;
 use App\Libraries\Sigaji\Apilib;
 use App\Libraries\Helplib;
 use App\Libraries\Uuid;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
 
 class Antrian
 extends BaseController
@@ -1027,6 +1029,83 @@ extends BaseController
             }
         } else {
             exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function download()
+    {
+        $tw = htmlspecialchars($this->request->getGet('tb'), true);
+        if ($tw == "") {
+            return view('404');
+        }
+
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return view('404');
+        }
+
+        $id_bank = $this->_helpLib->getIdBank($user->data->id);
+
+        try {
+
+            $spreadsheet = new Spreadsheet();
+
+            // $spreadsheet->getDefaultStyle()->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
+            // $spreadsheet->getDefaultStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            // Membuat objek worksheet
+            $worksheet = $spreadsheet->getActiveSheet();
+
+            // Menulis nama kolom ke dalam baris pertama worksheet
+            $worksheet->fromArray(['NO', 'NAMA', 'NIP', 'INSTANSI', 'KECAMATAN', 'BESAR PINJAMAN', 'JUMLAH TAGIHAN', 'JUMLAH BULAN ANGSURAN', 'ANGSURAN KE'], NULL, 'A3');
+
+            // Mengambil data dari database
+            $dataTw = $this->_db->table('_ref_tahun_bulan')->where('id', $tw)->get()->getRowObject();
+            $query = $this->_db->table('tb_tagihan_bank_antrian a')
+                ->select("a.id, a.edited, a.id_perubahan, a.status_ajuan, a.id_pegawai, a.instansi, a.kecamatan, a.besar_pinjaman, a.jumlah_tagihan, a.jumlah_bulan_angsuran, a.angsuran_ke, a.tahun, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan")
+                ->join('_ref_tahun_bulan c', 'a.tahun = c.id')
+                ->join('tb_pegawai_ b', 'a.id_pegawai = b.id')
+                ->where('a.dari_bank', $id_bank)
+                ->where('a.tahun', $tw)
+                ->where('status_ajuan', 1)
+                ->orderBy('b.nama', 'ASC')
+                ->get();
+
+            // Menulis data ke dalam worksheet
+            $data = $query->getResult();
+            $row = 4;
+            if (count($data) > 0) {
+                foreach ($data as $key => $item) {
+                    $worksheet->getCell('A' . $row)->setValue($key + 1);
+                    $worksheet->getCell('B' . $row)->setValue($item->nama);
+                    $worksheet->setCellValueExplicit("C" . $row, (string)$item->nip, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                    $worksheet->getCell('D' . $row)->setValue($item->nama_instansi);
+                    $worksheet->getCell('E' . $row)->setValue($item->nama_kecamatan);
+                    $worksheet->setCellValueExplicit("F" . $row, $item->besar_pinjaman, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+                    $worksheet->setCellValueExplicit("G" . $row, $item->jumlah_tagihan, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+                    $worksheet->setCellValueExplicit("H" . $row, $item->jumlah_bulan_angsuran, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+                    $worksheet->setCellValueExplicit("I" . $row, $item->angsuran_ke, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+
+                    $row++;
+                }
+            }
+
+            // Menyiapkan objek writer untuk menulis file Excel
+            $writer = new Xls($spreadsheet);
+
+            // Menuliskan file Excel
+            $filename = 'data_usulan_tagihan_' . $dataTw->tahun . '_tw_' . $dataTw->bulan_name . '.xls';
+            header('Content-Type: application/vnd-ms-excel');
+            // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+            exit();
+            //code...
+        } catch (\Throwable $th) {
+            var_dump($th);
         }
     }
 }

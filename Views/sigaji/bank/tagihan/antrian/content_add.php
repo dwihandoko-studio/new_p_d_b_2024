@@ -5,7 +5,7 @@
     <div class="tombol-simpan-data" style="display: block;">
         <?php if (isset($prosesed_ajuan)) { ?>
             <?php if ($prosesed_ajuan > 0) { ?>
-
+                <a class="btn btn-sm btn-warning waves-effect waves-light" href="./download?tb=<?= $tw_active ?>"><i class="fas fa-download font-size-16 align-middle me-2"></i> DOWNLOAD DATA USULAN TAGIHAN</a>
             <?php } else { ?>
                 <!-- <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnsimpanbanyak"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</button> &nbsp;&nbsp; -->
                 <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnaddtagihan"><i class="fas fa-plus-circle font-size-16 align-middle me-2"></i> TAMBAH</button> &nbsp;&nbsp;
