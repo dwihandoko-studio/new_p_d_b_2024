@@ -21,6 +21,7 @@
     <div class="tomboh-simpan-data" style="display: block;">
         <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnaddtagihan"><i class="fas fa-plus-circle font-size-16 align-middle me-2"></i> TAMBAH</button> &nbsp;&nbsp;
         <a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionAmbilTagihan(this);"><i class="fas fa-assistive-listening-systems font-size-16 align-middle me-2"></i> Ambil Data Dari Bulan Sebelumnya</a>&nbsp;&nbsp;
+        <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnuploadtagihan"><i class="fas fa-upload font-size-16 align-middle me-2"></i> UPLOAD</button> &nbsp;&nbsp;
     </div>
 <?php } ?>
 <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
@@ -564,6 +565,52 @@
             success: function(response) {
                 if (response.status == 200) {
                     $('#content-detailModalLabel').html('TAMBAH TAGIHAN BARU');
+                    $('.contentBodyModal').html(response.data);
+                    $('.content-detailModal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                    });
+                    $('.content-detailModal').modal('show');
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        "gagal mengambil data",
+                        'warning'
+                    );
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                Swal.fire(
+                    'Failed!',
+                    "gagal mengambil data (" + xhr.status.toString + ")",
+                    'warning'
+                );
+            }
+
+        });
+    });
+
+    $(document).on('click', '.btnuploadtagihan', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: "./upload",
+            type: 'POST',
+            data: {
+                id: '<?= $tw_active ?>',
+            },
+            dataType: "json",
+            beforeSend: function() {
+                $('div.main-content').block({
+                    message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                });
+            },
+            complete: function() {
+                $('div.main-content').unblock();
+            },
+            success: function(response) {
+                if (response.status == 200) {
+                    $('#content-detailModalLabel').html('UPLOAD TAGIHAN BARU');
                     $('.contentBodyModal').html(response.data);
                     $('.content-detailModal').modal({
                         backdrop: 'static',

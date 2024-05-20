@@ -1120,4 +1120,179 @@ extends BaseController
             var_dump($th);
         }
     }
+
+
+    public function upload()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+                $d['tahun'] = $id;
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('sigaji/bank/tagihan/antrian/upload', $d);
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    // public function uploadSave()
+    // {
+    //     if ($this->request->isAJAX()) {
+
+    //         $rules = [
+    //             'tahun' => [
+    //                 'rules' => 'required',
+    //                 'errors' => [
+    //                     'required' => 'Tw tidak boleh kosong. ',
+    //                 ]
+    //             ],
+    //             '_file' => [
+    //                 'rules' => 'uploaded[_file]|max_size[_file,10240]|mime_in[_file,application/vnd.ms-excel,application/msexcel,application/x-msexcel,application/x-ms-excel,application/x-excel,application/x-dos_ms_excel,application/xls,application/x-xls,application/excel,application/download,application/vnd.ms-office,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,application/x-zip]',
+    //                 'errors' => [
+    //                     'uploaded' => 'Pilih file terlebih dahulu. ',
+    //                     'max_size' => 'Ukuran file terlalu besar, Maximum 5Mb. ',
+    //                     'mime_in' => 'Ekstensi yang anda upload harus berekstensi xls atau xlsx. '
+    //                 ]
+    //             ],
+    //         ];
+
+    //         if (!$this->validate($rules)) {
+    //             $response = new \stdClass;
+    //             $response->status = 400;
+    //             $response->message = $this->validator->getError('tahun');
+    //             // . $this->validator->getError('_file');
+    //             return json_encode($response);
+    //         } else {
+    //             $Profilelib = new Profilelib();
+    //             $user = $Profilelib->user();
+    //             if ($user->status != 200) {
+    //                 delete_cookie('jwt');
+    //                 session()->destroy();
+    //                 $response = new \stdClass;
+    //                 $response->status = 401;
+    //                 $response->message = "Session expired";
+    //                 return json_encode($response);
+    //             }
+
+    //             $tahun = htmlspecialchars($this->request->getVar('tahun'), true);
+    //             $id_bank = $this->_helpLib->getIdBank($user->data->id);
+
+    //             $lampiran = $this->request->getFile('_file');
+    //             // $mimeType = $lampiran->getMimeType();
+
+    //             // var_dump($mimeType);
+    //             // die;
+    //             // $extension = $lampiran->getClientExtension();
+    //             // $filesNamelampiran = $lampiran->getName();
+    //             // $newNamelampiran = _create_name_file_import($filesNamelampiran);
+    //             $fileLocation = $lampiran->getTempName();
+
+    //             $apiLib = new Apilib();
+    //             switch ($id_bank) {
+    //                 case 1:
+    //                     $result = $apiLib->uploadTagihanBankEkaBandar($tahun, $fileLocation);
+    //                     $namaBank = "Bank Eka Bandar Jaya";
+    //                     break;
+    //                 case 2:
+    //                     $result = $apiLib->uploadTagihanBankEkaMetro($tahun, $fileLocation);
+    //                     $namaBank = "Bank Eka Metro";
+    //                     break;
+    //                 case 3:
+    //                     $result = $apiLib->uploadTagihanBankBpdBandar($tahun, $fileLocation);
+    //                     $namaBank = "BPD Bandar Jaya";
+    //                     break;
+    //                 case 4:
+    //                     $result = $apiLib->uploadTagihanBankBpdKoga($tahun, $fileLocation);
+    //                     $namaBank = "BPD KOTA GAJAH";
+    //                     break;
+    //                 case 5:
+    //                     $result = $apiLib->uploadTagihanBankBpdKalirejo($tahun, $fileLocation);
+    //                     $namaBank = "BPD KALIREJO";
+    //                     break;
+    //                 case 6:
+    //                     $result = $apiLib->uploadTagihanKpn($tahun, $fileLocation);
+    //                     $namaBank = "KPN";
+    //                     break;
+    //                 case 7:
+    //                     $result = $apiLib->uploadTagihanBankBri($tahun, $fileLocation);
+    //                     $namaBank = "BANK BRI";
+    //                     break;
+    //                 case 10:
+    //                     $result = $apiLib->uploadTagihanBankBpdMetro($tahun, $fileLocation);
+    //                     $namaBank = "BPD METRO";
+    //                     break;
+    //                 case 9:
+    //                     $result = $apiLib->uploadTagihanBankBni($tahun, $fileLocation);
+    //                     $namaBank = "BANK BNI";
+    //                     break;
+    //                 case 0:
+    //                     $result = $apiLib->uploadTagihanWajibKpn($tahun, $fileLocation);
+    //                     $namaBank = "WAJIB KPN";
+    //                     break;
+
+    //                 default:
+    //                     $response = new \stdClass;
+    //                     $response->status = 400;
+    //                     $response->message = "Gagal Import Data Tagihan bank.";
+    //                     return json_encode($response);
+    //                     break;
+    //             }
+    //             // $result = $apiLib->uploadPegawaiGajiSipd($tahun_bulan, $filename);
+
+    //             if ($result) {
+    //                 // var_dump($result);
+    //                 // die;
+    //                 if ($result->status == 200) {
+    //                     $response = new \stdClass;
+    //                     $response->status = 200;
+    //                     $response->resss = $result;
+    //                     $response->message = "Import Data Tagihan $namaBank Berhasil Dilakukan.";
+    //                     return json_encode($response);
+    //                 } else {
+    //                     $response = new \stdClass;
+    //                     $response->status = 400;
+    //                     $response->error = $result;
+    //                     $response->message = "Gagal Import Data Tagihan $namaBank.";
+    //                     return json_encode($response);
+    //                 }
+    //             } else {
+    //                 $response = new \stdClass;
+    //                 $response->status = 400;
+    //                 $response->message = "Gagal Import Data Tagihan $namaBank";
+    //                 return json_encode($response);
+    //             }
+    //         }
+    //     } else {
+    //         exit('Maaf tidak dapat diproses');
+    //     }
+    // }
 }
