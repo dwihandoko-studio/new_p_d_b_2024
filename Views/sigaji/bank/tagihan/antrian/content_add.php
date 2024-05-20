@@ -38,7 +38,7 @@
             <?php if (count($datas) > 0) { ?>
                 <?php foreach ($datas as $key => $value) { ?>
                     <?php if ($key < 1) { ?>
-                        <tr>
+                        <tr data-id="<?= $value->id; ?>">
                             <td>
                                 <input class="form-check-input" type="checkbox" id="formCheck_<?= $key + 1; ?>" name="check[]" value="">
                             </td>
@@ -72,12 +72,18 @@
                                 <?php if ($value->status_ajuan > 0) { ?>
                                     &nbsp;
                                 <?php } else { ?>
-                                    <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
+                                    <?php if ($value->edited > 0) { ?>
+                                        <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light btneditform"><i class="fas fa-edit"></i></button>
+                                        <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
+                                    <?php } else { ?>
+                                        <button type="button" class="btn btn-warning btn-rounded waves-effect waves-light btneditform"><i class="fas fa-edit"></i></button>
+                                        <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
+                                    <?php } ?>
                                 <?php } ?>
                             </td>
                         </tr>
                     <?php } else { ?>
-                        <tr>
+                        <tr data-id="<?= $value->id; ?>">
                             <td>
                                 <input class="form-check-input" type="checkbox" id="formCheck_<?= $key + 1; ?>" name="check[]" value="">
                             </td>
@@ -111,7 +117,13 @@
                                 <?php if ($value->status_ajuan > 0) { ?>
                                     &nbsp;
                                 <?php } else { ?>
-                                    <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
+                                    <?php if ($value->edited > 0) { ?>
+                                        <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light btneditform"><i class="fas fa-edit"></i></button>
+                                        <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
+                                    <?php } else { ?>
+                                        <button type="button" class="btn btn-warning btn-rounded waves-effect waves-light btneditform"><i class="fas fa-edit"></i></button>
+                                        <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
+                                    <?php } ?>
                                 <?php } ?>
                             </td>
                         </tr>
@@ -549,6 +561,11 @@
     });
 
     $(document).on('click', '.btnhapusform', function(e) {
+        e.preventDefault();
+        $(this).parents('tr').remove();
+    });
+
+    $(document).on('click', '.btneditform', function(e) {
         e.preventDefault();
         $(this).parents('tr').remove();
     });
