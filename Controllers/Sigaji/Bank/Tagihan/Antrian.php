@@ -538,7 +538,7 @@ extends BaseController
                         'angsuran_ke' => $angsuran_ke,
                         'id_perubahan' => $dataRow['id'],
                         'edited' => 1,
-                        'edited_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'),
                     ]);
                     if ($this->_db->affectedRows() > 0) {
                         $this->_db->transCommit();
