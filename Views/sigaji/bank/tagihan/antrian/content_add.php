@@ -666,7 +666,7 @@
             },
             success: function(response) {
                 if (response.status == 200) {
-                    $('#content-detailModalLabel').html('EDIT TAGIHAN ' + nama);
+                    $('#content-detailModalLabel').html('TAMBAH TAGIHAN BARU');
                     $('.contentBodyModal').html(response.data);
                     $('.content-detailModal').modal({
                         backdrop: 'static',
