@@ -567,7 +567,8 @@
 
     $(document).on('click', '.btneditform', function(e) {
         e.preventDefault();
-        $(this).parents('tr').remove();
+        const id = $(this).parents('tr').data('id');
+        console.log(id);
     });
 
     function formatRepo(repo) {
