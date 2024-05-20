@@ -244,6 +244,11 @@
                 orderable: false,
                 targets: [0, 1, 2, 3, 4, 5, 6, 7, 8]
             }],
+            layout: {
+                topStart: {
+                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+                }
+            }
         });
 
         $('#_filter_pegawai_' + rowBody).select2({
