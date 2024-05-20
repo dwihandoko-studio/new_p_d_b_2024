@@ -244,7 +244,7 @@
                 orderable: false,
                 targets: [0, 1, 2, 3, 4, 5, 6, 7, 8]
             }],
-            aLengthMenu: [
+            lengthMenu: [
                 [10, 25, 50, 100, 200, -1],
                 [10, 25, 50, 100, 200, "All"]
             ],
