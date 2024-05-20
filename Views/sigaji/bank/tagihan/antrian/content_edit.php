@@ -24,12 +24,12 @@
             </div>
             <div class="mb-3">
                 <label for="_jumlah_pinjaman" class="form-label">Jumlah Pinjaman</label>
-                <input type="text" class="form-control jumlah-pinjaman jumlah_pinjaman" value="<?= number_rupiah($value->besar_pinjaman); ?>" id="_jumlah_pinjaman" name="_jumlah_pinjaman" required>
+                <input type="text" class="form-control jumlah-pinjaman jumlah_pinjaman" value="<?= number_rupiah($data->besar_pinjaman); ?>" id="_jumlah_pinjaman" name="_jumlah_pinjaman" required>
                 <div class="help-block _jumlah_pinjaman"></div>
             </div>
             <div class="mb-3">
                 <label for="_jumlah_tagihan" class="form-label">Jumlah Tagihan</label>
-                <input type="text" class="form-control jumlah-pinjaman jumlah_tagihan" value="<?= number_rupiah($value->jumlah_tagihan); ?>" id="_jumlah_tagihan" name="_jumlah_tagihan" required>
+                <input type="text" class="form-control jumlah-pinjaman jumlah_tagihan" value="<?= number_rupiah($data->jumlah_tagihan); ?>" id="_jumlah_tagihan" name="_jumlah_tagihan" required>
                 <div class="help-block _jumlah_tagihan"></div>
             </div>
             <div class="mb-3">
