@@ -57,22 +57,22 @@
         </div>
         <div class="mb-3">
             <label for="_jumlah_pinjaman_add" class="form-label">Jumlah Pinjaman</label>
-            <input type="text" class="form-control jumlah-pinjaman jumlah_pinjaman_add" value="<?= number_rupiah($data->besar_pinjaman); ?>" id="_jumlah_pinjaman_add" name="_jumlah_pinjaman_add" required>
+            <input type="text" class="form-control jumlah-pinjaman jumlah_pinjaman_add" id="_jumlah_pinjaman_add" name="_jumlah_pinjaman_add" required>
             <div class="help-block _jumlah_pinjaman_add"></div>
         </div>
         <div class="mb-3">
             <label for="_jumlah_tagihan_add" class="form-label">Jumlah Tagihan</label>
-            <input type="text" class="form-control jumlah-pinjaman jumlah_tagihan_add" value="<?= number_rupiah($data->jumlah_tagihan); ?>" id="_jumlah_tagihan_add" name="_jumlah_tagihan_add" required>
+            <input type="text" class="form-control jumlah-pinjaman jumlah_tagihan_add" id="_jumlah_tagihan_add" name="_jumlah_tagihan_add" required>
             <div class="help-block _jumlah_tagihan_add"></div>
         </div>
         <div class="mb-3">
             <label for="_jumlah_bulan_angsuran_add" class="form-label">Jumlah Bulan Angsuran</label>
-            <input type="number" class="form-control jumlah_bulan_angsuran_add" value="<?= $data->jumlah_bulan_angsuran ?>" id="_jumlah_bulan_angsuran_add" name="_jumlah_bulan_angsuran_add" required>
+            <input type="number" class="form-control jumlah_bulan_angsuran_add" id="_jumlah_bulan_angsuran_add" name="_jumlah_bulan_angsuran_add" required>
             <div class="help-block _jumlah_bulan_angsuran_add"></div>
         </div>
         <div class="mb-3">
             <label for="_angsuran_ke_add" class="form-label">Angsuran Ke</label>
-            <input type="number" class="form-control angsuran_ke_add" value="<?= $data->angsuran_ke ?>" id="_angsuran_ke_add" name="_angsuran_ke_add" required>
+            <input type="number" class="form-control angsuran_ke_add" id="_angsuran_ke_add" name="_angsuran_ke_add" required>
             <div class="help-block _angsuran_ke_add"></div>
         </div>
     </div>
