@@ -330,6 +330,248 @@ extends BaseController
         }
     }
 
+    public function ambildataedit()
+    {
+        if ($this->request->isAJAX()) {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "User not authenticated.";
+                return json_encode($response);
+            }
+
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+            $oldData = $this->_db->table('tb_tagihan_bank_antrian a')
+                ->select("a.id, a.edited, a.id_perubahan, a.status_ajuan, a.id_pegawai, a.instansi, a.kecamatan, a.besar_pinjaman, a.jumlah_tagihan, a.jumlah_bulan_angsuran, a.angsuran_ke, a.tahun, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan")
+                ->join('_ref_tahun_bulan c', 'a.tahun = c.id')
+                ->join('tb_pegawai_ b', 'a.id_pegawai = b.id')
+                ->where('a.id', $id)
+                ->get()->getRowObject();
+
+            if (!$oldData) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan.";
+                return json_encode($response);
+            }
+
+            $d['data'] = $oldData;
+
+            $response = new \stdClass;
+            $response->status = 200;
+            $response->message = "Permintaan diizinkan";
+            $response->data = view('sigaji/bank/tagihan/antrian/content_edit', $d);
+            return json_encode($response);
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function hapusdatatagihan()
+    {
+        if ($this->request->isAJAX()) {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "User not authenticated.";
+                return json_encode($response);
+            }
+
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+            $oldData = $this->_db->table('tb_tagihan_bank_antrian a')
+                ->select("a.id, a.edited, a.id_perubahan, a.status_ajuan, a.id_pegawai, a.instansi, a.kecamatan, a.besar_pinjaman, a.jumlah_tagihan, a.jumlah_bulan_angsuran, a.angsuran_ke, a.tahun, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan")
+                ->join('_ref_tahun_bulan c', 'a.tahun = c.id')
+                ->join('tb_pegawai_ b', 'a.id_pegawai = b.id')
+                ->where('a.id', $id)
+                ->get()->getRowObject();
+
+            if (!$oldData) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan.";
+                return json_encode($response);
+            }
+
+            $uuidLib = new Uuid();
+
+            $this->_db->transBegin();
+            $dataRow = [
+                'id' => $uuidLib->v4(),
+                'user_id' => $user->data->id,
+                'keterangan' => "Menghapus data tagihan dengan id $id",
+                'created_at' => date('Y-m-d H:i:s'),
+            ];
+
+            try {
+                $this->_db->table('riwayat_system')->insert($dataRow);
+                if ($this->_db->affectedRows() > 0) {
+                    $this->_db->query("INSERT INTO tb_tagihan_bank_antrian_deleted (id, tahun, id_pegawai, dari_bank, nip, instansi, kode_kecamatan, kecamatan, besar_pinjaman, jumlah_tagihan, jumlah_bulan_angsuran, angsuran_ke, status_ajuan, keterangan_penolakan, edited, id_perubahan, created_at, updated_at) SELECT id, tahun, id_pegawai, dari_bank, nip, instansi, kode_kecamatan, kecamatan, besar_pinjaman, jumlah_tagihan, jumlah_bulan_angsuran, angsuran_ke, status_ajuan, keterangan_penolakan, edited, id_perubahan, created_at, updated_at FROM tb_tagihan_bank_antrian WHERE id = '$id'");
+                    if ($this->_db->affectedRows() > 0) {
+                        $oldData = $this->_db->table('tb_tagihan_bank_antrian')->where('id', $id)->delete();
+                        if ($this->_db->affectedRows() > 0) {
+                            $this->_db->transCommit();
+                            $response = new \stdClass;
+                            $response->status = 200;
+                            $response->message = "Data berhasil dihapus.";
+                            return json_encode($response);
+                        } else {
+                            $this->_db->transRollback();
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Gagal menghapus data.";
+                            return json_encode($response);
+                        }
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menghapus data.";
+                        return json_encode($response);
+                    }
+                } else {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal menghapus data.";
+                    return json_encode($response);
+                }
+            } catch (\Throwable $th) {
+                $this->_db->transRollback();
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal menghapus data.";
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function editsavedatatagihan()
+    {
+        if ($this->request->isAJAX()) {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "User not authenticated.";
+                return json_encode($response);
+            }
+
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+            $fullname = htmlspecialchars($this->request->getVar('fullname'), true);
+            $nip = htmlspecialchars($this->request->getVar('nip'), true);
+            $nama_instansi = htmlspecialchars($this->request->getVar('nama_instansi'), true);
+            $kecamatan = htmlspecialchars($this->request->getVar('kecamatan'), true);
+            $jumlah_pinjaman = htmlspecialchars($this->request->getVar('jumlah_pinjaman'), true);
+            $jumlah_tagihan = htmlspecialchars($this->request->getVar('jumlah_tagihan'), true);
+            $jumlah_bulan_angsuran = htmlspecialchars($this->request->getVar('jumlah_bulan_angsuran'), true);
+            $angsuran_ke = htmlspecialchars($this->request->getVar('angsuran_ke'), true);
+
+            if ($jumlah_pinjaman == "" || $jumlah_pinjaman == NULL || $jumlah_tagihan == "" || $jumlah_tagihan == NULL || $jumlah_bulan_angsuran == "" || $jumlah_bulan_angsuran == NULL || $angsuran_ke == "" || $angsuran_ke == NULL) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak valid.";
+                return json_encode($response);
+            }
+
+            $oldData = $this->_db->table('tb_tagihan_bank_antrian a')
+                ->select("a.id, a.edited, a.id_perubahan, a.status_ajuan, a.id_pegawai, a.instansi, a.kecamatan, a.besar_pinjaman, a.jumlah_tagihan, a.jumlah_bulan_angsuran, a.angsuran_ke, a.tahun, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan")
+                ->join('_ref_tahun_bulan c', 'a.tahun = c.id')
+                ->join('tb_pegawai_ b', 'a.id_pegawai = b.id')
+                ->where('a.id', $id)
+                ->get()->getRowObject();
+
+            if (!$oldData) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan.";
+                return json_encode($response);
+            }
+
+            $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
+            $jumlah_tagihan = str_replace(".", "", $jumlah_tagihan);
+
+            $keterangan = "Mengubah data tagihan dengan id $id dari ";
+            if ((int)$jumlah_pinjaman !== (int)$oldData->besar_pinjaman) {
+                $keterangan .= "Besar Pinjaman $jumlah_pinjaman --> $oldData->besar_pinjaman,";
+            }
+            if ((int)$jumlah_tagihan !== (int)$oldData->jumlah_tagihan) {
+                $keterangan .= "Jumlah Tagihan $jumlah_tagihan --> $oldData->jumlah_tagihan,";
+            }
+            if ((int)$jumlah_bulan_angsuran !== (int)$oldData->jumlah_bulan_angsuran) {
+                $keterangan .= "Jumlah Bulang Angsuran $jumlah_bulan_angsuran --> $oldData->jumlah_bulan_angsuran,";
+            }
+            if ((int)$angsuran_ke !== (int)$oldData->angsuran_ke) {
+                $keterangan .= "Angsuran Ke $angsuran_ke --> $oldData->angsuran_ke,";
+            }
+
+            $uuidLib = new Uuid();
+
+            $this->_db->transBegin();
+            $dataRow = [
+                'id' => $uuidLib->v4(),
+                'user_id' => $user->data->id,
+                'keterangan' => $keterangan,
+                'created_at' => date('Y-m-d H:i:s'),
+            ];
+
+            try {
+                $this->_db->table('riwayat_system')->insert($dataRow);
+                if ($this->_db->affectedRows() > 0) {
+
+                    $oldData = $this->_db->table('tb_tagihan_bank_antrian')->where('id', $id)->update([
+                        'besar_pinjaman' => $jumlah_pinjaman,
+                        'jumlah_tagihan' => $jumlah_tagihan,
+                        'jumlah_bulan_angsuran' => $jumlah_bulan_angsuran,
+                        'angsuran_ke' => $angsuran_ke,
+                        'id_perubahan' => $dataRow['id'],
+                        'edited' => 1,
+                        'edited_at' => date('Y-m-d H:i:s'),
+                    ]);
+                    if ($this->_db->affectedRows() > 0) {
+                        $this->_db->transCommit();
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->message = "Data berhasil diupdate.";
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal mengupdate data.";
+                        return json_encode($response);
+                    }
+                } else {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal mengupdate data.";
+                    return json_encode($response);
+                }
+            } catch (\Throwable $th) {
+                $this->_db->transRollback();
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal mengupdate data.";
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
     public function savetagihan()
     {
         if ($this->request->isAJAX()) {

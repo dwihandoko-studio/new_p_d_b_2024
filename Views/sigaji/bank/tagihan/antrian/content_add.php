@@ -38,7 +38,7 @@
             <?php if (count($datas) > 0) { ?>
                 <?php foreach ($datas as $key => $value) { ?>
                     <?php if ($key < 1) { ?>
-                        <tr data-id="<?= $value->id; ?>">
+                        <tr data-id="<?= $value->id; ?>" data-fullname="<?= $value->nama; ?>">
                             <td>
                                 <input class="form-check-input" type="checkbox" id="formCheck_<?= $key + 1; ?>" name="check[]" value="">
                             </td>
@@ -73,17 +73,17 @@
                                     &nbsp;
                                 <?php } else { ?>
                                     <?php if ($value->edited > 0) { ?>
-                                        <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light btneditform"><i class="fas fa-edit"></i></button>
+                                        <button type="button" class="btn btn-warning btn-rounded waves-effect waves-light btneditform"><i class="fas fa-edit"></i></button>
                                         <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
                                     <?php } else { ?>
-                                        <button type="button" class="btn btn-warning btn-rounded waves-effect waves-light btneditform"><i class="fas fa-edit"></i></button>
+                                        <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light btneditform"><i class="fas fa-edit"></i></button>
                                         <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
                                     <?php } ?>
                                 <?php } ?>
                             </td>
                         </tr>
                     <?php } else { ?>
-                        <tr data-id="<?= $value->id; ?>">
+                        <tr data-id="<?= $value->id; ?>" data-fullname="<?= $value->nama; ?>">
                             <td>
                                 <input class="form-check-input" type="checkbox" id="formCheck_<?= $key + 1; ?>" name="check[]" value="">
                             </td>
@@ -118,10 +118,10 @@
                                     &nbsp;
                                 <?php } else { ?>
                                     <?php if ($value->edited > 0) { ?>
-                                        <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light btneditform"><i class="fas fa-edit"></i></button>
+                                        <button type="button" class="btn btn-warning btn-rounded waves-effect waves-light btneditform"><i class="fas fa-edit"></i></button>
                                         <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
                                     <?php } else { ?>
-                                        <button type="button" class="btn btn-warning btn-rounded waves-effect waves-light btneditform"><i class="fas fa-edit"></i></button>
+                                        <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light btneditform"><i class="fas fa-edit"></i></button>
                                         <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btnhapusform"><i class="bx bxs-trash"></i></button>
                                     <?php } ?>
                                 <?php } ?>
@@ -562,13 +562,105 @@
 
     $(document).on('click', '.btnhapusform', function(e) {
         e.preventDefault();
-        $(this).parents('tr').remove();
+        const id = $(this).parents('tr').data('id');
+        const nama = $(this).parents('tr').data('fullname');
+
+        Swal.fire({
+            title: 'Apakah anda yakin ingin menghapus tagihan ini?',
+            text: "Hapus Tagihan Untuk Pegawai : " + nama,
+            showCancelButton: true,
+            icon: 'question',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus Tagihan!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "./hapusdatatagihan",
+                    type: 'POST',
+                    data: {
+                        id: id,
+                    },
+                    dataType: "json",
+                    beforeSend: function() {
+                        $('div.main-content').block({
+                            message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                        });
+                    },
+                    complete: function() {
+                        $('div.main-content').unblock();
+                    },
+                    success: function(response) {
+                        if (response.status == 200) {
+                            $(this).parents('tr').remove();
+                        } else {
+                            Swal.fire(
+                                'Failed!',
+                                "gagal mengambil data",
+                                'warning'
+                            );
+                        }
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        Swal.fire(
+                            'Failed!',
+                            "gagal mengambil data (" + xhr.status.toString + ")",
+                            'warning'
+                        );
+                    }
+
+                });
+
+            }
+        })
     });
 
     $(document).on('click', '.btneditform', function(e) {
         e.preventDefault();
         const id = $(this).parents('tr').data('id');
-        console.log(id);
+        const nama = $(this).parents('tr').data('fullname');
+
+        $.ajax({
+            url: "./ambildataedit",
+            type: 'POST',
+            data: {
+                id: id,
+            },
+            dataType: "json",
+            beforeSend: function() {
+                $('div.main-content').block({
+                    message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                });
+            },
+            complete: function() {
+                $('div.main-content').unblock();
+            },
+            success: function(response) {
+                if (response.status == 200) {
+                    $('#content-detailModalLabel').html('EDIT TAGIHAN ' + nama);
+                    $('.contentBodyModal').html(response.data);
+                    $('.content-detailModal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                    });
+                    $('.content-detailModal').modal('show');
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        "gagal mengambil data",
+                        'warning'
+                    );
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                Swal.fire(
+                    'Failed!',
+                    "gagal mengambil data (" + xhr.status.toString + ")",
+                    'warning'
+                );
+            }
+
+        });
     });
 
     function formatRepo(repo) {
