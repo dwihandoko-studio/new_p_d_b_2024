@@ -49,7 +49,8 @@
                                 </select>
                             </td>
                             <td>
-                                <input class="form-control" type="text" value="<?= $value->nip; ?>" id="nip_<?= $key + 1; ?>" name="nip[]" readonly>
+                                <?= $value->nip; ?>
+                                <input class="form-control" type="hidden" value="<?= $value->nip; ?>" id="nip_<?= $key + 1; ?>" name="nip[]" readonly>
                             </td>
                             <td>
                                 <input class="form-control" type="text" value="<?= $value->nama_instansi; ?>" id="instansi_<?= $key + 1; ?>" name="instansi[]" readonly>
@@ -92,7 +93,8 @@
                                 </select>
                             </td>
                             <td>
-                                <input class="form-control" type="text" value="<?= $value->nip; ?>" id="nip_<?= $key + 1; ?>" name="nip[]" readonly>
+                                <?= $value->nip; ?>
+                                <input class="form-control" type="hidden" value="<?= $value->nip; ?>" id="nip_<?= $key + 1; ?>" name="nip[]" readonly>
                             </td>
                             <td>
                                 <input class="form-control" type="text" value="<?= $value->nama_instansi; ?>" id="instansi_<?= $key + 1; ?>" name="instansi[]" readonly>
