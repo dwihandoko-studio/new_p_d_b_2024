@@ -248,8 +248,9 @@
                 [10, 25, 50, 100, 200, -1],
                 [10, 25, 50, 100, 200, "All"]
             ],
-            buttons: ["copy", "excel", "pdf"]
-        }).buttons().container().appendTo("#data-datatables_wrapper .col-md-6:eq(0)");
+            // buttons: ["copy", "excel", "pdf"]
+        });
+        // }).buttons().container().appendTo("#data-datatables_wrapper .col-md-6:eq(0)");
 
         $('#_filter_pegawai_' + rowBody).select2({
             dropdownParent: ".data-contens",
