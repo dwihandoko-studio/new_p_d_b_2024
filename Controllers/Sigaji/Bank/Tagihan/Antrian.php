@@ -550,21 +550,22 @@ extends BaseController
                         $this->_db->transRollback();
                         $response = new \stdClass;
                         $response->status = 400;
-                        $response->message = "Gagal mengupdate data.";
+                        $response->message = "Gagal mengupdate data. 1";
                         return json_encode($response);
                     }
                 } else {
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->message = "Gagal mengupdate data.";
+                    $response->message = "Gagal mengupdate data. 2";
                     return json_encode($response);
                 }
             } catch (\Throwable $th) {
                 $this->_db->transRollback();
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = "Gagal mengupdate data.";
+                $response->error = var_dump($th);
+                $response->message = "Gagal mengupdate data. 3";
                 return json_encode($response);
             }
         } else {
