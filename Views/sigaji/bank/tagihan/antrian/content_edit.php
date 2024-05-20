@@ -129,7 +129,7 @@
                                 }
                             } else {
                                 Swal.fire(
-                                    'SELAMAT!',
+                                    'BERHASIL!',
                                     resul.message,
                                     'success'
                                 ).then((valRes) => {

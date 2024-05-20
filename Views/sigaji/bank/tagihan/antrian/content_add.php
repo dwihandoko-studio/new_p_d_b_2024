@@ -592,7 +592,14 @@
                     },
                     success: function(response) {
                         if (response.status == 200) {
-                            $(this).parents('tr').remove();
+                            Swal.fire(
+                                'BERHASIL!',
+                                response.message,
+                                'success'
+                            ).then((valRes) => {
+                                $(this).parents('tr').remove();
+                                reloadPage();
+                            })
                         } else {
                             Swal.fire(
                                 'Failed!',
