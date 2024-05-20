@@ -1071,6 +1071,8 @@ extends BaseController
                 ->where('a.dari_bank', $id_bank)
                 ->where('a.tahun', $tw)
                 ->where('status_ajuan', 1)
+                ->orderBy('b.nama_kecamatan', 'ASC')
+                ->orderBy('b.nama_instansi', 'ASC')
                 ->orderBy('b.nama', 'ASC')
                 ->get();
 
@@ -1093,9 +1095,9 @@ extends BaseController
                 }
             }
 
-            $worksheet->getStyle('G2:G' . $row) // Adjust range as needed
+            $worksheet->getStyle('F2:G' . $row) // Adjust range as needed
                 ->getNumberFormat()
-                ->setFormatCode('"Rp"#,##0');
+                ->setFormatCode('#,##0');
 
             // Auto-size columns
             foreach (range('A', 'I') as $columnID) {
