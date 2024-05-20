@@ -7,21 +7,16 @@
             <?php if ($prosesed_ajuan > 0) { ?>
 
             <?php } else { ?>
-                <!-- <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnsimpanbanyak"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</button> &nbsp;&nbsp; -->
-                <button type="button" class="btn btn-sm btn-success waves-effect waves-light btnaddtagihan"><i class="fas fa-plus-circle font-size-16 align-middle me-2"></i> TAMBAH</button> &nbsp;&nbsp;
+                <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnsimpanbanyak"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</button> &nbsp;&nbsp;
                 <a class="btn btn-sm btn-warning waves-effect waves-light" href="javascript:actionAjukanProsesTagihan(this, '<?= $tw->tahun ?>', '<?= $tw->bulan ?>', '<?= $tw_active ?>');"><i class="fas fa-map-signs font-size-16 align-middle me-2"></i> AJUKAN PROSES TAGIHAN</a>
             <?php } ?>
         <?php } else { ?>
-            <button type="button" class="btn btn-sm btn-success waves-effect waves-light btnaddtagihan"><i class="fas fa-plus-circle font-size-16 align-middle me-2"></i> TAMBAH</button> &nbsp;&nbsp;
-            <!-- <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnsimpanbanyak"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</button> &nbsp;&nbsp; -->
+            <button type="submit" class="btn btn-sm btn-success waves-effect waves-light btnsimpanbanyak"><i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN</button> &nbsp;&nbsp;
             <a class="btn btn-sm btn-warning waves-effect waves-light" href="javascript:actionAjukanProsesTagihan(this, '<?= $tw->tahun ?>', '<?= $tw->bulan ?>', '<?= $tw_active ?>');"><i class="fas fa-map-signs font-size-16 align-middle me-2"></i> AJUKAN PROSES TAGIHAN</a>
         <?php } ?>
     </div>
 <?php } else { ?>
-    <div class="tomboh-simpan-data" style="display: block;">
-        <button type="button" class="btn btn-sm btn-success waves-effect waves-light btnaddtagihan"><i class="fas fa-plus-circle font-size-16 align-middle me-2"></i> TAMBAH</button> &nbsp;&nbsp;
-        <a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionAmbilTagihan(this);"><i class="fas fa-assistive-listening-systems font-size-16 align-middle me-2"></i> Ambil Data Dari Bulan Sebelumnya</a>&nbsp;&nbsp;
-    </div>
+    <div class="tomboh-simpan-data" style="display: block;"><a class="btn btn-sm btn-primary waves-effect waves-light" href="javascript:actionAmbilTagihan(this);"><i class="fas fa-assistive-listening-systems font-size-16 align-middle me-2"></i> Ambil Data Dari Bulan Sebelumnya</a>&nbsp;&nbsp;</div>
 <?php } ?>
 <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
     <thead>
@@ -135,11 +130,40 @@
                     <?php } ?>
                 <?php } ?>
             <?php } else { ?>
-                <!-- <tr>
+                <tr>
                     <td>
-                        TIDAK ADA DATA
+                        <input class="form-check-input" type="checkbox" id="formCheck_1" name="check[]" value="">
                     </td>
-                </tr> -->
+                    <td>
+                        <select class="form-control filter-pegawai" id="_filter_pegawai_1" name="_filter_pegawai[]" data-id="1" onchange="changePegawai(this)" required>
+                            <option value="">&nbsp;</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" value="" id="nip_1" name="nip[]" readonly>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" value="" id="instansi_1" name="instansi[]" readonly>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" value="" id="kecamatan_1" name="kecamatan[]" readonly>
+                    </td>
+                    <td>
+                        <input class="form-control jumlah-pinjaman" type="text" value="" id="jumlah_pinjaman_1" name="jumlah_pinjaman[]" required>
+                    </td>
+                    <td>
+                        <input class="form-control jumlah-pinjaman" type="text" value="" id="jumlah_tagihan_1" name="jumlah_tagihan[]" required>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" value="" id="jumlah_bulan_angsuran_1" name="jumlah_bulan_angsuran[]" required>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" value="" id="angsuran_ke_1" name="angsuran_ke[]" required>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light btnaddform">+</button>
+                    </td>
+                </tr>
             <?php } ?>
         <?php } else { ?>
             <tr>
@@ -608,52 +632,6 @@
             type: 'POST',
             data: {
                 id: id,
-            },
-            dataType: "json",
-            beforeSend: function() {
-                $('div.main-content').block({
-                    message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
-                });
-            },
-            complete: function() {
-                $('div.main-content').unblock();
-            },
-            success: function(response) {
-                if (response.status == 200) {
-                    $('#content-detailModalLabel').html('EDIT TAGIHAN ' + nama);
-                    $('.contentBodyModal').html(response.data);
-                    $('.content-detailModal').modal({
-                        backdrop: 'static',
-                        keyboard: false,
-                    });
-                    $('.content-detailModal').modal('show');
-                } else {
-                    Swal.fire(
-                        'Failed!',
-                        "gagal mengambil data",
-                        'warning'
-                    );
-                }
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-                Swal.fire(
-                    'Failed!',
-                    "gagal mengambil data (" + xhr.status.toString + ")",
-                    'warning'
-                );
-            }
-
-        });
-    });
-
-    $(document).on('click', '.btnaddtagihan', function(e) {
-        e.preventDefault();
-
-        $.ajax({
-            url: "./tambahdatatagihanbaru",
-            type: 'POST',
-            data: {
-                id: '<?= $tw_active ?>',
             },
             dataType: "json",
             beforeSend: function() {

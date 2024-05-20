@@ -330,6 +330,45 @@ extends BaseController
         }
     }
 
+    public function tambahdatatagihanbaru()
+    {
+        if ($this->request->isAJAX()) {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "User not authenticated.";
+                return json_encode($response);
+            }
+
+            $id = htmlspecialchars($this->request->getVar('id'), true);
+            $d['tw_active'] = $id;
+            $tw = $this->_db->table('_ref_tahun_bulan')->where('id', $id)->get()->getRowObject();
+
+            if (!$tw) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan";
+                return json_encode($response);
+            }
+            $d['tw'] = $tw;
+            // $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
+            $id_bank = $this->_helpLib->getIdBank($user->data->id);
+            $d['bank_id'] = $id_bank;
+
+            $response = new \stdClass;
+            $response->status = 200;
+            $response->message = "Permintaan diizinkan";
+            $response->data = view('sigaji/bank/tagihan/antrian/content_add_new', $d);
+            return json_encode($response);
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
     public function ambildataedit()
     {
         if ($this->request->isAJAX()) {
@@ -566,6 +605,115 @@ extends BaseController
                 $response->status = 400;
                 $response->error = var_dump($th);
                 $response->message = "Gagal mengupdate data. 3";
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function addsavedatatagihan()
+    {
+        if ($this->request->isAJAX()) {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "User not authenticated.";
+                return json_encode($response);
+            }
+
+            $tahun = htmlspecialchars($this->request->getVar('tahun'), true);
+            $pegawai_id = htmlspecialchars($this->request->getVar('fullname'), true);
+            $nip = htmlspecialchars($this->request->getVar('nip'), true);
+            $nama_instansi = htmlspecialchars($this->request->getVar('nama_instansi'), true);
+            $kecamatan = htmlspecialchars($this->request->getVar('kecamatan'), true);
+            $jumlah_pinjaman = htmlspecialchars($this->request->getVar('jumlah_pinjaman'), true);
+            $jumlah_tagihan = htmlspecialchars($this->request->getVar('jumlah_tagihan'), true);
+            $jumlah_bulan_angsuran = htmlspecialchars($this->request->getVar('jumlah_bulan_angsuran'), true);
+            $angsuran_ke = htmlspecialchars($this->request->getVar('angsuran_ke'), true);
+
+            $oldData = $this->_db->table('tb_tagihan_bank_antrian')->where(['tahun' => $tahun, 'id_pegawai' => $pegawai_id])->countAllResults();
+            if ($oldData > 0) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tagihan sudah ada, silahkan gunakan menu edit untuk merubah data.";
+                return json_encode($response);
+            }
+
+            $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
+            $jumlah_tagihan = str_replace(".", "", $jumlah_tagihan);
+
+            $keterangan = "Menambah Tagihan Baru untuk Pegawai NIP: $nip ";
+            $id_bank = $this->_helpLib->getIdBank($user->data->id);
+
+            $pegawai = getPegawaiByIdSigaji($pegawai_id);
+
+            if (!$pegawai) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Pegawai tidak ditemukan.";
+                return json_encode($response);
+            }
+
+            $uuidLib = new Uuid();
+
+            $this->_db->transBegin();
+            $dataRow = [
+                'id' => $uuidLib->v4(),
+                'user_id' => $user->data->id,
+                'keterangan' => $keterangan,
+                'created_at' => date('Y-m-d H:i:s'),
+            ];
+
+            try {
+                $this->_db->table('riwayat_system')->insert($dataRow);
+                if ($this->_db->affectedRows() > 0) {
+
+                    $this->_db->table('tb_tagihan_bank_antrian')->insert([
+                        'id' => $uuidLib->v4(),
+                        'tahun' => $tahun,
+                        'id_pegawai' => $pegawai,
+                        'dari_bank' => $id_bank,
+                        'nip' => $pegawai->nip,
+                        'instansi' => $pegawai->nama_instansi,
+                        'kode_kecamatan' => $pegawai->kode_kecamatan,
+                        'kecamatan' => $pegawai->nama_kecamatan,
+                        'besar_pinjaman' => $jumlah_pinjaman,
+                        'jumlah_tagihan' => $jumlah_tagihan,
+                        'jumlah_bulan_angsuran' => $jumlah_bulan_angsuran,
+                        'angsuran_ke' => $angsuran_ke,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
+                    if ($this->_db->affectedRows() > 0) {
+                        $this->_db->transCommit();
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->message = "Data berhasil disimpan.";
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menyimpan data. 1";
+                        return json_encode($response);
+                    }
+                } else {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal menyimpan data. 2";
+                    return json_encode($response);
+                }
+            } catch (\Throwable $th) {
+                $this->_db->transRollback();
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->error = var_dump($th);
+                $response->message = "Gagal menyimpan data. 3";
                 return json_encode($response);
             }
         } else {
