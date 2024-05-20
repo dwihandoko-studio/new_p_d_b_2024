@@ -676,7 +676,7 @@ extends BaseController
                     $this->_db->table('tb_tagihan_bank_antrian')->insert([
                         'id' => $uuidLib->v4(),
                         'tahun' => $tahun,
-                        'id_pegawai' => $pegawai,
+                        'id_pegawai' => $pegawai_id,
                         'dari_bank' => $id_bank,
                         'nip' => $pegawai->nip,
                         'instansi' => $pegawai->nama_instansi,

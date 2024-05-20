@@ -108,7 +108,7 @@
 
         Swal.fire({
             title: 'Apakah anda yakin ingin menyimpan data ini?',
-            text: "Simpan Data Baru Tagihan " + fullname,
+            text: "Simpan Data Baru Tagihan " + nip,
             showCancelButton: true,
             icon: 'question',
             confirmButtonColor: '#3085d6',
