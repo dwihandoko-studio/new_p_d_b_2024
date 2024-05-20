@@ -2,7 +2,7 @@
     <div class="modal-body" style="padding-top: 0px; padding-bottom: 0px;">
         <div class="mb-3">
             <label for="_fullname_add" class="col-form-label">NAMA LENGKAP</label>
-            <select width="100%" class="form-control filter-fullname" id="_fullname_add" name="_fullname_add" data-id="1" onchange="changePegawaiAddNew(this)" required>
+            <select style="width: 100%" class="form-control filter-fullname" id="_fullname_add" name="_fullname_add" data-id="1" onchange="changePegawaiAddNew(this)" required>
                 <option value="">&nbsp;</option>
             </select>
             <script>
