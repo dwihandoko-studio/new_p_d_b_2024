@@ -26,7 +26,6 @@
 <table id="data-datatables" class="table table-bordered w-100 tb-datatables">
     <thead>
         <tr>
-            <!-- <th data-orderable="false">#</th> -->
             <th data-orderable="false" width="19%">Nama</th>
             <th data-orderable="false" width="14.5%">NIP</th>
             <th data-orderable="false">Instansi</th>
@@ -44,9 +43,6 @@
                 <?php foreach ($datas as $key => $value) { ?>
                     <?php if ($key < 1) { ?>
                         <tr data-id="<?= $value->id; ?>" data-fullname="<?= $value->nama; ?>">
-                            <!-- <td>
-                                <input class="form-check-input" type="checkbox" id="formCheck_<?= $key + 1; ?>" name="check[]" value="">
-                            </td> -->
                             <td>
                                 <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" aria-readonly="">
                                     <option value="<?= $value->id_pegawai; ?>" selected><?= $value->nama; ?></option>
@@ -89,9 +85,7 @@
                         </tr>
                     <?php } else { ?>
                         <tr data-id="<?= $value->id; ?>" data-fullname="<?= $value->nama; ?>">
-                            <!-- <td>
-                                <input class="form-check-input" type="checkbox" id="formCheck_<?= $key + 1; ?>" name="check[]" value="">
-                            </td> -->
+
                             <td>
                                 <select class="form-control filter-pegawai" id="_filter_pegawai_<?= $key + 1; ?>" name="_filter_pegawai[]" data-id="<?= $key + 1; ?>" onchange="changePegawai(this)" aria-readonly="">
                                     <option value="<?= $value->id_pegawai; ?>" selected><?= $value->nama; ?></option>
@@ -135,113 +129,8 @@
                     <?php } ?>
                 <?php } ?>
             <?php } else { ?>
-                <!-- <tr>
-                    <td>
-                        TIDAK ADA DATA
-                    </td>
-                </tr> -->
             <?php } ?>
         <?php } else { ?>
-            <tr>
-                <td>
-                    <input class="form-check-input" type="checkbox" id="formCheck1">
-                </td>
-                <td>
-                    <select class="form-control filter-pegawai" id="_filter_pegawai_1" name="_filter_pegawai[]" data-id="1" onchange="changePegawai(this)" required>
-                        <option value="">&nbsp;</option>
-                    </select>
-                    <script>
-                        $('#_filter_pegawai_1').select2({
-                            dropdownParent: ".data-contens",
-                            allowClear: true,
-                            ajax: {
-                                url: "./getPegawai",
-                                type: 'POST',
-                                dataType: 'json',
-                                delay: 250,
-                                data: function(params) {
-                                    return {
-                                        keyword: params.term,
-                                    };
-                                },
-                                processResults: function(data, params) {
-                                    if (data.status === 200) {
-                                        return {
-                                            results: data.data
-                                        };
-                                    } else {
-                                        return {
-                                            results: []
-                                        };
-                                    }
-                                },
-                                cache: true
-                            },
-                            placeholder: 'Cari Pegawai',
-                            minimumInputLength: 3,
-                            templateResult: formatRepo,
-                            templateSelection: formatRepoSelection
-                        });
-
-                        // function formatRepo(repo) {
-                        //     if (repo.loading) {
-                        //         return repo.text;
-                        //     }
-
-                        //     var $container = $(
-                        //         "<div class='select2-result-repository clearfix'>" +
-                        //         "<div class='select2-result-repository__meta'>" +
-                        //         "<div class='select2-result-repository__title'></div>" +
-                        //         "<div class='select2-result-repository__description'></div>" +
-                        //         "</div>" +
-                        //         "</div>"
-                        //     );
-
-                        //     $container.find(".select2-result-repository__title").text(repo.nama);
-                        //     $container.find(".select2-result-repository__description").text(repo.nip + " - " + repo.nama_instansi + " ( Kec. " + repo.nama_kecamatan + ")");
-
-                        //     return $container;
-                        // }
-
-                        // function formatRepoSelection(repo) {
-                        //     $(repo.element).attr('data-custom-nip', repo.nip);
-                        //     $(repo.element).attr('data-custom-instansi', repo.nama_instansi);
-                        //     $(repo.element).attr('data-custom-kecamatan', repo.nama_kecamatan);
-                        //     return repo.nama || repo.text;
-                        // }
-                    </script>
-                </td>
-                <td>
-                    <input class="form-control" type="text" value="" id="nip_1" name="nip[]" readonly>
-                </td>
-                <td>
-                    <input class="form-control" type="text" value="" id="instansi_1" name="instansi[]" readonly>
-                </td>
-                <td>
-                    <input class="form-control" type="text" value="" id="kecamatan_1" name="kecamatan[]" readonly>
-                </td>
-                <td>
-                    <input class="form-control" type="text" value="" onchange="aksiChangeInput(this)" id="jumlah_pinjaman_1" name="jumlah_pinjaman[]" required>
-                    <script>
-                        let jumlah_pinjaman_1 = document.getElementById('jumlah_pinjaman_1');
-                        jumlah_pinjaman_1.addEventListener('keyup', function(e) {
-                            jumlah_pinjaman_1.value = formatRupiah(this.value);
-                        });
-                    </script>
-                </td>
-                <td>
-                    <input class="form-control" type="text" value="" id="jumlah_tagihan_1" name="jumlah_tagihan[]" required>
-                </td>
-                <td>
-                    <input class="form-control" type="text" value="" id="jumlah_bulan_angsuran_1" name="jumlah_bulan_angsuran[]" required>
-                </td>
-                <td>
-                    <input class="form-control" type="text" value="" id="angsuran_ke_1" name="angsuran_ke[]" required>
-                </td>
-                <td>
-                    <button type="button" onclick="aksiTambah(this)" class="btn btn-primary btn-rounded waves-effect waves-light">+</button>
-                </td>
-            </tr>
         <?php } ?>
     </tbody>
 </table>
@@ -353,7 +242,7 @@
         let tableDatatables = $("#data-datatables").DataTable({
             columnDefs: [{
                 orderable: false,
-                targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                targets: [0, 1, 2, 3, 4, 5, 6, 7, 8]
             }],
         });
 
