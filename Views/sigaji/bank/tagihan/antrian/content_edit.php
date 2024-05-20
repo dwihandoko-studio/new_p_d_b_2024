@@ -1,5 +1,5 @@
 <?php if (isset($data)) { ?>
-    <form id="formEditModalData" action="./editsavedatatagihan" method="post">
+    <form id="formEditModalData" class="formEditModalData" action="./editsavedatatagihan" method="post">
         <input type="hidden" id="_id" name="_id" value="<?= $data->id ?>" />
         <div class="modal-body" style="padding-top: 0px; padding-bottom: 0px;">
             <div class="mb-3">
