@@ -91,11 +91,11 @@
         $('#_kecamatan_add').val(selectedOption.data('custom-kecamatan'));
     }
 
-    $('.formEditModalData').on('keyup', '.jumlah-pinjaman', function() {
+    $('.formAddModalData').on('keyup', '.jumlah-pinjaman', function() {
         $(this).val(formatRupiah($(this).val()));
     });
 
-    $("#formEditModalData").on("submit", function(e) {
+    $("#formAddModalData").on("submit", function(e) {
         e.preventDefault();
         const fullname = document.getElementsByName('_fullname_add')[0].value;
         const nip = document.getElementsByName('_nip_add')[0].value;
