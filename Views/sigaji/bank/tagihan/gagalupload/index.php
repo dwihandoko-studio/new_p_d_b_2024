@@ -58,7 +58,7 @@
                                     <th>NIP</th>
                                     <th>INSTANSI</th>
                                     <th>KECAMATAN</th>
-                                    <th align="center">JUMLAH</th>
+                                    <th align="right">JUMLAH TAGIHAN</th>
                                 </tr>
                             </thead>
                         </table>

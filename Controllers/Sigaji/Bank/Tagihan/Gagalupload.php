@@ -75,7 +75,7 @@ extends BaseController
             $row[] = $list->nip;
             $row[] = $list->instansi;
             $row[] = $list->kecamatan;
-            $row[] = $list->jumlah_tagihan;
+            $row[] = rpTanpaAwalan($list->jumlah_tagihan);
             // $row[] = $list->kode_instansi;
 
             $data[] = $row;
