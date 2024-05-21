@@ -16,7 +16,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12" id="output_upload">
+                <div class="col-lg-12" id="output_upload" style="display: none;">
                 </div>
             </div>
         </div>
@@ -97,6 +97,7 @@
 
             // Create a table element
             const table = document.createElement('table');
+            table.id = 'dataTableUpload';
             const thead = document.createElement('thead');
             const tbody = document.createElement('tbody');
 
@@ -124,6 +125,18 @@
             table.appendChild(thead);
             table.appendChild(tbody);
             output.appendChild(table);
+
+            Swal.fire({
+                title: 'DATA YANG DIUPLOAD',
+                html: '<div id="swal-table-container"></div>',
+                width: '80%',
+                showCloseButton: true,
+                didOpen: () => {
+                    const swalContainer = document.getElementById('swal-table-container');
+                    swalContainer.appendChild(output.firstChild);
+                    $('#dataTableUpload').DataTable();
+                }
+            });
         }
 
         $('.formUploadModalData').submit(function(e) {

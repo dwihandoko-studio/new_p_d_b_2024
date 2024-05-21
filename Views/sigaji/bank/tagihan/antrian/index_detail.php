@@ -75,8 +75,8 @@
     </div>
 </div>
 <div id="content-uploadModal" class="modal fade content-uploadModal" tabindex="-1" role="dialog" aria-labelledby="content-uploadModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen" role="document">
-        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+    <!-- <div class="modal-dialog modal-fullscreen" role="document"> -->
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-content-loading">
             <div class="modal-header">
                 <h5 class="modal-title" id="content-uploadModalLabel">Details</h5>
