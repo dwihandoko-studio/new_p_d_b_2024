@@ -54,7 +54,7 @@
                                     <th data-orderable="false">#</th>
                                     <th data-orderable="false">Aksi</th>
                                     <th data-orderable="false">Tahun Bulan</th>
-                                    <th>NAMA BANK</th>
+                                    <th>NAMA PEGAWAI</th>
                                     <th>NIP</th>
                                     <th>INSTANSI</th>
                                     <th>KECAMATAN</th>

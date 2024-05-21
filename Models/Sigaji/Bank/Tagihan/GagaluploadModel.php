@@ -49,9 +49,9 @@ class GagaluploadModel extends Model
     }
     function get_datatables($idBank)
     {
-        $this->dt->select("a.id, a.tahun, b.nama_bank, a.nip, a.instansi, a.instansi, a.jumlah_tagihan, a.kecamatan, c.tahun, c.bulan");
+        $this->dt->select("a.id, a.tahun as id_tahun_bulan, a.nama, a.nip, a.instansi, a.instansi, a.jumlah_tagihan, a.kecamatan, c.tahun, c.bulan");
         $this->dt->join('_ref_tahun_bulan c', 'a.tahun = c.id');
-        $this->dt->join('ref_bank b', 'a.dari_bank = b.id');
+        // $this->dt->join('ref_bank b', 'a.dari_bank = b.id');
         // $this->dt->whereIn('a.status_usulan', [2]);
         if ($this->request->getPost('tw')) {
             if ($this->request->getPost('tw') !== "") {
@@ -83,9 +83,9 @@ class GagaluploadModel extends Model
     }
     function count_filtered($idBank)
     {
-        $this->dt->select("a.id, a.tahun, b.nama_bank, a.nip, a.instansi, a.instansi, a.jumlah_tagihan, a.kecamatan, c.tahun, c.bulan");
+        $this->dt->select("a.id, a.tahun as id_tahun_bulan, a.nama, a.nip, a.instansi, a.instansi, a.jumlah_tagihan, a.kecamatan, c.tahun, c.bulan");
         $this->dt->join('_ref_tahun_bulan c', 'a.tahun = c.id');
-        $this->dt->join('ref_bank b', 'a.dari_bank = b.id');
+        // $this->dt->join('ref_bank b', 'a.dari_bank = b.id');
         if ($this->request->getPost('tw')) {
             if ($this->request->getPost('tw') !== "") {
                 $this->dt->where('a.tahun', $this->request->getPost('tw'));
@@ -112,9 +112,9 @@ class GagaluploadModel extends Model
     }
     public function count_all($idBank)
     {
-        $this->dt->select("a.id, a.tahun, b.nama_bank, a.nip, a.instansi, a.instansi, a.jumlah_tagihan, a.kecamatan, c.tahun, c.bulan");
+        $this->dt->select("a.id, a.tahun as id_tahun_bulan, a.nama, a.nip, a.instansi, a.instansi, a.jumlah_tagihan, a.kecamatan, c.tahun, c.bulan");
         $this->dt->join('_ref_tahun_bulan c', 'a.tahun = c.id');
-        $this->dt->join('ref_bank b', 'a.dari_bank = b.id');
+        // $this->dt->join('ref_bank b', 'a.dari_bank = b.id');
         if ($this->request->getPost('tw')) {
             if ($this->request->getPost('tw') !== "") {
                 $this->dt->where('a.tahun', $this->request->getPost('tw'));

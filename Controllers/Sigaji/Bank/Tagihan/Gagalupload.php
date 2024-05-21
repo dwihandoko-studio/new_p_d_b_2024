@@ -71,7 +71,7 @@ extends BaseController
             //     </a>';
             $row[] = $action;
             $row[] = $list->tahun . '-' . $list->bulan;
-            $row[] = $list->nama_bank;
+            $row[] = $list->nama;
             $row[] = $list->nip;
             $row[] = $list->instansi;
             $row[] = $list->kecamatan;
