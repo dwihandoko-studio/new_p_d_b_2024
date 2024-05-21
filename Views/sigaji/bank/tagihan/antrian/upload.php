@@ -253,6 +253,12 @@
 
                             });
 
+                        } else {
+                            $('.output_upload').html("");
+                            const _inputFile = document.getElementsByName('_file')[0];
+                            _inputFile.value = "";
+                            dataJsonUpload.length = 0;
+                            $('.content-uploadModal').modal('hide');
                         }
                     });
                 } else {
