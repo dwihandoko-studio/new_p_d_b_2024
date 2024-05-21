@@ -272,15 +272,15 @@
             language: {
                 processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> ',
             },
-            "columnDefs": [{
-                "targets": 0,
-                "orderable": false,
-            }],
             lengthMenu: [
                 [10, 25, 50, 100, 200, -1],
                 [10, 25, 50, 100, 200, "All"]
             ],
-            buttons: ["copy", "excel", "pdf"]
+            buttons: ["copy", "excel", "pdf"],
+            "columnDefs": [{
+                "targets": 0,
+                "orderable": false,
+            }],
         });
         $('#_filter_tw').change(function() {
             tableDatatables.draw();
