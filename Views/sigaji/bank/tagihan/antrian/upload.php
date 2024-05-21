@@ -178,6 +178,8 @@
                         return;
                     }
 
+                    const jsonData = JSON.stringify(dataJsonUpload);
+
                     Swal.fire({
                         title: 'Apakah anda yakin ingin mengupload data tagihan ini?',
                         text: `Upload Data Tagihan Untuk :  ${dataJsonUpload.length} Pegawai`,
@@ -193,7 +195,7 @@
                                 // url: $(this).attr('action'),
                                 type: 'POST',
                                 data: {
-                                    data: dataJsonUpload,
+                                    data: jsonData,
                                     tahun: tahun,
                                     format: "json"
                                 },
