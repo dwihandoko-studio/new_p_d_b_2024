@@ -70,14 +70,14 @@
                 const worksheet = workbook.Sheets[firstSheetName];
 
                 // Convert the worksheet to JSON
-                dataJsonUpload = XLSX.utils.sheet_to_json(worksheet);
+                const json = XLSX.utils.sheet_to_json(worksheet);
 
                 setTimeout(() => {
                     // Hide loading dialog
                     Swal.close();
 
                     // Display the table
-                    displayTableUpload(dataJsonUpload);
+                    displayTableUpload(json);
                 }, 2000);
 
                 // Output the JSON data
@@ -116,12 +116,15 @@
             // Add table rows
             data.forEach(row => {
                 const trBody = document.createElement('tr');
+                const rowData = [];
                 headers.forEach(header => {
                     const td = document.createElement('td');
                     td.textContent = row[header] || '';
                     trBody.appendChild(td);
+                    rowData.push(row[header]);
                 });
                 tbody.appendChild(trBody);
+                dataJsonUpload.push(rowData);
             });
 
             table.appendChild(thead);
