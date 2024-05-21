@@ -109,6 +109,6 @@ extends BaseController
         $data['tw'] = $this->_db->table('_ref_tahun_bulan')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getRowObject();
         $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
 
-        return view('sigaji/bank/gagal/gagalupload/index', $data);
+        return view('sigaji/bank/tagihan/gagalupload/index', $data);
     }
 }
