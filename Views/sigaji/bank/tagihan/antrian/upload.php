@@ -188,7 +188,7 @@
                         cancelButtonColor: '#d33',
                         confirmButtonText: 'Ya, Upload Data Tagihan!'
                     }).then((result) => {
-                        if (result.isConfirmed) {
+                        if (result.value) {
                             $.ajax({
                                 url: './savetagihanupload',
                                 // url: $(this).attr('action'),
@@ -217,45 +217,13 @@
                                 },
                                 success: function(response) {
                                     if (response.status == 200) {
-                                        Swal.fire({
-                                            title: "<strong>UPLOAD BERHASIL DIPROSES</strong>",
-                                            icon: "success",
-                                            html: `
-                                                <table>
-                                                    <thead>
-                                                        <tr>
-                                                            <td>SUKSES</td>
-                                                            <td>GAGAL</td>
-                                                            <td>NIP TIDAK DITEMUKAN</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>${response.upload_sukses}</td>
-                                                            <td>${response.upload_gagal}</td>
-                                                            <td>${response.upload_tidakditemukan}</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            `,
-                                            showCloseButton: false,
-                                            showCancelButton: false,
-                                            confirmButtonText: `
-                                                OK..!
-                                            `,
-                                        }).then((valRes) => {
-                                            if (valRes.isConfirmed) {
-                                                reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tahun) ?>");
-                                            }
-                                        });
-
-                                        // Swal.fire(
-                                        //     'SELAMAT!',
-                                        //     response.message + " " + response.data,
-                                        //     'success'
-                                        // ).then((valRes) => {
-                                        //     reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tahun) ?>");
-                                        // })
+                                        Swal.fire(
+                                            'SELAMAT!',
+                                            response.message + " " + response.data,
+                                            'success'
+                                        ).then((valRes) => {
+                                            reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tahun) ?>");
+                                        })
                                     } else {
                                         $('.output_upload').html("");
                                         const _inputFile = document.getElementsByName('_file')[0];
