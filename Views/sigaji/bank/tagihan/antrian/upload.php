@@ -39,9 +39,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
     <script>
-        if (typeof dataJsonUpload === 'undefined') {
-            let dataJsonUpload = [];
-        }
         document.getElementById('_file').addEventListener('change', handleFile, false);
 
         function handleFile(e) {
@@ -112,6 +109,8 @@
                 trHead.appendChild(th);
             });
             thead.appendChild(trHead);
+
+            const dataJsonUpload = [];
 
             // Add table rows
             data.forEach(row => {
