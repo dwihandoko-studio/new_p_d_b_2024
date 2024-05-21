@@ -1226,13 +1226,13 @@ extends BaseController
                 }
 
                 $oldData = $this->_db->table('tb_tagihan_bank_antrian a')
-                    ->select("a.id, a.edited, a.id_perubahan, a.status_ajuan, a.id_pegawai, a.instansi, a.kecamatan, a.besar_pinjaman, a.jumlah_tagihan, a.jumlah_bulan_angsuran, a.angsuran_ke, a.tahun, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan")
+                    ->select("a.id, a.edited, a.id_perubahan, a.status_ajuan, a.id_pegawai, a.instansi, a.kecamatan, a.besar_pinjaman, a.jumlah_tagihan, a.jumlah_bulan_angsuran, a.angsuran_ke, a.tahun as id_tahun_bulan, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan")
                     ->join('_ref_tahun_bulan c', 'a.tahun = c.id')
                     ->join('tb_pegawai_ b', 'a.id_pegawai = b.id')
                     ->where([
-                        'tahun' => $tahun,
-                        'id_pegawai' => $pegawai->id,
-                        'dari_bank' => $id_bank,
+                        'a.tahun' => $tahun,
+                        'a.id_pegawai' => $pegawai->id,
+                        'a.dari_bank' => $id_bank,
                     ])
                     ->get()->getRowObject();
 
