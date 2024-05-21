@@ -222,6 +222,11 @@
                                             reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tahun) ?>");
                                         })
                                     } else {
+                                        $('.output_upload').html("");
+                                        const _inputFile = document.getElementsByName('_file')[0];
+                                        _inputFile.value = "";
+                                        dataJsonUpload = [];
+                                        $('.content-uploadModal').modal('hide');
                                         Swal.fire(
                                             'Gagal!',
                                             response.message,
@@ -230,6 +235,11 @@
                                     }
                                 },
                                 error: function(xhr, ajaxOptions, thrownError) {
+                                    $('.output_upload').html("");
+                                    const _inputFile = document.getElementsByName('_file')[0];
+                                    _inputFile.value = "";
+                                    dataJsonUpload = [];
+                                    $('.content-uploadModal').modal('hide');
                                     Swal.fire(
                                         'Failed!',
                                         "gagal mengambil data (" + xhr.status.toString + ")",
