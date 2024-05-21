@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Sigaji\Adm\Gagal;
+namespace App\Controllers\Sigaji\Bank\Tagihan;
 
 use App\Controllers\BaseController;
 use App\Models\Sigaji\Bank\Tagihan\GagaluploadModel;
