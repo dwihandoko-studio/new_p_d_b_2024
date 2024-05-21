@@ -1164,7 +1164,7 @@ extends BaseController
         }
     }
 
-    public function savetagihanuploads()
+    public function savetagihanupload()
     {
         if ($this->request->isAJAX()) {
             $Profilelib = new Profilelib();
@@ -1202,6 +1202,18 @@ extends BaseController
             $dataTidakDitemukan = 0;
 
             $uuidLib = new Uuid();
+            $dataRowUpload = [
+                'id' => $uuidLib->v4(),
+                'tahun' => $tahun,
+                'dari_bank' => $id_bank,
+                'data_upload' => $jsonData,
+                'created_at' => date('Y-m-d H:i:s'),
+            ];
+
+            try {
+                $this->_db->table('tb_tagihan_upload')->insert($dataRowUpload);
+            } catch (\Throwable $th) {
+            }
             $dataInserts = [];
 
             for ($i = 0; $i < $jmlData; $i++) {
@@ -1222,9 +1234,8 @@ extends BaseController
                         'tahun' => $tahun,
                         'dari_bank' => $id_bank,
                         'nip' => $formData[$i][3],
-                        'instansi' => $pegawai->nama_instansi,
-                        'kode_kecamatan' => $pegawai->kode_kecamatan,
-                        'kecamatan' => $pegawai->nama_kecamatan,
+                        'instansi' => $formData[$i][2],
+                        'kecamatan' => $formData[$i][4],
                         'besar_pinjaman' => str_replace(".", "", $jumlah_pinjaman),
                         'jumlah_tagihan' => str_replace(".", "", $jumlah_tagihan),
                         'jumlah_bulan_angsuran' => $jumlah_bulan_angsuran,
@@ -1233,34 +1244,20 @@ extends BaseController
                     ];
 
                     try {
-                        $this->_db->table('tb_tagihan_bank_antrian')->insert($dataRow);
+                        $this->_db->table('tb_tagihan_gagal_upload')->insert($dataRow);
                         if ($this->_db->affectedRows() > 0) {
-                            $dataRow = [
-                                'id' => $uuidLib->v4(),
-                                'user_id' => $user->data->id,
-                                'keterangan' => "Menambahkan data tagihan baru untuk Pegawai $pegawai->nip",
-                                'created_at' => date('Y-m-d H:i:s'),
-                            ];
 
-                            $this->_db->table('riwayat_system')->insert($dataRow);
-                            if ($this->_db->affectedRows() > 0) {
-
-                                $this->_db->transCommit();
-                                $dataTidakDitemukan++;
-                                continue;
-                            } else {
-                                $this->_db->transRollback();
-                                $dataGagal++;
-                                continue;
-                            }
+                            $this->_db->transCommit();
+                            $dataTidakDitemukan++;
+                            continue;
                         } else {
                             $this->_db->transRollback();
-                            $dataGagal++;
+                            $dataTidakDitemukan++;
                             continue;
                         }
                     } catch (\Throwable $th) {
                         $this->_db->transRollback();
-                        $dataGagal++;
+                        $dataTidakDitemukan++;
                         continue;
                     }
 
@@ -1271,8 +1268,41 @@ extends BaseController
                 }
 
                 if ($jumlah_pinjaman == "" || $jumlah_pinjaman == NULL || $jumlah_tagihan == "" || $jumlah_tagihan == NULL || $jumlah_bulan_angsuran == "" || $jumlah_bulan_angsuran == NULL || $angsuran_ke == "" || $angsuran_ke == NULL) {
-                    $dataGagal++;
-                    continue;
+                    $this->_db->transBegin();
+                    $uuidLib = new Uuid();
+                    $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
+                    $jumlah_tagihan = str_replace(".", "", $jumlah_tagihan);
+                    $dataRow = [
+                        'id' => $uuidLib->v4(),
+                        'tahun' => $tahun,
+                        'dari_bank' => $id_bank,
+                        'nip' => $formData[$i][3],
+                        'instansi' => $formData[$i][2],
+                        'kecamatan' => $formData[$i][4],
+                        'besar_pinjaman' => str_replace(".", "", $jumlah_pinjaman),
+                        'jumlah_tagihan' => str_replace(".", "", $jumlah_tagihan),
+                        'jumlah_bulan_angsuran' => $jumlah_bulan_angsuran,
+                        'angsuran_ke' => $angsuran_ke,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ];
+
+                    try {
+                        $this->_db->table('tb_tagihan_gagal_upload')->insert($dataRow);
+                        if ($this->_db->affectedRows() > 0) {
+
+                            $this->_db->transCommit();
+                            $dataGagal++;
+                            continue;
+                        } else {
+                            $this->_db->transRollback();
+                            $dataGagal++;
+                            continue;
+                        }
+                    } catch (\Throwable $th) {
+                        $this->_db->transRollback();
+                        $dataGagal++;
+                        continue;
+                    }
                 }
 
                 $oldData = $this->_db->table('tb_tagihan_bank_antrian a')
@@ -1308,7 +1338,7 @@ extends BaseController
                     $uuidLib = new Uuid();
 
                     $this->_db->transBegin();
-                    $dataRow = [
+                    $dataRowRiwayat = [
                         'id' => $uuidLib->v4(),
                         'user_id' => $user->data->id,
                         'keterangan' => $keterangan,
@@ -1316,7 +1346,7 @@ extends BaseController
                     ];
 
                     try {
-                        $this->_db->table('riwayat_system')->insert($dataRow);
+                        $this->_db->table('riwayat_system')->insert($dataRowRiwayat);
                         if ($this->_db->affectedRows() > 0) {
 
                             $oldData = $this->_db->table('tb_tagihan_bank_antrian')->where('id', $oldData->id)->update([
@@ -1334,18 +1364,117 @@ extends BaseController
                                 continue;
                             } else {
                                 $this->_db->transRollback();
+                                $this->_db->transBegin();
+                                $uuidLib = new Uuid();
+                                $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
+                                $jumlah_tagihan = str_replace(".", "", $jumlah_tagihan);
+                                $dataRow = [
+                                    'id' => $uuidLib->v4(),
+                                    'tahun' => $tahun,
+                                    'dari_bank' => $id_bank,
+                                    'nip' => $formData[$i][3],
+                                    'instansi' => $formData[$i][2],
+                                    'kecamatan' => $formData[$i][4],
+                                    'besar_pinjaman' => str_replace(".", "", $jumlah_pinjaman),
+                                    'jumlah_tagihan' => str_replace(".", "", $jumlah_tagihan),
+                                    'jumlah_bulan_angsuran' => $jumlah_bulan_angsuran,
+                                    'angsuran_ke' => $angsuran_ke,
+                                    'created_at' => date('Y-m-d H:i:s'),
+                                ];
+
+                                try {
+                                    $this->_db->table('tb_tagihan_gagal_upload')->insert($dataRow);
+                                    if ($this->_db->affectedRows() > 0) {
+
+                                        $this->_db->transCommit();
+                                        $dataGagal++;
+                                        continue;
+                                    } else {
+                                        $this->_db->transRollback();
+                                        $dataGagal++;
+                                        continue;
+                                    }
+                                } catch (\Throwable $th) {
+                                    $this->_db->transRollback();
+                                    $dataGagal++;
+                                    continue;
+                                }
+                            }
+                        } else {
+                            $this->_db->transRollback();
+                            $this->_db->transBegin();
+                            $uuidLib = new Uuid();
+                            $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
+                            $jumlah_tagihan = str_replace(".", "", $jumlah_tagihan);
+                            $dataRow = [
+                                'id' => $uuidLib->v4(),
+                                'tahun' => $tahun,
+                                'dari_bank' => $id_bank,
+                                'nip' => $formData[$i][3],
+                                'instansi' => $formData[$i][2],
+                                'kecamatan' => $formData[$i][4],
+                                'besar_pinjaman' => str_replace(".", "", $jumlah_pinjaman),
+                                'jumlah_tagihan' => str_replace(".", "", $jumlah_tagihan),
+                                'jumlah_bulan_angsuran' => $jumlah_bulan_angsuran,
+                                'angsuran_ke' => $angsuran_ke,
+                                'created_at' => date('Y-m-d H:i:s'),
+                            ];
+
+                            try {
+                                $this->_db->table('tb_tagihan_gagal_upload')->insert($dataRow);
+                                if ($this->_db->affectedRows() > 0) {
+
+                                    $this->_db->transCommit();
+                                    $dataGagal++;
+                                    continue;
+                                } else {
+                                    $this->_db->transRollback();
+                                    $dataGagal++;
+                                    continue;
+                                }
+                            } catch (\Throwable $th) {
+                                $this->_db->transRollback();
                                 $dataGagal++;
                                 continue;
                             }
-                        } else {
+                        }
+                    } catch (\Throwable $th) {
+                        $this->_db->transRollback();
+                        $this->_db->transBegin();
+                        $uuidLib = new Uuid();
+                        $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
+                        $jumlah_tagihan = str_replace(".", "", $jumlah_tagihan);
+                        $dataRow = [
+                            'id' => $uuidLib->v4(),
+                            'tahun' => $tahun,
+                            'dari_bank' => $id_bank,
+                            'nip' => $formData[$i][3],
+                            'instansi' => $formData[$i][2],
+                            'kecamatan' => $formData[$i][4],
+                            'besar_pinjaman' => str_replace(".", "", $jumlah_pinjaman),
+                            'jumlah_tagihan' => str_replace(".", "", $jumlah_tagihan),
+                            'jumlah_bulan_angsuran' => $jumlah_bulan_angsuran,
+                            'angsuran_ke' => $angsuran_ke,
+                            'created_at' => date('Y-m-d H:i:s'),
+                        ];
+
+                        try {
+                            $this->_db->table('tb_tagihan_gagal_upload')->insert($dataRow);
+                            if ($this->_db->affectedRows() > 0) {
+
+                                $this->_db->transCommit();
+                                $dataGagal++;
+                                continue;
+                            } else {
+                                $this->_db->transRollback();
+                                $dataGagal++;
+                                continue;
+                            }
+                        } catch (\Throwable $th) {
                             $this->_db->transRollback();
                             $dataGagal++;
                             continue;
                         }
-                    } catch (\Throwable $th) {
-                        $this->_db->transRollback();
-                        $dataGagal++;
-                        continue;
                     }
                 } else {
 
@@ -1353,7 +1482,7 @@ extends BaseController
                     $uuidLib = new Uuid();
                     $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
                     $jumlah_tagihan = str_replace(".", "", $jumlah_tagihan);
-                    $dataRow = [
+                    $dataRowInsert = [
                         'id' => $uuidLib->v4(),
                         'tahun' => $tahun,
                         'id_pegawai' => $pegawai->id,
@@ -1370,16 +1499,16 @@ extends BaseController
                     ];
 
                     try {
-                        $this->_db->table('tb_tagihan_bank_antrian')->insert($dataRow);
+                        $this->_db->table('tb_tagihan_bank_antrian')->insert($dataRowInsert);
                         if ($this->_db->affectedRows() > 0) {
-                            $dataRow = [
+                            $dataRowRiwayat = [
                                 'id' => $uuidLib->v4(),
                                 'user_id' => $user->data->id,
                                 'keterangan' => "Menambahkan data tagihan baru untuk Pegawai $pegawai->nip",
                                 'created_at' => date('Y-m-d H:i:s'),
                             ];
 
-                            $this->_db->table('riwayat_system')->insert($dataRow);
+                            $this->_db->table('riwayat_system')->insert($dataRowRiwayat);
                             if ($this->_db->affectedRows() > 0) {
 
                                 $this->_db->transCommit();
@@ -1387,18 +1516,117 @@ extends BaseController
                                 continue;
                             } else {
                                 $this->_db->transRollback();
+                                $this->_db->transBegin();
+                                $uuidLib = new Uuid();
+                                $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
+                                $jumlah_tagihan = str_replace(".", "", $jumlah_tagihan);
+                                $dataRow = [
+                                    'id' => $uuidLib->v4(),
+                                    'tahun' => $tahun,
+                                    'dari_bank' => $id_bank,
+                                    'nip' => $formData[$i][3],
+                                    'instansi' => $formData[$i][2],
+                                    'kecamatan' => $formData[$i][4],
+                                    'besar_pinjaman' => str_replace(".", "", $jumlah_pinjaman),
+                                    'jumlah_tagihan' => str_replace(".", "", $jumlah_tagihan),
+                                    'jumlah_bulan_angsuran' => $jumlah_bulan_angsuran,
+                                    'angsuran_ke' => $angsuran_ke,
+                                    'created_at' => date('Y-m-d H:i:s'),
+                                ];
+
+                                try {
+                                    $this->_db->table('tb_tagihan_gagal_upload')->insert($dataRow);
+                                    if ($this->_db->affectedRows() > 0) {
+
+                                        $this->_db->transCommit();
+                                        $dataGagal++;
+                                        continue;
+                                    } else {
+                                        $this->_db->transRollback();
+                                        $dataGagal++;
+                                        continue;
+                                    }
+                                } catch (\Throwable $th) {
+                                    $this->_db->transRollback();
+                                    $dataGagal++;
+                                    continue;
+                                }
+                            }
+                        } else {
+                            $this->_db->transRollback();
+                            $this->_db->transBegin();
+                            $uuidLib = new Uuid();
+                            $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
+                            $jumlah_tagihan = str_replace(".", "", $jumlah_tagihan);
+                            $dataRow = [
+                                'id' => $uuidLib->v4(),
+                                'tahun' => $tahun,
+                                'dari_bank' => $id_bank,
+                                'nip' => $formData[$i][3],
+                                'instansi' => $formData[$i][2],
+                                'kecamatan' => $formData[$i][4],
+                                'besar_pinjaman' => str_replace(".", "", $jumlah_pinjaman),
+                                'jumlah_tagihan' => str_replace(".", "", $jumlah_tagihan),
+                                'jumlah_bulan_angsuran' => $jumlah_bulan_angsuran,
+                                'angsuran_ke' => $angsuran_ke,
+                                'created_at' => date('Y-m-d H:i:s'),
+                            ];
+
+                            try {
+                                $this->_db->table('tb_tagihan_gagal_upload')->insert($dataRow);
+                                if ($this->_db->affectedRows() > 0) {
+
+                                    $this->_db->transCommit();
+                                    $dataGagal++;
+                                    continue;
+                                } else {
+                                    $this->_db->transRollback();
+                                    $dataGagal++;
+                                    continue;
+                                }
+                            } catch (\Throwable $th) {
+                                $this->_db->transRollback();
                                 $dataGagal++;
                                 continue;
                             }
-                        } else {
+                        }
+                    } catch (\Throwable $th) {
+                        $this->_db->transRollback();
+                        $this->_db->transBegin();
+                        $uuidLib = new Uuid();
+                        $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
+                        $jumlah_tagihan = str_replace(".", "", $jumlah_tagihan);
+                        $dataRow = [
+                            'id' => $uuidLib->v4(),
+                            'tahun' => $tahun,
+                            'dari_bank' => $id_bank,
+                            'nip' => $formData[$i][3],
+                            'instansi' => $formData[$i][2],
+                            'kecamatan' => $formData[$i][4],
+                            'besar_pinjaman' => str_replace(".", "", $jumlah_pinjaman),
+                            'jumlah_tagihan' => str_replace(".", "", $jumlah_tagihan),
+                            'jumlah_bulan_angsuran' => $jumlah_bulan_angsuran,
+                            'angsuran_ke' => $angsuran_ke,
+                            'created_at' => date('Y-m-d H:i:s'),
+                        ];
+
+                        try {
+                            $this->_db->table('tb_tagihan_gagal_upload')->insert($dataRow);
+                            if ($this->_db->affectedRows() > 0) {
+
+                                $this->_db->transCommit();
+                                $dataGagal++;
+                                continue;
+                            } else {
+                                $this->_db->transRollback();
+                                $dataGagal++;
+                                continue;
+                            }
+                        } catch (\Throwable $th) {
                             $this->_db->transRollback();
                             $dataGagal++;
                             continue;
                         }
-                    } catch (\Throwable $th) {
-                        $this->_db->transRollback();
-                        $dataGagal++;
-                        continue;
                     }
                 }
             }
