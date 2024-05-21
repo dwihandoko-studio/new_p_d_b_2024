@@ -1205,7 +1205,7 @@ extends BaseController
             $dataInserts = [];
 
             for ($i = 0; $i < $jmlData; $i++) {
-                $pegawai = getPegawaiByNipImportSigaji($formData[$i]);
+                $pegawai = getPegawaiByNipImportSigaji($formData[$i][3]);
                 if (!$pegawai) {
                     $dataTidakDitemukan++;
                     continue;
