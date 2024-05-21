@@ -175,7 +175,12 @@
                 didOpen: () => {
                     const swalContainer = document.getElementById('swal-table-container');
                     swalContainer.appendChild(output.firstChild);
-                    $('#dataTableUpload').DataTable();
+                    $('#dataTableUpload').DataTable({
+                        lengthMenu: [
+                            [5, 10, 25, 50, 100, -1],
+                            [5, 10, 25, 50, 100, "All"]
+                        ],
+                    });
                 },
             }).then((result) => {
                 if (result.isConfirmed) {
