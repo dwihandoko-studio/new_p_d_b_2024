@@ -229,7 +229,7 @@
                                         $('.output_upload').html("");
                                         const _inputFile = document.getElementsByName('_file')[0];
                                         _inputFile.value = "";
-                                        dataJsonUpload = [];
+                                        dataJsonUpload.length = 0;
                                         $('.content-uploadModal').modal('hide');
                                         Swal.fire(
                                             'Gagal!',
@@ -242,7 +242,7 @@
                                     $('.output_upload').html("");
                                     const _inputFile = document.getElementsByName('_file')[0];
                                     _inputFile.value = "";
-                                    dataJsonUpload = [];
+                                    dataJsonUpload.length = 0;
                                     $('.content-uploadModal').modal('hide');
                                     Swal.fire(
                                         'Failed!',
@@ -253,16 +253,13 @@
 
                             });
 
-
-
-
                         }
                     });
                 } else {
                     $('.output_upload').html("");
                     const _inputFile = document.getElementsByName('_file')[0];
                     _inputFile.value = "";
-                    dataJsonUpload = [];
+                    dataJsonUpload.length = 0;
                     Swal.close();
                     $('.content-uploadModal').modal('hide');
                 }
