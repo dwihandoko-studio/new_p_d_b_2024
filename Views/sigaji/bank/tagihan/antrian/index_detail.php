@@ -74,6 +74,19 @@
         </div>
     </div>
 </div>
+<div id="content-uploadModal" class="modal fade content-uploadModal" tabindex="-1" role="dialog" aria-labelledby="content-uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen" role="document">
+        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+        <div class="modal-content modal-content-loading">
+            <div class="modal-header">
+                <h5 class="modal-title" id="content-uploadModalLabel">Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="contentBodyUploadModal">
+            </div>
+        </div>
+    </div>
+</div>
 <div id="content-tolakModal" class="modal fade content-tolakModal" tabindex="-1" role="dialog" aria-labelledby="content-tolakModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-content-loading-tolak">

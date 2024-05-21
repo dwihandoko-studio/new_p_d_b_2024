@@ -610,13 +610,13 @@
             },
             success: function(response) {
                 if (response.status == 200) {
-                    $('#content-detailModalLabel').html('UPLOAD TAGIHAN BARU');
-                    $('.contentBodyModal').html(response.data);
-                    $('.content-detailModal').modal({
+                    $('#content-uploadModalLabel').html('UPLOAD TAGIHAN BARU');
+                    $('.contentBodyUploadModal').html(response.data);
+                    $('.content-uploadModal').modal({
                         backdrop: 'static',
                         keyboard: false,
                     });
-                    $('.content-detailModal').modal('show');
+                    $('.content-uploadModal').modal('show');
                 } else {
                     Swal.fire(
                         'Failed!',
