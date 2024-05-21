@@ -1,5 +1,5 @@
 <?php if (isset($tahun)) { ?>
-    <form id="formAddModalData" action="./uploadSave" method="post" enctype="multipart/form-data">
+    <form id="formUploadModalData" class="formUploadModalData" action="./uploadSave" method="post" enctype="multipart/form-data">
         <input type="hidden" value="<?= $tahun ?>" id="id" name="id" readonly>
         <div class="modal-body">
             <div class="row">
@@ -15,6 +15,8 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-lg-12" id="output_upload">
                 </div>
             </div>
         </div>
@@ -37,10 +39,22 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
     <script>
+        let dataJsonUpload;
         document.getElementById('_file').addEventListener('change', handleFile, false);
 
         function handleFile(e) {
             const file = e.target.files[0];
+
+            Swal.fire({
+                title: 'Uploading...',
+                text: 'Please wait while we process your file.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             const reader = new FileReader();
 
             reader.onload = function(e) {
@@ -54,15 +68,169 @@
                 const worksheet = workbook.Sheets[firstSheetName];
 
                 // Convert the worksheet to JSON
-                const json = XLSX.utils.sheet_to_json(worksheet);
+                dataJsonUpload = XLSX.utils.sheet_to_json(worksheet);
+
+                setTimeout(() => {
+                    // Hide loading dialog
+                    Swal.close();
+
+                    // Display the table
+                    displayTableUpload(dataJsonUpload);
+                }, 2000);
 
                 // Output the JSON data
-                console.log(json);
+                // console.log(json);
                 // You can also use the JSON data as needed
             };
 
             reader.readAsArrayBuffer(file);
         }
+
+        function displayTableUpload(data) {
+            const output = document.getElementById('output_upload');
+            output.innerHTML = '';
+
+            if (data.length === 0) {
+                output.innerHTML = '<p>No data found in the file.</p>';
+                return;
+            }
+
+            // Create a table element
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+
+            // Add table headers
+            const headers = Object.keys(data[0]);
+            const trHead = document.createElement('tr');
+            headers.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header;
+                trHead.appendChild(th);
+            });
+            thead.appendChild(trHead);
+
+            // Add table rows
+            data.forEach(row => {
+                const trBody = document.createElement('tr');
+                headers.forEach(header => {
+                    const td = document.createElement('td');
+                    td.textContent = row[header] || '';
+                    trBody.appendChild(td);
+                });
+                tbody.appendChild(trBody);
+            });
+
+            table.appendChild(thead);
+            table.appendChild(tbody);
+            output.appendChild(table);
+        }
+
+        $('.formUploadModalData').submit(function(e) {
+            e.preventDefault();
+
+            const tahun = document.getElementsByName('id')[0].value;
+
+            if (tahun === "" || tahun === undefined || dataJsonUpload === undefined) {
+                Swal.fire(
+                    'Peringatan!',
+                    "Data yang akan dikirim tidak valid.",
+                    'warning'
+                );
+                return;
+            }
+
+            try {
+                if (dataJsonUpload.length < 1) {
+                    Swal.fire(
+                        'Peringatan!',
+                        "Tidak ada data yang akan dikirim.",
+                        'warning'
+                    );
+                    return;
+                }
+            } catch (error) {
+                Swal.fire(
+                    'Peringatan!',
+                    "Data yang akan dikirim tidak valid. Terjadi kesalahan dalam pembacaan file.",
+                    'warning'
+                );
+                return;
+            }
+
+            Swal.fire({
+                title: 'Apakah anda yakin ingin mengupload data tagihan ini?',
+                text: `Upload Data Tagihan Untuk :  ${dataJsonUpload.length} Pegawai`,
+                showCancelButton: true,
+                icon: 'question',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Upload Data Tagihan!'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: './savetagihanupload',
+                        // url: $(this).attr('action'),
+                        type: 'POST',
+                        data: {
+                            data: dataJsonUpload,
+                            tahun: tahun,
+                            format: "json"
+                        },
+                        dataType: "json",
+                        beforeSend: function() {
+                            Swal.fire({
+                                title: 'Uploading...',
+                                text: 'Please wait while we process your file.',
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                }
+                            });
+                        },
+                        complete: function() {
+                            Swal.close();
+                            // $('.btnsimpanbanyak').removeAttr('disable')
+                            // $('.btnsimpanbanyak').html('<i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN');
+                        },
+                        success: function(response) {
+                            if (response.status == 200) {
+
+                                Swal.fire(
+                                    'SELAMAT!',
+                                    response.message + " " + response.data,
+                                    'success'
+                                ).then((valRes) => {
+                                    reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tahun) ?>");
+                                })
+                            } else {
+                                Swal.fire(
+                                    'Gagal!',
+                                    response.message,
+                                    'warning'
+                                );
+                            }
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            Swal.fire(
+                                'Failed!',
+                                "gagal mengambil data (" + xhr.status.toString + ")",
+                                'warning'
+                            );
+                        }
+
+                    });
+
+
+
+
+                }
+            });
+
+            // const jsonData = JSON.stringify(formData);
+
+        })
     </script>
 
 
