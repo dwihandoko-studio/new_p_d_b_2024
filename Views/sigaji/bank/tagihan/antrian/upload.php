@@ -46,7 +46,7 @@
             const file = e.target.files[0];
 
             Swal.fire({
-                title: 'Uploading...',
+                title: 'Mengambil data...',
                 text: 'Please wait while we process your file.',
                 allowOutsideClick: false,
                 allowEscapeKey: false,
@@ -129,121 +129,136 @@
             Swal.fire({
                 title: 'DATA YANG DIUPLOAD',
                 html: '<div id="swal-table-container"></div>',
-                width: '80%',
-                showCloseButton: true,
+                width: '90%',
+                showCloseButton: false,
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, Upload..!",
+                cancelButtonText: "Batal",
                 didOpen: () => {
                     const swalContainer = document.getElementById('swal-table-container');
                     swalContainer.appendChild(output.firstChild);
                     $('#dataTableUpload').DataTable();
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.close();
+                    const tahun = document.getElementsByName('id')[0].value;
+
+                    if (tahun === "" || tahun === undefined || dataJsonUpload === undefined) {
+                        Swal.fire(
+                            'Peringatan!',
+                            "Data yang akan dikirim tidak valid.",
+                            'warning'
+                        );
+                        return;
+                    }
+
+                    try {
+                        if (dataJsonUpload.length < 1) {
+                            Swal.fire(
+                                'Peringatan!',
+                                "Tidak ada data yang akan dikirim.",
+                                'warning'
+                            );
+                            return;
+                        }
+                    } catch (error) {
+                        Swal.fire(
+                            'Peringatan!',
+                            "Data yang akan dikirim tidak valid. Terjadi kesalahan dalam pembacaan file.",
+                            'warning'
+                        );
+                        return;
+                    }
+
+                    Swal.fire({
+                        title: 'Apakah anda yakin ingin mengupload data tagihan ini?',
+                        text: `Upload Data Tagihan Untuk :  ${dataJsonUpload.length} Pegawai`,
+                        showCancelButton: true,
+                        icon: 'question',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, Upload Data Tagihan!'
+                    }).then((result) => {
+                        if (result.value) {
+                            $.ajax({
+                                url: './savetagihanupload',
+                                // url: $(this).attr('action'),
+                                type: 'POST',
+                                data: {
+                                    data: dataJsonUpload,
+                                    tahun: tahun,
+                                    format: "json"
+                                },
+                                dataType: "json",
+                                beforeSend: function() {
+                                    Swal.fire({
+                                        title: 'Uploading...',
+                                        text: 'Please wait while we process your file.',
+                                        allowOutsideClick: false,
+                                        allowEscapeKey: false,
+                                        didOpen: () => {
+                                            Swal.showLoading();
+                                        }
+                                    });
+                                },
+                                complete: function() {
+                                    Swal.close();
+                                    // $('.btnsimpanbanyak').removeAttr('disable')
+                                    // $('.btnsimpanbanyak').html('<i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN');
+                                },
+                                success: function(response) {
+                                    if (response.status == 200) {
+
+                                        Swal.fire(
+                                            'SELAMAT!',
+                                            response.message + " " + response.data,
+                                            'success'
+                                        ).then((valRes) => {
+                                            reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tahun) ?>");
+                                        })
+                                    } else {
+                                        Swal.fire(
+                                            'Gagal!',
+                                            response.message,
+                                            'warning'
+                                        );
+                                    }
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    Swal.fire(
+                                        'Failed!',
+                                        "gagal mengambil data (" + xhr.status.toString + ")",
+                                        'warning'
+                                    );
+                                }
+
+                            });
+
+
+
+
+                        }
+                    });
+                } else {
+                    const outputDel = document.getElementById('output_upload');
+                    outputDel.html("");
+                    dataJsonUpload = [];
+                    Swal.close();
                 }
             });
         }
 
-        $('.formUploadModalData').submit(function(e) {
-            e.preventDefault();
-
-            const tahun = document.getElementsByName('id')[0].value;
-
-            if (tahun === "" || tahun === undefined || dataJsonUpload === undefined) {
-                Swal.fire(
-                    'Peringatan!',
-                    "Data yang akan dikirim tidak valid.",
-                    'warning'
-                );
-                return;
-            }
-
-            try {
-                if (dataJsonUpload.length < 1) {
-                    Swal.fire(
-                        'Peringatan!',
-                        "Tidak ada data yang akan dikirim.",
-                        'warning'
-                    );
-                    return;
-                }
-            } catch (error) {
-                Swal.fire(
-                    'Peringatan!',
-                    "Data yang akan dikirim tidak valid. Terjadi kesalahan dalam pembacaan file.",
-                    'warning'
-                );
-                return;
-            }
-
-            Swal.fire({
-                title: 'Apakah anda yakin ingin mengupload data tagihan ini?',
-                text: `Upload Data Tagihan Untuk :  ${dataJsonUpload.length} Pegawai`,
-                showCancelButton: true,
-                icon: 'question',
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Upload Data Tagihan!'
-            }).then((result) => {
-                if (result.value) {
-                    $.ajax({
-                        url: './savetagihanupload',
-                        // url: $(this).attr('action'),
-                        type: 'POST',
-                        data: {
-                            data: dataJsonUpload,
-                            tahun: tahun,
-                            format: "json"
-                        },
-                        dataType: "json",
-                        beforeSend: function() {
-                            Swal.fire({
-                                title: 'Uploading...',
-                                text: 'Please wait while we process your file.',
-                                allowOutsideClick: false,
-                                allowEscapeKey: false,
-                                didOpen: () => {
-                                    Swal.showLoading();
-                                }
-                            });
-                        },
-                        complete: function() {
-                            Swal.close();
-                            // $('.btnsimpanbanyak').removeAttr('disable')
-                            // $('.btnsimpanbanyak').html('<i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN');
-                        },
-                        success: function(response) {
-                            if (response.status == 200) {
-
-                                Swal.fire(
-                                    'SELAMAT!',
-                                    response.message + " " + response.data,
-                                    'success'
-                                ).then((valRes) => {
-                                    reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tahun) ?>");
-                                })
-                            } else {
-                                Swal.fire(
-                                    'Gagal!',
-                                    response.message,
-                                    'warning'
-                                );
-                            }
-                        },
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            Swal.fire(
-                                'Failed!',
-                                "gagal mengambil data (" + xhr.status.toString + ")",
-                                'warning'
-                            );
-                        }
-
-                    });
+        // $('.formUploadModalData').submit(function(e) {
+        //     e.preventDefault();
 
 
 
+        //     // const jsonData = JSON.stringify(formData);
 
-                }
-            });
-
-            // const jsonData = JSON.stringify(formData);
-
-        })
+        // })
     </script>
 
 
