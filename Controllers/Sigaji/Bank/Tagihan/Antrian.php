@@ -1164,7 +1164,7 @@ extends BaseController
         }
     }
 
-    public function savetagihanupload()
+    public function savetagihanuploads()
     {
         if ($this->request->isAJAX()) {
             $Profilelib = new Profilelib();
@@ -1206,19 +1206,69 @@ extends BaseController
 
             for ($i = 0; $i < $jmlData; $i++) {
                 $pegawai = getPegawaiByNipImportSigaji($formData[$i][3]);
-                if (!$pegawai) {
-                    $dataTidakDitemukan++;
-                    continue;
-                    // $response = new \stdClass;
-                    // $response->status = 400;
-                    // $response->message = "Data yang dikirim tidak valid. Pegawai tidak ditemukan.";
-                    // return json_encode($response);
-                }
 
                 $jumlah_pinjaman = $formData[$i][5];
                 $jumlah_tagihan = $formData[$i][6];
                 $jumlah_bulan_angsuran = $formData[$i][7];
                 $angsuran_ke = $formData[$i][8];
+
+                if (!$pegawai) {
+                    $this->_db->transBegin();
+                    $uuidLib = new Uuid();
+                    $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
+                    $jumlah_tagihan = str_replace(".", "", $jumlah_tagihan);
+                    $dataRow = [
+                        'id' => $uuidLib->v4(),
+                        'tahun' => $tahun,
+                        'dari_bank' => $id_bank,
+                        'nip' => $formData[$i][3],
+                        'instansi' => $pegawai->nama_instansi,
+                        'kode_kecamatan' => $pegawai->kode_kecamatan,
+                        'kecamatan' => $pegawai->nama_kecamatan,
+                        'besar_pinjaman' => str_replace(".", "", $jumlah_pinjaman),
+                        'jumlah_tagihan' => str_replace(".", "", $jumlah_tagihan),
+                        'jumlah_bulan_angsuran' => $jumlah_bulan_angsuran,
+                        'angsuran_ke' => $angsuran_ke,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ];
+
+                    try {
+                        $this->_db->table('tb_tagihan_bank_antrian')->insert($dataRow);
+                        if ($this->_db->affectedRows() > 0) {
+                            $dataRow = [
+                                'id' => $uuidLib->v4(),
+                                'user_id' => $user->data->id,
+                                'keterangan' => "Menambahkan data tagihan baru untuk Pegawai $pegawai->nip",
+                                'created_at' => date('Y-m-d H:i:s'),
+                            ];
+
+                            $this->_db->table('riwayat_system')->insert($dataRow);
+                            if ($this->_db->affectedRows() > 0) {
+
+                                $this->_db->transCommit();
+                                $dataTidakDitemukan++;
+                                continue;
+                            } else {
+                                $this->_db->transRollback();
+                                $dataGagal++;
+                                continue;
+                            }
+                        } else {
+                            $this->_db->transRollback();
+                            $dataGagal++;
+                            continue;
+                        }
+                    } catch (\Throwable $th) {
+                        $this->_db->transRollback();
+                        $dataGagal++;
+                        continue;
+                    }
+
+                    // $response = new \stdClass;
+                    // $response->status = 400;
+                    // $response->message = "Data yang dikirim tidak valid. Pegawai tidak ditemukan.";
+                    // return json_encode($response);
+                }
 
                 if ($jumlah_pinjaman == "" || $jumlah_pinjaman == NULL || $jumlah_tagihan == "" || $jumlah_tagihan == NULL || $jumlah_bulan_angsuran == "" || $jumlah_bulan_angsuran == NULL || $angsuran_ke == "" || $angsuran_ke == NULL) {
                     $dataGagal++;
