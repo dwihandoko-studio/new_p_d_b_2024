@@ -20,7 +20,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal-footer">
+        <!-- <div class="modal-footer">
             <div class="col-8">
                 <div>
                     <progress id="progressBar" value="0" max="100" style="width:100%; display: none;"></progress>
@@ -34,7 +34,7 @@
             </div>
             <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary waves-effect waves-light">UPLOAD</button>
-        </div>
+        </div> -->
     </form>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
@@ -244,6 +244,8 @@
                     });
                 } else {
                     $('.output_upload').html("");
+                    const _inputFile = document.getElementsByName('_file')[0];
+                    _inputFile.value = "";
                     dataJsonUpload = [];
                     Swal.close();
                 }
