@@ -1164,6 +1164,206 @@ extends BaseController
         }
     }
 
+    public function savetagihanupload()
+    {
+        if ($this->request->isAJAX()) {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                return redirect()->to(base_url('auth'));
+            }
+
+            $jsonData = htmlspecialchars($this->request->getVar('data'), true);
+            $tahun = htmlspecialchars($this->request->getVar('tahun'), true);
+            $formData = json_decode($jsonData, true);
+
+            if ($tahun === NULL || $tahun === "") {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Tahun bulan tidak boleh kosong.";
+                return json_encode($response);
+            }
+
+            $jmlData = count($formData);
+
+            if ($jmlData < 1) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data yang diupload tidak valid.";
+                return json_encode($response);
+            }
+
+            $id_bank = $this->_helpLib->getIdBank($user->data->id);
+
+            $dataBerhasil = 0;
+            $dataGagal = 0;
+            $dataTidakDitemukan = 0;
+
+            $uuidLib = new Uuid();
+            $dataInserts = [];
+
+            for ($i = 0; $i < $jmlData; $i++) {
+                $pegawai = getPegawaiByNipImportSigaji($formData[$i]);
+                if (!$pegawai) {
+                    $dataTidakDitemukan++;
+                    continue;
+                    // $response = new \stdClass;
+                    // $response->status = 400;
+                    // $response->message = "Data yang dikirim tidak valid. Pegawai tidak ditemukan.";
+                    // return json_encode($response);
+                }
+
+                $jumlah_pinjaman = $formData[$i][5];
+                $jumlah_tagihan = $formData[$i][6];
+                $jumlah_bulan_angsuran = $formData[$i][7];
+                $angsuran_ke = $formData[$i][8];
+
+                if ($jumlah_pinjaman == "" || $jumlah_pinjaman == NULL || $jumlah_tagihan == "" || $jumlah_tagihan == NULL || $jumlah_bulan_angsuran == "" || $jumlah_bulan_angsuran == NULL || $angsuran_ke == "" || $angsuran_ke == NULL) {
+                    $dataGagal++;
+                    continue;
+                }
+
+                $oldData = $this->_db->table('tb_tagihan_bank_antrian a')
+                    ->select("a.id, a.edited, a.id_perubahan, a.status_ajuan, a.id_pegawai, a.instansi, a.kecamatan, a.besar_pinjaman, a.jumlah_tagihan, a.jumlah_bulan_angsuran, a.angsuran_ke, a.tahun, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan")
+                    ->join('_ref_tahun_bulan c', 'a.tahun = c.id')
+                    ->join('tb_pegawai_ b', 'a.id_pegawai = b.id')
+                    ->where([
+                        'tahun' => $tahun,
+                        'id_pegawai' => $pegawai->id,
+                        'dari_bank' => $id_bank,
+                    ])
+                    ->get()->getRowObject();
+
+                if ($oldData) {
+
+                    $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
+                    $jumlah_tagihan = str_replace(".", "", $jumlah_tagihan);
+
+                    $keterangan = "Mengubah data tagihan dengan id $oldData->id dari ";
+                    if ((int)$jumlah_pinjaman !== (int)$oldData->besar_pinjaman) {
+                        $keterangan .= "Besar Pinjaman $jumlah_pinjaman --> $oldData->besar_pinjaman,";
+                    }
+                    if ((int)$jumlah_tagihan !== (int)$oldData->jumlah_tagihan) {
+                        $keterangan .= "Jumlah Tagihan $jumlah_tagihan --> $oldData->jumlah_tagihan,";
+                    }
+                    if ((int)$jumlah_bulan_angsuran !== (int)$oldData->jumlah_bulan_angsuran) {
+                        $keterangan .= "Jumlah Bulang Angsuran $jumlah_bulan_angsuran --> $oldData->jumlah_bulan_angsuran,";
+                    }
+                    if ((int)$angsuran_ke !== (int)$oldData->angsuran_ke) {
+                        $keterangan .= "Angsuran Ke $angsuran_ke --> $oldData->angsuran_ke,";
+                    }
+
+                    $uuidLib = new Uuid();
+
+                    $this->_db->transBegin();
+                    $dataRow = [
+                        'id' => $uuidLib->v4(),
+                        'user_id' => $user->data->id,
+                        'keterangan' => $keterangan,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ];
+
+                    try {
+                        $this->_db->table('riwayat_system')->insert($dataRow);
+                        if ($this->_db->affectedRows() > 0) {
+
+                            $oldData = $this->_db->table('tb_tagihan_bank_antrian')->where('id', $oldData->id)->update([
+                                'besar_pinjaman' => $jumlah_pinjaman,
+                                'jumlah_tagihan' => $jumlah_tagihan,
+                                'jumlah_bulan_angsuran' => $jumlah_bulan_angsuran,
+                                'angsuran_ke' => $angsuran_ke,
+                                'id_perubahan' => $dataRow['id'],
+                                'edited' => 1,
+                                'updated_at' => date('Y-m-d H:i:s'),
+                            ]);
+                            if ($this->_db->affectedRows() > 0) {
+                                $this->_db->transCommit();
+                                $dataBerhasil++;
+                                continue;
+                            } else {
+                                $this->_db->transRollback();
+                                $dataGagal++;
+                                continue;
+                            }
+                        } else {
+                            $this->_db->transRollback();
+                            $dataGagal++;
+                            continue;
+                        }
+                    } catch (\Throwable $th) {
+                        $this->_db->transRollback();
+                        $dataGagal++;
+                        continue;
+                    }
+                } else {
+
+                    $this->_db->transBegin();
+                    $uuidLib = new Uuid();
+                    $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
+                    $jumlah_tagihan = str_replace(".", "", $jumlah_tagihan);
+                    $dataRow = [
+                        'id' => $uuidLib->v4(),
+                        'tahun' => $tahun,
+                        'id_pegawai' => $pegawai->id,
+                        'dari_bank' => $id_bank,
+                        'nip' => $pegawai->nip,
+                        'instansi' => $pegawai->nama_instansi,
+                        'kode_kecamatan' => $pegawai->kode_kecamatan,
+                        'kecamatan' => $pegawai->nama_kecamatan,
+                        'besar_pinjaman' => str_replace(".", "", $jumlah_pinjaman),
+                        'jumlah_tagihan' => str_replace(".", "", $jumlah_tagihan),
+                        'jumlah_bulan_angsuran' => $jumlah_bulan_angsuran,
+                        'angsuran_ke' => $angsuran_ke,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ];
+
+                    try {
+                        $this->_db->table('tb_tagihan_bank_antrian')->insert($dataRow);
+                        if ($this->_db->affectedRows() > 0) {
+                            $dataRow = [
+                                'id' => $uuidLib->v4(),
+                                'user_id' => $user->data->id,
+                                'keterangan' => "Menambahkan data tagihan baru untuk Pegawai $pegawai->nip",
+                                'created_at' => date('Y-m-d H:i:s'),
+                            ];
+
+                            $this->_db->table('riwayat_system')->insert($dataRow);
+                            if ($this->_db->affectedRows() > 0) {
+
+                                $this->_db->transCommit();
+                                $dataBerhasil++;
+                                continue;
+                            } else {
+                                $this->_db->transRollback();
+                                $dataGagal++;
+                                continue;
+                            }
+                        } else {
+                            $this->_db->transRollback();
+                            $dataGagal++;
+                            continue;
+                        }
+                    } catch (\Throwable $th) {
+                        $this->_db->transRollback();
+                        $dataGagal++;
+                        continue;
+                    }
+                }
+            }
+
+            $response = new \stdClass;
+            $response->status = 200;
+            $response->message = "Data berhasil diupload.";
+            $response->sended_data = $jmlData;
+            $response->data = "Jumlah data yang disimpan adalah Berhasil: $dataBerhasil, Gagal: $dataGagal, Pegawai Tidak Temukan: $dataTidakDitemukan.";
+            return json_encode($response);
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
     // public function uploadSave()
     // {
     //     if ($this->request->isAJAX()) {
