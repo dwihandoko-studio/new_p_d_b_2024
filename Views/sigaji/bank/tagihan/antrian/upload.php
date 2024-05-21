@@ -16,7 +16,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12" id="output_upload" style="display: none;">
+                <div class="col-lg-12 output_upload" id="output_upload" style="display: none;">
                 </div>
             </div>
         </div>
@@ -243,8 +243,7 @@
                         }
                     });
                 } else {
-                    const outputDel = document.getElementById('output_upload');
-                    outputDel.html("");
+                    $('.output_upload').html("");
                     dataJsonUpload = [];
                     Swal.close();
                 }
