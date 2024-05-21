@@ -248,6 +248,7 @@
                     _inputFile.value = "";
                     dataJsonUpload = [];
                     Swal.close();
+                    $('.content-uploadModal').modal('hide');
                 }
             });
         }
