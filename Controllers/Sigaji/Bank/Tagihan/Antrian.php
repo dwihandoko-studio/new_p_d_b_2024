@@ -1219,6 +1219,7 @@ extends BaseController
                 $this->_db->table('tb_tagihan_gagal_upload')->where(['dari_bank' => $id_bank, 'tahun' => $tahun])->delete();
             } catch (\Throwable $th) {
             }
+
             $dataInserts = [];
 
             for ($i = 0; $i < $jmlData; $i++) {
