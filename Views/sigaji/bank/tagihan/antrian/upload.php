@@ -188,7 +188,7 @@
                         cancelButtonColor: '#d33',
                         confirmButtonText: 'Ya, Upload Data Tagihan!'
                     }).then((result) => {
-                        if (result.value) {
+                        if (result.isConfirmed) {
                             $.ajax({
                                 url: './savetagihanupload',
                                 // url: $(this).attr('action'),
@@ -244,8 +244,10 @@
                                                 OK..!
                                             `,
                                         }).then((valRes) => {
-                                            reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tahun) ?>");
-                                        })
+                                            if (valRes.isConfirmed) {
+                                                reloadPage("<?= base_url('sigaji/bank/tagihan/antrian/datadetail?d=' . $tahun) ?>");
+                                            }
+                                        });
 
                                         // Swal.fire(
                                         //     'SELAMAT!',
