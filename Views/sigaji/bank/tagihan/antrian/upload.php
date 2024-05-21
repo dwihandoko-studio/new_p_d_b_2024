@@ -40,7 +40,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
     <script>
         if (typeof dataJsonUpload === 'undefined') {
-            let dataJsonUpload;
+            let dataJsonUpload = [];
         }
         document.getElementById('_file').addEventListener('change', handleFile, false);
 
