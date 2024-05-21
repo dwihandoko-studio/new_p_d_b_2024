@@ -110,21 +110,52 @@
             });
             thead.appendChild(trHead);
 
-            const dataJsonUpload = [];
+            // Prepare data for JSON upload
+            const dataJsonUpload = data.map(row => {
+                const rowData = {};
+                headers.forEach(header => {
+                    rowData[header] = row[header] || '';
+                });
+                return rowData;
+            });
 
             // Add table rows
             data.forEach(row => {
                 const trBody = document.createElement('tr');
-                const rowData = [];
                 headers.forEach(header => {
                     const td = document.createElement('td');
                     td.textContent = row[header] || '';
                     trBody.appendChild(td);
-                    rowData.push(row[header]);
                 });
                 tbody.appendChild(trBody);
-                dataJsonUpload.push(rowData);
             });
+
+
+
+            // const headers = Object.keys(data[0]);
+            // const trHead = document.createElement('tr');
+            // headers.forEach(header => {
+            //     const th = document.createElement('th');
+            //     th.textContent = header;
+            //     trHead.appendChild(th);
+            // });
+            // thead.appendChild(trHead);
+
+            // const dataJsonUpload = [];
+
+            // // Add table rows
+            // data.forEach(row => {
+            //     const trBody = document.createElement('tr');
+            //     const rowData = [];
+            //     headers.forEach(header => {
+            //         const td = document.createElement('td');
+            //         td.textContent = row[header] || '';
+            //         trBody.appendChild(td);
+            //         rowData.push(row[header]);
+            //     });
+            //     tbody.appendChild(trBody);
+            //     dataJsonUpload.push(rowData);
+            // });
 
             table.appendChild(thead);
             table.appendChild(tbody);
