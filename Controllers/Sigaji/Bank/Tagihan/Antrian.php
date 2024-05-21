@@ -692,6 +692,10 @@ extends BaseController
                         'created_at' => date('Y-m-d H:i:s'),
                     ]);
                     if ($this->_db->affectedRows() > 0) {
+                        // try {
+                        //     $this->_db->table('tb_tagihan_gagal_upload')->where(['dari_bank' => $id_bank, 'tahun' => $tahun, 'nip' => $pegawai->nip])->delete();
+                        // } catch (\Throwable $th) {
+                        // }
                         $this->_db->transCommit();
                         $response = new \stdClass;
                         $response->status = 200;

@@ -163,10 +163,10 @@
         });
     }
 
-    function actionHapus(id, filename) {
+    function actionHapus(id, nama, instansi) {
         Swal.fire({
             title: 'Apakah anda yakin ingin menghapus data ini?',
-            text: "Hapus File Matching : " + filename,
+            text: `Hapus Data Gagal Upload Tagihan Nama : ${nama} (${instansi})`,
             showCancelButton: true,
             icon: 'question',
             confirmButtonColor: '#3085d6',
@@ -179,7 +179,8 @@
                     type: 'POST',
                     data: {
                         id: id,
-                        filename: filename,
+                        nama: nama,
+                        instansi: instansi,
                     },
                     dataType: 'JSON',
                     beforeSend: function() {
