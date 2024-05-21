@@ -1185,7 +1185,7 @@ function getPegawaiByIdSigaji($idPegawai)
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
 	$db      = \Config\Database::connect('sigaji');
 
-	$grandted = $db->table('tb_pegawai_')->select("nip, nama, kode_kecamatan, nama_kecamatan, kode_instansi, nama_instansi")->where('id', $idPegawai)->get()->getRowObject();
+	$grandted = $db->table('tb_pegawai_')->select("id, nip, nama, kode_kecamatan, nama_kecamatan, kode_instansi, nama_instansi")->where('id', $idPegawai)->get()->getRowObject();
 	if (!$grandted) {
 		return false;
 	}
@@ -1198,7 +1198,7 @@ function getPegawaiByNipImportSigaji($nip)
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
 	$db      = \Config\Database::connect('sigaji');
 
-	$grandted = $db->table('tb_pegawai_')->select("nip, nama, kode_kecamatan, nama_kecamatan, kode_instansi, nama_instansi")->where('nip', $nip)->get()->getRowObject();
+	$grandted = $db->table('tb_pegawai_')->select("id, nip, nama, kode_kecamatan, nama_kecamatan, kode_instansi, nama_instansi")->where('nip', $nip)->get()->getRowObject();
 	if (!$grandted) {
 		return false;
 	}
