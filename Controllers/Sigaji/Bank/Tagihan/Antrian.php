@@ -1357,6 +1357,9 @@ extends BaseController
             $response->status = 200;
             $response->message = "Data berhasil diupload.";
             $response->sended_data = $jmlData;
+            $response->upload_sukses = $dataBerhasil;
+            $response->upload_gagal = $dataGagal;
+            $response->upload_tidakditemukan = $dataTidakDitemukan;
             $response->data = "Jumlah data yang disimpan adalah Berhasil: $dataBerhasil, Gagal: $dataGagal, Pegawai Tidak Temukan: $dataTidakDitemukan.";
             return json_encode($response);
         } else {
