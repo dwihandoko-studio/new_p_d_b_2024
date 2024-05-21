@@ -114,7 +114,8 @@
             const dataJsonUpload = data.map(row => {
                 const rowData = {};
                 headers.forEach(header => {
-                    rowData[header] = row[header] || '';
+                    const keyHeader = header.replace(/ /g, "_");
+                    rowData[keyHeader] = row[header] || '';
                 });
                 return rowData;
             });
