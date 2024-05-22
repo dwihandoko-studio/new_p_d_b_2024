@@ -182,8 +182,8 @@ extends BaseController
                 ->get()->getResult();
             $d['prosesed_ajuan'] = $this->_db->table('tb_tagihan_bank_antrian')->where(['dari_bank' => $id_bank, 'tahun' => $id, 'status_ajuan' => 1])->countAllResults();
 
-            var_dump($d);
-            die;
+            // var_dump($d);
+            // die;
             $response = new \stdClass;
             $response->status = 200;
             $response->message = "Permintaan diizinkan";
