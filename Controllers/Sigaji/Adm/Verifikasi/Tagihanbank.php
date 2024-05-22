@@ -233,18 +233,94 @@ extends BaseController
                     }
 
                     $this->_db->transBegin();
+                    $dateUpdate = date('Y-m-d H:i:s');
                     $getAnyTag = $this->_db->table('tb_tagihan_bank_antrian')
                         ->where([
                             'id' => $id_tags[$i],
                             'dari_bank' => $id_bank,
                             'tahun' => $id,
                             'status_ajuan' => 1,
-                        ])->update(['status_ajuan' => 2, 'updated_at' => date('Y-m-d H:i:s')]);
+                        ])->update(['status_ajuan' => 2, 'updated_at' => $dateUpdate]);
 
                     if ($this->_db->affectedRows() > 0) {
-                        $this->_db->transCommit();
-                        $dataInserts[] = $id_tags[$i];
-                        continue;
+                        $idTagihan = $id_tags[$i];
+                        $this->_db->query("INSERT INTO tb_tagihan_bank (id, tahun, id_pegawai, dari_bank, nip, instansi, kode_kecamatan, kecamatan, besar_pinjaman, jumlah_tagihan, jumlah_bulan_angsuran, angsuran_ke, created_at, updated_at) SELECT id, tahun, id_pegawai, dari_bank, nip, instansi, kode_kecamatan, kecamatan, besar_pinjaman, jumlah_tagihan, jumlah_bulan_angsuran, angsuran_ke, created_at, updated_at FROM tb_tagihan_bank_antrian WHERE id = '$idTagihan'");
+                        if ($this->_db->affectedRows() > 0) {
+                            switch ((int)$id_bank) {
+                                case 0:
+                                    $pot_bang = 'wajib_kpn';
+                                    break;
+                                case 1:
+                                    $pot_bang = 'bank_eka_bandar_jaya';
+                                    break;
+                                case 2:
+                                    $pot_bang = 'bank_eka_metro';
+                                    break;
+                                case 3:
+                                    $pot_bang = 'bpd_bandar_jaya';
+                                    break;
+                                case 4:
+                                    $pot_bang = 'bpd_koga';
+                                    break;
+                                case 5:
+                                    $pot_bang = 'bpd_kalirejo';
+                                    break;
+                                case 6:
+                                    $pot_bang = 'kpn';
+                                    break;
+                                case 7:
+                                    $pot_bang = 'bri';
+                                    break;
+                                case 8:
+                                    $pot_bang = 'btn';
+                                    break;
+                                case 9:
+                                    $pot_bang = 'bni';
+                                    break;
+                                case 10:
+                                    $pot_bang = 'bpd_metro';
+                                    break;
+
+                                default:
+                                    $pot_bang = 'wajib_kpn';
+                                    break;
+                            }
+                            $this->_db->query("UPDATE tb_potongan_ SET $pot_bang = $tagihan->jumlah_tagihan, updated_at = '$dateUpdate' WHERE tahun = '$tagihan->tahun' AND id_pegawai = '$tagihan->id_pegawai'");
+                            if ($this->_db->affectedRows() > 0) {
+                                $uuidLib = new Uuid();
+                                $dataRow = [
+                                    'id' => $uuidLib->v4(),
+                                    'user_id' => $user->data->id,
+                                    'keterangan' => "Memverifikasi pengajuan data tagihan dengan id $idTagihan",
+                                    'created_at' => date('Y-m-d H:i:s'),
+                                ];
+                                $this->_db->table('riwayat_system')->insert($dataRow);
+                                if ($this->_db->affectedRows() > 0) {
+
+                                    $this->_db->transCommit();
+                                    $dataInserts[] = $id_tags[$i];
+                                    continue;
+                                } else {
+                                    $this->_db->transRollback();
+                                    $response = new \stdClass;
+                                    $response->status = 400;
+                                    $response->message = "Gagal memverifikasi data. " . $id_tags[$i] . ".";
+                                    return json_encode($response);
+                                }
+                            } else {
+                                $this->_db->transRollback();
+                                $response = new \stdClass;
+                                $response->status = 400;
+                                $response->message = "Gagal memverifikasi data. " . $id_tags[$i] . ".";
+                                return json_encode($response);
+                            }
+                        } else {
+                            $this->_db->transRollback();
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Gagal memverifikasi data. " . $id_tags[$i] . ".";
+                            return json_encode($response);
+                        }
                     } else {
                         $this->_db->transRollback();
                         $response = new \stdClass;
@@ -347,9 +423,25 @@ extends BaseController
                         ])->update(['status_ajuan' => 3, 'keterangan_penolakan' => $keterangans[$i], 'updated_at' => date('Y-m-d H:i:s')]);
 
                     if ($this->_db->affectedRows() > 0) {
-                        $this->_db->transCommit();
-                        $dataInserts[] = $id_tags[$i];
-                        continue;
+                        $uuidLib = new Uuid();
+                        $dataRow = [
+                            'id' => $uuidLib->v4(),
+                            'user_id' => $user->data->id,
+                            'keterangan' => "Menolak verifikasi pengajuan data tagihan dengan id " . $id_tags[$i] . " dengan keterangan: " . $keterangans[$i],
+                            'created_at' => date('Y-m-d H:i:s'),
+                        ];
+                        $this->_db->table('riwayat_system')->insert($dataRow);
+                        if ($this->_db->affectedRows() > 0) {
+                            $this->_db->transCommit();
+                            $dataInserts[] = $id_tags[$i];
+                            continue;
+                        } else {
+                            $this->_db->transRollback();
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Gagal memverifikasi data. " . $id_tags[$i] . ".";
+                            return json_encode($response);
+                        }
                     } else {
                         $this->_db->transRollback();
                         $response = new \stdClass;
