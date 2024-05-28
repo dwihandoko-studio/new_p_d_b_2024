@@ -1278,42 +1278,87 @@ extends BaseController
                     // return json_encode($response);
                 }
 
-                if ($jumlah_pinjaman == "" || $jumlah_pinjaman == NULL || $jumlah_tagihan == "" || $jumlah_tagihan == NULL || $jumlah_bulan_angsuran == "" || $jumlah_bulan_angsuran == NULL || $angsuran_ke == "" || $angsuran_ke == NULL) {
-                    $this->_db->transBegin();
-                    $uuidLib = new Uuid();
-                    $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
-                    $jumlah_tagihan = str_replace(".", "", $jumlah_tagihan);
-                    $dataRow = [
-                        'id' => $uuidLib->v4(),
-                        'tahun' => $tahun,
-                        'dari_bank' => $id_bank,
-                        'nama' => $formData[$i]['NAMA'],
-                        'nip' => $formData[$i]['NIP'],
-                        'instansi' => $formData[$i]['NAMA_SEKOLAH'],
-                        'kecamatan' => $formData[$i]['KECAMATAN'],
-                        'besar_pinjaman' => str_replace(".", "", $jumlah_pinjaman),
-                        'jumlah_tagihan' => str_replace(".", "", $jumlah_tagihan),
-                        'jumlah_bulan_angsuran' => $jumlah_bulan_angsuran,
-                        'angsuran_ke' => $angsuran_ke,
-                        'created_at' => date('Y-m-d H:i:s'),
-                    ];
+                if ($id_bank == 0) {
+                    if ($jumlah_tagihan == "" || $jumlah_tagihan == NULL) {
+                        $this->_db->transBegin();
+                        $uuidLib = new Uuid();
+                        $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
+                        $jumlah_tagihan = str_replace(".", "", $jumlah_tagihan);
+                        $dataRow = [
+                            'id' => $uuidLib->v4(),
+                            'tahun' => $tahun,
+                            'dari_bank' => $id_bank,
+                            'nama' => $formData[$i]['NAMA'],
+                            'nip' => $formData[$i]['NIP'],
+                            'instansi' => $formData[$i]['NAMA_SEKOLAH'],
+                            'kecamatan' => $formData[$i]['KECAMATAN'],
+                            'besar_pinjaman' => str_replace(".", "", $jumlah_pinjaman),
+                            'jumlah_tagihan' => str_replace(".", "", $jumlah_tagihan),
+                            'jumlah_bulan_angsuran' => $jumlah_bulan_angsuran,
+                            'angsuran_ke' => $angsuran_ke,
+                            'created_at' => date('Y-m-d H:i:s'),
+                        ];
 
-                    try {
-                        $this->_db->table('tb_tagihan_gagal_upload')->insert($dataRow);
-                        if ($this->_db->affectedRows() > 0) {
+                        try {
+                            $this->_db->table('tb_tagihan_gagal_upload')->insert($dataRow);
+                            if ($this->_db->affectedRows() > 0) {
 
-                            $this->_db->transCommit();
-                            $dataGagal++;
-                            continue;
-                        } else {
+                                $this->_db->transCommit();
+                                $dataGagal++;
+                                continue;
+                            } else {
+                                $this->_db->transRollback();
+                                $dataGagal++;
+                                continue;
+                            }
+                        } catch (\Throwable $th) {
                             $this->_db->transRollback();
                             $dataGagal++;
                             continue;
                         }
-                    } catch (\Throwable $th) {
-                        $this->_db->transRollback();
-                        $dataGagal++;
-                        continue;
+                    } else {
+                        $jumlah_pinjaman = 0;
+                        $jumlah_bulan_angsuran = 0;
+                        $angsuran_ke = 0;
+                    }
+                } else {
+                    if ($jumlah_pinjaman == "" || $jumlah_pinjaman == NULL || $jumlah_tagihan == "" || $jumlah_tagihan == NULL || $jumlah_bulan_angsuran == "" || $jumlah_bulan_angsuran == NULL || $angsuran_ke == "" || $angsuran_ke == NULL) {
+                        $this->_db->transBegin();
+                        $uuidLib = new Uuid();
+                        $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
+                        $jumlah_tagihan = str_replace(".", "", $jumlah_tagihan);
+                        $dataRow = [
+                            'id' => $uuidLib->v4(),
+                            'tahun' => $tahun,
+                            'dari_bank' => $id_bank,
+                            'nama' => $formData[$i]['NAMA'],
+                            'nip' => $formData[$i]['NIP'],
+                            'instansi' => $formData[$i]['NAMA_SEKOLAH'],
+                            'kecamatan' => $formData[$i]['KECAMATAN'],
+                            'besar_pinjaman' => str_replace(".", "", $jumlah_pinjaman),
+                            'jumlah_tagihan' => str_replace(".", "", $jumlah_tagihan),
+                            'jumlah_bulan_angsuran' => $jumlah_bulan_angsuran,
+                            'angsuran_ke' => $angsuran_ke,
+                            'created_at' => date('Y-m-d H:i:s'),
+                        ];
+
+                        try {
+                            $this->_db->table('tb_tagihan_gagal_upload')->insert($dataRow);
+                            if ($this->_db->affectedRows() > 0) {
+
+                                $this->_db->transCommit();
+                                $dataGagal++;
+                                continue;
+                            } else {
+                                $this->_db->transRollback();
+                                $dataGagal++;
+                                continue;
+                            }
+                        } catch (\Throwable $th) {
+                            $this->_db->transRollback();
+                            $dataGagal++;
+                            continue;
+                        }
                     }
                 }
 
