@@ -135,8 +135,8 @@ extends BaseController
             ->where('a.status_ajuan', 1)
             ->countAllResults();
 
-        // var_dump($data);
-        // die;
+        var_dump($data['datas']);
+        die;
 
         return view('sigaji/adm/verifikasi/tagihanbank/index_detail', $data);
     }
