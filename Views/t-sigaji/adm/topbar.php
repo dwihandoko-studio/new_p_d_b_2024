@@ -43,6 +43,8 @@
                                 <a href="<?= base_url('sigaji/adm/upload/pegawai') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "adm" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "pegawai") ? ' active-menu-href' : '' ?>" key="t-upload-pegawai">Gaji SIPD</a>
                                 <a href="<?= base_url('sigaji/adm/upload/meninggal') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "adm" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "meninggal") ? ' active-menu-href' : '' ?>" key="t-upload-meninggal">Data Meninggal</a>
                                 <a href="<?= base_url('sigaji/adm/upload/tagihanbank') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "adm" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "tagihanbank") ? ' active-menu-href' : '' ?>" key="t-upload-tagihanbank">Tagihan Bank</a>
+                                <a href="<?= base_url('sigaji/adm/upload/zakat') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "adm" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "zakat") ? ' active-menu-href' : '' ?>" key="t-upload-zakat">Zakat</a>
+                                <a href="<?= base_url('sigaji/adm/upload/shodaqoh') ?>" class="dropdown-item <?= ($uri->getSegment(2) == "adm" && $uri->getSegment(3) == "upload" && $uri->getSegment(4) == "shodaqoh") ? ' active-menu-href' : '' ?>" key="t-upload-shodaqoh">Shodaqoh</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
