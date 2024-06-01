@@ -9,6 +9,7 @@
             <th data-orderable="false" width="10%">Jumlah Tagihan</th>
             <th data-orderable="false" width="7.5%">Jml Bulan<br>Angs</th>
             <th data-orderable="false" width="7%">Angs Ke</th>
+            <th data-orderable="false" width="20%">Keterangan</th>
         </tr>
     </thead>
     <tbody class="formtambah">
@@ -39,6 +40,9 @@
                         </td>
                         <td>
                             <input class="form-control" type="number" value="<?= $value->angsuran_ke; ?>" id="angsuran_ke_<?= $key + 1; ?>" name="angsuran_ke[]" readonly>
+                        </td>
+                        <td>
+                            <?= $value->keterangan_penolakan; ?>
                         </td>
                     </tr>
 
