@@ -171,10 +171,10 @@ extends BaseController
             // $data['tws'] = $this->_db->table('_ref_tahun_bulan')->orderBy('tahun', 'desc')->orderBy('bulan', 'desc')->get()->getResult();
             $d['datas'] = $this->_db->table('tb_tagihan_bank_antrian a')
                 ->select("a.id, a.status_ajuan, a.id_pegawai, a.instansi, a.kecamatan, a.besar_pinjaman, a.jumlah_tagihan, a.jumlah_bulan_angsuran, a.angsuran_ke, a.tahun, b.nama, b.nip, b.golongan, b.no_rekening_bank, b.kode_instansi, b.nama_instansi, b.nama_kecamatan, c.tahun, c.bulan, d.jumlah_transfer, (e.bank_eka_bandar_jaya + e.bank_eka_metro + e.bpd_bandar_jaya + e.bpd_koga + e.bpd_metro + e.bpd_kalirejo + e.wajib_kpn + e.kpn + e.bri + e.btn + e.bni + e.dharma_wanita + e.korpri + e.zakat_profesi + e.infak + e.shodaqoh + e.zakat_fitrah) as jumlah_potongan")
-                ->join('_ref_tahun_bulan c', 'a.tahun = c.id', 'LEFT')
-                ->join('tb_pegawai_ b', 'a.id_pegawai = b.id', 'LEFT')
+                ->join('_ref_tahun_bulan c', 'a.tahun = c.id')
+                ->join('tb_pegawai_ b', 'a.id_pegawai = b.id')
                 ->join('tb_gaji_sipd d', 'a.id_pegawai = d.id_pegawai AND a.tahun = d.tahun', 'LEFT')
-                ->join('tb_potongan_ e', 'a.id_pegawai = e.id_pegawai AND a.tahun = e.tahun', 'LEFT')
+                ->join('tb_potongan_ e', 'a.id_pegawai = e.id_pegawai AND a.tahun = e.tahun')
                 ->where('a.dari_bank', $id_bank)
                 ->where('a.tahun', $id)
                 ->where('a.status_ajuan', 1)
@@ -182,8 +182,8 @@ extends BaseController
                 ->get()->getResult();
             $d['prosesed_ajuan'] = $this->_db->table('tb_tagihan_bank_antrian')->where(['dari_bank' => $id_bank, 'tahun' => $id, 'status_ajuan' => 1])->countAllResults();
 
-            var_dump($d['datas']);
-            die;
+            // var_dump($d['datas']);
+            // die;
             $response = new \stdClass;
             $response->status = 200;
             $response->message = "Permintaan diizinkan";

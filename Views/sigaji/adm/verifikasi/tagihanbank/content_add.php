@@ -27,6 +27,9 @@
         <?php if (isset($datas)) { ?>
             <?php if (count($datas) > 0) { ?>
                 <?php foreach ($datas as $key => $value) { ?>
+                    <?php if ($value->jumlah_transfer == NULL || $value->jumlah_transfer == "") {
+                        $value->jumlah_transfer = 0;
+                    } ?>
                     <?php if (($value->jumlah_transfer - ($value->jumlah_tagihan + $value->jumlah_potongan)) > 0) { ?>
                         <tr class="lolosVerifikasi">
                             <td>
