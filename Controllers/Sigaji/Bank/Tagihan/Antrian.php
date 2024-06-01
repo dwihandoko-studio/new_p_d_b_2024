@@ -1322,7 +1322,13 @@ extends BaseController
                         $angsuran_ke = 0;
                     }
                 } else {
-                    if ($jumlah_pinjaman == "" || $jumlah_pinjaman == NULL || $jumlah_tagihan == "" || $jumlah_tagihan == NULL || $jumlah_bulan_angsuran == "" || $jumlah_bulan_angsuran == NULL || $angsuran_ke == "" || $angsuran_ke == NULL) {
+                    if ($jumlah_pinjaman == "" || $jumlah_pinjaman == NULL || $jumlah_tagihan == "" || $jumlah_tagihan == NULL || $angsuran_ke == "" || $angsuran_ke == NULL) {
+                        if ($jumlah_bulan_angsuran == "" || $jumlah_bulan_angsuran == NULL) {
+                            $jumlah_bulan_angsuran = 0;
+                        }
+                        if ($jumlah_pinjaman == "" || $jumlah_pinjaman == NULL) {
+                            $jumlah_pinjaman = 0;
+                        }
                         $this->_db->transBegin();
                         $uuidLib = new Uuid();
                         $jumlah_pinjaman = str_replace(".", "", $jumlah_pinjaman);
