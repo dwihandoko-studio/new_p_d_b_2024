@@ -18,28 +18,28 @@
                 <?php foreach ($datas as $key => $value) { ?>
                     <tr>
                         <td>
-                            <input class="form-control" type="text" value="<?= $value->nama; ?>" id="nama_<?= $key + 1; ?>" name="nama[]" readonly>
+                            <?= $value->nama; ?>
                         </td>
                         <td>
-                            <input class="form-control" type="text" value="<?= $value->nip; ?>" id="nip_<?= $key + 1; ?>" name="nip[]" readonly>
+                            <?= $value->nip; ?>
                         </td>
                         <td>
-                            <input class="form-control" type="text" value="<?= $value->nama_instansi; ?>" id="instansi_<?= $key + 1; ?>" name="instansi[]" readonly>
+                            <?= $value->nama_instansi; ?>
                         </td>
                         <td>
-                            <input class="form-control" type="text" value="<?= $value->nama_kecamatan; ?>" id="kecamatan_<?= $key + 1; ?>" name="kecamatan[]" readonly>
+                            <?= $value->nama_kecamatan; ?>
                         </td>
                         <td>
-                            <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->besar_pinjaman); ?>" id="jumlah_pinjaman_<?= $key + 1; ?>" name="jumlah_pinjaman[]" readonly>
+                            <?= number_rupiah($value->besar_pinjaman); ?>
                         </td>
                         <td>
-                            <input class="form-control jumlah-pinjaman" type="text" value="<?= number_rupiah($value->jumlah_tagihan); ?>" id="jumlah_tagihan_<?= $key + 1; ?>" name="jumlah_tagihan[]" readonly>
+                            <?= number_rupiah($value->jumlah_tagihan); ?>
                         </td>
                         <td>
-                            <input class="form-control" type="number" value="<?= $value->jumlah_bulan_angsuran; ?>" id="jumlah_bulan_angsuran_<?= $key + 1; ?>" name="jumlah_bulan_angsuran[]" readonly>
+                            <?= $value->jumlah_bulan_angsuran; ?>
                         </td>
                         <td>
-                            <input class="form-control" type="number" value="<?= $value->angsuran_ke; ?>" id="angsuran_ke_<?= $key + 1; ?>" name="angsuran_ke[]" readonly>
+                            <?= $value->angsuran_ke; ?>
                         </td>
                         <td>
                             <?= $value->keterangan_penolakan; ?>
