@@ -113,7 +113,7 @@
             url: "./ambildataadd",
             type: 'POST',
             data: {
-                id: '<?= isset($tw) ? $tw->id : 'none' ?>',
+                id: '<?= isset($tw_active) ? $tw_active : 'none' ?>',
                 bank: '<?= isset($id_bank) ? $id_bank : 'none' ?>',
             },
             dataType: "json",
