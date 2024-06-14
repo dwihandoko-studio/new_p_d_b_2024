@@ -9,15 +9,23 @@
                 </div>
             </div>
             <div class="mb-3 row">
+
                 <label class="col-sm-3 col-form-label">NIK</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_nik" name="_nik" value="<?= $data->nik ?>" required />
+                    <div class="input-group   input-primary">
+                        <span class="input-group-text">NIK</span>
+                        <input type="text" class="form-control" id="_nik" name="_nik" value="<?= $data->nik ?>" required />
+                    </div>
+
                 </div>
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">NO KK</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_kk" name="_kk" value="<?= $data->no_kk ?>" required />
+                    <div class="input-group   input-primary">
+                        <span class="input-group-text">KK</span>
+                        <input type="text" class="form-control" id="_kk" name="_kk" value="<?= $data->no_kk ?>" required />
+                    </div>
                 </div>
             </div>
             <div class="mb-3 row">
@@ -132,13 +140,19 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Lintang</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="_lintang" name="_lintang" value="<?= $data->lintang ?>" required />
+                                    <div class="input-group   input-primary">
+                                        <span class="input-group-text">Lat</span>
+                                        <input type="text" class="form-control" id="_lintang" name="_lintang" value="<?= $data->lintang ?>" required />
+                                    </div>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Bujur</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="_bujur" name="_bujur" value="<?= $data->bujur ?>" required />
+                                    <div class="input-group   input-primary">
+                                        <span class="input-group-text">Long</span>
+                                        <input type="text" class="form-control" id="_bujur" name="_bujur" value="<?= $data->bujur ?>" required />
+                                    </div>
                                 </div>
                             </div>
                         </div>
