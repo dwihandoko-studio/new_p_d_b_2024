@@ -386,7 +386,7 @@ class Akun extends BaseController
 
                 $response = new \stdClass;
                 $response->status = 200;
-                $response->message = "Akun PD tidak ditemukan.";
+                $response->message = "Akun Berhasil Didownload.";
                 $response->data = $base64Data;
                 $response->filename = $filename;
                 return json_encode($response);
