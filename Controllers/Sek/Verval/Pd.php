@@ -398,7 +398,7 @@ class Pd extends BaseController
                     $x['kabs'] = $this->_db->table('ref_kabupaten')
                         ->where("left(id,2) = left('{$current->kode_wilayah}',2)")->get()->getResult();
                     $x['kecs'] = $this->_db->table('ref_kecamatan')
-                        ->where("id = left('{$current->kode_wilayah}',6)")->get()->getResult();
+                        ->where("left(id_kabupaten,4) = left('{$current->kode_wilayah}',4)")->get()->getResult();
                     $x['kels'] = $this->_db->table('ref_kelurahan')
                         ->where("id = '{$current->kode_wilayah}'")->get()->getResult();
                     $x['dusuns'] = $this->_db->table('ref_dusun')
