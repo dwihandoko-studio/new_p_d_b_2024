@@ -469,6 +469,10 @@
             }
         }
 
+        $('#_prov').select2({
+            dropdownParent: ".container-fluid",
+        });
+
         $('#_kab').select2({
             dropdownParent: ".container-fluid",
         });
