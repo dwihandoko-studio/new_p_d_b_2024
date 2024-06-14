@@ -1,67 +1,68 @@
 <form id="formAddData" class="formAddData" action="./addSave" method="post">
+    <input type="hidden" name="_id" value="<?= $id ?>" />
     <div class="modal-body">
-        <div class="row">
-            <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">Nama Lengkap</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_nama" name="_nama" value="" placeholder="Nama Lengkap" required />
-                    <p class="font-size-11"> &nbsp;Nama akan publikasi di bagian kepanitian PPDB Sekolah.</p>
+        <div class="mb-3 row">
+            <label class="col-sm-3 col-form-label">Provinsi</label>
+            <div class="col-sm-9">
+                <select class="w-100" style="width: 100%;" id="_prov" name="_prov" onchange="changeProv(this)" required>
+                    <option value="">-- Pilih --</option>
+                    <?php if (isset($provinsis)) { ?>
+                        <?php if (count($provinsis) > 0) { ?>
+                            <?php foreach ($provinsis as $key => $value) { ?>
+                                <option value="<?= $value->id ?>"><?= $value->nama ?></option>
+                            <?php } ?>
+                        <?php } ?>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-3 col-form-label">Kabupaten</label>
+            <div class="col-sm-9">
+                <select class="w-100" style="width: 100%;" id="_kab" name="_kab" onchange="changeKab(this)" required>
+                    <option value="">-- Pilih --</option>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-3 col-form-label">Kecamatan</label>
+            <div class="col-sm-9">
+                <select class="w-100" style="width: 100%;" id="_kec" name="_kec" onchange="changeKec(this)" required>
+                    <option value="">-- Pilih --</option>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-3 col-form-label">Desa/Kelurahan</label>
+            <div class="col-sm-9">
+                <select class="w-100" style="width: 100%;" id="_kel" name="_kel" onchange="changeKel(this)" required>
+                    <option value="">-- Pilih --</option>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-3 col-form-label">Dusun</label>
+            <div class="col-sm-9">
+                <div class="form-check custom-checkbox mb-3">
+                    <input type="checkbox" class="form-check-input _dusun_all" name="_dusun_all" id="_dusun_all">
+                    <label class="form-check-label" for="_dusun_all">Pilih Semua Dusun</label>
                 </div>
             </div>
-            <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">Email</label>
-                <div class="col-sm-9">
-                    <input type="email" class="form-control" id="_email" name="_email" placeholder="example@xxx.com" required />
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">NO HP</label>
-                <div class="col-sm-9">
-                    <input type="phone" class="form-control" id="_nohp" name="_nohp" placeholder="628xxxxxxxxxx" required />
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">Jabatan Sekolah</label>
-                <div class="col-sm-9">
-                    <select class="default-select form-control wide mb-3" id="_jabatan" name="_jabatan">
-                        <option value=""> -- Pilih --</option>
-                        <option value="Kepala Sekolah">Kepala Sekolah</option>
-                        <option value="Wakil Kepala Sekolah">Wakil Kepala Sekolah</option>
-                        <option value="Guru Kelas / Guru Mapel">Guru Kelas / Guru Mapel</option>
-                        <option value="Tendik">Tendik</option>
-                    </select>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">Jabatan Kepanitiaan</label>
-                <div class="col-sm-9">
-                    <select class="default-select form-control wide mb-3" id="_jabatan_ppdb" name="_jabatan_ppdb">
-                        <option value=""> -- Pilih --</option>
-                        <option value="1">Penanggung Jawab</option>
-                        <option value="2">Ketua</option>
-                        <option value="3">Wakil Ketua</option>
-                        <option value="4">Sekretaris</option>
-                        <option value="5">Bendahara</option>
-                        <option value="6">Anggota</option>
-                    </select>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">Password</label>
-                <div class="col-sm-9">
-                    <div class="input-group auth-pass-inputgroup">
-                        <input type="password" class="form-control" id="_password" name="_password" placeholder="******" aria-label="Password" aria-describedby="password-addon" required />
-                        <button class="btn btn-light " type="button" onclick="showHidePassword(this);" id="password-addon"><i class="mdi mdi-eye-outline" id="eye-icon-password"></i></button>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">Ulangi Password</label>
-                <div class="col-sm-9">
-                    <div class="input-group auth-pass-inputgroup">
-                        <input type="password" class="form-control" id="_repassword" name="_repassword" placeholder="******" aria-label="Password" aria-describedby="repassword-addon" required />
-                        <button class="btn btn-light " type="button" onclick="showHideRePassword(this);" id="repassword-addon"><i class="mdi mdi-eye-outline" id="eye-icon-repassword"></i></button>
-                    </div>
+            <label class="col-sm-3 col-form-label">&nbsp;</label>
+            <div class="col-sm-9">
+                <div class="row">
+                    <?php if (isset($dusuns)) { ?>
+                        <?php if (count($dusuns) > 0) { ?>
+                            <?php foreach ($dusuns as $key => $value) { ?>
+                                <div class="col-xl-3 col-xxl-4 col-4">
+                                    <div class="form-check custom-checkbox mb-3">
+                                        <input type="checkbox" class="form-check-input _dusun_value" name="_dusun_value" value="<?= $value->id ?>" id="_dusun<?= $value->urut ?>">
+                                        <label class="form-check-label" for="_dusun<?= $value->urut ?>"><?= $value->nama ?></label>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        <?php } ?>
+                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -72,41 +73,179 @@
     </div>
 </form>
 <script>
-    function showHidePassword(event) {
-        const showedPassword = document.getElementById("_password");
-        const eyeIcon = event.querySelector('#eye-icon-password');
-        if (showedPassword.type === "password") {
-            showedPassword.type = "text";
-            showedPassword.placeholder = "Masukkan password. . .";
-            eyeIcon.classList.remove('mdi-eye-outline');
-            eyeIcon.classList.add('mdi-eye-off-outline');
-            // btnPassword.html('<i class="mdi mdi-eye-off-outline"></i>');
-        } else {
-            showedPassword.type = "password";
-            showedPassword.placeholder = "******";
-            eyeIcon.classList.remove('mdi-eye-off-outline');
-            eyeIcon.classList.add('mdi-eye-outline');
-            // btnPassword.html('<i class="mdi mdi-eye-outline"></i>');
+    $('#_dusun_all').click(function() {
+        $('input:checkbox').prop('checked', this.checked);
+    });
+
+    function changeProv(event) {
+        const kabupatenSelect = $('#_kab');
+        kabupatenSelect.empty(); // Clear existing options
+        if (event.value === "" || event.value === undefined) {} else {
+            $.ajax({
+                url: "./refkab",
+                type: 'POST',
+                data: {
+                    id: event.value,
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Sedang Loading . . .',
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        onOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                },
+                complete: function() {},
+                success: function(response) {
+                    if (response.status == 200) {
+                        Swal.close();
+                        // Process and populate the kecamatan dropdown based on the response
+                        const kabupatens = response.data; // Assuming response has 'data' key with kabupatens
+                        kabupatenSelect.append('<option value="">  -- Pilih -- </option>');
+                        kabupatens.forEach(kabupaten => {
+                            const option = $('<option>').val(kabupaten.id).text(kabupaten.nama);
+                            // if (kecamatan.id.startsWith(selectedKabId.substring(0, 6))) {
+                            //     option.attr('selected', true);
+                            // }
+                            kabupatenSelect.append(option);
+                        });
+                    } else {
+                        Swal.fire(
+                            'Failed!',
+                            "gagal mengambil data",
+                            'warning'
+                        );
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    Swal.fire(
+                        'Failed!',
+                        "gagal mengambil data (" + xhr.status.toString + ")",
+                        'warning'
+                    );
+                }
+
+            });
         }
     }
 
-    function showHideRePassword(event) {
-        const showedRePassword = document.getElementById("_repassword");
-        const eyeIconRe = event.querySelector('#eye-icon-repassword');
-        if (showedRePassword.type === "password") {
-            showedRePassword.type = "text";
-            showedRePassword.placeholder = "Masukkan ulangi password. . .";
-            eyeIconRe.classList.remove('mdi-eye-outline');
-            eyeIconRe.classList.add('mdi-eye-off-outline');
-            // btnPassword.html('<i class="mdi mdi-eye-off-outline"></i>');
-        } else {
-            showedRePassword.type = "password";
-            showedRePassword.placeholder = "******";
-            eyeIconRe.classList.remove('mdi-eye-off-outline');
-            eyeIconRe.classList.add('mdi-eye-outline');
-            // btnPassword.html('<i class="mdi mdi-eye-outline"></i>');
+    function changeKab(event) {
+        const kecamatanSelect = $('#_kec');
+        kecamatanSelect.empty(); // Clear existing options
+        if (event.value === "" || event.value === undefined) {} else {
+            $.ajax({
+                url: "./refkec",
+                type: 'POST',
+                data: {
+                    id: event.value,
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Sedang Loading . . .',
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        onOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                },
+                complete: function() {},
+                success: function(response) {
+                    if (response.status == 200) {
+                        Swal.close();
+                        // Process and populate the kecamatan dropdown based on the response
+                        const kecamatans = response.data; // Assuming response has 'data' key with kecamatans
+                        kecamatanSelect.append('<option value="">  -- Pilih -- </option>');
+                        kecamatans.forEach(kecamatan => {
+                            const option = $('<option>').val(kecamatan.id).text(kecamatan.nama);
+                            // if (kecamatan.id.startsWith(selectedKabId.substring(0, 6))) {
+                            //     option.attr('selected', true);
+                            // }
+                            kecamatanSelect.append(option);
+                        });
+                    } else {
+                        Swal.fire(
+                            'Failed!',
+                            "gagal mengambil data",
+                            'warning'
+                        );
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    Swal.fire(
+                        'Failed!',
+                        "gagal mengambil data (" + xhr.status.toString + ")",
+                        'warning'
+                    );
+                }
+
+            });
         }
     }
+
+    function changeKec(event) {
+        const kelurahanSelect = $('#_kel');
+        kelurahanSelect.empty();
+        if (event.value === "" || event.value === undefined) {} else {
+            $.ajax({
+                url: "./refkel",
+                type: 'POST',
+                data: {
+                    id: event.value,
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Sedang Loading . . .',
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        onOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                },
+                complete: function() {
+
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        Swal.close();
+
+                        // Process and populate the kecamatan dropdown based on the response
+                        const kelurahans = response.data; // Assuming response has 'data' key with kelurahans
+                        kelurahanSelect.append('<option value="">  -- Pilih -- </option>');
+                        kelurahans.forEach(kelurahan => {
+                            const option = $('<option>').val(kelurahan.id).text(kelurahan.nama);
+                            // if (kecamatan.id.startsWith(selectedKabId.substring(0, 6))) {
+                            //     option.attr('selected', true);
+                            // }
+                            kelurahanSelect.append(option);
+                        });
+                    } else {
+                        Swal.fire(
+                            'Failed!',
+                            "gagal mengambil data",
+                            'warning'
+                        );
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    Swal.fire(
+                        'Failed!',
+                        "gagal mengambil data (" + xhr.status.toString + ")",
+                        'warning'
+                    );
+                }
+
+            });
+        }
+    }
+
+    function changeKel(event) {}
 
     function inputFocus(id) {
         const color = $(id).attr('id');
@@ -114,60 +253,69 @@
         $('.' + color).html('');
     }
 
-    function validateForm(formElement) {
-        const nama = document.getElementsByName('_nama')[0];
-        const email = document.getElementsByName('_email')[0];
-        const nohp = document.getElementsByName('_nohp')[0];
-        const password = document.getElementsByName('_password')[0];
-        const repassword = document.getElementsByName('_repassword')[0];
-        const jabatan = document.getElementsByName('_jabatan')[0];
-        const jabatan_ppdb = document.getElementsByName('_jabatan_ppdb')[0];
+    $('#_prov').select2({
+        dropdownParent: ".content-editBodyModal",
+    });
 
-        if ((nama.value === "" || nama.value === undefined)) {
-            nama.focus();
-            return false;
-        }
-        if ((email.value === "" || email.value === undefined)) {
-            email.focus();
-            return false;
-        }
-        if ((nohp.value === "" || nohp.value === undefined)) {
-            nohp.focus();
-            return false;
-        }
-        if ((jabatan.value === "" || jabatan.value === undefined)) {
-            jabatan.focus();
-            return false;
-        }
-        if ((jabatan_ppdb.value === "" || jabatan_ppdb.value === undefined)) {
-            jabatan_ppdb.focus();
-            return false;
-        }
-        if ((password.value === "" || password.value === undefined)) {
-            password.focus();
-            return false;
-        }
-        if ((password.value.length < 6)) {
+    $('#_kab').select2({
+        dropdownParent: ".content-editBodyModal",
+    });
+    $('#_kec').select2({
+        dropdownParent: ".content-editBodyModal",
+    });
+    $('#_kel').select2({
+        dropdownParent: ".content-editBodyModal",
+    });
+
+    function validateForm(formElement) {
+        const prov = document.getElementsByName('_prov')[0];
+        const kab = document.getElementsByName('_kab')[0];
+        const kec = document.getElementsByName('_kec')[0];
+        const kel = document.getElementsByName('_kel')[0];
+
+        var dusun = $('input:checkbox:checked._dusun_value').map(function() {
+            return this.value;
+        }).get().join(",");
+
+        if ((prov.value === "" || prov.value === undefined)) {
             Swal.fire(
                 'Peringatan!',
-                "Panjang password minimal 6 Karakter.",
+                "Silahkan pilih provinsi.",
                 'warning'
-            ).then((valRes) => {
-                password.focus();
-            });
+            ).then((valRes) => {});
             return false;
         }
-        if (!(password.value === "" || password.value === undefined)) {
-            if (!(password.value === repassword.value)) {
-                Swal.fire(
-                    'Peringatan!',
-                    "Password dan Ulangi-Password tidak sama",
-                    'warning'
-                ).then((valRes) => {
-                    repassword.focus();
-                });
-                return false;
-            }
+        if ((kab.value === "" || kab.value === undefined)) {
+            Swal.fire(
+                'Peringatan!',
+                "Silahkan pilih kabupaten.",
+                'warning'
+            ).then((valRes) => {});
+            return false;
+        }
+        if ((kec.value === "" || kec.value === undefined)) {
+            Swal.fire(
+                'Peringatan!',
+                "Silahkan pilih kecamatan.",
+                'warning'
+            ).then((valRes) => {});
+            return false;
+        }
+        if ((kel.value === "" || kel.value === undefined)) {
+            Swal.fire(
+                'Peringatan!',
+                "Silahkan pilih kelurahan.",
+                'warning'
+            ).then((valRes) => {});
+            return false;
+        }
+        if ((dusun === "")) {
+            Swal.fire(
+                'Peringatan!',
+                "Silahkan pilih dusun minimal 1.",
+                'warning'
+            ).then((valRes) => {});
+            return false;
         }
 
         return true;
@@ -180,10 +328,13 @@
 
             if (validateForm(this)) {
                 event.preventDefault();
-                const nama = document.getElementsByName('_nama')[0].value;
+                // const nama = document.getElementsByName('_nama')[0].value;
+                var dusun = $('input:checkbox:checked._dusun_value').map(function() {
+                    return this.value;
+                }).get().join(",");
                 Swal.fire({
                     title: 'Apakah anda yakin ingin menyimpan data ini?',
-                    text: "Tambah Data Panitia: " + nama,
+                    text: "Tambah Wilayah Zonasi",
                     showCancelButton: true,
                     icon: 'question',
                     confirmButtonColor: '#3085d6',

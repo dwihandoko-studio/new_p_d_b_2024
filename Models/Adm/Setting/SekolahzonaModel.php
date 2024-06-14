@@ -7,8 +7,8 @@ use CodeIgniter\Model;
 
 class SekolahzonaModel extends Model
 {
-    protected $table = "dapo_sekolah a";
-    protected $column_order = array(null, null, 'a.nama', 'a.npsn', 'a.bentuk_pendidikan', 'a.kecamatan', null);
+    protected $table = "_setting_kuota_tb b";
+    protected $column_order = array(null, null, null, null, null, null, null);
     protected $column_search = array('a.nama', 'a.npsn');
     // protected $order = array('a.username' => 'asc');
     protected $request;
@@ -52,8 +52,8 @@ class SekolahzonaModel extends Model
     }
     function get_datatables()
     {
-        $this->dt->select("a.sekolah_id, a.nama, a.npsn, a.bentuk_pendidikan, a.bentuk_pendidikan_id, a.kecamatan, a.kode_kecamatan, (SELECT count(sekolah_id) as jumlah FROM _setting_zonasi_tb WHERE sekolah_id = a.sekolah_id) as jumlah_zona");
-        // $this->dt->whereNotIn('a.level', [0]);
+        $this->dt->select("a.sekolah_id, a.nama, a.npsn, a.bentuk_pendidikan, a.bentuk_pendidikan_id, a.kecamatan, a.kode_kecamatan, (SELECT count(sekolah_id) as jumlah FROM _setting_zonasi_tb WHERE sekolah_id = b.sekolah_id) as jumlah_zona");
+        $this->dt->join('dapo_sekolah a', 'b.sekolah_id = a.sekolah_id');
         if ($this->request->getPost('kec')) {
             $kec = htmlspecialchars($this->request->getPost('kec'), true);
             if ($kec !== "") {
@@ -63,7 +63,7 @@ class SekolahzonaModel extends Model
         if ($this->request->getPost('jenjang')) {
             $jenjang = htmlspecialchars($this->request->getPost('jenjang'), true);
             if ($jenjang !== "") {
-                $this->dt->where('a.bentuk_pendidikan_id', $jenjang);
+                $this->dt->where('b.bentuk_pendidikan_id', $jenjang);
             }
         }
         $this->_get_datatables_query();
@@ -75,8 +75,7 @@ class SekolahzonaModel extends Model
     function count_filtered()
     {
         $this->dt->select("a.sekolah_id, a.nama, a.npsn, a.bentuk_pendidikan, a.bentuk_pendidikan_id, a.kecamatan, a.kode_kecamatan");
-        // $this->dt->join('dapo_sekolah a', 'a.sekolah_id = b.sekolah_id', 'LEFT');
-        // $this->dt->whereNotIn('a.level', [0]);
+        $this->dt->join('dapo_sekolah a', 'b.sekolah_id = a.sekolah_id');
         if ($this->request->getPost('kec')) {
             $kec = htmlspecialchars($this->request->getPost('kec'), true);
             if ($kec !== "") {
@@ -86,7 +85,7 @@ class SekolahzonaModel extends Model
         if ($this->request->getPost('jenjang')) {
             $jenjang = htmlspecialchars($this->request->getPost('jenjang'), true);
             if ($jenjang !== "") {
-                $this->dt->where('a.bentuk_pendidikan_id', $jenjang);
+                $this->dt->where('b.bentuk_pendidikan_id', $jenjang);
             }
         }
         $this->_get_datatables_query();
@@ -96,8 +95,7 @@ class SekolahzonaModel extends Model
     public function count_all()
     {
         $this->dt->select("a.sekolah_id, a.nama, a.npsn, a.bentuk_pendidikan, a.bentuk_pendidikan_id, a.kecamatan, a.kode_kecamatan");
-        // $this->dt->join('dapo_sekolah a', 'a.sekolah_id = b.sekolah_id', 'LEFT');
-        // $this->dt->whereNotIn('a.level', [0]);
+        $this->dt->join('dapo_sekolah a', 'b.sekolah_id = a.sekolah_id');
         if ($this->request->getPost('kec')) {
             $kec = htmlspecialchars($this->request->getPost('kec'), true);
             if ($kec !== "") {
@@ -107,7 +105,7 @@ class SekolahzonaModel extends Model
         if ($this->request->getPost('jenjang')) {
             $jenjang = htmlspecialchars($this->request->getPost('jenjang'), true);
             if ($jenjang !== "") {
-                $this->dt->where('a.bentuk_pendidikan_id', $jenjang);
+                $this->dt->where('b.bentuk_pendidikan_id', $jenjang);
             }
         }
         $this->_get_datatables_query();

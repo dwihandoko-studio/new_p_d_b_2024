@@ -75,8 +75,8 @@ class Zonasi extends BaseController
             $action = '<div class="btn-group">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
                             <div class="dropdown-menu" style="">
-                                <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->id . '\');"><i class="fas fa-edit font-size-16 align-middle"></i> &nbsp;Detail</a>
-                                <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\');"><i class="fas fa-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
+                                <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->sekolah_id . '\',\'' . $list->kelurahan . '\',\'' . $list->nama_kelurahan . '\');"><i class="fas fa-edit font-size-16 align-middle"></i> &nbsp;Detail</a>
+                                <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->sekolah_id . '\'\'' . $list->kelurahan . '\',\'' . $list->nama_kelurahan . '\');"><i class="fas fa-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
                                 <div class="dropdown-divider"></div>
                             </div>
                         </div>';
@@ -158,12 +158,33 @@ class Zonasi extends BaseController
                         'required' => 'Id tidak boleh kosong. ',
                     ]
                 ],
+                'kel' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kelurahan tidak boleh kosong. ',
+                    ]
+                ],
+                'nam_kel' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama Kelurahan tidak boleh kosong. ',
+                    ]
+                ],
+                'nama' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama tidak boleh kosong. ',
+                    ]
+                ],
             ];
 
             if (!$this->validate($rules)) {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = $this->validator->getError('id');
+                $response->message = $this->validator->getError('id')
+                    . $this->validator->getError('kel')
+                    . $this->validator->getError('nam_kel')
+                    . $this->validator->getError('nama');
                 return json_encode($response);
             } else {
                 $Profilelib = new Profilelib();
@@ -178,25 +199,36 @@ class Zonasi extends BaseController
                 }
 
                 $id = htmlspecialchars($this->request->getVar('id'), true);
+                $kel = htmlspecialchars($this->request->getVar('kel'), true);
+                $nam_kel = htmlspecialchars($this->request->getVar('nam_kel'), true);
+                $nama = htmlspecialchars($this->request->getVar('nama'), true);
 
-                $oldData = $this->_db->table('_setting_kuota_tb a')
-                    ->select("a.*, b.nama, b.kecamatan, b.bentuk_pendidikan")
-                    ->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id')
-                    ->where('a.sekolah_id', $id)->get()->getRowObject();
-                if (!$oldData) {
+                $oldData = $this->_db->table('_setting_zonasi_tb a')
+                    ->select("a.*, b.nama as nama_provinsi, c.nama as nama_kabupaten, d.nama as nama_kecamatan, e.nama as nama_kelurahan, f.nama as nama_dusun")
+                    ->join('ref_provinsi b', 'b.id = a.provinsi')
+                    ->join('ref_kabupaten c', 'c.id = a.kabupaten')
+                    ->join('ref_kecamatan d', 'd.id = a.kecamatan')
+                    ->join('ref_kelurahan e', 'e.id = a.kelurahan')
+                    ->join('ref_dusun f', 'f.id = a.dusun')
+                    ->where(['a.sekolah_id' => $id, 'a.kelurahan' => $kel])->get()->getResult();
+                if (count($oldData) > 0) {
+
+                    $x['data'] = $oldData;
+                    $x['nama_kelurahan'] = $nam_kel;
+                    $x['id_kel'] = $kel;
+                    $x['sek_id'] = $id;
+                    $x['sekolah'] = $nama;
+
                     $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Data kuota tidak ditemukan.";
+                    $response->status = 200;
+                    $response->title = "DETAIL ZONASI SEKOLAH $nama";
+                    $response->message = "Permintaan diizinkan";
+                    $response->data = view('adm/setting/zonasi/detail', $x);
                     return json_encode($response);
                 }
-
-                $x['data'] = $oldData;
-
                 $response = new \stdClass;
-                $response->status = 200;
-                $response->title = "DETAIL KUOTA SEKOLAH";
-                $response->message = "Permintaan diizinkan";
-                $response->data = view('adm/setting/kuota/detail', $x);
+                $response->status = 400;
+                $response->message = "Data zonasi tidak ditemukan.";
                 return json_encode($response);
             }
         } else {
@@ -272,12 +304,19 @@ class Zonasi extends BaseController
                         'required' => 'Id tidak boleh kosong. ',
                     ]
                 ],
+                'name' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama tidak boleh kosong. ',
+                    ]
+                ],
             ];
 
             if (!$this->validate($rules)) {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = $this->validator->getError('id');
+                $response->message = $this->validator->getError('id')
+                    . $this->validator->getError('name');
                 return json_encode($response);
             } else {
                 $Profilelib = new Profilelib();
@@ -291,11 +330,18 @@ class Zonasi extends BaseController
                     return json_encode($response);
                 }
 
+                $x['id'] = htmlspecialchars($this->request->getVar('id'), true);
+                $x['nama'] = htmlspecialchars($this->request->getVar('name'), true);
+
+                $x['provinsis'] = $this->_db->table('ref_provinsi')->whereNotIn('id', ['350000', '000000'])->orderBy('nama', 'asc')->get()->getResult();
+
+                $x['dusuns'] = $this->_db->table('ref_dusun')->orderBy('urut', 'asc')->get()->getResult();
+
                 $response = new \stdClass;
                 $response->status = 200;
-                $response->title = "TAMBAH KUOTA SEKOLAH";
+                $response->title = "TAMBAH WILAYAH ZONASI SEKOLAH";
                 $response->message = "Permintaan diizinkan";
-                $response->data = view('adm/setting/kuota/add');
+                $response->data = view('adm/setting/zonasi/add', $x);
                 return json_encode($response);
             }
         } else {
@@ -425,6 +471,156 @@ class Zonasi extends BaseController
                     $response = new \stdClass;
                     $response->status = 400;
                     $response->message = "Gagal mengupdate data.";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function refkab()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    return redirect()->to(base_url('auth'));
+                }
+
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+
+                $current = $this->_db->table('ref_kabupaten')
+                    ->where("id_provinsi = '$id'")->get()->getResult();
+
+                if (count($current) > 0) {
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->message = "Permintaan diizinkan";
+                    $response->data = $current;
+                    return json_encode($response);
+                } else {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function refkec()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    return redirect()->to(base_url('auth'));
+                }
+
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+
+                $current = $this->_db->table('ref_kecamatan')
+                    ->where("id_kabupaten = '$id'")->get()->getResult();
+
+                if (count($current) > 0) {
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->message = "Permintaan diizinkan";
+                    $response->data = $current;
+                    return json_encode($response);
+                } else {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function refkel()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    return redirect()->to(base_url('auth'));
+                }
+
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+
+                $current = $this->_db->table('ref_kelurahan')
+                    ->where("id_kecamatan = '$id'")->get()->getResult();
+
+                if (count($current) > 0) {
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->message = "Permintaan diizinkan";
+                    $response->data = $current;
+                    return json_encode($response);
+                } else {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan";
                     return json_encode($response);
                 }
             }

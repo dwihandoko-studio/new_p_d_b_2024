@@ -1,4 +1,4 @@
-<?= $this->extend('t-verval/sek/index'); ?>
+<?= $this->extend('t-verval/su/index'); ?>
 
 <?= $this->section('content'); ?>
 
