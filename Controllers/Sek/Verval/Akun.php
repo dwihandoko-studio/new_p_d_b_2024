@@ -48,8 +48,8 @@ class Akun extends BaseController
             $row[] = $no;
 
             $row[] = $list->nisn;
-            $row[] = $list->nama;
             $row[] = $list->nik;
+            $row[] = $list->nama;
             $row[] = $list->tempat_lahir;
             $row[] = $list->tanggal_lahir;
             if ($list->user_id && ($list->user_id != NULL)) {
