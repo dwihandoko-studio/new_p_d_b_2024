@@ -400,7 +400,7 @@ class Pd extends BaseController
                     $x['kecs'] = $this->_db->table('ref_kecamatan')
                         ->where("left(id_kabupaten,4) = left('{$current->kode_wilayah}',4)")->get()->getResult();
                     $x['kels'] = $this->_db->table('ref_kelurahan')
-                        ->where("id = '{$current->kode_wilayah}'")->get()->getResult();
+                        ->where("left(id_kecamatan,6) = left('{$current->kode_wilayah}',6)")->get()->getResult();
                     $x['dusuns'] = $this->_db->table('ref_dusun')
                         ->get()->getResult();
                     $x['sek'] = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('sekolah_id', $user->data->sekolah_id)->get()->getRowObject();
