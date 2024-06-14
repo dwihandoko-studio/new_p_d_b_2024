@@ -1,65 +1,27 @@
-<form id="formAddData" class="formAddData" action="./addSave" method="post">
+<form id="formAddData" class="formAddData" action="./addSave" method="post" enctype="multipart/form-data">
     <div class="modal-body">
         <div class="row">
             <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">Nama Lengkap</label>
+                <label class="col-sm-3 col-form-label">Judul :</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_nama" name="_nama" value="" placeholder="Nama Lengkap" required />
+                    <input type="text" class="form-control" id="_judul" name="_judul" value="" placeholder="Judul...." required />
                 </div>
             </div>
             <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">Email</label>
-                <div class="col-sm-9">
-                    <input type="email" class="form-control" id="_email" name="_email" placeholder="example@xxx.com" required />
+                <label class="col-sm-3 col-form-label">Deskripsi :</label>
+                <div class="col-sm-12">
+                    <textarea name="_deskripsi" id="_deskripsi"></textarea>
                 </div>
             </div>
-            <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">NO HP</label>
-                <div class="col-sm-9">
-                    <input type="phone" class="form-control" id="_nohp" name="_nohp" placeholder="628xxxxxxxxxx" required />
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">Jabatan Sekolah</label>
-                <div class="col-sm-9">
-                    <select class="default-select form-control wide mb-3" id="_jabatan" name="_jabatan">
-                        <option value=""> -- Pilih --</option>
-                        <option value="Kepala Sekolah">Kepala Sekolah</option>
-                        <option value="Wakil Kepala Sekolah">Wakil Kepala Sekolah</option>
-                        <option value="Guru Kelas / Guru Mapel">Guru Kelas / Guru Mapel</option>
-                        <option value="Tendik">Tendik</option>
-                    </select>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">Jabatan Kepanitiaan</label>
-                <div class="col-sm-9">
-                    <select class="default-select form-control wide mb-3" id="_jabatan_ppdb" name="_jabatan_ppdb">
-                        <option value=""> -- Pilih --</option>
-                        <option value="1">Penanggung Jawab</option>
-                        <option value="2">Ketua</option>
-                        <option value="3">Wakil Ketua</option>
-                        <option value="4">Sekretaris</option>
-                        <option value="5">Bendahara</option>
-                        <option value="6">Anggota</option>
-                    </select>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">Password</label>
-                <div class="col-sm-9">
-                    <div class="input-group auth-pass-inputgroup">
-                        <input type="password" class="form-control" id="_password" name="_password" placeholder="******" aria-label="Password" aria-describedby="password-addon" required />
-                        <button class="btn btn-light " type="button" onclick="showHidePassword(this);" id="password-addon"><i class="mdi mdi-eye-outline" id="eye-icon-password"></i></button>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">Ulangi Password</label>
-                <div class="col-sm-9">
-                    <div class="input-group auth-pass-inputgroup">
-                        <input type="password" class="form-control" id="_repassword" name="_repassword" placeholder="******" aria-label="Password" aria-describedby="repassword-addon" required />
-                        <button class="btn btn-light " type="button" onclick="showHideRePassword(this);" id="repassword-addon"><i class="mdi mdi-eye-outline" id="eye-icon-repassword"></i></button>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mt-3">
+                            <label for="_file" class="form-label">Upload File : </label>
+                            <input class="form-control" type="file" id="_file" name="_file" onFocus="inputFocus(this);" accept="image/*,application/pdf">
+                            <p class="font-size-11">Format : <code data-toggle="tooltip" data-placement="bottom" title="pdf, jpg, png, jpeg">Files</code> and Maximum File Size <code>2 Mb</code></p>
+                            <div class="help-block _file" for="_file"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,39 +33,60 @@
     </div>
 </form>
 <script>
-    function showHidePassword(event) {
-        const showedPassword = document.getElementById("_password");
-        const eyeIcon = event.querySelector('#eye-icon-password');
-        if (showedPassword.type === "password") {
-            showedPassword.type = "text";
-            showedPassword.placeholder = "Masukkan password. . .";
-            eyeIcon.classList.remove('mdi-eye-outline');
-            eyeIcon.classList.add('mdi-eye-off-outline');
-            // btnPassword.html('<i class="mdi mdi-eye-off-outline"></i>');
-        } else {
-            showedPassword.type = "password";
-            showedPassword.placeholder = "******";
-            eyeIcon.classList.remove('mdi-eye-off-outline');
-            eyeIcon.classList.add('mdi-eye-outline');
-            // btnPassword.html('<i class="mdi mdi-eye-outline"></i>');
-        }
-    }
+    ClassicEditor.create(document.querySelector("#_deskripsi"), {})
+        .then((e) => {
+            window.editor = e;
+        })
+        .catch((e) => {
+            console.error(e.stack);
+        });
 
-    function showHideRePassword(event) {
-        const showedRePassword = document.getElementById("_repassword");
-        const eyeIconRe = event.querySelector('#eye-icon-repassword');
-        if (showedRePassword.type === "password") {
-            showedRePassword.type = "text";
-            showedRePassword.placeholder = "Masukkan ulangi password. . .";
-            eyeIconRe.classList.remove('mdi-eye-outline');
-            eyeIconRe.classList.add('mdi-eye-off-outline');
-            // btnPassword.html('<i class="mdi mdi-eye-off-outline"></i>');
+    document.getElementById('_file').addEventListener('change', loadFile, false);
+
+    function loadFile(e) {
+        const file = e.target.files[0];
+
+        if (file) {
+            const extensionFile = file.name.split('.').pop().toLowerCase();
+
+            var mime_types = ['image/jpg', 'image/jpeg', 'image/png', 'application/pdf'];
+
+            if (mime_types.indexOf(file.type) == -1) {
+                e.target.value = "";
+                // $('.imagePreviewUpload').attr('src', '');
+                Swal.fire(
+                    'Warning!!!',
+                    "Hanya file type gambar dan pdf yang diizinkan.",
+                    'warning'
+                );
+                return false;
+            }
+
+            if (file.size > 2 * 1024 * 1000) {
+                e.target.value = "";
+                // $('.imagePreviewUpload').attr('src', '');
+                Swal.fire(
+                    'Warning!!!',
+                    "Ukuran file tidak boleh lebih dari 2 Mb.",
+                    'warning'
+                );
+                return false;
+            }
+
+            if (file.type === 'application/pdf') {
+
+            } else {
+                // var reader = new FileReader();
+
+                // reader.onload = function(e) {
+                //     $('.imagePreviewUpload').attr('src', e.target.result);
+                // }
+
+                // reader.readAsDataURL(input.files[0]);
+            }
+
         } else {
-            showedRePassword.type = "password";
-            showedRePassword.placeholder = "******";
-            eyeIconRe.classList.remove('mdi-eye-off-outline');
-            eyeIconRe.classList.add('mdi-eye-outline');
-            // btnPassword.html('<i class="mdi mdi-eye-outline"></i>');
+            // console.log("failed Load");
         }
     }
 
@@ -114,59 +97,18 @@
     }
 
     function validateForm(formElement) {
-        const nama = document.getElementsByName('_nama')[0];
-        const email = document.getElementsByName('_email')[0];
-        const nohp = document.getElementsByName('_nohp')[0];
-        const password = document.getElementsByName('_password')[0];
-        const repassword = document.getElementsByName('_repassword')[0];
-        const jabatan = document.getElementsByName('_jabatan')[0];
-        const jabatan_ppdb = document.getElementsByName('_jabatan_ppdb')[0];
+        const editorData = $('#_deskripsi').val();
+        const judul = document.getElementsByName('_judul')[0];
 
-        if ((nama.value === "" || nama.value === undefined)) {
-            nama.focus();
-            return false;
-        }
-        if ((email.value === "" || email.value === undefined)) {
-            email.focus();
-            return false;
-        }
-        if ((nohp.value === "" || nohp.value === undefined)) {
-            nohp.focus();
-            return false;
-        }
-        if ((jabatan.value === "" || jabatan.value === undefined)) {
-            jabatan.focus();
-            return false;
-        }
-        if ((jabatan_ppdb.value === "" || jabatan_ppdb.value === undefined)) {
-            jabatan_ppdb.focus();
-            return false;
-        }
-        if ((password.value === "" || password.value === undefined)) {
-            password.focus();
-            return false;
-        }
-        if ((password.value.length < 6)) {
+        if (judul.value === "" || judul.value === undefined) {
             Swal.fire(
                 'Peringatan!',
-                "Panjang password minimal 6 Karakter.",
+                "Silahkan masukkan judul.",
                 'warning'
             ).then((valRes) => {
-                password.focus();
+                repassword.focus();
             });
             return false;
-        }
-        if (!(password.value === "" || password.value === undefined)) {
-            if (!(password.value === repassword.value)) {
-                Swal.fire(
-                    'Peringatan!',
-                    "Password dan Ulangi-Password tidak sama",
-                    'warning'
-                ).then((valRes) => {
-                    repassword.focus();
-                });
-                return false;
-            }
         }
 
         return true;
@@ -179,7 +121,7 @@
 
             if (validateForm(this)) {
                 event.preventDefault();
-                const nama = document.getElementsByName('_nama')[0].value;
+                const nama = document.getElementsByName('_judul')[0].value;
                 Swal.fire({
                     title: 'Apakah anda yakin ingin menyimpan data ini?',
                     text: "Tambah Data Panitia: " + nama,
@@ -190,14 +132,39 @@
                     confirmButtonText: 'Ya, SIMPAN!'
                 }).then((result) => {
                     if (result.value) {
+                        const fileName = document.getElementsByName('_file')[0].value;
+                        const deskripsi = $('#_deskripsi').val();
+                        const formUpload = new FormData();
+                        if (fileName !== "") {
+                            const __file = document.getElementsByName('_file')[0].files[0];
+                            formUpload.append('_file', __file);
+                        }
+                        formUpload.append('_judul', nama);
+                        formUpload.append('_deskripsi', deskripsi);
+
                         $.ajax({
+                            xhr: function() {
+                                let xhr = new window.XMLHttpRequest();
+                                xhr.upload.addEventListener("progress", function(evt) {
+                                    if (evt.lengthComputable) {
+                                        // ambilId("loaded_n_total").innerHTML = "Uploaded " + evt.loaded + " bytes of " + evt.total;
+                                        // var percent = (evt.loaded / evt.total) * 100;
+                                        // ambilId("progressBar").value = Math.round(percent);
+                                        // ambilId("status").innerHTML = Math.round(percent) + "% uploaded... please wait";
+                                    }
+                                }, false);
+                                return xhr;
+                            },
                             url: "./addSave",
                             type: 'POST',
-                            data: $(this).serialize(),
+                            data: formUpload,
+                            contentType: false,
+                            cache: false,
+                            processData: false,
                             dataType: 'JSON',
                             beforeSend: function() {
                                 Swal.fire({
-                                    title: 'Menyimpan data Panitia...',
+                                    title: 'Menyimpan data...',
                                     text: 'Please wait while we process your action.',
                                     allowOutsideClick: false,
                                     allowEscapeKey: false,

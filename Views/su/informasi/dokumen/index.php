@@ -377,7 +377,7 @@
     function actionHapus(id, nama) {
         Swal.fire({
             title: 'Apakah anda yakin ingin menghapus data ini?',
-            text: "Hapus Data Panitia: " + nama,
+            text: "Hapus Data Informasi: " + nama,
             showCancelButton: true,
             icon: 'question',
             confirmButtonColor: '#3085d6',

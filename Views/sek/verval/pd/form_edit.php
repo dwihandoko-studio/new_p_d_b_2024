@@ -51,6 +51,21 @@
                 </div>
             </div>
             <div class="mb-3 row">
+                <label class="col-sm-3 col-form-label">Provinsi</label>
+                <div class="col-sm-9">
+                    <select class="w-100" style="width: 100%;" id="_prov" name="_prov" onchange="changeProv(this)" required>
+                        <option value="">-- Pilih --</option>
+                        <?php if (isset($props)) { ?>
+                            <?php if (count($props) > 0) { ?>
+                                <?php foreach ($props as $key => $value) { ?>
+                                    <option value="<?= $value->id ?>" <?= (substr($value->id, 0, 2) === substr($data->kode_wilayah, 0, 2)) ? ' selected' : "" ?>><?= $value->nama ?></option>
+                                <?php } ?>
+                            <?php } ?>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Kabupaten</label>
                 <div class="col-sm-9">
                     <select class="w-100" style="width: 100%;" id="_kab" name="_kab" onchange="changeKab(this)" required>
@@ -257,9 +272,64 @@
             $('#content-mapModal').modal('hide');
         }
 
-        function changeKab(event) {
-            const kabupatenSelect = $('#_kec');
+        function changeProv(event) {
+            const kabupatenSelect = $('#_kab');
             kabupatenSelect.empty(); // Clear existing options
+            if (event.value === "" || event.value === undefined) {} else {
+                $.ajax({
+                    url: "./refkab",
+                    type: 'POST',
+                    data: {
+                        id: event.value,
+                    },
+                    dataType: "json",
+                    beforeSend: function() {
+                        Swal.fire({
+                            title: 'Sedang Loading . . .',
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            onOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
+                    complete: function() {},
+                    success: function(response) {
+                        if (response.status == 200) {
+                            Swal.close();
+                            // Process and populate the kecamatan dropdown based on the response
+                            const kabupatens = response.data; // Assuming response has 'data' key with kabupatens
+                            kabupatenSelect.append('<option value="">  -- Pilih -- </option>');
+                            kabupatens.forEach(kabupaten => {
+                                const option = $('<option>').val(kabupaten.id).text(kabupaten.nama);
+                                // if (kecamatan.id.startsWith(selectedKabId.substring(0, 6))) {
+                                //     option.attr('selected', true);
+                                // }
+                                kabupatenSelect.append(option);
+                            });
+                        } else {
+                            Swal.fire(
+                                'Failed!',
+                                "gagal mengambil data",
+                                'warning'
+                            );
+                        }
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        Swal.fire(
+                            'Failed!',
+                            "gagal mengambil data (" + xhr.status.toString + ")",
+                            'warning'
+                        );
+                    }
+
+                });
+            }
+        }
+
+        function changeKab(event) {
+            const kecamatanSelect = $('#_kec');
+            kecamatanSelect.empty(); // Clear existing options
             if (event.value === "" || event.value === undefined) {} else {
                 $.ajax({
                     url: "./refkec",
@@ -284,13 +354,13 @@
                             Swal.close();
                             // Process and populate the kecamatan dropdown based on the response
                             const kecamatans = response.data; // Assuming response has 'data' key with kecamatans
-                            kabupatenSelect.append('<option value="">  -- Pilih -- </option>');
+                            kecamatanSelect.append('<option value="">  -- Pilih -- </option>');
                             kecamatans.forEach(kecamatan => {
                                 const option = $('<option>').val(kecamatan.id).text(kecamatan.nama);
                                 // if (kecamatan.id.startsWith(selectedKabId.substring(0, 6))) {
                                 //     option.attr('selected', true);
                                 // }
-                                kabupatenSelect.append(option);
+                                kecamatanSelect.append(option);
                             });
                         } else {
                             Swal.fire(

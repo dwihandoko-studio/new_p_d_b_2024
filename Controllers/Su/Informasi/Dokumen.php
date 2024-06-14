@@ -40,22 +40,23 @@ class Dokumen extends BaseController
             $action = '<div class="btn-group">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
                             <div class="dropdown-menu" style="">
-                                <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama)) . '\');"><i class="fas fa-eye font-size-16 align-middle"></i> &nbsp;Detail</a>
-                                <a class="dropdown-item" href="javascript:actionEdit(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\');"><i class="fas fa-edit font-size-16 align-middle"></i> &nbsp;Edit</a>
-                                <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\');"><i class="fas fa-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
+                                <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->judul)) . '\');"><i class="fas fa-eye font-size-16 align-middle"></i> &nbsp;Detail</a>
+                                <a class="dropdown-item" href="javascript:actionEdit(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->judul))  . '\');"><i class="fas fa-edit font-size-16 align-middle"></i> &nbsp;Edit</a>
+                                <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->judul))  . '\');"><i class="fas fa-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
                                 <div class="dropdown-divider"></div>
                             </div>
                         </div>';
 
             $row[] = $action;
 
-            $row[] = $list->nama;
-            $row[] = $list->fiile;
-            if ((int)$list->is_active == 1) {
-                $row[] = '<button type="button" onclick="actionDisabled(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\')" class="btn btn-primary btn-xxs">Aktif</button>';
-            } else {
-                $row[] = '<button type="button" onclick="actionAktifkan(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\')" class="btn btn-danger btn-xxs">Tidak Aktif</button>';
-            }
+            $row[] = $list->judul;
+            $row[] = $list->deskripsi;
+            $row[] = $list->file;
+            // if ((int)$list->is_active == 1) {
+            //     $row[] = '<button type="button" onclick="actionDisabled(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\')" class="btn btn-primary btn-xxs">Aktif</button>';
+            // } else {
+            //     $row[] = '<button type="button" onclick="actionAktifkan(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\')" class="btn btn-danger btn-xxs">Tidak Aktif</button>';
+            // }
 
             $data[] = $row;
         }
@@ -299,64 +300,58 @@ class Dokumen extends BaseController
         }
     }
 
+    private function escapeString($string)
+    {
+        // Implement your custom escaping logic here (e.g., using htmlspecialchars)
+        return htmlspecialchars($string, ENT_QUOTES);
+    }
     public function addSave()
     {
         if ($this->request->isAJAX()) {
 
             $rules = [
-                '_nama' => [
+                '_judul' => [
                     'rules' => 'required|trim',
                     'errors' => [
-                        'required' => 'Nama tidak boleh kosong. ',
+                        'required' => 'Judul tidak boleh kosong. ',
                     ]
                 ],
-                '_email' => [
-                    'rules' => 'required|trim',
+                '_deskripsi' => [
+                    'rules' => 'required|strip_tags',
                     'errors' => [
-                        'required' => 'Email tidak boleh kosong. ',
+                        'required' => 'Deskripsi tidak boleh kosong. ',
+                        'strip_tags' => 'Gagal karakter tidak valid. ',
                     ]
                 ],
-                '_nohp' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Nohp tidak boleh kosong. ',
-                    ]
-                ],
-                '_jabatan' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Jabatan tidak boleh kosong. ',
-                    ]
-                ],
-                '_jabatan_ppdb' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Jabatan ppdb tidak boleh kosong. ',
-                    ]
-                ],
-                '_password' => [
-                    'rules' => 'required|min_length[6]|max_length[50]',
-                    'errors' => [
-                        'required' => 'Password is required. ',
-                        'min_length' => 'Password must be at least {min} characters long. ',
-                        'max_length' => 'Password cannot exceed {max} characters. ',
-                    ],
-                ],
+
             ];
+
+
+            $filenamelampiran = dot_array_search('_file.name', $_FILES);
+            if ($filenamelampiran != '') {
+                $lampiranVal = [
+                    '_file' => [
+                        'rules' => 'uploaded[_file]|max_size[_file,1024]|mime_in[_file,image/jpeg,image/jpg,image/png,application/pdf]',
+                        'errors' => [
+                            'uploaded' => 'Pilih gambar/pdf terlebih dahulu. ',
+                            'max_size' => 'Ukuran gambar/pdf terlalu besar. ',
+                            'mime_in' => 'Ekstensi yang anda upload harus berekstensi gambar/pdf. '
+                        ]
+                    ],
+                ];
+                $rules = array_merge($rules, $lampiranVal);
+            }
 
             if (!$this->validate($rules)) {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = $this->validator->getError('_nama')
-                    . $this->validator->getError('_email')
-                    . $this->validator->getError('_nohp')
-                    . $this->validator->getError('_jabatan')
-                    . $this->validator->getError('_jabatan_ppdb')
-                    . $this->validator->getError('_password');
+                $response->message = $this->validator->getError('_judul')
+                    . $this->validator->getError('_deskripsi')
+                    . $this->validator->getError('_file');
                 return json_encode($response);
             } else {
                 $Profilelib = new Profilelib();
-                $user = $Profilelib->userSekolah();
+                $user = $Profilelib->user();
                 if ($user->status != 200) {
                     delete_cookie('jwt');
                     session()->destroy();
@@ -366,98 +361,47 @@ class Dokumen extends BaseController
                     return json_encode($response);
                 }
 
-                $nama = htmlspecialchars($this->request->getVar('_nama'), true);
-                $email = htmlspecialchars($this->request->getVar('_email'), true);
-                $nohp = htmlspecialchars($this->request->getVar('_nohp'), true);
-                $jabatan = htmlspecialchars($this->request->getVar('_jabatan'), true);
-                $jabatan_ppdb = htmlspecialchars($this->request->getVar('_jabatan_ppdb'), true);
-                $password = htmlspecialchars($this->request->getVar('_password'), true);
+                $judul = htmlspecialchars($this->request->getVar('_judul'), true);
+                $deskripsi = $this->request->getVar('_deskripsi');
 
-                if ($password == "123456") {
+                $dir = FCPATH . "uploads/informasi";
+                $field_db = 'file';
+                $table_db = 'doc_informasi';
+
+                $lampiran = $this->request->getFile('_file');
+                $filesNamelampiran = $lampiran->getName();
+                $newNamelampiran = _create_name_file($filesNamelampiran);
+
+                $data = [];
+
+                if ($lampiran->isValid() && !$lampiran->hasMoved()) {
+                    $lampiran->move($dir, $newNamelampiran);
+                    $data[$field_db] = $newNamelampiran;
+                } else {
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->message = "Keamanan password terlalu lemah.";
+                    $response->message = "Gagal mengupload file.";
                     return json_encode($response);
                 }
 
-                $oldData = $this->_db->table('_users_tb')->where('username', $email)->get()->getRowObject();
-                if ($oldData) {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Email sudah digunakan oleh pengguna lain.";
-                    return json_encode($response);
-                }
-
-                $sekolah = $this->_db->table('dapo_sekolah')->where('sekolah_id', $user->data->sekolah_id)->get()->getRowObject();
-                if (!$sekolah) {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Data sekolah tidak ditemukan.";
-                    return json_encode($response);
-                }
-
-                $passwordHas = password_hash($password, PASSWORD_DEFAULT);
-
-                $uuidLib = new Uuid();
-
-                $dataUser = [
-                    'id' => $uuidLib->v4(),
-                    'username' => $email,
-                    'email' => $email,
-                    'nohp' => $nohp,
-                    'password' => $passwordHas,
-                    'is_active' => 1,
-                    'level' => 3,
-                    'created_at' => date('Y-m-d H:i:s')
-                ];
-
-                $dataUserProfile = [
-                    'user_id' => $dataUser['id'],
-                    'sekolah_id' => $sekolah->sekolah_id,
-                    'wilayah' => $sekolah->kode_wilayah,
-                    'nama' => $nama,
-                    'nama_sekolah' => $sekolah->nama,
-                    'npsn' => $sekolah->npsn,
-                    'created_at' => $dataUser['created_at']
-                ];
+                $data['judul'] = $judul;
+                $data['deskripsi'] = $deskripsi;
+                $data['is_active'] = 1;
+                $data['created_at'] = date('Y-m-d H:i:s');
 
                 $this->_db->transBegin();
                 try {
-                    $this->_db->table('_users_tb')->insert($dataUser);
+                    $this->_db->table($table_db)->insert($data);
                     if ($this->_db->affectedRows() > 0) {
-                        $this->_db->table('_users_profile_sekolah')->insert($dataUserProfile);
-                        if ($this->_db->affectedRows() > 0) {
-                            $this->_db->table('panitia_ppdb')->insert([
-                                'id' => $dataUser['id'],
-                                'sekolah_id' => $sekolah->sekolah_id,
-                                'nama' => $nama,
-                                'jabatan' => $jabatan,
-                                'jabatan_ppdb' => $jabatan_ppdb,
-                                'created_at' => $dataUser['created_at']
-                            ]);
-                            if ($this->_db->affectedRows() > 0) {
-                                $this->_db->transCommit();
+                        $this->_db->transCommit();
 
-                                $response = new \stdClass;
-                                $response->status = 200;
-                                $response->url = base_url('portal');
-                                $response->message = "Data berhasil disimpan. Username Akun menggunakan Email";
-                                return json_encode($response);
-                            } else {
-                                $this->_db->transRollback();
-                                $response = new \stdClass;
-                                $response->status = 400;
-                                $response->message = "Gagal menyimpan data.";
-                                return json_encode($response);
-                            }
-                        } else {
-                            $this->_db->transRollback();
-                            $response = new \stdClass;
-                            $response->status = 400;
-                            $response->message = "Gagal menyimpan data.";
-                            return json_encode($response);
-                        }
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->url = base_url('portal');
+                        $response->message = "Data berhasil disimpan.";
+                        return json_encode($response);
                     } else {
+                        unlink($dir . '/' . $newNamelampiran);
                         $this->_db->transRollback();
                         $response = new \stdClass;
                         $response->status = 400;
@@ -465,6 +409,7 @@ class Dokumen extends BaseController
                         return json_encode($response);
                     }
                 } catch (\Throwable $th) {
+                    unlink($dir . '/' . $newNamelampiran);
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
@@ -598,7 +543,7 @@ class Dokumen extends BaseController
                 return json_encode($response);
             } else {
                 $Profilelib = new Profilelib();
-                $user = $Profilelib->userSekolah();
+                $user = $Profilelib->user();
                 if ($user->status != 200) {
                     delete_cookie('jwt');
                     session()->destroy();
@@ -611,7 +556,7 @@ class Dokumen extends BaseController
                 $id = htmlspecialchars($this->request->getVar('id'), true);
                 $nama = htmlspecialchars($this->request->getVar('nama'), true);
 
-                $oldData = $this->_db->table('panitia_ppdb')->where('id', $id)->get()->getRowObject();
+                $oldData = $this->_db->table('doc_informasi')->where('id', $id)->get()->getRowObject();
 
                 if (!$oldData) {
                     $response = new \stdClass;
@@ -620,10 +565,17 @@ class Dokumen extends BaseController
                     return json_encode($response);
                 }
 
+                $dir = FCPATH . "uploads/informasi/" . $oldData->file;
+
                 $this->_db->transBegin();
                 try {
-                    $this->_db->table('_users_tb')->where('id', $oldData->id)->delete();
+                    $this->_db->table('doc_informasi')->where('id', $oldData->id)->delete();
                     if ($this->_db->affectedRows() > 0) {
+                        try {
+                            unlink($dir);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                        }
                         $this->_db->transCommit();
 
                         $response = new \stdClass;
