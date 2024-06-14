@@ -37,6 +37,9 @@
                                             <?php } else { ?>
                                                 <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnupsk"><i class="fas fa-cloud-upload-alt font-size-16 align-middle me-2"></i> SK Panitia</button> &nbsp;&nbsp;
                                             <?php } ?>
+                                        <?php } else { ?>
+                                            <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnuppakta"><i class="fas fa-upload font-size-16 align-middle me-2"></i> Pakta Integritas</button> &nbsp;&nbsp;
+                                            <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnupsk"><i class="fas fa-cloud-upload-alt font-size-16 align-middle me-2"></i> SK Panitia</button> &nbsp;&nbsp;
                                         <?php } ?>
                                     </div>
                                 </div>
