@@ -23,6 +23,9 @@ class Auth extends BaseController
         if ($user->status == 200) {
             return redirect()->to(base_url('portal'));
         }
+        set_cookie('containerLayout', 'full', strval(3600 * 24 * 1));
+        set_cookie('layout', 'vertical', strval(3600 * 24 * 1));
+        set_cookie('headerPosition', 'fixed', strval(3600 * 24 * 1));
         $data['title'] = "Login Layanan";
         return view('login/index', $data);
     }
@@ -171,16 +174,13 @@ class Auth extends BaseController
     }
     public function login()
     {
+        if (!($this->request->isAJAX())) {
+            return redirect()->to(base_url('auth'));
+        }
         $Profilelib = new Profilelib();
         $user = $Profilelib->user();
         if ($user->status == 200) {
             return redirect()->to(base_url('home'));
-        }
-        if ($this->request->getMethod() != 'post') {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = "Permintaan tidak diizinkan";
-            return json_encode($response);
         }
 
         $rules = [

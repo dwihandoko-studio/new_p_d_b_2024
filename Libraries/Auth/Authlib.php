@@ -199,7 +199,7 @@ class Authlib
                         ];
 
                         $this->_db->table('__log_error_bsre')->insert($datalog);
-                    } catch (Exception $a) {
+                    } catch (\Exception $a) {
                     }
 
                     $response = new \stdClass;
@@ -228,7 +228,7 @@ class Authlib
                         ];
 
                         $this->_db->table('__log_error_bsre')->insert($datalog);
-                    } catch (Exception $a) {
+                    } catch (\Exception $a) {
                     }
 
                     $response = new \stdClass;
@@ -256,7 +256,7 @@ class Authlib
                         ];
 
                         $this->_db->table('__log_error_bsre')->insert($datalog);
-                    } catch (Exception $a) {
+                    } catch (\Exception $a) {
                     }
 
                     $response = new \stdClass;
@@ -279,7 +279,7 @@ class Authlib
                 ];
 
                 $this->_db->table('__log_error_bsre')->insert($datalog);
-            } catch (Exception $a) {
+            } catch (\Exception $a) {
             }
 
             curl_close($add);
@@ -372,7 +372,7 @@ class Authlib
                         ];
 
                         $this->_db->table('__log_error_bsre')->insert($datalog);
-                    } catch (Exception $a) {
+                    } catch (\Exception $a) {
                     }
 
                     $response = new \stdClass;
@@ -401,7 +401,7 @@ class Authlib
                         ];
 
                         $this->_db->table('__log_error_bsre')->insert($datalog);
-                    } catch (Exception $a) {
+                    } catch (\Exception $a) {
                     }
 
                     $response = new \stdClass;
@@ -429,7 +429,7 @@ class Authlib
                         ];
 
                         $this->_db->table('__log_error_bsre')->insert($datalog);
-                    } catch (Exception $a) {
+                    } catch (\Exception $a) {
                     }
 
                     $response = new \stdClass;
@@ -452,7 +452,7 @@ class Authlib
                 ];
 
                 $this->_db->table('__log_error_bsre')->insert($datalog);
-            } catch (Exception $a) {
+            } catch (\Exception $a) {
             }
 
             curl_close($add);
@@ -675,9 +675,6 @@ class Authlib
             return false;
         }
     }
-
-
-
 
     public function postLogin($username, $password)
     {

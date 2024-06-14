@@ -17,44 +17,42 @@ class Portal extends BaseController
     }
     public function index()
     {
-        $jwt = get_cookie('jwt');
-        $token_jwt = getenv('token_jwt.default.key');
-        if ($jwt) {
-            try {
-                $decoded = JWT::decode($jwt, new Key($token_jwt, 'HS256'));
-                if ($decoded) {
-                    $userId = $decoded->id;
-                    $level = $decoded->level;
-                    $layanan = json_decode(file_get_contents(FCPATH . "uploads/layanans.json"), true);
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->userLevel();
 
-                    $Profilelib = new Profilelib();
-                    $user = $Profilelib->user();
-
-                    if (!$user || $user->status !== 200) {
-                        session()->destroy();
-                        delete_cookie('jwt');
-                        return redirect()->to(base_url('auth'));
-                    }
-                    $data['user'] = $user->data;
-
-                    $data['title'] = "Portal Layanan";
-                    $data['level'] = $level;
-                    $data['layanans'] = $layanan['layanans'];
-                    return view('portal/index', $data);
-                } else {
-                    session()->destroy();
-                    delete_cookie('jwt');
-                    return redirect()->to(base_url('auth'));
-                }
-            } catch (\Exception $e) {
-                session()->destroy();
-                delete_cookie('jwt');
-                return redirect()->to(base_url('auth'));
-            }
-        } else {
+        if (!$user || $user->status !== 200) {
             session()->destroy();
             delete_cookie('jwt');
             return redirect()->to(base_url('auth'));
         }
+
+        // $data['user'] = $user->data;
+
+        switch ((int)$user->level) {
+            case 0:
+                return redirect()->to(base_url('su/home'));
+                break;
+            case 1:
+                return redirect()->to(base_url('adm/home'));
+                break;
+            case 2:
+                return redirect()->to(base_url('dinas/home'));
+                break;
+            case 3:
+                return redirect()->to(base_url('pan/home'));
+                break;
+            case 4:
+                return redirect()->to(base_url('sek/home'));
+                break;
+
+            default:
+                return redirect()->to(base_url('pd/home'));
+                break;
+        }
+
+        // $data['title'] = "Portal Layanan";
+        // $data['level'] = $user->level;
+        // // $data['layanans'] = $layanan['layanans'];
+        // return view('portal/index', $data);
     }
 }

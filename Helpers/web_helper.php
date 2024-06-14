@@ -1149,19 +1149,19 @@ function createAktifitas($user_id, $keterangan, $aksi, $icon, $tw = "")
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
 	$db      = \Config\Database::connect();
 
-	if ($tw == "") {
-		$twa = $db->table('_ref_tahun_tw')->select('id')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
-		if ($twa) {
-			$tw = $twa->id;
-		}
-	}
+	// if ($tw == "") {
+	// 	$twa = $db->table('_ref_tahun_tw')->select('id')->where('is_current', 1)->orderBy('tahun', 'desc')->orderBy('tw', 'desc')->get()->getRowObject();
+	// 	if ($twa) {
+	// 		$tw = $twa->id;
+	// 	}
+	// }
 
 	$grandted = $db->table('riwayat_system')->insert([
 		'user_id' => $user_id,
 		'keterangan' => $keterangan,
 		'aksi' => $aksi,
 		'icon' => $icon,
-		'id_tahun_tw' => $tw,
+		'exe' => $tw,
 	]);
 
 	return true;
@@ -2487,5 +2487,76 @@ function getStatusIndikatorUsulan($data_antrian_tamsil_transfer, $data_antrian_t
 		return $response;
 	} else {
 		return null;
+	}
+}
+
+
+function sekolahName($id)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$limit = $db->table('_users_profile_sekolah')
+		->select('nama_sekolah')
+		->where('user_id', $id)
+		->get()->getRowObject();
+	if ($limit) {
+		return $limit->nama_sekolah;
+	} else {
+		return "";
+	}
+}
+
+function getNameKecamatan($id)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$limit = $db->table('ref_kecamatan')
+		->select('nama')
+		->where('id', $id)
+		->get()->getRowObject();
+	if ($limit) {
+		return $limit->nama;
+	} else {
+		return "";
+	}
+}
+
+function getProsentaseJalur($jenjang)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+	$data = $db->table('_setting_prosentase_jalur')
+		->where(['bentuk_pendidikan_id' => $jenjang])
+		->get()->getRowObject();
+
+	if ($data) {
+		return $data;
+	} else {
+		return NULL;
+	}
+}
+
+function getDusunList($kelurahan, $sekolah_id)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+	$data = $db->table('_setting_zonasi_tb a')
+		->select("b.nama as nama_dusun, a.id")
+		->join('ref_dusun b', 'a.dusun = b.id')
+		->where(['a.sekolah_id' => $sekolah_id, 'a.kelurahan' => $kelurahan])
+		->orderBy('b.nama', 'ASC')
+		->get()->getResult();
+
+	if (count($data) > 0) {
+		$ul = "<ol>";
+		foreach ($data as $key => $value) {
+			$ul .= "<li>{$value->nama_dusun}</li>";
+		}
+		$ul .= "</ol>";
+		return $ul;
+	} else {
+		return '';
 	}
 }

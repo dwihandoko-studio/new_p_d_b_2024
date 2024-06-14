@@ -40,36 +40,111 @@ class Home extends BaseController
                 }
             } catch (\Exception $e) {
 
-                return redirect()->to(base_url('auth'));
+                return redirect()->to(base_url('home/data'));
             }
         } else {
-
-            return redirect()->to(base_url('auth'));
+            return redirect()->to(base_url('home/data'));
         }
-        // $data = [];
-        // $kategoris = $this->_db->table('_tb_kategori_buku')
-        //     ->orderBy('kategori', 'asc')
-        //     ->get()->getResult();
+    }
 
-        // if (count($kategoris) > 0) {
-        //     $data['kategories'] = $kategoris;
-        // }
-        // $bukus = $this->_db->table('_tb_buku a')
-        //     ->select("a.*, b.kategori")
-        //     ->join('_tb_kategori_buku b', 'a.k_id = b.kid')
-        //     ->orderBy('nama_buku', 'asc')
-        //     ->get()->getResult();
+    public function data()
+    {
+        set_cookie('layout', 'horizontal', strval(3600 * 24 * 1));
+        set_cookie('headerPosition', 'static', strval(3600 * 24 * 1));
+        set_cookie('containerLayout', 'wide', strval(3600 * 24 * 1));
+        $data['title'] = 'DASHBOARD || PPDB 2024/2025 Kab. Lampung Tengah';
 
-        // if (count($bukus) > 0) {
-        //     $data['bukus'] = $bukus;
-        // }
+        return view('dashboard/index', $data);
+    }
 
-        // $Profilelib = new Profilelib();
-        // $user = $Profilelib->user();
-        // if ($user->status == 200) {
-        //     $data['user_login'] = $user->data;
-        // }
+    public function informasi_afirmasi()
+    {
+        set_cookie('layout', 'horizontal', strval(3600 * 24 * 1));
+        set_cookie('headerPosition', 'static', strval(3600 * 24 * 1));
+        set_cookie('containerLayout', 'wide', strval(3600 * 24 * 1));
+        $data['title'] = 'Informasi Afirmasi || PPDB 2024/2025 Kab. Lampung Tengah';
 
-        // return view('toko/home', $data);
+        return view('dashboard/info_afirmasi', $data);
+    }
+
+    public function informasi_zonasi()
+    {
+        set_cookie('layout', 'horizontal', strval(3600 * 24 * 1));
+        set_cookie('headerPosition', 'static', strval(3600 * 24 * 1));
+        set_cookie('containerLayout', 'wide', strval(3600 * 24 * 1));
+        $data['title'] = 'Informasi Zonasi || PPDB 2024/2025 Kab. Lampung Tengah';
+
+        return view('dashboard/info_zonasi', $data);
+    }
+
+    public function informasi_mutasi()
+    {
+        set_cookie('layout', 'horizontal', strval(3600 * 24 * 1));
+        set_cookie('headerPosition', 'static', strval(3600 * 24 * 1));
+        set_cookie('containerLayout', 'wide', strval(3600 * 24 * 1));
+        $data['title'] = 'Informasi Mutasi || PPDB 2024/2025 Kab. Lampung Tengah';
+
+        return view('dashboard/info_mutasi', $data);
+    }
+
+    public function informasi_prestasi()
+    {
+        set_cookie('layout', 'horizontal', strval(3600 * 24 * 1));
+        set_cookie('headerPosition', 'static', strval(3600 * 24 * 1));
+        set_cookie('containerLayout', 'wide', strval(3600 * 24 * 1));
+        $data['title'] = 'Informasi Prestasi || PPDB 2024/2025 Kab. Lampung Tengah';
+
+        return view('dashboard/info_prestasi', $data);
+    }
+
+    public function informasi_swasta()
+    {
+        set_cookie('layout', 'horizontal', strval(3600 * 24 * 1));
+        set_cookie('headerPosition', 'static', strval(3600 * 24 * 1));
+        set_cookie('containerLayout', 'wide', strval(3600 * 24 * 1));
+        $data['title'] = 'Informasi Swasta || PPDB 2024/2025 Kab. Lampung Tengah';
+
+        return view('dashboard/info_swasta', $data);
+    }
+
+    public function jadwal()
+    {
+        set_cookie('layout', 'horizontal', strval(3600 * 24 * 1));
+        set_cookie('headerPosition', 'static', strval(3600 * 24 * 1));
+        set_cookie('containerLayout', 'wide', strval(3600 * 24 * 1));
+        $data['title'] = 'Jadwal || PPDB 2024/2025 Kab. Lampung Tengah';
+        $data['jadwals'] = $this->_db->table('_setting_jadwal_tb')->orderBy('urut', 'ASC')->get()->getResult();
+
+        return view('dashboard/jadwal', $data);
+    }
+
+    public function kuota()
+    {
+        set_cookie('layout', 'horizontal', strval(3600 * 24 * 1));
+        set_cookie('headerPosition', 'static', strval(3600 * 24 * 1));
+        set_cookie('containerLayout', 'wide', strval(3600 * 24 * 1));
+        $data['title'] = 'Kuota Sekolah || PPDB 2024/2025 Kab. Lampung Tengah';
+
+        return view('dashboard/kuota', $data);
+    }
+
+    public function zonasi_wilayah()
+    {
+        set_cookie('layout', 'horizontal', strval(3600 * 24 * 1));
+        set_cookie('headerPosition', 'static', strval(3600 * 24 * 1));
+        set_cookie('containerLayout', 'wide', strval(3600 * 24 * 1));
+        $data['title'] = 'Zonasi Wilayah || PPDB 2024/2025 Kab. Lampung Tengah';
+
+        return view('dashboard/zonasi_wilayah', $data);
+    }
+
+    public function statistik()
+    {
+        set_cookie('layout', 'horizontal', strval(3600 * 24 * 1));
+        set_cookie('headerPosition', 'static', strval(3600 * 24 * 1));
+        set_cookie('containerLayout', 'wide', strval(3600 * 24 * 1));
+        $data['title'] = 'Statistik || PPDB 2024/2025 Kab. Lampung Tengah';
+
+        return view('dashboard/statistik', $data);
     }
 }

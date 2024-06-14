@@ -45,17 +45,15 @@ class Filters extends BaseConfig
         'after'  => [
             'filterauth' => [
                 'except' => [
-                    'a', 'a/*',
+                    'auth', 'auth/*',
                     'portal', 'portal/*',
                     'home', 'home/*',
-                    'auth', 'auth/*',
-                    'situgu', 'situgu/*',
-                    'sigaji', 'sigaji/*',
-                    'situpeng', 'situpeng/*',
-                    'd', 'd/*',
-                    'e', 'e/*',
-                    'f', 'f/*',
-                    'g', 'g/*',
+                    'su', 'su/*',
+                    'adm', 'adm/*',
+                    'dinas', 'dinas/*',
+                    'pan', 'pan/*',
+                    'sek', 'sek/*',
+                    'pd', 'pd/*',
                 ]
             ],
             'toolbar',

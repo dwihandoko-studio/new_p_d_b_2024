@@ -1,25 +1,25 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="h-100">
 
 <head>
-    <meta charset="utf-8" />
-    <title><?= isset($title) ? $title : "Administrator" ?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Portal Layanan Resmi Dinas Pendidikan dan Kebudayaan Kab. Lampung Tengah" name="description" />
-    <meta content="handokowae.my.id" name="author" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="keywords" content="portal, layanan, portal layanan, portal layanan disdikbud, disdikbud, disdik, pendidikan, lampung, lampung tengah, pendidikan lampung tengah, dinas pendidikan, dinas pendidikan lampung tengah, dinas pendidikan dan kebudayaan, dinas pendidikan dan kebudayaan lampung tengah, kabupaten lampung tengah">
-
-    <meta property="og:title" content="Portal Layanan Resmi Dinas Pendidikan dan Kebudayaan Kab. Lampung Tengah" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="Verval Data Peserta Didik, Verval PD, Disdikbud, disdik, dinas pendidikan, Dinas Pendidikan dan Kebudayaan, Dinas Pendidikan dan Kebudayaan Kabupaten Lampung Tengah" />
+    <meta name="author" content="esline.id" />
+    <meta name="description" content="Verval Data Peserta Didik Tingkat Akhir Dinas Pendidikan dan Kebudayaan Kabupaten Lampung Tengah" />
     <meta property="og:url" content="<?= base_url() ?>" />
+    <meta property="og:title" content="Portal Verval Data Peserta Didik Tingkat Akhir Disdikbud Kab. Lampung Tengah" />
+    <meta property="og:description" content="Verval Data Peserta Didik Tingkat Akhir Dinas Pendidikan dan Kebudayaan Kabupaten Lampung Tengah" />
     <meta property="og:image" content="<?= base_url('favicon/android-icon-192x192.png'); ?>" />
-    <meta property="og:description" content="Portal Layanan Resmi Dinas Pendidikan dan Kebudayaan Kab. Lampung Tengah" />
+    <meta name="format-detection" content="telephone=no">
 
-    <meta itemprop="name" content="Portal Layanan Resmi Dinas Pendidikan dan Kebudayaan Kab. Lampung Tengah" />
-    <meta itemprop="description" content="Portal Layanan Resmi Dinas Pendidikan dan Kebudayaan Kab. Lampung Tengah" />
-    <meta itemprop="image" content="<?= base_url('favicon/android-icon-192x192.png'); ?>" />
+    <!-- PAGE TITLE HERE -->
+    <title><?= isset($title) ? $title : "Halaman Login" ?></title>
 
+    <!-- MOBILE SPECIFIC -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon icon -->
     <link rel="apple-touch-icon" sizes="57x57" href="<?= base_url('favicon/apple-icon-57x57.png'); ?>">
     <link rel="apple-touch-icon" sizes="60x60" href="<?= base_url('favicon/apple-icon-60x60.png'); ?>">
     <link rel="apple-touch-icon" sizes="72x72" href="<?= base_url('favicon/apple-icon-72x72.png'); ?>">
@@ -37,143 +37,105 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="<?= base_url('favicon/ms-icon-144x144.png'); ?>">
     <meta name="theme-color" content="#ffffff">
+    <link href="<?= base_url() ?>/assets/css/style.css" rel="stylesheet">
+    <link href="<?= base_url() ?>/assets/vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url() ?>/assets/vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet" type="text/css" />
 
-    <link href="<?= base_url() ?>/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-    <link href="<?= base_url() ?>/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-    <link href="<?= base_url() ?>/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
-    <link href="<?= base_url() ?>/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body>
-    <div class="account-pages my-5 pt-sm-5">
-        <div class="container content-loading">
-            <div class="row justify-content-center">
-                <div class="col-md-8 col-lg-6 col-xl-5">
-                    <div class="card overflow-hidden">
-                        <div class="bg-primary bg-soft">
-                            <div class="row">
-                                <div class="col-7">
-                                    <div class="text-primary p-4">
-                                        <h5 class="text-primary">Welcome Back !</h5>
-                                        <p>Sign in to continue . . .</p>
+<body class="vh-100">
+    <div class="authincation h-100">
+        <div class="container h-100">
+            <div class="row justify-content-center h-100 align-items-center">
+                <div class="col-md-6">
+                    <div class="authincation-content">
+                        <div class="row no-gutters">
+                            <div class="col-xl-12">
+                                <div class="auth-form">
+                                    <div class="text-center mb-3">
+                                        <a href="<?= base_url() ?>"><img src="<?= base_url() ?>/assets/images/logo-full.png" alt=""></a>
                                     </div>
-                                </div>
-                                <div class="col-5 align-self-end">
-                                    <img src="<?= base_url() ?>/assets/images/profile-img.png" alt="" class="img-fluid">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body pt-0">
-                            <div class="auth-logo">
-                                <a href="index.html" class="auth-logo-light">
-                                    <div class="avatar-md profile-user-wid mb-4">
-                                        <span class="avatar-title rounded-circle bg-light">
-                                            <img src="<?= base_url() ?>/assets/images/logo-light.svg" alt="" class="rounded-circle" height="34">
-                                        </span>
-                                    </div>
-                                </a>
-
-                                <a href="index.html" class="auth-logo-dark">
-                                    <div class="avatar-md profile-user-wid mb-4">
-                                        <span class="avatar-title rounded-circle bg-light">
-                                            <img src="<?= base_url() ?>/assets/images/logo.svg" alt="" class="rounded-circle" height="34">
-                                        </span>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="alert alert-warning" role="alert">
-                                Untuk Login Admin Sekolah, silahkan menggunakan login Email Dapodik saat ini dan passwordnya menggunakan Kode Registrasi Dapodik.
-                            </div>
-                            <div class="p-2">
-                                <form class="form-horizontal" action="/auth/login" method="post">
-
-                                    <div class="mb-3">
-                                        <label for="username" class="form-label">Username</label>
-                                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label class="form-label">Password</label>
-                                        <div class="input-group auth-pass-inputgroup">
-                                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" aria-label="Password" aria-describedby="password-addon">
-                                            <button class="btn btn-light " type="button" id="password-addon"><i class="mdi mdi-eye-outline"></i></button>
+                                    <h4 class="text-center mb-4">Sign in your account</h4>
+                                    <form action="./auth/login">
+                                        <div class="mb-3">
+                                            <label class="mb-1"><strong>Email</strong></label>
+                                            <input id="username" name="username" type="text" class="form-control" value="" placeholder="example@example.com" required />
                                         </div>
-                                    </div>
-
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="remember-check">
-                                        <label class="form-check-label" for="remember-check">
-                                            Remember me
-                                        </label>
-                                    </div>
-
-                                    <div class="mt-3 d-grid">
-                                        <button class="btn btn-primary waves-effect waves-light" type="submit">Masuk</button>
-                                    </div>
-
-                                    <div class="mt-4 text-center">
-                                        <h5 class="font-size-14 mb-3">Sign in with</h5>
-
-                                        <ul class="list-inline">
-                                            <!-- <li class="list-inline-item">
-                                                <a href="javascript::void()" class="social-list-item bg-primary text-white border-primary">
-                                                    <i class="mdi mdi-facebook"></i>
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="javascript::void()" class="social-list-item bg-info text-white border-info">
-                                                    <i class="mdi mdi-twitter"></i>
-                                                </a>
-                                            </li> -->
-                                            <li class="list-inline-item">
-                                                <a href="javascript::void()" class="social-list-item bg-danger text-white border-danger">
-                                                    <i class="mdi mdi-google"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="mt-4 text-center">
-                                        <a href="auth-recoverpw.html" class="text-muted"><i class="mdi mdi-lock me-1"></i> Forgot your password?</a>
-                                    </div>
-                                </form>
+                                        <div class="mb-3">
+                                            <label class="mb-1"><strong>Password</strong></label>
+                                            <div class="input-group auth-pass-inputgroup">
+                                                <input type="password" class="form-control" id="password" name="password" placeholder="******" aria-label="Password" aria-describedby="password-addon" required />
+                                                <button class="btn btn-light " type="button" onclick="showHidePassword(this);" id="password-addon"><i class="mdi mdi-eye-outline" id="eye-icon-password"></i></button>
+                                            </div>
+                                            <!-- <input type="password" class="form-control" value="Password"> -->
+                                        </div>
+                                        <div class="row d-flex justify-content-between mt-4 mb-2">
+                                            <!-- <div class="mb-3">
+                                                <div class="form-check custom-checkbox ms-1">
+                                                    <input type="checkbox" class="form-check-input" id="basic_checkbox_1">
+                                                    <label class="form-check-label" for="basic_checkbox_1">Remember my preference</label>
+                                                </div>
+                                            </div> -->
+                                            <div class="mb-3">
+                                                <a href="javascript:;">Forgot Password?</a>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary btn-block">Sign Me In</button>
+                                        </div>
+                                    </form>
+                                    <!-- <div class="new-account mt-3">
+                                        <p>Don't have an account? <a class="text-primary" href="page-register.html">Sign up</a></p>
+                                    </div> -->
+                                </div>
                             </div>
-
                         </div>
                     </div>
-                    <div class="mt-5 text-center">
-
-                        <div>
-                            <!-- <p>Don't have an account ? <a href="auth-register.html" class="fw-medium text-primary"> Signup now </a> </p> -->
-                            <p>© <script>
-                                    document.write(new Date().getFullYear())
-                                </script> Disdikbud Kab. Lampung Tengah. Supported <i class="mdi mdi-heart text-danger"></i> by <a href="https://kntechline.id">KNTechline</a></p>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
     </div>
-    <!-- end account-pages -->
 
-    <!-- JAVASCRIPT -->
-    <script src="<?= base_url() ?>/assets/libs/jquery/jquery.min.js"></script>
-    <script src="<?= base_url() ?>/assets/js/blockUI.min.js"></script>
-    <script src="<?= base_url() ?>/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="<?= base_url() ?>/assets/libs/metismenu/metisMenu.min.js"></script>
-    <script src="<?= base_url() ?>/assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="<?= base_url() ?>/assets/libs/node-waves/waves.min.js"></script>
-    <!-- App js -->
-    <script src="<?= base_url() ?>/assets/js/app.js"></script>
-    <script src="<?= base_url() ?>/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+    <!--**********************************
+	Scripts
+***********************************-->
+    <!-- Required vendors -->
+    <script src="<?= base_url() ?>/assets/vendor/global/global.min.js"></script>
+    <script src="<?= base_url() ?>/assets/js/custom.min.js"></script>
+    <script src="<?= base_url() ?>/assets/js/dlabnav-init.js"></script>
+    <script src="<?= base_url() ?>/assets/js/styleSwitcher.js"></script>
+    <script src="<?= base_url() ?>/assets/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="<?= base_url() ?>/assets/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
     <script>
+        function showHidePassword(event) {
+            const showedPassword = document.getElementById("password");
+            const eyeIcon = event.querySelector('#eye-icon-password');
+            if (showedPassword.type === "password") {
+                showedPassword.type = "text";
+                showedPassword.placeholder = "Masukkan password. . .";
+                eyeIcon.classList.remove('mdi-eye-outline');
+                eyeIcon.classList.add('mdi-eye-off-outline');
+                // btnPassword.html('<i class="mdi mdi-eye-off-outline"></i>');
+            } else {
+                showedPassword.type = "password";
+                showedPassword.placeholder = "******";
+                eyeIcon.classList.remove('mdi-eye-off-outline');
+                eyeIcon.classList.add('mdi-eye-outline');
+                // btnPassword.html('<i class="mdi mdi-eye-outline"></i>');
+            }
+        }
+
         <?php if (isset($error)) { ?>
-            Swal.fire(
-                "Peringatan!",
-                '<?= $error ?>',
-                "warning"
-            );
+            Swal({
+                title: "Peringata!",
+                text: '<?= $error ?>',
+                type: "warning",
+            });
+            // Swal.fire(
+            //     "Peringatan!",
+            //     '<?= $error ?>',
+            //     "warning"
+            // );
         <?php } ?>
         $("form").on("submit", function(e) {
 
@@ -185,26 +147,37 @@
                 data: dataString,
                 dataType: 'JSON',
                 beforeSend: function() {
-                    loading = true;
-                    $('div.content-loading').block({
-                        message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                    Swal.fire({
+                        title: 'Sedang Loading . . .',
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            swal.showLoading();
+                        }
                     });
+                    // loading = true;
+                    // $('div.content-loading').block({
+                    //     message: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                    // });
+                },
+                complete: function() {
+                    // swal.close();
+                    // $('.btnsimpanbanyak').removeAttr('disable')
+                    // $('.btnsimpanbanyak').html('<i class="bx bx-save font-size-16 align-middle me-2"></i> SIMPAN');
                 },
                 success: function(msg) {
                     console.log(msg);
                     if (msg.status != 200) {
                         if (msg.status !== 201) {
                             if (msg.status !== 202) {
-                                $('div.content-loading').unblock();
-                                loading = false;
-                                Swal.fire(
-                                    "Gagal!",
-                                    msg.message,
-                                    "warning"
-                                );
+                                Swal.fire({
+                                    title: "Peringatan!!!",
+                                    text: msg.message,
+                                    type: "warning",
+                                });
                             } else {
                                 Swal.fire(
-                                    "Warning!",
+                                    "Peringatan!!!",
                                     msg.message,
                                     "warning"
                                 ).then((valRes) => {
@@ -215,15 +188,20 @@
                                 })
                             }
                         } else {
+                            // swal({
+                            //     title: "Berhasil!",
+                            //     text: msg.message,
+                            //     type: "success",
+                            // });
                             Swal.fire(
-                                'Berhasil!',
+                                "Berhasil!",
                                 msg.message,
-                                'success'
+                                "success"
                             ).then((valRes) => {
                                 // setTimeout(function() {
                                 document.location.href = msg.url;
                                 // }, 2000);
-                            })
+                            });
                         }
                     } else {
                         Swal.fire(
@@ -240,8 +218,6 @@
                 },
                 error: function(data) {
                     console.log(data);
-                    loading = false;
-                    $('div.content-loading').unblock();
                     Swal.fire(
                         'Gagal!',
                         "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
