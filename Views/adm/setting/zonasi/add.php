@@ -1,5 +1,5 @@
 <form id="formAddData" class="formAddData" action="./addSave" method="post">
-    <input type="hidden" name="_id" value="<?= $id ?>" />
+    <input type="hidden" name="_id" id="_id" value="<?= $id ?>" />
     <div class="modal-body">
         <div class="mb-3 row">
             <label class="col-sm-3 col-form-label">Provinsi</label>
@@ -79,7 +79,11 @@
 
     function changeProv(event) {
         const kabupatenSelect = $('#_kab');
+        const kecSelect = $('#_kec');
+        const kelSelect = $('#_kel');
         kabupatenSelect.empty(); // Clear existing options
+        kecSelect.empty(); // Clear existing options
+        kelSelect.empty(); // Clear existing options
         if (event.value === "" || event.value === undefined) {} else {
             $.ajax({
                 url: "./refkab",
@@ -134,6 +138,8 @@
 
     function changeKab(event) {
         const kecamatanSelect = $('#_kec');
+        const kelSelect = $('#_kel');
+        kelSelect.empty(); // Clear existing options
         kecamatanSelect.empty(); // Clear existing options
         if (event.value === "" || event.value === undefined) {} else {
             $.ajax({
@@ -329,9 +335,14 @@
             if (validateForm(this)) {
                 event.preventDefault();
                 // const nama = document.getElementsByName('_nama')[0].value;
-                var dusun = $('input:checkbox:checked._dusun_value').map(function() {
+                var dusuns = $('input:checkbox:checked._dusun_value').map(function() {
                     return this.value;
                 }).get().join(",");
+                const provs = document.getElementsByName('_prov')[0].value;
+                const kabs = document.getElementsByName('_kab')[0].value;
+                const kecs = document.getElementsByName('_kec')[0].value;
+                const kels = document.getElementsByName('_kel')[0].value;
+                const id = document.getElementsByName('_id')[0].value;
                 Swal.fire({
                     title: 'Apakah anda yakin ingin menyimpan data ini?',
                     text: "Tambah Wilayah Zonasi",
@@ -345,7 +356,14 @@
                         $.ajax({
                             url: "./addSave",
                             type: 'POST',
-                            data: $(this).serialize(),
+                            data: {
+                                prov: provs,
+                                kab: kabs,
+                                kec: kecs,
+                                kel: kels,
+                                id: id,
+                                dusun: dusuns,
+                            },
                             dataType: 'JSON',
                             beforeSend: function() {
                                 Swal.fire({

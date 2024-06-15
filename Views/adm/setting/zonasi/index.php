@@ -23,6 +23,7 @@
                                     </div>
                                     <div class="col-4">
                                         <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnadd"><i class="fas fa-plus-square font-size-16 align-middle me-2"></i> Tambah Dusun</button> &nbsp;&nbsp;
+                                        <button type="button" class="btn btn-sm btn-info waves-effect waves-light btnverify"><i class="fas fa-check-double font-size-16 align-middle me-2"></i> Verifikasi</button> &nbsp;&nbsp;
                                     </div>
                                 </div>
                             </div>
@@ -68,6 +69,158 @@
 <?= $this->section('scriptBottom'); ?>
 <script src="<?= base_url() ?>/assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script>
+    function actionHapus(id, kel, nam_kel) {
+        Swal.fire({
+            title: 'Apakah anda yakin ingin menghapus data ini?',
+            text: "Hapus Data Zonasi Untuk Kelurahan: " + nam_kel,
+            showCancelButton: true,
+            icon: 'question',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "./hapus",
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        kel: kel,
+                        nam_kel: nam_kel
+                    },
+                    dataType: 'JSON',
+                    beforeSend: function() {
+                        Swal.fire({
+                            title: 'Menghapus data...',
+                            text: 'Please wait while we process your action.',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
+                    complete: function() {},
+                    success: function(resul) {
+
+                        if (resul.status !== 200) {
+                            if (resul.status !== 201) {
+                                if (resul.status === 401) {
+                                    Swal.fire(
+                                        'Failed!',
+                                        resul.message,
+                                        'warning'
+                                    ).then((valRes) => {
+                                        reloadPage();
+                                    });
+                                } else {
+                                    Swal.fire(
+                                        'GAGAL!',
+                                        resul.message,
+                                        'warning'
+                                    );
+                                }
+                            } else {
+                                Swal.fire(
+                                    'Peringatan!',
+                                    resul.message,
+                                    'success'
+                                ).then((valRes) => {
+                                    reloadPage();
+                                })
+                            }
+                        } else {
+                            Swal.fire(
+                                'BERHASIL!',
+                                resul.message,
+                                'success'
+                            ).then((valRes) => {
+                                reloadPage();
+                            })
+                        }
+                    },
+                    error: function() {
+                        Swal.fire(
+                            'PERINGATAN!',
+                            "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                            'warning'
+                        );
+                    }
+                });
+            }
+        });
+    }
+
+    $(document).on('click', '.btnverify', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: "./verify",
+            type: 'POST',
+            data: {
+                id: '<?= $id ?>',
+                name: '<?= $sekolah ?>',
+            },
+            dataType: "json",
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Sedang Loading . . .',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
+            complete: function() {},
+            success: function(resul) {
+                if (resul.status !== 200) {
+                    if (resul.status !== 201) {
+                        if (resul.status === 401) {
+                            Swal.fire(
+                                'Failed!',
+                                resul.message,
+                                'warning'
+                            ).then((valRes) => {
+                                reloadPage();
+                            });
+                        } else {
+                            Swal.fire(
+                                'GAGAL!',
+                                resul.message,
+                                'warning'
+                            );
+                        }
+                    } else {
+                        Swal.fire(
+                            'Peringatan!',
+                            resul.message,
+                            'success'
+                        ).then((valRes) => {
+                            reloadPage();
+                        })
+                    }
+                } else {
+                    Swal.fire(
+                        'BERHASIL!',
+                        resul.message,
+                        'success'
+                    ).then((valRes) => {
+                        reloadPage();
+                    })
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                Swal.fire(
+                    'Failed!',
+                    "gagal mengambil data (" + xhr.status.toString + ")",
+                    'warning'
+                );
+            }
+
+        });
+    });
+
     $(document).on('click', '.btnadd', function(e) {
         e.preventDefault();
 

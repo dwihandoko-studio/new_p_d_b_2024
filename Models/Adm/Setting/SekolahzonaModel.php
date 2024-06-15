@@ -52,7 +52,7 @@ class SekolahzonaModel extends Model
     }
     function get_datatables()
     {
-        $this->dt->select("a.sekolah_id, a.nama, a.npsn, a.bentuk_pendidikan, a.bentuk_pendidikan_id, a.kecamatan, a.kode_kecamatan, (SELECT count(sekolah_id) as jumlah FROM _setting_zonasi_tb WHERE sekolah_id = b.sekolah_id) as jumlah_zona");
+        $this->dt->select("a.sekolah_id, a.nama, a.npsn, a.bentuk_pendidikan, a.bentuk_pendidikan_id, a.kecamatan, a.kode_kecamatan, (SELECT count(sekolah_id) as jumlah FROM _setting_zonasi_tb WHERE sekolah_id = b.sekolah_id) as jumlah_zona, (SELECT count(sekolah_id) as jumlah FROM _setting_zonasi_tb WHERE sekolah_id = b.sekolah_id AND is_locked = 1) as jumlah_zona_verified");
         $this->dt->join('dapo_sekolah a', 'b.sekolah_id = a.sekolah_id');
         if ($this->request->getPost('kec')) {
             $kec = htmlspecialchars($this->request->getPost('kec'), true);

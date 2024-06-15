@@ -37,8 +37,18 @@ class Zonasi extends BaseController
             $row = [];
 
             $row[] = $no;
-            $action = '<a class="btn btn-primary" href="./detaillist?id=' . $list->sekolah_id . '&n=' . $list->nama . '"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
+            if ((int)$list->jumlah_zona == (int)$list->jumlah_zona_verified) {
+                if ((int)$list->jumlah_zona > 0) {
+                    $action = '<a class="btn btn-primary" href="./detaillist?id=' . $list->sekolah_id . '&n=' . $list->nama . '"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
                                 ';
+                } else {
+                    $action = '<a class="btn btn-warning" href="./detaillist?id=' . $list->sekolah_id . '&n=' . $list->nama . '"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
+                                    ';
+                }
+            } else {
+                $action = '<a class="btn btn-warning" href="./detaillist?id=' . $list->sekolah_id . '&n=' . $list->nama . '"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
+                                    ';
+            }
 
             $row[] = $action;
             $row[] = $list->nama;
@@ -72,14 +82,23 @@ class Zonasi extends BaseController
             $row = [];
 
             $row[] = $no;
-            $action = '<div class="btn-group">
+            if ((int)$list->is_locked == 1) {
+                $action = '<div class="btn-group">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
                             <div class="dropdown-menu" style="">
-                                <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->sekolah_id . '\',\'' . $list->kelurahan . '\',\'' . $list->nama_kelurahan . '\');"><i class="fas fa-edit font-size-16 align-middle"></i> &nbsp;Detail</a>
-                                <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->sekolah_id . '\'\'' . $list->kelurahan . '\',\'' . $list->nama_kelurahan . '\');"><i class="fas fa-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
-                                <div class="dropdown-divider"></div>
+                                <!-- <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->sekolah_id . '\',\'' . $list->kelurahan . '\',\'' . $list->nama_kelurahan . '\');"><i class="fas fa-edit font-size-16 align-middle"></i> &nbsp;Detail</a> -->
+                                <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->sekolah_id . '\',\'' . $list->kelurahan . '\',\'' . $list->nama_kelurahan . '\');"><i class="fas fa-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
                             </div>
                         </div>';
+            } else {
+                $action = '<div class="btn-group">
+                                <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
+                                <div class="dropdown-menu" style="">
+                                    <!-- <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->sekolah_id . '\',\'' . $list->kelurahan . '\',\'' . $list->nama_kelurahan . '\');"><i class="fas fa-edit font-size-16 align-middle"></i> &nbsp;Detail</a> -->
+                                    <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->sekolah_id . '\',\'' . $list->kelurahan . '\',\'' . $list->nama_kelurahan . '\');"><i class="fas fa-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
+                                </div>
+                            </div>';
+            }
 
             $row[] = $action;
             $row[] = $list->nama_provinsi;
@@ -349,7 +368,87 @@ class Zonasi extends BaseController
         }
     }
 
-    public function editSave()
+    public function verify()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+                'name' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id')
+                    . $this->validator->getError('name');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+                $nama = htmlspecialchars($this->request->getVar('name'), true);
+
+                $oldData = $this->_db->table('_setting_zonasi_tb')->where(['sekolah_id' => $id, 'is_locked' => 0])->countAllResults();
+
+                if (!($oldData > 0)) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data zonasi sudah terverifikasi";
+                    return json_encode($response);
+                }
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('_setting_zonasi_tb')->where(['sekolah_id' => $id, 'is_locked' => 0])->update(['is_locked' => 1]);
+                    if ($this->_db->affectedRows() > 0) {
+                        $this->_db->transCommit();
+
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->url = base_url('portal');
+                        $response->message = "Data berhasil diverifikasi.";
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal memverifikasi data.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal memverifikasi data. with e";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function addSave()
     {
         if ($this->request->isAJAX()) {
             $Profilelib = new Profilelib();
@@ -364,22 +463,40 @@ class Zonasi extends BaseController
             }
 
             $rules = [
-                '_id' => [
+                'id' => [
                     'rules' => 'required|trim',
                     'errors' => [
                         'required' => 'id tidak boleh kosong. ',
                     ]
                 ],
-                '_kebutuhan' => [
+                'prov' => [
                     'rules' => 'required|trim',
                     'errors' => [
-                        'required' => 'Jumlah kebutuhan rombel tidak boleh kosong. ',
+                        'required' => 'Provinsi tidak boleh kosong. ',
                     ]
                 ],
-                '_radius' => [
+                'kab' => [
                     'rules' => 'required|trim',
                     'errors' => [
-                        'required' => 'Jangkauan Radius Zonasi tidak boleh kosong. ',
+                        'required' => 'Kabupaten tidak boleh kosong. ',
+                    ]
+                ],
+                'kec' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kecamatan tidak boleh kosong. ',
+                    ]
+                ],
+                'kel' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kelurahan tidak boleh kosong. ',
+                    ]
+                ],
+                'dusun' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Dusun tidak boleh kosong. ',
                     ]
                 ],
             ];
@@ -387,90 +504,177 @@ class Zonasi extends BaseController
             if (!$this->validate($rules)) {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = $this->validator->getError('_id')
-                    . $this->validator->getError('_kebutuhan')
-                    . $this->validator->getError('_radius');
+                $response->message = $this->validator->getError('id')
+                    . $this->validator->getError('prov')
+                    . $this->validator->getError('kab')
+                    . $this->validator->getError('kec')
+                    . $this->validator->getError('kel')
+                    . $this->validator->getError('dusun');
                 return json_encode($response);
             } else {
 
-                $id = htmlspecialchars($this->request->getVar('_id'), true);
-                $kebutuhan = htmlspecialchars($this->request->getVar('_kebutuhan'), true);
-                $radius = htmlspecialchars($this->request->getVar('_radius'), true);
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+                $prov = htmlspecialchars($this->request->getVar('prov'), true);
+                $kab = htmlspecialchars($this->request->getVar('kab'), true);
+                $kec = htmlspecialchars($this->request->getVar('kec'), true);
+                $kel = htmlspecialchars($this->request->getVar('kel'), true);
+                $dusunx = htmlspecialchars($this->request->getVar('dusun'), true);
 
-                $oldData = $this->_db->table('_setting_kuota_tb a')
-                    ->select("a.*, b.nama, b.kecamatan, b.bentuk_pendidikan")
-                    ->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id')
-                    ->where('a.sekolah_id', $id)->get()->getRowObject();
-                if (!$oldData) {
+                $dusuns = explode(",", $dusunx);
+
+                $getSekolah = $this->_db->table('dapo_sekolah')->select("nama, bentuk_pendidikan_id, npsn")->where('sekolah_id', $id)->get()->getRowObject();
+
+                if (!$getSekolah) {
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->message = "Data kuota tidak ditemukan.";
+                    $response->message = "Sekolah tidak ditemukan.";
                     return json_encode($response);
-                }
-
-                // if (
-                //     (int)$oldData->jumlah_rombel_kebutuhan === (int)$kebutuhan && (int)$oldData->radius_zonasi === (int)$radius
-                // ) {
-                //     $response = new \stdClass;
-                //     $response->status = 201;
-                //     $response->message = "Tidak ada perubahan data yang perlu disimpan";
-                //     return json_encode($response);
-                // }
-
-                $prosentaseJalur = getProsentaseJalur($oldData->bentuk_pendidikan_id);
-
-                if (!$prosentaseJalur) {
-                    $response = new \stdClass;
-                    $response->code = 400;
-                    $response->message = "Referensi prosentase tidak ditemukan.";
-                    return json_encode($response);
-                }
-
-                if ($oldData->bentuk_pendidikan_id == "6" || $oldData->bentuk_pendidikan_id == "10" || $oldData->bentuk_pendidikan_id == "31" || $oldData->bentuk_pendidikan_id == "32" || $oldData->bentuk_pendidikan_id == "33" || $oldData->bentuk_pendidikan_id == "35" || $oldData->bentuk_pendidikan_id == "36") {
-                    $jumlahSiswa = 32 * (int)$kebutuhan;
-                    $kZonasi = ceil(($prosentaseJalur->zonasi / 100) * $jumlahSiswa);
-                    $kAfirmasi = ceil(($prosentaseJalur->afirmasi / 100) * $jumlahSiswa);
-                    $kMutasi = ceil(($prosentaseJalur->mutasi / 100) * $jumlahSiswa);
-                    $kPrestasi = $jumlahSiswa - ($kZonasi + $kAfirmasi + $kMutasi);
-                } else {
-                    $jumlahSiswa = 28 * (int)$kebutuhan;
-                    $kZonasi = ceil(($prosentaseJalur->zonasi / 100) * $jumlahSiswa);
-                    $kAfirmasi = ceil(($prosentaseJalur->afirmasi / 100) * $jumlahSiswa);
-                    $kMutasi = ceil(($prosentaseJalur->mutasi / 100) * $jumlahSiswa);
-                    $kPrestasi = $jumlahSiswa - ($kZonasi + $kAfirmasi + $kMutasi);
                 }
 
                 $this->_db->transBegin();
                 try {
-                    $this->_db->table('_setting_kuota_tb')->where('sekolah_id', $oldData->sekolah_id)->update([
-                        'jumlah_rombel_kebutuhan' => $kebutuhan,
-                        'zonasi' => $kZonasi,
-                        'afirmasi' => $kAfirmasi,
-                        'mutasi' => $kMutasi,
-                        'prestasi' => $kPrestasi,
-                        'radius_zonasi' => $radius,
-                        'is_locked' => 1,
-                        'updated_at' => date('Y-m-d H:i:s'),
-                    ]);
+
+                    foreach ($dusuns as $key => $dusun) {
+
+                        $cekData = $this->_db->table('_setting_zonasi_tb')->select("id,sekolah_id")->where(['sekolah_id' => $id, 'provinsi' => $prov, 'kabupaten' => $kab, 'kecamatan' => $kec, 'kelurahan' => $kel, 'dusun' => $dusun])->get()->getRowObject();
+                        // $cekData = $this->_db->table('_setting_zonasi_tb')->where(['sekolah_id' => $sekolah, 'provinsi' => $prov, 'kabupaten' => $kab, 'kecamatan' => $kec, 'kelurahan' => $kel])->get()->getRowObject();
+
+                        if ($cekData) {
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Zonasi untuk sekolah ini dengan wilayah yang di pilih sudah di set, silahkan menggunakan menu edit untuk merubah data.";
+                            return json_encode($response);
+                        }
+
+                        $uuidLib = new Uuid();
+                        $uuid = $uuidLib->v4();
+
+                        $data = [
+                            'id' => $uuid,
+                            'sekolah_id' => $id,
+                            'bentuk_pendidikan_id' => $getSekolah->bentuk_pendidikan_id,
+                            'npsn' => $getSekolah->npsn,
+                            'provinsi' => $prov,
+                            'kabupaten' => $kab,
+                            'kecamatan' => $kec,
+                            'kelurahan' => $kel,
+                            'dusun' => $dusun,
+                            'is_locked' => 1,
+                            'created_at' => date('Y-m-d H:i:s')
+                        ];
+
+                        // try {
+                        $this->_db->table('_setting_zonasi_tb')->insert($data);
+                        if ($this->_db->affectedRows() > 0) {
+                            continue;
+                        } else {
+                            $this->_db->transRollback();
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Gagal menyimpan zonasi.";
+                            return json_encode($response);
+                        }
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal menyimpan zonasi. with e.";
+                    return json_encode($response);
+                }
+
+                $this->_db->transCommit();
+
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Data berhasil disimpan.";
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function hapus()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+                'kel' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kelurahan tidak boleh kosong. ',
+                    ]
+                ],
+                'nam_kel' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama Kelurahan tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id')
+                    . $this->validator->getError('kel')
+                    . $this->validator->getError('nam_kel');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+                $kel = htmlspecialchars($this->request->getVar('kel'), true);
+                $nam_kel = htmlspecialchars($this->request->getVar('nam_kel'), true);
+
+                $oldData = $this->_db->table('_setting_zonasi_tb')->where(['sekolah_id' => $id, 'kelurahan' => $kel])->countAllResults();
+
+                if (!($oldData > 0)) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('_setting_zonasi_tb')->where(['sekolah_id' => $id, 'kelurahan' => $kel])->delete();
                     if ($this->_db->affectedRows() > 0) {
                         $this->_db->transCommit();
 
                         $response = new \stdClass;
                         $response->status = 200;
-                        $response->message = "Data berhasil diupdate.";
+                        $response->url = base_url('portal');
+                        $response->message = "Data berhasil dihapus.";
                         return json_encode($response);
                     } else {
                         $this->_db->transRollback();
                         $response = new \stdClass;
                         $response->status = 400;
-                        $response->message = "Gagal mengupdate data.";
+                        $response->message = "Gagal menghapus data.";
                         return json_encode($response);
                     }
                 } catch (\Throwable $th) {
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->message = "Gagal mengupdate data.";
+                    $response->message = "Gagal menghapus data. with e";
                     return json_encode($response);
                 }
             }
