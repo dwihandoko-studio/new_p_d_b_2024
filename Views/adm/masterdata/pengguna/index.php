@@ -13,8 +13,8 @@
                 </ol>
             </div>
             <div class="col-6">
-                <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btngenerate"><i class="fas fa-users font-size-16 align-middle me-2"></i> GENERATE PENGGUNA</button> &nbsp;&nbsp;
-                <button type="button" class="btn btn-sm btn-info waves-effect waves-light btnadd"><i class="fas fa-user-plus font-size-16 align-middle me-2"></i> TAMBAH PENGGUNA</button> &nbsp;&nbsp;
+                <!-- <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btngenerate"><i class="fas fa-users font-size-16 align-middle me-2"></i> GENERATE PENGGUNA</button> &nbsp;&nbsp;
+                <button type="button" class="btn btn-sm btn-info waves-effect waves-light btnadd"><i class="fas fa-user-plus font-size-16 align-middle me-2"></i> TAMBAH PENGGUNA</button> &nbsp;&nbsp; -->
             </div>
         </div>
         <div class="row">
