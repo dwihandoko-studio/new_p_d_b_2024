@@ -178,7 +178,7 @@
                     if (resul.status !== 201) {
                         if (resul.status === 401) {
                             Swal.fire(
-                                'Failed!',
+                                'Peringatan!!',
                                 resul.message,
                                 'warning'
                             ).then((valRes) => {
