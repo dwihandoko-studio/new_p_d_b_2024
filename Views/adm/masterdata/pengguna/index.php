@@ -86,6 +86,87 @@
 <?= $this->section('scriptBottom'); ?>
 <script src="<?= base_url() ?>/assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script>
+    function actionResetPassword(id, nama) {
+        Swal.fire({
+            title: 'Apakah anda yakin ingin mereset akun data ini?',
+            text: "Mereset Data Akun : " + nama,
+            showCancelButton: true,
+            icon: 'question',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Reset Akun!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "./reset_password",
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        nama: nama
+                    },
+                    dataType: 'JSON',
+                    beforeSend: function() {
+                        Swal.fire({
+                            title: 'Mereset akun...',
+                            text: 'Please wait while we process your action.',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
+                    complete: function() {},
+                    success: function(resul) {
+
+                        if (resul.status !== 200) {
+                            if (resul.status !== 201) {
+                                if (resul.status === 401) {
+                                    Swal.fire(
+                                        'Failed!',
+                                        resul.message,
+                                        'warning'
+                                    ).then((valRes) => {
+                                        reloadPage();
+                                    });
+                                } else {
+                                    Swal.fire(
+                                        'GAGAL!',
+                                        resul.message,
+                                        'warning'
+                                    );
+                                }
+                            } else {
+                                Swal.fire(
+                                    'Peringatan!',
+                                    resul.message,
+                                    'success'
+                                ).then((valRes) => {
+                                    reloadPage();
+                                })
+                            }
+                        } else {
+                            Swal.fire(
+                                'BERHASIL!',
+                                resul.message,
+                                'success'
+                            ).then((valRes) => {
+                                reloadPage();
+                            })
+                        }
+                    },
+                    error: function() {
+                        Swal.fire(
+                            'PERINGATAN!',
+                            "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                            'warning'
+                        );
+                    }
+                });
+            }
+        });
+    };
+
     $(document).on('click', '.btnadd', function(e) {
         e.preventDefault();
 
