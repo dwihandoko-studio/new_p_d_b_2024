@@ -40,7 +40,7 @@ class SekolahzonaModel extends Model
             $i++;
         }
 
-        // $this->dt->orderBy('a.kecamatan', 'asc');
+        $this->dt->orderBy('jumlah_zona_notverified', 'desc');
         // $this->dt->orderBy('a.bentuk_pendidikan', 'asc');
         // $this->dt->orderBy('a.nama', 'asc');
         // if ($this->request->getPost('order')) {
@@ -52,7 +52,7 @@ class SekolahzonaModel extends Model
     }
     function get_datatables()
     {
-        $this->dt->select("a.sekolah_id, a.nama, a.npsn, a.bentuk_pendidikan, a.bentuk_pendidikan_id, a.kecamatan, a.kode_kecamatan, (SELECT count(sekolah_id) as jumlah FROM _setting_zonasi_tb WHERE sekolah_id = b.sekolah_id) as jumlah_zona, (SELECT count(sekolah_id) as jumlah FROM _setting_zonasi_tb WHERE sekolah_id = b.sekolah_id AND is_locked = 1) as jumlah_zona_verified");
+        $this->dt->select("a.sekolah_id, a.nama, a.npsn, a.bentuk_pendidikan, a.bentuk_pendidikan_id, a.kecamatan, a.kode_kecamatan, (SELECT count(sekolah_id) as jumlah FROM _setting_zonasi_tb WHERE sekolah_id = b.sekolah_id) as jumlah_zona, (SELECT count(sekolah_id) as jumlah FROM _setting_zonasi_tb WHERE sekolah_id = b.sekolah_id AND is_locked = 1) as jumlah_zona_verified, (SELECT count(sekolah_id) as jumlah FROM _setting_zonasi_tb WHERE sekolah_id = b.sekolah_id AND is_locked = 0) as jumlah_zona_notverified");
         $this->dt->join('dapo_sekolah a', 'b.sekolah_id = a.sekolah_id');
         if ($this->request->getPost('kec')) {
             $kec = htmlspecialchars($this->request->getPost('kec'), true);
