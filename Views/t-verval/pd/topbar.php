@@ -8,7 +8,7 @@
                 </div>
                 <ul class="navbar-nav header-right">
                     <li class="nav-item invoices-btn">
-                        <span class="btn btn-primary ms-5"></i><?= sekolahName($user->id) ?></span>
+                        <span class="btn btn-primary ms-5"></i><?= $user->nama ?></span>
                     </li>
                     <li class="nav-item dropdown notification_dropdown">
                         <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">

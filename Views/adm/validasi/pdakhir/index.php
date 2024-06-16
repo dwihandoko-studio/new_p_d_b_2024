@@ -1,4 +1,4 @@
-<?= $this->extend('t-verval/su/index'); ?>
+<?= $this->extend('t-verval/adm/index'); ?>
 
 <?= $this->section('content'); ?>
 
@@ -8,7 +8,7 @@
         <div class="row page-titles">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active"><a href="javascript:void(0)">Masterdata</a></li>
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Peserta Didik <?= $sekolah ?></a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Peserta Didik Tingkat Akhir <?= $sekolah ?></a></li>
             </ol>
         </div>
         <div class="row">
@@ -53,12 +53,6 @@
 <?= $this->section('scriptBottom'); ?>
 <script src="<?= base_url() ?>/assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script>
-    function inputFocus(id) {
-        const color = $(id).attr('id');
-        $(id).removeAttr('style');
-        $('.' + color).html('');
-    }
-
     $(document).ready(function() {
         initSelect2('_filter_kec', $('.content-body'));
         initSelect2('_filter_jenjang', $('.content-body'));
