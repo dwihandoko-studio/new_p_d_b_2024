@@ -2507,9 +2507,71 @@ function sekolahName($id)
 	}
 }
 
-function getNameKecamatan($id)
+function getSekolahName($id)
 {
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$limit = $db->table('dapo_sekolah')
+		->select('nama, npsn')
+		->where('sekolah_id', $id)
+		->get()->getRowObject();
+	if ($limit) {
+		return $limit->nama;
+	} else {
+		return "";
+	}
+}
+
+function getSekolahNpsn($id)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$limit = $db->table('dapo_sekolah')
+		->select('nama, npsn')
+		->where('sekolah_id', $id)
+		->get()->getRowObject();
+	if ($limit) {
+		return $limit->npsn;
+	} else {
+		return "";
+	}
+}
+
+function getNameProvinsi($id)
+{
+	$id = substr($id, 0, 2);
+	$db      = \Config\Database::connect();
+
+	$limit = $db->table('ref_provinsi')
+		->select('nama')
+		->where('id', $id . "0000")
+		->get()->getRowObject();
+	if ($limit) {
+		return $limit->nama;
+	} else {
+		return "";
+	}
+}
+
+function getNameKabupaten($id)
+{
+	$db      = \Config\Database::connect();
+
+	$limit = $db->table('ref_kabupaten')
+		->select('nama')
+		->where('id', $id)
+		->get()->getRowObject();
+	if ($limit) {
+		return $limit->nama;
+	} else {
+		return "";
+	}
+}
+
+function getNameKecamatan($id)
+{
 	$db      = \Config\Database::connect();
 
 	$limit = $db->table('ref_kecamatan')
@@ -2523,9 +2585,38 @@ function getNameKecamatan($id)
 	}
 }
 
+function getNameKelurahan($id)
+{
+	$db      = \Config\Database::connect();
+
+	$limit = $db->table('ref_kelurahan')
+		->select('nama')
+		->where('id', $id)
+		->get()->getRowObject();
+	if ($limit) {
+		return $limit->nama;
+	} else {
+		return "";
+	}
+}
+
+function getNameDusun($id)
+{
+	$db      = \Config\Database::connect();
+
+	$limit = $db->table('ref_dusun')
+		->select('nama')
+		->where('id', $id)
+		->get()->getRowObject();
+	if ($limit) {
+		return $limit->nama;
+	} else {
+		return "";
+	}
+}
+
 function getProsentaseJalur($jenjang)
 {
-	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
 	$db      = \Config\Database::connect();
 	$data = $db->table('_setting_prosentase_jalur')
 		->where(['bentuk_pendidikan_id' => $jenjang])
@@ -2540,13 +2631,12 @@ function getProsentaseJalur($jenjang)
 
 function getDusunList($kelurahan, $sekolah_id)
 {
-	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
 	$db      = \Config\Database::connect();
 	$data = $db->table('_setting_zonasi_tb a')
 		->select("b.nama as nama_dusun, a.id")
 		->join('ref_dusun b', 'a.dusun = b.id')
 		->where(['a.sekolah_id' => $sekolah_id, 'a.kelurahan' => $kelurahan])
-		->orderBy('b.nama', 'ASC')
+		->orderBy('b.urut', 'ASC')
 		->get()->getResult();
 
 	if (count($data) > 0) {
@@ -2559,4 +2649,16 @@ function getDusunList($kelurahan, $sekolah_id)
 	} else {
 		return '';
 	}
+}
+
+function tingkatPendidikanInArray($tingkatPendidikan)
+{
+	$array = [6];
+	return in_array((int)$tingkatPendidikan, $array);
+}
+
+function createKodePendaftaran($kode, $nisn)
+{
+	$kodePendaftaran = $kode . '-' . $nisn . '-' . date('Y-m-d') . '-' . date('H') . '-' . date('i') . '-' . date('s');
+	return $kodePendaftaran;
 }

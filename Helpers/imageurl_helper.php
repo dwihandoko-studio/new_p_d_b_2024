@@ -1,10 +1,10 @@
 <?php
 if (!function_exists('_create_name_file')) {
-    function _create_name_file($string)
+    function _create_name_file($string, $fileEx = "file-")
     {
         $file_parts = pathinfo($string);
         $exts = $file_parts['extension'];
-        $date = 'file-' . date('Y-m-d') . '-at-' . date('H-i-s') . '-' . rand(1000000, 9999999);
+        $date = $fileEx . date('Y-m-d') . '-at-' . date('H-i-s') . '-' . rand(1000000, 9999999);
 
         //var_dump($exts);die;
 
