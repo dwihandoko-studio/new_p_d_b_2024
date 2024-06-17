@@ -239,8 +239,8 @@ class Home extends BaseController
             $row[] = $action;
             $row[] = $list->nama;
             $row[] = $list->npsn;
-            $row[] = $list->jumlah_zona_verified ?? 0;
             $row[] = $list->jumlah_kelurahan ?? 0;
+            $row[] = $list->jumlah_zona_verified ?? 0;
 
             $data[] = $row;
         }
