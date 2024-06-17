@@ -384,4 +384,9 @@ class Pd extends BaseController
             exit('Maaf tidak dapat diproses');
         }
     }
+
+    public function phpinfo()
+    {
+        phpinfo();
+    }
 }
