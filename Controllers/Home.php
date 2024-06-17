@@ -6,6 +6,7 @@ use App\Libraries\Profilelib;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use App\Models\KuotaModel;
+use App\Models\SekolahzonaModel;
 use Config\Services;
 
 class Home extends BaseController
@@ -197,6 +198,49 @@ class Home extends BaseController
             $row[] = $list->mutasi;
             $row[] = $list->prestasi;
             $row[] = $list->total;
+
+            $data[] = $row;
+        }
+        $output = [
+            "draw" => $request->getPost('draw'),
+            "recordsTotal" => $datamodel->count_all(),
+            "recordsFiltered" => $datamodel->count_filtered(),
+            "data" => $data
+        ];
+        echo json_encode($output);
+    }
+
+    public function getAllZonasi()
+    {
+        $request = Services::request();
+        $datamodel = new SekolahzonaModel($request);
+
+        $lists = $datamodel->get_datatables();
+        $data = [];
+        $no = $request->getPost("start");
+        foreach ($lists as $list) {
+            $no++;
+            $row = [];
+
+            // $row[] = $no;
+            // if ((int)$list->jumlah_zona == (int)$list->jumlah_zona_verified) {
+            //     if ((int)$list->jumlah_zona > 0) {
+            $action = '<a class="btn btn-primary" href="javascript:getDetailZonasi(\'' . $list->sekolah_id . '\',\'' . $list->nama . '\');"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
+                                 ';
+            //     } else {
+            //         $action = '<a class="btn btn-warning" href="./detaillist?id=' . $list->sekolah_id . '&n=' . $list->nama . '"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
+            //                         ';
+            //     }
+            // } else {
+            //     $action = '<a class="btn btn-warning" href="./detaillist?id=' . $list->sekolah_id . '&n=' . $list->nama . '"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
+            //                         ';
+            // }
+
+            $row[] = $action;
+            $row[] = $list->nama;
+            $row[] = $list->npsn;
+            $row[] = $list->jumlah_zona_verified ?? 0;
+            $row[] = $list->jumlah_kelurahan ?? 0;
 
             $data[] = $row;
         }
