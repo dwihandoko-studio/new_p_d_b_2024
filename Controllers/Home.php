@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Libraries\Profilelib;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use App\Models\KuotaModel;
+use Config\Services;
 
 class Home extends BaseController
 {
@@ -124,6 +126,7 @@ class Home extends BaseController
         set_cookie('headerPosition', 'static', strval(3600 * 24 * 1));
         set_cookie('containerLayout', 'wide', strval(3600 * 24 * 1));
         $data['title'] = 'Kuota Sekolah || PPDB 2024/2025 Kab. Lampung Tengah';
+        $data['kecamatans'] = $this->_db->table('ref_kecamatan')->where('id_kabupaten', '120200')->orderBy('nama', 'ASC')->get()->getResult();
 
         return view('dashboard/kuota', $data);
     }
@@ -146,5 +149,63 @@ class Home extends BaseController
         $data['title'] = 'Statistik || PPDB 2024/2025 Kab. Lampung Tengah';
 
         return view('dashboard/statistik', $data);
+    }
+
+
+    public function getAllKuota()
+    {
+        $request = Services::request();
+        $datamodel = new KuotaModel($request);
+
+
+        $lists = $datamodel->get_datatables();
+        $data = [];
+        $no = $request->getPost("start");
+        foreach ($lists as $list) {
+            $no++;
+            $row = [];
+
+            $row[] = $no;
+            // if ((int)$list->is_locked == 1) {
+            //     $action = '<div class="btn-group">
+            //     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
+            //     <div class="dropdown-menu" style="">
+            //         <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->sekolah_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama)) . '\');"><i class="fas fa-eye font-size-16 align-middle"></i> &nbsp;Detail</a>
+            //         <a class="dropdown-item" href="javascript:actionEdit(\'' . $list->sekolah_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\');"><i class="fas fa-edit font-size-16 align-middle"></i> &nbsp;Edit</a>
+            //         <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->sekolah_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\');"><i class="fas fa-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
+            //         <div class="dropdown-divider"></div>
+            //     </div>
+            // </div>';
+            // } else {
+            //     $action = '<div class="btn-group">
+            //     <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
+            //     <div class="dropdown-menu" style="">
+            //         <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->sekolah_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama)) . '\');"><i class="fas fa-eye font-size-16 align-middle"></i> &nbsp;Detail</a>
+            //         <a class="dropdown-item" href="javascript:actionEdit(\'' . $list->sekolah_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\');"><i class="fas fa-edit font-size-16 align-middle"></i> &nbsp;Edit</a>
+            //         <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->sekolah_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\');"><i class="fas fa-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
+            //         <div class="dropdown-divider"></div>
+            //     </div>
+            // </div>';
+            // }
+
+            // $row[] = $action;
+            $row[] = $list->nama;
+            $row[] = $list->npsn;
+            $row[] = $list->jumlah_rombel_kebutuhan;
+            $row[] = $list->afirmasi;
+            $row[] = $list->zonasi;
+            $row[] = $list->mutasi;
+            $row[] = $list->prestasi;
+            $row[] = $list->total;
+
+            $data[] = $row;
+        }
+        $output = [
+            "draw" => $request->getPost('draw'),
+            "recordsTotal" => $datamodel->count_all(),
+            "recordsFiltered" => $datamodel->count_filtered(),
+            "data" => $data
+        ];
+        echo json_encode($output);
     }
 }
