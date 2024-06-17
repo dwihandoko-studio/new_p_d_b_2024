@@ -22,7 +22,7 @@ class Pd extends BaseController
     {
         helper(['text', 'file', 'form', 'session', 'array', 'imageurl', 'web', 'filesystem']);
         $this->_db      = \Config\Database::connect();
-        ini_set('max_execution_time', 300);
+        ini_set('max_execution_time', 180);
     }
 
     public function getAll()
