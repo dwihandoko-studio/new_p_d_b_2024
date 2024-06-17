@@ -52,9 +52,9 @@
                                                 <p class="fs-12 mb-2">
 
                                                 <ol type="1">
-                                                    <li>Ijazah/Surat Keterangan Lulus</li>
-                                                    <li>Kartu Keluarga</li>
-                                                    <li>Akte Kelahiran</li>
+                                                    <li>FC Ijazah/SKL</li>
+                                                    <li>FC Kartu Keluarga</li>
+                                                    <li>FC Akta Kelahiran (opsional)</li>
                                                 </ol>
                                                 </p>
                                             </div>

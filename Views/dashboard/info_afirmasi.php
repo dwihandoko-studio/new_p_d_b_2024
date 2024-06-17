@@ -52,11 +52,12 @@
                                                 <p class="fs-12 mb-2">
 
                                                 <ol type="1">
-                                                    <li>Ijazah/Surat Keterangan Lulus</li>
-                                                    <li>Kartu Keluarga</li>
-                                                    <li>Akte Kelahiran</li>
-                                                    <li>Surat Pernyataan Keaslian Dokumen</li>
-                                                    <li>Dokumen DTKS/Memiliki Kartu Jaminan Keluarga<br />Prasejahtera/KIP/PKH/PIP/KIS</li>
+                                                    <li>FC Ijazah/SKL</li>
+                                                    <li>FC Kartu Keluarga</li>
+                                                    <li>FC Akta Kelahiran (opsional)</li>
+                                                    <li>Kartu Jaminan Sosial (PIP/KIP/PKH/Jamkesmas/Surat Keterangan DTKS dari Dinsos)</li>
+                                                    <li>Surat Keteranggan Penyandang Disabilitas (untuk yang disabilitas)</li>
+                                                    <li>Surat Pernyataan Keaslian Dokumen ttd bermaterai dari Orang tua peserta</li>
                                                 </ol>
                                                 </p>
                                             </div>

@@ -52,12 +52,13 @@
                                                 <p class="fs-12 mb-2">
 
                                                 <ol type="1">
-                                                    <li>Ijazah/Surat Keterangan Lulus</li>
-                                                    <li>Kartu Keluarga</li>
-                                                    <li>Akte Kelahiran</li>
-                                                    <li>Rekap Nilai (Kelas 5 Semester 1 dan 2 dan Kelas 6 semester 1)</li>
-                                                    <li>Sertifikat/Piagam Prestasi Non-Akademik</li>
-                                                    <li>Surat Pernyataan Keaslian Dokumen</li>
+                                                    <li>FC Ijazah/SKL</li>
+                                                    <li>FC Kartu Keluarga</li>
+                                                    <li>FC Akta Kelahiran (opsional)</li>
+                                                    <li>FC Rapor 5 Semester</li>
+                                                    <li>Surat Keterangan Prestasi dari Sekolah asal (Prestasi Akademik)</li>
+                                                    <li>Sertifikat/Piagam (Prestasi Non-Akademik)</li>
+                                                    <li>FC Akreditasi Sekolah Asal</li>
                                                 </ol>
                                                 </p>
                                             </div>
