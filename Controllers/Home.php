@@ -138,6 +138,7 @@ class Home extends BaseController
         set_cookie('headerPosition', 'static', strval(3600 * 24 * 1));
         set_cookie('containerLayout', 'wide', strval(3600 * 24 * 1));
         $data['title'] = 'Zonasi Wilayah || PPDB 2024/2025 Kab. Lampung Tengah';
+        $data['kecamatans'] = $this->_db->table('ref_kecamatan')->where('id_kabupaten', '120200')->orderBy('nama', 'ASC')->get()->getResult();
 
         return view('dashboard/zonasi_wilayah', $data);
     }
