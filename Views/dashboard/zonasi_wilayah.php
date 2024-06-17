@@ -206,7 +206,7 @@
                 if (response.status == 200) {
                     Swal.close();
                     $('#content-detailModalLabel').html(response.title);
-                    $('.contentBodydetailModal').html(response.data);
+                    $('.content-detailBodyModal').html(response.data);
                     $('.content-detailModal').modal({
                         backdrop: 'static',
                         keyboard: false,
