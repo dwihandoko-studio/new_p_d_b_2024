@@ -55,7 +55,7 @@ class SekolahzonaModel extends Model
         $this->dt->select("a.sekolah_id, a.nama, a.npsn, a.bentuk_pendidikan, a.bentuk_pendidikan_id, a.kecamatan, a.kode_kecamatan, (SELECT count(sekolah_id) as jumlah FROM _setting_zonasi_tb WHERE sekolah_id = b.sekolah_id AND is_locked = 1) as jumlah_zona_verified, (SELECT COUNT(DISTINCT kelurahan) AS jumlah_kelurahan FROM _setting_zonasi_tb WHERE sekolah_id = b.sekolah_id AND is_locked = 1) as jumlah_kelurahan");
         $this->dt->join('dapo_sekolah a', 'b.sekolah_id = a.sekolah_id');
         $this->dt->where('b.is_locked', 1);
-        $this->dt->where("a.status_sekolah_id != '1'");
+        $this->dt->where("a.status_sekolah_id = '1'");
         if ($this->request->getPost('kec')) {
             $kec = htmlspecialchars($this->request->getPost('kec'), true);
             if ($kec !== "") {
@@ -79,7 +79,7 @@ class SekolahzonaModel extends Model
         $this->dt->select("a.sekolah_id, a.nama, a.npsn, a.bentuk_pendidikan, a.bentuk_pendidikan_id, a.kecamatan, a.kode_kecamatan");
         $this->dt->join('dapo_sekolah a', 'b.sekolah_id = a.sekolah_id');
         $this->dt->where('b.is_locked', 1);
-        $this->dt->where("a.status_sekolah_id != '1'");
+        $this->dt->where("a.status_sekolah_id = '1'");
         if ($this->request->getPost('kec')) {
             $kec = htmlspecialchars($this->request->getPost('kec'), true);
             if ($kec !== "") {
@@ -101,7 +101,7 @@ class SekolahzonaModel extends Model
         $this->dt->select("a.sekolah_id, a.nama, a.npsn, a.bentuk_pendidikan, a.bentuk_pendidikan_id, a.kecamatan, a.kode_kecamatan");
         $this->dt->join('dapo_sekolah a', 'b.sekolah_id = a.sekolah_id');
         $this->dt->where('b.is_locked', 1);
-        $this->dt->where("a.status_sekolah_id != '1'");
+        $this->dt->where("a.status_sekolah_id = '1'");
         if ($this->request->getPost('kec')) {
             $kec = htmlspecialchars($this->request->getPost('kec'), true);
             if ($kec !== "") {
