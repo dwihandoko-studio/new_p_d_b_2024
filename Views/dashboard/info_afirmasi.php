@@ -111,14 +111,14 @@
                             <li>
                                 <span class="bg-blue"></span>
                                 <div>
-                                    <h4>63,876</h4>
+                                    <h4>0853-2791-9291</h4>
                                     <span>CS: SMP</span>
                                 </div>
                             </li>
                             <li>
                                 <span class="bg-red"></span>
                                 <div>
-                                    <h4>97,125</h4>
+                                    <h4>0852-6902-2481</h4>
                                     <span>CS: SD</span>
                                 </div>
                             </li>
