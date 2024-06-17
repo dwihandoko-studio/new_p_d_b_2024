@@ -162,7 +162,7 @@
     </div>
 </div>
 <div id="content-detailModal" class="modal fade content-detailModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" style="max-width: 90vw !important;">
         <div class="modal-content ">
             <div class="modal-header">
                 <h5 class="modal-title" id="content-detailModalLabel">Modal title</h5>
