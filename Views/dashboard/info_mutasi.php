@@ -110,15 +110,15 @@
                             <li>
                                 <span class="bg-blue"></span>
                                 <div>
-                                    <h4>0853-2791-9291</h4>
-                                    <span>CS: SMP</span>
+                                    <h4>CS: SMP</h4>
+                                    <span>0853-2791-9291</span>
                                 </div>
                             </li>
                             <li>
                                 <span class="bg-red"></span>
                                 <div>
-                                    <h4>0852-6902-2481</h4>
-                                    <span>CS: SD</span>
+                                    <h4>CS: SD</h4>
+                                    <span>0852-6902-2481</span>
                                 </div>
                             </li>
                         </ul>
