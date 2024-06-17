@@ -193,12 +193,36 @@
                 }
             },
             lengthMenu: [
-                [10, 25, 50, 100, 200, -1],
-                [10, 25, 50, 100, 200, "All"]
+                [10],
+                [10]
             ],
             buttons: ["copy", "excel", "pdf"],
             "columnDefs": [{
                 "targets": 0,
+                "orderable": false,
+            }, {
+                "targets": 1,
+                "orderable": false,
+            }, {
+                "targets": 2,
+                "orderable": false,
+            }, {
+                "targets": 3,
+                "orderable": false,
+            }, {
+                "targets": 4,
+                "orderable": false,
+            }, {
+                "targets": 5,
+                "orderable": false,
+            }, {
+                "targets": 6,
+                "orderable": false,
+            }, {
+                "targets": 7,
+                "orderable": false,
+            }, {
+                "targets": 8,
                 "orderable": false,
             }],
         });
