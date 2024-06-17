@@ -302,7 +302,7 @@ class Pd extends BaseController
                 $bujur = $formData[$i][28];
                 $flag_pip = $formData[$i][29];
 
-                $this->_db->transBegin();
+
                 $dataRow = [
                     'peserta_didik_id' => $peserta_didik_id,
                     'sekolah_id' => $sekolah_id,
@@ -338,7 +338,15 @@ class Pd extends BaseController
                     'created_at' => date('Y-m-d H:i:s'),
                 ];
 
+                $this->_db->transBegin();
+
                 try {
+                    $oldData = $this->_db->table('dapo_peserta')->where('peserta_didik_id', $peserta_didik_id)->countAllResults();
+                    if ($oldData > 0) {
+                        $dataTidakDitemukan++;
+                        continue;
+                    }
+
                     $this->_db->table('dapo_peserta')->insert($dataRow);
                     if ($this->_db->affectedRows() > 0) {
 
@@ -347,19 +355,19 @@ class Pd extends BaseController
                         continue;
                     } else {
                         $this->_db->transRollback();
-                        $this->_db->table('gagal_upload_import')->insert([
-                            'data' => json_encode($dataRow),
-                            'keterangan' => "Tidak ada perubahan disimpan."
-                        ]);
+                        // $this->_db->table('gagal_upload_import')->insert([
+                        //     'data' => json_encode($dataRow),
+                        //     'keterangan' => "Tidak ada perubahan disimpan."
+                        // ]);
                         $dataGagal++;
                         continue;
                     }
                 } catch (\Throwable $th) {
                     $this->_db->transRollback();
-                    $this->_db->table('gagal_upload_import')->insert([
-                        'data' => json_encode($dataRow),
-                        'keterangan' => "error catch"
-                    ]);
+                    // $this->_db->table('gagal_upload_import')->insert([
+                    //     'data' => json_encode($dataRow),
+                    //     'keterangan' => "error catch"
+                    // ]);
                     $dataGagal++;
                     continue;
                 }
@@ -378,7 +386,7 @@ class Pd extends BaseController
             $response->upload_sukses = $dataBerhasil;
             $response->upload_gagal = $dataGagal;
             $response->upload_tidakditemukan = $dataTidakDitemukan;
-            $response->data = "Jumlah data yang disimpan adalah Berhasil: $dataBerhasil, Gagal: $dataGagal";
+            $response->data = "Jumlah data yang disimpan adalah Berhasil: $dataBerhasil, Gagal: $dataGagal, Sudah ada: $dataTidakDitemukan";
             return json_encode($response);
         } else {
             exit('Maaf tidak dapat diproses');
