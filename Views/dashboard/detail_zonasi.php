@@ -16,7 +16,7 @@
                     <?php if (isset($data)) { ?>
                         <?php if (count($data) > 0) { ?>
                             <?php foreach ($data as $key => $value) { ?>
-                                <tr>
+                                <tr style="vertical-align: top;">
                                     <td><?= $key + 1 ?></td>
                                     <td><?= $value->nama_provinsi ?></td>
                                     <td><?= $value->nama_kabupaten ?></td>
