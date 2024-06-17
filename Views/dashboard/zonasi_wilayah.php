@@ -161,7 +161,19 @@
         </div>
     </div>
 </div>
-
+<div id="content-detailModal" class="modal fade content-detailModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="content-detailModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="content-detailBodyModal">
+            </div>
+        </div>
+    </div>
+</div>
 <?= $this->endSection(); ?>
 
 <?= $this->section('scriptBottom'); ?>
@@ -169,6 +181,55 @@
 <script src="<?= base_url() ?>/assets/vendor/select2/js/select2.min.js"></script>
 
 <script>
+    function getDetailZonasi(id, nama) {
+        $.ajax({
+            url: "./detailZonasi",
+            type: 'POST',
+            data: {
+                id: id,
+                nama: nama,
+            },
+            dataType: "json",
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Sedang Loading . . .',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
+            complete: function() {},
+            success: function(response) {
+                if (response.status == 200) {
+                    Swal.close();
+                    $('#content-detailModalLabel').html(response.title);
+                    $('.contentBodydetailModal').html(response.data);
+                    $('.content-detailModal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                    });
+                    $('.content-detailModal').modal('show');
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        "gagal mengambil data",
+                        'warning'
+                    );
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                Swal.fire(
+                    'Failed!',
+                    "gagal mengambil data (" + xhr.status.toString + ")",
+                    'warning'
+                );
+            }
+
+        });
+    }
+
     $(document).ready(function() {
         initSelect2('_filter_kec', $('.content-body'));
         initSelect2('_filter_jenjang', $('.content-body'));

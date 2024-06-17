@@ -252,4 +252,66 @@ class Home extends BaseController
         ];
         echo json_encode($output);
     }
+
+    public function detailZonasi()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+                'nama' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id')
+                    . $this->validator->getError('nama');
+                return json_encode($response);
+            } else {
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+                $nama = htmlspecialchars($this->request->getVar('nama'), true);
+
+                $oldData = $this->_db->table('_setting_zonasi_tb a')
+                    ->select("a.*, b.nama as nama_provinsi, c.nama as nama_kabupaten, d.nama as nama_kecamatan, e.nama as nama_kelurahan, (SELECT count(dusun) FROM _setting_zonasi_tb WHERE dusun = a.dusun) as jumlah_dusun, count(dusun) as jumlah")
+                    ->join('ref_provinsi b', 'b.id = a.provinsi')
+                    ->join('ref_kabupaten c', 'c.id = a.kabupaten')
+                    ->join('ref_kecamatan d', 'd.id = a.kecamatan')
+                    ->join('ref_kelurahan e', 'e.id = a.kelurahan')
+                    ->where(['a.sekolah_id' => $id, 'is_locked' => 1])
+                    ->groupBy('a.kelurahan')
+                    ->get()->getResult();
+                if (count($oldData) > 0) {
+
+                    $x['data'] = $oldData;
+                    $x['sek_id'] = $id;
+                    $x['sekolah'] = $nama;
+
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->title = "DETAIL ZONASI SEKOLAH $nama";
+                    $response->message = "Permintaan diizinkan";
+                    $response->data = view('dashboard/detail_zonasi', $x);
+                    return json_encode($response);
+                }
+
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data zonasi tidak ditemukan.";
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
 }
