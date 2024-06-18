@@ -217,4 +217,101 @@ class Kelurahan extends BaseController
             exit('Maaf tidak dapat diproses');
         }
     }
+
+
+    public function addSave()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                '_nama' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama kelurahan tidak boleh kosong. ',
+                    ]
+                ],
+                '_kecamatan' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kecamatan tidak boleh kosong. ',
+                    ]
+                ],
+                '_kode' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kode kelurahan tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('_nama')
+                    . $this->validator->getError('_kecamatan')
+                    . $this->validator->getError('_kode');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->userSekolah();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+
+                $nama = htmlspecialchars($this->request->getVar('_nama'), true);
+                $kode = htmlspecialchars($this->request->getVar('_kode'), true);
+                $kecamatan = htmlspecialchars($this->request->getVar('_kecamatan'), true);
+
+                $oldData = $this->_db->table('ref_kelurahan')->where('id', $kode)->get()->getRowObject();
+                if ($oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Kode sudah digunakan.";
+                    return json_encode($response);
+                }
+
+                $data = [
+                    'id' => $kode,
+                    'id_kecamatan' => $kecamatan,
+                    'nama' => $nama,
+                    'id_wilayah' => 4,
+                    'created_at' => date('Y-m-d H:i:s')
+                ];
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('ref_kecamatan')->insert($data);
+                    if ($this->_db->affectedRows() > 0) {
+
+                        $this->_db->transCommit();
+
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->url = base_url('portal');
+                        $response->message = "Data berhasil disimpan.";
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menyimpan data.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal menyimpan data. with error";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
 }
