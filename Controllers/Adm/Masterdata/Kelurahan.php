@@ -285,7 +285,7 @@ class Kelurahan extends BaseController
 
                 $this->_db->transBegin();
                 try {
-                    $this->_db->table('ref_kecamatan')->insert($data);
+                    $this->_db->table('ref_kelurahan')->insert($data);
                     if ($this->_db->affectedRows() > 0) {
 
                         $this->_db->transCommit();
