@@ -311,43 +311,134 @@ class Pd extends BaseController
                     'tempat_lahir' => $tempat_lahir,
                     'tanggal_lahir' => $tanggal_lahir,
                     'jenis_kelamin' => $jenis_kelamin,
-                    'nik' => $nik == "" ? NULL : $nik,
-                    'no_kk' => $no_kk == "" ? NULL : $no_kk,
-                    'nisn' => $nisn == "" ? NULL : $nisn,
-                    'alamat_jalan' => $alamat_jalan == "" ? NULL : $alamat_jalan,
-                    'desa_kelurahan' => $desa_kelurahan == "" ? NULL : $desa_kelurahan,
-                    'rt' => $rt == "" ? NULL : $rt,
-                    'rw' => $rw == "" ? NULL : $rw,
-                    'nama_dusun' => $nama_dusun == "" ? NULL : $nama_dusun,
-                    'nama_ibu_kandung' => $nama_ibu_kandung == "" ? NULL : $nama_ibu_kandung,
-                    'pekerjaan_ibu' => $pekerjaan_ibu == "" ? NULL : $pekerjaan_ibu,
-                    'penghasilan_ibu' => $penghasilan_ibu == "" ? NULL : $penghasilan_ibu,
-                    'nama_ayah' => $nama_ayah == "" ? NULL : $nama_ayah,
-                    'pekerjaan_ayah' => $pekerjaan_ayah == "" ? NULL : $pekerjaan_ayah,
-                    'penghasilan_ayah' => $penghasilan_ayah == "" ? NULL : $penghasilan_ayah,
-                    'nama_wali' => $nama_wali == "" ? NULL : $nama_wali,
-                    'pekerjaan_wali' => $pekerjaan_wali == "" ? NULL : $pekerjaan_wali,
-                    'penghasilan_wali' => $penghasilan_wali == "" ? NULL : $penghasilan_wali,
-                    'kebutuhan_khusus' => $kebutuhan_khusus == "" ? NULL : $kebutuhan_khusus,
-                    'no_kip' => $no_kip == "" ? NULL : $no_kip,
-                    'no_pkh' => $no_pkh == "" ? NULL : $no_pkh,
-                    'lintang' => $lintang == "" ? NULL : $lintang,
-                    'bujur' => $bujur == "" ? NULL : $bujur,
-                    'flag_pip' => $flag_pip == "" ? NULL : $flag_pip,
+                    'nik' => $nik == "" ? null : $nik,
+                    'no_kk' => $no_kk == "" ? null : $no_kk,
+                    'nisn' => $nisn == "" ? null : $nisn,
+                    'kab' => $kode_wilayah == "" ? null : substr($kode_wilayah, 0, 4) . '00',
+                    'kec' => $kode_wilayah == "" ? null : substr($kode_wilayah, 0, 6),
+                    'kel' => $kode_wilayah == "" ? null : $kode_wilayah,
+                    'alamat_jalan' => $alamat_jalan == "" ? null : $alamat_jalan,
+                    'desa_kelurahan' => $desa_kelurahan == "" ? null : $desa_kelurahan,
+                    'rt' => $rt == "" ? null : $rt,
+                    'rw' => $rw == "" ? null : $rw,
+                    'nama_dusun' => $nama_dusun == "" ? null : $nama_dusun,
+                    'nama_ibu_kandung' => $nama_ibu_kandung == "" ? null : $nama_ibu_kandung,
+                    'pekerjaan_ibu' => $pekerjaan_ibu == "" ? null : $pekerjaan_ibu,
+                    'penghasilan_ibu' => $penghasilan_ibu == "" ? null : $penghasilan_ibu,
+                    'nama_ayah' => $nama_ayah == "" ? null : $nama_ayah,
+                    'pekerjaan_ayah' => $pekerjaan_ayah == "" ? null : $pekerjaan_ayah,
+                    'penghasilan_ayah' => $penghasilan_ayah == "" ? null : $penghasilan_ayah,
+                    'nama_wali' => $nama_wali == "" ? null : $nama_wali,
+                    'pekerjaan_wali' => $pekerjaan_wali == "" ? null : $pekerjaan_wali,
+                    'penghasilan_wali' => $penghasilan_wali == "" ? null : $penghasilan_wali,
+                    'kebutuhan_khusus' => $kebutuhan_khusus == "" ? null : $kebutuhan_khusus,
+                    'no_kip' => $no_kip == "" ? null : $no_kip,
+                    'no_pkh' => $no_pkh == "" ? null : $no_pkh,
+                    'lintang' => $lintang == "" ? null : $lintang,
+                    'bujur' => $bujur == "" ? null : $bujur,
+                    'flag_pip' => $flag_pip == "" ? null : $flag_pip,
                     'tingkat_pendidikan_id' => (int)$jenjang,
                     'created_at' => date('Y-m-d H:i:s'),
                 ];
 
+
+
                 $this->_db->transBegin();
 
                 try {
-                    $oldData = $this->_db->table('dapo_peserta')->where('peserta_didik_id', $peserta_didik_id)->countAllResults();
-                    if ($oldData > 0) {
-                        $dataTidakDitemukan++;
-                        continue;
-                    }
+                    // $this->_db->query("INSERT INTO dapo_peserta (peserta_didik_id, sekolah_id, kode_wilayah, nama, tempat_lahir, tanggal_lahir, jenis_kelamin, nik, nisn, no_kk, kab, kec, kel, alamat_jalan, desa_kelurahan, rt, rw, nama_dusun, nama_ibu_kandung, pekerjaan_ibu, penghasil_ibu, nama_ayah, pekerjaan_ayah, penghasilan_ayah, nama_wali, pekerjaan_wali, penghasilan_wali, kebutuhan_khusus, no_kip, no_pkh, lintang, bujur, tingkat_pendidikan_id, flag_pip, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE nama = VALUES(nama), tempat_lahir = VALUES(tempat_lahir), tanggal_lahir = VALUES(tanggal_lahir), jenis_kelamin = VALUES(jenis_kelamin), nisn = VALUES(nisn), no_kip = VALUES(no_kip), no_pkh = VALUES(no_pkh), flag_pip = VALUES(flag_pip)", );
+                    $this->_db->query("INSERT INTO dapo_peserta (peserta_didik_id, sekolah_id, kode_wilayah, nama, tempat_lahir, tanggal_lahir, jenis_kelamin, nik, nisn, no_kk, kab, kec, kel, alamat_jalan, desa_kelurahan, rt, rw, nama_dusun, nama_ibu_kandung, pekerjaan_ibu, penghasilan_ibu, nama_ayah, pekerjaan_ayah, penghasilan_ayah, nama_wali, pekerjaan_wali, penghasilan_wali, kebutuhan_khusus, no_kip, no_pkh, lintang, bujur, tingkat_pendidikan_id, flag_pip, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE nama = VALUES(nama), tempat_lahir = VALUES(tempat_lahir), tanggal_lahir = VALUES(tanggal_lahir), jenis_kelamin = VALUES(jenis_kelamin), nisn = VALUES(nisn), no_kip = VALUES(no_kip), no_pkh = VALUES(no_pkh), flag_pip = VALUES(flag_pip)", [$dataRow['peserta_didik_id'], $dataRow['sekolah_id'], $dataRow['kode_wilayah'], $dataRow['nama'], $dataRow['tempat_lahir'], $dataRow['tanggal_lahir'], $dataRow['jenis_kelamin'], $dataRow['nik'], $dataRow['nisn'], $dataRow['no_kk'], $dataRow['kab'], $dataRow['kec'], $dataRow['kel'], $dataRow['alamat_jalan'], $dataRow['desa_kelurahan'], $dataRow['rt'], $dataRow['rw'], $dataRow['nama_dusun'], $dataRow['nama_ibu_kandung'], $dataRow['pekerjaan_ibu'], $dataRow['penghasilan_ibu'], $dataRow['nama_ayah'], $dataRow['pekerjaan_ayah'], $dataRow['penghasilan_ayah'], $dataRow['nama_wali'], $dataRow['pekerjaan_wali'], $dataRow['penghasilan_wali'], $dataRow['kebutuhan_khusus'], $dataRow['no_kip'], $dataRow['no_pkh'], $dataRow['lintang'], $dataRow['bujur'], $dataRow['tingkat_pendidikan_id'], $dataRow['flag_pip'], $dataRow['created_at']]);
 
-                    $this->_db->table('dapo_peserta')->insert($dataRow);
+                    // $this->_db->query(`INSERT INTO dapo_peserta (
+                    //     peserta_didik_id, 
+                    //     sekolah_id, 
+                    //     kode_wilayah, 
+                    //     nama, 
+                    //     tempat_lahir, 
+                    //     tanggal_lahir, 
+                    //     jenis_kelamin, 
+                    //     nik, 
+                    //     nisn, 
+                    //     no_kk, 
+                    //     kab, 
+                    //     kec, 
+                    //     kel, 
+                    //     alamat_jalan, 
+                    //     desa_kelurahan, 
+                    //     rt, 
+                    //     rw, 
+                    //     nama_dusun, 
+                    //     nama_ibu_kandung, 
+                    //     pekerjaan_ibu, 
+                    //     penghasil_ibu, 
+                    //     nama_ayah, 
+                    //     pekerjaan_ayah, 
+                    //     penghasilan_ayah, 
+                    //     nama_wali, 
+                    //     pekerjaan_wali, 
+                    //     penghasilan_wali, 
+                    //     kebutuhan_khusus, 
+                    //     no_kip, 
+                    //     no_pkh, 
+                    //     lintang, 
+                    //     bujur, 
+                    //     tingkat_pendidikan_id, 
+                    //     flag_pip, 
+                    //     created_at) VALUES (
+                    //     {$dataRow['peserta_didik_id']},
+                    //     {$dataRow['sekolah_id']},
+                    //     {$dataRow['kode_wilayah']},
+                    //     {$dataRow['nama']},
+                    //     {$dataRow['tempat_lahir']},
+                    //     {$dataRow['tanggal_lahir']},
+                    //     {$dataRow['jenis_kelamin']},
+                    //     {$dataRow['nik']},
+                    //     {$dataRow['nisn']},
+                    //     {$dataRow['no_kk']},
+                    //     {$dataRow['kab']},
+                    //     {$dataRow['kec']},
+                    //     {$dataRow['kel']},
+                    //     {$dataRow['alamat_jalan']},
+                    //     {$dataRow['desa_kelurahan']},
+                    //     {$dataRow['rt']},
+                    //     {$dataRow['rw']},
+                    //     {$dataRow['nama_dusun']},
+                    //     {$dataRow['nama_ibu_kandung']},
+                    //     {$dataRow['pekerjaan_ibu']},
+                    //     {$dataRow['penghasilan_ibu']},
+                    //     {$dataRow['nama_ayah']},
+                    //     {$dataRow['pekerjaan_ayah']},
+                    //     {$dataRow['penghasilan_ayah']},
+                    //     {$dataRow['nama_wali']},
+                    //     {$dataRow['pekerjaan_wali']},
+                    //     {$dataRow['penghasilan_wali']},
+                    //     {$dataRow['kebutuhan_khusus']},
+                    //     {$dataRow['no_kip']},
+                    //     {$dataRow['no_pkh']},
+                    //     {$dataRow['lintang']},
+                    //     {$dataRow['bujur']},
+                    //     {$dataRow['tingkat_pendidikan_id']},
+                    //     {$dataRow['flag_pip']},
+                    //     {$dataRow['created_at']}) ON DUPLICATE KEY UPDATE
+                    //     nama = {$dataRow['nama']},
+                    //     tempat_lahir = {$dataRow['tempat_lahir']},
+                    //     tanggal_lahir = {$dataRow['tanggal_lahir']},
+                    //     jenis_kelamin = {$dataRow['jenis_kelamin']},
+                    //     nisn = {$dataRow['nisn']},
+                    //     no_kip = {$dataRow['no_kip']},
+                    //     no_pkh = {$dataRow['no_pkh']}
+                    //     `);
+
+
+
+                    // $oldData = $this->_db->table('dapo_peserta')->where('peserta_didik_id', $peserta_didik_id)->countAllResults();
+                    // if ($oldData > 0) {
+
+                    //     $dataTidakDitemukan++;
+                    //     continue;
+                    // }
+
+                    // $this->_db->table('dapo_peserta')->insert($dataRow);
                     if ($this->_db->affectedRows() > 0) {
 
                         $this->_db->transCommit();
