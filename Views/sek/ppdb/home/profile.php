@@ -1,4 +1,4 @@
-<?= $this->extend('t-ppdb/pd/index'); ?>
+<?= $this->extend('t-ppdb/sek/index'); ?>
 
 <?= $this->section('content'); ?>
 

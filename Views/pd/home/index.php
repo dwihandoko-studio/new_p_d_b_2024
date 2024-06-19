@@ -1,4 +1,4 @@
-<?= $this->extend('t-verval/pd/index'); ?>
+<?= $this->extend('t-ppdb/pd/index'); ?>
 
 <?= $this->section('content'); ?>
 
@@ -6,143 +6,19 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <h4 class="card-title">Data Peserta</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12" style="margin-top: 30px;">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">NISN</span>
-                                                    <input type="text" class="form-control" value="<?= $data->nisn ?>" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">NIK</span>
-                                                    <input type="text" class="form-control" id="_nik" name="_nik" value="<?= $data->nik ?>" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">KK</span>
-                                                    <input type="text" class="form-control" id="_kk" name="_kk" value="<?= $data->no_kk ?>" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Nama</span>
-                                                    <input type="text" class="form-control" id="_nama" name="_nama" value="<?= $data->nama ?>" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Tempat Lahir </span>
-                                                    <input type="text" class="form-control" value="<?= $data->tempat_lahir ?>" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Tanggal lahir </span>
-                                                    <input type="text" class="form-control" value="<?= $data->tanggal_lahir ?>" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Nama Ibu</span>
-                                                    <input type="text" class="form-control" value="<?= $data->nama_ibu_kandung ?>" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Jenis Kelamin</span>
-                                                    <input type="text" class="form-control" value="<?= $data->jenis_kelamin ?>" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">No HP</span>
-                                                    <input type="text" class="form-control" value="<?= $user->nohp ?>" readonly />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Sekolah Asal</span>
-                                                    <input type="text" class="form-control" value="<?= $data->sekolah_asal ?>" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">NPSN Asal</span>
-                                                    <input type="text" class="form-control" value="<?= $data->npsn_asal ?>" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Alamat Domisili</span>
-                                                    <input type="text" class="form-control" value="<?= $data->alamat_jalan ?>" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Provinsi</span>
-                                                    <input type="text" class="form-control" value="<?= getNameProvinsi($data->kab) ?>" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Kabupaten</span>
-                                                    <input type="text" class="form-control" value="<?= getNameKabupaten($data->kab) ?>" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Kecamatan</span>
-                                                    <input type="text" class="form-control" value="<?= getNameKecamatan($data->kec) ?>" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Desa/Kelurahan</span>
-                                                    <input type="text" class="form-control" value="<?= getNameKelurahan($data->kel) ?>" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Dusun/Lingkungan</span>
-                                                    <input type="text" class="form-control" value="<?= getNameDusun($data->dusun) ?>" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Koordinat</span>
-                                                    <input type="text" class="form-control" value="<?= $data->lintang . ',' . $data->bujur ?>" readonly />
-                                                    <span class="input-group-text lihatPetanya" data-id="https://www.google.com/maps/@<?= $data->lintang ?>,<?= $data->bujur ?>,17z?q=<?= $data->lintang ?>,<?= $data->bujur ?>(Target Location)">Lihat</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+            <?php if (isset($hasRegister)) { ?>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="alert alert-primary notification">
+                                <p class="notificaiton-title mb-2"><strong>INFORMASI !!!</strong></p>
+                                <p><?= $hasRegister->message ?></p>
+                                <button onclick="actionDownload('<?= $hasRegister->koreg ?>', 'Download')" class="btn btn-primary btn-sm">Download Bukti Pendaftaran</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            <?php } ?>
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -285,6 +161,120 @@
 <script src="<?= base_url() ?>/assets/js/dashboard/dashboard-1.js"></script>
 <script src="<?= base_url() ?>/assets/vendor/owl-carousel/owl.carousel.js"></script>
 <script>
+    function actionDownload(id, nama) {
+        Swal.fire({
+            title: 'Apakah anda yakin ingin mendownload Bukti Pendaftaran ini?',
+            text: "Download Bukti Pendaftaran",
+            showCancelButton: true,
+            icon: 'question',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Download!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "./download",
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        nama: nama,
+                    },
+                    dataType: 'JSON',
+                    beforeSend: function() {
+                        Swal.fire({
+                            title: 'Mendownload Data...',
+                            text: 'Please wait while we process your action.',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
+                    complete: function() {},
+                    success: function(resul) {
+
+                        if (resul.status !== 200) {
+                            if (resul.status !== 201) {
+                                if (resul.status === 401) {
+                                    Swal.fire(
+                                        'Failed!',
+                                        resul.message,
+                                        'warning'
+                                    ).then((valRes) => {
+                                        reloadPage();
+                                    });
+                                } else {
+                                    Swal.fire(
+                                        'GAGAL!',
+                                        resul.message,
+                                        'warning'
+                                    );
+                                }
+                            } else {
+                                Swal.fire(
+                                    'Peringatan!',
+                                    resul.message,
+                                    'success'
+                                ).then((valRes) => {
+                                    // reloadPage();
+                                    const decodedBytes = atob(resul.data);
+                                    const arrayBuffer = new ArrayBuffer(decodedBytes.length);
+                                    const intArray = new Uint8Array(arrayBuffer);
+                                    for (let i = 0; i < decodedBytes.length; i++) {
+                                        intArray[i] = decodedBytes.charCodeAt(i);
+                                    }
+
+                                    const blob = new Blob([intArray], {
+                                        type: 'application/pdf'
+                                    });
+                                    const link = document.createElement('a');
+                                    link.href = URL.createObjectURL(blob);
+                                    link.download = resul.filename; // Set desired filename
+                                    link.click();
+
+                                    // Revoke the object URL after download (optional)
+                                    URL.revokeObjectURL(link.href);
+
+                                })
+                            }
+                        } else {
+                            Swal.fire(
+                                'BERHASIL!',
+                                resul.message,
+                                'success'
+                            ).then((valRes) => {
+                                // reloadPage();
+                                const decodedBytes = atob(resul.data);
+                                const arrayBuffer = new ArrayBuffer(decodedBytes.length);
+                                const intArray = new Uint8Array(arrayBuffer);
+                                for (let i = 0; i < decodedBytes.length; i++) {
+                                    intArray[i] = decodedBytes.charCodeAt(i);
+                                }
+
+                                const blob = new Blob([intArray], {
+                                    type: 'application/pdf'
+                                });
+                                const link = document.createElement('a');
+                                link.href = URL.createObjectURL(blob);
+                                link.download = resul.filename;
+                                link.click();
+                                URL.revokeObjectURL(link.href);
+                            })
+                        }
+                    },
+                    error: function() {
+                        Swal.fire(
+                            'PERINGATAN!',
+                            "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                            'warning'
+                        );
+                    }
+                });
+            }
+        });
+    }
+
     $(document).on('click', '.lihatPetanya', function(e) {
         // const dataId = e.getAttribute('data-id');
         const url = this.dataset.id;

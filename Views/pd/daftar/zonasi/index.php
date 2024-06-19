@@ -8,7 +8,7 @@
         <div class="row page-titles">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active"><a href="javascript:void(0)">Daftar</a></li>
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Afirmasi</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Zonasi</a></li>
             </ol>
         </div>
         <div class="row">
@@ -16,21 +16,6 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label for="_kec" class="col-form-label">Pilih Kecamatan:</label>
-                                    <select class="js-data-pd-ajax w-100" style="width: 100%;" id="_kec" name="_kec" onchange="changeKec(this)">
-                                        <option value="">-- Pilih --</option>
-                                        <?php if (isset($kecamatans)) { ?>
-                                            <?php if (count($kecamatans) > 0) { ?>
-                                                <?php foreach ($kecamatans as $key => $value) { ?>
-                                                    <option value="<?= $value->id ?>"><?= $value->nama ?></option>
-                                                <?php } ?>
-                                            <?php } ?>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
                             <?php if (isset($error_tutup)) { ?>
                                 <?php if ($error_tutup !== "") { ?>
                                     <div class="col-12">
@@ -76,56 +61,46 @@
 <?= $this->section('scriptBottom'); ?>
 <script src="<?= base_url() ?>/assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script>
-    $('#_kec').select2({
-        dropdownParent: ".container-fluid",
-    });
-
-    function changeKec(event) {
-        const selectedOption = event.value;
-
-        if (selectedOption === "" || selectedOption === undefined) {
-            $('.contentForm').html("");
-        } else {
-            $.ajax({
-                url: "./changedKec",
-                type: 'POST',
-                data: {
-                    id: selectedOption,
-                },
-                dataType: "json",
-                beforeSend: function() {
-                    Swal.fire({
-                        title: 'Sedang Loading . . .',
-                        allowEscapeKey: false,
-                        allowOutsideClick: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-                },
-                complete: function() {},
-                success: function(response) {
-                    if (response.status == 200) {
-                        Swal.close();
-                        $('.contentForm').html(response.data);
-                    } else {
-                        Swal.fire(
-                            'Failed!',
-                            "gagal mengambil data",
-                            'warning'
-                        );
+    function getDafSekolah() {
+        $.ajax({
+            url: "./getDafList",
+            type: 'POST',
+            data: {
+                id: 'zonasi',
+            },
+            dataType: "json",
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Sedang Loading . . .',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
                     }
-                },
-                error: function(xhr, ajaxOptions, thrownError) {
+                });
+            },
+            complete: function() {},
+            success: function(response) {
+                if (response.status == 200) {
+                    Swal.close();
+                    $('.contentForm').html(response.data);
+                } else {
                     Swal.fire(
                         'Failed!',
-                        "gagal mengambil data (" + xhr.status.toString + ")",
+                        "gagal mengambil data",
                         'warning'
                     );
                 }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                Swal.fire(
+                    'Failed!',
+                    "gagal mengambil data (" + xhr.status.toString + ")",
+                    'warning'
+                );
+            }
 
-            });
-        }
+        });
     }
 
     function inputFocus(id) {
@@ -134,7 +109,9 @@
         $('.' + color).html('');
     }
 
-    $(document).ready(function() {});
+    $(document).ready(function() {
+        getDafSekolah();
+    });
 </script>
 <?= $this->endSection(); ?>
 

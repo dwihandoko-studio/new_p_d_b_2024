@@ -61,7 +61,7 @@
 
     <div id="main-wrapper">
         <div class="nav-header">
-            <a href="<?= base_url('portal') ?>" class="brand-logo">
+            <a href="<?= base_url('sek/home') ?>" class="brand-logo">
                 <img src="<?= base_url() ?>/favicon/apple-icon.png" style="max-width: 40px; max-height: 40px;" width="50" height="50" alt="Logo" />
                 <!-- <svg class="logo-abbr" width="57" height="57" viewBox="0 0 57 57" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M32.9585 1.84675C30.4961 -0.615584 26.5039 -0.615585 24.0415 1.84675L19.3876 6.50068H12.8059C9.32365 6.50068 6.50071 9.32362 6.50071 12.8059V19.3876L1.84675 24.0415C-0.615584 26.5039 -0.615585 30.4961 1.84675 32.9585L6.50071 37.6124V44.1941C6.50071 47.6763 9.32365 50.4993 12.8059 50.4993H19.3876L24.0415 55.1532C26.5039 57.6156 30.4961 57.6156 32.9585 55.1532L37.6124 50.4993H44.1941C47.6764 50.4993 50.4993 47.6763 50.4993 44.1941V37.6124L55.1532 32.9585C57.6156 30.4961 57.6156 26.5039 55.1532 24.0415L50.4993 19.3876V12.8059C50.4993 9.32362 47.6764 6.50068 44.1941 6.50068H37.6124L32.9585 1.84675Z" fill="url(#paint0_linear)" />
@@ -70,7 +70,7 @@
                     </defs>
                 </svg> -->
                 <div class="brand-title">
-                    <h2 class="">PP<span style="color: fuchsia; opacity: 0.7 !important">DB</span></h2>
+                    <h2 class="">VER<span style="color: fuchsia; opacity: 0.7 !important">VAL</span></h2>
                     <span class="brand-sub-title">Kab. Lampung Tengah</span>
 
                 </div>
@@ -133,11 +133,11 @@
         <!--**********************************
 	Chat box End
 ***********************************-->
-        <?= $this->include('t-verval/pd/topbar'); ?>
-        <?= $this->include('t-verval/pd/menu'); ?>
+        <?= $this->include('t-ppdb/sek/topbar'); ?>
+        <?= $this->include('t-ppdb/sek/menu'); ?>
 
         <?= $this->renderSection('content'); ?>
-        <?= $this->include('t-verval/pd/footer'); ?>
+        <?= $this->include('t-ppdb/sek/footer'); ?>
     </div>
     <script src="<?= base_url() ?>/assets/vendor/global/global.min.js"></script>
     <script src="<?= base_url() ?>/assets/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>

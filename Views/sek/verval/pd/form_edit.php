@@ -167,6 +167,7 @@
                         <button type="submit" style="width: 100%;" class="btn btn-sm btn-primary waves-effect waves-light">SIMPAN</button>
                     </div>
                 </div>
+            </div>
         </form>
     </div>
     <script>

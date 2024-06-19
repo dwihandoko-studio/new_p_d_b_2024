@@ -2662,3 +2662,25 @@ function createKodePendaftaran($kode, $nisn)
 	$kodePendaftaran = $kode . '-' . $nisn . '-' . date('Y-m-d') . '-' . date('H') . '-' . date('i') . '-' . date('s');
 	return $kodePendaftaran;
 }
+
+function getTitleDokumenPersyaratan($doc)
+{
+	$docs = [
+		'ijazah' => 'Ijazah Sekolah Asal',
+		'skl' => 'Surat Keterangan Lulus',
+		'kk' => 'Kartu Keluarga',
+		'aktakel' => 'Akta Kelahiran',
+		'jamsos' => 'Kartu Jaminan Sosial <br />(PIP/KIP/PKH/Surat Ket DTKS)',
+		'disabilitas' => 'Surat Keterangan Penyandang<br />Disabilitas',
+		'keaslian' => 'Surat Pernyataan Keaslian Dokumen',
+		'mutasi' => 'Surat Mutasi Kerja Orang Tua / Wali',
+		'rapor' => 'Rapor 5 Semester & Surat Keterangan<br />Peringkat Nilai Rapor',
+		'prestasi' => 'Dokumen Prestasi / Juara',
+	];
+	return $docs[$doc];
+}
+
+function replaceTandaBacaPetik($text)
+{
+	return str_replace('&#039;', "`", str_replace("'", "`", $text));
+}

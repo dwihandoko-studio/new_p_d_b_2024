@@ -362,11 +362,15 @@
                     </div>
                 </div>
                 <ul class="metismenu" id="menu">
-                    <li><a href="<?= base_url('sek/verval/home') ?>" class="" aria-expanded="false">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span class="nav-text">Verval PD Tingkat Akhir</span>
-                        </a>
-                    </li>
+                    <?php if (isset($canAccessVERVAL)) { ?>
+                        <?php if ($canAccessVERVAL) { ?>
+                            <li><a href="<?= base_url('sek/verval/home') ?>" class="" aria-expanded="false">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span class="nav-text">Verval PD Tingkat Akhir</span>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    <?php } ?>
                     <?php if (isset($canAccessPPDB)) { ?>
                         <?php if ($canAccessPPDB) { ?>
                             <li><a href="<?= base_url('sek/ppdb/home') ?>" class="" aria-expanded="false">
@@ -388,23 +392,27 @@
         <div class="content-body">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-xl-3 col-xxl-6 col-lg-6 col-sm-6">
-                        <a href="<?= base_url('sek/verval/home') ?>">
-                            <div class="widget-stat card bg-primary">
-                                <div class="card-body  p-4">
-                                    <div class="media">
-                                        <span class="me-3">
-                                            <i class="la la-users"></i>
-                                        </span>
-                                        <div class="media-body text-white">
-                                            <p class="mb-1">VERVAL PD Tingkat Akhir</p>
-                                            <small>Verifikasi Data</small>
+                    <?php if (isset($canAccessVERVAL)) { ?>
+                        <?php if ($canAccessVERVAL) { ?>
+                            <div class="col-xl-3 col-xxl-6 col-lg-6 col-sm-6">
+                                <a href="<?= base_url('sek/verval/home') ?>">
+                                    <div class="widget-stat card bg-primary">
+                                        <div class="card-body  p-4">
+                                            <div class="media">
+                                                <span class="me-3">
+                                                    <i class="la la-users"></i>
+                                                </span>
+                                                <div class="media-body text-white">
+                                                    <p class="mb-1">VERVAL PD Tingkat Akhir</p>
+                                                    <small>Verifikasi Data</small>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
-                        </a>
-                    </div>
+                        <?php } ?>
+                    <?php } ?>
                     <?php if (isset($canAccessPPDB)) { ?>
                         <?php if ($canAccessPPDB) { ?>
                             <div class="col-xl-3 col-xxl-6 col-lg-6 col-sm-6">

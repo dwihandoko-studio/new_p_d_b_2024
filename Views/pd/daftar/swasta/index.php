@@ -8,7 +8,7 @@
         <div class="row page-titles">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active"><a href="javascript:void(0)">Daftar</a></li>
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Afirmasi</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Swasta</a></li>
             </ol>
         </div>
         <div class="row">

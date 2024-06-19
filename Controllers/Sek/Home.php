@@ -41,6 +41,8 @@ class Home extends BaseController
                         return redirect()->to(base_url('auth'));
                     }
                     $data['user'] = $user->data;
+                    $data['canAccessPPDB'] = true;
+                    $data['canAccessVERVAL'] = false;
 
                     $data['title'] = "Portal Layanan";
                     $data['level'] = $level;

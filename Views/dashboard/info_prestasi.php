@@ -56,9 +56,8 @@
                                                     <li>FC Kartu Keluarga</li>
                                                     <li>FC Akta Kelahiran (opsional)</li>
                                                     <li>FC Rapor 5 Semester</li>
-                                                    <li>Surat Keterangan Prestasi dari Sekolah asal (Prestasi Akademik)</li>
-                                                    <li>Sertifikat/Piagam (Prestasi Non-Akademik)</li>
-                                                    <li>FC Akreditasi Sekolah Asal</li>
+                                                    <li>Surat Keterangan Peringkat Nilai Rapor</li>
+                                                    <li>Sertifikat/Piagam (Prestasi Akademik / Prestasi Non-Akademik)</li>
                                                 </ol>
                                                 </p>
                                             </div>

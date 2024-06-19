@@ -4,7 +4,7 @@
             <tr>
                 <th></th>
                 <th>Nama Sekolah</th>
-                <th>Kuota Afirmasi</th>
+                <th>Kuota Mutasi</th>
                 <th>Jarak</th>
                 <th></th>
             </tr>
@@ -20,7 +20,7 @@
                                 <?= $value->npsn ?><br />
                                 <?= $value->desa_kelurahan . ' - ' . $value->kecamatan ?><br />
                             </td>
-                            <td><span><?= $value->afirmasi ?></span></td>
+                            <td><span><?= $value->mutasi ?></span></td>
                             <td><span><?= round($value->distance_in_km, 3) ?> Km</span></td>
                             <td>
                                 <div class="d-flex">

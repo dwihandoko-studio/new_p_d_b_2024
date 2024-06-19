@@ -4,7 +4,7 @@
             <tr>
                 <th></th>
                 <th>Nama Sekolah</th>
-                <th>Kuota Afirmasi</th>
+                <th>Kuota Swasta</th>
                 <th>Jarak</th>
                 <th></th>
             </tr>
@@ -20,7 +20,7 @@
                                 <?= $value->npsn ?><br />
                                 <?= $value->desa_kelurahan . ' - ' . $value->kecamatan ?><br />
                             </td>
-                            <td><span><?= $value->afirmasi ?></span></td>
+                            <td><span><?= $value->total ?></span></td>
                             <td><span><?= round($value->distance_in_km, 3) ?> Km</span></td>
                             <td>
                                 <div class="d-flex">
@@ -39,7 +39,7 @@
     function aksiDaftar(id, name) {
         Swal.fire({
             title: 'Apakah anda yakin ingin mendaftar ke sekolah ini?',
-            text: "Daftar Kesekolah: " + name,
+            text: "Daftar Kesekolah: " + name, 
             showCancelButton: true,
             icon: 'question',
             confirmButtonColor: '#3085d6',

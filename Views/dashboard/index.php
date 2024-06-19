@@ -8,7 +8,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body" style="padding: 0px;">
-                        <img class="d-block w-100" style="max-height: 300px; border-radius: 1.25rem;" src="<?= base_url() ?>/assets/images/wall.png" alt="home">
+                        <img class="d-block w-100" style="max-height: 300px; border-radius: 1.25rem;" src="<?= base_url() ?>/assets/images/wall2.png" alt="home">
                     </div>
                 </div>
             </div>

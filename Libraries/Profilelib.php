@@ -139,6 +139,100 @@ class Profilelib
         return $response;
     }
 
+    public function userPanitia()
+    {
+        $jwt = get_cookie('jwt');
+        $token_jwt = getenv('token_jwt.default.key');
+        if ($jwt) {
+            try {
+                $decoded = JWT::decode($jwt, new Key($token_jwt, 'HS256'));
+                if ($decoded) {
+                    $userId = $decoded->id;
+                    $level = $decoded->level;
+
+                    $user = $this->_db->table('v_user_verval_sekolah')
+                        ->where('id', $userId)
+                        ->get()->getRowObject();
+                    $level_nama = "Admin Sekolah";
+
+                    if ($user) {
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->data = $user;
+                        $response->level = $level;
+                        $response->level_nama = $level_nama;
+                    } else {
+                        $response = new \stdClass;
+                        $response->status = 401;
+                        $response->message = "User tidak ditemukan atau user tidak active, silahkan hubungi admin.";
+                    }
+                } else {
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session telah habis.";
+                }
+            } catch (\Exception $e) {
+
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Session telah habis.";
+            }
+        } else {
+            $response = new \stdClass;
+            $response->status = 401;
+            $response->message = "Session telah habis.";
+        }
+
+        return $response;
+    }
+
+    public function userPd()
+    {
+        $jwt = get_cookie('jwt');
+        $token_jwt = getenv('token_jwt.default.key');
+        if ($jwt) {
+            try {
+                $decoded = JWT::decode($jwt, new Key($token_jwt, 'HS256'));
+                if ($decoded) {
+                    $userId = $decoded->id;
+                    $level = $decoded->level;
+
+                    $user = $this->_db->table('v_user_verval_pd')
+                        ->where('id', $userId)
+                        ->get()->getRowObject();
+                    $level_nama = "Peserta Didik";
+
+                    if ($user) {
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->data = $user;
+                        $response->level = $level;
+                        $response->level_nama = $level_nama;
+                    } else {
+                        $response = new \stdClass;
+                        $response->status = 401;
+                        $response->message = "User tidak ditemukan atau user tidak active, silahkan hubungi admin.";
+                    }
+                } else {
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session telah habis.";
+                }
+            } catch (\Exception $e) {
+
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Session telah habis.";
+            }
+        } else {
+            $response = new \stdClass;
+            $response->status = 401;
+            $response->message = "Session telah habis.";
+        }
+
+        return $response;
+    }
+
     public function userLevel()
     {
         $jwt = get_cookie('jwt');

@@ -401,7 +401,7 @@ class Pd extends BaseController
                         ->where("left(id_kabupaten,4) = left('{$current->kode_wilayah}',4)")->get()->getResult();
                     $x['kels'] = $this->_db->table('ref_kelurahan')
                         ->where("left(id_kecamatan,6) = left('{$current->kode_wilayah}',6)")->get()->getResult();
-                    $x['dusuns'] = $this->_db->table('ref_dusun')
+                    $x['dusuns'] = $this->_db->table('ref_dusun')->orderBy('urut', 'ASC')
                         ->get()->getResult();
                     $x['sek'] = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('sekolah_id', $user->data->sekolah_id)->get()->getRowObject();
                     $response = new \stdClass;
