@@ -226,7 +226,7 @@ class Pengguna extends BaseController
 
                         $dataBerhasil = 0;
                         $dataGagal = 0;
-                        $password = password_hash("123456", PASSWORD_DEFAULT);
+                        $password = password_hash("123456", PASSWORD_BCRYPT);
 
                         foreach ($sekolahs as $key => $value) {
                             // if ($value->koreg == NULL || $value->koreg == "") {
@@ -369,7 +369,7 @@ class Pengguna extends BaseController
                     return json_encode($response);
                 }
 
-                $passwordHas = password_hash("123456", PASSWORD_DEFAULT);
+                $passwordHas = password_hash("123456", PASSWORD_BCRYPT);
 
                 $this->_db->transBegin();
                 try {

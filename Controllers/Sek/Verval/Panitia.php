@@ -428,7 +428,7 @@ class Panitia extends BaseController
                     return json_encode($response);
                 }
 
-                $passwordHas = password_hash($password, PASSWORD_DEFAULT);
+                $passwordHas = password_hash($password, PASSWORD_BCRYPT);
 
                 $uuidLib = new Uuid();
 
@@ -739,7 +739,7 @@ class Panitia extends BaseController
                     return json_encode($response);
                 }
 
-                $passwordHas = password_hash("123456", PASSWORD_DEFAULT);
+                $passwordHas = password_hash("123456", PASSWORD_BCRYPT);
 
                 $this->_db->transBegin();
                 try {
