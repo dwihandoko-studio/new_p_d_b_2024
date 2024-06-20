@@ -276,6 +276,8 @@
                                         <option value="">-- Pilih --</option>
                                         <option value="senibudaya">Seni Budaya</option>
                                         <option value="olahraga">Olah Raga</option>
+                                        <option value="pramuka">Pramuka</option>
+                                        <option value="tahfidz">Tahfidz</option>
                                     </select>
                                 </div>
                                 <div class="input-group mb-3">
