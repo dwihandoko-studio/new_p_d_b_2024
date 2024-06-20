@@ -57,7 +57,7 @@ class Lolos extends BaseController
             //                     <div class="dropdown-divider"></div>
             //                 </div>
             //             </div>';
-            $action = '<a href="' . base_url() . '/sek/ppdb/pendaftar/detail?d=' . $list->id . '&t=' . $list->kode_pendaftaran . '" class="btn btn-xs btn-primary waves-effect waves-light"><i class="las la-eye font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> DETAIL</a>';
+            $action = '<a href="' . base_url() . '/sek/ppdb/rekap/lolos/detail?d=' . $list->id . '&t=' . $list->kode_pendaftaran . '" class="btn btn-xs btn-primary waves-effect waves-light"><i class="las la-eye font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> DETAIL</a>';
 
             $row[] = $action;
             $row[] = $list->nama_peserta;
