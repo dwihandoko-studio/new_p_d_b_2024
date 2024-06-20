@@ -100,7 +100,7 @@ class Lolos extends BaseController
         $data['sekNegeri'] = true;
         $data['sekSwasta'] = false;
 
-        return view('sek/ppdb/reakp/lolos/index', $data);
+        return view('sek/ppdb/rekap/lolos/index', $data);
     }
 
     public function detail()
