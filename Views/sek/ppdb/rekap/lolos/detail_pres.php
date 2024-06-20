@@ -506,116 +506,13 @@
                     <?php } ?>
                 <?php } ?>
             <?php } ?>
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <h4 class="card-title">Valida Data & Dokumen <?= $data->via_jalur == "SWASTA" ? 'Sekolah ' . ucwords(strtolower($data->via_jalur)) : 'Jalur ' . ucwords(strtolower($data->via_jalur)) ?></h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <h4>Kesesuaian Data Dan Kepemilikan Dokumen Persyaratan :</h4>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-responsive-sm">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th colspan="2">Data / Dokumen</th>
-                                                <th>Isian Peserta</th>
-                                                <th>Validasi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1.</td>
-                                                <td colspan="2">Data Peserta</td>
-                                                <td>Diatas</td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" id="_data_peserta" name="_data_peserta" value="ya">
-                                                        <label class="form-check-label" for="_data_peserta">
-                                                            Sesuai
-                                                        </label>
-                                                    </div>
-                                                    <!-- <div class="form-check">
-                                                            <input class="form-check-input" type="radio" id="_data_peserta_no" name="_data_peserta" value="tidak">
-                                                            <label class="form-check-label" for="_data_peserta_no">
-                                                                Tidak
-                                                            </label>
-                                                        </div> -->
-                                                </td>
-                                            </tr>
-                                            <?php $number = 2; ?>
-                                            <?php if (isset($dokument->prestasi_dimiliki)) { ?>
-                                                <?php if ($dokument->prestasi_dimiliki) { ?>
-                                                    <?php if ($dokument->prestasi_dimiliki == "akademik" || $dokument->prestasi_dimiliki == "nonakademik") { ?>
-                                                        <?php $number += 1; ?>
-                                                        <tr>
-                                                            <td>2.</td>
-                                                            <td colspan="2">Data Prestasi</td>
-                                                            <td>Diatas</td>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" id="_data_prestasi" name="_data_prestasi" value="ya">
-                                                                    <label class="form-check-label" for="_data_prestasi">
-                                                                        Sesuai
-                                                                    </label>
-                                                                </div>
-                                                                <!-- <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" id="_data_prestasi_no" name="_data_prestasi" value="tidak">
-                                                                        <label class="form-check-label" for="_data_prestasi_no">
-                                                                            Tidak
-                                                                        </label>
-                                                                    </div> -->
-                                                            </td>
-                                                        </tr>
-                                                    <?php } ?>
-                                                <?php } ?>
-                                            <?php } ?>
 
-                                            <?php if (isset($dokument->dokumen)) { ?>
-                                                <?php if (count($dokument->dokumen) > 0) { ?>
-                                                    <?php foreach ($dokument->dokumen as $key => $value) { ?>
-                                                        <tr>
-                                                            <td><?= $key + $number ?>.</td>
-                                                            <td colspan="2"><?= getTitleDokumenPersyaratan($value->key) ?></td>
-                                                            <td><?= (int)$value->value == 1 ? 'Ada' : 'Tidak ada' ?></td>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" id="_<?= $value->key ?>" name="_<?= $value->key ?>" name="gridRadios" value="ya">
-                                                                    <label class="form-check-label" for="_<?= $value->key ?>">
-                                                                        Sesuai
-                                                                    </label>
-                                                                </div>
-                                                                <!-- <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" id="_<?= $value->key ?>_no" name="_<?= $value->key ?>" name="gridRadios" value="tidak">
-                                                                        <label class="form-check-label" for="_<?= $value->key ?>_no">
-                                                                            Tidak
-                                                                        </label>
-                                                                    </div> -->
-                                                            </td>
-                                                        </tr>
-                                                    <?php } ?>
-                                                <?php } ?>
-                                            <?php } ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-4 mb-2">
-                                <a href="<?= base_url('sek/ppdb/rekap/lolos') ?>" class="btn btn-block btn-xs btn-primary waves-effect waves-light"><i class="las la-tasks font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> Verifikasi</a>
+                                <a href="<?= base_url('sek/ppdb/rekap/lolos') ?>" class="btn btn-block btn-xs btn-primary waves-effect waves-light"><i class="las la-undo font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> Kembali</a>
                             </div>
                         </div>
                     </div>
