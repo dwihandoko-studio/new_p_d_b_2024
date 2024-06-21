@@ -117,7 +117,7 @@
                         <?php if (isset($dusuns)) { ?>
                             <?php if (count($dusuns) > 0) { ?>
                                 <?php foreach ($dusuns as $key => $value) { ?>
-                                    <option value="<?= $value->id ?>" <?= ($value->id === $data->dusun) ? ' selected' : "" ?>><?= $value->nama ?></option>
+                                    <option value="<?= $value->id ?>"><?= $value->nama ?></option>
                                 <?php } ?>
                             <?php } ?>
                         <?php } ?>
