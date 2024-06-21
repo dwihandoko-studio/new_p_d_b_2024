@@ -576,7 +576,7 @@ class Panitia extends BaseController
                         'updated_at' => date('Y-m-d H:i:s')
                     ]);
                     if ($this->_db->affectedRows() > 0) {
-                        $this->_db->table('_users_profile_sekolah')->where('id', $oldData->id)->update([
+                        $this->_db->table('_users_profile_sekolah')->where('user_id', $oldData->id)->update([
                             'nama' => $nama,
                             'updated_at' => date('Y-m-d H:i:s')
                         ]);
