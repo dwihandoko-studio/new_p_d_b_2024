@@ -74,11 +74,6 @@
 
     function validateForm(formElement) {
         const jenis = document.getElementsByName('_jenis')[0];
-        const nisn = document.getElementsByName('_nisn')[0];
-        const npsn = document.getElementsByName('_npsn')[0];
-        const nik = document.getElementsByName('_nik')[0];
-        const kk = document.getElementsByName('_kk')[0];
-
         console.log(jenis.value);
 
         if ((jenis.value === "" || jenis.value === undefined)) {
@@ -91,6 +86,8 @@
         }
 
         if (jenis.value === "sudah") {
+            const nisn = document.getElementsByName('_nisn')[0];
+            const npsn = document.getElementsByName('_npsn')[0];
             if ((nisn.value === "" || nisn.value === undefined)) {
                 Swal.fire(
                     'Peringatan!',
@@ -114,6 +111,10 @@
         }
 
         if (jenis.value === "belum") {
+
+            const nik = document.getElementsByName('_nik')[0];
+            const kk = document.getElementsByName('_kk')[0];
+
             if ((nik.value === "" || nik.value === undefined)) {
                 Swal.fire(
                     'Peringatan!',
