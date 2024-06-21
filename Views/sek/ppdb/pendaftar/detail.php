@@ -549,8 +549,8 @@
                             $('.content-editModal').modal('show');
                         } else {
                             Swal.fire(
-                                'Failed!',
-                                "gagal mengambil data",
+                                'Peringatan!',
+                                response.message,
                                 'warning'
                             );
                         }
