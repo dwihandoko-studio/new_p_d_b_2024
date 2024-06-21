@@ -79,6 +79,8 @@
         const nik = document.getElementsByName('_nik')[0];
         const kk = document.getElementsByName('_kk')[0];
 
+        console.log(jenis.value);
+
         if ((jenis.value === "" || jenis.value === undefined)) {
             Swal.fire(
                 'Peringatan!',
