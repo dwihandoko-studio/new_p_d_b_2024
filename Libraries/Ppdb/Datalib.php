@@ -2,6 +2,8 @@
 
 namespace App\Libraries\Ppdb;
 
+use DateTime;
+
 class Datalib
 {
     private $_db;
@@ -241,5 +243,38 @@ class Datalib
         //     $response->message = "Mohon maaf, saat ini proses pendaftaran PPDB belum dimulai";
         //     return $response;
         // }
+    }
+
+    public function verifiUmur($tanggal_lahir)
+    {
+        $currentDate = new DateTime("2024-07-01");
+        $ttl = new DateTime($tanggal_lahir);
+
+        $ageDifference = $currentDate->diff($ttl);
+
+        $years = $ageDifference->y;
+        $months = $ageDifference->m;
+        $days = $ageDifference->d;
+
+        if ($years >= 6) {
+            $response = new \stdClass;
+            $response->code = 200;
+            $response->message = "Umur valid";
+            return $response;
+        }
+
+        if ($years < 6) {
+            if ($months >= 6) {
+                $response = new \stdClass;
+                $response->code = 201;
+                $response->message = "Umur valid, dengan syarat.";
+                return $response;
+            }
+        }
+
+        $response = new \stdClass;
+        $response->code = 400;
+        $response->message = "Maaf, Saat ini Usia belum mencukupi untuk mendaftar ke sekolah tingkat jenjang yang dituju. (Permendikbud No. 1 Tahun 2021 Tentang PPDB). ";
+        return $response;
     }
 }

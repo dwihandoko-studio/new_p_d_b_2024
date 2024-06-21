@@ -576,13 +576,25 @@ class Panitia extends BaseController
                         'updated_at' => date('Y-m-d H:i:s')
                     ]);
                     if ($this->_db->affectedRows() > 0) {
-                        $this->_db->transCommit();
+                        $this->_db->table('_users_profile_sekolah')->where('id', $oldData->id)->update([
+                            'nama' => $nama,
+                            'updated_at' => date('Y-m-d H:i:s')
+                        ]);
+                        if ($this->_db->affectedRows() > 0) {
+                            $this->_db->transCommit();
 
-                        $response = new \stdClass;
-                        $response->status = 200;
-                        $response->url = base_url('portal');
-                        $response->message = "Data berhasil diupdate.";
-                        return json_encode($response);
+                            $response = new \stdClass;
+                            $response->status = 200;
+                            $response->url = base_url('portal');
+                            $response->message = "Data berhasil diupdate.";
+                            return json_encode($response);
+                        } else {
+                            $this->_db->transRollback();
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Gagal mengupdate data.";
+                            return json_encode($response);
+                        }
                     } else {
                         $this->_db->transRollback();
                         $response = new \stdClass;

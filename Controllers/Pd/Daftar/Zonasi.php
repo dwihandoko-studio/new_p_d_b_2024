@@ -76,6 +76,15 @@ class Zonasi extends BaseController
             $data['error_tutup'] = $canDaftar->message . " untuk <b>Jalur Zonasi</b>.";
         }
 
+        $canVerifiUmur = $dataLib->verifiUmur($user->data->peserta_didik_id);
+        if ($canVerifiUmur->code !== 200) {
+            if ($canVerifiUmur->code !== 201) {
+                $data['error_umur'] = $canVerifiUmur->message;
+            } else {
+                $data['pengecualian_umur'] = $canVerifiUmur->message;
+            }
+        }
+
         $dataPd = $this->_db->table('dapo_peserta a')
             ->select("a.*, b.nama as sekolah_asal, b.npsn as npsn_asal")
             ->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id')
@@ -142,6 +151,15 @@ class Zonasi extends BaseController
         $canDaftar = $dataLib->canRegister("zonasi");
         if ($canDaftar->code !== 200) {
             $data['error_tutup'] = $canDaftar->message . " untuk <b>Jalur Zonasi</b>.";
+        }
+
+        $canVerifiUmur = $dataLib->verifiUmur($user->data->peserta_didik_id);
+        if ($canVerifiUmur->code !== 200) {
+            if ($canVerifiUmur->code !== 201) {
+                $data['error_umur'] = $canVerifiUmur->message;
+            } else {
+                $data['pengecualian_umur'] = $canVerifiUmur->message;
+            }
         }
 
         $data['user'] = $user->data;
@@ -394,6 +412,16 @@ class Zonasi extends BaseController
                 }
 
                 if ($userPd) {
+
+                    $canVerifiUmur = $dataLib->verifiUmur($user->data->peserta_didik_id);
+                    if ($canVerifiUmur->code !== 200) {
+                        if ($canVerifiUmur->code !== 201) {
+                            $x['error_umur'] = $canVerifiUmur->message;
+                        } else {
+                            $x['pengecualian_umur'] = $canVerifiUmur->message;
+                        }
+                    }
+
                     $x['sekolah_id'] = $sekolah_id;
                     $x['nama_sekolah'] = $nama;
                     $response = new \stdClass;

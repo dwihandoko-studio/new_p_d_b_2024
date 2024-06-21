@@ -236,7 +236,7 @@ class Home extends BaseController
                 }
 
                 $date = date('Y-m-d H:i:s');
-                $passwordHas = password_hash($password, PASSWORD_DEFAULT);
+                $passwordHas = password_hash($password, PASSWORD_BCRYPT);
                 $this->_db->transBegin();
                 try {
                     $this->_db->table('_users_tb')->where('id', $oldData->user_id)->update([
@@ -251,14 +251,25 @@ class Home extends BaseController
                             'updated_at' => $date
                         ]);
                         if ($this->_db->affectedRows() > 0) {
-                            $this->_db->table('panitia_ppdb')->insert([
-                                'id' => $oldData->user_id,
-                                'sekolah_id' => $oldData->sekolah_id,
-                                'nama' => $nama,
-                                'jabatan' => $jabatan,
-                                'jabatan_ppdb' => $jabatan_ppdb,
-                                'created_at' => $date
-                            ]);
+                            $oldDataPanitia = $this->_db->table('panitia_ppdb')->where('id', $oldData->user_id,)->get()->getRowObject();
+                            if ($oldData) {
+                                $this->_db->table('panitia_ppdb')->where('id', $oldDataPanitia->id)->update([
+                                    'sekolah_id' => $oldData->sekolah_id,
+                                    'nama' => $nama,
+                                    'jabatan' => $jabatan,
+                                    'jabatan_ppdb' => $jabatan_ppdb,
+                                    'updated_at' => $date
+                                ]);
+                            } else {
+                                $this->_db->table('panitia_ppdb')->insert([
+                                    'id' => $oldData->user_id,
+                                    'sekolah_id' => $oldData->sekolah_id,
+                                    'nama' => $nama,
+                                    'jabatan' => $jabatan,
+                                    'jabatan_ppdb' => $jabatan_ppdb,
+                                    'created_at' => $date
+                                ]);
+                            }
                             if ($this->_db->affectedRows() > 0) {
                                 $this->_db->transCommit();
 

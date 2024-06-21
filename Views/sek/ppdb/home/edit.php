@@ -46,9 +46,11 @@
                         <select class="default-select form-control wide mb-3" id="_jabatan_ppdb" name="_jabatan_ppdb">
                             <option value=""> -- Pilih --</option>
                             <option value="1">Penanggung Jawab</option>
-                            <option value="2">Sekretaris</option>
-                            <option value="3">Bendahara</option>
-                            <option value="4">Anggota</option>
+                            <option value="2">Ketua</option>
+                            <option value="3">Wakil Ketua</option>
+                            <option value="4">Sekretaris</option>
+                            <option value="5">Bendahara</option>
+                            <option value="6">Anggota</option>
                         </select>
                     </div>
                 </div>
