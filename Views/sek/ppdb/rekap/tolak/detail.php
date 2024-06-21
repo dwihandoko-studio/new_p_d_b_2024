@@ -167,6 +167,18 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
+                        <div class="col-12 mb-2">
+                            <div class="input-group   input-primary">
+                                <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Jarak Domisili</span>
+                                <textarea class="form-control" readonly><?= $data->keterangan_penolakan ?></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-4 mb-2">
                                 <a href="<?= base_url('sek/ppdb/rekap/lolos') ?>" class="btn btn-block btn-xs btn-primary waves-effect waves-light"><i class="las la-undo font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> Kembali</a>
