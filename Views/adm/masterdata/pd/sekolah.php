@@ -154,6 +154,56 @@
         });
     });
 
+    $(document).on('click', '.btnaddpd', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: "./add",
+            type: 'POST',
+            data: {
+                id: 'add',
+            },
+            dataType: "json",
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Sedang Loading . . .',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
+            complete: function() {},
+            success: function(response) {
+                if (response.status == 200) {
+                    Swal.close();
+                    $('#content-uploadModalLabel').html('TAMBAH DATA PD');
+                    $('.contentBodyUploadModal').html(response.data);
+                    $('.content-uploadModal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                    });
+                    $('.content-uploadModal').modal('show');
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        "gagal mengambil data",
+                        'warning'
+                    );
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                Swal.fire(
+                    'Failed!',
+                    "gagal mengambil data (" + xhr.status.toString + ")",
+                    'warning'
+                );
+            }
+
+        });
+    });
+
     $(document).ready(function() {
         initSelect2('_filter_kec', $('.content-body'));
         initSelect2('_filter_jenjang', $('.content-body'));
