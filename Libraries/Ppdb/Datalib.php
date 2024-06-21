@@ -58,6 +58,46 @@ class Datalib
         return $this->verifiCanRegister($setting, $jalur);
     }
 
+    public function canVerifikasi($jalur = "afirmasi")
+    {
+        $setting = $this->_db->table('_setting_jadwal_tb')->where('id', $jalur)->get()->getRowObject();
+        if (!$setting) {
+            $response = new \stdClass;
+            $response->code = 400;
+            $response->message = "Seting jadwal tidak ditemukan.";
+            return $response;
+        }
+
+        return $this->verifiCanVerifikasi($setting, $jalur);
+    }
+
+    private function verifiCanVerifikasi($setting, $jalur)
+    {
+        $today = date("Y-m-d H:i:s");
+
+        $startdate = strtotime($today);
+        $enddateAwal = strtotime($setting->tgl_awal_verifikasi);
+
+        if ($startdate < $enddateAwal) {
+            $response = new \stdClass;
+            $response->code = 400;
+            $response->message = "Mohon maaf, saat ini proses verfikasi pendaftaran PPDB belum dibuka";
+            return $response;
+        }
+
+        $enddateAkhir = strtotime($setting->tgl_akhir_verifikasi);
+        if ($startdate > $enddateAkhir) {
+            $response = new \stdClass;
+            $response->code = 400;
+            $response->message = "Mohon maaf, saat ini proses verifikasi pendaftaran PPDB telah ditutup";
+            return $response;
+        }
+        $response = new \stdClass;
+        $response->code = 200;
+        $response->message = "Verifikasi Pendaftaran PPDB telah dibuka";
+        return $response;
+    }
+
     private function verifiCanRegister($setting, $jalur)
     {
         $today = date("Y-m-d H:i:s");

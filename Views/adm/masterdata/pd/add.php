@@ -4,7 +4,7 @@
             <div class="col-12">
                 <div class="mb-3">
                     <label for="_jenis" class="col-form-label">Pilih Jenis PD:</label>
-                    <select class="form-control" id="_jenis" name="_jenis" onchange="changeJenis(this)" width="100%" style="width: 100%;">
+                    <select class="form-control" id="_jenis" name="_jenis" onchange="changeJenis(this)" width="100%" style="width: 100%;" required>
                         <option value="">--Pilih--</option>
                         <option value="sudah">Sudah Sekolah</option>
                         <option value="belum">Belum Sekolah</option>
@@ -73,28 +73,67 @@
     }
 
     function validateForm(formElement) {
+        const jenis = document.getElementsByName('_jenis')[0];
         const nisn = document.getElementsByName('_nisn')[0];
         const npsn = document.getElementsByName('_npsn')[0];
+        const nik = document.getElementsByName('_nik')[0];
+        const kk = document.getElementsByName('_kk')[0];
 
-        if ((nisn.value === "" || nisn.value === undefined)) {
+        if ((jenis.value === "" || jenis.value === undefined)) {
             Swal.fire(
                 'Peringatan!',
-                "NISN tidak boleh kosong.",
+                "Silahkan pilih jenis pd.",
                 'warning'
             ).then((valRes) => {
                 nisn.focus();
             });
             return false;
         }
-        if ((npsn.value === "" || npsn.value === undefined)) {
-            Swal.fire(
-                'Peringatan!',
-                "NPSN tidak boleh kosong.",
-                'warning'
-            ).then((valRes) => {
-                npsn.focus();
-            });
-            return false;
+
+        if (jenis.value === "sudah") {
+            if ((nisn.value === "" || nisn.value === undefined)) {
+                Swal.fire(
+                    'Peringatan!',
+                    "NISN tidak boleh kosong.",
+                    'warning'
+                ).then((valRes) => {
+                    nisn.focus();
+                });
+                return false;
+            }
+            if ((npsn.value === "" || npsn.value === undefined)) {
+                Swal.fire(
+                    'Peringatan!',
+                    "NPSN tidak boleh kosong.",
+                    'warning'
+                ).then((valRes) => {
+                    npsn.focus();
+                });
+                return false;
+            }
+        }
+
+        if (jenis.value === "belum") {
+            if ((nik.value === "" || nik.value === undefined)) {
+                Swal.fire(
+                    'Peringatan!',
+                    "nik tidak boleh kosong.",
+                    'warning'
+                ).then((valRes) => {
+                    nik.focus();
+                });
+                return false;
+            }
+            if ((kk.value === "" || kk.value === undefined)) {
+                Swal.fire(
+                    'Peringatan!',
+                    "kk tidak boleh kosong.",
+                    'warning'
+                ).then((valRes) => {
+                    kk.focus();
+                });
+                return false;
+            }
         }
         return true;
     }

@@ -13,6 +13,7 @@ use App\Libraries\Uuid;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use setasign\Fpdi\TcpdfFpdi;
+use App\Libraries\Ppdb\Datalib;
 
 class Pendaftar extends BaseController
 {
@@ -201,6 +202,15 @@ class Pendaftar extends BaseController
                     return json_encode($response);
                 }
 
+                $dataLib = new Datalib();
+                $canDaftar = $dataLib->canVerifikasi(strtolower($oldData->via_jalur));
+                if ($canDaftar->code !== 200) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = $canDaftar->message . " untuk <b>Jalur $oldData->via_jalur</b>.";
+                    return json_encode($response);
+                }
+
                 $x['data'] = $oldData;
 
                 $response = new \stdClass;
@@ -264,6 +274,15 @@ class Pendaftar extends BaseController
                     $response = new \stdClass;
                     $response->status = 400;
                     $response->message = "Data tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $dataLib = new Datalib();
+                $canDaftar = $dataLib->canVerifikasi(strtolower($oldData->via_jalur));
+                if ($canDaftar->code !== 200) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = $canDaftar->message . " untuk <b>Jalur $oldData->via_jalur</b>.";
                     return json_encode($response);
                 }
 
@@ -359,6 +378,15 @@ class Pendaftar extends BaseController
                     $response = new \stdClass;
                     $response->status = 400;
                     $response->message = "Data tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $dataLib = new Datalib();
+                $canDaftar = $dataLib->canVerifikasi(strtolower($oldData->via_jalur));
+                if ($canDaftar->code !== 200) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = $canDaftar->message . " untuk <b>Jalur $oldData->via_jalur</b>.";
                     return json_encode($response);
                 }
 
@@ -776,6 +804,15 @@ class Pendaftar extends BaseController
                     $response = new \stdClass;
                     $response->status = 400;
                     $response->message = "Data tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $dataLib = new Datalib();
+                $canDaftar = $dataLib->canVerifikasi(strtolower($oldData->via_jalur));
+                if ($canDaftar->code !== 200) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = $canDaftar->message . " untuk <b>Jalur $oldData->via_jalur</b>.";
                     return json_encode($response);
                 }
 
