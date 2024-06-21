@@ -679,6 +679,14 @@
 
 <?= $this->section('scriptBottom'); ?>
 <script>
+    $(document).on('click', '.lihatPetanya', function(e) {
+        // const dataId = e.getAttribute('data-id');
+        const url = this.dataset.id;
+
+        // Open the URL in a new tab
+        window.open(url, '_blank');
+    });
+
     function validateForm(formElement) {
         const selectedDatapeserta = document.querySelector('input[type="radio"][name^="_data_peserta"]:checked');
 

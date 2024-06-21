@@ -221,6 +221,14 @@
 
 <?= $this->section('scriptBottom'); ?>
 <script>
+    $(document).on('click', '.lihatPetanya', function(e) {
+        // const dataId = e.getAttribute('data-id');
+        const url = this.dataset.id;
+
+        // Open the URL in a new tab
+        window.open(url, '_blank');
+    });
+
     $(document).ready(function() {
 
     });
