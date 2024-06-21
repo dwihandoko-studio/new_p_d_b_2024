@@ -76,7 +76,7 @@
                         title: 'Sedang Loading . . .',
                         allowEscapeKey: false,
                         allowOutsideClick: false,
-                        onOpen: () => {
+                        didOpen: () => {
                             Swal.showLoading();
                         }
                     });
@@ -134,7 +134,7 @@
                         title: 'Sedang Loading . . .',
                         allowEscapeKey: false,
                         allowOutsideClick: false,
-                        onOpen: () => {
+                        didOpen: () => {
                             Swal.showLoading();
                         }
                     });
