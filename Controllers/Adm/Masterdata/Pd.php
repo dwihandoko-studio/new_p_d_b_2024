@@ -275,7 +275,7 @@ class Pd extends BaseController
         if ($this->request->isAJAX()) {
 
             $rules = [
-                '_nisn' => [
+                '_jenis' => [
                     'rules' => 'required|trim',
                     'errors' => [
                         'required' => 'NISN tidak boleh kosong. ',
