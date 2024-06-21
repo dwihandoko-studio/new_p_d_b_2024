@@ -60,7 +60,6 @@
 
     function changedKecamatan(event) {
         console.log("Changed Kecamatan");
-        const jenjang = document.getElementsByName('_jenjang')[0];
         const sekolahSelect = $('#_sekolah');
         sekolahSelect.empty(); // Clear existing options
         if (event.value === "" || event.value === undefined) {} else {
@@ -69,7 +68,7 @@
                 type: 'POST',
                 data: {
                     kec: event.value,
-                    jenjang: jenjang.value
+                    jenjang: document.getElementsByName('_jenjang')[0].value
                 },
                 dataType: "json",
                 beforeSend: function() {
@@ -118,7 +117,6 @@
 
     function changedJenjang(event) {
         console.log("Changed Jenjang");
-        const kecamatan = document.getElementsByName('_kec')[0];
         const sekolahSelect = $('#_sekolah');
         sekolahSelect.empty(); // Clear existing options
         if (event.value === "" || event.value === undefined) {} else {
@@ -127,7 +125,6 @@
                 type: 'POST',
                 data: {
                     jenjang: event.value,
-                    kec: kecamatan.value
                 },
                 dataType: "json",
                 beforeSend: function() {
