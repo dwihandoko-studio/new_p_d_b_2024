@@ -10,18 +10,9 @@
                 </div>
             </div>
             <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">KK</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_kk" name="_kk" value="<?= $kk ?>" readonly />
-                </div>
-            </div>
-            <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Kartu Keluarga</label>
                 <div class="col-sm-9">
-                    <div class="input-group   input-primary">
-                        <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">KK</span>
-                        <input type="text" class="form-control" id="_kk" name="_kk" value="<?= $kk ?>" readonly />
-                    </div>
+                    <input type="text" class="form-control" id="_kk" name="_kk" value="<?= $kk ?>" readonly />
                 </div>
             </div>
             <div class="mb-3 row">
