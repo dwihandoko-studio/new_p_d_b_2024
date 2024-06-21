@@ -245,10 +245,19 @@ class Datalib
         // }
     }
 
-    public function verifiUmur($tanggal_lahir)
+    public function verifiUmur($peserta_didik_id)
     {
+        $pd = $this->_db->table('dapo_peserta')->select("tanggal_lahir")->where('peserta_didik_id', $peserta_didik_id)->get()->getRowObject();
+
+        if (!$pd) {
+            $response = new \stdClass;
+            $response->code = 400;
+            $response->message = "Referensi Peserta Didik Tidak Ditemukan.";
+            return $response;
+        }
+
         $currentDate = new DateTime("2024-07-01");
-        $ttl = new DateTime($tanggal_lahir);
+        $ttl = new DateTime($pd->tanggal_lahir);
 
         $ageDifference = $currentDate->diff($ttl);
 
