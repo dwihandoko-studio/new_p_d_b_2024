@@ -10,7 +10,7 @@
                         <option value="">-- Pilih --</option>
                         <option value="akademik">Prestasi Akademik</option>
                         <option value="nonakademik">Prestasi Non Akademik</option>
-                        <option value="tidakada">Tidak Ada</option>
+                        <option value="tidakada">Prestasi Sekolah</option>
                     </select>
                 </div>
                 <div class="row">
