@@ -59,6 +59,7 @@
     });
 
     function changedKecamatan(event) {
+        console.log("Changed Kecamatan");
         const jenjang = document.getElementsByName('_jenjang')[0];
         const sekolahSelect = $('#_sekolah');
         sekolahSelect.empty(); // Clear existing options
@@ -116,6 +117,7 @@
     }
 
     function changedJenjang(event) {
+        console.log("Changed Jenjang");
         const kecamatan = document.getElementsByName('_kec')[0];
         const sekolahSelect = $('#_sekolah');
         sekolahSelect.empty(); // Clear existing options
