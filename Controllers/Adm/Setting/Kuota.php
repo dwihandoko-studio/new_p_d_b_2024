@@ -328,11 +328,14 @@ class Kuota extends BaseController
                     return json_encode($response);
                 }
 
+                $x['kecamatans'] = $this->_db->table('ref_kecamatan')->orderBy('nama', 'ASC')->get()->getResult();
+                $x['jenjangs'] = $this->_db->table('dapo_sekolah')->select("bentuk_pendidikan_id, bentuk_pendidikan, count(bentuk_pendidikan_id) as jumlah")->groupBy('bentuk_pendidikan_id')->orderBy('bentuk_pendidikan', 'ASC')->get()->getResult();
+
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->title = "TAMBAH KUOTA SEKOLAH";
                 $response->message = "Permintaan diizinkan";
-                $response->data = view('adm/setting/kuota/add');
+                $response->data = view('adm/setting/kuota/add', $x);
                 return json_encode($response);
             }
         } else {
