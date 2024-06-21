@@ -116,7 +116,7 @@ class Tolak extends BaseController
 
         $id = htmlspecialchars($this->request->getGet('d'), true);
 
-        $oldData = $this->_db->table('_tb_pendaftar a')
+        $oldData = $this->_db->table('_tb_pendaftar_tolak a')
             ->select("a.*, b.nama_ibu_kandung, b.nik, b.no_kk, b.alamat_jalan, b.no_kip, b.no_pkh, c.nohp, c.email")
             ->join('dapo_peserta b', 'b.peserta_didik_id = a.peserta_didik_id')
             ->join('_users_tb c', 'c.id = a.user_id')

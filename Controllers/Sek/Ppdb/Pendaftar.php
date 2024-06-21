@@ -123,9 +123,9 @@ class Pendaftar extends BaseController
             ->where('a.id', $id)
             ->get()->getRowObject();
 
-        if (!$oldData) {
-            return redirect()->to(base_url('sek/ppdb/pendaftar'));
-        }
+        // if (!$oldData) {
+        //     return redirect()->to(base_url('sek/ppdb/pendaftar'));
+        // }
 
         $data['data'] = $oldData;
         $data['koreg'] = $oldData->kode_pendaftaran;
