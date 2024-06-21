@@ -612,7 +612,7 @@
         formAdd.addEventListener('submit', function(event) { // Prevent default form submission
             if (validateForm(this)) {
                 event.preventDefault();
-                const nama = document.getElementsByName('_nama')[0].value;
+                const nama = document.getElementsByName('_nama_pd')[0].value;
 
                 Swal.fire({
                     title: 'Apakah anda yakin ingin menyimpan data PD Baru ini?',
