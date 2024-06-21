@@ -8,7 +8,24 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
+
                     <div class="card-body">
+                        <?php if (isset($error_tutup)) { ?>
+                            <?php if ($error_tutup !== "") { ?>
+                                <div class="col-12">
+                                    <div class="alert alert-danger alert-dismissible fade show">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close"><span><i class="mdi mdi-btn-close"></i></span>
+                                        </button>
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <h5 class="mt-1 mb-1">Peringatan!!!</h5>
+                                                <p class="mb-0"><?= $error_tutup ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        <?php } ?>
                         <div class="row">
                             <div class="col-12">
                                 <div class="row">
@@ -138,7 +155,15 @@
                                         </p>
                                     </div>
                                     <div class="col-12 mb-3 ">
-                                        <button type="button" onclick="aksiConfirm()" class="btn btn-block btn-xs btn-primary waves-effect waves-light"><i class="las la-check-circle font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> KONFIRMASI & LANJUTKAN</button>
+                                        <?php if (isset($error_tutup)) { ?>
+                                            <?php if ($error_tutup !== "") { ?>
+                                                <a href="<?= base_url('pd/home') ?>" class="btn btn-block btn-xs btn-primary waves-effect waves-light"><i class="las la-reply-all font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> KEMBALI</a>
+                                            <?php } else { ?>
+                                                <button type="button" onclick="aksiConfirm()" class="btn btn-block btn-xs btn-primary waves-effect waves-light"><i class="las la-check-circle font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> KONFIRMASI & LANJUTKAN</button>
+                                            <?php } ?>
+                                        <?php } else { ?>
+                                            <button type="button" onclick="aksiConfirm()" class="btn btn-block btn-xs btn-primary waves-effect waves-light"><i class="las la-check-circle font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> KONFIRMASI & LANJUTKAN</button>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             </div>
