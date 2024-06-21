@@ -10,65 +10,70 @@
                 <li class="breadcrumb-item active"><a href="javascript:void(0)">Masterdata</a></li>
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Peserta Didik Sekolah</a></li>
             </ol>
-            <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnupload"><i class="fas fa-upload font-size-16 align-middle me-2"></i> UPLOAD</button> &nbsp;&nbsp;
+
         </div>
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-6">
-                                <h4 class="card-title">Data Peserta Didik Sekolah</h4>
-
-                            </div>
-                            <div class="col-3">
-                                <div class="mb-3">
-                                    <label for="_filter_kec" class="col-form-label">Filter Kecamatan:</label>
-                                    <select class="form-control filter-kec" id="_filter_kec" name="_filter_kec" width="100%" style="width: 100%;">
-                                        <option value="">--Pilih--</option>
-                                        <?php if (isset($kecamatans)) {
-                                            if (count($kecamatans) > 0) {
-                                                foreach ($kecamatans as $key => $value) { ?>
-                                                    <option value="<?= $value->id ?>"><?= $value->nama ?></option>
-                                        <?php }
-                                            }
-                                        } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="mb-3">
-                                    <label for="_filter_jenjang" class="col-form-label">Filter Jenjang:</label>
-                                    <select class="form-control filter-jenjang" id="_filter_jenjang" name="_filter_jenjang" width="100%" style="width: 100%;">
-                                        <option value="">--Pilih--</option>
-                                        <?php if (isset($jenjangs)) {
-                                            if (count($jenjangs) > 0) {
-                                                foreach ($jenjangs as $key => $value) { ?>
-                                                    <option value="<?= $value->bentuk_pendidikan_id ?>"><?= $value->bentuk_pendidikan ?></option>
-                                        <?php }
-                                            }
-                                        } ?>
-                                    </select>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="data-datatables" class="display" style="min-width: 845px">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Action</th>
-                                        <th>Nama Sekolah</th>
-                                        <th>NPSN</th>
-                                        <th>Jenjang</th>
-                                        <th>Kecamatan</th>
-                                        <th>Jumlah PD</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                        <div class="row">
+                            <div class="col-4">
+                                <h4 class="card-title">Data Peserta Didik Sekolah</h4>
+                            </div>
+                            <div class="col-8">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="mb-3">
+                                            <label for="_filter_kec" class="col-form-label">Filter Kecamatan:</label>
+                                            <select class="form-control filter-kec" id="_filter_kec" name="_filter_kec" width="100%" style="width: 100%;">
+                                                <option value="">--Pilih--</option>
+                                                <?php if (isset($kecamatans)) {
+                                                    if (count($kecamatans) > 0) {
+                                                        foreach ($kecamatans as $key => $value) { ?>
+                                                            <option value="<?= $value->id ?>"><?= $value->nama ?></option>
+                                                <?php }
+                                                    }
+                                                } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="mb-3">
+                                            <label for="_filter_jenjang" class="col-form-label">Filter Jenjang:</label>
+                                            <select class="form-control filter-jenjang" id="_filter_jenjang" name="_filter_jenjang" width="100%" style="width: 100%;">
+                                                <option value="">--Pilih--</option>
+                                                <?php if (isset($jenjangs)) {
+                                                    if (count($jenjangs) > 0) {
+                                                        foreach ($jenjangs as $key => $value) { ?>
+                                                            <option value="<?= $value->bentuk_pendidikan_id ?>"><?= $value->bentuk_pendidikan ?></option>
+                                                <?php }
+                                                    }
+                                                } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnupload"><i class="fas fa-upload font-size-16 align-middle me-2"></i> UPLOAD</button> &nbsp;&nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table id="data-datatables" class="display" style="min-width: 845px">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Action</th>
+                                            <th>Nama Sekolah</th>
+                                            <th>NPSN</th>
+                                            <th>Jenjang</th>
+                                            <th>Kecamatan</th>
+                                            <th>Jumlah PD</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
