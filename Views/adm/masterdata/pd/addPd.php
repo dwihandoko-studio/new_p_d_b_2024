@@ -504,20 +504,20 @@
     }
 
     $('#_prov').select2({
-        dropdownParent: ".content-addModal",
+        dropdownParent: ".contentBodyaddModal",
     });
 
     $('#_kab').select2({
-        dropdownParent: ".content-addModal",
+        dropdownParent: ".contentBodyaddModal",
     });
     $('#_kec').select2({
-        dropdownParent: ".content-addModal",
+        dropdownParent: ".contentBodyaddModal",
     });
     $('#_kel').select2({
-        dropdownParent: ".content-addModal",
+        dropdownParent: ".contentBodyaddModal",
     });
     $('#_dusun').select2({
-        dropdownParent: ".content-addModal",
+        dropdownParent: ".contentBodyaddModal",
     });
 
     function validateForm(formElement) {
