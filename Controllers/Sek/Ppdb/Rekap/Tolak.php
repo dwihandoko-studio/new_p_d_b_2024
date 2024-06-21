@@ -97,8 +97,17 @@ class Tolak extends BaseController
         $data['user'] = $user->data;
         $data['level'] = $user->level;
         $data['level_nama'] = $user->level_nama;
-        $data['sekNegeri'] = true;
-        $data['sekSwasta'] = false;
+        $refSekolah = $this->_db->table('dapo_sekolah')->select("status_sekolah_id")->where('sekolah_id', $user->data->sekolah_id)->get()->getRowObject();
+        if (!$refSekolah) {
+            redirect()->to(base_url('sek/ppdb/home'));
+        }
+        if ((int)$refSekolah->status_sekolah_id == 1) {
+            $data['sekNegeri'] = true;
+            $data['sekSwasta'] = false;
+        } else {
+            $data['sekNegeri'] = false;
+            $data['sekSwasta'] = true;
+        }
 
         return view('sek/ppdb/rekap/tolak/index', $data);
     }
