@@ -62,113 +62,113 @@
         console.log("Changed Kecamatan");
         const sekolahSelect = $('#_sekolah');
         sekolahSelect.empty(); // Clear existing options
-        if (event.value === "" || event.value === undefined) {} else {
-            $.ajax({
-                url: "./refSekolah",
-                type: 'POST',
-                data: {
-                    kec: event.value,
-                    jenjang: document.getElementsByName('_jenjang')[0].value
-                },
-                dataType: "json",
-                beforeSend: function() {
-                    Swal.fire({
-                        title: 'Sedang Loading . . .',
-                        allowEscapeKey: false,
-                        allowOutsideClick: false,
-                        onOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-                },
-                complete: function() {},
-                success: function(response) {
-                    if (response.status == 200) {
-                        Swal.close();
-                        // Process and populate the kecamatan dropdown based on the response
-                        const sekolahs = response.data; // Assuming response has 'data' key with kecamatans
-                        sekolahSelect.append('<option value="">  -- Pilih -- </option>');
-                        sekolahs.forEach(sekolah => {
-                            const option = $('<option>').val(sekolah.sekolah_id).text(sekolah.nama + " (NPSN: " + sekolah.npsn + ")");
-                            // if (kecamatan.id.startsWith(selectedKabId.substring(0, 6))) {
-                            //     option.attr('selected', true);
-                            // }
-                            sekolahSelect.append(option);
-                        });
-                    } else {
-                        Swal.fire(
-                            'Failed!',
-                            "gagal mengambil data",
-                            'warning'
-                        );
+        // if (event.value === "" || event.value === undefined) {} else {
+        $.ajax({
+            url: "./refSekolah",
+            type: 'POST',
+            data: {
+                kec: event.value,
+                jenjang: document.getElementsByName('_jenjang')[0].value
+            },
+            dataType: "json",
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Sedang Loading . . .',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    onOpen: () => {
+                        Swal.showLoading();
                     }
-                },
-                error: function(xhr, ajaxOptions, thrownError) {
+                });
+            },
+            complete: function() {},
+            success: function(response) {
+                if (response.status == 200) {
+                    Swal.close();
+                    // Process and populate the kecamatan dropdown based on the response
+                    const sekolahs = response.data; // Assuming response has 'data' key with kecamatans
+                    sekolahSelect.append('<option value="">  -- Pilih -- </option>');
+                    sekolahs.forEach(sekolah => {
+                        const option = $('<option>').val(sekolah.sekolah_id).text(sekolah.nama + " (NPSN: " + sekolah.npsn + ")");
+                        // if (kecamatan.id.startsWith(selectedKabId.substring(0, 6))) {
+                        //     option.attr('selected', true);
+                        // }
+                        sekolahSelect.append(option);
+                    });
+                } else {
                     Swal.fire(
                         'Failed!',
-                        "gagal mengambil data (" + xhr.status.toString + ")",
+                        "gagal mengambil data",
                         'warning'
                     );
                 }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                Swal.fire(
+                    'Failed!',
+                    "gagal mengambil data (" + xhr.status.toString + ")",
+                    'warning'
+                );
+            }
 
-            });
-        }
+        });
+        // }
     }
 
     function changedJenjang(event) {
         console.log("Changed Jenjang");
         const sekolahSelect = $('#_sekolah');
         sekolahSelect.empty(); // Clear existing options
-        if (event.value === "" || event.value === undefined) {} else {
-            $.ajax({
-                url: "./refSekolah",
-                type: 'POST',
-                data: {
-                    jenjang: event.value,
-                },
-                dataType: "json",
-                beforeSend: function() {
-                    Swal.fire({
-                        title: 'Sedang Loading . . .',
-                        allowEscapeKey: false,
-                        allowOutsideClick: false,
-                        onOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-                },
-                complete: function() {},
-                success: function(response) {
-                    if (response.status == 200) {
-                        Swal.close();
-                        // Process and populate the kecamatan dropdown based on the response
-                        const sekolahs = response.data; // Assuming response has 'data' key with kecamatans
-                        sekolahSelect.append('<option value="">  -- Pilih -- </option>');
-                        sekolahs.forEach(sekolah => {
-                            const option = $('<option>').val(sekolah.sekolah_id).text(sekolah.nama + " (NPSN: " + sekolah.npsn + ")");
-                            // if (kecamatan.id.startsWith(selectedKabId.substring(0, 6))) {
-                            //     option.attr('selected', true);
-                            // }
-                            sekolahSelect.append(option);
-                        });
-                    } else {
-                        Swal.fire(
-                            'Failed!',
-                            "gagal mengambil data",
-                            'warning'
-                        );
+        // if (event.value === "" || event.value === undefined) {} else {
+        $.ajax({
+            url: "./refSekolah",
+            type: 'POST',
+            data: {
+                jenjang: event.value,
+            },
+            dataType: "json",
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Sedang Loading . . .',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    onOpen: () => {
+                        Swal.showLoading();
                     }
-                },
-                error: function(xhr, ajaxOptions, thrownError) {
+                });
+            },
+            complete: function() {},
+            success: function(response) {
+                if (response.status == 200) {
+                    Swal.close();
+                    // Process and populate the kecamatan dropdown based on the response
+                    const sekolahs = response.data; // Assuming response has 'data' key with kecamatans
+                    sekolahSelect.append('<option value="">  -- Pilih -- </option>');
+                    sekolahs.forEach(sekolah => {
+                        const option = $('<option>').val(sekolah.sekolah_id).text(sekolah.nama + " (NPSN: " + sekolah.npsn + ")");
+                        // if (kecamatan.id.startsWith(selectedKabId.substring(0, 6))) {
+                        //     option.attr('selected', true);
+                        // }
+                        sekolahSelect.append(option);
+                    });
+                } else {
                     Swal.fire(
                         'Failed!',
-                        "gagal mengambil data (" + xhr.status.toString + ")",
+                        "gagal mengambil data",
                         'warning'
                     );
                 }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                Swal.fire(
+                    'Failed!',
+                    "gagal mengambil data (" + xhr.status.toString + ")",
+                    'warning'
+                );
+            }
 
-            });
-        }
+        });
+    }
     }
 
     function changedSekolah(event) {
