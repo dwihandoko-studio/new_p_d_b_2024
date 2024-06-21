@@ -159,11 +159,18 @@
                     </div>
                 </div>
             </div>
+            <div class="mb-3 row">
+                <label class="col-sm-3 col-form-label">Peserta Didik Id</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="_peserta_didik_id" name="_peserta_didik_id" value="<?= $data->peserta_didik_id ?>" required />
+                    <p>Di dapatkan dari Verval PD</p>
+                </div>
+            </div>
         </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">AMBIL DATA</button>
+        <button type="submit" class="btn btn-primary">SIMPAN DATA</button>
     </div>
 </form>
 <script>
