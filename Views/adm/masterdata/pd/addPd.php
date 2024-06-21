@@ -160,6 +160,7 @@
                         <span class="input-group-text">PD ID</span>
                         <input type="text" class="form-control" id="_peserta_didik_id" name="_peserta_didik_id" value="<?= $data->peserta_didik_id ?>" required />
                     </div>
+                    <p>Didapatkan dari Verval PD untuk peserta didik idnya.</p>
                 </div>
             </div>
         </div>
