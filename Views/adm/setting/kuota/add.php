@@ -58,7 +58,7 @@
         dropdownParent: ".contentBodycontentModal",
     });
 
-    function changeKecamatan(event) {
+    function changedKecamatan(event) {
         const jenjang = document.getElementsByName('_jenjang')[0];
         const sekolahSelect = $('#_sekolah');
         sekolahSelect.empty(); // Clear existing options
@@ -115,7 +115,7 @@
         }
     }
 
-    function changeJenjang(event) {
+    function changedJenjang(event) {
         const kecamatan = document.getElementsByName('_kec')[0];
         const sekolahSelect = $('#_sekolah');
         sekolahSelect.empty(); // Clear existing options
