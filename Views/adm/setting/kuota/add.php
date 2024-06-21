@@ -49,13 +49,13 @@
 </form>
 <script>
     $('#_kec').select2({
-        dropdownParent: ".contentBodycontentModal",
+        dropdownParent: ".content-contentModal",
     });
     $('#_jenjang').select2({
-        dropdownParent: ".contentBodycontentModal",
+        dropdownParent: ".content-contentModal",
     });
     $('#_sekolah').select2({
-        dropdownParent: ".contentBodycontentModal",
+        dropdownParent: ".content-contentModal",
     });
 
     function changedKecamatan(event) {
@@ -169,6 +169,10 @@
 
             });
         }
+    }
+
+    function changedSekolah(event) {
+
     }
 
     function inputFocus(id) {
