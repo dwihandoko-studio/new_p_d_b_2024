@@ -152,18 +152,14 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="row mb-3">
-                    <div class="col-6" style="float: inline-end;">
-                        <button type="submit" style="width: 100%;" class="btn btn-sm btn-primary waves-effect waves-light">SIMPAN</button>
-                    </div>
-                </div>
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Peserta Didik Id</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_peserta_didik_id" name="_peserta_didik_id" value="<?= $data->peserta_didik_id ?>" required />
-                    <p>Di dapatkan dari Verval PD</p>
+                    <div class="input-group   input-primary">
+                        <span class="input-group-text">PD ID</span>
+                        <input type="text" class="form-control" id="_peserta_didik_id" name="_peserta_didik_id" value="<?= $data->peserta_didik_id ?>" required />
+                    </div>
                 </div>
             </div>
         </div>
