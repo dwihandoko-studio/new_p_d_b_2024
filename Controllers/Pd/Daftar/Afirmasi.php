@@ -544,7 +544,22 @@ class Afirmasi extends BaseController
                     $response->message = $canDaftar->message . " untuk <b>Jalur Afirmasi</b>.";
                     return json_encode($response);
                 }
-
+                $canVerifiUmur = $dataLib->verifiUmur($user->data->peserta_didik_id);
+                if ($canVerifiUmur->code !== 200) {
+                    if ($canVerifiUmur->code !== 201) {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = $canVerifiUmur->message;
+                        return json_encode($response);
+                    } else {
+                        if ($kecumur === "" || $kecumur === NULL) {
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = $canVerifiUmur->message;
+                            return json_encode($response);
+                        }
+                    }
+                }
                 $dataLib = new Datalib();
                 $cekAvailableRegistered = $dataLib->cekAlreadyRegistered($user->data->peserta_didik_id);
                 if ($cekAvailableRegistered) {
