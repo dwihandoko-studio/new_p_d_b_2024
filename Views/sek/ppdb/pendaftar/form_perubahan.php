@@ -693,6 +693,8 @@
                     title: 'Apakah anda yakin ingin menyimpan perubahan data peserta ' + nama + '?',
                     text: "Sesuai dengan isian",
                     showCancelButton: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
                     icon: 'question',
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
@@ -751,6 +753,8 @@
                                         html: '<center><b>Perubahan Data Pendaftaran Peserta</b><br/>Atas Nama: ' + resul.nama + '</center>',
                                         showCloseButton: false,
                                         showCancelButton: false,
+                                        allowOutsideClick: false,
+                                        allowEscapeKey: false,
                                         focusConfirm: false,
                                         confirmButtonText: `
     <i class="las la-la-file-download"></i> Download
