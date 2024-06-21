@@ -167,11 +167,11 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
+                        <div class="col-6">
+                            <h4 class="card-title">Keterangan Penolakan</h4>
+                        </div>
                         <div class="col-12 mb-2">
-                            <div class="input-group   input-primary">
-                                <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Jarak Domisili</span>
-                                <textarea rows="10" class="form-control" readonly><?= $data->keterangan_penolakan ?></textarea>
-                            </div>
+                            <p><?= $data->keterangan_penolakan ?></p>
                         </div>
                     </div>
                 </div>
