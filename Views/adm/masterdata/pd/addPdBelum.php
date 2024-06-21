@@ -55,7 +55,6 @@
                 <label class="col-sm-3 col-form-label">Jenis Kelamin Pd</label>
                 <div class="col-sm-9">
                     <div class="input-group   input-primary">
-                        <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">JK</span>
                         <select class="form-control" id="_jenis_kelamin_pd" name="_jenis_kelamin_pd" width="100%" style="width: 100%;" required>
                             <option value="">--Pilih--</option>
                             <option value="L">Laki-laki</option>
