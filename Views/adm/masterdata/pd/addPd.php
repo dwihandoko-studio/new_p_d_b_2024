@@ -504,20 +504,20 @@
     }
 
     $('#_prov').select2({
-        dropdownParent: ".container-fluid",
+        dropdownParent: ".content-addModal",
     });
 
     $('#_kab').select2({
-        dropdownParent: ".container-fluid",
+        dropdownParent: ".content-addModal",
     });
     $('#_kec').select2({
-        dropdownParent: ".container-fluid",
+        dropdownParent: ".content-addModal",
     });
     $('#_kel').select2({
-        dropdownParent: ".container-fluid",
+        dropdownParent: ".content-addModal",
     });
     $('#_dusun').select2({
-        dropdownParent: ".container-fluid",
+        dropdownParent: ".content-addModal",
     });
 
     function validateForm(formElement) {
