@@ -15,13 +15,13 @@
                 <div class="mb-3 row">
                     <label class="col-sm-3 col-form-label">NISN</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="_nisn" name="_nisn" value="" placeholder="NISN..." required />
+                        <input type="text" class="form-control" id="_nisn" name="_nisn" value="" placeholder="NISN..." />
                     </div>
                 </div>
                 <div class="mb-3 row">
                     <label class="col-sm-3 col-form-label">NPSN</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="_npsn" name="_npsn" placeholder="NPSN..." required />
+                        <input type="text" class="form-control" id="_npsn" name="_npsn" placeholder="NPSN..." />
                     </div>
                 </div>
             </div>
@@ -29,13 +29,13 @@
                 <div class="mb-3 row">
                     <label class="col-sm-3 col-form-label">NIK</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="_nik" name="_nik" value="" placeholder="NIK..." required />
+                        <input type="text" class="form-control" id="_nik" name="_nik" value="" placeholder="NIK..." />
                     </div>
                 </div>
                 <div class="mb-3 row">
                     <label class="col-sm-3 col-form-label">No. Kartu Keluarga</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="_kk" name="_kk" placeholder="Nomor Kartu Keluarga..." required />
+                        <input type="text" class="form-control" id="_kk" name="_kk" placeholder="Nomor Kartu Keluarga..." />
                     </div>
                 </div>
             </div>
@@ -94,7 +94,7 @@
                     "NISN tidak boleh kosong.",
                     'warning'
                 ).then((valRes) => {
-                    nisn.focus();
+                    // nisn.focus();
                 });
                 return false;
             }
@@ -104,7 +104,7 @@
                     "NPSN tidak boleh kosong.",
                     'warning'
                 ).then((valRes) => {
-                    npsn.focus();
+                    // npsn.focus();
                 });
                 return false;
             }
@@ -121,7 +121,7 @@
                     "nik tidak boleh kosong.",
                     'warning'
                 ).then((valRes) => {
-                    nik.focus();
+                    // nik.focus();
                 });
                 return false;
             }
@@ -131,7 +131,7 @@
                     "kk tidak boleh kosong.",
                     'warning'
                 ).then((valRes) => {
-                    kk.focus();
+                    // kk.focus();
                 });
                 return false;
             }
@@ -146,10 +146,10 @@
 
             if (validateForm(this)) {
                 event.preventDefault();
-                const nisnData = document.getElementsByName('_nisn')[0].value;
+                // const nisnData = document.getElementsByName('_nisn')[0].value;
                 Swal.fire({
                     title: 'Apakah anda yakin ingin mengecek data ini?',
-                    text: "CEK Data: " + nisnData,
+                    text: "CEK Data Peserta Didik",
                     showCancelButton: true,
                     icon: 'question',
                     confirmButtonColor: '#3085d6',
