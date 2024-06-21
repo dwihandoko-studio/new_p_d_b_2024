@@ -378,7 +378,7 @@ class Pd extends BaseController
     {
         if ($this->request->isAJAX()) {
             $Profilelib = new Profilelib();
-            $user = $Profilelib->userSekolah();
+            $user = $Profilelib->user();
             if ($user->status != 200) {
                 delete_cookie('jwt');
                 session()->destroy();
@@ -438,7 +438,7 @@ class Pd extends BaseController
                 return json_encode($response);
             } else {
                 $Profilelib = new Profilelib();
-                $user = $Profilelib->userSekolah();
+                $user = $Profilelib->user();
                 if ($user->status != 200) {
                     delete_cookie('jwt');
                     session()->destroy();
@@ -488,7 +488,7 @@ class Pd extends BaseController
                 return json_encode($response);
             } else {
                 $Profilelib = new Profilelib();
-                $user = $Profilelib->userSekolah();
+                $user = $Profilelib->user();
                 if ($user->status != 200) {
                     delete_cookie('jwt');
                     session()->destroy();
@@ -538,7 +538,7 @@ class Pd extends BaseController
                 return json_encode($response);
             } else {
                 $Profilelib = new Profilelib();
-                $user = $Profilelib->userSekolah();
+                $user = $Profilelib->user();
                 if ($user->status != 200) {
                     delete_cookie('jwt');
                     session()->destroy();
