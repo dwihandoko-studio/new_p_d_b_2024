@@ -110,7 +110,14 @@
     }
 
     $(document).ready(function() {
-        getDafSekolah();
+        <?php if (isset($error_tutup)) { ?>
+            <?php if ($error_tutup !== "") { ?>
+            <?php } else { ?>
+                getDafSekolah();
+            <?php } ?>
+        <?php } else { ?>
+            getDafSekolah();
+        <?php } ?>
     });
 </script>
 <?= $this->endSection(); ?>

@@ -63,6 +63,24 @@
                                 </div>
                             </td>
                         </tr>
+                        <?php if (isset($pengecualian_umur)) { ?>
+                            <?php if ($pengecualian_umur !== "") { ?>
+                                <tr>
+                                    <td>5.</td>
+                                    <td>Rekomendasi tertulis dari psikolog<br>profesional/dewan guru Sekolah</td>
+                                    <td>
+                                        <div class="radio">
+                                            <label for="_kecumur"><input type="radio" id="_kecumur" name="_kecumur" value="1"> Ada</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="radio">
+                                            <label for="_kecumur_no"><input type="radio" id="_kecumur_no" name="_kecumur" value="0"> Tidak</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        <?php } ?>
                     </table>
                 </div>
             </div>

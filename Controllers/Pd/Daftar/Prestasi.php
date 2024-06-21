@@ -768,6 +768,7 @@ class Prestasi extends BaseController
                 $rapor = htmlspecialchars($this->request->getVar('_rapor'), true);
                 $prestasi = htmlspecialchars($this->request->getVar('_prestasi'), true);
                 $keaslian = htmlspecialchars($this->request->getVar('_keaslian'), true);
+                $kecumur = htmlspecialchars($this->request->getVar('_kecumur'), true);
                 $has_confirmed = htmlspecialchars($this->request->getVar('_has_confirmed'), true);
 
                 $pa_1 = htmlspecialchars($this->request->getVar('__pa_1'), true);
@@ -888,7 +889,13 @@ class Prestasi extends BaseController
                     'key' => 'keaslian',
                     'value' => $keaslian
                 ];
-
+                if ($kecumur == "" || $kecumur == NULL) {
+                } else {
+                    $dokumen_pendaftaran[] = [
+                        'key' => 'kecumur',
+                        'value' => $kecumur
+                    ];
+                }
                 $lampiran_pendaftaran = [
                     'dokumen' => $dokumen_pendaftaran
                 ];
@@ -1288,6 +1295,7 @@ class Prestasi extends BaseController
                 $aktakel = htmlspecialchars($this->request->getVar('_aktakel'), true);
                 $prestasi = htmlspecialchars($this->request->getVar('_prestasi'), true);
                 $keaslian = htmlspecialchars($this->request->getVar('_keaslian'), true);
+                $kecumur = htmlspecialchars($this->request->getVar('_kecumur'), true);
                 $has_confirmed = htmlspecialchars($this->request->getVar('_has_confirmed'), true);
 
                 $prestasi_dimiliki = htmlspecialchars($this->request->getVar('_prestasi_dimiliki'), true);
@@ -1371,6 +1379,13 @@ class Prestasi extends BaseController
                     'key' => 'keaslian',
                     'value' => $keaslian
                 ];
+                if ($kecumur == "" || $kecumur == NULL) {
+                } else {
+                    $dokumen_pendaftaran[] = [
+                        'key' => 'kecumur',
+                        'value' => $kecumur
+                    ];
+                }
                 $lampiran_pendaftaran = [
                     'dokumen' => $dokumen_pendaftaran
                 ];

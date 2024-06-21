@@ -374,6 +374,7 @@ class Pendaftar extends BaseController
                 $check_mutasi = htmlspecialchars($this->request->getVar('_mutasi'), true);
                 $check_rapor = htmlspecialchars($this->request->getVar('_rapor'), true);
                 $check_prestasi = htmlspecialchars($this->request->getVar('_prestasi'), true);
+                $check_kecumur = htmlspecialchars($this->request->getVar('_kecumur'), true);
 
                 $hasil_verifikasi = [];
                 if ($check_data_peserta !== "") {
@@ -446,6 +447,12 @@ class Pendaftar extends BaseController
                     $hasil_verifikasi[] = [
                         'key' => 'verifikasi_prestasi',
                         'value' => $check_prestasi
+                    ];
+                }
+                if ($check_kecumur !== "") {
+                    $hasil_verifikasi[] = [
+                        'key' => 'verifikasi_kecumur',
+                        'value' => $check_kecumur
                     ];
                 }
 

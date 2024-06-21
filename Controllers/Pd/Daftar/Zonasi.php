@@ -512,6 +512,7 @@ class Zonasi extends BaseController
                 $skl = htmlspecialchars($this->request->getVar('_skl'), true);
                 $kk = htmlspecialchars($this->request->getVar('_kk'), true);
                 $aktakel = htmlspecialchars($this->request->getVar('_aktakel'), true);
+                $kecumur = htmlspecialchars($this->request->getVar('_kecumur'), true);
                 $has_confirmed = htmlspecialchars($this->request->getVar('_has_confirmed'), true);
 
                 $dataLib = new Datalib();
@@ -585,6 +586,13 @@ class Zonasi extends BaseController
                     'key' => 'aktakel',
                     'value' => $aktakel
                 ];
+                if ($kecumur == "" || $kecumur == NULL) {
+                } else {
+                    $dokumen_pendaftaran[] = [
+                        'key' => 'kecumur',
+                        'value' => $kecumur
+                    ];
+                }
 
                 $lampiran_pendaftaran = [
                     'dokumen' => $dokumen_pendaftaran

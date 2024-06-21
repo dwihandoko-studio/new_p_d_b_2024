@@ -517,6 +517,7 @@ class Mutasi extends BaseController
                 $kk = htmlspecialchars($this->request->getVar('_kk'), true);
                 $aktakel = htmlspecialchars($this->request->getVar('_aktakel'), true);
                 $mutasi = htmlspecialchars($this->request->getVar('_mutasi'), true);
+                $kecumur = htmlspecialchars($this->request->getVar('_kecumur'), true);
                 $has_confirmed = htmlspecialchars($this->request->getVar('_has_confirmed'), true);
 
                 $dataLib = new Datalib();
@@ -594,7 +595,13 @@ class Mutasi extends BaseController
                     'key' => 'mutasi',
                     'value' => $mutasi
                 ];
-
+                if ($kecumur == "" || $kecumur == NULL) {
+                } else {
+                    $dokumen_pendaftaran[] = [
+                        'key' => 'kecumur',
+                        'value' => $kecumur
+                    ];
+                }
                 $lampiran_pendaftaran = [
                     'dokumen' => $dokumen_pendaftaran
                 ];

@@ -533,6 +533,7 @@ class Afirmasi extends BaseController
                 $jamsos = htmlspecialchars($this->request->getVar('_jamsos'), true);
                 $disabilitas = htmlspecialchars($this->request->getVar('_disabilitas'), true);
                 $keaslian = htmlspecialchars($this->request->getVar('_keaslian'), true);
+                $kecumur = htmlspecialchars($this->request->getVar('_kecumur'), true);
                 $has_confirmed = htmlspecialchars($this->request->getVar('_has_confirmed'), true);
 
                 $dataLib = new Datalib();
@@ -618,6 +619,13 @@ class Afirmasi extends BaseController
                     'key' => 'keaslian',
                     'value' => $keaslian
                 ];
+                if ($kecumur == "" || $kecumur == NULL) {
+                } else {
+                    $dokumen_pendaftaran[] = [
+                        'key' => 'kecumur',
+                        'value' => $kecumur
+                    ];
+                }
 
                 $lampiran_pendaftaran = [
                     'dokumen' => $dokumen_pendaftaran

@@ -16,21 +16,42 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label for="_kec" class="col-form-label">Pilih Kecamatan:</label>
-                                    <select class="js-data-pd-ajax w-100" style="width: 100%;" id="_kec" name="_kec" onchange="changeKec(this)">
-                                        <option value="">-- Pilih --</option>
-                                        <?php if (isset($kecamatans)) { ?>
-                                            <?php if (count($kecamatans) > 0) { ?>
-                                                <?php foreach ($kecamatans as $key => $value) { ?>
-                                                    <option value="<?= $value->id ?>"><?= $value->nama ?></option>
+                            <?php if (isset($error_tutup)) { ?>
+                                <?php if ($error_tutup !== "") { ?>
+                                <?php } else { ?>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="_kec" class="col-form-label">Pilih Kecamatan:</label>
+                                            <select class="js-data-pd-ajax w-100" style="width: 100%;" id="_kec" name="_kec" onchange="changeKec(this)">
+                                                <option value="">-- Pilih --</option>
+                                                <?php if (isset($kecamatans)) { ?>
+                                                    <?php if (count($kecamatans) > 0) { ?>
+                                                        <?php foreach ($kecamatans as $key => $value) { ?>
+                                                            <option value="<?= $value->id ?>"><?= $value->nama ?></option>
+                                                        <?php } ?>
+                                                    <?php } ?>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            <?php } else { ?>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label for="_kec" class="col-form-label">Pilih Kecamatan:</label>
+                                        <select class="js-data-pd-ajax w-100" style="width: 100%;" id="_kec" name="_kec" onchange="changeKec(this)">
+                                            <option value="">-- Pilih --</option>
+                                            <?php if (isset($kecamatans)) { ?>
+                                                <?php if (count($kecamatans) > 0) { ?>
+                                                    <?php foreach ($kecamatans as $key => $value) { ?>
+                                                        <option value="<?= $value->id ?>"><?= $value->nama ?></option>
+                                                    <?php } ?>
                                                 <?php } ?>
                                             <?php } ?>
-                                        <?php } ?>
-                                    </select>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php } ?>
                             <?php if (isset($error_tutup)) { ?>
                                 <?php if ($error_tutup !== "") { ?>
                                     <div class="col-12">

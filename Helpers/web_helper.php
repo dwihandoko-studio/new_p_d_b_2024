@@ -2676,6 +2676,7 @@ function getTitleDokumenPersyaratan($doc)
 		'mutasi' => 'Surat Mutasi Kerja Orang Tua / Wali',
 		'rapor' => 'Rapor 5 Semester & Surat Keterangan<br />Peringkat Nilai Rapor',
 		'prestasi' => 'Dokumen Prestasi / Juara',
+		'kecumur' => 'Rekomendasi tertulis dari psikolog<br>profesional/dewan guru Sekolah',
 	];
 	return $docs[$doc];
 }
