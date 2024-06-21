@@ -248,4 +248,15 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('scriptTop'); ?>
+<style>
+    .lihatPetanya {
+        background-color: #407d4a !important;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    .lihatPetanya:hover {
+        background-color: #d653c1 !important;
+    }
+</style>
 <?= $this->endSection(); ?>

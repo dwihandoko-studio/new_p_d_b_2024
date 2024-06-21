@@ -582,4 +582,15 @@
 <?= $this->section('scriptTop'); ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/leaflet.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/leaflet.js"></script>
+<style>
+    .lihatPetanya {
+        background-color: #407d4a !important;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    .lihatPetanya:hover {
+        background-color: #d653c1 !important;
+    }
+</style>
 <?= $this->endSection(); ?>
