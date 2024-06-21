@@ -286,6 +286,26 @@ class Afirmasi extends BaseController
                     return json_encode($response);
                 }
 
+                $dataLib = new Datalib();
+                $canDaftar = $dataLib->canRegister("afirmasi");
+                if ($canDaftar->code !== 200) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = $canDaftar->message . " untuk <b>Jalur Afirmasi</b>.";
+                    return json_encode($response);
+                }
+
+                $canVerifiUmur = $dataLib->verifiUmur($user->data->peserta_didik_id);
+                if ($canVerifiUmur->code !== 200) {
+                    if ($canVerifiUmur->code !== 201) {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = $canDaftar->message;
+                        return json_encode($response);
+                    } else {
+                    }
+                }
+
                 $kec = htmlspecialchars($this->request->getVar('id'), true);
 
                 $userPd = $this->_db->table('dapo_peserta')->where('peserta_didik_id', $user->data->peserta_didik_id)->get()->getRowObject();
