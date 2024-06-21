@@ -6,10 +6,13 @@
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">NIK</label>
                 <div class="col-sm-9">
-                    <div class="input-group   input-primary">
-                        <span class="input-group-text">NIK</span>
-                        <input type="text" class="form-control" id="_nik" name="_nik" value="<?= $nik ?>" readonly />
-                    </div>
+                    <input type="text" class="form-control" id="_nik" name="_nik" value="<?= $nik ?>" readonly />
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-3 col-form-label">KK</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="_kk" name="_kk" value="<?= $kk ?>" readonly />
                 </div>
             </div>
             <div class="mb-3 row">
@@ -24,35 +27,50 @@
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Nama Peserta Didik</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_nama_pd" name="_nama_pd" value="" required />
+                    <div class="input-group   input-primary">
+                        <span class="input-group-text">Nama</span>
+                        <input type="text" class="form-control" id="_nama_pd" name="_nama_pd" value="" required />
+                    </div>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Tempat Lahir Pd</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_tempat_lahir_pd" name="_tempat_lahir_pd" value="" required />
+                    <div class="input-group   input-primary">
+                        <span class="input-group-text">Tempat lahir</span>
+                        <input type="text" class="form-control" id="_tempat_lahir_pd" name="_tempat_lahir_pd" value="" required />
+                    </div>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Tanggal Lahir Pd</label>
                 <div class="col-sm-9">
-                    <input type="date" class="form-control" id="_tanggal_lahir_pd" name="_tanggal_lahir_pd" value="" required />
+                    <div class="input-group   input-primary">
+                        <span class="input-group-text">Tgl Lahir</span>
+                        <input type="date" class="form-control" id="_tanggal_lahir_pd" name="_tanggal_lahir_pd" value="" required />
+                    </div>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Jenis Kelamin Pd</label>
                 <div class="col-sm-9">
-                    <select class="form-control" id="_jenis_kelamin_pd" name="_jenis_kelamin_pd" width="100%" style="width: 100%;" required>
-                        <option value="">--Pilih--</option>
-                        <option value="L">Laki-laki</option>
-                        <option value="P">Perempuan</option>
-                    </select>
+                    <div class="input-group   input-primary">
+                        <span class="input-group-text">JK</span>
+                        <select class="form-control" id="_jenis_kelamin_pd" name="_jenis_kelamin_pd" width="100%" style="width: 100%;" required>
+                            <option value="">--Pilih--</option>
+                            <option value="L">Laki-laki</option>
+                            <option value="P">Perempuan</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Nama Ibu Kandung Pd</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_nama_ibu_kandung_pd" name="_nama_ibu_kandung_pd" value="" required />
+                    <div class="input-group   input-primary">
+                        <span class="input-group-text">Nama Ibu</span>
+                        <input type="text" class="form-control" id="_nama_ibu_kandung_pd" name="_nama_ibu_kandung_pd" value="" required />
+                    </div>
                 </div>
             </div>
 
