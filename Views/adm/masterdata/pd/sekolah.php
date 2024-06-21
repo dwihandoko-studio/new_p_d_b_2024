@@ -22,7 +22,7 @@
                             </div>
                             <div class="col-8">
                                 <div class="row">
-                                    <div class="col-4">
+                                    <div class="col-3">
                                         <div class="mb-3">
                                             <label for="_filter_kec" class="col-form-label">Filter Kecamatan:</label>
                                             <select class="form-control filter-kec" id="_filter_kec" name="_filter_kec" width="100%" style="width: 100%;">
@@ -37,7 +37,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-3">
                                         <div class="mb-3">
                                             <label for="_filter_jenjang" class="col-form-label">Filter Jenjang:</label>
                                             <select class="form-control filter-jenjang" id="_filter_jenjang" name="_filter_jenjang" width="100%" style="width: 100%;">
@@ -52,8 +52,10 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-3">
                                         <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnupload"><i class="fas fa-upload font-size-16 align-middle me-2"></i> UPLOAD</button> &nbsp;&nbsp;
+                                    </div>
+                                    <div class="col-3">
                                         <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnaddpd"><i class="las la-plus-circle font-size-16 align-middle me-2"></i> TAMBAH PD</button> &nbsp;&nbsp;
                                     </div>
                                 </div>
