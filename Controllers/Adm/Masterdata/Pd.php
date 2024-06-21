@@ -1169,86 +1169,79 @@ class Pd extends BaseController
                 $pdId = $uuidLib->v4();
 
                 $this->_db->transBegin();
-                try {
-                    $this->_db->table('dapo_peserta')->insert([
+                // try {
+                $this->_db->table('dapo_peserta')->insert([
+                    'peserta_didik_id' => $pdId,
+                    'sekolah_id' => $sekolah_id,
+                    'nama' => $nama,
+                    'tempat_lahir' => $tempat_lahir,
+                    'tanggal_lahir' => $tanggal_lahir,
+                    'jenis_kelamin' => $jenis_kelamin,
+                    'nisn' => '-',
+                    'nik' => $nik,
+                    'no_kk' => $kk,
+                    'kab' => $kab,
+                    'kec' => $kec,
+                    'kel' => $kel,
+                    'kode_wilayah' => $kel,
+                    'alamat_jalan' => '-',
+                    'desa_kelurahan' => '-',
+                    'rt' => 0,
+                    'rw' => 0,
+                    'nama_dusun' => '-',
+                    'nama_ibu_kandung' => $nama_ibu_kandung,
+                    'tingkat_pendidikan_id' => $tingkat_pendidikan,
+                    'dusun' => $dusun,
+                    'lintang' => $lintang,
+                    'bujur' => $bujur,
+                    'is_edited' => 0,
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]);
+                if ($this->_db->affectedRows() > 0) {
+                    $characters = array_merge(range('A', 'Z'), range(0, 9));
+                    $randomString = '';
+                    for ($i = 0; $i < 6; $i++) {
+                        $randomIndex = mt_rand(0, count($characters) - 1);
+                        $randomString .= $characters[$randomIndex];
+                    }
+                    $password = $randomString;
+                    $passwordFix = password_hash($password, PASSWORD_BCRYPT);
+
+                    $uuidLib = new Uuid();
+
+                    $dataUser = [
+                        'id' => $uuidLib->v4(),
+                        'username' => $nik,
+                        'password' => $passwordFix,
+                        'is_active' => 1,
+                        'level' => 5,
+                        'created_at' => date('Y-m-d H:i:s')
+                    ];
+
+                    $dataUserProfile = [
+                        'user_id' => $dataUser['id'],
                         'peserta_didik_id' => $pdId,
-                        'sekolah_id' => $sekolah_id,
+                        'sekolah_id_asal' => $sekolah_id,
+                        'wilayah' => $kel,
                         'nama' => $nama,
-                        'tempat_lahir' => $tempat_lahir,
-                        'tanggal_lahir' => $tanggal_lahir,
-                        'jenis_kelamin' => $jenis_kelamin,
-                        'nisn' => '-',
-                        'nik' => $nik,
-                        'no_kk' => $kk,
-                        'kab' => $kab,
-                        'kec' => $kec,
-                        'kel' => $kel,
-                        'kode_wilayah' => $kel,
-                        'alamat_jalan' => '-',
-                        'desa_kelurahan' => '-',
-                        'rt' => 0,
-                        'rw' => 0,
-                        'nama_dusun' => '-',
-                        'nama_ibu_kandung' => $nama_ibu_kandung,
-                        'tingkat_pendidikan_id' => $tingkat_pendidikan,
-                        'dusun' => $dusun,
-                        'lintang' => $lintang,
-                        'bujur' => $bujur,
-                        'is_edited' => 0,
-                        'created_at' => date('Y-m-d H:i:s'),
-                    ]);
+                        'nama_sekolah_asal' => $refSeklah->nama_sekolah,
+                        'npsn_asal' => $refSeklah->npsn,
+                        'tingkat_pendidikan_asal' => $tingkat_pendidikan,
+                        'acc_reg' => $password,
+                        'created_at' => $dataUser['created_at']
+                    ];
+
+                    $this->_db->table('_users_tb')->insert($dataUser);
                     if ($this->_db->affectedRows() > 0) {
-                        $characters = array_merge(range('A', 'Z'), range(0, 9));
-                        $randomString = '';
-                        for ($i = 0; $i < 6; $i++) {
-                            $randomIndex = mt_rand(0, count($characters) - 1);
-                            $randomString .= $characters[$randomIndex];
-                        }
-                        $password = $randomString;
-                        $passwordFix = password_hash($password, PASSWORD_BCRYPT);
-
-                        $uuidLib = new Uuid();
-
-                        $dataUser = [
-                            'id' => $uuidLib->v4(),
-                            'username' => $nik,
-                            'password' => $passwordFix,
-                            'is_active' => 1,
-                            'level' => 5,
-                            'created_at' => date('Y-m-d H:i:s')
-                        ];
-
-                        $dataUserProfile = [
-                            'user_id' => $dataUser['id'],
-                            'peserta_didik_id' => $pdId,
-                            'sekolah_id_asal' => $sekolah_id,
-                            'wilayah' => $kel,
-                            'nama' => $nama,
-                            'nama_sekolah_asal' => $refSeklah->nama_sekolah,
-                            'npsn_asal' => $refSeklah->npsn,
-                            'tingkat_pendidikan_asal' => $tingkat_pendidikan,
-                            'acc_reg' => $password,
-                            'created_at' => $dataUser['created_at']
-                        ];
-
-                        $this->_db->table('_users_tb')->insert($dataUser);
+                        $this->_db->table('_users_profile_pd')->insert($dataUserProfile);
                         if ($this->_db->affectedRows() > 0) {
-                            $this->_db->table('_users_profile_pd')->insert($dataUserProfile);
-                            if ($this->_db->affectedRows() > 0) {
 
-                                $this->_db->transCommit();
+                            $this->_db->transCommit();
 
-                                $response = new \stdClass;
-                                $response->status = 200;
-                                $response->message = "Data berhasil disimpan.";
-                                return json_encode($response);
-                            } else {
-                                $this->_db->transRollback();
-                                $response = new \stdClass;
-                                $response->status = 400;
-                                $response->message = "Gagal menyimpan data.";
-                                return json_encode($response);
-                            }
+                            $response = new \stdClass;
+                            $response->status = 200;
+                            $response->message = "Data berhasil disimpan.";
+                            return json_encode($response);
                         } else {
                             $this->_db->transRollback();
                             $response = new \stdClass;
@@ -1263,13 +1256,20 @@ class Pd extends BaseController
                         $response->message = "Gagal menyimpan data.";
                         return json_encode($response);
                     }
-                } catch (\Throwable $th) {
+                } else {
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
                     $response->message = "Gagal menyimpan data.";
                     return json_encode($response);
                 }
+                // } catch (\Throwable $th) {
+                //     $this->_db->transRollback();
+                //     $response = new \stdClass;
+                //     $response->status = 400;
+                //     $response->message = "Gagal menyimpan data.";
+                //     return json_encode($response);
+                // }
             }
         } else {
             exit('Maaf tidak dapat diproses');
