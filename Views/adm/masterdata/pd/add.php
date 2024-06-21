@@ -89,7 +89,7 @@
                                 });
                             },
                             complete: function() {},
-                            success: function(resul) {
+                            success: function(response) {
                                 if (response.status == 200) {
                                     Swal.close();
                                     $('#content-addModalLabel').html('SIMPAN DATA PD');

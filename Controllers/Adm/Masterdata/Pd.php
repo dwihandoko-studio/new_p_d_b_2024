@@ -329,14 +329,237 @@ class Pd extends BaseController
                 }
 
                 if ($result) {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = $result;
-                    return json_encode($response);
+                    if (isset($result->message)) {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = $result->message;
+                        return json_encode($response);
+                    } else {
+                        if (count($result) > 0) {
+                            $pdNya = $result[0];;
+                            $x['data'] = $pdNya;
+                            $x['npsn'] = $npsn;
+                            $x['props'] = $this->_db->table('ref_provinsi')
+                                ->get()->getResult();
+                            $x['kabs'] = $this->_db->table('ref_kabupaten')
+                                ->where("left(id,2) = left('{$pdNya->kode_wilayah}',2)")->get()->getResult();
+                            $x['kecs'] = $this->_db->table('ref_kecamatan')
+                                ->where("left(id_kabupaten,4) = left('{$pdNya->kode_wilayah}',4)")->get()->getResult();
+                            $x['kels'] = $this->_db->table('ref_kelurahan')
+                                ->where("left(id_kecamatan,6) = left('{$pdNya->kode_wilayah}',6)")->get()->getResult();
+                            $x['dusuns'] = $this->_db->table('ref_dusun')->orderBy('urut', 'ASC')
+                                ->get()->getResult();
+                            $x['sek'] = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('sekolah_id', $pdNya->sekolah_id)->get()->getRowObject();
+                            $response = new \stdClass;
+                            $response->status = 200;
+                            $response->message = "Berhasil mengambil data";
+                            $response->data = view('adm/masterdata/pd/addPd', $x);
+                            return json_encode($response);
+                        } else {
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Data yang Anda cari tidak ditemukan atau peserta didik tidak berada di Tingkat Akhir.";
+                            return json_encode($response);
+                        }
+                    }
                 } else {
                     $response = new \stdClass;
                     $response->status = 400;
                     $response->message = "Gagal mengambil data.";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function location()
+    {
+        if ($this->request->isAJAX()) {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->userSekolah();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Session expired";
+                return json_encode($response);
+            }
+
+            $lat = htmlspecialchars($this->request->getVar('lat'), true) ?? "";
+            $long = htmlspecialchars($this->request->getVar('long'), true) ?? "";
+
+            if ($lat == "" && $long == "") {
+                $sek = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('sekolah_id', $user->data->sekolah_id)->get()->getRowObject();
+                if ($sek) {
+                    if ($lat == "") {
+                        $lat = $sek->lintang;
+                    }
+                    if ($long == "") {
+                        $lat = $sek->bujur;
+                    }
+                }
+            }
+
+            $x['lat'] = $lat;
+            $x['long'] = $long;
+
+            $response = new \stdClass;
+            $response->status = 200;
+            $response->message = "Permintaan diizinkan";
+            $response->lat = $lat;
+            $response->long = $long;
+            $response->data = view('sek/verval/pd/maps', $x);
+            return json_encode($response);
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function refkab()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->userSekolah();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    return redirect()->to(base_url('auth'));
+                }
+
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+
+                $current = $this->_db->table('ref_kabupaten')
+                    ->where("id_provinsi = '$id'")->get()->getResult();
+
+                if (count($current) > 0) {
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->message = "Permintaan diizinkan";
+                    $response->data = $current;
+                    return json_encode($response);
+                } else {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function refkec()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->userSekolah();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    return redirect()->to(base_url('auth'));
+                }
+
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+
+                $current = $this->_db->table('ref_kecamatan')
+                    ->where("id_kabupaten = '$id'")->get()->getResult();
+
+                if (count($current) > 0) {
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->message = "Permintaan diizinkan";
+                    $response->data = $current;
+                    return json_encode($response);
+                } else {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function refkel()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->userSekolah();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    return redirect()->to(base_url('auth'));
+                }
+
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+
+                $current = $this->_db->table('ref_kelurahan')
+                    ->where("id_kecamatan = '$id'")->get()->getResult();
+
+                if (count($current) > 0) {
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->message = "Permintaan diizinkan";
+                    $response->data = $current;
+                    return json_encode($response);
+                } else {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan";
                     return json_encode($response);
                 }
             }
