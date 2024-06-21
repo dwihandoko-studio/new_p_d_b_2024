@@ -1224,7 +1224,7 @@ class Pd extends BaseController
                         'sekolah_id_asal' => $sekolah_id,
                         'wilayah' => $kel,
                         'nama' => $nama,
-                        'nama_sekolah_asal' => $refSeklah->nama_sekolah,
+                        'nama_sekolah_asal' => $refSeklah->nama,
                         'npsn_asal' => $refSeklah->npsn,
                         'tingkat_pendidikan_asal' => $tingkat_pendidikan,
                         'acc_reg' => $password,
