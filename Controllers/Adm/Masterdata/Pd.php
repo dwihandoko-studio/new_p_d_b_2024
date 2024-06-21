@@ -229,6 +229,122 @@ class Pd extends BaseController
         }
     }
 
+    public function add()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('adm/masterdata/pd/add');
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function cekData()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                '_nisn' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'NISN tidak boleh kosong. ',
+                    ]
+                ],
+                '_npsn' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'NPSN tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('_nisn')
+                    . $this->validator->getError('_npsn');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+
+                $nisn = htmlspecialchars($this->request->getVar('_nisn'), true);
+                $npsn = htmlspecialchars($this->request->getVar('_npsn'), true);
+
+                $curlHandle = curl_init("https://pelayanan.data.kemdikbud.go.id/vci/index.php/CPelayananData/getSiswa?kode_wilayah=120200&token=CD04B72E-17EB-4C2D-9421-DCF4240C7138&nisn=$nisn&npsn=$npsn");
+
+                curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, "GET");
+                curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($curlHandle, CURLOPT_TIMEOUT, 30);
+                curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 30);
+                $send_data         = curl_exec($curlHandle);
+
+                $result = json_decode($send_data);
+
+
+                if (isset($result->error)) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal mengambil data.";
+                    return json_encode($response);
+                }
+
+                if ($result) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = $result;
+                    return json_encode($response);
+                } else {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal mengambil data.";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
     public function saveupload()
     {
         if ($this->request->isAJAX()) {
