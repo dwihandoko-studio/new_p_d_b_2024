@@ -1,16 +1,42 @@
 <form id="formCekData" class="formCekData" action="./cekData" method="post">
     <div class="modal-body">
         <div class="row">
-            <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">NISN</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_nisn" name="_nisn" value="" placeholder="NISN..." required />
+            <div class="col-12">
+                <div class="mb-3">
+                    <label for="_jenis" class="col-form-label">Pilih Jenis PD:</label>
+                    <select class="form-control" id="_jenis" name="_jenis" onchange="changeJenis(this)" width="100%" style="width: 100%;">
+                        <option value="">--Pilih--</option>
+                        <option value="sudah">Sudah Sekolah</option>
+                        <option value="belum">Belum Sekolah</option>
+                    </select>
                 </div>
             </div>
-            <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">NPSN</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_npsn" name="_npsn" placeholder="NPSN..." required />
+            <div class="col-12 content-sudah-sekolah" id="content-sudah-sekolah" style="display: none;">
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">NISN</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="_nisn" name="_nisn" value="" placeholder="NISN..." required />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">NPSN</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="_npsn" name="_npsn" placeholder="NPSN..." required />
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 content-belum-sekolah" id="content-belum-sekolah" style="display: none;">
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">NISN</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="_nisn" name="_nisn" value="" placeholder="NISN..." required />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">NPSN</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="_npsn" name="_npsn" placeholder="NPSN..." required />
+                    </div>
                 </div>
             </div>
         </div>
@@ -21,6 +47,25 @@
     </div>
 </form>
 <script>
+    function changeJenis(event) {
+        const selectedOption = event.value;
+        if (selectedOption === "" || selectedOption === undefined) {
+            $('.content-sudah-sekolah').css('display', 'none');
+            $('.content-belum-sekolah').css('display', 'none');
+        } else {
+            if (selectedOption === "sudah") {
+                $('.content-sudah-sekolah').css('display', 'block');
+                $('.content-belum-sekolah').css('display', 'none');
+            } else if (selectedOption === "belum") {
+                $('.content-sudah-sekolah').css('display', 'none');
+                $('.content-belum-sekolah').css('display', 'block');
+            } else {
+                $('.content-sudah-sekolah').css('display', 'none');
+                $('.content-belum-sekolah').css('display', 'none');
+            }
+        }
+    }
+
     function inputFocus(id) {
         const color = $(id).attr('id');
         $(id).removeAttr('style');
