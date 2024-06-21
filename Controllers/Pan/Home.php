@@ -259,7 +259,7 @@ class Home extends BaseController
                 }
 
                 $date = date('Y-m-d H:i:s');
-                $passwordHas = password_hash($password, PASSWORD_DEFAULT);
+                $passwordHas = password_hash($password, PASSWORD_BCRYPT);
                 $this->_db->transBegin();
                 try {
                     $this->_db->table('_users_tb')->where('id', $oldData->user_id)->update([

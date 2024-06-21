@@ -163,7 +163,7 @@ class Akun extends BaseController
                     $randomString .= $characters[$randomIndex];
                 }
                 $password = $randomString;
-                $passwordFix = password_hash($password, PASSWORD_DEFAULT);
+                $passwordFix = password_hash($password, PASSWORD_BCRYPT);
 
                 $uuidLib = new Uuid();
 

@@ -238,7 +238,7 @@ class Pengguna extends BaseController
                             //     continue;
                             // }
 
-                            // 'password' => password_hash($value->koreg, PASSWORD_DEFAULT),
+                            // 'password' => password_hash($value->koreg, PASSWORD_BCRYPT),
                             $dataUser = [
                                 'id' => $uuidLib->v4(),
                                 'username' => $value->npsn,

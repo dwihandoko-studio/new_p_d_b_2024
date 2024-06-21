@@ -316,7 +316,7 @@ class Pengguna extends BaseController
             if ($current) {
                 $this->_db->transBegin();
                 try {
-                    $this->_db->table('_users_tb')->where('id', $id)->update(['password' => password_hash($password, PASSWORD_DEFAULT), 'updated_at' => date('Y-m-d H:i:s')]);
+                    $this->_db->table('_users_tb')->where('id', $id)->update(['password' => password_hash($password, PASSWORD_BCRYPT), 'updated_at' => date('Y-m-d H:i:s')]);
                     if ($this->_db->affectedRows() > 0) {
                         $this->_db->transCommit();
                         $response = new \stdClass;
@@ -713,7 +713,7 @@ class Pengguna extends BaseController
                 $this->_db->table('_users_tb')->insert([
                     'id' => $data['id'],
                     'email' => $data['email'],
-                    'password' => password_hash('123456', PASSWORD_DEFAULT),
+                    'password' => password_hash('123456', PASSWORD_BCRYPT),
                     'scope' => 'app',
                     'is_active' => $status,
                     'wa_verified' => 0,
@@ -920,7 +920,7 @@ class Pengguna extends BaseController
 
             $data = [
                 'email' => $email,
-                'password' => password_hash($password, PASSWORD_DEFAULT),
+                'password' => password_hash($password, PASSWORD_BCRYPT),
                 'email_verified' => 0,
                 'email_tertaut' => 0,
                 'tautan_email' => NULL,
@@ -1283,7 +1283,7 @@ class Pengguna extends BaseController
                 $this->_db->table('_users_tb')->insert([
                     'id' => $data['id'],
                     'email' => $data['email'],
-                    'password' => password_hash($koregs, PASSWORD_DEFAULT),
+                    'password' => password_hash($koregs, PASSWORD_BCRYPT),
                     'scope' => 'app',
                     'is_active' => 0,
                     'wa_verified' => 0,

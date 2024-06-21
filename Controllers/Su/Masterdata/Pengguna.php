@@ -258,7 +258,7 @@ class Pengguna extends BaseController
                     return json_encode($response);
                 }
 
-                $passwordHas = password_hash($password, PASSWORD_DEFAULT);
+                $passwordHas = password_hash($password, PASSWORD_BCRYPT);
 
                 $uuidLib = new Uuid();
 
@@ -370,7 +370,7 @@ class Pengguna extends BaseController
                     return json_encode($response);
                 }
 
-                $passwordHas = password_hash("123456", PASSWORD_DEFAULT);
+                $passwordHas = password_hash("123456", PASSWORD_BCRYPT);
 
                 $this->_db->transBegin();
                 try {
@@ -492,7 +492,7 @@ class Pengguna extends BaseController
 
                         $dataBerhasil = 0;
                         $dataGagal = 0;
-                        $password = password_hash("123456", PASSWORD_DEFAULT);
+                        $password = password_hash("123456", PASSWORD_BCRYPT);
 
                         foreach ($sekolahs as $key => $value) {
                             // if ($value->koreg == NULL || $value->koreg == "") {
@@ -504,7 +504,7 @@ class Pengguna extends BaseController
                             //     continue;
                             // }
 
-                            // 'password' => password_hash($value->koreg, PASSWORD_DEFAULT),
+                            // 'password' => password_hash($value->koreg, PASSWORD_BCRYPT),
                             $dataUser = [
                                 'id' => $uuidLib->v4(),
                                 'username' => $value->npsn,
@@ -959,7 +959,7 @@ class Pengguna extends BaseController
 
             $data = [
                 'email' => $email,
-                'password' => password_hash($password, PASSWORD_DEFAULT),
+                'password' => password_hash($password, PASSWORD_BCRYPT),
                 'email_verified' => 0,
                 'email_tertaut' => 0,
                 'tautan_email' => NULL,
@@ -1322,7 +1322,7 @@ class Pengguna extends BaseController
                 $this->_db->table('_users_tb')->insert([
                     'id' => $data['id'],
                     'email' => $data['email'],
-                    'password' => password_hash($koregs, PASSWORD_DEFAULT),
+                    'password' => password_hash($koregs, PASSWORD_BCRYPT),
                     'scope' => 'app',
                     'is_active' => 0,
                     'wa_verified' => 0,

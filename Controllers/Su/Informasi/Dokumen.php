@@ -652,7 +652,7 @@ class Dokumen extends BaseController
                     return json_encode($response);
                 }
 
-                $passwordHas = password_hash("123456", PASSWORD_DEFAULT);
+                $passwordHas = password_hash("123456", PASSWORD_BCRYPT);
 
                 $this->_db->transBegin();
                 try {

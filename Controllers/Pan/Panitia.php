@@ -250,7 +250,7 @@ class Panitia extends BaseController
                     return json_encode($response);
                 }
 
-                $passwordHas = password_hash($password, PASSWORD_DEFAULT);
+                $passwordHas = password_hash($password, PASSWORD_BCRYPT);
 
                 $uuidLib = new Uuid();
 
