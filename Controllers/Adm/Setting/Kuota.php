@@ -340,6 +340,217 @@ class Kuota extends BaseController
         }
     }
 
+    public function refSekolah()
+    {
+        if ($this->request->isAJAX()) {
+
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                return redirect()->to(base_url('auth'));
+            }
+
+            $kec = htmlspecialchars($this->request->getVar('kec'), true);
+            $jenjang = htmlspecialchars($this->request->getVar('jenjang'), true);
+
+            $where = "";
+
+            if ($kec === "" && $jenjang === "") {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Pilih kecamatan / jenjang dulu.";
+                return json_encode($response);
+            }
+
+            if ($kec !== "") {
+                if ($jenjang !== "") {
+                    $sekolahs = $this->_db->table('dapo_sekolah')
+                        ->where("kode_kecamatan = '$kec' AND bentuk_pendidikan_id = $jenjang")->orderBy('nama', 'ASC')->get()->getResult();
+                } else {
+                    $sekolahs = $this->_db->table('dapo_sekolah')
+                        ->where("kode_kecamatan = '$kec' AND bentuk_pendidikan_id = $jenjang")->orderBy('nama', 'ASC')->get()->getResult();
+                }
+            } else {
+                if ($jenjang !== "") {
+                    $sekolahs = $this->_db->table('dapo_sekolah')
+                        ->where("bentuk_pendidikan_id = $jenjang AND kode_kabupaten = '120200'")->orderBy('nama', 'ASC')->get()->getResult();
+                } else {
+                    $sekolahs = $this->_db->table('dapo_sekolah')
+                        ->where("kode_kabupaten = '120200'")->orderBy('nama', 'ASC')->get()->getResult();
+                }
+            }
+
+
+            if (count($sekolahs) > 0) {
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = $sekolahs;
+                return json_encode($response);
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Data tidak ditemukan";
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function addSave()
+    {
+        if ($this->request->isAJAX()) {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Session telah habis";
+                return json_encode($response);
+            }
+
+            $rules = [
+                '_jenjang' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'jenjang tidak boleh kosong. ',
+                    ]
+                ],
+                '_kec' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'kecamatan tidak boleh kosong. ',
+                    ]
+                ],
+                '_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'sekolah tidak boleh kosong. ',
+                    ]
+                ],
+                '_kebutuhan' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Jumlah kebutuhan rombel tidak boleh kosong. ',
+                    ]
+                ],
+                '_radius' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Jangkauan Radius Zonasi tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('_jenjang')
+                    . $this->validator->getError('_kec')
+                    . $this->validator->getError('_sekolah')
+                    . $this->validator->getError('_kebutuhan')
+                    . $this->validator->getError('_radius');
+                return json_encode($response);
+            } else {
+
+                $jenjang = htmlspecialchars($this->request->getVar('_jenjang'), true);
+                $kec = htmlspecialchars($this->request->getVar('_kec'), true);
+                $sekolah = htmlspecialchars($this->request->getVar('_sekolah'), true);
+                $kebutuhan = htmlspecialchars($this->request->getVar('_kebutuhan'), true);
+                $radius = htmlspecialchars($this->request->getVar('_radius'), true);
+
+                $oldData = $this->_db->table('_setting_kuota_tb a')
+                    ->select("a.*, b.nama, b.kecamatan, b.bentuk_pendidikan")
+                    ->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id')
+                    ->where('a.sekolah_id', $sekolah)->get()->getRowObject();
+                if ($oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data kuota sudah ada, gunakan menu edit.";
+                    return json_encode($response);
+                }
+
+                $refSekolah = $this->_db->table('dapo_sekolah')->select("sekolah_id, npsn, nama, bentuk_pendidikan_id")->where('sekolah_id', $sekolah)->get()->getRowObject();
+
+                if (!$refSekolah) {
+                    $response = new \stdClass;
+                    $response->code = 400;
+                    $response->message = "Referensi sekolah tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $prosentaseJalur = getProsentaseJalur($jenjang);
+
+                if (!$prosentaseJalur) {
+                    $response = new \stdClass;
+                    $response->code = 400;
+                    $response->message = "Referensi prosentase tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                if ($jenjang == "6" || $jenjang == "10" || $jenjang == "31" || $jenjang == "32" || $jenjang == "33" || $jenjang == "35" || $jenjang == "36") {
+                    $jumlahSiswa = 32 * (int)$kebutuhan;
+                    $kZonasi = ceil(($prosentaseJalur->zonasi / 100) * $jumlahSiswa);
+                    $kAfirmasi = ceil(($prosentaseJalur->afirmasi / 100) * $jumlahSiswa);
+                    $kMutasi = ceil(($prosentaseJalur->mutasi / 100) * $jumlahSiswa);
+                    $kPrestasi = $jumlahSiswa - ($kZonasi + $kAfirmasi + $kMutasi);
+                } else {
+                    $jumlahSiswa = 28 * (int)$kebutuhan;
+                    $kZonasi = ceil(($prosentaseJalur->zonasi / 100) * $jumlahSiswa);
+                    $kAfirmasi = ceil(($prosentaseJalur->afirmasi / 100) * $jumlahSiswa);
+                    $kMutasi = ceil(($prosentaseJalur->mutasi / 100) * $jumlahSiswa);
+                    $kPrestasi = $jumlahSiswa - ($kZonasi + $kAfirmasi + $kMutasi);
+                }
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('_setting_kuota_tb')->insert([
+                        'sekolah_id' => $sekolah,
+                        'bentuk_pendidikan_id' => $jenjang,
+                        'npsn' => $refSekolah->npsn,
+                        'jumlah_kelas' => $kebutuhan,
+                        'jumlah_rombel_current' => $kebutuhan,
+                        'jumlah_rombel_kebutuhan' => $kebutuhan,
+                        'zonasi' => $kZonasi,
+                        'afirmasi' => $kAfirmasi,
+                        'mutasi' => $kMutasi,
+                        'prestasi' => $kPrestasi,
+                        'radius_zonasi' => $radius,
+                        'is_locked' => 1,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
+                    if ($this->_db->affectedRows() > 0) {
+                        $this->_db->transCommit();
+
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->message = "Data berhasil dimpan.";
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menyimpan data.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal menyimpan data. with e";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
     public function editSave()
     {
         if ($this->request->isAJAX()) {
