@@ -86,9 +86,7 @@
                 'Peringatan!',
                 "Silahkan pilih jenis pd.",
                 'warning'
-            ).then((valRes) => {
-                nisn.focus();
-            });
+            ).then((valRes) => {});
             return false;
         }
 
