@@ -5,13 +5,8 @@
                 <label for="_jenjang" class="col-form-label">Jenjang:</label>
                 <select class="form-control" id="_jenjang" name="_jenjang" onchange="changedJenjang(event)" width="100%" style="width: 100%;" required>
                     <option value="">--Pilih--</option>
-                    <?php if (isset($jenjangs)) {
-                        if (count($jenjangs) > 0) {
-                            foreach ($jenjangs as $key => $value) { ?>
-                                <option value="<?= $value->bentuk_pendidikan_id ?>"><?= $value->bentuk_pendidikan ?></option>
-                    <?php }
-                        }
-                    } ?>
+                    <option value="5">SD</option>
+                    <option value="6">SMP</option>
                 </select>
             </div>
             <div class="mb-3 row">
