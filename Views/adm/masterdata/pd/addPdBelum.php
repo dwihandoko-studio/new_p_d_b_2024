@@ -19,7 +19,7 @@
                 <label class="col-sm-3 col-form-label">Kartu Keluarga</label>
                 <div class="col-sm-9">
                     <div class="input-group   input-primary">
-                        <span class="input-group-text">KK</span>
+                        <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">KK</span>
                         <input type="text" class="form-control" id="_kk" name="_kk" value="<?= $kk ?>" readonly />
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                 <label class="col-sm-3 col-form-label">Nama Peserta Didik</label>
                 <div class="col-sm-9">
                     <div class="input-group   input-primary">
-                        <span class="input-group-text">Nama</span>
+                        <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Nama</span>
                         <input type="text" class="form-control" id="_nama_pd" name="_nama_pd" value="" required />
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                 <label class="col-sm-3 col-form-label">Tempat Lahir Pd</label>
                 <div class="col-sm-9">
                     <div class="input-group   input-primary">
-                        <span class="input-group-text">Tempat lahir</span>
+                        <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Tempat lahir</span>
                         <input type="text" class="form-control" id="_tempat_lahir_pd" name="_tempat_lahir_pd" value="" required />
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                 <label class="col-sm-3 col-form-label">Tanggal Lahir Pd</label>
                 <div class="col-sm-9">
                     <div class="input-group   input-primary">
-                        <span class="input-group-text">Tgl Lahir</span>
+                        <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Tgl Lahir</span>
                         <input type="date" class="form-control" id="_tanggal_lahir_pd" name="_tanggal_lahir_pd" value="" required />
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                 <label class="col-sm-3 col-form-label">Jenis Kelamin Pd</label>
                 <div class="col-sm-9">
                     <div class="input-group   input-primary">
-                        <span class="input-group-text">JK</span>
+                        <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">JK</span>
                         <select class="form-control" id="_jenis_kelamin_pd" name="_jenis_kelamin_pd" width="100%" style="width: 100%;" required>
                             <option value="">--Pilih--</option>
                             <option value="L">Laki-laki</option>
@@ -68,7 +68,7 @@
                 <label class="col-sm-3 col-form-label">Nama Ibu Kandung Pd</label>
                 <div class="col-sm-9">
                     <div class="input-group   input-primary">
-                        <span class="input-group-text">Nama Ibu</span>
+                        <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Nama Ibu</span>
                         <input type="text" class="form-control" id="_nama_ibu_kandung_pd" name="_nama_ibu_kandung_pd" value="" required />
                     </div>
                 </div>
