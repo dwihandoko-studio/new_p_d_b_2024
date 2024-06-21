@@ -168,7 +168,7 @@
             }
 
         });
-    }
+        // }
     }
 
     function changedSekolah(event) {
