@@ -58,8 +58,8 @@
                                     <h4 class="text-center mb-4">Sign in your account</h4>
                                     <form action="./auth/login">
                                         <div class="mb-3">
-                                            <label class="mb-1"><strong>Email</strong></label>
-                                            <input id="username" name="username" type="text" class="form-control" value="" placeholder="example@example.com" required />
+                                            <label class="mb-1"><strong>Username</strong></label>
+                                            <input id="username" name="username" type="text" class="form-control" value="" placeholder="Username..." required />
                                         </div>
                                         <div class="mb-3">
                                             <label class="mb-1"><strong>Password</strong></label>

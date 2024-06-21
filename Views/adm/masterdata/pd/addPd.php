@@ -1,4 +1,5 @@
 <form id="formAddData" class="formAddData" action="./addSave" method="post">
+    <input type="hidden" id="_data_pd" name="_data_pd" value="<?= json_encode($data) ?>" />
     <div class="modal-body">
         <div class="row">
             <div class="mb-3 row">
@@ -150,6 +151,24 @@
                         <div class="col-3">
                             <button type="button" onclick="ambilKoordinat(this);" style="width: 100%;" class="btn btn-sm btn-info waves-effect waves-light">Ambil Koordinat</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-3 col-form-label">NIK</label>
+                <div class="col-sm-9">
+                    <div class="input-group   input-primary">
+                        <span class="input-group-text">NIK</span>
+                        <input type="text" class="form-control" id="_nik" name="_nik" value="<?= $data->nik ?>" required />
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-3 col-form-label">Kartu Keluarga</label>
+                <div class="col-sm-9">
+                    <div class="input-group   input-primary">
+                        <span class="input-group-text">KK</span>
+                        <input type="text" class="form-control" id="_kk" name="_kk" value="" required />
                     </div>
                 </div>
             </div>
@@ -504,6 +523,9 @@
     function validateForm(formElement) {
         const latitudeInput = formElement.querySelector('#_lintang');
         const longitudeInput = formElement.querySelector('#_bujur');
+        const nikInput = formElement.querySelector('#_nik');
+        const kkInput = formElement.querySelector('#_kk');
+        const pdidInput = formElement.querySelector('#_peserta_didik_id');
 
         if (!validateLat(latitudeInput.value)) {
             Swal.fire(
@@ -529,6 +551,55 @@
             return false; // Prevent form submission if validation fails
         }
 
+        if (nikInput.value === "" || nikInput.value === undefined) {
+            Swal.fire(
+                'Failed!',
+                "Inputan NIK tidak valid.",
+                'warning'
+            ).then((valR) => {
+                nikInput.focus();
+            });
+
+            return false; // Prevent form submission if validation fails
+        }
+
+        if (kkInput.value === "" || kkInput.value === undefined) {
+            Swal.fire(
+                'Failed!',
+                "Inputan KK tidak valid.",
+                'warning'
+            ).then((valR) => {
+                kkInput.focus();
+            });
+
+            return false; // Prevent form submission if validation fails
+        }
+
+        if (pdidInput.value === "" || pdidInput.value === undefined) {
+
+            Swal.fire(
+                'Failed!',
+                "Inputan Peserta didik id tidak valid.",
+                'warning'
+            ).then((valR) => {
+                pdidInput.focus();
+            });
+
+            return false; // Prevent form submission if validation fails
+        }
+
+        if ((pdidInput.value).length !== 36) {
+            Swal.fire(
+                'Failed!',
+                "Inputan Peserta didik id tidak valid.",
+                'warning'
+            ).then((valR) => {
+                pdidInput.focus();
+            });
+
+            return false; // Prevent form submission if validation fails
+        }
+
         // If validation passes, you can submit the form here
         // (e.g., formElement.submit())
 
@@ -541,41 +612,22 @@
         formAdd.addEventListener('submit', function(event) { // Prevent default form submission
             if (validateForm(this)) {
                 event.preventDefault();
-                const id = document.getElementsByName('_id')[0].value;
                 const nama = document.getElementsByName('_nama')[0].value;
-                const nik = document.getElementsByName('_nik')[0].value;
-                const kk = document.getElementsByName('_kk')[0].value;
-                const kab = document.getElementsByName('_kab')[0].value;
-                const kec = document.getElementsByName('_kec')[0].value;
-                const kel = document.getElementsByName('_kel')[0].value;
-                const dusun = document.getElementsByName('_dusun')[0].value;
-                const lintang = document.getElementsByName('_lintang')[0].value;
-                const bujur = document.getElementsByName('_bujur')[0].value;
 
                 Swal.fire({
-                    title: 'Apakah anda yakin ingin menyimpan perubahan data PD ini?',
-                    text: "Update Data PD: " + nama,
+                    title: 'Apakah anda yakin ingin menyimpan data PD Baru ini?',
+                    text: "Simpan PD: " + nama,
                     showCancelButton: true,
                     icon: 'question',
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, UPDATE!'
+                    confirmButtonText: 'Ya, SIMPAN!'
                 }).then((result) => {
                     if (result.value) {
                         $.ajax({
-                            url: "./editSave",
+                            url: "./addSave",
                             type: 'POST',
-                            data: {
-                                id: id,
-                                nik: nik,
-                                kk: kk,
-                                kab: kab,
-                                kec: kec,
-                                kel: kel,
-                                dusun: dusun,
-                                lintang: lintang,
-                                bujur: bujur,
-                            },
+                            data: $(this).serialize(),
                             dataType: 'JSON',
                             beforeSend: function() {
                                 Swal.fire({

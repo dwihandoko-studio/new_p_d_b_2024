@@ -722,4 +722,247 @@ class Pd extends BaseController
             exit('Maaf tidak dapat diproses');
         }
     }
+
+    public function addSave()
+    {
+        if ($this->request->isAJAX()) {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->userSekolah();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Session telah habis";
+                return json_encode($response);
+            }
+
+            $rules = [
+                '_data_pd' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'id tidak boleh kosong. ',
+                    ]
+                ],
+                '_nik' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nik tidak boleh kosong. ',
+                    ]
+                ],
+                '_kk' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'No KK tidak boleh kosong. ',
+                    ]
+                ],
+                '_kab' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kabupaten tidak boleh kosong. ',
+                    ]
+                ],
+                '_kec' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kecamatan tidak boleh kosong. ',
+                    ]
+                ],
+                '_kel' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kelurahan tidak boleh kosong. ',
+                    ]
+                ],
+                '_dusun' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Dusun tidak boleh kosong. ',
+                    ]
+                ],
+                '_lintang' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Lintang tidak boleh kosong. ',
+                    ]
+                ],
+                '_bujur' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Bujur tidak boleh kosong. ',
+                    ]
+                ],
+                '_peserta_didik_id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Peserta didik id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('_data_pd')
+                    . $this->validator->getError('_nik')
+                    . $this->validator->getError('_kk')
+                    . $this->validator->getError('_kab')
+                    . $this->validator->getError('_kec')
+                    . $this->validator->getError('_kel')
+                    . $this->validator->getError('_dusun')
+                    . $this->validator->getError('_lintang')
+                    . $this->validator->getError('_bujur')
+                    . $this->validator->getError('_peserta_didik_id');
+                return json_encode($response);
+            } else {
+
+                $dataPd = htmlspecialchars($this->request->getVar('_data_pd'), true);
+                $nik = htmlspecialchars($this->request->getVar('_nik'), true);
+                $kk = htmlspecialchars($this->request->getVar('_kk'), true);
+                $kab = htmlspecialchars($this->request->getVar('_kab'), true);
+                $kec = htmlspecialchars($this->request->getVar('_kec'), true);
+                $kel = htmlspecialchars($this->request->getVar('_kel'), true);
+                $dusun = htmlspecialchars($this->request->getVar('_dusun'), true);
+                $lintang = htmlspecialchars($this->request->getVar('_lintang'), true);
+                $bujur = htmlspecialchars($this->request->getVar('_bujur'), true);
+                $pdId = htmlspecialchars($this->request->getVar('_peserta_didik_id'), true);
+
+                $oldData = $this->_db->table('dapo_peserta')->where('peserta_didik_id', $pdId)->get()->getRowObject();
+                if ($oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Peserta didik sudah ada dengan Nisn: $oldData->nisn ($oldData->nama).";
+                    return json_encode($response);
+                }
+
+                $dataPdFix = json_decode($dataPd);
+                $refSeklah = $this->_db->table('dapo_sekolah')->where('sekolah_id', $dataPdFix->sekolah_id)->get()->getRowObject();
+                if (!$refSeklah) {
+
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Referensi sekolah asal PD tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('dapo_peserta')->insert([
+                        'peserta_didik_id' => $pdId,
+                        'sekolah_id' => $dataPdFix->sekolah_id,
+                        'nama' => $dataPdFix->nama,
+                        'tempat_lahir' => $dataPdFix->tempat_lahir,
+                        'tanggal_lahir' => $dataPdFix->tanggal_lahir,
+                        'jenis_kelamin' => $dataPdFix->jenis_kelamin,
+                        'nisn' => $dataPdFix->nisn,
+                        'nik' => $nik,
+                        'no_kk' => $kk,
+                        'kab' => $kab,
+                        'kec' => $kec,
+                        'kel' => $kel,
+                        'kode_wilayah' => $kel,
+                        'alamat_jalan' => $dataPdFix->alamat_jalan,
+                        'desa_kelurahan' => $dataPdFix->desa_kelurahan,
+                        'rt' => $dataPdFix->rt,
+                        'rw' => $dataPdFix->rw,
+                        'nama_dusun' => $dataPdFix->nama_dusun,
+                        'nama_ibu_kandung' => $dataPdFix->nama_ibu_kandung,
+                        'pekerjaan_ibu' => $dataPdFix->pekerjaan_ibu,
+                        'penghasilan_ibu' => $dataPdFix->penghasilan_ibu,
+                        'nama_ayah' => $dataPdFix->nama_ayah,
+                        'pekerjaan_ayah' => $dataPdFix->pekerjaan_ayah,
+                        'penghasilan_ayah' => $dataPdFix->penghasilan_ayah,
+                        'nama_wali' => $dataPdFix->nama_wali,
+                        'pekerjaan_wali' => $dataPdFix->pekerjaan_wali,
+                        'penghasilan_wali' => $dataPdFix->penghasilan_wali,
+                        'kebutuhan_khusus' => $dataPdFix->kebutuhan_khusus,
+                        'no_kip' => $dataPdFix->no_kip,
+                        'no_pkh' => $dataPdFix->no_pkh,
+                        'tingkat_pendidikan_id' => $dataPdFix->tingkat_pendidikan,
+                        'flag_pip' => $dataPdFix->flag_pip,
+                        'dusun' => $dusun,
+                        'lintang' => $lintang,
+                        'bujur' => $bujur,
+                        'is_edited' => 0,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
+                    if ($this->_db->affectedRows() > 0) {
+                        $characters = array_merge(range('A', 'Z'), range(0, 9));
+                        $randomString = '';
+                        for ($i = 0; $i < 6; $i++) {
+                            $randomIndex = mt_rand(0, count($characters) - 1);
+                            $randomString .= $characters[$randomIndex];
+                        }
+                        $password = $randomString;
+                        $passwordFix = password_hash($password, PASSWORD_BCRYPT);
+
+                        $uuidLib = new Uuid();
+
+                        $dataUser = [
+                            'id' => $uuidLib->v4(),
+                            'username' => $dataPdFix->nisn,
+                            'password' => $passwordFix,
+                            'is_active' => 1,
+                            'level' => 5,
+                            'created_at' => date('Y-m-d H:i:s')
+                        ];
+
+                        $dataUserProfile = [
+                            'user_id' => $dataUser['id'],
+                            'peserta_didik_id' => $pdId,
+                            'sekolah_id_asal' => $dataPdFix->sekolah_id,
+                            'wilayah' => $kel,
+                            'nama' => $dataPdFix->nama,
+                            'nama_sekolah_asal' => $refSeklah->nama_sekolah,
+                            'npsn_asal' => $refSeklah->npsn,
+                            'tingkat_pendidikan_asal' => $dataPdFix->tingkat_pendidikan_id,
+                            'acc_reg' => $password,
+                            'created_at' => $dataUser['created_at']
+                        ];
+
+                        $this->_db->table('_users_tb')->insert($dataUser);
+                        if ($this->_db->affectedRows() > 0) {
+                            $this->_db->table('_users_profile_pd')->insert($dataUserProfile);
+                            if ($this->_db->affectedRows() > 0) {
+
+                                $this->_db->transCommit();
+
+                                $response = new \stdClass;
+                                $response->status = 200;
+                                $response->message = "Data berhasil disimpan.";
+                                return json_encode($response);
+                            } else {
+                                $this->_db->transRollback();
+                                $response = new \stdClass;
+                                $response->status = 400;
+                                $response->message = "Gagal menyimpan data.";
+                                return json_encode($response);
+                            }
+                        } else {
+                            $this->_db->transRollback();
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Gagal menyimpan data.";
+                            return json_encode($response);
+                        }
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menyimpan data.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal menyimpan data.";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
 }
