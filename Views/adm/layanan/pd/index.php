@@ -94,18 +94,42 @@
                 },
                 {
                     "targets": 2,
+                    "orderable": false,
                     "type": 'string',
                 },
                 {
                     "targets": 3,
+                    "orderable": false,
                     "type": 'string',
                 },
                 {
                     "targets": 4,
+                    "orderable": false,
                     "type": 'string',
                 },
                 {
                     "targets": 5,
+                    "orderable": false,
+                    "type": 'string',
+                },
+                {
+                    "targets": 6,
+                    "orderable": false,
+                    "type": 'string',
+                },
+                {
+                    "targets": 7,
+                    "orderable": false,
+                    "type": 'string',
+                },
+                {
+                    "targets": 8,
+                    "orderable": false,
+                    "type": 'string',
+                },
+                {
+                    "targets": 9,
+                    "orderable": false,
                     "type": 'string',
                 }
             ]

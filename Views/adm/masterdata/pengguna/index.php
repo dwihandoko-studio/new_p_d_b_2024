@@ -295,6 +295,30 @@
             "columnDefs": [{
                 "targets": 0,
                 "orderable": false,
+            }, {
+                "targets": 1,
+                "orderable": false,
+                "type": 'string',
+            }, {
+                "targets": 2,
+                "orderable": false,
+                "type": 'string',
+            }, {
+                "targets": 3,
+                "orderable": false,
+                "type": 'string',
+            }, {
+                "targets": 4,
+                "orderable": false,
+                "type": 'string',
+            }, {
+                "targets": 5,
+                "orderable": false,
+                "type": 'string',
+            }, {
+                "targets": 6,
+                "orderable": false,
+                "type": 'string',
             }],
         });
         $('#_filter_role').change(function() {
