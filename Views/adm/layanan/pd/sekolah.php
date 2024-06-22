@@ -52,9 +52,9 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-3">
+                                    <!-- <div class="col-3">
                                         <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnupload"><i class="fas fa-upload font-size-16 align-middle me-2"></i> UPLOAD</button> &nbsp;&nbsp;
-                                    </div>
+                                    </div> -->
                                     <div class="col-3">
                                         <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnaddpd"><i class="las la-plus-circle font-size-16 align-middle me-2"></i> TAMBAH PD</button> &nbsp;&nbsp;
                                     </div>
