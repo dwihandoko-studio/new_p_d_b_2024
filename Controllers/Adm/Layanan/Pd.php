@@ -182,7 +182,7 @@ class Pd extends BaseController
         $name = htmlspecialchars($this->request->getGet('n'), true);
         $data['title'] = "DATA PESERTA DIDIK SEKOLAH $name";
         $data['id'] = $id;
-        $data['sekolah'] = $name;
+        $data['nama_sekolah'] = $name;
         $data['user'] = $user->data;
         $data['level'] = $user->level;
         $data['level_nama'] = $user->level_nama;
@@ -919,7 +919,7 @@ class Pd extends BaseController
                 $pdf->Ln(20);
                 $pdf->MultiCell(180, 10, $html2, 0, 'C', false, 1, 20, null, true, 0, true);
                 $pdf->Ln(20);
-                $pdf->MultiCell(70, 20, "OPERATOR {$pd->nama_sekolah_asal}", 0, 'L', false, 1, 130, null, true, 0, true);
+                $pdf->MultiCell(70, 20, "PANITIA PPDB DINAS,", 0, 'L', false, 1, 130, null, true, 0, true);
                 $pdf->Ln(10);
                 $pdf->MultiCell(70, 20, $user->data->nama, 0, 'L', false, 1, 130, null, true, 0, true);
 

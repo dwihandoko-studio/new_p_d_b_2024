@@ -4,6 +4,7 @@ namespace App\Controllers\Adm\Layanan;
 
 use App\Controllers\BaseController;
 use App\Models\Adm\Layanan\AkunModel;
+use App\Models\Adm\Masterdata\SekolahpdModel;
 use Config\Services;
 use App\Libraries\Profilelib;
 use App\Libraries\Apilib;
@@ -25,6 +26,41 @@ class Akun extends BaseController
     }
 
     public function getAll()
+    {
+        $request = Services::request();
+        $datamodel = new SekolahpdModel($request);
+
+
+        $lists = $datamodel->get_datatables();
+        $data = [];
+        $no = $request->getPost("start");
+        foreach ($lists as $list) {
+            $no++;
+            $row = [];
+
+            $row[] = $no;
+            $action = '<a class="btn btn-primary" href="./detaillist?id=' . $list->sekolah_id . '&n=' . $list->nama . '"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
+                                ';
+
+            $row[] = $action;
+            $row[] = $list->nama;
+            $row[] = $list->npsn;
+            $row[] = $list->bentuk_pendidikan;
+            $row[] = $list->kecamatan;
+            $row[] = $list->jumlah_siswa;
+
+            $data[] = $row;
+        }
+        $output = [
+            "draw" => $request->getPost('draw'),
+            "recordsTotal" => $datamodel->count_all(),
+            "recordsFiltered" => $datamodel->count_filtered(),
+            "data" => $data
+        ];
+        echo json_encode($output);
+    }
+
+    public function getAllDetail()
     {
         $request = Services::request();
         $datamodel = new AkunModel($request);
@@ -73,7 +109,7 @@ class Akun extends BaseController
 
     public function data()
     {
-        $data['title'] = 'AKUN PESERTA DIDIK';
+        $data['title'] = 'AKUN PESERTA DIDIK SEKOLAH';
         $Profilelib = new Profilelib();
         $user = $Profilelib->user();
         if ($user->status != 200) {
@@ -82,6 +118,30 @@ class Akun extends BaseController
             return redirect()->to(base_url('auth'));
         }
 
+        $data['user'] = $user->data;
+        $data['level'] = $user->level;
+        $data['level_nama'] = $user->level_nama;
+        $data['kecamatans'] = $this->_db->table('ref_kecamatan')->orderBy('nama', 'ASC')->get()->getResult();
+        $data['jenjangs'] = $this->_db->table('dapo_sekolah')->select("bentuk_pendidikan_id, bentuk_pendidikan, count(bentuk_pendidikan_id) as jumlah")->groupBy('bentuk_pendidikan_id')->orderBy('bentuk_pendidikan', 'ASC')->get()->getResult();
+
+        return view('adm/layanan/akun/sekolah', $data);
+    }
+
+    public function detaillist()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
+
+        $id = htmlspecialchars($this->request->getGet('id'), true);
+        $name = htmlspecialchars($this->request->getGet('n'), true);
+        $data['title'] = "DATA PESERTA DIDIK SEKOLAH $name";
+        $data['id'] = $id;
+        $data['sekolah'] = $name;
         $data['user'] = $user->data;
         $data['level'] = $user->level;
         $data['level_nama'] = $user->level_nama;
