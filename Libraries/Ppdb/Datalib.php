@@ -316,14 +316,14 @@ class Datalib
             if ($months >= 6) {
                 $response = new \stdClass;
                 $response->code = 201;
-                $response->message = "Umur valid, dengan syarat.";
+                $response->message = "Usia peserta per-tanggal 1 Juli 2024 adalah $years tahun $months bulan. Selanjutnya dapat mengikuti PPDB TA. 2024/2025 dengan syarat memiliki Surat rekomendasi tertulis dari psikolog profesional/dewan guru Sekolah (Permendikbud No. 1 Tahun 2021 tentang PPDB).";
                 return $response;
             }
         }
 
         $response = new \stdClass;
         $response->code = 400;
-        $response->message = "Maaf, Saat ini Usia anda $years tahun $months bulan, belum mencukupi untuk mendaftar ke sekolah tingkat jenjang yang dituju. (Permendikbud No. 1 Tahun 2021 Tentang PPDB). ";
+        $response->message = "Maaf, Usia peserta per-tanggal 1 Juli 2024 adalah $years tahun $months bulan, belum mencukupi untuk mendaftar ke sekolah tingkat jenjang yang dituju. (Permendikbud No. 1 Tahun 2021 Tentang PPDB). ";
         return $response;
     }
 }
