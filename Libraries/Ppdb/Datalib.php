@@ -323,7 +323,7 @@ class Datalib
 
         $response = new \stdClass;
         $response->code = 400;
-        $response->message = "Maaf, Saat ini Usia belum mencukupi untuk mendaftar ke sekolah tingkat jenjang yang dituju. (Permendikbud No. 1 Tahun 2021 Tentang PPDB). ";
+        $response->message = "Maaf, Saat ini Usia anda $years tahun $months bulan, belum mencukupi untuk mendaftar ke sekolah tingkat jenjang yang dituju. (Permendikbud No. 1 Tahun 2021 Tentang PPDB). ";
         return $response;
     }
 }
