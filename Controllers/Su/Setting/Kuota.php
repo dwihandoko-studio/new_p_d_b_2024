@@ -510,43 +510,43 @@ class Kuota extends BaseController
                 }
 
                 $this->_db->transBegin();
-                try {
-                    $this->_db->table('_setting_kuota_tb')->insert([
-                        'sekolah_id' => $sekolah,
-                        'bentuk_pendidikan_id' => $jenjang,
-                        'npsn' => $refSekolah->npsn,
-                        'jumlah_kelas' => $kebutuhan,
-                        'jumlah_rombel_current' => $kebutuhan,
-                        'jumlah_rombel_kebutuhan' => $kebutuhan,
-                        'zonasi' => $kZonasi,
-                        'afirmasi' => $kAfirmasi,
-                        'mutasi' => $kMutasi,
-                        'prestasi' => $kPrestasi,
-                        'radius_zonasi' => $radius,
-                        'is_locked' => 1,
-                        'created_at' => date('Y-m-d H:i:s'),
-                    ]);
-                    if ($this->_db->affectedRows() > 0) {
-                        $this->_db->transCommit();
+                // try {
+                $this->_db->table('_setting_kuota_tb')->insert([
+                    'sekolah_id' => $sekolah,
+                    'bentuk_pendidikan_id' => $jenjang,
+                    'npsn' => $refSekolah->npsn,
+                    'jumlah_kelas' => $kebutuhan,
+                    'jumlah_rombel_current' => $kebutuhan,
+                    'jumlah_rombel_kebutuhan' => $kebutuhan,
+                    'zonasi' => $kZonasi,
+                    'afirmasi' => $kAfirmasi,
+                    'mutasi' => $kMutasi,
+                    'prestasi' => $kPrestasi,
+                    'radius_zonasi' => $radius,
+                    'is_locked' => 1,
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]);
+                if ($this->_db->affectedRows() > 0) {
+                    $this->_db->transCommit();
 
-                        $response = new \stdClass;
-                        $response->status = 200;
-                        $response->message = "Data berhasil dimpan.";
-                        return json_encode($response);
-                    } else {
-                        $this->_db->transRollback();
-                        $response = new \stdClass;
-                        $response->status = 400;
-                        $response->message = "Gagal menyimpan data.";
-                        return json_encode($response);
-                    }
-                } catch (\Throwable $th) {
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->message = "Data berhasil dimpan.";
+                    return json_encode($response);
+                } else {
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->message = "Gagal menyimpan data. with e";
+                    $response->message = "Gagal menyimpan data.";
                     return json_encode($response);
                 }
+                // } catch (\Throwable $th) {
+                //     $this->_db->transRollback();
+                //     $response = new \stdClass;
+                //     $response->status = 400;
+                //     $response->message = "Gagal menyimpan data. with e";
+                //     return json_encode($response);
+                // }
             }
         } else {
             exit('Maaf tidak dapat diproses');
