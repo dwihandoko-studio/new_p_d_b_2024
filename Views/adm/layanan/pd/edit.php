@@ -7,8 +7,9 @@
     <div class="container-fluid">
         <div class="row page-titles">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active"><a href="javascript:void(0)">Peserta Didik</a></li>
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Tingkat Akhir</a></li>
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">Layanan</a></li>
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">Peserta Didik Tingkat Akhir</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Edit Domisili</a></li>
             </ol>
         </div>
         <div class="row">
@@ -27,17 +28,6 @@
                         </div>
                     <?php } else { ?>
                         <div class="card">
-                            <div class="card-header">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="mb-3">
-                                            <label for="_filter_pd" class="col-form-label">Pilih PD:</label>
-                                            <select class="js-data-pd-ajax w-100" style="width: 100%;" id="_filter_pd" name="_filter_pd" onchange="changePd(this)">
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="card-body">
                                 <div class="contentEditForm" id="contentEditForm"></div>
                             </div>
@@ -45,17 +35,6 @@
                     <?php } ?>
                 <?php } else { ?>
                     <div class="card">
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="mb-3">
-                                        <label for="_filter_pd" class="col-form-label">Pilih PD:</label>
-                                        <select class="js-data-pd-ajax w-100" style="width: 100%;" id="_filter_pd" name="_filter_pd" onchange="changePd(this)">
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="card-body">
                             <div class="contentEditForm" id="contentEditForm"></div>
                         </div>
