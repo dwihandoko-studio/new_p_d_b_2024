@@ -84,127 +84,46 @@
 
 <?= $this->section('scriptBottom'); ?>
 <script>
-    $('#_filter_pd').select2({
-        dropdownParent: ".container-fluid",
-        allowClear: true,
-        width: "100%",
-        ajax: {
-            url: "./getPd",
+    function changePd(id) {
+        $.ajax({
+            url: "./changedPd",
             type: 'POST',
-            dataType: 'json',
-            delay: 250,
-            data: function(params) {
-                return {
-                    keyword: params.term,
-                    
-                };
+            data: {
+                id: id,
             },
-            processResults: function(data, params) {
-                if (data.status === 200) {
-                    return {
-                        results: data.data
-                    };
-                } else {
-                    return {
-                        results: []
-                    };
-                }
-            },
-            cache: true
-        },
-        placeholder: 'Cari Peserta Didik (NISN / Nama minimal 4 karakter)',
-        minimumInputLength: 4,
-        escapeMarkup: function(markup) {
-            return markup;
-        },
-        templateResult: formatRepo,
-        templateSelection: formatRepoSelection
-    });
-
-    function formatRepo(repo) {
-        if (repo.loading) {
-            return repo.text;
-        }
-
-        var markup = $(
-            "<div class='select2-result-repository clearfix'>" +
-            "<div class='select2-result-repository__meta'>" +
-            "<div class='select2-result-repository__title'></div>" +
-            "<div class='select2-result-repository__description'></div>" +
-            "</div>" +
-            "</div>"
-        );
-
-        markup.find(".select2-result-repository__title").text(repo.nama);
-        markup.find(".select2-result-repository__description").text("NISN: " + repo.nisn);
-
-        return markup;
-    }
-
-    function formatRepoSelection(repo) {
-        // $(repo.element).attr('data-custom-pesertadidikid', repo.peserta_didik_id);
-        // $(repo.element).attr('data-custom-nisn', repo.nisn);
-        // $(repo.element).attr('data-custom-nik', repo.nik);
-        // $(repo.element).attr('data-custom-nama', repo.nama);
-        // $(repo.element).attr('data-custom-tempatlahir', repo.tempat_lahir);
-        // $(repo.element).attr('data-custom-tanggallahir', repo.tanggal_lahir);
-        // $(repo.element).attr('data-custom-namaibukandung', repo.nama_ibu_kandung);
-        // $(repo.element).attr('data-custom-jeniskelamin', repo.jenis_kelamin);
-        // // $(repo.element).attr('data-custom-kabupaten', repo.kabupaten);
-        // // $(repo.element).attr('data-custom-kecamatan', repo.kecamatan);
-        // $(repo.element).attr('data-custom-desakelurahan', repo.desa_kelurahan);
-        // $(repo.element).attr('data-custom-dusun', repo.nama_dusun);
-        // $(repo.element).attr('data-custom-lintang', repo.lintang);
-        // $(repo.element).attr('data-custom-bujur', repo.bujur);
-        return repo.nama || repo.text;
-    }
-
-    function changePd(event) {
-        const selectedOption = event.value;
-
-        if (selectedOption === "" || selectedOption === undefined) {
-            $('.contentBodyUploadModal').html("");
-        } else {
-            $.ajax({
-                url: "./changedPd",
-                type: 'POST',
-                data: {
-                    id: selectedOption,
-                },
-                dataType: "json",
-                beforeSend: function() {
-                    Swal.fire({
-                        title: 'Sedang Loading . . .',
-                        allowEscapeKey: false,
-                        allowOutsideClick: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-                },
-                complete: function() {},
-                success: function(response) {
-                    if (response.status == 200) {
-                        Swal.close();
-                        $('.contentEditForm').html(response.data);
-                    } else {
-                        Swal.fire(
-                            'Failed!',
-                            response.message,
-                            'warning'
-                        );
+            dataType: "json",
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Sedang Loading . . .',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
                     }
-                },
-                error: function(xhr, ajaxOptions, thrownError) {
+                });
+            },
+            complete: function() {},
+            success: function(response) {
+                if (response.status == 200) {
+                    Swal.close();
+                    $('.contentEditForm').html(response.data);
+                } else {
                     Swal.fire(
                         'Failed!',
-                        "gagal mengambil data (" + xhr.status.toString + ")",
+                        response.message,
                         'warning'
                     );
                 }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                Swal.fire(
+                    'Failed!',
+                    "gagal mengambil data (" + xhr.status.toString + ")",
+                    'warning'
+                );
+            }
 
-            });
-        }
+        });
     }
 
     function inputFocus(id) {
@@ -214,6 +133,7 @@
     }
 
     $(document).ready(function() {
+        changePd('<?= $id ?>');
         // initSelect2('_filter_kec', $('.content-body'));
         // initSelect2('_filter_jenjang', $('.content-body'));
     });
