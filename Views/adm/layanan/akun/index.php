@@ -29,6 +29,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>ACTION</th>
                                         <th>NISN</th>
                                         <th>NIK</th>
                                         <th>Nama</th>
