@@ -320,8 +320,9 @@ class Akun extends BaseController
                 $id = htmlspecialchars($this->request->getVar('id'), true);
 
                 $pd = $this->_db->table('_users_profile_pd a')
-                    ->select("b.peserta_didik_id, b.sekolah_id, b.nama, b.nisn, b.tempat_lahir, b.tanggal_lahir, b.jenis_kelamin, b.nik, a.user_id, a.nama_sekolah_asal, a.npsn_asal, a.acc_reg")
+                    ->select("c.username, b.peserta_didik_id, b.sekolah_id, b.nama, b.nisn, b.tempat_lahir, b.tanggal_lahir, b.jenis_kelamin, b.nik, a.user_id, a.nama_sekolah_asal, a.npsn_asal, a.acc_reg")
                     ->join('dapo_peserta b', 'a.peserta_didik_id = b.peserta_didik_id')
+                    ->join('_users_tb c', 'a.user_id = c.id')
                     ->where('a.peserta_didik_id', $id)->get()->getRowObject();
 
                 if (!$pd) {
@@ -388,7 +389,7 @@ class Akun extends BaseController
                 $html = str_replace('{{ npsn_asal_peserta }}', $pd->npsn_asal, $html);
                 $html = str_replace('{{ tempat_lahir_peserta }}', $pd->tempat_lahir, $html);
                 $html = str_replace('{{ tanggal_lahir_peserta }}', $pd->tanggal_lahir, $html);
-                $html1 = str_replace('{{ username_peserta }}', $pd->nisn, $html1);
+                $html1 = str_replace('{{ username_peserta }}', $pd->username, $html1);
                 $html1 = str_replace('{{ password_peserta }}', $pd->acc_reg, $html1);
 
                 $kop = '<table border="0">
