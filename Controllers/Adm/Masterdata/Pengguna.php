@@ -369,7 +369,19 @@ class Pengguna extends BaseController
                     return json_encode($response);
                 }
 
-                $passwordHas = password_hash("123456", PASSWORD_BCRYPT);
+                if ((int)$oldData->level === 5) {
+                    $userP = $this->_db->table('_users_profile_pd')->select("acc_reg")->where('user_id', $oldData->id)->get()->getRowObject();
+                    if (!$userP) {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Data tidak ditemukan.";
+                        return json_encode($response);
+                    }
+                    $passKartu = $userP->acc_reg;
+                    $passwordHas = password_hash($passKartu, PASSWORD_BCRYPT);
+                } else {
+                    $passwordHas = password_hash("123456", PASSWORD_BCRYPT);
+                }
 
                 $this->_db->transBegin();
                 try {
@@ -380,7 +392,11 @@ class Pengguna extends BaseController
                         $response = new \stdClass;
                         $response->status = 200;
                         $response->url = base_url('portal');
-                        $response->message = "Data $nama berhasil di reset. Password Default (123456)";
+                        if ((int)$oldData->level === 5) {
+                            $response->message = "Data $nama berhasil di reset. Password Default Sesuai Kartu Akun PD ($passKartu)";
+                        } else {
+                            $response->message = "Data $nama berhasil di reset. Password Default (123456)";
+                        }
                         return json_encode($response);
                     } else {
                         $this->_db->transRollback();

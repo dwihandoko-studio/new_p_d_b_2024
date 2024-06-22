@@ -459,4 +459,102 @@ class Akun extends BaseController
             exit('Maaf tidak dapat diproses');
         }
     }
+
+    public function reset_password()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+                'nama' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id')
+                    . $this->validator->getError('nama');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+                $nama = htmlspecialchars($this->request->getVar('nama'), true);
+
+                $oldData = $this->_db->table('_users_tb')->where('id', $id)->get()->getRowObject();
+
+                if (!$oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                if ((int)$oldData->level === 5) {
+                    $userP = $this->_db->table('_users_profile_pd')->select("acc_reg")->where('user_id', $oldData->id)->get()->getRowObject();
+                    if (!$userP) {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Data tidak ditemukan.";
+                        return json_encode($response);
+                    }
+                    $passKartu = $userP->acc_reg;
+                    $passwordHas = password_hash($passKartu, PASSWORD_BCRYPT);
+                } else {
+                    $passwordHas = password_hash("123456", PASSWORD_BCRYPT);
+                }
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('_users_tb')->where('id', $oldData->id)->update(['password' => $passwordHas]);
+                    if ($this->_db->affectedRows() > 0) {
+                        $this->_db->transCommit();
+
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->url = base_url('portal');
+                        if ((int)$oldData->level === 5) {
+                            $response->message = "Data $nama berhasil di reset. Password Default Sesuai Kartu Akun PD ($passKartu)";
+                        } else {
+                            $response->message = "Data $nama berhasil di reset. Password Default (123456)";
+                        }
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal mengupdate data.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal mengupdate data. with error";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
 }
