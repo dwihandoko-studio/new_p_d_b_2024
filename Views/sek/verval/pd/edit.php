@@ -13,22 +13,55 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label for="_filter_pd" class="col-form-label">Pilih PD:</label>
-                                    <select class="js-data-pd-ajax w-100" style="width: 100%;" id="_filter_pd" name="_filter_pd" onchange="changePd(this)">
-                                    </select>
+                <?php if (isset($tutup_error)) { ?>
+                    <?php if ($tutup_error) { ?>
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close"><span><i class="mdi mdi-btn-close"></i></span>
+                            </button>
+                            <div class="media">
+                                <div class="media-body">
+                                    <h5 class="mt-1 mb-1">Peringatan!!!</h5>
+                                    <p class="mb-0"><?= $error_tutup ?></p>
                                 </div>
                             </div>
                         </div>
+                    <?php } else { ?>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="_filter_pd" class="col-form-label">Pilih PD:</label>
+                                            <select class="js-data-pd-ajax w-100" style="width: 100%;" id="_filter_pd" name="_filter_pd" onchange="changePd(this)">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="contentEditForm" id="contentEditForm"></div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                <?php } else { ?>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label for="_filter_pd" class="col-form-label">Pilih PD:</label>
+                                        <select class="js-data-pd-ajax w-100" style="width: 100%;" id="_filter_pd" name="_filter_pd" onchange="changePd(this)">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="contentEditForm" id="contentEditForm"></div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="contentEditForm" id="contentEditForm"></div>
-                    </div>
-                </div>
+                <?php } ?>
+
             </div>
         </div>
     </div>
