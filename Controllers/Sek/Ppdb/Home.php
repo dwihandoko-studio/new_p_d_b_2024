@@ -45,6 +45,17 @@ class Home extends BaseController
             $data['firs_login'] = false;
         }
 
+        $sekolahNya = $this->_db->table('dapo_sekolah')->select("status_sekolah_id")->where('sekolah_id', $user->data->sekolah_id)->get()->getRowObject();
+
+        if (!$sekolahNya) {
+            return redirect()->to(base_url('sek/home'));
+        }
+
+        if ((int)$sekolahNya->status_sekolah_id == 1) {
+            $data['is_negeri'] = true;
+        } else {
+            $data['is_negeri'] = false;
+        }
         $data['user'] = $user->data;
         $data['level'] = $user->level;
         $data['level_nama'] = $user->level_nama;
@@ -82,14 +93,28 @@ class Home extends BaseController
                     return json_encode($response);
                 }
 
-                $data = $this->_db->table('dapo_peserta a')
-                    ->select("a.sekolah_id, count(a.peserta_didik_id) AS total, (SELECT count(peserta_didik_id) FROM dapo_peserta WHERE dusun IS NOT NULL AND sekolah_id = a.sekolah_id) AS verified, (SELECT count(peserta_didik_id) FROM dapo_peserta WHERE dusun IS NULL AND sekolah_id = a.sekolah_id) AS notverified, (SELECT count(peserta_didik_id) FROM _users_profile_pd WHERE sekolah_id_asal = a.sekolah_id) AS generate")
+                $detail = $this->_db->table('dapo_sekolah a')
+                    ->select("a.npsn, a.sekolah_id, a.status_sekolah, a.status_sekolah_id, a.bentuk_pendidikan_id, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar_temp WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'ZONASI') as zonasi_belum_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar_temp WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'AFIRMASI') as afirmasi_belum_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar_temp WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'MUTASI') as mutasi_belum_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar_temp WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'PRESTASI') as prestasi_belum_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar_temp WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'SWASTA') as swasta_belum_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'ZONASI') as zonasi_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'AFIRMASI') as afirmasi_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'MUTASI') as mutasi_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'PRESTASI') as prestasi_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'SWASTA') as swasta_terverifikasi")
                     ->where('a.sekolah_id', $user->data->sekolah_id)
                     ->get()->getRowObject();
+
+                $detail->zonasi = (int)$detail->zonasi_terverifikasi + (int)$detail->zonasi_belum_terverifikasi;
+                $detail->afirmasi = (int)$detail->afirmasi_terverifikasi + (int)$detail->afirmasi_belum_terverifikasi;
+                $detail->mutasi = (int)$detail->mutasi_terverifikasi + (int)$detail->mutasi_belum_terverifikasi;
+                $detail->prestasi = (int)$detail->prestasi_terverifikasi + (int)$detail->prestasi_belum_terverifikasi;
+                $detail->swasta = (int)$detail->swasta_terverifikasi + (int)$detail->swasta_belum_terverifikasi;
+                $detail->total_pendaftar = $detail->zonasi + $detail->afirmasi + $detail->mutasi + $detail->prestasi + $detail->swasta;
+                $detail->total_terverifikasi = (int)$detail->zonasi_terverifikasi + (int)$detail->afirmasi_terverifikasi + (int)$detail->mutasi_terverifikasi + (int)$detail->prestasi_terverifikasi + (int)$detail->swasta_terverifikasi;
+                $detail->total_belum_verifikasi = (int)$detail->zonasi_belum_terverifikasi + (int)$detail->afirmasi_belum_terverifikasi + (int)$detail->mutasi_belum_terverifikasi + (int)$detail->prestasi_belum_terverifikasi + (int)$detail->swasta_belum_terverifikasi;
+
+                $detail->total_swasta = $detail->zonasi + $detail->afirmasi + $detail->mutasi + $detail->prestasi + $detail->swasta;
+                $detail->total_swasta_terverifikasi = (int)$detail->zonasi_terverifikasi + (int)$detail->afirmasi_terverifikasi + (int)$detail->mutasi_terverifikasi + (int)$detail->prestasi_terverifikasi + (int)$detail->swasta_terverifikasi;
+                $detail->total_swasta_belum_terverifikasi = (int)$detail->zonasi_belum_terverifikasi + (int)$detail->afirmasi_belum_terverifikasi + (int)$detail->mutasi_belum_terverifikasi + (int)$detail->prestasi_belum_terverifikasi + (int)$detail->swasta_belum_terverifikasi;
+
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Permintaan diizinkan";
-                $response->data = $data;
+                $response->data = $detail;
                 return json_encode($response);
             }
         } else {
