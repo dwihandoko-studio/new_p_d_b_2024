@@ -162,7 +162,7 @@
                     </div>
                 </div>
 
-                <div class="row mb-3">
+                <div class="row mb-3 mt-5">
                     <div class="col-6" style="float: inline-end;">
                         <button type="submit" style="width: 100%;" class="btn btn-sm btn-primary waves-effect waves-light">SIMPAN</button>
                     </div>
@@ -618,13 +618,313 @@
                                             })
                                         }
                                     } else {
-                                        Swal.fire(
-                                            'BERHASIL!',
-                                            resul.message,
-                                            'success'
-                                        ).then((valRes) => {
-                                            reloadPage();
-                                        })
+                                        Swal.fire({
+                                            title: "<strong>Domisili PD Berhasil di update</strong>",
+                                            icon: "info",
+                                            html: '<center><b>Perubahan Data Domisili Peserta</b><br/>Atas Nama: ' + resul.nama + ' Berhasil</center>',
+                                            showCloseButton: false,
+                                            showCancelButton: true,
+                                            allowOutsideClick: false,
+                                            allowEscapeKey: false,
+                                            focusConfirm: false,
+                                            confirmButtonText: "Tidak",
+                                            confirmButtonText: `
+    <i class="las la-user-lock"></i> Generate Akun PD?
+  `,
+                                            confirmButtonAriaLabel: "Akun, Generate"
+                                        }).then((confm) => {
+                                            if (confm.isConfirmed) {
+                                                Swal.fire({
+                                                    title: 'Apakah anda yakin ingin mengenerate Akun PD ini?',
+                                                    text: "Generate Akun PD: " + resul.nama,
+                                                    showCancelButton: true,
+                                                    icon: 'question',
+                                                    confirmButtonColor: '#3085d6',
+                                                    cancelButtonColor: '#d33',
+                                                    confirmButtonText: 'Ya, Generate!'
+                                                }).then((confm1) => {
+                                                    if (confm1.value) {
+                                                        $.ajax({
+                                                            url: "./generate",
+                                                            type: 'POST',
+                                                            data: {
+                                                                id: resul.peserta_didik_id,
+                                                                nama: resul.nama,
+                                                            },
+                                                            dataType: 'JSON',
+                                                            beforeSend: function() {
+                                                                Swal.fire({
+                                                                    title: 'Mengenerate Akun PD...',
+                                                                    text: 'Please wait while we process your action.',
+                                                                    allowOutsideClick: false,
+                                                                    allowEscapeKey: false,
+                                                                    didOpen: () => {
+                                                                        Swal.showLoading();
+                                                                    }
+                                                                });
+                                                            },
+                                                            complete: function() {},
+                                                            success: function(resul1) {
+
+                                                                if (resul1.status !== 200) {
+                                                                    if (resul1.status !== 201) {
+                                                                        if (resul1.status === 401) {
+                                                                            Swal.fire(
+                                                                                'Failed!',
+                                                                                resul1.message,
+                                                                                'warning'
+                                                                            ).then((valRes) => {
+                                                                                reloadPage();
+                                                                            });
+                                                                        } else {
+                                                                            Swal.fire(
+                                                                                'GAGAL!',
+                                                                                resul1.message,
+                                                                                'warning'
+                                                                            );
+                                                                        }
+                                                                    } else {
+                                                                        Swal.fire(
+                                                                            'Peringatan!',
+                                                                            resul1.message,
+                                                                            'success'
+                                                                        ).then((valRes) => {
+                                                                            $.ajax({
+                                                                                url: "./download",
+                                                                                type: 'POST',
+                                                                                data: {
+                                                                                    id: resul1.peserta_didik_id,
+                                                                                    nama: resul1.nama,
+                                                                                },
+                                                                                dataType: 'JSON',
+                                                                                beforeSend: function() {
+                                                                                    Swal.fire({
+                                                                                        title: 'Mendownload Akun PD...',
+                                                                                        text: 'Please wait while we process your action.',
+                                                                                        allowOutsideClick: false,
+                                                                                        allowEscapeKey: false,
+                                                                                        didOpen: () => {
+                                                                                            Swal.showLoading();
+                                                                                        }
+                                                                                    });
+                                                                                },
+                                                                                complete: function() {},
+                                                                                success: function(resul2) {
+
+                                                                                    if (resul2.status !== 200) {
+                                                                                        if (resul2.status !== 201) {
+                                                                                            if (resul2.status === 401) {
+                                                                                                Swal.fire(
+                                                                                                    'Failed!',
+                                                                                                    resul2.message,
+                                                                                                    'warning'
+                                                                                                ).then((valRes) => {
+                                                                                                    reloadPage();
+                                                                                                });
+                                                                                            } else {
+                                                                                                Swal.fire(
+                                                                                                    'GAGAL!',
+                                                                                                    resul2.message,
+                                                                                                    'warning'
+                                                                                                );
+                                                                                            }
+                                                                                        } else {
+                                                                                            Swal.fire(
+                                                                                                'Peringatan!',
+                                                                                                resul2.message,
+                                                                                                'success'
+                                                                                            ).then((valRes) => {
+                                                                                                // reloadPage();
+                                                                                                const decodedBytes = atob(resul2.data);
+                                                                                                const arrayBuffer = new ArrayBuffer(decodedBytes.length);
+                                                                                                const intArray = new Uint8Array(arrayBuffer);
+                                                                                                for (let i = 0; i < decodedBytes.length; i++) {
+                                                                                                    intArray[i] = decodedBytes.charCodeAt(i);
+                                                                                                }
+
+                                                                                                const blob = new Blob([intArray], {
+                                                                                                    type: 'application/pdf'
+                                                                                                });
+                                                                                                const link = document.createElement('a');
+                                                                                                link.href = URL.createObjectURL(blob);
+                                                                                                link.download = resul2.filename; // Set desired filename
+                                                                                                link.click();
+
+                                                                                                // Revoke the object URL after download (optional)
+                                                                                                URL.revokeObjectURL(link.href);
+
+                                                                                                reloadPage('<?= base_url('adm/layanan/pd') ?>');
+
+                                                                                            })
+                                                                                        }
+                                                                                    } else {
+                                                                                        Swal.fire(
+                                                                                            'BERHASIL!',
+                                                                                            resul.message,
+                                                                                            'success'
+                                                                                        ).then((valRes) => {
+                                                                                            const decodedBytes = atob(resul2.data);
+                                                                                            const arrayBuffer = new ArrayBuffer(decodedBytes.length);
+                                                                                            const intArray = new Uint8Array(arrayBuffer);
+                                                                                            for (let i = 0; i < decodedBytes.length; i++) {
+                                                                                                intArray[i] = decodedBytes.charCodeAt(i);
+                                                                                            }
+
+                                                                                            const blob = new Blob([intArray], {
+                                                                                                type: 'application/pdf'
+                                                                                            });
+                                                                                            const link = document.createElement('a');
+                                                                                            link.href = URL.createObjectURL(blob);
+                                                                                            link.download = resul2.filename; // Set desired filename
+                                                                                            link.click();
+                                                                                            URL.revokeObjectURL(link.href);
+
+                                                                                            reloadPage('<?= base_url('adm/layanan/pd') ?>');
+                                                                                        })
+                                                                                    }
+                                                                                },
+                                                                                error: function() {
+                                                                                    Swal.fire(
+                                                                                        'PERINGATAN!',
+                                                                                        "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                                                                                        'warning'
+                                                                                    );
+                                                                                }
+                                                                            });
+                                                                        })
+                                                                    }
+                                                                } else {
+                                                                    Swal.fire(
+                                                                        'BERHASIL!',
+                                                                        resul.message,
+                                                                        'success'
+                                                                    ).then((valResT) => {
+                                                                        $.ajax({
+                                                                            url: "./download",
+                                                                            type: 'POST',
+                                                                            data: {
+                                                                                id: resul1.peserta_didik_id,
+                                                                                nama: resul1.nama,
+                                                                            },
+                                                                            dataType: 'JSON',
+                                                                            beforeSend: function() {
+                                                                                Swal.fire({
+                                                                                    title: 'Mendownload Akun PD...',
+                                                                                    text: 'Please wait while we process your action.',
+                                                                                    allowOutsideClick: false,
+                                                                                    allowEscapeKey: false,
+                                                                                    didOpen: () => {
+                                                                                        Swal.showLoading();
+                                                                                    }
+                                                                                });
+                                                                            },
+                                                                            complete: function() {},
+                                                                            success: function(resul2) {
+
+                                                                                if (resul2.status !== 200) {
+                                                                                    if (resul2.status !== 201) {
+                                                                                        if (resul2.status === 401) {
+                                                                                            Swal.fire(
+                                                                                                'Failed!',
+                                                                                                resul2.message,
+                                                                                                'warning'
+                                                                                            ).then((valRes) => {
+                                                                                                reloadPage();
+                                                                                            });
+                                                                                        } else {
+                                                                                            Swal.fire(
+                                                                                                'GAGAL!',
+                                                                                                resul2.message,
+                                                                                                'warning'
+                                                                                            );
+                                                                                        }
+                                                                                    } else {
+                                                                                        Swal.fire(
+                                                                                            'Peringatan!',
+                                                                                            resul2.message,
+                                                                                            'success'
+                                                                                        ).then((valRes) => {
+                                                                                            // reloadPage();
+                                                                                            const decodedBytes = atob(resul2.data);
+                                                                                            const arrayBuffer = new ArrayBuffer(decodedBytes.length);
+                                                                                            const intArray = new Uint8Array(arrayBuffer);
+                                                                                            for (let i = 0; i < decodedBytes.length; i++) {
+                                                                                                intArray[i] = decodedBytes.charCodeAt(i);
+                                                                                            }
+
+                                                                                            const blob = new Blob([intArray], {
+                                                                                                type: 'application/pdf'
+                                                                                            });
+                                                                                            const link = document.createElement('a');
+                                                                                            link.href = URL.createObjectURL(blob);
+                                                                                            link.download = resul2.filename; // Set desired filename
+                                                                                            link.click();
+
+                                                                                            // Revoke the object URL after download (optional)
+                                                                                            URL.revokeObjectURL(link.href);
+
+                                                                                            reloadPage('<?= base_url('adm/layanan/pd') ?>');
+
+                                                                                        })
+                                                                                    }
+                                                                                } else {
+                                                                                    Swal.fire(
+                                                                                        'BERHASIL!',
+                                                                                        resul.message,
+                                                                                        'success'
+                                                                                    ).then((valRes) => {
+                                                                                        const decodedBytes = atob(resul2.data);
+                                                                                        const arrayBuffer = new ArrayBuffer(decodedBytes.length);
+                                                                                        const intArray = new Uint8Array(arrayBuffer);
+                                                                                        for (let i = 0; i < decodedBytes.length; i++) {
+                                                                                            intArray[i] = decodedBytes.charCodeAt(i);
+                                                                                        }
+
+                                                                                        const blob = new Blob([intArray], {
+                                                                                            type: 'application/pdf'
+                                                                                        });
+                                                                                        const link = document.createElement('a');
+                                                                                        link.href = URL.createObjectURL(blob);
+                                                                                        link.download = resul2.filename; // Set desired filename
+                                                                                        link.click();
+                                                                                        URL.revokeObjectURL(link.href);
+
+                                                                                        reloadPage('<?= base_url('adm/layanan/pd') ?>');
+                                                                                    })
+                                                                                }
+                                                                            },
+                                                                            error: function() {
+                                                                                Swal.fire(
+                                                                                    'PERINGATAN!',
+                                                                                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                                                                                    'warning'
+                                                                                );
+                                                                            }
+                                                                        });
+                                                                    })
+                                                                }
+                                                            },
+                                                            error: function() {
+                                                                Swal.fire(
+                                                                    'PERINGATAN!',
+                                                                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                                                                    'warning'
+                                                                );
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            } else {
+                                                reloadPage('<?= base_url('adm/layanan/pd') ?>');
+                                            }
+                                        });
+                                        // Swal.fire(
+                                        //     'BERHASIL!',
+                                        //     resul.message,
+                                        //     'success'
+                                        // ).then((valRes) => {
+                                        //     reloadPage();
+                                        // })
                                     }
                                 },
                                 error: function() {
