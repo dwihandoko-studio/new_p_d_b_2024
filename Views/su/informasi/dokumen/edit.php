@@ -1,17 +1,17 @@
 <form id="formEditData" class="formEditData" action="./editSave" method="post">
-    <input type="hidden" id="_id" name="_id" value="<?= $data->id ?>" />
+    <input type="hidden" id="_id_edit" name="_id_edit" value="<?= $data->id ?>" />
     <div class="modal-body">
         <div class="row">
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Judul :</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_judul" name="_judul" value="<?= $data->judul ?>" placeholder="Judul...." required />
+                    <input type="text" class="form-control" id="_judul_edit" name="_judul_edit" value="<?= $data->judul ?>" placeholder="Judul...." required />
                 </div>
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Deskripsi :</label>
                 <div class="col-sm-12">
-                    <textarea name="_deskripsi" id="_deskripsi"><?= $data->deskripsi ?></textarea>
+                    <textarea name="_deskripsi_edit" id="_deskripsi_edit"><?= $data->deskripsi ?></textarea>
                 </div>
             </div>
             <!-- <div class="col-lg-12">
@@ -34,15 +34,13 @@
     </div>
 </form>
 <script>
-    ClassicEditor.create(document.querySelector("#_deskripsi"), {})
+    ClassicEditor.create(document.querySelector("#_deskripsi_edit"), {})
         .then((e) => {
             window.editor = e;
         })
         .catch((e) => {
             console.error(e.stack);
         });
-
-    document.getElementById('_file').addEventListener('change', loadFile, false);
 
     function inputFocus(id) {
         const color = $(id).attr('id');
@@ -51,8 +49,8 @@
     }
 
     function validateFormEdit(formElement) {
-        const editorData = $('#_deskripsi').val();
-        const judul = document.getElementsByName('_judul')[0];
+        const editorData = $('#_deskripsi_edit').val();
+        const judul = document.getElementsByName('_judul_edit')[0];
 
         if (judul.value === "" || judul.value === undefined) {
             Swal.fire(
@@ -72,10 +70,10 @@
     const formEdit = document.getElementById('formEditData');
     if (formEdit) {
         formEdit.addEventListener('submit', function(event) { // Prevent default form submission
-
             event.preventDefault();
             if (validateFormEdit(this)) {
-                const nama = document.getElementsByName('_judul')[0].value;
+                const nama = document.getElementsByName('_judul_edit')[0].value;
+                const id = document.getElementsByName('_id_edit')[0].value;
                 Swal.fire({
                     title: 'Apakah anda yakin ingin menupdate data ini?',
                     text: "Update Data Informasi: ",
@@ -86,8 +84,9 @@
                     confirmButtonText: 'Ya, Update!'
                 }).then((result) => {
                     if (result.value) {
-                        const deskripsi = $('#_deskripsi').val();
+                        const deskripsi = $('#_deskripsi_edit').val();
                         const formUpload = new FormData();
+                        formUpload.append('_id', id);
                         formUpload.append('_judul', nama);
                         formUpload.append('_deskripsi', deskripsi);
 
