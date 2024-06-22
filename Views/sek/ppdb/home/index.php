@@ -21,7 +21,7 @@
                                         </svg> -->
                                             </span>
                                             <div class="invoices">
-                                                <h4 class="total_pd_ta" id="jumlah_pendaftar"><i class="fa fa-spinner fa-spin"></i></h4>
+                                                <h4 class="jumlah_pendaftar" id="jumlah_pendaftar"><i class="fa fa-spinner fa-spin"></i></h4>
                                                 <span>Jumlah Pendaftar</span>
                                             </div>
                                         </div>
@@ -45,7 +45,7 @@
                                         </svg> -->
                                             </span>
                                             <div class="invoices">
-                                                <h4 class="verified_pd_ta" id="jumlah_terverifikasi"><i class="fa fa-spinner fa-spin"></i></h4>
+                                                <h4 class="jumlah_terverifikasi" id="jumlah_terverifikasi"><i class="fa fa-spinner fa-spin"></i></h4>
                                                 <span>Jumlah Terverifikasi</span>
                                             </div>
                                         </div>
@@ -70,7 +70,7 @@
 
                                             </span>
                                             <div class="invoices">
-                                                <h4 class="notverified_pd_ta" id="jumlah_belum_verifikasi"><i class="fa fa-spinner fa-spin"></i></h4>
+                                                <h4 class="jumlah_belum_verifikasi" id="jumlah_belum_verifikasi"><i class="fa fa-spinner fa-spin"></i></h4>
                                                 <span>Jumlah Belum Verifikasi</span>
                                             </div>
                                         </div>
@@ -92,7 +92,7 @@
                                         </svg> -->
                                             </span>
                                             <div class="invoices">
-                                                <h4 class="total_pd_ta" id="jumlah_pendaftar_afirmasi"><i class="fa fa-spinner fa-spin"></i></h4>
+                                                <h4 class="jumlah_pendaftar_afirmasi" id="jumlah_pendaftar_afirmasi"><i class="fa fa-spinner fa-spin"></i></h4>
                                                 <span>Pendaftar Afirmasi</span>
                                             </div>
                                         </div>
@@ -116,7 +116,7 @@
                                         </svg> -->
                                             </span>
                                             <div class="invoices">
-                                                <h4 class="verified_pd_ta" id="jumlah_pendaftar_zonasi"><i class="fa fa-spinner fa-spin"></i></h4>
+                                                <h4 class="jumlah_pendaftar_zonasi" id="jumlah_pendaftar_zonasi"><i class="fa fa-spinner fa-spin"></i></h4>
                                                 <span>Pendaftar Zonasi</span>
                                             </div>
                                         </div>
@@ -141,7 +141,7 @@
 
                                             </span>
                                             <div class="invoices">
-                                                <h4 class="notverified_pd_ta" id="jumlah_pendaftar_mutasi"><i class="fa fa-spinner fa-spin"></i></h4>
+                                                <h4 class="jumlah_pendaftar_mutasi" id="jumlah_pendaftar_mutasi"><i class="fa fa-spinner fa-spin"></i></h4>
                                                 <span>Pendaftar Mutasi</span>
                                             </div>
                                         </div>
@@ -166,7 +166,7 @@
 
                                             </span>
                                             <div class="invoices">
-                                                <h4 class="generate_pd_ta" id="jumlah_pendaftar_prestasi"><i class="fa fa-spinner fa-spin"></i></h4>
+                                                <h4 class="jumlah_pendaftar_prestasi" id="jumlah_pendaftar_prestasi"><i class="fa fa-spinner fa-spin"></i></h4>
                                                 <span>Pendaftar Prestasi</span>
                                             </div>
                                         </div>
@@ -188,7 +188,7 @@
                                         </svg> -->
                                             </span>
                                             <div class="invoices">
-                                                <h4 class="total_pd_ta" id="total_pendaftar"><i class="fa fa-spinner fa-spin"></i></h4>
+                                                <h4 class="total_pendaftar" id="total_pendaftar"><i class="fa fa-spinner fa-spin"></i></h4>
                                                 <span>Jumlah Pendaftar</span>
                                             </div>
                                         </div>
@@ -211,7 +211,7 @@
                                         </svg> -->
                                             </span>
                                             <div class="invoices">
-                                                <h4 class="total_pd_ta" id="total_terverifikasi"><i class="fa fa-spinner fa-spin"></i></h4>
+                                                <h4 class="total_terverifikasi" id="total_terverifikasi"><i class="fa fa-spinner fa-spin"></i></h4>
                                                 <span>Jumlah Terverifikasi</span>
                                             </div>
                                         </div>
@@ -234,7 +234,7 @@
                                         </svg> -->
                                             </span>
                                             <div class="invoices">
-                                                <h4 class="total_pd_ta" id="total_belum_verifikasi"><i class="fa fa-spinner fa-spin"></i></h4>
+                                                <h4 class="total_belum_verifikasi" id="total_belum_verifikasi"><i class="fa fa-spinner fa-spin"></i></h4>
                                                 <span>Jumlah Belum Terverifikasi</span>
                                             </div>
                                         </div>
@@ -259,7 +259,7 @@
                                         </svg> -->
                                         </span>
                                         <div class="invoices">
-                                            <h4 class="total_pd_ta" id="jumlah_pendaftar"><i class="fa fa-spinner fa-spin"></i></h4>
+                                            <h4 class="jumlah_pendaftar" id="jumlah_pendaftar"><i class="fa fa-spinner fa-spin"></i></h4>
                                             <span>Jumlah Pendaftar</span>
                                         </div>
                                     </div>
@@ -282,7 +282,7 @@
                                         </svg> -->
                                         </span>
                                         <div class="invoices">
-                                            <h4 class="total_pd_ta" id="jumlah_terverifikasi"><i class="fa fa-spinner fa-spin"></i></h4>
+                                            <h4 class="jumlah_terverifikasi" id="jumlah_terverifikasi"><i class="fa fa-spinner fa-spin"></i></h4>
                                             <span>Jumlah Terverifikasi</span>
                                         </div>
                                     </div>
@@ -305,7 +305,7 @@
                                         </svg> -->
                                         </span>
                                         <div class="invoices">
-                                            <h4 class="total_pd_ta" id="jumlah_belum_verifikasi"><i class="fa fa-spinner fa-spin"></i></h4>
+                                            <h4 class="jumlah_belum_verifikasi" id="jumlah_belum_verifikasi"><i class="fa fa-spinner fa-spin"></i></h4>
                                             <span>Jumlah Belum Terverifikasi</span>
                                         </div>
                                     </div>
