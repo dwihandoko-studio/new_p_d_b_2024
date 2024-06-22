@@ -500,7 +500,7 @@ class Akun extends BaseController
                 $id = htmlspecialchars($this->request->getVar('id'), true);
                 $nama = htmlspecialchars($this->request->getVar('nama'), true);
 
-                $oldData = $this->_db->table('_users_tb')->where('id', $id)->get()->getRowObject();
+                $oldData = $this->_db->table('_users_profile_pd')->where('peserta_didik_id', $id)->get()->getRowObject();
 
                 if (!$oldData) {
                     $response = new \stdClass;
@@ -509,34 +509,20 @@ class Akun extends BaseController
                     return json_encode($response);
                 }
 
-                if ((int)$oldData->level === 5) {
-                    $userP = $this->_db->table('_users_profile_pd')->select("acc_reg")->where('user_id', $oldData->id)->get()->getRowObject();
-                    if (!$userP) {
-                        $response = new \stdClass;
-                        $response->status = 400;
-                        $response->message = "Data tidak ditemukan.";
-                        return json_encode($response);
-                    }
-                    $passKartu = $userP->acc_reg;
-                    $passwordHas = password_hash($passKartu, PASSWORD_BCRYPT);
-                } else {
-                    $passwordHas = password_hash("123456", PASSWORD_BCRYPT);
-                }
+                $passKartu = $oldData->acc_reg;
+                $passwordHas = password_hash($passKartu, PASSWORD_BCRYPT);
 
                 $this->_db->transBegin();
                 try {
-                    $this->_db->table('_users_tb')->where('id', $oldData->id)->update(['password' => $passwordHas]);
+                    $this->_db->table('_users_tb')->where('id', $oldData->user_id)->update(['password' => $passwordHas]);
                     if ($this->_db->affectedRows() > 0) {
                         $this->_db->transCommit();
 
                         $response = new \stdClass;
                         $response->status = 200;
                         $response->url = base_url('portal');
-                        if ((int)$oldData->level === 5) {
-                            $response->message = "Data $nama berhasil di reset. Password Default Sesuai Kartu Akun PD ($passKartu)";
-                        } else {
-                            $response->message = "Data $nama berhasil di reset. Password Default (123456)";
-                        }
+                        $response->message = "Data $nama berhasil di reset. Password Default Sesuai Kartu Akun PD ($passKartu)";
+
                         return json_encode($response);
                     } else {
                         $this->_db->transRollback();
