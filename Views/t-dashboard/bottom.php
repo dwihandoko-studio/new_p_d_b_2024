@@ -49,7 +49,8 @@
                             <h5>Tautan</h5>
                         </div>
                         <p style="margin-bottom: 0px;"><a href="https://disdikbud.lampungtengahkab.go.id">Website Dinas Pendidikan dan Kebudayaan Kab. Lampung Tengah</a></p>
-                        <p style="margin-bottom: 0px;"><a href="https://disdikbud.lampungtengahkab.go.id">Website Dinas Pendidikan dan Kebudayaan Kab. Lampung Tengah</a></p>
+                        <p style="margin-bottom: 0px;"><a href="https://s.id/juknis_ppdb_lamteng_2024">Juknis PPDB Kab. Lampung Tengah TA. 2024/2025</a></p>
+                        <p style="margin-bottom: 0px;"><a href="https://s.id/panduan_pendaftaran_ppdb_lamteng_2024">Panduan Pendaftaran PPDB Kab. Lampung Tengah TA. 2024/2025</a></p>
                     </div>
                 </div>
                 <div class="col-xl-4">
