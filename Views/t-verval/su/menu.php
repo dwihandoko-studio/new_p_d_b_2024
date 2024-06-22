@@ -49,6 +49,15 @@
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+                    <i class="fas fa-balance-scale"></i>
+                    <span class="nav-text">Setting</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="<?= base_url('su/setting/kuota') ?>">Kuota Sekolah</a></li>
+                    <li><a href="<?= base_url('su/setting/zonasi') ?>">Zona Wilayah</a></li>
+                </ul>
+            </li>
+            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
                     <i class="fas fa-file-signature"></i>
                     <span class="nav-text">Informasi</span>
                 </a>
