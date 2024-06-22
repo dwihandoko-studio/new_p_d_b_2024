@@ -156,7 +156,7 @@
                     } else {
                         Swal.fire(
                             'Failed!',
-                            "gagal mengambil data",
+                            response.message,
                             'warning'
                         );
                     }

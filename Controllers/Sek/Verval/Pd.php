@@ -172,6 +172,11 @@ class Pd extends BaseController
                 $response->message = $this->validator->getError('keyword');
                 return json_encode($response);
             } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = 'Mohon maaf, untuk saat proses verval PD tingkat akhir telah ditutup.';
+                return json_encode($response);
+
                 $Profilelib = new Profilelib();
                 $user = $Profilelib->userSekolah();
                 if ($user->status != 200) {

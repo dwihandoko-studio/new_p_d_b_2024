@@ -42,7 +42,7 @@ class Home extends BaseController
                     }
                     $data['user'] = $user->data;
                     $data['canAccessPPDB'] = true;
-                    $data['canAccessVERVAL'] = true;
+                    $data['canAccessVERVAL'] = false;
 
                     $data['title'] = "Portal Layanan";
                     $data['level'] = $level;
