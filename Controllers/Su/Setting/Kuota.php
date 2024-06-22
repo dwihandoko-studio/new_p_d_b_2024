@@ -510,8 +510,10 @@ class Kuota extends BaseController
                 }
 
                 $this->_db->transBegin();
+                $uuidLib = new Uuid();
                 // try {
                 $this->_db->table('_setting_kuota_tb')->insert([
+                    'id' => $uuidLib->v4(),
                     'sekolah_id' => $sekolah,
                     'bentuk_pendidikan_id' => $jenjang,
                     'npsn' => $refSekolah->npsn,
