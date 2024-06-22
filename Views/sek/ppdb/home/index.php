@@ -188,7 +188,7 @@
                                         </svg> -->
                                             </span>
                                             <div class="invoices">
-                                                <h4 class="total_pendaftar" id="total_pendaftar"><i class="fa fa-spinner fa-spin"></i></h4>
+                                                <h4 class="jumlah_pendaftar" id="jumlah_pendaftar"><i class="fa fa-spinner fa-spin"></i></h4>
                                                 <span>Jumlah Pendaftar</span>
                                             </div>
                                         </div>
@@ -211,7 +211,7 @@
                                         </svg> -->
                                             </span>
                                             <div class="invoices">
-                                                <h4 class="total_terverifikasi" id="total_terverifikasi"><i class="fa fa-spinner fa-spin"></i></h4>
+                                                <h4 class="jumlah_terverifikasi" id="jumlah_terverifikasi"><i class="fa fa-spinner fa-spin"></i></h4>
                                                 <span>Jumlah Terverifikasi</span>
                                             </div>
                                         </div>
@@ -234,7 +234,7 @@
                                         </svg> -->
                                             </span>
                                             <div class="invoices">
-                                                <h4 class="total_belum_verifikasi" id="total_belum_verifikasi"><i class="fa fa-spinner fa-spin"></i></h4>
+                                                <h4 class="jumlah_belum_verifikasi" id="jumlah_belum_verifikasi"><i class="fa fa-spinner fa-spin"></i></h4>
                                                 <span>Jumlah Belum Terverifikasi</span>
                                             </div>
                                         </div>
