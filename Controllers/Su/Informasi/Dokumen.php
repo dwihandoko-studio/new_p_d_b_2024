@@ -331,7 +331,7 @@ class Dokumen extends BaseController
             if ($filenamelampiran != '') {
                 $lampiranVal = [
                     '_file' => [
-                        'rules' => 'uploaded[_file]|max_size[_file,1024]|mime_in[_file,image/jpeg,image/jpg,image/png,application/pdf]',
+                        'rules' => 'uploaded[_file]|max_size[_file,2048]|mime_in[_file,image/jpeg,image/jpg,image/png,application/pdf]',
                         'errors' => [
                             'uploaded' => 'Pilih gambar/pdf terlebih dahulu. ',
                             'max_size' => 'Ukuran gambar/pdf terlalu besar. ',
