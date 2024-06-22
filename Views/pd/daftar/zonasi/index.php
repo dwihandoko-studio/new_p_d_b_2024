@@ -15,24 +15,38 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="row">
-                            <?php if (isset($error_tutup)) { ?>
-                                <?php if ($error_tutup !== "") { ?>
-                                    <div class="col-12">
-                                        <div class="alert alert-danger alert-dismissible fade show">
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close"><span><i class="mdi mdi-btn-close"></i></span>
-                                            </button>
-                                            <div class="media">
-                                                <div class="media-body">
-                                                    <h5 class="mt-1 mb-1">Peringatan!!!</h5>
-                                                    <p class="mb-0"><?= $error_tutup ?></p>
-                                                </div>
+                        <?php if (isset($error_tutup)) { ?>
+                            <?php if ($error_tutup !== "") { ?>
+                                <div class="col-12">
+                                    <div class="alert alert-danger alert-dismissible fade show">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close"><span><i class="mdi mdi-btn-close"></i></span>
+                                        </button>
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <h5 class="mt-1 mb-1">Peringatan!!!</h5>
+                                                <p class="mb-0"><?= $error_tutup ?></p>
                                             </div>
                                         </div>
                                     </div>
-                                <?php } ?>
+                                </div>
                             <?php } ?>
-                        </div>
+                        <?php } ?>
+                        <?php if (isset($pengecualian_umur)) { ?>
+                            <?php if ($pengecualian_umur !== "") { ?>
+                                <div class="col-12">
+                                    <div class="alert alert-danger alert-dismissible fade show">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close"><span><i class="mdi mdi-btn-close"></i></span>
+                                        </button>
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <h5 class="mt-1 mb-1">Peringatan!!!</h5>
+                                                <p class="mb-0"><?= $pengecualian_umur ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        <?php } ?>
                     </div>
                     <div class="card-body">
                         <div class="contentForm" id="contentForm"></div>

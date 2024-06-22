@@ -300,7 +300,7 @@ class Afirmasi extends BaseController
                     if ($canVerifiUmur->code !== 201) {
                         $response = new \stdClass;
                         $response->status = 400;
-                        $response->message = $canDaftar->message;
+                        $response->message = $canVerifiUmur->message;
                         return json_encode($response);
                     } else {
                     }

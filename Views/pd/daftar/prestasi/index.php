@@ -68,6 +68,22 @@
                                     </div>
                                 <?php } ?>
                             <?php } ?>
+                            <?php if (isset($pengecualian_umur)) { ?>
+                                <?php if ($pengecualian_umur !== "") { ?>
+                                    <div class="col-12">
+                                        <div class="alert alert-danger alert-dismissible fade show">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close"><span><i class="mdi mdi-btn-close"></i></span>
+                                            </button>
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h5 class="mt-1 mb-1">Peringatan!!!</h5>
+                                                    <p class="mb-0"><?= $pengecualian_umur ?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            <?php } ?>
                         </div>
                     </div>
                     <div class="card-body">
