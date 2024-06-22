@@ -184,7 +184,7 @@ class Pd extends BaseController
         $data['sekolah'] = $name;
         $data['level'] = $user->level;
         $data['level_nama'] = $user->level_nama;
-        $data['kecamatans'] = $this->_db->table('ref_kecamatan')->orderBy('nama_kecamatan', 'ASC')->get()->getResult();
+        // $data['kecamatans'] = $this->_db->table('ref_kecamatan')->orderBy('nama_kecamatan', 'ASC')->get()->getResult();
 
         return view('adm/masterdata/pd/index', $data);
     }
