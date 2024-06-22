@@ -59,7 +59,7 @@
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
-                    <i class="fas fas fa-box"></i>
+                    <i class="fas fa-chalkboard-teacher"></i>
                     <span class="nav-text">Layanan</span>
                 </a>
                 <ul aria-expanded="false">
