@@ -163,7 +163,7 @@ class Pd extends BaseController
         $data['kecamatans'] = $this->_db->table('ref_kecamatan')->orderBy('nama', 'ASC')->get()->getResult();
         $data['jenjangs'] = $this->_db->table('dapo_sekolah')->select("bentuk_pendidikan_id, bentuk_pendidikan, count(bentuk_pendidikan_id) as jumlah")->groupBy('bentuk_pendidikan_id')->orderBy('bentuk_pendidikan', 'ASC')->get()->getResult();
 
-        return view('adm/masterdata/pd/sekolah', $data);
+        return view('adm/layanan/pd/sekolah', $data);
     }
 
     public function detaillist()
