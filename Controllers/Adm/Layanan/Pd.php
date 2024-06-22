@@ -83,8 +83,9 @@ class Pd extends BaseController
             //                     <div class="dropdown-divider"></div>
             //                 </div>
             //             </div>';
+            $action = '<a class="btn btn-primary" href="./edit?id=' . $list->peserta_didik_id . '"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>';
 
-            // $row[] = $action;
+            $row[] = $action;
             $row[] = $list->nama;
             $row[] = $list->nisn;
             $row[] = $list->nik;

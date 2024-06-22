@@ -7,6 +7,7 @@
     <div class="container-fluid">
         <div class="row page-titles">
             <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">Layanan</a></li>
                 <li class="breadcrumb-item active"><a href="javascript:void(0)">Peserta Didik</a></li>
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Tingkat Akhir</a></li>
             </ol>
@@ -68,6 +69,7 @@
                 "url": "./getAllTkAkhir",
                 "type": "POST",
                 "data": function(data) {
+                    data.id = <?= $id ?>;
                     data.role = $('#_filter_role').val();
                 }
             },
