@@ -1234,7 +1234,7 @@ class Pd extends BaseController
 
                 $tglLahirReplace = str_replace("-", "", $tanggal_lahir);
                 $tglLahirConvert = substr($tglLahirReplace, 2, 8);
-                $totalNisn = $this->_db->table('_users_profil_tb')->where("LEFT(nisn,8) = 'BS$tglLahirConvert'")->countAllResults();
+                $totalNisn = $this->_db->table('dapo_peserta')->where("LEFT(nisn,8) = 'BS$tglLahirConvert'")->countAllResults();
 
                 if ($totalNisn > 0) {
                     $totalSumNisn = $totalNisn + 1;
