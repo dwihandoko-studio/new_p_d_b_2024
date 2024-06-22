@@ -59,6 +59,16 @@
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+                    <i class="fas fas fa-box"></i>
+                    <span class="nav-text">Layanan</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="<?= base_url('adm/layanan/pd') ?>">PD Tingkat Akhir</a></li>
+                    <li><a href="<?= base_url('adm/layanan/akun') ?>">Akun PD</a></li>
+                    <li><a href="<?= base_url('adm/layanan/panitia') ?>">Panitia PPDB</a></li>
+                </ul>
+            </li>
+            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
                     <i class="fas fa-table"></i>
                     <span class="nav-text">Validasi</span>
                 </a>
