@@ -537,7 +537,7 @@ class Kuota extends BaseController
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->message = "Gagal menyimpan data.";
+                    $response->message = "Gagal menyimpan data. rl";
                     return json_encode($response);
                 }
                 // } catch (\Throwable $th) {
