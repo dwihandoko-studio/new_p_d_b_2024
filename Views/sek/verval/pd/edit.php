@@ -13,8 +13,8 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <?php if (isset($tutup_error)) { ?>
-                    <?php if ($tutup_error) { ?>
+                <?php if (isset($error_tutup)) { ?>
+                    <?php if ($error_tutup) { ?>
                         <div class="alert alert-danger alert-dismissible fade show">
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close"><span><i class="mdi mdi-btn-close"></i></span>
                             </button>
