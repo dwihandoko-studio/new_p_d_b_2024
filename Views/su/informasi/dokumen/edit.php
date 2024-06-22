@@ -75,6 +75,7 @@
 
             event.preventDefault();
             if (validateFormEdit(this)) {
+                const nama = document.getElementsByName('_judul')[0].value;
                 Swal.fire({
                     title: 'Apakah anda yakin ingin menupdate data ini?',
                     text: "Update Data Informasi: ",
@@ -85,10 +86,30 @@
                     confirmButtonText: 'Ya, Update!'
                 }).then((result) => {
                     if (result.value) {
+                        const deskripsi = $('#_deskripsi').val();
+                        const formUpload = new FormData();
+                        formUpload.append('_judul', nama);
+                        formUpload.append('_deskripsi', deskripsi);
+
                         $.ajax({
+                            xhr: function() {
+                                let xhr = new window.XMLHttpRequest();
+                                xhr.upload.addEventListener("progress", function(evt) {
+                                    if (evt.lengthComputable) {
+                                        // ambilId("loaded_n_total").innerHTML = "Uploaded " + evt.loaded + " bytes of " + evt.total;
+                                        // var percent = (evt.loaded / evt.total) * 100;
+                                        // ambilId("progressBar").value = Math.round(percent);
+                                        // ambilId("status").innerHTML = Math.round(percent) + "% uploaded... please wait";
+                                    }
+                                }, false);
+                                return xhr;
+                            },
                             url: "./editSave",
                             type: 'POST',
-                            data: $(this).serialize(),
+                            data: formUpload,
+                            contentType: false,
+                            cache: false,
+                            processData: false,
                             dataType: 'JSON',
                             beforeSend: function() {
                                 Swal.fire({
