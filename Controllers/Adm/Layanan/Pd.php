@@ -190,6 +190,188 @@ class Pd extends BaseController
         return view('adm/layanan/pd/index', $data);
     }
 
+    public function add()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('adm/layanan/pd/add');
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function cekData()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                '_jenis' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'NISN tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('_jenis');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+
+                $jenis = htmlspecialchars($this->request->getVar('_jenis'), true);
+
+                if ($jenis === "sudah") {
+
+                    $nisn = htmlspecialchars($this->request->getVar('_nisn'), true);
+                    $npsn = htmlspecialchars($this->request->getVar('_npsn'), true);
+
+                    $curlHandle = curl_init("https://pelayanan.data.kemdikbud.go.id/vci/index.php/CPelayananData/getSiswa?kode_wilayah=120200&token=CD04B72E-17EB-4C2D-9421-DCF4240C7138&nisn=$nisn&npsn=$npsn");
+
+                    curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, "GET");
+                    curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($curlHandle, CURLOPT_TIMEOUT, 30);
+                    curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 30);
+                    $send_data         = curl_exec($curlHandle);
+
+                    $result = json_decode($send_data);
+
+
+                    if (isset($result->error)) {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal mengambil data.";
+                        return json_encode($response);
+                    }
+
+                    if ($result) {
+                        if (isset($result->message)) {
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = $result->message;
+                            return json_encode($response);
+                        } else {
+                            if (count($result) > 0) {
+                                $pdNya = $result[0];
+                                $x['data'] = $pdNya;
+                                $x['npsn'] = $npsn;
+                                $x['props'] = $this->_db->table('ref_provinsi')
+                                    ->get()->getResult();
+                                $x['kabs'] = $this->_db->table('ref_kabupaten')
+                                    ->where("left(id,2) = left('{$pdNya->kode_wilayah}',2)")->get()->getResult();
+                                $x['kecs'] = $this->_db->table('ref_kecamatan')
+                                    ->where("left(id_kabupaten,4) = left('{$pdNya->kode_wilayah}',4)")->get()->getResult();
+                                $x['kels'] = $this->_db->table('ref_kelurahan')
+                                    ->where("left(id_kecamatan,6) = left('{$pdNya->kode_wilayah}',6)")->get()->getResult();
+                                $x['dusuns'] = $this->_db->table('ref_dusun')->orderBy('urut', 'ASC')
+                                    ->get()->getResult();
+                                $x['sek'] = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('sekolah_id', $pdNya->sekolah_id)->get()->getRowObject();
+                                $response = new \stdClass;
+                                $response->status = 200;
+                                $response->message = "Berhasil mengambil data";
+                                $response->data = view('adm/masterdata/pd/addPd', $x);
+                                return json_encode($response);
+                            } else {
+                                $response = new \stdClass;
+                                $response->status = 400;
+                                $response->message = "Data yang Anda cari tidak ditemukan atau peserta didik tidak berada di Tingkat Akhir.";
+                                return json_encode($response);
+                            }
+                        }
+                    } else {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal mengambil data.";
+                        return json_encode($response);
+                    }
+                } else {
+                    if ($jenis === "belum") {
+                        $nik = htmlspecialchars($this->request->getVar('_nik'), true);
+                        $kk = htmlspecialchars($this->request->getVar('_kk'), true);
+
+                        $anyUser = $this->_db->table('_users_tb')->where('username', $nik)->get()->getRowObject();
+                        if ($anyUser) {
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "NIK sudah terdaftar. Silahkan login dengan menggunakan NIK.";
+                            return json_encode($response);
+                        }
+
+                        $x['nik'] = $nik;
+                        $x['kk'] = $kk;
+                        $x['npsn'] = '10000001';
+                        $x['sekolah_id'] = '4a1512a8-b6ac-11ec-985c-0242ac120002';
+                        $x['props'] = $this->_db->table('ref_provinsi')
+                            ->get()->getResult();
+                        $x['kabs'] = $this->_db->table('ref_kabupaten')
+                            ->where("left(id,2) = '12'")->get()->getResult();
+                        $x['kecs'] = $this->_db->table('ref_kecamatan')
+                            ->where("left(id_kabupaten,4) = '1202'")->get()->getResult();
+                        $x['kels'] = $this->_db->table('ref_kelurahan')
+                            ->where("left(id_kecamatan,6) = '120202'")->get()->getResult();
+                        $x['dusuns'] = $this->_db->table('ref_dusun')->orderBy('urut', 'ASC')
+                            ->get()->getResult();
+                        $x['sek'] = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('npsn', '10000001')->get()->getRowObject();
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->message = "Berhasil mengambil data";
+                        $response->data = view('adm/layanan/pd/addPdBelum', $x);
+                        return json_encode($response);
+                    } else {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Jenis pd tidak diketahui.";
+                        return json_encode($response);
+                    }
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
     public function edit()
     {
         $data['title'] = 'EDIT DOMISILI PESERTA DIDIK';
@@ -638,6 +820,522 @@ class Pd extends BaseController
                     $response = new \stdClass;
                     $response->status = 400;
                     $response->message = "Gagal mengupdate data.";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function addSave()
+    {
+        if ($this->request->isAJAX()) {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Session telah habis";
+                return json_encode($response);
+            }
+
+            $rules = [
+                '_data_pd' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'id tidak boleh kosong. ',
+                    ]
+                ],
+                '_nik' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nik tidak boleh kosong. ',
+                    ]
+                ],
+                '_kk' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'No KK tidak boleh kosong. ',
+                    ]
+                ],
+                '_kab' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kabupaten tidak boleh kosong. ',
+                    ]
+                ],
+                '_kec' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kecamatan tidak boleh kosong. ',
+                    ]
+                ],
+                '_kel' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kelurahan tidak boleh kosong. ',
+                    ]
+                ],
+                '_dusun' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Dusun tidak boleh kosong. ',
+                    ]
+                ],
+                '_lintang' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Lintang tidak boleh kosong. ',
+                    ]
+                ],
+                '_bujur' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Bujur tidak boleh kosong. ',
+                    ]
+                ],
+                '_peserta_didik_id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Peserta didik id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('_data_pd')
+                    . $this->validator->getError('_nik')
+                    . $this->validator->getError('_kk')
+                    . $this->validator->getError('_kab')
+                    . $this->validator->getError('_kec')
+                    . $this->validator->getError('_kel')
+                    . $this->validator->getError('_dusun')
+                    . $this->validator->getError('_lintang')
+                    . $this->validator->getError('_bujur')
+                    . $this->validator->getError('_peserta_didik_id');
+                return json_encode($response);
+            } else {
+
+                $dataPd = htmlspecialchars($this->request->getVar('_data_pd'), true);
+                $nik = htmlspecialchars($this->request->getVar('_nik'), true);
+                $kk = htmlspecialchars($this->request->getVar('_kk'), true);
+                $kab = htmlspecialchars($this->request->getVar('_kab'), true);
+                $kec = htmlspecialchars($this->request->getVar('_kec'), true);
+                $kel = htmlspecialchars($this->request->getVar('_kel'), true);
+                $dusun = htmlspecialchars($this->request->getVar('_dusun'), true);
+                $lintang = htmlspecialchars($this->request->getVar('_lintang'), true);
+                $bujur = htmlspecialchars($this->request->getVar('_bujur'), true);
+                $pdId = htmlspecialchars($this->request->getVar('_peserta_didik_id'), true);
+
+                $oldData = $this->_db->table('dapo_peserta')->where('peserta_didik_id', $pdId)->get()->getRowObject();
+                if ($oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Peserta didik sudah ada dengan Nisn: $oldData->nisn ($oldData->nama).";
+                    return json_encode($response);
+                }
+
+                $dataPdFix = json_decode($dataPd);
+                $refSeklah = $this->_db->table('dapo_sekolah')->where('sekolah_id', $dataPdFix->sekolah_id)->get()->getRowObject();
+                if (!$refSeklah) {
+
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Referensi sekolah asal PD tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('dapo_peserta')->insert([
+                        'peserta_didik_id' => $pdId,
+                        'sekolah_id' => $dataPdFix->sekolah_id,
+                        'nama' => $dataPdFix->nama,
+                        'tempat_lahir' => $dataPdFix->tempat_lahir,
+                        'tanggal_lahir' => $dataPdFix->tanggal_lahir,
+                        'jenis_kelamin' => $dataPdFix->jenis_kelamin,
+                        'nisn' => $dataPdFix->nisn,
+                        'nik' => $nik,
+                        'no_kk' => $kk,
+                        'kab' => $kab,
+                        'kec' => $kec,
+                        'kel' => $kel,
+                        'kode_wilayah' => $kel,
+                        'alamat_jalan' => $dataPdFix->alamat_jalan,
+                        'desa_kelurahan' => $dataPdFix->desa_kelurahan,
+                        'rt' => $dataPdFix->rt,
+                        'rw' => $dataPdFix->rw,
+                        'nama_dusun' => $dataPdFix->nama_dusun,
+                        'nama_ibu_kandung' => $dataPdFix->nama_ibu_kandung,
+                        'pekerjaan_ibu' => $dataPdFix->pekerjaan_ibu,
+                        'penghasilan_ibu' => $dataPdFix->penghasilan_ibu,
+                        'nama_ayah' => $dataPdFix->nama_ayah,
+                        'pekerjaan_ayah' => $dataPdFix->pekerjaan_ayah,
+                        'penghasilan_ayah' => $dataPdFix->penghasilan_ayah,
+                        'nama_wali' => $dataPdFix->nama_wali,
+                        'pekerjaan_wali' => $dataPdFix->pekerjaan_wali,
+                        'penghasilan_wali' => $dataPdFix->penghasilan_wali,
+                        'kebutuhan_khusus' => $dataPdFix->kebutuhan_khusus,
+                        'no_kip' => $dataPdFix->no_kip,
+                        'no_pkh' => $dataPdFix->no_pkh,
+                        'tingkat_pendidikan_id' => $dataPdFix->tingkat_pendidikan,
+                        'flag_pip' => $dataPdFix->flag_pip,
+                        'dusun' => $dusun,
+                        'lintang' => $lintang,
+                        'bujur' => $bujur,
+                        'is_edited' => 0,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
+                    if ($this->_db->affectedRows() > 0) {
+                        $characters = array_merge(range('A', 'Z'), range(0, 9));
+                        $randomString = '';
+                        for ($i = 0; $i < 6; $i++) {
+                            $randomIndex = mt_rand(0, count($characters) - 1);
+                            $randomString .= $characters[$randomIndex];
+                        }
+                        $password = $randomString;
+                        $passwordFix = password_hash($password, PASSWORD_BCRYPT);
+
+                        $uuidLib = new Uuid();
+
+                        $dataUser = [
+                            'id' => $uuidLib->v4(),
+                            'username' => $dataPdFix->nisn,
+                            'password' => $passwordFix,
+                            'is_active' => 1,
+                            'level' => 5,
+                            'created_at' => date('Y-m-d H:i:s')
+                        ];
+
+                        $dataUserProfile = [
+                            'user_id' => $dataUser['id'],
+                            'peserta_didik_id' => $pdId,
+                            'sekolah_id_asal' => $dataPdFix->sekolah_id,
+                            'wilayah' => $kel,
+                            'nama' => $dataPdFix->nama,
+                            'nama_sekolah_asal' => $refSeklah->nama_sekolah,
+                            'npsn_asal' => $refSeklah->npsn,
+                            'tingkat_pendidikan_asal' => $dataPdFix->tingkat_pendidikan_id,
+                            'acc_reg' => $password,
+                            'created_at' => $dataUser['created_at']
+                        ];
+
+                        $this->_db->table('_users_tb')->insert($dataUser);
+                        if ($this->_db->affectedRows() > 0) {
+                            $this->_db->table('_users_profile_pd')->insert($dataUserProfile);
+                            if ($this->_db->affectedRows() > 0) {
+
+                                $this->_db->transCommit();
+
+                                $response = new \stdClass;
+                                $response->status = 200;
+                                $response->message = "Data berhasil disimpan.";
+                                return json_encode($response);
+                            } else {
+                                $this->_db->transRollback();
+                                $response = new \stdClass;
+                                $response->status = 400;
+                                $response->message = "Gagal menyimpan data.";
+                                return json_encode($response);
+                            }
+                        } else {
+                            $this->_db->transRollback();
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Gagal menyimpan data.";
+                            return json_encode($response);
+                        }
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menyimpan data.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal menyimpan data.";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function addSaveBelum()
+    {
+        if ($this->request->isAJAX()) {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->user();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Session telah habis";
+                return json_encode($response);
+            }
+
+            $rules = [
+                '_tingkat_pendidikan_pd' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'tingkat pendidikan tidak boleh kosong. ',
+                    ]
+                ],
+                '_sekolah_id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'sekolah id tidak boleh kosong. ',
+                    ]
+                ],
+                '_nik' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nik tidak boleh kosong. ',
+                    ]
+                ],
+                '_kk' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'No KK tidak boleh kosong. ',
+                    ]
+                ],
+                '_nama_pd' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama PD tidak boleh kosong. ',
+                    ]
+                ],
+                '_tempat_lahir_pd' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Tempat Lahir PD tidak boleh kosong. ',
+                    ]
+                ],
+                '_tanggal_lahir_pd' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Tanggal Lahir PD tidak boleh kosong. ',
+                    ]
+                ],
+                '_jenis_kelamin_pd' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Jenis kelamin PD tidak boleh kosong. ',
+                    ]
+                ],
+                '_nama_ibu_kandung_pd' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama ibu kandung PD tidak boleh kosong. ',
+                    ]
+                ],
+                '_kab' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kabupaten tidak boleh kosong. ',
+                    ]
+                ],
+                '_kec' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kecamatan tidak boleh kosong. ',
+                    ]
+                ],
+                '_kel' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kelurahan tidak boleh kosong. ',
+                    ]
+                ],
+                '_dusun' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Dusun tidak boleh kosong. ',
+                    ]
+                ],
+                '_lintang' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Lintang tidak boleh kosong. ',
+                    ]
+                ],
+                '_bujur' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Bujur tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('_tingkat_pendidikan_pd')
+                    . $this->validator->getError('_sekolah_id')
+                    . $this->validator->getError('_nik')
+                    . $this->validator->getError('_kk')
+                    . $this->validator->getError('_nama_pd')
+                    . $this->validator->getError('_tempat_lahir_pd')
+                    . $this->validator->getError('_tanggal_lahir_pd')
+                    . $this->validator->getError('_jenis_kelamin_pd')
+                    . $this->validator->getError('_nama_ibu_kandung_pd')
+                    . $this->validator->getError('_kab')
+                    . $this->validator->getError('_kec')
+                    . $this->validator->getError('_kel')
+                    . $this->validator->getError('_dusun')
+                    . $this->validator->getError('_lintang')
+                    . $this->validator->getError('_bujur');
+                return json_encode($response);
+            } else {
+
+                $tingkat_pendidikan = htmlspecialchars($this->request->getVar('_tingkat_pendidikan_pd'), true);
+                $sekolah_id = htmlspecialchars($this->request->getVar('_sekolah_id'), true);
+                $nama = htmlspecialchars($this->request->getVar('_nama_pd'), true);
+                $tempat_lahir = htmlspecialchars($this->request->getVar('_tempat_lahir_pd'), true);
+                $tanggal_lahir = htmlspecialchars($this->request->getVar('_tanggal_lahir_pd'), true);
+                $jenis_kelamin = htmlspecialchars($this->request->getVar('_jenis_kelamin_pd'), true);
+                $nama_ibu_kandung = htmlspecialchars($this->request->getVar('_nama_ibu_kandung_pd'), true);
+                $nik = htmlspecialchars($this->request->getVar('_nik'), true);
+                $kk = htmlspecialchars($this->request->getVar('_kk'), true);
+                $kab = htmlspecialchars($this->request->getVar('_kab'), true);
+                $kec = htmlspecialchars($this->request->getVar('_kec'), true);
+                $kel = htmlspecialchars($this->request->getVar('_kel'), true);
+                $dusun = htmlspecialchars($this->request->getVar('_dusun'), true);
+                $lintang = htmlspecialchars($this->request->getVar('_lintang'), true);
+                $bujur = htmlspecialchars($this->request->getVar('_bujur'), true);
+
+                $anyUser = $this->_db->table('_users_tb')->where('username', $nik)->get()->getRowObject();
+                if ($anyUser) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "NIK sudah terdaftar. Silahkan login dengan menggunakan NIK.";
+                    return json_encode($response);
+                }
+
+                $refSeklah = $this->_db->table('dapo_sekolah')->where('sekolah_id', $sekolah_id)->get()->getRowObject();
+                if (!$refSeklah) {
+
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Referensi sekolah asal PD tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $uuidLib = new Uuid();
+
+                $pdId = $uuidLib->v4();
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('dapo_peserta')->insert([
+                        'peserta_didik_id' => $pdId,
+                        'sekolah_id' => $sekolah_id,
+                        'nama' => $nama,
+                        'tempat_lahir' => $tempat_lahir,
+                        'tanggal_lahir' => $tanggal_lahir,
+                        'jenis_kelamin' => $jenis_kelamin,
+                        'nisn' => '-',
+                        'nik' => $nik,
+                        'no_kk' => $kk,
+                        'kab' => $kab,
+                        'kec' => $kec,
+                        'kel' => $kel,
+                        'kode_wilayah' => $kel,
+                        'alamat_jalan' => '-',
+                        'desa_kelurahan' => '-',
+                        'rt' => 0,
+                        'rw' => 0,
+                        'nama_dusun' => '-',
+                        'nama_ibu_kandung' => $nama_ibu_kandung,
+                        'tingkat_pendidikan_id' => $tingkat_pendidikan,
+                        'dusun' => $dusun,
+                        'lintang' => $lintang,
+                        'bujur' => $bujur,
+                        'is_edited' => 0,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
+                    if ($this->_db->affectedRows() > 0) {
+                        $characters = array_merge(range('A', 'Z'), range(0, 9));
+                        $randomString = '';
+                        for ($i = 0; $i < 6; $i++) {
+                            $randomIndex = mt_rand(0, count($characters) - 1);
+                            $randomString .= $characters[$randomIndex];
+                        }
+                        $password = $randomString;
+                        $passwordFix = password_hash("123456", PASSWORD_BCRYPT);
+
+                        $uuidLib = new Uuid();
+
+                        $dataUser = [
+                            'id' => $uuidLib->v4(),
+                            'username' => $nik,
+                            'password' => $passwordFix,
+                            'is_active' => 1,
+                            'level' => 5,
+                            'created_at' => date('Y-m-d H:i:s')
+                        ];
+
+                        $dataUserProfile = [
+                            'user_id' => $dataUser['id'],
+                            'peserta_didik_id' => $pdId,
+                            'sekolah_id_asal' => $sekolah_id,
+                            'wilayah' => $kel,
+                            'nama' => $nama,
+                            'nama_sekolah_asal' => $refSeklah->nama,
+                            'npsn_asal' => $refSeklah->npsn,
+                            'tingkat_pendidikan_asal' => $tingkat_pendidikan,
+                            'acc_reg' => $password,
+                            'created_at' => $dataUser['created_at']
+                        ];
+
+                        $this->_db->table('_users_tb')->insert($dataUser);
+                        if ($this->_db->affectedRows() > 0) {
+                            $this->_db->table('_users_profile_pd')->insert($dataUserProfile);
+                            if ($this->_db->affectedRows() > 0) {
+
+                                $this->_db->transCommit();
+
+                                $response = new \stdClass;
+                                $response->status = 200;
+                                $response->message = "Data berhasil disimpan. Username: menggunakan NIK  Password: default(123456).";
+                                return json_encode($response);
+                            } else {
+                                $this->_db->transRollback();
+                                $response = new \stdClass;
+                                $response->status = 400;
+                                $response->message = "Gagal menyimpan data.";
+                                return json_encode($response);
+                            }
+                        } else {
+                            $this->_db->transRollback();
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Gagal menyimpan data.";
+                            return json_encode($response);
+                        }
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menyimpan data.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal menyimpan data.";
                     return json_encode($response);
                 }
             }
