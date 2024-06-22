@@ -69,8 +69,7 @@
                 "url": "./getAllTkAkhir",
                 "type": "POST",
                 "data": function(data) {
-                    data.id = <?= $id ?>;
-                    data.role = $('#_filter_role').val();
+                    data.id = '<?= $id ?>';
                 }
             },
             language: {
@@ -111,9 +110,6 @@
                 }
             ]
             // "columnDefs": [],
-        });
-        $('#_filter_role').change(function() {
-            tableDatatables.draw();
         });
     });
 </script>
