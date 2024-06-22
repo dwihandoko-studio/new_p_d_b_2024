@@ -271,7 +271,7 @@
             "serverSide": true,
             "order": [],
             "ajax": {
-                "url": "./getAll",
+                "url": "./getAllDetail",
                 "type": "POST",
                 "data": function(data) {
                     data.id = '<?= $id ?>';

@@ -66,7 +66,6 @@
                                             <th>NPSN</th>
                                             <th>Jenjang</th>
                                             <th>Kecamatan</th>
-                                            <th>Jumlah PD</th>
                                         </tr>
                                     </thead>
                                 </table>

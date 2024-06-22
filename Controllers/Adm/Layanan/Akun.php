@@ -47,7 +47,6 @@ class Akun extends BaseController
             $row[] = $list->npsn;
             $row[] = $list->bentuk_pendidikan;
             $row[] = $list->kecamatan;
-            $row[] = $list->jumlah_siswa;
 
             $data[] = $row;
         }
