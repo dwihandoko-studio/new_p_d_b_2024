@@ -83,7 +83,7 @@ class Pd extends BaseController
             //                     <div class="dropdown-divider"></div>
             //                 </div>
             //             </div>';
-            $action = '<a class="btn btn-primary" href="./edit?id=' . $list->peserta_didik_id . '"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>';
+            $action = '<a class="btn btn-primary" href="./edit?id=' . $list->peserta_didik_id . '&t=' . $list->sekolah_id . '"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>';
 
             $row[] = $action;
             $row[] = $list->nama;
@@ -201,73 +201,15 @@ class Pd extends BaseController
         }
 
         $id = htmlspecialchars($this->request->getGet('id'), true);
+        $sekolah_id = htmlspecialchars($this->request->getGet('t'), true);
         $data['id'] = $id;
+        $data['sekolah_id'] = $sekolah_id;
 
         $data['user'] = $user->data;
         $data['level'] = $user->level;
         $data['level_nama'] = $user->level_nama;
 
         return view('adm/layanan/pd/edit', $data);
-    }
-
-    public function getPd()
-    {
-        if ($this->request->isAJAX()) {
-
-            $rules = [
-                'keyword' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Keyword tidak boleh kosong. ',
-                    ]
-                ],
-                'sekolah_id' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Sekolah id tidak boleh kosong. ',
-                    ]
-                ],
-            ];
-
-            if (!$this->validate($rules)) {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = $this->validator->getError('keyword')
-                    .  $this->validator->getError('sekolah_id');
-                return json_encode($response);
-            } else {
-
-                $Profilelib = new Profilelib();
-                $user = $Profilelib->user();
-                if ($user->status != 200) {
-                    delete_cookie('jwt');
-                    session()->destroy();
-                    return redirect()->to(base_url('auth'));
-                }
-
-                $keyword = htmlspecialchars($this->request->getVar('keyword'), true);
-                $sekolah_id = htmlspecialchars($this->request->getVar('sekolah_id'), true);
-
-                $current = $this->_db->table('dapo_peserta')
-                    ->select("peserta_didik_id as id, nama, nisn, tanggal_lahir, tempat_lahir")
-                    ->where("sekolah_id = '$sekolah_id' AND (nisn LIKE '%$keyword%' OR nama LIKE '%$keyword%')")->get()->getResult();
-
-                if (count($current) > 0) {
-                    $response = new \stdClass;
-                    $response->status = 200;
-                    $response->message = "Permintaan diizinkan";
-                    $response->data = $current;
-                    return json_encode($response);
-                } else {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Data tidak ditemukan";
-                    return json_encode($response);
-                }
-            }
-        } else {
-            exit('Maaf tidak dapat diproses');
-        }
     }
 
     public function refkab()

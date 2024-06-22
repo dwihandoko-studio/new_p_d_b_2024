@@ -63,12 +63,13 @@
 
 <?= $this->section('scriptBottom'); ?>
 <script>
-    function changePd(id) {
+    function changePd(id, sek) {
         $.ajax({
             url: "./changedPd",
             type: 'POST',
             data: {
                 id: id,
+                sekolah_id: sek,
             },
             dataType: "json",
             beforeSend: function() {
@@ -112,7 +113,7 @@
     }
 
     $(document).ready(function() {
-        changePd('<?= $id ?>');
+        changePd('<?= $id ?>', '<?= $sekolah_id ?>');
         // initSelect2('_filter_kec', $('.content-body'));
         // initSelect2('_filter_jenjang', $('.content-body'));
     });
