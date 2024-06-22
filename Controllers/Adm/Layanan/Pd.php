@@ -1272,7 +1272,8 @@ class Pd extends BaseController
                             $randomIndex = mt_rand(0, count($characters) - 1);
                             $randomString .= $characters[$randomIndex];
                         }
-                        $password = $randomString;
+                        // $password = $randomString;
+                        $password = "123456";
                         $passwordFix = password_hash("123456", PASSWORD_BCRYPT);
 
                         $uuidLib = new Uuid();
@@ -1308,7 +1309,9 @@ class Pd extends BaseController
 
                                 $response = new \stdClass;
                                 $response->status = 200;
-                                $response->message = "Data berhasil disimpan. Username: menggunakan NIK  Password: default(123456).";
+                                $response->peserta_didik_id = $pdId;
+                                $response->nama = $nama;
+                                $response->message = "Username: menggunakan NIK  Password: default(123456).";
                                 return json_encode($response);
                             } else {
                                 $this->_db->transRollback();
