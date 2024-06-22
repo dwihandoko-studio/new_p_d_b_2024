@@ -163,7 +163,7 @@ class Dokumen extends BaseController
 
                 $id = htmlspecialchars($this->request->getVar('id'), true);
 
-                $oldData = $this->_db->table('panitia_ppdb')->where('id', $id)->get()->getRowObject();
+                $oldData = $this->_db->table('doc_informasi')->where('id', $id)->get()->getRowObject();
 
                 if (!$oldData) {
                     $response = new \stdClass;
@@ -427,22 +427,22 @@ class Dokumen extends BaseController
         if ($this->request->isAJAX()) {
 
             $rules = [
-                '_nama' => [
+                '_id' => [
                     'rules' => 'required|trim',
                     'errors' => [
-                        'required' => 'Nama tidak boleh kosong. ',
+                        'required' => 'Id tidak boleh kosong. ',
                     ]
                 ],
-                '_jabatan' => [
+                '_judul' => [
                     'rules' => 'required|trim',
                     'errors' => [
-                        'required' => 'Jabatan tidak boleh kosong. ',
+                        'required' => 'Judul tidak boleh kosong. ',
                     ]
                 ],
-                '_jabatan_ppdb' => [
+                '_deskripsi' => [
                     'rules' => 'required|trim',
                     'errors' => [
-                        'required' => 'Jabatan ppdb tidak boleh kosong. ',
+                        'required' => 'Deskripspi tidak boleh kosong. ',
                     ]
                 ],
             ];
@@ -450,9 +450,9 @@ class Dokumen extends BaseController
             if (!$this->validate($rules)) {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = $this->validator->getError('_nama')
-                    . $this->validator->getError('_jabatan')
-                    . $this->validator->getError('_jabatan_ppdb');
+                $response->message = $this->validator->getError('_id')
+                    . $this->validator->getError('_judul')
+                    . $this->validator->getError('_deskripsi');
                 return json_encode($response);
             } else {
                 $Profilelib = new Profilelib();
@@ -467,11 +467,10 @@ class Dokumen extends BaseController
                 }
 
                 $id = htmlspecialchars($this->request->getVar('_id'), true);
-                $nama = htmlspecialchars($this->request->getVar('_nama'), true);
-                $jabatan = htmlspecialchars($this->request->getVar('_jabatan'), true);
-                $jabatan_ppdb = htmlspecialchars($this->request->getVar('_jabatan_ppdb'), true);
+                $judul = htmlspecialchars($this->request->getVar('_judul'), true);
+                $deskripsi = htmlspecialchars($this->request->getVar('_deskripsi'), true);
 
-                $oldData = $this->_db->table('panitia_ppdb')->where('id', $id)->get()->getRowObject();
+                $oldData = $this->_db->table('doc_informasi')->where('id', $id)->get()->getRowObject();
 
                 if (!$oldData) {
                     $response = new \stdClass;
@@ -482,10 +481,9 @@ class Dokumen extends BaseController
 
                 $this->_db->transBegin();
                 try {
-                    $this->_db->table('panitia_ppdb')->where('id', $oldData->id)->update([
-                        'nama' => $nama,
-                        'jabatan' => $jabatan,
-                        'jabatan_ppdb' => $jabatan_ppdb,
+                    $this->_db->table('doc_informasi')->where('id', $oldData->id)->update([
+                        'judul' => $judul,
+                        'deskripsi' => $deskripsi,
                         'updated_at' => date('Y-m-d H:i:s')
                     ]);
                     if ($this->_db->affectedRows() > 0) {
@@ -582,248 +580,6 @@ class Dokumen extends BaseController
                         $response->status = 200;
                         $response->url = base_url('portal');
                         $response->message = "Data berhasil dihapus.";
-                        return json_encode($response);
-                    } else {
-                        $this->_db->transRollback();
-                        $response = new \stdClass;
-                        $response->status = 400;
-                        $response->message = "Gagal mengupdate data.";
-                        return json_encode($response);
-                    }
-                } catch (\Throwable $th) {
-                    $this->_db->transRollback();
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Gagal mengupdate data. with error";
-                    return json_encode($response);
-                }
-            }
-        } else {
-            exit('Maaf tidak dapat diproses');
-        }
-    }
-
-    public function reset_password()
-    {
-        if ($this->request->isAJAX()) {
-
-            $rules = [
-                'id' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Id tidak boleh kosong. ',
-                    ]
-                ],
-                'nama' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Nama tidak boleh kosong. ',
-                    ]
-                ],
-            ];
-
-            if (!$this->validate($rules)) {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = $this->validator->getError('id')
-                    . $this->validator->getError('nama');
-                return json_encode($response);
-            } else {
-                $Profilelib = new Profilelib();
-                $user = $Profilelib->userSekolah();
-                if ($user->status != 200) {
-                    delete_cookie('jwt');
-                    session()->destroy();
-                    $response = new \stdClass;
-                    $response->status = 401;
-                    $response->message = "Session expired";
-                    return json_encode($response);
-                }
-
-                $id = htmlspecialchars($this->request->getVar('id'), true);
-                $nama = htmlspecialchars($this->request->getVar('nama'), true);
-
-                $oldData = $this->_db->table('panitia_ppdb')->where('id', $id)->get()->getRowObject();
-
-                if (!$oldData) {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Data tidak ditemukan.";
-                    return json_encode($response);
-                }
-
-                $passwordHas = password_hash("123456", PASSWORD_BCRYPT);
-
-                $this->_db->transBegin();
-                try {
-                    $this->_db->table('_users_tb')->where('id', $oldData->id)->update(['password' => $passwordHas]);
-                    if ($this->_db->affectedRows() > 0) {
-                        $this->_db->transCommit();
-
-                        $response = new \stdClass;
-                        $response->status = 200;
-                        $response->url = base_url('portal');
-                        $response->message = "Data $nama berhasil di reset. Password Default (123456)";
-                        return json_encode($response);
-                    } else {
-                        $this->_db->transRollback();
-                        $response = new \stdClass;
-                        $response->status = 400;
-                        $response->message = "Gagal mengupdate data.";
-                        return json_encode($response);
-                    }
-                } catch (\Throwable $th) {
-                    $this->_db->transRollback();
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Gagal mengupdate data. with error";
-                    return json_encode($response);
-                }
-            }
-        } else {
-            exit('Maaf tidak dapat diproses');
-        }
-    }
-
-    public function disable_akun()
-    {
-        if ($this->request->isAJAX()) {
-
-            $rules = [
-                'id' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Id tidak boleh kosong. ',
-                    ]
-                ],
-                'nama' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Nama tidak boleh kosong. ',
-                    ]
-                ],
-            ];
-
-            if (!$this->validate($rules)) {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = $this->validator->getError('id')
-                    . $this->validator->getError('nama');
-                return json_encode($response);
-            } else {
-                $Profilelib = new Profilelib();
-                $user = $Profilelib->userSekolah();
-                if ($user->status != 200) {
-                    delete_cookie('jwt');
-                    session()->destroy();
-                    $response = new \stdClass;
-                    $response->status = 401;
-                    $response->message = "Session expired";
-                    return json_encode($response);
-                }
-
-                $id = htmlspecialchars($this->request->getVar('id'), true);
-                $nama = htmlspecialchars($this->request->getVar('nama'), true);
-
-                $oldData = $this->_db->table('panitia_ppdb')->where('id', $id)->get()->getRowObject();
-
-                if (!$oldData) {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Data tidak ditemukan.";
-                    return json_encode($response);
-                }
-
-                $this->_db->transBegin();
-                try {
-                    $this->_db->table('_users_tb')->where('id', $oldData->id)->update(['is_active' => 0]);
-                    if ($this->_db->affectedRows() > 0) {
-                        $this->_db->transCommit();
-
-                        $response = new \stdClass;
-                        $response->status = 200;
-                        $response->url = base_url('portal');
-                        $response->message = "Data $nama berhasil di nonaktifkan.";
-                        return json_encode($response);
-                    } else {
-                        $this->_db->transRollback();
-                        $response = new \stdClass;
-                        $response->status = 400;
-                        $response->message = "Gagal mengupdate data.";
-                        return json_encode($response);
-                    }
-                } catch (\Throwable $th) {
-                    $this->_db->transRollback();
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Gagal mengupdate data. with error";
-                    return json_encode($response);
-                }
-            }
-        } else {
-            exit('Maaf tidak dapat diproses');
-        }
-    }
-
-    public function aktifkan_akun()
-    {
-        if ($this->request->isAJAX()) {
-
-            $rules = [
-                'id' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Id tidak boleh kosong. ',
-                    ]
-                ],
-                'nama' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Nama tidak boleh kosong. ',
-                    ]
-                ],
-            ];
-
-            if (!$this->validate($rules)) {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = $this->validator->getError('id')
-                    . $this->validator->getError('nama');
-                return json_encode($response);
-            } else {
-                $Profilelib = new Profilelib();
-                $user = $Profilelib->userSekolah();
-                if ($user->status != 200) {
-                    delete_cookie('jwt');
-                    session()->destroy();
-                    $response = new \stdClass;
-                    $response->status = 401;
-                    $response->message = "Session expired";
-                    return json_encode($response);
-                }
-
-                $id = htmlspecialchars($this->request->getVar('id'), true);
-                $nama = htmlspecialchars($this->request->getVar('nama'), true);
-
-                $oldData = $this->_db->table('panitia_ppdb')->where('id', $id)->get()->getRowObject();
-
-                if (!$oldData) {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Data tidak ditemukan.";
-                    return json_encode($response);
-                }
-
-                $this->_db->transBegin();
-                try {
-                    $this->_db->table('_users_tb')->where('id', $oldData->id)->update(['is_active' => 1]);
-                    if ($this->_db->affectedRows() > 0) {
-                        $this->_db->transCommit();
-
-                        $response = new \stdClass;
-                        $response->status = 200;
-                        $response->url = base_url('portal');
-                        $response->message = "Data $nama berhasil di aktifkan.";
                         return json_encode($response);
                     } else {
                         $this->_db->transRollback();
