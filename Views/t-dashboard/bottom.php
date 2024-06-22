@@ -48,7 +48,8 @@
                         <div class="intro-title d-flex justify-content-between my-0">
                             <h5>Tautan</h5>
                         </div>
-                        <p><a href="https://disdikbud.lampungtengahkab.go.id">Website Dinas Pendidikan dan Kebudayaan Kab. Lampung Tengah</a></p>
+                        <p style="margin-bottom: 0px;"><a href="https://disdikbud.lampungtengahkab.go.id">Website Dinas Pendidikan dan Kebudayaan Kab. Lampung Tengah</a></p>
+                        <p style="margin-bottom: 0px;"><a href="https://disdikbud.lampungtengahkab.go.id">Website Dinas Pendidikan dan Kebudayaan Kab. Lampung Tengah</a></p>
                     </div>
                 </div>
                 <div class="col-xl-4">
