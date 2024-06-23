@@ -323,7 +323,7 @@ class Pd extends BaseController
                     } else {
                         $response = new \stdClass;
                         $response->status = 400;
-                        $response->message = "Gagal mengambil data.";
+                        $response->message = "Gagal mengambil data. request to backbone";
                         return json_encode($response);
                     }
                 } else {
