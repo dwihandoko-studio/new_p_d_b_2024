@@ -52,7 +52,7 @@ class KuotaModel extends Model
     }
     function get_datatables()
     {
-        $this->dt->select("b.sekolah_id, a.nama, b.npsn, b.bentuk_pendidikan_id, a.bentuk_pendidikan, a.kecamatan, b.jumlah_rombel_kebutuhan, b.zonasi, b.afirmasi, b.mutasi, b.prestasi, (b.zonasi + b.afirmasi + b.mutasi + b.prestasi) as total, b.is_locked");
+        $this->dt->select("b.sekolah_id, a.status_sekolah_id, a.nama, b.npsn, b.bentuk_pendidikan_id, a.bentuk_pendidikan, a.kecamatan, b.jumlah_rombel_kebutuhan, b.zonasi, b.afirmasi, b.mutasi, b.prestasi, (b.zonasi + b.afirmasi + b.mutasi + b.prestasi) as total, b.is_locked");
         $this->dt->join('dapo_sekolah a', 'a.sekolah_id = b.sekolah_id');
         $this->dt->where('b.is_locked', 1);
         if ($this->request->getPost('kec')) {

@@ -194,11 +194,19 @@ class Home extends BaseController
             $row[] = $list->nama;
             $row[] = $list->npsn;
             $row[] = $list->jumlah_rombel_kebutuhan;
-            $row[] = $list->afirmasi;
-            $row[] = $list->zonasi;
-            $row[] = $list->mutasi;
-            $row[] = $list->prestasi;
-            $row[] = $list->total;
+            if ((int)$list->status_sekolah_id == 1) {
+                $row[] = $list->afirmasi;
+                $row[] = $list->zonasi;
+                $row[] = $list->mutasi;
+                $row[] = $list->prestasi;
+                $row[] = $list->total;
+            } else {
+                $row[] = 0;
+                $row[] = 0;
+                $row[] = 0;
+                $row[] = 0;
+                $row[] = $list->total;
+            }
 
             $data[] = $row;
         }
