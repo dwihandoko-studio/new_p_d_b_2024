@@ -160,6 +160,17 @@
                 "targets": 8,
                 "orderable": false,
             }],
+            "rowCallback": function(row, data, index) {
+                // $(row).attr("id", "tr-" + index);
+                $(row).click(function() {
+                    const urlSekolah = data.url_sekolah;
+                    window.open(urlSekolah, '_blank');
+                    // window.location.href = urlSekolah;
+                });
+                // if (data.grade == 'A') {
+                //     $('td:eq(4)', row).html('<b>A</b>');
+                // }
+            }
         });
         $('#_filter_kec').change(function() {
             tableDatatables.draw();
