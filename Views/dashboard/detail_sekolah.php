@@ -37,6 +37,7 @@
                             </div>
                         </div>
                     </div>
+                    <p>Alamat Sekolah: <?= $sekolah->alamat_jalan ?>, <?= $sekolah->desa_kelurahan ?> - <?= $sekolah->kecamatan ?>, <?= $sekolah->kabupaten ?> - <?= $sekolah->provinsi ?> (Kode Pos: <?= $sekolah->kode_pos ?>)</p>
                 </div>
             </div>
 
