@@ -363,7 +363,7 @@ class Home extends BaseController
             $row['id'] = $list->sekolah_id;
             // $row['npsn'] = $list->npsn;
             $row['nama'] = '<div style="font-size: 13px; vertical-align: inherit;">' . $list->nama_sekolah . '<br/>' . $list->npsn . '<br/>' . $list->nama_kecamatan . '<br/><b>Total Kuota : ' . ($list->zonasi + $list->afirmasi + $list->mutasi + $list->prestasi) . '</b><br/><b>Total Diterima : ' . ($list->diterima_zonasi + $list->diterima_afirmasi + $list->diterima_mutasi + $list->diterima_prestasi + $list->diterima_swasta) . '</b><br/><b>Sisa Kuota : ' . (($list->zonasi + $list->afirmasi + $list->mutasi + $list->prestasi) - ($list->diterima_zonasi + $list->diterima_afirmasi + $list->diterima_mutasi + $list->diterima_prestasi + $list->diterima_swasta)) . '</b></div>';
-            if ($list->status_sekolah == 1) {
+            if ($list->status_sekolah_id == 1) {
                 $row['zonasi'] = '<div style="font-size: 13px;">Kuota : <b>' . $list->zonasi . '</b>'
                     . '<br/>' . 'Pendaftar : <b>' . $list->pendaftar_zonasi . '</b>'
                     . '<br/>' . 'Terverifikasi : <b>' . $list->terverifikasi_zonasi . '</b>'
