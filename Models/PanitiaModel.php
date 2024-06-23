@@ -39,6 +39,7 @@ class PanitiaModel extends Model
             }
             $i++;
         }
+        $this->dt->orderBy('a.jabatan_ppdb', 'asc');
     }
     function get_datatables()
     {
