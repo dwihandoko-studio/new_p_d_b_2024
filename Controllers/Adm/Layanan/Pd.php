@@ -1116,7 +1116,6 @@ class Pd extends BaseController
                     'no_kip' => $dataPdFix->no_kip,
                     'no_pkh' => $dataPdFix->no_pkh,
                     'tingkat_pendidikan_id' => $dataPdFix->tingkat_pendidikan,
-                    'flag_pip' => $dataPdFix->flag_pip,
                     'dusun' => $dusun,
                     'lintang' => $lintang,
                     'bujur' => $bujur,
