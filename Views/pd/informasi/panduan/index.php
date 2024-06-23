@@ -42,7 +42,7 @@
                             }
 
                             .prev-btn-panduan {
-                                right: 70px;
+                                right: 90px;
                             }
 
                             .next-btn-panduan {
@@ -51,8 +51,8 @@
                         </style>
                         <div class="image-container-panduan">
                             <img class="d-block w-100" src="<?= base_url() ?>/uploads/panduan/1.svg" alt="Image 1" id="current-image-panduan">
-                            <button class="btn btn-info btn-xs prev-btn-panduan" style="min-width: 60px;">Previous</button>
-                            <button class="btn btn-info btn-xs next-btn-panduan" style="min-width: 60px;">Next</button>
+                            <button class="btn btn-info btn-xs prev-btn-panduan" style="min-width: 70px;">Previous</button>
+                            <button class="btn btn-info btn-xs next-btn-panduan" style="min-width: 70px;">Next</button>
                         </div>
                     </div>
                 </div>
