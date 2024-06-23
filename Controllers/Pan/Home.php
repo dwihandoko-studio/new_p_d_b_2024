@@ -19,74 +19,6 @@ class Home extends BaseController
         $this->_helpLib = new Helplib();
     }
 
-    public function getAllPengaduan()
-    {
-        $Profilelib = new Profilelib();
-        $user = $Profilelib->user();
-        if ($user->status != 200) {
-            session()->destroy();
-            delete_cookie('jwt');
-            return redirect()->to(base_url('auth'));
-        }
-
-        $datas = $this->_db->table('riwayat_pengaduan a')
-            // ->select("a.*, (SELECT count(*) FROM _notification_tb WHERE send_to = '$id' AND (readed = 0)) as jumlah, b.fullname, b.profile_picture as image_user")
-            // ->join('_profil_users_tb b', 'a.send_from = b.id', 'LEFT')
-            ->where('a.user_id', $user->data->id)
-            ->limit(5)
-            ->orderBy('a.created_at', 'DESC')
-            ->get()->getResult();
-
-        if (count($datas) > 0) {
-            $x['datas'] = $datas;
-            $response = new \stdClass;
-            $response->status = 200;
-            $response->message = "success";
-            $response->data = $datas;
-            return json_encode($response);
-        } else {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = "Belum ada riwayat.";
-            $response->data = [];
-            return json_encode($response);
-        }
-    }
-
-    public function getAllPermohonan()
-    {
-        $Profilelib = new Profilelib();
-        $user = $Profilelib->user();
-        if ($user->status != 200) {
-            session()->destroy();
-            delete_cookie('jwt');
-            return redirect()->to(base_url('auth'));
-        }
-
-        $datas = $this->_db->table('riwayat_permohonan a')
-            // ->select("a.*, (SELECT count(*) FROM _notification_tb WHERE send_to = '$id' AND (readed = 0)) as jumlah, b.fullname, b.profile_picture as image_user")
-            // ->join('_profil_users_tb b', 'a.send_from = b.id', 'LEFT')
-            ->where('a.user_id', $user->data->id)
-            ->limit(5)
-            ->orderBy('a.created_at', 'DESC')
-            ->get()->getResult();
-
-        if (count($datas) > 0) {
-            $x['datas'] = $datas;
-            $response = new \stdClass;
-            $response->status = 200;
-            $response->message = "success";
-            $response->data = $datas;
-            return json_encode($response);
-        } else {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = "Belum ada riwayat.";
-            $response->data = [];
-            return json_encode($response);
-        }
-    }
-
     public function index()
     {
         // var_dump("world");
@@ -96,6 +28,7 @@ class Home extends BaseController
 
     public function data()
     {
+
         $Profilelib = new Profilelib();
         $user = $Profilelib->userSekolah();
 
@@ -115,7 +48,7 @@ class Home extends BaseController
         $sekolahNya = $this->_db->table('dapo_sekolah')->select("status_sekolah_id")->where('sekolah_id', $user->data->sekolah_id)->get()->getRowObject();
 
         if (!$sekolahNya) {
-            return redirect()->to(base_url('sek/home'));
+            return redirect()->to(base_url('pan/home'));
         }
 
         if ((int)$sekolahNya->status_sekolah_id == 1) {
@@ -128,8 +61,66 @@ class Home extends BaseController
         $data['level'] = $user->level;
         $data['level_nama'] = $user->level_nama;
         $data['title'] = 'Dashboard';
-
         return view('pan/home/index', $data);
+    }
+
+    public function statistik()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->userSekolah();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+
+                $detail = $this->_db->table('dapo_sekolah a')
+                    ->select("a.npsn, a.sekolah_id, a.status_sekolah, a.status_sekolah_id, a.bentuk_pendidikan_id, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar_temp WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'ZONASI') as zonasi_belum_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar_temp WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'AFIRMASI') as afirmasi_belum_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar_temp WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'MUTASI') as mutasi_belum_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar_temp WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'PRESTASI') as prestasi_belum_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar_temp WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'SWASTA') as swasta_belum_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'ZONASI') as zonasi_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'AFIRMASI') as afirmasi_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'MUTASI') as mutasi_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'PRESTASI') as prestasi_terverifikasi, (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'SWASTA') as swasta_terverifikasi")
+                    ->where('a.sekolah_id', $user->data->sekolah_id)
+                    ->get()->getRowObject();
+
+                $detail->zonasi = (int)$detail->zonasi_terverifikasi + (int)$detail->zonasi_belum_terverifikasi;
+                $detail->afirmasi = (int)$detail->afirmasi_terverifikasi + (int)$detail->afirmasi_belum_terverifikasi;
+                $detail->mutasi = (int)$detail->mutasi_terverifikasi + (int)$detail->mutasi_belum_terverifikasi;
+                $detail->prestasi = (int)$detail->prestasi_terverifikasi + (int)$detail->prestasi_belum_terverifikasi;
+                $detail->swasta = (int)$detail->swasta_terverifikasi + (int)$detail->swasta_belum_terverifikasi;
+                $detail->total_pendaftar = (int)($detail->zonasi + $detail->afirmasi + $detail->mutasi + $detail->prestasi + $detail->swasta);
+                $detail->total_terverifikasi = (int)$detail->zonasi_terverifikasi + (int)$detail->afirmasi_terverifikasi + (int)$detail->mutasi_terverifikasi + (int)$detail->prestasi_terverifikasi + (int)$detail->swasta_terverifikasi;
+                $detail->total_belum_verifikasi = (int)$detail->zonasi_belum_terverifikasi + (int)$detail->afirmasi_belum_terverifikasi + (int)$detail->mutasi_belum_terverifikasi + (int)$detail->prestasi_belum_terverifikasi + (int)$detail->swasta_belum_terverifikasi;
+
+                $detail->total_swasta = (int)($detail->zonasi + $detail->afirmasi + $detail->mutasi + $detail->prestasi + $detail->swasta);
+                $detail->total_swasta_terverifikasi = (int)$detail->zonasi_terverifikasi + (int)$detail->afirmasi_terverifikasi + (int)$detail->mutasi_terverifikasi + (int)$detail->prestasi_terverifikasi + (int)$detail->swasta_terverifikasi;
+                $detail->total_swasta_belum_terverifikasi = (int)$detail->zonasi_belum_terverifikasi + (int)$detail->afirmasi_belum_terverifikasi + (int)$detail->mutasi_belum_terverifikasi + (int)$detail->prestasi_belum_terverifikasi + (int)$detail->swasta_belum_terverifikasi;
+
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = $detail;
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
     }
 
     public function edit()
@@ -286,9 +277,9 @@ class Home extends BaseController
                             'updated_at' => $date
                         ]);
                         if ($this->_db->affectedRows() > 0) {
-                            $anyDataPanitia = $this->_db->table('panitia_ppdb')->where('id', $oldData->user_id)->get()->getRowObject();
-                            if ($anyDataPanitia) {
-                                $this->_db->table('panitia_ppdb')->where('id', $anyDataPanitia->id)->update([
+                            $oldDataPanitia = $this->_db->table('panitia_ppdb')->where('id', $oldData->user_id,)->get()->getRowObject();
+                            if ($oldData) {
+                                $this->_db->table('panitia_ppdb')->where('id', $oldDataPanitia->id)->update([
                                     'sekolah_id' => $oldData->sekolah_id,
                                     'nama' => $nama,
                                     'jabatan' => $jabatan,
@@ -344,275 +335,6 @@ class Home extends BaseController
             }
         } else {
             exit('Maaf tidak dapat diproses');
-        }
-    }
-
-    public function getAktivasiWa()
-    {
-        if ($this->request->getMethod() != 'post') {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = "Permintaan tidak diizinkan";
-            return json_encode($response);
-        }
-
-        $rules = [
-            'id' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'Id tidak boleh kosong. ',
-                ]
-            ],
-        ];
-
-        if (!$this->validate($rules)) {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = $this->validator->getError('id');
-            return json_encode($response);
-        } else {
-            $id = htmlspecialchars($this->request->getVar('id'), true);
-            $Profilelib = new Profilelib();
-            $user = $Profilelib->user();
-
-            if (!$user || $user->status !== 200) {
-                session()->destroy();
-                delete_cookie('jwt');
-                $response = new \stdClass;
-                $response->status = 401;
-                $response->message = "Session expired.";
-                return json_encode($response);
-            }
-
-            if ($id == "wa") {
-                $x['user'] = $user->data;
-                $response = new \stdClass;
-                $response->status = 200;
-                $response->message = "Permintaan diizinkan";
-                $response->data = view('situgu/ptk/home/aktivasi/wa', $x);
-                return json_encode($response);
-            } else if ($id == "email") {
-                $x['user'] = $user->data;
-                $response = new \stdClass;
-                $response->status = 200;
-                $response->message = "Permintaan diizinkan";
-                $response->data = view('situgu/ptk/home/aktivasi/email', $x);
-            } else {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Data tidak ditemukan";
-                return json_encode($response);
-            }
-        }
-    }
-
-    public function kirimAktivasiWa()
-    {
-        if ($this->request->getMethod() != 'post') {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = "Permintaan tidak diizinkan";
-            return json_encode($response);
-        }
-
-        $rules = [
-            'nomor' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'Nomor tidak boleh kosong. ',
-                ]
-            ],
-        ];
-
-        if (!$this->validate($rules)) {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = $this->validator->getError('nomor');
-            return json_encode($response);
-        } else {
-            $nomor = htmlspecialchars($this->request->getVar('nomor'), true);
-
-            $Profilelib = new Profilelib();
-            $user = $Profilelib->user();
-
-            if (!$user || $user->status !== 200) {
-                session()->destroy();
-                delete_cookie('jwt');
-                $response = new \stdClass;
-                $response->status = 401;
-                $response->message = "Session expired.";
-                return json_encode($response);
-            }
-
-            if (substr($nomor, 0, 1) == 0) {
-                $nomor = "+62" . substr($nomor, 1);
-            }
-
-            if (substr($nomor, 0, 1) == 8) {
-                $nomor = "+62" . substr($nomor, 0);
-            }
-
-            if (substr($nomor, 0, 2) == 62) {
-                $nomor = "+62" . substr($nomor, 2);
-            }
-
-            $kode = rand(1000, 9999);
-            $nama = $user->data->fullname;
-            $message = "Hallo *$nama*....!!!\n______________________________________________________\n\n*KODE AKTIVASI* untuk akun *SI-TUGU* anda adalah : \n*$kode*\n\n\nPesan otomatis dari *SI-TUGU Kab. Lampung Tengah*\n_________________________________________________";
-
-            $dataReq = [
-                'number' => (string)$nomor,
-                'message' => $message,
-            ];
-
-            $ch = curl_init("https://whapi.kntechline.id/send-message");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dataReq));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json'
-            ));
-            curl_setopt($ch, CURLOPT_TIMEOUT, 20);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
-
-            $server_output = curl_exec($ch);
-            if (curl_errno($ch)) {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->error = curl_error($ch);
-                $response->message = "Gagal mengirim kode aktivasi.";
-                return json_encode($response);
-            }
-            curl_close($ch);
-            $sended = json_decode($server_output, true);
-
-            if ($sended) {
-                $x['user'] = $user->data;
-                $x['nomor'] = $nomor;
-                $x['kode_aktivasi'] = $kode;
-                $response = new \stdClass;
-                $response->status = 200;
-                $response->message = "Permintaan diizinkan";
-                $response->data = view('situgu/ptk/home/aktivasi/kode', $x);
-                return json_encode($response);
-            } else {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Gagal mengirim kode aktivasi.";
-                return json_encode($response);
-            }
-        }
-    }
-
-    public function verifiAktivasiWa()
-    {
-        if ($this->request->getMethod() != 'post') {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = "Permintaan tidak diizinkan";
-            return json_encode($response);
-        }
-
-        $rules = [
-            'id' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'Id tidak boleh kosong. ',
-                ]
-            ],
-            'nomor' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'Nomor tidak boleh kosong. ',
-                ]
-            ],
-            'kode' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'Kode tidak boleh kosong. ',
-                ]
-            ],
-            'fth' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'Kode tidak boleh kosong. ',
-                ]
-            ],
-        ];
-
-        if (!$this->validate($rules)) {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = $this->validator->getError('id')
-                . $this->validator->getError('nomor')
-                . $this->validator->getError('kode')
-                . $this->validator->getError('fth');
-            return json_encode($response);
-        } else {
-            $id = htmlspecialchars($this->request->getVar('id'), true);
-            $nomor = htmlspecialchars($this->request->getVar('nomor'), true);
-            $kode = htmlspecialchars($this->request->getVar('kode'), true);
-            $fth = htmlspecialchars($this->request->getVar('fth'), true);
-
-            $Profilelib = new Profilelib();
-            $user = $Profilelib->user();
-
-            if (!$user || $user->status !== 200) {
-                session()->destroy();
-                delete_cookie('jwt');
-                $response = new \stdClass;
-                $response->status = 401;
-                $response->message = "Session expired.";
-                return json_encode($response);
-            }
-
-            if ($kode === $fth) {
-                $this->_db->transBegin();
-                try {
-                    $date = date('Y-m-d H:i:s');
-                    $this->_db->table('_profil_users_tb')->where('id', $user->data->id)->update([
-                        'no_hp' => $nomor,
-                        'updated_at' => $date
-                    ]);
-
-                    if ($this->_db->affectedRows() > 0) {
-                        $this->_db->table('_users_tb')->where('id', $user->data->id)->update([
-                            'wa_verified' => 1,
-                            'updated_at' => $date
-                        ]);
-                        if ($this->_db->affectedRows() > 0) {
-                            $this->_db->transCommit();
-                            $response = new \stdClass;
-                            $response->status = 200;
-                            $response->message = "Berhasil memverifikasi nomor whatsapp.";
-                            return json_encode($response);
-                        } else {
-                            $this->_db->transRollback();
-                            $response = new \stdClass;
-                            $response->status = 400;
-                            $response->message = "Gagal menautkan nomor whatsapp.";
-                            return json_encode($response);
-                        }
-                    } else {
-                        $this->_db->transRollback();
-                        $response = new \stdClass;
-                        $response->status = 400;
-                        $response->message = "Gagal menautkan nomor whatsapp.";
-                        return json_encode($response);
-                    }
-                } catch (\Throwable $th) {
-                    $this->_db->transRollback();
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Gagal menautkan nomor whatsapp.";
-                    return json_encode($response);
-                }
-            } else {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Kode verifikasi salah.";
-                return json_encode($response);
-            }
         }
     }
 }
