@@ -275,9 +275,9 @@
                 "orderable": false,
             }],
         });
-        let tableDatatablesWilayah = $('#data-datatables-wilayah-zona-ppdb').DataTable({
+        let tableDatatablesWilayah = $('#data-datatables-wilayan-zona-ppdb').DataTable({
             "processing": true,
-            "serverSide": true,
+            "serverSide": false,
             "order": [],
             "ajax": {
                 "url": "./getAllWilayahZonasi",
