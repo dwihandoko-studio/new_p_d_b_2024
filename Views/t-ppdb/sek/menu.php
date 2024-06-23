@@ -62,8 +62,8 @@
                     <span class="nav-text">Laporan Data PPDB</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="<?= base_url('pan/laporan/panduan') ?>">Panduan Aplikasi</a></li>
-                    <li><a href="<?= base_url('pan/laporan/ba') ?>">Berita Acara</a></li>
+                    <li><a href="<?= base_url('sek/ppdb/laporan/panduan') ?>">Panduan Aplikasi</a></li>
+                    <li><a href="<?= base_url('sek/ppdb/laporan/ba') ?>">Berita Acara</a></li>
                 </ul>
             </li>
         </ul>
