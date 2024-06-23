@@ -1,4 +1,4 @@
-<?= $this->extend('t-verval/pan/index'); ?>
+<?= $this->extend('t-ppdb/pan/index'); ?>
 
 <?= $this->section('content'); ?>
 

@@ -38,36 +38,30 @@
                     <span class="nav-text">Dashboard</span>
                 </a>
             </li>
-            <!-- <li><a href="<?= base_url('pan/panitia') ?>" class="" aria-expanded="false">
-                    <i class="fas fa-sitemap"></i>
-                    <span class="nav-text">Panitia PPDB Sekolah</span>
+            <li><a href="<?= base_url('pan/profilsek') ?>" class="" aria-expanded="false">
+                    <i class="las la-school"></i>
+                    <span class="nav-text">Profil Sekolah</span>
                 </a>
             </li>
-            <li><a href="<?= base_url('pan/pd') ?>" class="" aria-expanded="false">
-                    <i class="fas fa-book-reader"></i>
-                    <span class="nav-text">PD Tingkat Akhir</span>
+            <li><a href="<?= base_url('pan/pendaftar') ?>" class="" aria-expanded="false">
+                    <i class="las la-graduation-cap"></i>
+                    <span class="nav-text">Data Pendaftar</span>
                 </a>
             </li>
-            <li><a href="<?= base_url('pan/pd/edit') ?>" class="" aria-expanded="false">
-                    <i class="fas fa-address-card"></i>
-                    <span class="nav-text">Edit Domisili</span>
-                </a>
-            </li>
-            <li><a href="<?= base_url('pan/akun') ?>" class="" aria-expanded="false">
-                    <i class="fas fa-users"></i>
-                    <span class="nav-text">Generate Akun PPDB</span>
-                </a>
-            </li> -->
-            <!-- <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
-                    <i class="fas fa-table"></i>
-                    <span class="nav-text">Masterdata</span>
+            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+                    <i class="las la-project-diagram"></i>
+                    <span class="nav-text">Rekap Pendaftaran</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="<?= base_url('su/masterdata/pengguna') ?>">Pengguna</a></li>
-                    <li><a href="<?= base_url('su/masterdata/sekolah') ?>">Sekolah</a></li>
-                    <li><a href="<?= base_url('su/masterdata/pd') ?>">Peserta Didik</a></li>
+                    <li><a href="<?= base_url('pan/rekap/lolos') ?>">Lolos Verifikasi Berkas</a></li>
+                    <li><a href="<?= base_url('pan/rekap/tolak') ?>">Tidak Lolos Verifikasi Berkas</a></li>
                 </ul>
-            </li> -->
+            </li>
+            <li><a href="<?= base_url('pan/laporan') ?>" class="" aria-expanded="false">
+                    <i class="las la-chart-bar"></i>
+                    <span class="nav-text">Laporan Data PPDB</span>
+                </a>
+            </li>
         </ul>
 
         <div class="copyright">

@@ -133,11 +133,11 @@
         <!--**********************************
 	Chat box End
 ***********************************-->
-        <?= $this->include('t-verval/pan/topbar'); ?>
-        <?= $this->include('t-verval/pan/menu'); ?>
+        <?= $this->include('t-ppdb/pan/topbar'); ?>
+        <?= $this->include('t-ppdb/pan/menu'); ?>
 
         <?= $this->renderSection('content'); ?>
-        <?= $this->include('t-verval/pan/footer'); ?>
+        <?= $this->include('t-ppdb/pan/footer'); ?>
     </div>
     <script src="<?= base_url() ?>/assets/vendor/global/global.min.js"></script>
     <script src="<?= base_url() ?>/assets/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
