@@ -327,8 +327,10 @@ class Home extends BaseController
             // }
 
             $row[] = $action;
-            $row[] = $list->nama;
-            $row[] = $list->npsn;
+            $row[] = '<a href="' . base_url() . '/home/detail_sekolah?d=' . $list->sekolah_id . '" target="_blank"><strong style="color: #00167b;">' . $list->nama . '</strong></a>';
+            $row[] = '<a href="' . base_url() . '/home/detail_sekolah?d=' . $list->sekolah_id . '" target="_blank"><strong style="color: #00167b;">' . $list->npsn . '</strong></a>';
+            // $row[] = $list->nama;
+            // $row[] = $list->npsn;
             $row[] = $list->jumlah_kelurahan ?? 0;
             $row[] = $list->jumlah_zona_verified ?? 0;
 
