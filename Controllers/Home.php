@@ -7,6 +7,7 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use App\Models\KuotaModel;
 use App\Models\SekolahzonaModel;
+use App\Models\PanitiaModel;
 use Config\Services;
 
 class Home extends BaseController
@@ -171,6 +172,57 @@ class Home extends BaseController
         return view('dashboard/detail_sekolah', $data);
     }
 
+
+    public function getAllPanitia()
+    {
+        $request = Services::request();
+        $datamodel = new PanitiaModel($request);
+
+
+        $lists = $datamodel->get_datatables();
+        $data = [];
+        $no = $request->getPost("start");
+        foreach ($lists as $list) {
+            $no++;
+            $row = [];
+
+            $row[] = $no;
+            switch ((int)$list->jabatan_ppdb) {
+                case 1:
+                    $row[] = 'Penanggung jawab';
+                    break;
+                case 2:
+                    $row[] = 'Ketua';
+                    break;
+                case 3:
+                    $row[] = 'Wakil Ketua';
+                    break;
+                case 4:
+                    $row[] = 'Sekretaris';
+                    break;
+                case 5:
+                    $row[] = 'Bendahara';
+                    break;
+                case 6:
+                    $row[] = 'Anggota';
+                    break;
+                default:
+                    $row[] = 'Anggota';
+                    break;
+            }
+            $row[] = '<strong style="color: #00167b;">' . $list->nama . '</strong>';
+            $row[] = $list->jabatan;
+
+            $data[] = $row;
+        }
+        $output = [
+            "draw" => $request->getPost('draw'),
+            "recordsTotal" => $datamodel->count_all(),
+            "recordsFiltered" => $datamodel->count_filtered(),
+            "data" => $data
+        ];
+        echo json_encode($output);
+    }
 
     public function getAllKuota()
     {
