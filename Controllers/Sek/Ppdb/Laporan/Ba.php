@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controllers\Pan\Laporan;
+namespace App\Controllers\Sek\Ppdb\Laporan;
 
 use App\Controllers\BaseController;
-use App\Models\Pan\Laporan\BaModel;
+use App\Models\Sek\Ppdb\Laporan\BaModel;
 use Config\Services;
 use App\Libraries\Profilelib;
 use App\Libraries\Ppdb\Sek\Riwayatlib;
@@ -77,7 +77,7 @@ class Ba extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('pan/laporan/ba/data'));
+        return redirect()->to(base_url('sek/ppdb/laporan/ba/data'));
     }
 
     public function data()
@@ -106,7 +106,7 @@ class Ba extends BaseController
             $data['sekSwasta'] = true;
         }
 
-        return view('pan/laporan/ba/index', $data);
+        return view('sek/ppdb/laporan/ba/index', $data);
     }
 
     public function download_berita_acara()
