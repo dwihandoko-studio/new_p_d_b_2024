@@ -153,6 +153,24 @@ class Home extends BaseController
         return view('dashboard/statistik', $data);
     }
 
+    public function detail_sekolah()
+    {
+        set_cookie('layout', 'horizontal', strval(3600 * 24 * 1));
+        set_cookie('headerPosition', 'static', strval(3600 * 24 * 1));
+        set_cookie('containerLayout', 'wide', strval(3600 * 24 * 1));
+
+        $id = htmlspecialchars($this->request->getGet('d'), true);
+        $sekolah = $this->_db->table('dapo_sekolah a')->where('sekolah_id', $id)->get()->getRowObject();
+        if (!$sekolah) {
+            return redirect()->to(base_url('home'));
+        }
+
+        $data['title'] = 'Detail Sekolah || PPDB 2024/2025 Kab. Lampung Tengah';
+        $data['sekolah'] = $sekolah;
+
+        return view('dashboard/detail_sekolah', $data);
+    }
+
 
     public function getAllKuota()
     {
@@ -192,8 +210,8 @@ class Home extends BaseController
 
             // $row[] = $action;
             if ((int)$list->status_sekolah_id == 1) {
-                $row[] = '<a href="javascript:void(0);"><strong style="color: #00167b;">' . $list->nama . '</strong></a>';
-                $row[] = '<a href="javascript:void(0);"><strong style="color: #00167b;">' . $list->npsn . '</strong></a>';
+                $row[] = '<a href="' . base_url() . '/home/detail_sekolah?d=' . $list->sekolah_id . '" target="_blank"><strong style="color: #00167b;">' . $list->nama . '</strong></a>';
+                $row[] = '<a href="' . base_url() . '/home/detail_sekolah?d=' . $list->sekolah_id . '" target="_blank"><strong style="color: #00167b;">' . $list->npsn . '</strong></a>';
                 $row[] = $list->jumlah_rombel_kebutuhan;
                 $row[] = $list->afirmasi;
                 $row[] = $list->zonasi;
@@ -201,8 +219,8 @@ class Home extends BaseController
                 $row[] = $list->prestasi;
                 $row[] = $list->total;
             } else {
-                $row[] = '<a href="javascript:void(0);"><strong style="color: #00167b;">' . $list->nama . '</strong></a>';
-                $row[] = '<a href="javascript:void(0);"><strong style="color: #00167b;">' . $list->npsn . '</strong></a>';
+                $row[] = '<a href="' . base_url() . '/home/detail_sekolah?d=' . $list->sekolah_id . '" target="_blank"><strong style="color: #00167b;">' . $list->nama . '</strong></a>';
+                $row[] = '<a href="' . base_url() . '/home/detail_sekolah?d=' . $list->sekolah_id . '" target="_blank"><strong style="color: #00167b;">' . $list->npsn . '</strong></a>';
                 $row[] = $list->jumlah_rombel_kebutuhan;
                 $row[] = 0;
                 $row[] = 0;
