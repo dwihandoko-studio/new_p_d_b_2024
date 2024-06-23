@@ -63,6 +63,7 @@
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="<?= base_url('su/informasi/dokumen') ?>">Dokumen</a></li>
+                    <li><a href="<?= base_url('su/informasi/assets') ?>">Asset Gambar</a></li>
                 </ul>
             </li>
         </ul>
