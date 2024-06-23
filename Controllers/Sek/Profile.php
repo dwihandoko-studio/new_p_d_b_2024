@@ -42,7 +42,8 @@ class Profile extends BaseController
         }
 
         $data['user'] = $user->data;
-
+        $data['level'] = $user->level;
+        $data['level_nama'] = $user->level_nama;
         $data['data'] = $user->data;
 
         return view('sek/profile/index', $data);
