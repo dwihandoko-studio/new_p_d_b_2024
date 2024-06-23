@@ -343,6 +343,80 @@ class Home extends BaseController
         echo json_encode($output);
     }
 
+    public function getAllWilayahZonasi()
+    {
+        if ($this->request->isAJAX()) {
+            $request = Services::request();
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $output = [
+                    "draw" => $request->getPost('draw'),
+                    "recordsTotal" => 0,
+                    "recordsFiltered" => 0,
+                    "data" => []
+                ];
+                echo json_encode($output);
+                return;
+            } else {
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+
+                $oldData = $this->_db->table('_setting_zonasi_tb a')
+                    ->select("a.*, b.nama as nama_provinsi, c.nama as nama_kabupaten, d.nama as nama_kecamatan, e.nama as nama_kelurahan, (SELECT count(dusun) FROM _setting_zonasi_tb WHERE dusun = a.dusun) as jumlah_dusun, count(dusun) as jumlah")
+                    ->join('ref_provinsi b', 'b.id = a.provinsi')
+                    ->join('ref_kabupaten c', 'c.id = a.kabupaten')
+                    ->join('ref_kecamatan d', 'd.id = a.kecamatan')
+                    ->join('ref_kelurahan e', 'e.id = a.kelurahan')
+                    ->where(['a.sekolah_id' => $id, 'is_locked' => 1])
+                    ->groupBy('a.kelurahan')
+                    ->get()->getResult();
+                if (count($oldData) > 0) {
+                    $dataN = [];
+                    $no = $request->getPost("start");
+                    foreach ($oldData as $key => $value) {
+                        $no++;
+                        $row = [];
+                        $row[] = $no;
+                        $row[] = $value->nama_provinsi;
+                        $row[] = $value->nama_kabupaten;
+                        $row[] = $value->nama_kecamatan;
+                        $row[] = $value->nama_kelurahan;
+                        $row[] = getDusunList($value->kelurahan, $value->sekolah_id);
+                        $dataN[] = $row;
+                    }
+
+                    $output = [
+                        "draw" => $request->getPost('draw'),
+                        "recordsTotal" => count($oldData),
+                        "recordsFiltered" => count($oldData),
+                        "data" => $dataN
+                    ];
+                    echo json_encode($output);
+                    return;
+                }
+
+                $output = [
+                    "draw" => $request->getPost('draw'),
+                    "recordsTotal" => 0,
+                    "recordsFiltered" => 0,
+                    "data" => []
+                ];
+                echo json_encode($output);
+                return;
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
     public function detailZonasi()
     {
         if ($this->request->isAJAX()) {

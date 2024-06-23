@@ -50,7 +50,7 @@
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-6">
-                                        <h4 class="card-title">Data Kepanitian PPDB Sekolah</h4>
+                                        <h4 class="card-title">Data Kepanitian PPDB Sekolah <?= $sekolah->nama ?></h4>
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-6">
-                                        <h4 class="card-title">Data Ketersediaan Kuota PPDB Sekolah</h4>
+                                        <h4 class="card-title">Data Ketersediaan Kuota PPDB Sekolah <?= $sekolah->nama ?></h4>
                                     </div>
                                 </div>
                             </div>
@@ -195,6 +195,36 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4 class="card-title">Data Wilayah Zonasi PPDB Sekolah <?= $sekolah->nama ?></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12" style="margin-top: 30px;">
+                                <div class="table-responsive">
+                                    <table id="data-datatables-wilayan-zona-ppdb" class="display" style="min-width: 845px">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Kabupaten</th>
+                                                <th>Kecamatan</th>
+                                                <th>Desa / Kelurahan</th>
+                                                <th>Dusun</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <?= $this->include('t-dashboard/bottom'); ?>
 
         </div>
@@ -242,6 +272,45 @@
                 "orderable": false,
             }, {
                 "targets": 3,
+                "orderable": false,
+            }],
+        });
+        let tableDatatablesWilayah = $('#data-datatables-wilayah-zona-ppdb').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                "url": "./getAllWilayahZonasi",
+                "type": "POST",
+                "data": function(data) {
+                    data.id = '<?= $sekolah->sekolah_id ?>';
+                }
+            },
+            language: {
+                processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> ',
+                paginate: {
+                    next: '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
+                    previous: '<i class="fa fa-angle-double-left" aria-hidden="true"></i>'
+                }
+            },
+            lengthMenu: [
+                [10],
+                [10]
+            ],
+            "columnDefs": [{
+                "targets": 0,
+                "orderable": false,
+            }, {
+                "targets": 1,
+                "orderable": false,
+            }, {
+                "targets": 2,
+                "orderable": false,
+            }, {
+                "targets": 3,
+                "orderable": false,
+            }, {
+                "targets": 4,
                 "orderable": false,
             }],
         });
