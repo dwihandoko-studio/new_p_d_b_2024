@@ -195,10 +195,26 @@
         var long = document.getElementsByName('_bujur')[0].value;
 
         if (lat === "" || lat === undefined) {
-            lat = "<?= $sek->lintang ?>";
+            <?php if (isset($sek)) { ?>
+                <?php if (isset($sek->lintang)) { ?>
+                    lat = "<?= $sek->lintang ?>";
+                <?php } else { ?>
+                    lat = "-4.977919077519162";
+                <?php } ?>
+            <?php } else { ?>
+                lat = "-4.977919077519162";
+            <?php } ?>
         }
         if (long === "" || long === undefined) {
-            long = "<?= $sek->bujur ?>";
+            <?php if (isset($sek)) { ?>
+                <?php if (isset($sek->lintang)) { ?>
+                    long = "<?= $sek->bujur ?>";
+                <?php } else { ?>
+                    long = "105.2110699644536";
+                <?php } ?>
+            <?php } else { ?>
+                long = "105.2110699644536";
+            <?php } ?>
         }
 
         $.ajax({
