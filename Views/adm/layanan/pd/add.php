@@ -185,94 +185,94 @@
                                     });
                                     $('.content-addModal').modal('show');
                                 } else {
-                                    if (response.status == 204) {
-                                        Swal.fire({
-                                            title: "<strong>Peringatan!!!</strong>",
-                                            icon: "info",
-                                            html: '<center><b>Referensi Sekolah Asal Peserta Tidak Ditemukan<br/>Ambil Referensi Sekolah Asal?</b></center>',
-                                            showCloseButton: false,
-                                            showCancelButton: true,
-                                            allowOutsideClick: false,
-                                            allowEscapeKey: false,
-                                            focusConfirm: false,
-                                            confirmButtonText: "Tidak",
-                                            confirmButtonText: `
-    <i class="las la-retweet"></i> Tarik Referensi Sekolah Asal?
-  `,
-                                            confirmButtonAriaLabel: "Ref, Tarik"
-                                        }).then((confm) => {
-                                            if (confm.isConfirmed) {
-                                                $.ajax({
-                                                    url: "./cekDataRefSekolah",
-                                                    type: 'POST',
-                                                    data: {
-                                                        id: response.sekolah_id,
-                                                    },
-                                                    dataType: 'JSON',
-                                                    beforeSend: function() {
-                                                        Swal.fire({
-                                                            title: 'Sedang Loading...',
-                                                            text: 'Please wait while we process your action.',
-                                                            allowOutsideClick: false,
-                                                            allowEscapeKey: false,
-                                                            didOpen: () => {
-                                                                Swal.showLoading();
-                                                            }
-                                                        });
-                                                    },
-                                                    complete: function() {},
-                                                    success: function(response) {
-                                                        if (response.status == 200) {
-                                                            $.ajax({
-                                                                url: "./cekData",
-                                                                type: 'POST',
-                                                                data: $(this).serialize(),
-                                                                dataType: 'JSON',
-                                                                beforeSend: function() {
-                                                                    Swal.fire({
-                                                                        title: 'Sedang Loading...',
-                                                                        text: 'Please wait while we process your action.',
-                                                                        allowOutsideClick: false,
-                                                                        allowEscapeKey: false,
-                                                                        didOpen: () => {
-                                                                            Swal.showLoading();
-                                                                        }
-                                                                    });
-                                                                },
-                                                                complete: function() {},
-                                                                success: function(response) {
-                                                                    if (response.status == 200) {
-                                                                        Swal.close();
-                                                                        $('#content-addModalLabel').html('SIMPAN DATA PD');
-                                                                        $('.contentBodyaddModal').html(response.data);
-                                                                        $('.content-addModal').modal({
-                                                                            backdrop: 'static',
-                                                                            keyboard: false,
-                                                                        });
-                                                                        $('.content-addModal').modal('show');
-                                                                    } else {
-                                                                        Swal.fire(
-                                                                            'Failed!',
-                                                                            response.message,
-                                                                            'warning'
-                                                                        );
-                                                                    }
-                                                                }
-                                                            });
-                                                        }
-                                                    }
-                                                });
-                                            } else {
+                                    // if (response.status == 204) {
+                                    //                                         Swal.fire({
+                                    //                                             title: "<strong>Peringatan!!!</strong>",
+                                    //                                             icon: "info",
+                                    //                                             html: '<center><b>Referensi Sekolah Asal Peserta Tidak Ditemukan<br/>Ambil Referensi Sekolah Asal?</b></center>',
+                                    //                                             showCloseButton: false,
+                                    //                                             showCancelButton: true,
+                                    //                                             allowOutsideClick: false,
+                                    //                                             allowEscapeKey: false,
+                                    //                                             focusConfirm: false,
+                                    //                                             confirmButtonText: "Tidak",
+                                    //                                             confirmButtonText: `
+                                    //     <i class="las la-retweet"></i> Tarik Referensi Sekolah Asal?
+                                    //   `,
+                                    //                                             confirmButtonAriaLabel: "Ref, Tarik"
+                                    //                                         }).then((confm) => {
+                                    //                                             if (confm.isConfirmed) {
+                                    //                                                 $.ajax({
+                                    //                                                     url: "./cekDataRefSekolah",
+                                    //                                                     type: 'POST',
+                                    //                                                     data: {
+                                    //                                                         id: response.sekolah_id,
+                                    //                                                     },
+                                    //                                                     dataType: 'JSON',
+                                    //                                                     beforeSend: function() {
+                                    //                                                         Swal.fire({
+                                    //                                                             title: 'Sedang Loading...',
+                                    //                                                             text: 'Please wait while we process your action.',
+                                    //                                                             allowOutsideClick: false,
+                                    //                                                             allowEscapeKey: false,
+                                    //                                                             didOpen: () => {
+                                    //                                                                 Swal.showLoading();
+                                    //                                                             }
+                                    //                                                         });
+                                    //                                                     },
+                                    //                                                     complete: function() {},
+                                    //                                                     success: function(response) {
+                                    //                                                         if (response.status == 200) {
+                                    //                                                             $.ajax({
+                                    //                                                                 url: "./cekData",
+                                    //                                                                 type: 'POST',
+                                    //                                                                 data: $(this).serialize(),
+                                    //                                                                 dataType: 'JSON',
+                                    //                                                                 beforeSend: function() {
+                                    //                                                                     Swal.fire({
+                                    //                                                                         title: 'Sedang Loading...',
+                                    //                                                                         text: 'Please wait while we process your action.',
+                                    //                                                                         allowOutsideClick: false,
+                                    //                                                                         allowEscapeKey: false,
+                                    //                                                                         didOpen: () => {
+                                    //                                                                             Swal.showLoading();
+                                    //                                                                         }
+                                    //                                                                     });
+                                    //                                                                 },
+                                    //                                                                 complete: function() {},
+                                    //                                                                 success: function(response) {
+                                    //                                                                     if (response.status == 200) {
+                                    //                                                                         Swal.close();
+                                    //                                                                         $('#content-addModalLabel').html('SIMPAN DATA PD');
+                                    //                                                                         $('.contentBodyaddModal').html(response.data);
+                                    //                                                                         $('.content-addModal').modal({
+                                    //                                                                             backdrop: 'static',
+                                    //                                                                             keyboard: false,
+                                    //                                                                         });
+                                    //                                                                         $('.content-addModal').modal('show');
+                                    //                                                                     } else {
+                                    //                                                                         Swal.fire(
+                                    //                                                                             'Failed!',
+                                    //                                                                             response.message,
+                                    //                                                                             'warning'
+                                    //                                                                         );
+                                    //                                                                     }
+                                    //                                                                 }
+                                    //                                                             });
+                                    //                                                         }
+                                    //                                                     }
+                                    //                                                 });
+                                    //                                             } else {
 
-                                            }
-                                        });
-                                    } else {
-                                        Swal.fire(
-                                            'Failed!',
-                                            response.message,
-                                            'warning'
-                                        );
-                                    }
+                                    //                                             }
+                                    //                                         });
+                                    // } else {
+                                    Swal.fire(
+                                        'Failed!',
+                                        response.message,
+                                        'warning'
+                                    );
+                                    // }
                                 }
                             },
                             error: function() {
