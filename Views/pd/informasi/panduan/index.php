@@ -37,7 +37,6 @@
                                 position: absolute;
                                 bottom: 3%;
                                 transform: translateY(-3%);
-                                padding: 10px;
                                 border: none;
                                 cursor: pointer;
                             }
@@ -52,8 +51,8 @@
                         </style>
                         <div class="image-container-panduan">
                             <img class="d-block w-100" src="<?= base_url() ?>/uploads/panduan/1.svg" alt="Image 1" id="current-image-panduan">
-                            <button class="btn btn-info btn-xs prev-btn-panduan" style="min-width: 50px;">Previous</button>
-                            <button class="btn btn-info btn-xs next-btn-panduan" style="min-width: 50px;">Next</button>
+                            <button class="btn btn-info btn-xs prev-btn-panduan" style="min-width: 60px;">Previous</button>
+                            <button class="btn btn-info btn-xs next-btn-panduan" style="min-width: 60px;">Next</button>
                         </div>
                     </div>
                 </div>
@@ -83,7 +82,7 @@
     const nextBtnPanduan = document.querySelector('.next-btn-panduan');
 
     let imageIndexPanduan = 0;
-    const imagesPanduan = ['<?= base_url() ?>/uploads/panduan/1.svg', '<?= base_url() ?>/uploads/panduan/2.svg', '<?= base_url() ?>/uploads/panduan/3.svg', '<?= base_url() ?>/uploads/panduan/4.svg', '<?= base_url() ?>/uploads/panduan/5.svg', '<?= base_url() ?>/uploads/panduan/6.svg', '<?= base_url() ?>/uploads/panduan/7.svg', '<?= base_url() ?>/uploads/panduan/8.svg', '<?= base_url() ?>/uploads/panduan/9.svg', '<?= base_url() ?>/uploads/panduan/10.svg']; // Add more image paths here
+    const imagesPanduan = ['<?= base_url() ?>/uploads/panduan/1.svg', '<?= base_url() ?>/uploads/panduan/2.svg', '<?= base_url() ?>/uploads/panduan/3.svg', '<?= base_url() ?>/uploads/panduan/4.svg', '<?= base_url() ?>/uploads/panduan/5.svg', '<?= base_url() ?>/uploads/panduan/6.svg', '<?= base_url() ?>/uploads/panduan/7.svg', '<?= base_url() ?>/uploads/panduan/8.svg', '<?= base_url() ?>/uploads/panduan/9.svg', '<?= base_url() ?>/uploads/panduan/10.svg', '<?= base_url() ?>/uploads/panduan/11.svg', '<?= base_url() ?>/uploads/panduan/12.svg', '<?= base_url() ?>/uploads/panduan/13.svg', '<?= base_url() ?>/uploads/panduan/14.svg', '<?= base_url() ?>/uploads/panduan/15.svg', '<?= base_url() ?>/uploads/panduan/16.svg', '<?= base_url() ?>/uploads/panduan/17.svg', '<?= base_url() ?>/uploads/panduan/18.svg', '<?= base_url() ?>/uploads/panduan/19.svg', '<?= base_url() ?>/uploads/panduan/20.svg', '<?= base_url() ?>/uploads/panduan/21.svg', '<?= base_url() ?>/uploads/panduan/22.svg', '<?= base_url() ?>/uploads/panduan/23.svg', '<?= base_url() ?>/uploads/panduan/24.svg', '<?= base_url() ?>/uploads/panduan/25.svg', '<?= base_url() ?>/uploads/panduan/26.svg', '<?= base_url() ?>/uploads/panduan/27.svg', '<?= base_url() ?>/uploads/panduan/28.svg', '<?= base_url() ?>/uploads/panduan/29.svg', '<?= base_url() ?>/uploads/panduan/30.svg', '<?= base_url() ?>/uploads/panduan/31.svg', '<?= base_url() ?>/uploads/panduan/32.svg', '<?= base_url() ?>/uploads/panduan/33.svg']; // Add more image paths here
 
     function showImagePanduan(index) {
         currentImagePanduan.src = imagesPanduan[index];
