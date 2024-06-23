@@ -19,7 +19,7 @@
                         </div>
                         <div class="profile-info">
                             <div class="profile-photo">
-                                <img style="max-width: 100px; max-height: 100px; width: 100px; height: 100px;" src="<?= $sekolah->image ? base_url('uploads/user') . '/' . $sekolah->image : base_url() . '/assets/images/sekolah.png' ?>" class="img-fluid rounded-circle" alt="">
+                                <img style="max-width: 100px; max-height: 100px; width: 100px; height: 100px;" src="<?= $sekolah->image ? base_url('uploads/user') . '/' . $sekolah->image : base_url() . '/uploads/gambar/pick_1.png' ?>" class="img-fluid rounded-circle" alt="">
                             </div>
                             <div class="profile-details">
                                 <div class="profile-name px-3 pt-2">
