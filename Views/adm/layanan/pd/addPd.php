@@ -207,7 +207,7 @@
         }
         if (long === "" || long === undefined) {
             <?php if (isset($sek)) { ?>
-                <?php if (isset($sek->lintang)) { ?>
+                <?php if (isset($sek->bujur)) { ?>
                     long = "<?= $sek->bujur ?>";
                 <?php } else { ?>
                     long = "105.2110699644536";
