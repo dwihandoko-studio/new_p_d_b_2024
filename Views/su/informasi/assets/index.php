@@ -26,7 +26,7 @@
 
                                     </div>
                                     <div class="col-6">
-                                        <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnadd"><i class="fas fa-file-alt font-size-16 align-middle me-2"></i> Tambah Dokumen</button> &nbsp;&nbsp;
+                                        <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnadd"><i class="fas fa-file-alt font-size-16 align-middle me-2"></i> Tambah Gambar</button> &nbsp;&nbsp;
                                     </div>
                                 </div>
                             </div>
