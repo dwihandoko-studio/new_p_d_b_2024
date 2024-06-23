@@ -40,7 +40,7 @@ class TolakModel extends Model
             $i++;
         }
 
-        // $this->dt->orderBy('a.nama', 'asc');
+        $this->dt->orderBy('a.created_at', 'desc');
         // if ($this->request->getPost('order')) {
         //     $this->dt->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
         // } else if (isset($this->order)) {
