@@ -18,21 +18,19 @@
                     </div>
                     <div class="card-body tab-content p-0">
                         <style>
-                            .image-container-panduan {
+                            /* .image-container-panduan {
                                 display: flex;
                                 justify-content: center;
                                 align-items: center;
                                 width: 100vw;
                                 height: 100vh;
-                                /* 100% viewport height */
-                            }
+                            } */
 
-                            #current-image-panduan {
+                            /* #current-image-panduan {
                                 width: 100%;
-                                /* Adjust as needed */
                                 max-height: 80%;
-                                /* Adjust as needed */
-                            }
+
+                            } */
 
                             .prev-btn-panduan,
                             .next-btn-panduan {
@@ -53,7 +51,7 @@
                             }
                         </style>
                         <div class="image-container-panduan">
-                            <img src="<?= base_url() ?>/uploads/panduan/1.svg" alt="Image 1" id="current-image-panduan">
+                            <img class="d-block w-100" src="<?= base_url() ?>/uploads/panduan/1.svg" alt="Image 1" id="current-image-panduan">
                             <button class="prev-btn-panduan">Previous</button>
                             <button class="next-btn-panduan">Next</button>
                         </div>
