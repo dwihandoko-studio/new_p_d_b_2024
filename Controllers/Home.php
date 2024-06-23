@@ -191,23 +191,26 @@ class Home extends BaseController
             // }
 
             // $row[] = $action;
-            $row[] = $list->nama;
-            $row[] = $list->npsn;
-            $row[] = $list->jumlah_rombel_kebutuhan;
             if ((int)$list->status_sekolah_id == 1) {
+                $row[] = '<a href="javascript:void(0);"><strong style="color: #00167b;">' . $list->nama . '</strong></a>';
+                $row[] = '<a href="javascript:void(0);"><strong style="color: #00167b;">' . $list->npsn . '</strong></a>';
+                $row[] = $list->jumlah_rombel_kebutuhan;
                 $row[] = $list->afirmasi;
                 $row[] = $list->zonasi;
                 $row[] = $list->mutasi;
                 $row[] = $list->prestasi;
                 $row[] = $list->total;
             } else {
+                $row[] = '<a href="javascript:void(0);"><strong style="color: #00167b;">' . $list->nama . '</strong></a>';
+                $row[] = '<a href="javascript:void(0);"><strong style="color: #00167b;">' . $list->npsn . '</strong></a>';
+                $row[] = $list->jumlah_rombel_kebutuhan;
                 $row[] = 0;
                 $row[] = 0;
                 $row[] = 0;
                 $row[] = 0;
                 $row[] = $list->total;
             }
-            $row['url_sekolah'] = 'https://invome.dexignlab.com/codeigniter/demo/button';
+            // $row['url_sekolah'] = 'https://invome.dexignlab.com/codeigniter/demo/button';
 
             $data[] = $row;
         }
