@@ -2686,19 +2686,32 @@ function replaceTandaBacaPetik($text)
 	return str_replace('&#039;', "`", str_replace("'", "`", $text));
 }
 
-function secure_encrypt($text, $key)
+function encrypt_json_data($data, $key)
 {
 	$iv_size = openssl_cipher_iv_length('aes-256-cbc');
 	$iv = openssl_random_pseudo_bytes($iv_size);
-	$encrypted_text = openssl_encrypt($text, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
+
+	// Convert data to JSON string
+	$json_data = json_encode($data);
+
+	// Encrypt the JSON string
+	$encrypted_text = openssl_encrypt($json_data, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
+
+	// Combine IV and encrypted data with base64 encoding
 	return base64_encode($iv . $encrypted_text);
 }
 
-function secure_decrypt($encrypted_text, $key)
+function decrypt_json_data($encrypted_data, $key)
 {
-	$data = base64_decode($encrypted_text);
+	$data = base64_decode($encrypted_data);
 	$iv_size = openssl_cipher_iv_length('aes-256-cbc');
+
+	// Extract the IV from the beginning of the data
 	$iv = substr($data, 0, $iv_size);
+
+	// Extract the encrypted data
 	$decrypted_text = openssl_decrypt(substr($data, $iv_size), 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
-	return $decrypted_text;
+
+	// Decode the decrypted JSON string back to PHP data
+	return json_decode($decrypted_text, true);
 }

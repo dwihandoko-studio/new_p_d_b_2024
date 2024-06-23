@@ -296,8 +296,7 @@ class Pd extends BaseController
                             if (count($result) > 0) {
                                 $pdNya = $result[0];
                                 $x['data'] = $pdNya;
-                                $textEnc = json_encode($pdNya);
-                                $x['encrypt_data'] = secure_encrypt($textEnc, 'handokowae.my.id');
+                                $x['encrypt_data'] = encrypt_json_data($pdNya, 'secret key handokowae.my.id');
                                 $x['npsn'] = $npsn;
                                 $x['props'] = $this->_db->table('ref_provinsi')
                                     ->get()->getResult();
@@ -1067,7 +1066,7 @@ class Pd extends BaseController
                     $response->message = "Peserta didik sudah ada dengan Nisn: $oldData->nisn ($oldData->nama).";
                     return json_encode($response);
                 }
-                $dataPdf = secure_decrypt($dataPd, 'handokowae.my.id');
+                $dataPdf = decrypt_json_data($dataPd, 'secret key handokowae.my.id');
 
                 $dataPdFix = json_decode($dataPdf);
                 $refSeklah = $this->_db->table('dapo_sekolah')->where('sekolah_id', $dataPdFix->sekolah_id)->get()->getRowObject();
