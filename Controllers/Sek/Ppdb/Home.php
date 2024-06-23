@@ -264,53 +264,46 @@ class Home extends BaseController
                 $date = date('Y-m-d H:i:s');
                 $passwordHas = password_hash($password, PASSWORD_BCRYPT);
                 $this->_db->transBegin();
-                try {
-                    $this->_db->table('_users_tb')->where('id', $oldData->user_id)->update([
-                        'email' => $email,
-                        'nohp' => $nohp,
-                        'password' => $passwordHas,
+                // try {
+                $this->_db->table('_users_tb')->where('id', $oldData->user_id)->update([
+                    'email' => $email,
+                    'nohp' => $nohp,
+                    'password' => $passwordHas,
+                    'updated_at' => $date
+                ]);
+                if ($this->_db->affectedRows() > 0) {
+                    $this->_db->table('_users_profile_sekolah')->where('user_id', $oldData->user_id)->update([
+                        'nama' => $nama,
                         'updated_at' => $date
                     ]);
                     if ($this->_db->affectedRows() > 0) {
-                        $this->_db->table('_users_profile_sekolah')->where('user_id', $oldData->user_id)->update([
-                            'nama' => $nama,
-                            'updated_at' => $date
-                        ]);
+                        $oldDataPanitia = $this->_db->table('panitia_ppdb')->where('id', $oldData->user_id,)->get()->getRowObject();
+                        if ($oldData) {
+                            $this->_db->table('panitia_ppdb')->where('id', $oldDataPanitia->id)->update([
+                                'sekolah_id' => $oldData->sekolah_id,
+                                'nama' => $nama,
+                                'jabatan' => $jabatan,
+                                'jabatan_ppdb' => $jabatan_ppdb,
+                                'updated_at' => $date
+                            ]);
+                        } else {
+                            $this->_db->table('panitia_ppdb')->insert([
+                                'id' => $oldData->user_id,
+                                'sekolah_id' => $oldData->sekolah_id,
+                                'nama' => $nama,
+                                'jabatan' => $jabatan,
+                                'jabatan_ppdb' => $jabatan_ppdb,
+                                'created_at' => $date
+                            ]);
+                        }
                         if ($this->_db->affectedRows() > 0) {
-                            $oldDataPanitia = $this->_db->table('panitia_ppdb')->where('id', $oldData->user_id,)->get()->getRowObject();
-                            if ($oldData) {
-                                $this->_db->table('panitia_ppdb')->where('id', $oldDataPanitia->id)->update([
-                                    'sekolah_id' => $oldData->sekolah_id,
-                                    'nama' => $nama,
-                                    'jabatan' => $jabatan,
-                                    'jabatan_ppdb' => $jabatan_ppdb,
-                                    'updated_at' => $date
-                                ]);
-                            } else {
-                                $this->_db->table('panitia_ppdb')->insert([
-                                    'id' => $oldData->user_id,
-                                    'sekolah_id' => $oldData->sekolah_id,
-                                    'nama' => $nama,
-                                    'jabatan' => $jabatan,
-                                    'jabatan_ppdb' => $jabatan_ppdb,
-                                    'created_at' => $date
-                                ]);
-                            }
-                            if ($this->_db->affectedRows() > 0) {
-                                $this->_db->transCommit();
+                            $this->_db->transCommit();
 
-                                $response = new \stdClass;
-                                $response->status = 200;
-                                $response->url = base_url('portal');
-                                $response->message = "Data berhasil diupdate.";
-                                return json_encode($response);
-                            } else {
-                                $this->_db->transRollback();
-                                $response = new \stdClass;
-                                $response->status = 400;
-                                $response->message = "Gagal mengupdate data.";
-                                return json_encode($response);
-                            }
+                            $response = new \stdClass;
+                            $response->status = 200;
+                            $response->url = base_url('portal');
+                            $response->message = "Data berhasil diupdate.";
+                            return json_encode($response);
                         } else {
                             $this->_db->transRollback();
                             $response = new \stdClass;
@@ -325,13 +318,20 @@ class Home extends BaseController
                         $response->message = "Gagal mengupdate data.";
                         return json_encode($response);
                     }
-                } catch (\Throwable $th) {
+                } else {
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->message = "Gagal mengupdate data. with error";
+                    $response->message = "Gagal mengupdate data.";
                     return json_encode($response);
                 }
+                // } catch (\Throwable $th) {
+                //     $this->_db->transRollback();
+                //     $response = new \stdClass;
+                //     $response->status = 400;
+                //     $response->message = "Gagal mengupdate data. with error";
+                //     return json_encode($response);
+                // }
             }
         } else {
             exit('Maaf tidak dapat diproses');
