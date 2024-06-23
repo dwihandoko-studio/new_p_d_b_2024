@@ -363,8 +363,8 @@ class Pd extends BaseController
                                 $response = new \stdClass;
                                 $response->status = 200;
                                 $response->message = "Berhasil mengambil data";
-                                $response->e = $encryptData;
-                                $response->data = view('adm/masterdata/pd/addPd', $x);
+                                // $response->e = $encryptData;
+                                $response->data = view('adm/layanan/pd/addPd', $x);
                                 return json_encode($response);
                             } else {
                                 $response = new \stdClass;
