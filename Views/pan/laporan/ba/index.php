@@ -37,6 +37,7 @@
                                 <thead>
                                     <tr>
                                         <th>Action</th>
+                                        <th>Nomor BA</th>
                                         <th>Nama Pengaju</th>
                                         <th>Status Pengaju</th>
                                         <th>Perubahan Pengaju</th>

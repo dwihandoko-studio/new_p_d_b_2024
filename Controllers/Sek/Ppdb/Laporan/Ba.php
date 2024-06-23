@@ -60,6 +60,7 @@ class Ba extends BaseController
             $action = '<a href="javascript:actionDownload(\'' . $list->id_perubahan . '\');" class="btn btn-xs btn-primary waves-effect waves-light"><i class="fas fa-download font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> Donwload</a>';
 
             $row[] = $action;
+            $row[] = "BA.{$list->id}/PD/PPDB/2024";
             $row[] = $list->nama_pengaju;
             $row[] = $list->status_pengaju;
             $row[] = $list->perubahan_pengaju;
