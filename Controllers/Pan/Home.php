@@ -112,6 +112,18 @@ class Home extends BaseController
             $data['firs_login'] = false;
         }
 
+        $sekolahNya = $this->_db->table('dapo_sekolah')->select("status_sekolah_id")->where('sekolah_id', $user->data->sekolah_id)->get()->getRowObject();
+
+        if (!$sekolahNya) {
+            return redirect()->to(base_url('sek/home'));
+        }
+
+        if ((int)$sekolahNya->status_sekolah_id == 1) {
+            $data['is_negeri'] = true;
+        } else {
+            $data['is_negeri'] = false;
+        }
+        $data['informasis'] = $this->_db->table('doc_informasi')->where("tujuan IS NULL OR tujuan IN (3,4)")->get()->getResult();
         $data['user'] = $user->data;
         $data['level'] = $user->level;
         $data['level_nama'] = $user->level_nama;

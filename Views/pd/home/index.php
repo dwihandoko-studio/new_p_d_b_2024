@@ -133,7 +133,56 @@
                     </div>
                 </div>
             </div>
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header d-block d-sm-flex border-0 transactions-tab">
+                        <div class="me-3">
+                            <h4 class="card-title mb-2">Dashboard Informasi</h4>
+                            <span class="fs-12">Informasi seputar PPDB Kab. Lampung Tengah Tahun 2024/2025</span>
+                        </div>
+                        <div class="card-tabs mt-3 mt-sm-0">
+                        </div>
+                    </div>
+                    <div class="card-body tab-content p-0">
+                        <div class="accordion accordion-with-icon" id="accordion-six">
+                            <?php if (isset($informasis)) { ?>
+                                <?php if (count($informasis) > 0) { ?>
+                                    <?php foreach ($informasis as $key => $value) { ?>
+                                        <?php if ($key == 0) { ?>
+                                            <div class="accordion-item">
+                                                <div class="accordion-header rounded-lg" id="accord-6One<?= $key ?>" data-bs-toggle="collapse" data-bs-target="#collapse6One<?= $key ?>" aria-controls="collapse6One<?= $key ?>" aria-expanded="true" role="button">
+                                                    <span class="accordion-header-icon"></span>
+                                                    <span class="accordion-header-text"><?= $value->judul ?></span>
+                                                    <span class="accordion-header-indicator"></span>
+                                                </div>
+                                                <div id="collapse6One<?= $key ?>" class="accordion__body collapse show" aria-labelledby="accord-6One<?= $key ?>" data-bs-parent="#accordion-six" style="">
+                                                    <div class="accordion-body-text">
+                                                        <?= $value->deskripsi ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php } else { ?>
+                                            <div class="accordion-item">
+                                                <div class="accordion-header collapsed rounded-lg" id="accord-6Two<?= $key ?>" data-bs-toggle="collapse" data-bs-target="#collapse6Two<?= $key ?>" aria-controls="collapse6Two<?= $key ?>" aria-expanded="true" role="button">
+                                                    <span class="accordion-header-icon"></span>
+                                                    <span class="accordion-header-text"><?= $value->judul ?></span>
+                                                    <span class="accordion-header-indicator"></span>
+                                                </div>
+                                                <div id="collapse6Two<?= $key ?>" class="collapse accordion__body" aria-labelledby="accord-6Two<?= $key ?>" data-bs-parent="#accordion-six">
+                                                    <div class="accordion-body-text">
+                                                        <?= $value->deskripsi ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    <?php } ?>
+                                <?php } ?>
+                            <?php } ?>
+                        </div>
 
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
