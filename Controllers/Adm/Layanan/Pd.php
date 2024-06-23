@@ -1068,9 +1068,9 @@ class Pd extends BaseController
                     $response->message = "Peserta didik sudah ada dengan Nisn: $oldData->nisn ($oldData->nama).";
                     return json_encode($response);
                 }
-                $dataPdf = decrypt_json_data($dataPd, 'secret key handokowae.my.id');
+                $dataPdFix = decrypt_json_data($dataPd, 'secret key handokowae.my.id');
 
-                $dataPdFix = json_decode($dataPdf);
+                // $dataPdFix = json_decode($dataPdf);
                 $refSeklah = $this->_db->table('dapo_sekolah')->where('sekolah_id', $dataPdFix->sekolah_id)->get()->getRowObject();
                 if (!$refSeklah) {
 
