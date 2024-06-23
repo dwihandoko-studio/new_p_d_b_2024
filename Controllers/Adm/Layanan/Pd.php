@@ -1151,7 +1151,7 @@ class Pd extends BaseController
                         'nama' => $dataPdFix->nama,
                         'nama_sekolah_asal' => $refSeklah->nama,
                         'npsn_asal' => $refSeklah->npsn,
-                        'tingkat_pendidikan_asal' => $dataPdFix->tingkat_pendidikan_id,
+                        'tingkat_pendidikan_asal' => (int)$dataPdFix->tingkat_pendidikan,
                         'acc_reg' => $password,
                         'created_at' => $dataUser['created_at']
                     ];
