@@ -43,7 +43,7 @@
                             }
 
                             .prev-btn-panduan {
-                                right: 10px;
+                                right: 30px;
                             }
 
                             .next-btn-panduan {
