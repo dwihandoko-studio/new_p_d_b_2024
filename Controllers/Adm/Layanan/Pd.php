@@ -272,8 +272,8 @@ class Pd extends BaseController
 
                     curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($curlHandle, CURLOPT_TIMEOUT, 30);
-                    curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 30);
+                    curl_setopt($curlHandle, CURLOPT_TIMEOUT, 60);
+                    curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 60);
                     $send_data         = curl_exec($curlHandle);
 
                     $result = json_decode($send_data);
