@@ -44,6 +44,8 @@ class Home extends BaseController
                     $data['canAccessPPDB'] = true;
                     $data['canAccessVERVAL'] = true;
 
+                    $data['informasis'] = $this->_db->table('doc_informasi')->where("tujuan IS NULL OR tujuan IN (3,4)")->get()->getResult();
+
                     $data['title'] = "Portal Layanan";
                     $data['level'] = $level;
                     return view('sek/home/index', $data);

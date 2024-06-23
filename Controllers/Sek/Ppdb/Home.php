@@ -56,6 +56,7 @@ class Home extends BaseController
         } else {
             $data['is_negeri'] = false;
         }
+        $data['informasis'] = $this->_db->table('doc_informasi')->where("tujuan IS NULL OR tujuan IN (3,4)")->get()->getResult();
         $data['user'] = $user->data;
         $data['level'] = $user->level;
         $data['level_nama'] = $user->level_nama;
