@@ -296,7 +296,8 @@ class Pd extends BaseController
                             if (count($result) > 0) {
                                 $pdNya = $result[0];
                                 $x['data'] = $pdNya;
-                                $x['encrypt_data'] = encrypt_json_data($pdNya, 'secret key handokowae.my.id');
+                                $encryptData = encrypt_json_data($pdNya, 'secret key handokowae.my.id');
+                                $x['encrypt_data'] = $encryptData;
                                 $x['npsn'] = $npsn;
                                 $x['props'] = $this->_db->table('ref_provinsi')
                                     ->get()->getResult();
@@ -362,6 +363,7 @@ class Pd extends BaseController
                                 $response = new \stdClass;
                                 $response->status = 200;
                                 $response->message = "Berhasil mengambil data";
+                                $response->e = $encryptData;
                                 $response->data = view('adm/masterdata/pd/addPd', $x);
                                 return json_encode($response);
                             } else {

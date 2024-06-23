@@ -287,7 +287,6 @@ class Home extends BaseController
                 $row[] = 0;
                 $row[] = $list->total;
             }
-            // $row['url_sekolah'] = 'https://invome.dexignlab.com/codeigniter/demo/button';
 
             $data[] = $row;
         }
