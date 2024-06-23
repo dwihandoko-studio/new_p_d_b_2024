@@ -296,6 +296,8 @@ class Pd extends BaseController
                             if (count($result) > 0) {
                                 $pdNya = $result[0];
                                 $x['data'] = $pdNya;
+                                $textEnc = json_encode($pdNya);
+                                $x['encrypt_data'] = secure_encrypt($textEnc, 'handokowae.my.id');
                                 $x['npsn'] = $npsn;
                                 $x['props'] = $this->_db->table('ref_provinsi')
                                     ->get()->getResult();

@@ -1,5 +1,5 @@
 <form id="formAddData" class="formAddData" action="./addSave" method="post">
-    <input type="hidden" id="_data_pd" name="_data_pd" value="<?= secure_encrypt(json_encode($data), 'handokowae.my.id') ?>" />
+    <input type="hidden" id="_data_pd" name="_data_pd" value="<?= $encrypt_data ?>" />
     <div class="modal-body">
         <div class="row">
             <div class="mb-3 row">
