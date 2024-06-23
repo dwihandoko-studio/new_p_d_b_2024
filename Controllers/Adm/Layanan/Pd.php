@@ -1047,7 +1047,7 @@ class Pd extends BaseController
                 return json_encode($response);
             } else {
 
-                $dataPd = htmlspecialchars($this->request->getVar('_data_pd'), true);
+                $dataPd = $this->request->getVar('_data_pd');
                 $nik = htmlspecialchars($this->request->getVar('_nik'), true);
                 $kk = htmlspecialchars($this->request->getVar('_kk'), true);
                 $kab = htmlspecialchars($this->request->getVar('_kab'), true);
@@ -1065,8 +1065,9 @@ class Pd extends BaseController
                     $response->message = "Peserta didik sudah ada dengan Nisn: $oldData->nisn ($oldData->nama).";
                     return json_encode($response);
                 }
+                $dataPdf = secure_decrypt($dataPd, 'handokowae.my.id');
 
-                $dataPdFix = json_decode($dataPd);
+                $dataPdFix = json_decode($dataPdf);
                 $refSeklah = $this->_db->table('dapo_sekolah')->where('sekolah_id', $dataPdFix->sekolah_id)->get()->getRowObject();
                 if (!$refSeklah) {
 

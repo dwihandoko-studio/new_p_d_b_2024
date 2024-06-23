@@ -2685,3 +2685,20 @@ function replaceTandaBacaPetik($text)
 {
 	return str_replace('&#039;', "`", str_replace("'", "`", $text));
 }
+
+function secure_encrypt($text, $key)
+{
+	$iv_size = openssl_cipher_iv_length('aes-256-cbc');
+	$iv = openssl_random_pseudo_bytes($iv_size);
+	$encrypted_text = openssl_encrypt($text, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
+	return base64_encode($iv . $encrypted_text);
+}
+
+function secure_decrypt($encrypted_text, $key)
+{
+	$data = base64_decode($encrypted_text);
+	$iv_size = openssl_cipher_iv_length('aes-256-cbc');
+	$iv = substr($data, 0, $iv_size);
+	$decrypted_text = openssl_decrypt(substr($data, $iv_size), 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
+	return $decrypted_text;
+}
