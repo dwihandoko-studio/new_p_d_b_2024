@@ -50,6 +50,18 @@
                     <li><a href="<?= base_url('pd/daftar/swasta') ?>"><i class="fas fa-school"></i> Sekolah Swasta</a></li>
                 </ul>
             </li>
+            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+                    <i class="fas fa-bullhorn"></i>
+                    <span class="nav-text">Informasi</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="<?= base_url('pd/informasi/profil') ?>"><i class="fas fa-chalkboard-teacher"></i> Profil Peserta</a></li>
+                    <li><a href="<?= base_url('pd/informasi/riwayat') ?>"><i class="fas fa-file-signature"></i> Riwayat</a></li>
+                    <li><a href="<?= base_url('pd/informasi/pengumuman') ?>"><i class="fas fa-newspaper"></i> Pengumuman</a></li>
+                    <li><a href="<?= base_url('pd/informasi/panduan') ?>"><i class="fas fa-parking"></i> Panduan Pendaftaran</a></li>
+
+                </ul>
+            </li>
             <!-- <li><a href="<?= base_url('pan/pd') ?>" class="" aria-expanded="false">
                     <i class="fas fa-book-reader"></i>
                     <span class="nav-text">PD Tingkat Akhir</span>
