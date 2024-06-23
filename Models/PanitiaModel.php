@@ -10,7 +10,7 @@ class PanitiaModel extends Model
     protected $table = "panitia_ppdb a";
     protected $column_order = array(null, 'a.jabatan_ppdb', 'a.nama', 'a.jabatan', 'b.is_active');
     protected $column_search = array('a.nama', 'a.jabatan', 'a.jabatan_ppdb');
-    // protected $order = array('a.username' => 'asc');
+    protected $order = array('a.jabatan_ppdb' => 'asc');
     protected $request;
     protected $db;
     protected $dt;
