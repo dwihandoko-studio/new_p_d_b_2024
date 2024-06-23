@@ -380,20 +380,22 @@ class Dokumen extends BaseController
                 $field_db = 'file';
                 $table_db = 'doc_informasi';
 
-                $lampiran = $this->request->getFile('_file');
-                $filesNamelampiran = $lampiran->getName();
-                $newNamelampiran = _create_name_file($filesNamelampiran);
+                if ($filenamelampiran != '') {
+                    $lampiran = $this->request->getFile('_file');
+                    $filesNamelampiran = $lampiran->getName();
+                    $newNamelampiran = _create_name_file($filesNamelampiran);
 
-                $data = [];
+                    $data = [];
 
-                if ($lampiran->isValid() && !$lampiran->hasMoved()) {
-                    $lampiran->move($dir, $newNamelampiran);
-                    $data[$field_db] = $newNamelampiran;
-                } else {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Gagal mengupload file.";
-                    return json_encode($response);
+                    if ($lampiran->isValid() && !$lampiran->hasMoved()) {
+                        $lampiran->move($dir, $newNamelampiran);
+                        $data[$field_db] = $newNamelampiran;
+                    } else {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal mengupload file.";
+                        return json_encode($response);
+                    }
                 }
 
                 $data['tujuan'] = $tujuan;
