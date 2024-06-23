@@ -369,6 +369,10 @@ class Dokumen extends BaseController
                 }
 
                 $tujuan = htmlspecialchars($this->request->getVar('_tujuan'), true);
+
+                if ($tujuan === "all") {
+                    $tujuan = NULL;
+                }
                 $judul = htmlspecialchars($this->request->getVar('_judul'), true);
                 $deskripsi = $this->request->getVar('_deskripsi');
 
@@ -486,6 +490,10 @@ class Dokumen extends BaseController
                 $tujuan = htmlspecialchars($this->request->getVar('_tujuan'), true);
                 $judul = htmlspecialchars($this->request->getVar('_judul'), true);
                 $deskripsi = $this->request->getVar('_deskripsi');
+
+                if ($tujuan === "all") {
+                    $tujuan = NULL;
+                }
 
                 $oldData = $this->_db->table('doc_informasi')->where('id', $id)->get()->getRowObject();
 

@@ -5,6 +5,7 @@
                 <label for="_tujuan" class="col-form-label">Tujuan:</label>
                 <select class="form-control" id="_tujuan" name="_tujuan" width="100%" style="width: 100%;" required>
                     <option value="">--Pilih--</option>
+                    <option value="all">SEMUA</option>
                     <option value="3">Admin Sekolah / Panitia Sekolah</option>
                     <option value="5">Peserta Didik PPDB</option>
                 </select>

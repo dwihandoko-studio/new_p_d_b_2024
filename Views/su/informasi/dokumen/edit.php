@@ -6,6 +6,7 @@
                 <label for="_tujuan_edit" class="col-form-label">Tujuan:</label>
                 <select class="form-control" id="_tujuan_edit" name="_tujuan_edit" width="100%" style="width: 100%;" required>
                     <option value="">--Pilih--</option>
+                    <option value="all" <?= $data->tujuan == NULL ? ' selected' : '' ?>>SEMUA</option>
                     <option value="3" <?= (int)$data->tujuan == 3 ? ' selected' : '' ?>>Admin Sekolah / Panitia Sekolah</option>
                     <option value="5" <?= (int)$data->tujuan == 5 ? ' selected' : '' ?>>Peserta Didik PPDB</option>
                 </select>
