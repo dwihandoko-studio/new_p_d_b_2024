@@ -61,6 +61,6 @@ class Profil extends BaseController
         $data['level_nama'] = $user->level_nama;
         $data['title'] = 'Data Peserta';
 
-        return view('pd/daftar/index', $data);
+        return view('pd/informasi/profil/index', $data);
     }
 }
