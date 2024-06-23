@@ -1,6 +1,6 @@
 <?php if (isset($doc)) { ?>
     <form id="formEditUpData" class="formEditUpData" action="./editUploadSave" method="post" enctype="multipart/form-data">
-        <input type="hidden" id="_jenis" name="_jenis" value="<?= $jenis ?>" />
+        <input type="hidden" id="_jenis_up_edit" name="_jenis_up_edit" value="<?= $jenis ?>" />
         <div class="modal-body">
             <div class="row">
                 <div class="col-lg-12">
@@ -11,7 +11,7 @@
                         <div class="col-lg-6">
                             <div class="mt-3">
                                 <label for="_file" class="form-label">Ubah Doc <?= $title ?>: </label>
-                                <input class="form-control" type="file" id="_file" name="_file" onFocus="inputFocus(this);" accept="image/*,application/pdf">
+                                <input class="form-control" type="file" id="_file_up_edit" name="_file_up_edit" onFocus="inputFocus(this);" accept="image/*,application/pdf">
                                 <p class="font-size-11">Format : <code data-toggle="tooltip" data-placement="bottom" title="pdf, jpg, png, jpeg">Files</code> and Maximum File Size <code>2 Mb</code></p>
                                 <div class="help-block _file" for="_file"></div>
                             </div>
@@ -26,7 +26,7 @@
         </div>
     </form>
     <script>
-        document.getElementById('_file').addEventListener('change', loadFile, false);
+        document.getElementById('_file_up_edit').addEventListener('change', loadFile, false);
 
         function loadFile(e) {
             const file = e.target.files[0];
@@ -75,10 +75,10 @@
             }
         }
 
-        function validateForm(formElement) {
-            const _file = document.getElementsByName('_file')[0];
+        function validateFormUpEdit(formElement) {
+            const _file_up_edit = document.getElementsByName('_file_up_edit')[0];
 
-            if ((_file.value === "" || _file.value === undefined)) {
+            if ((_file_up_edit.value === "" || _file_up_edit.value === undefined)) {
                 Swal.fire(
                     'Peringatan!',
                     "Silahkan pilih file gambar atau pdf yang akan diupload.",
@@ -93,16 +93,16 @@
         }
 
         // Example usage: attach event listeners to form submission buttons
-        const form = document.getElementById('formEditUpData');
-        if (form) {
-            form.addEventListener('submit', function(event) { // Prevent default form submission
+        const formEditUp = document.getElementById('formEditUpData');
+        if (formEditUp) {
+            formEditUp.addEventListener('submit', function(event) { // Prevent default form submission
 
-                if (validateForm(this)) {
-                    event.preventDefault();
-                    const jenis = document.getElementsByName('_jenis')[0].value;
+                event.preventDefault();
+                if (validateFormUpEdit(this)) {
+                    const jenis_up_edit = document.getElementsByName('_jenis_up_edit')[0].value;
                     Swal.fire({
                         title: 'Apakah anda yakin ingin mengupload data ini?',
-                        text: "Upload: " + jenis,
+                        text: "Upload: " + jenis_up_edit,
                         showCancelButton: true,
                         icon: 'question',
                         confirmButtonColor: '#3085d6',
@@ -110,13 +110,13 @@
                         confirmButtonText: 'Ya, Upload!'
                     }).then((result) => {
                         if (result.value) {
-                            const fileName = document.getElementsByName('_file')[0].value;
-                            const formUpload = new FormData();
-                            if (fileName !== "") {
-                                const __file = document.getElementsByName('_file')[0].files[0];
-                                formUpload.append('_file', __file);
+                            const fileName_up_edit = document.getElementsByName('_file_up_edit')[0].value;
+                            const formUpload_up_edit = new FormData();
+                            if (fileName_up_edit !== "") {
+                                const __file_up_edit = document.getElementsByName('_file_up_edit')[0].files[0];
+                                formUpload_up_edit.append('_file', __file_up_edit);
                             }
-                            formUpload.append('_jenis', jenis);
+                            formUpload_up_edit.append('_jenis', jenis_up_edit);
 
                             $.ajax({
                                 xhr: function() {
@@ -133,7 +133,7 @@
                                 },
                                 url: "./editUploadSave",
                                 type: 'POST',
-                                data: formUpload,
+                                data: formUpload_up_edit,
                                 contentType: false,
                                 cache: false,
                                 processData: false,
@@ -198,9 +198,7 @@
                             });
                         }
                     });
-                } else {
-                    event.preventDefault();
-                }
+                } else {}
             });
         }
     </script>
