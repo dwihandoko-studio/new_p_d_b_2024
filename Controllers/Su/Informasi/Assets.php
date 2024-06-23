@@ -48,6 +48,7 @@ class Assets extends BaseController
             $row[] = $action;
 
             $row[] = $list->judul;
+            $row[] = $list->folder;
             $row[] = $list->file;
             $data[] = $row;
         }
@@ -133,6 +134,12 @@ class Assets extends BaseController
                         'required' => 'Judul tidak boleh kosong. ',
                     ]
                 ],
+                '_folder' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Folder tidak boleh kosong. ',
+                    ]
+                ],
 
             ];
 
@@ -141,7 +148,7 @@ class Assets extends BaseController
             if ($filenamelampiran != '') {
                 $lampiranVal = [
                     '_file' => [
-                        'rules' => 'uploaded[_file]|max_size[_file,2048]|mime_in[_file,image/jpeg,image/jpg,image/png,application/pdf]',
+                        'rules' => 'uploaded[_file]|max_size[_file,104800]',
                         'errors' => [
                             'uploaded' => 'Pilih gambar/pdf terlebih dahulu. ',
                             'max_size' => 'Ukuran gambar/pdf terlalu besar. ',
@@ -156,6 +163,7 @@ class Assets extends BaseController
                 $response = new \stdClass;
                 $response->status = 400;
                 $response->message = $this->validator->getError('_judul')
+                    . $this->validator->getError('_folder')
                     . $this->validator->getError('_file');
                 return json_encode($response);
             } else {
@@ -171,8 +179,9 @@ class Assets extends BaseController
                 }
 
                 $judul = htmlspecialchars($this->request->getVar('_judul'), true);
+                $folder = htmlspecialchars($this->request->getVar('_folder'), true);
 
-                $dir = FCPATH . "uploads/gambar";
+                $dir = FCPATH . "uploads/" . $folder;
                 $field_db = 'file';
                 $table_db = 'assets_gambar';
 
@@ -196,6 +205,7 @@ class Assets extends BaseController
                 }
 
                 $data['judul'] = $judul;
+                $data['folder'] = $folder;
                 $data['is_active'] = 1;
                 $data['created_at'] = date('Y-m-d H:i:s');
 
@@ -282,7 +292,7 @@ class Assets extends BaseController
                     return json_encode($response);
                 }
 
-                $dir = FCPATH . "uploads/gambar/" . $oldData->file;
+                $dir = FCPATH . "uploads/" . $oldData->folder . "/" . $oldData->file;
 
                 $this->_db->transBegin();
                 try {

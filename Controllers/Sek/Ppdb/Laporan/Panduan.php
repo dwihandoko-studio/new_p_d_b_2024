@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Pan\Laporan;
+namespace App\Controllers\Sek\Ppdb\Laporan;
 
 use App\Controllers\BaseController;
 use App\Libraries\Profilelib;
@@ -25,7 +25,7 @@ class Panduan extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('pan/laporan/panduan/data'));
+        return redirect()->to(base_url('sek/ppdb/laporan/panduan/data'));
     }
 
     public function data()
@@ -41,7 +41,7 @@ class Panduan extends BaseController
 
         // if ($user->data->image == NULL || $user->data->image == "") {
         if ($user->data->updated_at == NULL || $user->data->updated_at == "") {
-            return redirect()->to(base_url('pan/home'));
+            return redirect()->to(base_url('sek/ppdb/home'));
         }
 
         $data['user'] = $user->data;
@@ -49,6 +49,6 @@ class Panduan extends BaseController
         $data['level_nama'] = $user->level_nama;
         $data['title'] = 'Data Panduan';
 
-        return view('pan/laporan/panduan/index', $data);
+        return view('sek/ppdb/laporan/panduan/index', $data);
     }
 }

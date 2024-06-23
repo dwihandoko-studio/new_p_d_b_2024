@@ -7,12 +7,18 @@
                     <input type="text" class="form-control" id="_judul" name="_judul" value="" placeholder="Judul...." required />
                 </div>
             </div>
+            <div class="mb-3 row">
+                <label class="col-sm-3 col-form-label">Folder :</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="_folder" name="_folder" value="" placeholder="Folder...." required />
+                </div>
+            </div>
             <div class="col-lg-12">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="mt-3">
                             <label for="_file" class="form-label">Upload File : </label>
-                            <input class="form-control" type="file" id="_file" name="_file" onFocus="inputFocus(this);" accept="image/*">
+                            <input class="form-control" type="file" id="_file" name="_file" onFocus="inputFocus(this);">
                             <p class="font-size-11">Format : <code data-toggle="tooltip" data-placement="bottom" title="jpg, png, jpeg">Files</code> and Maximum File Size <code>2 Mb</code></p>
                             <div class="help-block _file" for="_file"></div>
                         </div>
@@ -35,20 +41,20 @@
         if (file) {
             const extensionFile = file.name.split('.').pop().toLowerCase();
 
-            var mime_types = ['image/jpg', 'image/jpeg', 'image/png'];
+            // var mime_types = ['image/jpg', 'image/jpeg', 'image/png'];
 
-            if (mime_types.indexOf(file.type) == -1) {
-                e.target.value = "";
-                // $('.imagePreviewUpload').attr('src', '');
-                Swal.fire(
-                    'Warning!!!',
-                    "Hanya file type gambar dan pdf yang diizinkan.",
-                    'warning'
-                );
-                return false;
-            }
+            // if (mime_types.indexOf(file.type) == -1) {
+            //     e.target.value = "";
+            //     // $('.imagePreviewUpload').attr('src', '');
+            //     Swal.fire(
+            //         'Warning!!!',
+            //         "Hanya file type gambar dan pdf yang diizinkan.",
+            //         'warning'
+            //     );
+            //     return false;
+            // }
 
-            if (file.size > 2 * 1024 * 1000) {
+            if (file.size > 100 * 1024 * 1000) {
                 e.target.value = "";
                 // $('.imagePreviewUpload').attr('src', '');
                 Swal.fire(
@@ -84,15 +90,22 @@
 
     function validateForm(formElement) {
         const judul = document.getElementsByName('_judul')[0];
+        const folder = document.getElementsByName('_folder')[0];
 
         if (judul.value === "" || judul.value === undefined) {
             Swal.fire(
                 'Peringatan!',
                 "Silahkan masukkan judul.",
                 'warning'
-            ).then((valRes) => {
-                repassword.focus();
-            });
+            ).then((valRes) => {});
+            return false;
+        }
+        if (folder.value === "" || folder.value === undefined) {
+            Swal.fire(
+                'Peringatan!',
+                "Silahkan masukkan folder.",
+                'warning'
+            ).then((valRes) => {});
             return false;
         }
 
@@ -107,6 +120,7 @@
             if (validateForm(this)) {
                 event.preventDefault();
                 const nama = document.getElementsByName('_judul')[0].value;
+                const folder = document.getElementsByName('_folder')[0].value;
                 Swal.fire({
                     title: 'Apakah anda yakin ingin menyimpan data ini?',
                     text: "Tambah Data Gambar: " + nama,
@@ -124,6 +138,7 @@
                             formUpload.append('_file', __file);
                         }
                         formUpload.append('_judul', nama);
+                        formUpload.append('_folder', folder);
 
                         $.ajax({
                             xhr: function() {

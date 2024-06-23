@@ -38,6 +38,7 @@
                                                 <th>#</th>
                                                 <th>Aksi</th>
                                                 <th>Judul</th>
+                                                <th>Folder</th>
                                                 <th>File</th>
                                             </tr>
                                         </thead>
