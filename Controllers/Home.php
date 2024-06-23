@@ -385,7 +385,6 @@ class Home extends BaseController
                         $no++;
                         $row = [];
                         $row[] = $no;
-                        $row[] = $value->nama_provinsi;
                         $row[] = $value->nama_kabupaten;
                         $row[] = $value->nama_kecamatan;
                         $row[] = $value->nama_kelurahan;
