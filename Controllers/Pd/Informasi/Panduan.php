@@ -47,7 +47,7 @@ class Panduan extends BaseController
         $data['user'] = $user->data;
         $data['level'] = $user->level;
         $data['level_nama'] = $user->level_nama;
-        $data['title'] = 'Data Peserta';
+        $data['title'] = 'Data Panduan';
 
         return view('pd/informasi/panduan/index', $data);
     }
