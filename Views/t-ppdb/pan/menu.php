@@ -57,10 +57,14 @@
                     <li><a href="<?= base_url('pan/rekap/tolak') ?>">Tidak Lolos Verifikasi Berkas</a></li>
                 </ul>
             </li>
-            <li><a href="<?= base_url('pan/laporan') ?>" class="" aria-expanded="false">
+            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
                     <i class="las la-chart-bar"></i>
                     <span class="nav-text">Laporan Data PPDB</span>
                 </a>
+                <ul aria-expanded="false">
+                    <li><a href="<?= base_url('pan/laporan/panduan') ?>">Panduan Aplikasi</a></li>
+                    <li><a href="<?= base_url('pan/laporan/ba') ?>">Berita Acara</a></li>
+                </ul>
             </li>
         </ul>
 
