@@ -22,13 +22,13 @@
                                 display: flex;
                                 justify-content: center;
                                 align-items: center;
-                                width: 100%;
+                                width: 100vw;
                                 height: 100vh;
                                 /* 100% viewport height */
                             }
 
                             #current-image-panduan {
-                                width: 50%;
+                                width: 100%;
                                 /* Adjust as needed */
                                 max-height: 80%;
                                 /* Adjust as needed */
