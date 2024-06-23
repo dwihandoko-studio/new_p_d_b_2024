@@ -31,8 +31,8 @@
                                     <p>Email</p>
                                 </div>
                                 <div class="profile-email px-2 pt-2">
-                                    <h4 class="text-muted mb-0"><?= $sekolah->nomor_telepon ?? '-' ?></h4>
-                                    <p>No Telp.</p>
+                                    <h4 class="text-muted mb-0"><?= $sekolah->website ?? '-' ?></h4>
+                                    <p>Website</p>
                                 </div>
                             </div>
                         </div>
