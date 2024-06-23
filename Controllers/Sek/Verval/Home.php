@@ -322,7 +322,7 @@ class Home extends BaseController
                         ]);
                         if ($this->_db->affectedRows() > 0) {
                             $oldDataPanitia = $this->_db->table('panitia_ppdb')->where('id', $oldData->user_id,)->get()->getRowObject();
-                            if ($oldData) {
+                            if ($oldDataPanitia) {
                                 $this->_db->table('panitia_ppdb')->where('id', $oldDataPanitia->id)->update([
                                     'sekolah_id' => $oldData->sekolah_id,
                                     'nama' => $nama,
