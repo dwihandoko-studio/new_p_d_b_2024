@@ -25,7 +25,7 @@
             </li>
             <li><a href="<?= base_url('home/kuota') ?>" class="" aria-expanded="false">
                     <i class="fas fa-cubes"></i>
-                    <span class="nav-text">Kuota Sekolah</span>
+                    <span class="nav-text">Informasi Sekolah</span>
                 </a>
             </li>
             <li><a href="<?= base_url('home/zonasi_wilayah') ?>" class="" aria-expanded="false">
