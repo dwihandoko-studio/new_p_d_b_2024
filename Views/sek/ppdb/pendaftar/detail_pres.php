@@ -518,7 +518,7 @@
                                 <div class="col-12">
                                     <div class="row">
                                         <div class="col-6">
-                                            <h4 class="card-title">Valida Data & Dokumen <?= $data->via_jalur == "SWASTA" ? 'Sekolah ' . ucwords(strtolower($data->via_jalur)) : 'Jalur ' . ucwords(strtolower($data->via_jalur)) ?></h4>
+                                            <h4 class="card-title">Validasi Data & Dokumen <?= $data->via_jalur == "SWASTA" ? 'Sekolah ' . ucwords(strtolower($data->via_jalur)) : 'Jalur ' . ucwords(strtolower($data->via_jalur)) ?></h4>
                                         </div>
                                     </div>
                                 </div>
