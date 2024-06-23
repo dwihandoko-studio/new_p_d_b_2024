@@ -72,6 +72,129 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4 class="card-title">Data Ketersediaan Kuota PPDB Sekolah</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php if ((int)$sekolah->status_sekolah_id == 1) { ?>
+                                <div class="col-12" style="margin-top: 30px;">
+                                    <div class="row">
+                                        <div class="col-xl-3 col-sm-6">
+                                            <div class="card overflow-hidden">
+                                                <div class="card-header border-0">
+                                                    <div class="d-flex">
+                                                        <span class="mt-2">
+                                                            <i class="la la-user-injured" style="font-size: 3vw;"></i>
+                                                        </span>
+                                                        <div class="invoices">
+                                                            <h4 class="jumlah_pendaftar_afirmasi" id="jumlah_pendaftar_afirmasi"><?= $sekolah->kuota_sekolah->afirmasi ?></h4>
+                                                            <span>Kuota Afirmasi</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body p-0">
+
+                                                    <div id="totalInvoices"></div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-sm-6">
+                                            <div class="card overflow-hidden">
+                                                <div class="card-header border-0">
+                                                    <div class="d-flex">
+                                                        <span class="mt-1">
+                                                            <i class="la la-map" style="font-size: 3vw;"></i>
+                                                        </span>
+                                                        <div class="invoices">
+                                                            <h4 class="jumlah_pendaftar_zonasi" id="jumlah_pendaftar_zonasi"><?= $sekolah->kuota_sekolah->zonasi ?></h4>
+                                                            <span>Kuota Zonasi</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body p-0">
+
+                                                    <div id="paidinvoices"></div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-sm-6">
+                                            <div class="card overflow-hidden">
+                                                <div class="card-header border-0">
+                                                    <div class="d-flex">
+                                                        <span class="mt-1">
+                                                            <i class="la la-retweet" style="font-size: 3vw;"></i>
+                                                        </span>
+                                                        <div class="invoices">
+                                                            <h4 class="jumlah_pendaftar_mutasi" id="jumlah_pendaftar_mutasi"><?= $sekolah->kuota_sekolah->mutasi ?></h4>
+                                                            <span>Kuota Mutasi</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body p-0">
+                                                    <div id="unpaidinvoices"></div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-sm-6">
+                                            <div class="card overflow-hidden">
+                                                <div class="card-header border-0">
+                                                    <div class="d-flex">
+                                                        <span class="mt-1">
+                                                            <i class="la la-certificate" style="font-size: 3vw;"></i>
+                                                        </span>
+                                                        <div class="invoices">
+                                                            <h4 class="jumlah_pendaftar_prestasi" id="jumlah_pendaftar_prestasi"><?= $sekolah->kuota_sekolah->prestasi ?></h4>
+                                                            <span>Kuota Prestasi</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body p-0">
+                                                    <div id="totalinvoicessent"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } else { ?>
+                                <div class="col-12" style="margin-top: 30px;">
+                                    <div class="row">
+                                        <div class="col-xl-6 col-sm-6">
+                                            <div class="card overflow-hidden">
+                                                <div class="card-header border-0">
+                                                    <div class="d-flex">
+                                                        <span class="mt-2">
+                                                            <i class="la la-users" style="font-size: 3vw;"></i>
+                                                        </span>
+                                                        <div class="invoices">
+                                                            <h4 class="jumlah_pendaftar" id="jumlah_pendaftar"><?= $sekolah->kuota_sekolah->total ?></h4>
+                                                            <span>Jumlah Kuota</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body p-0">
+
+                                                    <div id="totalInvoices"></div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <?= $this->include('t-dashboard/bottom'); ?>
 
         </div>

@@ -165,6 +165,13 @@ class Home extends BaseController
         if (!$sekolah) {
             return redirect()->to(base_url('home'));
         }
+        $kuota = $this->_db->table('_setting_kuota_tb a')
+            ->select("a.*, (afirmasi + zonasi + mutasi + prestasi) as total")
+            ->where('sekolah_id', $id)->get()->getRowObject();
+        if (!$kuota) {
+            return redirect()->to(base_url('home'));
+        }
+        $sekolah->kuota_sekolah = $kuota;
 
         $data['title'] = 'Detail Sekolah || PPDB 2024/2025 Kab. Lampung Tengah';
         $data['sekolah'] = $sekolah;
