@@ -161,11 +161,17 @@
                 "orderable": false,
             }],
             "rowCallback": function(row, data, index) {
+                console.log(data[3]);
                 // $(row).attr("id", "tr-" + index);
                 $(row).click(function() {
                     const urlSekolah = data.url_sekolah;
                     window.open(urlSekolah, '_blank');
                     // window.location.href = urlSekolah;
+                });
+                $(row).hover(function() {
+                    $(this).addClass('hovered'); // Add a CSS class for hover effect
+                }, function() {
+                    $(this).removeClass('hovered'); // Remove the CSS class on mouse out
                 });
                 // if (data.grade == 'A') {
                 //     $('td:eq(4)', row).html('<b>A</b>');
