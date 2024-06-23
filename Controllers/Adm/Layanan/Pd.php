@@ -307,7 +307,17 @@ class Pd extends BaseController
                                     ->where("left(id_kecamatan,6) = left('{$pdNya->kode_wilayah}',6)")->get()->getResult();
                                 $x['dusuns'] = $this->_db->table('ref_dusun')->orderBy('urut', 'ASC')
                                     ->get()->getResult();
-                                $x['sek'] = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('sekolah_id', $pdNya->sekolah_id)->get()->getRowObject();
+                                $sekAsal = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('sekolah_id', $pdNya->sekolah_id)->get()->getRowObject();
+
+                                if (!$sekAsal) {
+                                    $response = new \stdClass;
+                                    $response->status = 204;
+                                    $response->sekolah_id = $pdNya->sekolah_id;
+                                    $response->message = "Referensi Sekolah Asal Tidak Ditemukan.";
+                                    return json_encode($response);
+                                }
+
+                                $x['sek'] = $sekAsal;
                                 $response = new \stdClass;
                                 $response->status = 200;
                                 $response->message = "Berhasil mengambil data";
@@ -393,6 +403,82 @@ class Pd extends BaseController
         $data['level_nama'] = $user->level_nama;
 
         return view('adm/layanan/pd/edit', $data);
+    }
+
+    public function cekDataRefSekolah()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    return redirect()->to(base_url('auth'));
+                }
+
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+
+                $refSekolah = $this->_db->table('ref_sekolah')->where('id', $id)->get()->getRowObject();
+
+                if ($refSekolah) {
+                    try {
+                        $this->_db->table('dapo_sekolah')->insert([
+                            'sekolah_id' => $refSekolah->id,
+                            'nama' => $refSekolah->nama,
+                            'npsn' => $refSekolah->npsn,
+                            'kode_wilayah' => $refSekolah->kode_wilayah,
+                            'kode_desa_kelurahan' => $refSekolah->kode_wilayah,
+                            'desa_kelurahan' => $refSekolah->desa_kelurahan,
+                            'kode_kecamatan' => substr($refSekolah->kode_wilayah, 0, 6),
+                            'kecamatan' => getNameKecamatan(substr($refSekolah->kode_wilayah, 0, 6)),
+                            'kode_kabupaten' => substr($refSekolah->kode_wilayah, 0, 4) . '00',
+                            'kabupaten' => getNameKabupaten(substr($refSekolah->kode_wilayah, 0, 4) . '00'),
+                            'kode_provinsi' => substr($refSekolah->kode_wilayah, 0, 2) . '0000',
+                            'provinsi' => getNameProvinsi(substr($refSekolah->kode_wilayah, 0, 2) . '0000'),
+                            'bentuk_pendidikan_id' => $refSekolah->bentuk_pendidikan_id,
+                            'status_sekolah_id' => $refSekolah->status_sekolah,
+                            'alamat_jalan' => $refSekolah->alamat_jalan,
+                            'rt' => $refSekolah->rt,
+                            'rw' => $refSekolah->rw,
+                            'lintang' => $refSekolah->latitude,
+                            'bujur' => $refSekolah->longitude,
+                        ]);
+                    } catch (\Throwable $th) {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal mengambil ref sekolah asal.";
+                        return json_encode($response);
+                    }
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->message = "Permintaan diizinkan";
+                    return json_encode($response);
+                } else {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
     }
 
     public function refkab()
