@@ -179,7 +179,8 @@ class Assets extends BaseController
                 if ($filenamelampiran != '') {
                     $lampiran = $this->request->getFile('_file');
                     $filesNamelampiran = $lampiran->getName();
-                    $newNamelampiran = _create_name_file($filesNamelampiran);
+                    $newNamelampiran = $filesNamelampiran;
+                    // $newNamelampiran = _create_name_file($filesNamelampiran);
 
                     $data = [];
 
