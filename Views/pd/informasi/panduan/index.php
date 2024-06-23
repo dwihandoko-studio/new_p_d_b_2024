@@ -35,7 +35,7 @@
                             .prev-btn-panduan,
                             .next-btn-panduan {
                                 position: absolute;
-                                top: 50%;
+                                bottom: 5%;
                                 transform: translateY(-50%);
                                 padding: 10px;
                                 border: none;
