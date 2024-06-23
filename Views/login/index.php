@@ -37,7 +37,7 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="<?= base_url('favicon/ms-icon-144x144.png'); ?>">
     <meta name="theme-color" content="#ffffff">
-    <link href="<?= base_url() ?>/assets/css/style.css" rel="stylesheet">
+    <link href="<?= base_url() ?>/assets/css/style_new.css" rel="stylesheet">
     <link href="<?= base_url() ?>/assets/vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" type="text/css" />
     <link href="<?= base_url() ?>/assets/vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet" type="text/css" />
 

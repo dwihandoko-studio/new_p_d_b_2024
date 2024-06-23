@@ -42,7 +42,7 @@
     <link href="<?= base_url() ?>/assets/vendor/nouislider/nouislider.min.css" rel="stylesheet" type="text/css" />
     <link href="<?= base_url() ?>/assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
     <link href="<?= base_url() ?>/assets/vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet" type="text/css" />
-    <link href="<?= base_url() ?>/assets/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url() ?>/assets/css/style_new.css" rel="stylesheet" type="text/css" />
     <link href="<?= base_url() ?>/assets/vendor/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
     <script>
         const BASE_URL = '<?= base_url() ?>';
