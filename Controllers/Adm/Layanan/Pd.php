@@ -1069,6 +1069,7 @@ class Pd extends BaseController
                     return json_encode($response);
                 }
                 $dataPdFix = decrypt_json_data($dataPd, 'secret key handokowae.my.id');
+                $dataPdFix = (object)$dataPdFix;
 
                 // $dataPdFix = json_decode($dataPdf);
                 $refSeklah = $this->_db->table('dapo_sekolah')->where('sekolah_id', $dataPdFix->sekolah_id)->get()->getRowObject();
