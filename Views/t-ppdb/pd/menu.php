@@ -33,17 +33,24 @@
             </div>
         </div>
         <ul class="metismenu" id="menu">
-            <li><a href="<?= base_url('pan/home') ?>" class="" aria-expanded="false">
+            <li><a href="<?= base_url('pd/home') ?>" class="" aria-expanded="false">
                     <i class="fas fa-tachometer-alt"></i>
                     <span class="nav-text">Dashboard</span>
                 </a>
             </li>
-            <!-- <li><a href="<?= base_url('pan/panitia') ?>" class="" aria-expanded="false">
-                    <i class="fas fa-sitemap"></i>
-                    <span class="nav-text">Panitia PPDB Sekolah</span>
+            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+                    <i class="fas fa-address-card"></i>
+                    <span class="nav-text">Pendaftaran</span>
                 </a>
+                <ul aria-expanded="false">
+                    <li><a href="<?= base_url('pd/daftar/afirmasi') ?>"><i class="fas fa-credit-card"></i> Jalur Afirmasi</a></li>
+                    <li><a href="<?= base_url('pd/daftar/zonasi') ?>"><i class="fas fa-map-marked-alt"></i> Jalur Zonasi</a></li>
+                    <li><a href="<?= base_url('pd/daftar/mutasi') ?>"><i class="fas fa-route"></i> Jalur Mutasi</a></li>
+                    <li><a href="<?= base_url('pd/daftar/prestasi') ?>"><i class="fas fa-trophy"></i> Jalur Prestasi</a></li>
+                    <li><a href="<?= base_url('pd/daftar/swasta') ?>"><i class="fas fa-school"></i> Sekolah Swasta</a></li>
+                </ul>
             </li>
-            <li><a href="<?= base_url('pan/pd') ?>" class="" aria-expanded="false">
+            <!-- <li><a href="<?= base_url('pan/pd') ?>" class="" aria-expanded="false">
                     <i class="fas fa-book-reader"></i>
                     <span class="nav-text">PD Tingkat Akhir</span>
                 </a>
