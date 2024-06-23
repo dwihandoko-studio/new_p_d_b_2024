@@ -14,7 +14,7 @@
                 <?php if (count($data) > 0) { ?>
                     <?php foreach ($data as $key => $value) { ?>
                         <tr>
-                            <td><img class="rounded-circle" width="35" src="<?= base_url() ?>/assets/images/sekolah.png" alt=""></td>
+                            <td><img class="rounded-circle" width="35" src="<?= base_url() ?>/uploads/gambar/pict_1.png" alt=""></td>
                             <td>
                                 <?= $value->nama ?><br />
                                 <?= $value->npsn ?><br />

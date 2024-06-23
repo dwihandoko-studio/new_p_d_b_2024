@@ -332,7 +332,7 @@
                 <div class="dropdown header-profile2 ">
                     <a class="nav-link " href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
                         <div class="header-info2 d-flex align-items-center border">
-                            <img style="max-width: 50px; max-height: 50px; width: 50px; height: 50px;" src="<?= $user->image ? base_url('uploads/user') . '/' . $user->image : base_url() . '/assets/images/profile/pic1.jpg' ?>" alt="" />
+                            <img style="max-width: 50px; max-height: 50px; width: 50px; height: 50px;" src="<?= $user->image ? base_url('uploads/user') . '/' . $user->image : base_url() . '/uploads/gambar/pict_1.png' ?>" alt="" />
                             <div class="d-flex align-items-center sidebar-info">
                                 <div>
                                     <span class="font-w700 d-block mb-2"><?= isset($user) ? $user->nama : '-' ?></span>
@@ -403,7 +403,7 @@
                                 </div>
                                 <div class="profile-info">
                                     <div class="profile-photo">
-                                        <img style="max-width: 100px; max-height: 100px; width: 100px; height: 100px;" src="<?= $user->image ? base_url('uploads/user') . '/' . $user->image : base_url() . '/assets/images/profile/profile.png' ?>" class="img-fluid rounded-circle" alt="">
+                                        <img style="max-width: 100px; max-height: 100px; width: 100px; height: 100px;" src="<?= $user->image ? base_url('uploads/user') . '/' . $user->image : base_url() . '/uploads/gambar/pict_1.png' ?>" class="img-fluid rounded-circle" alt="">
                                     </div>
                                     <div class="profile-details">
                                         <div class="profile-name px-3 pt-2">
