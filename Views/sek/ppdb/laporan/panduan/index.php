@@ -42,11 +42,11 @@
                             }
 
                             .prev-btn-panduan {
-                                right: 90px;
+                                left: 10px;
                             }
 
                             .next-btn-panduan {
-                                right: 10px;
+                                left: 90px;
                             }
 
                             .loading-overlay-panduan {
