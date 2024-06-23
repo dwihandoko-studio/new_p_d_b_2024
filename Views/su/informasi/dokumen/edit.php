@@ -3,6 +3,14 @@
     <div class="modal-body">
         <div class="row">
             <div class="mb-3 row">
+                <label for="_tujuan_edit" class="col-form-label">Tujuan:</label>
+                <select class="form-control" id="_tujuan_edit" name="_tujuan_edit" width="100%" style="width: 100%;" required>
+                    <option value="">--Pilih--</option>
+                    <option value="3" <?= (int)$data->tujuan == 3 ? ' selected' : '' ?>>Admin Sekolah / Panitia Sekolah</option>
+                    <option value="5" <?= (int)$data->tujuan == 5 ? ' selected' : '' ?>>Peserta Didik PPDB</option>
+                </select>
+            </div>
+            <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Judul :</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" id="_judul_edit" name="_judul_edit" value="<?= $data->judul ?>" placeholder="Judul...." required />
@@ -72,6 +80,7 @@
         formEdit.addEventListener('submit', function(event) { // Prevent default form submission
             event.preventDefault();
             if (validateFormEdit(this)) {
+                const tujuan = document.getElementsByName('_tujuan_edit')[0].value;
                 const nama = document.getElementsByName('_judul_edit')[0].value;
                 const id = document.getElementsByName('_id_edit')[0].value;
                 Swal.fire({
@@ -87,6 +96,7 @@
                         const deskripsi = $('#_deskripsi_edit').val();
                         const formUpload = new FormData();
                         formUpload.append('_id', id);
+                        formUpload.append('_tujuan', tujuan);
                         formUpload.append('_judul', nama);
                         formUpload.append('_deskripsi', deskripsi);
 

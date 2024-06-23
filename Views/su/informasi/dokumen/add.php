@@ -2,6 +2,14 @@
     <div class="modal-body">
         <div class="row">
             <div class="mb-3 row">
+                <label for="_tujuan" class="col-form-label">Tujuan:</label>
+                <select class="form-control" id="_tujuan" name="_tujuan" width="100%" style="width: 100%;" required>
+                    <option value="">--Pilih--</option>
+                    <option value="3">Admin Sekolah / Panitia Sekolah</option>
+                    <option value="5">Peserta Didik PPDB</option>
+                </select>
+            </div>
+            <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Judul :</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" id="_judul" name="_judul" value="" placeholder="Judul...." required />
@@ -133,12 +141,14 @@
                 }).then((result) => {
                     if (result.value) {
                         const fileName = document.getElementsByName('_file')[0].value;
+                        const tujuan = document.getElementsByName('_tujuan')[0].value;
                         const deskripsi = $('#_deskripsi').val();
                         const formUpload = new FormData();
                         if (fileName !== "") {
                             const __file = document.getElementsByName('_file')[0].files[0];
                             formUpload.append('_file', __file);
                         }
+                        formUpload.append('_tujuan', tujuan);
                         formUpload.append('_judul', nama);
                         formUpload.append('_deskripsi', deskripsi);
 

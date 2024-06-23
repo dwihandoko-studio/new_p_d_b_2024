@@ -310,6 +310,12 @@ class Dokumen extends BaseController
         if ($this->request->isAJAX()) {
 
             $rules = [
+                '_tujuan' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Tujuan tidak boleh kosong. ',
+                    ]
+                ],
                 '_judul' => [
                     'rules' => 'required|trim',
                     'errors' => [
@@ -346,6 +352,7 @@ class Dokumen extends BaseController
                 $response = new \stdClass;
                 $response->status = 400;
                 $response->message = $this->validator->getError('_judul')
+                    . $this->validator->getError('_tujuan')
                     . $this->validator->getError('_deskripsi')
                     . $this->validator->getError('_file');
                 return json_encode($response);
@@ -361,6 +368,7 @@ class Dokumen extends BaseController
                     return json_encode($response);
                 }
 
+                $tujuan = htmlspecialchars($this->request->getVar('_tujuan'), true);
                 $judul = htmlspecialchars($this->request->getVar('_judul'), true);
                 $deskripsi = $this->request->getVar('_deskripsi');
 
@@ -384,6 +392,7 @@ class Dokumen extends BaseController
                     return json_encode($response);
                 }
 
+                $data['tujuan'] = $tujuan;
                 $data['judul'] = $judul;
                 $data['deskripsi'] = $deskripsi;
                 $data['is_active'] = 1;
@@ -433,6 +442,12 @@ class Dokumen extends BaseController
                         'required' => 'Id tidak boleh kosong. ',
                     ]
                 ],
+                '_tujuan' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Tujuan tidak boleh kosong. ',
+                    ]
+                ],
                 '_judul' => [
                     'rules' => 'required|trim',
                     'errors' => [
@@ -451,6 +466,7 @@ class Dokumen extends BaseController
                 $response = new \stdClass;
                 $response->status = 400;
                 $response->message = $this->validator->getError('_id')
+                    . $this->validator->getError('_tujuan')
                     . $this->validator->getError('_judul')
                     . $this->validator->getError('_deskripsi');
                 return json_encode($response);
@@ -467,6 +483,7 @@ class Dokumen extends BaseController
                 }
 
                 $id = htmlspecialchars($this->request->getVar('_id'), true);
+                $tujuan = htmlspecialchars($this->request->getVar('_tujuan'), true);
                 $judul = htmlspecialchars($this->request->getVar('_judul'), true);
                 $deskripsi = htmlspecialchars($this->request->getVar('_deskripsi'), true);
 
@@ -482,6 +499,7 @@ class Dokumen extends BaseController
                 $this->_db->transBegin();
                 try {
                     $this->_db->table('doc_informasi')->where('id', $oldData->id)->update([
+                        'tujuan' => $tujuan,
                         'judul' => $judul,
                         'deskripsi' => $deskripsi,
                         'updated_at' => date('Y-m-d H:i:s')
