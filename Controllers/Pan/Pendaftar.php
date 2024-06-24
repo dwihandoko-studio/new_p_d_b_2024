@@ -58,7 +58,7 @@ class Pendaftar extends BaseController
             //                     <div class="dropdown-divider"></div>
             //                 </div>
             //             </div>';
-            $action = '<a href="' . base_url() . '/sek/ppdb/pendaftar/detail?d=' . $list->id . '&t=' . $list->kode_pendaftaran . '" class="btn btn-xs btn-primary waves-effect waves-light"><i class="las la-compress-arrows-alt font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> VERIFIKASI</a>';
+            $action = '<a href="' . base_url() . '/pan/pendaftar/detail?d=' . $list->id . '&t=' . $list->kode_pendaftaran . '" class="btn btn-xs btn-primary waves-effect waves-light"><i class="las la-compress-arrows-alt font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> VERIFIKASI</a>';
 
             $row[] = $action;
             $row[] = $list->nama_peserta;
