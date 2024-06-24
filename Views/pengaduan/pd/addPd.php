@@ -322,6 +322,12 @@
     </div>
 </form>
 <script>
+    $(document).ready(function() {
+        // initSelect2('_filter_kec', $('.content-body'));
+        // initSelect2('_filter_jenjang', $('.content-body'));
+        getLocation();
+    });
+
     function getLocation() {
         if (navigator.geolocation) {
             var options = {
@@ -457,7 +463,7 @@
                         keyboard: false,
                     });
                     $('.content-mapModal').modal('show');
-                    getLocation(); // Assuming this function retrieves lat/lng if needed
+                    // Assuming this function retrieves lat/lng if needed
 
                     // Map initialization
                     var map = L.map("map_inits").setView([lat, long], 14);
