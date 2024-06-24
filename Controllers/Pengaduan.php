@@ -286,7 +286,7 @@ class Pengaduan extends BaseController
                                     $response->status = 200;
                                     $response->message = "Berhasil mengambil data";
                                     // $response->e = $encryptData;
-                                    $response->data = view('adm/layanan/pd/addPd', $x);
+                                    $response->data = view('pengaduan/pd/addPd', $x);
                                     return json_encode($response);
                                 } else {
                                     $response = new \stdClass;
