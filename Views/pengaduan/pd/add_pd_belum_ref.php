@@ -644,109 +644,29 @@
                                         resul.message,
                                         'success'
                                     ).then((valRes) => {
-                                        $.ajax({
-                                            url: "./download",
-                                            type: 'POST',
-                                            data: {
-                                                id: resul.id_pengaduan,
-                                                jenis: resul.jenis_pengaduan,
-                                                nama: resul.nama,
-                                            },
-                                            dataType: 'JSON',
-                                            beforeSend: function() {
-                                                Swal.fire({
-                                                    title: 'Mendownload Akun PD...',
-                                                    text: 'Please wait while we process your action.',
-                                                    allowOutsideClick: false,
-                                                    allowEscapeKey: false,
-                                                    didOpen: () => {
-                                                        Swal.showLoading();
-                                                    }
-                                                });
-                                            },
-                                            complete: function() {},
-                                            success: function(resul2) {
-
-                                                if (resul2.status !== 200) {
-                                                    if (resul2.status !== 201) {
-                                                        if (resul2.status === 401) {
-                                                            Swal.fire(
-                                                                'Failed!',
-                                                                resul2.message,
-                                                                'warning'
-                                                            ).then((valRes) => {
-                                                                reloadPage();
-                                                            });
-                                                        } else {
-                                                            Swal.fire(
-                                                                'GAGAL!',
-                                                                resul2.message,
-                                                                'warning'
-                                                            );
-                                                        }
-                                                    } else {
-                                                        Swal.fire(
-                                                            'Peringatan!',
-                                                            resul2.message,
-                                                            'success'
-                                                        ).then((valRes) => {
-                                                            // reloadPage();
-                                                            const decodedBytes = atob(resul2.data);
-                                                            const arrayBuffer = new ArrayBuffer(decodedBytes.length);
-                                                            const intArray = new Uint8Array(arrayBuffer);
-                                                            for (let i = 0; i < decodedBytes.length; i++) {
-                                                                intArray[i] = decodedBytes.charCodeAt(i);
-                                                            }
-
-                                                            const blob = new Blob([intArray], {
-                                                                type: 'application/pdf'
-                                                            });
-                                                            const link = document.createElement('a');
-                                                            link.href = URL.createObjectURL(blob);
-                                                            link.download = resul2.filename; // Set desired filename
-                                                            link.click();
-
-                                                            // Revoke the object URL after download (optional)
-                                                            URL.revokeObjectURL(link.href);
-
-                                                            reloadPage('<?= base_url('adm/layanan/pd') ?>');
-
-                                                        })
-                                                    }
-                                                } else {
-                                                    Swal.fire(
-                                                        'BERHASIL!',
-                                                        resul.message,
-                                                        'success'
-                                                    ).then((valRes) => {
-                                                        const decodedBytes = atob(resul2.data);
-                                                        const arrayBuffer = new ArrayBuffer(decodedBytes.length);
-                                                        const intArray = new Uint8Array(arrayBuffer);
-                                                        for (let i = 0; i < decodedBytes.length; i++) {
-                                                            intArray[i] = decodedBytes.charCodeAt(i);
-                                                        }
-
-                                                        const blob = new Blob([intArray], {
-                                                            type: 'application/pdf'
-                                                        });
-                                                        const link = document.createElement('a');
-                                                        link.href = URL.createObjectURL(blob);
-                                                        link.download = resul2.filename; // Set desired filename
-                                                        link.click();
-                                                        URL.revokeObjectURL(link.href);
-
-                                                        reloadPage('<?= base_url('adm/layanan/pd') ?>');
-                                                    })
-                                                }
-                                            },
-                                            error: function() {
-                                                Swal.fire(
-                                                    'PERINGATAN!',
-                                                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
-                                                    'warning'
-                                                );
+                                        Swal.fire(
+                                            'BERHASIL!',
+                                            resul.message,
+                                            'success'
+                                        ).then((valRes) => {
+                                            const decodedBytes = atob(resul.data);
+                                            const arrayBuffer = new ArrayBuffer(decodedBytes.length);
+                                            const intArray = new Uint8Array(arrayBuffer);
+                                            for (let i = 0; i < decodedBytes.length; i++) {
+                                                intArray[i] = decodedBytes.charCodeAt(i);
                                             }
-                                        });
+
+                                            const blob = new Blob([intArray], {
+                                                type: 'application/pdf'
+                                            });
+                                            const link = document.createElement('a');
+                                            link.href = URL.createObjectURL(blob);
+                                            link.download = resul.filename; // Set desired filename
+                                            link.click();
+                                            URL.revokeObjectURL(link.href);
+
+                                            reloadPage();
+                                        })
                                     })
                                 }
                             },
