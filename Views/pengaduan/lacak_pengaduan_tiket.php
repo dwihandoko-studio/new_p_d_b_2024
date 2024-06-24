@@ -4,7 +4,10 @@
             <div class="timeline-badge primary"></div>
             <a class="timeline-panel text-muted" href="#">
                 <span><?= make_time_long_ago_new($data->created_at) ?></span>
-                <h6 class="mb-0"><?= $data->jenis_pengaduan ?> <strong class="text-primary"><?= getStatusTicketPengaduan($data->status) ?></strong>.</h6>
+                <h6 class="mb-0"><?= strtoupper($data->jenis_pengaduan) ?> - Status <strong class="text-primary"><?= getStatusTicketPengaduan($data->status) ?></strong>.</h6>
+                <span><?= $data->nama_pengadu ?></span>
+                <span><?= $data->email_pengadu ?></span>
+                <span><?= $data->nohp_pengadu ?></span>
             </a>
         </li>
         <!-- <li>
