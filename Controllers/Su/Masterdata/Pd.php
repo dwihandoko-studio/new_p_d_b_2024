@@ -529,7 +529,7 @@ class Pd extends BaseController
                 $id = htmlspecialchars($this->request->getVar('id'), true);
                 $nama = htmlspecialchars($this->request->getVar('nama'), true);
 
-                $oldData = $this->_db->table('dapo_peserta')->where('peserta_didik_d', $id)->get()->getRowObject();
+                $oldData = $this->_db->table('dapo_peserta')->where('peserta_didik_id', $id)->get()->getRowObject();
 
                 if (!$oldData) {
                     $response = new \stdClass;
