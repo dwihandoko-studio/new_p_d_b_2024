@@ -54,6 +54,7 @@
                 },
                 success: function(response) {
                     if (response.status == 200) {
+                        Swal.close();
                         $('.content_pengaduan_baru').html(response.data);
                     } else {
                         Swal.fire(
