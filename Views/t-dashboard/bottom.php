@@ -59,7 +59,7 @@
                             <h5>Pengaduan</h5>
                         </div>
                         <p>Punya Kendala PPDB </p>
-                        <a href="./pengaduan" class="btn btn-primary ms-5">BUAT PENGADUAN</a>
+                        <a href="<?= base_url('pengaduan') ?>" class="btn btn-primary ms-5">BUAT PENGADUAN</a>
                     </div>
                 </div>
             </div>
