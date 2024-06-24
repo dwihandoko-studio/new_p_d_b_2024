@@ -2615,6 +2615,30 @@ function getNameDusun($id)
 	}
 }
 
+function getNameBentukPendidikan($id)
+{
+	$db      = \Config\Database::connect();
+
+	$limit = $db->table('dapo_sekolah')
+		->select('bentuk_pendidikan')
+		->where('bentuk_pendidikan_id', $id)->limit(1)
+		->get()->getRowObject();
+	if ($limit) {
+		return $limit->bentuk_pendidikan_id;
+	} else {
+		return "";
+	}
+}
+
+function getNameStatusSekolah($id)
+{
+	if ((int)$id == 1) {
+		return "NEGERI";
+	} else {
+		return "SWASTA";
+	}
+}
+
 function getProsentaseJalur($jenjang)
 {
 	$db      = \Config\Database::connect();

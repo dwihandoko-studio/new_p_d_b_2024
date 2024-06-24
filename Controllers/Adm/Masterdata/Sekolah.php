@@ -485,6 +485,7 @@ class Sekolah extends BaseController
                     'nama' => $nama_sekolah,
                     'npsn' => $npsn_sekolah,
                     'bentuk_pendidikan_id' => $bentuk_pendidikan,
+                    'bentuk_pendidikan' => getNameBentukPendidikan($bentuk_pendidikan),
                     'status_sekolah_id' => $status_sekolah,
                     'provinsi' => getNameProvinsi($prov),
                     'kode_provinsi' => $prov,
