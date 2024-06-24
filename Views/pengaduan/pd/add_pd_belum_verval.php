@@ -177,7 +177,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">SIMPAN DATA</button>
+        <button type="submit" class="btn btn-primary">AJUKAN VERVAL DATA</button>
     </div>
 </form>
 <script>

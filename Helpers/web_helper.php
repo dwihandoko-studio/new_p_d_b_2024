@@ -2739,3 +2739,20 @@ function decrypt_json_data($encrypted_data, $key)
 	// Decode the decrypted JSON string back to PHP data
 	return json_decode($decrypted_text, true);
 }
+
+function generateRandomTicketKey()
+{
+	$characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+	$randomString = '';
+
+	// Loop to generate 8 random characters
+	for ($i = 0; $i < 3; $i++) {
+		$randomString .= $characters[rand(0, strlen($characters) - 1)];
+	}
+
+	// Check for duplicate keys (optional)
+	// You can implement logic here to check if the generated key already exists in your database.
+	// If it does, regenerate a new key using recursion.
+
+	return $randomString;
+}

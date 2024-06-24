@@ -4,7 +4,7 @@
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Nama Lengkap</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_nama" name="_nama" value="" placeholder="Nama Lengkap" required />
+                    <input type="text" class="form-control" id="_nama_pengadu" name="_nama_pengadu" value="" placeholder="Nama Lengkap" required />
                 </div>
             </div>
             <div class="mb-3 row">
@@ -31,11 +31,13 @@
 <script>
     function changedKlasifikasi(event) {
         if (event.value === "" || event.value === undefined) {} else {
+            const namaPengadu = document.getElementsByName('_nama_pengadu')[0].value;
             $.ajax({
                 url: "./form_add",
                 type: 'POST',
                 data: {
                     id: event.value,
+                    nama_pengadu: namaPengadu,
                 },
                 dataType: "json",
                 beforeSend: function() {

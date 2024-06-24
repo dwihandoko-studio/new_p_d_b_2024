@@ -78,21 +78,30 @@ class Pengaduan extends BaseController
                         'required' => 'Id tidak boleh kosong. ',
                     ]
                 ],
+                'nama_pengadu' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
             ];
 
             if (!$this->validate($rules)) {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = $this->validator->getError('id');
+                $response->message = $this->validator->getError('id')
+                    . $this->validator->getError('id');
                 return json_encode($response);
             } else {
                 $id = htmlspecialchars($this->request->getVar('id'), true);
+                $nama_pengadu = htmlspecialchars($this->request->getVar('nama_pengadu'), true);
                 $response = new \stdClass;
                 $response->status = 200;
                 switch ($id) {
                     case 'belum punya akun':
                         $response->jenis = $id;
                         $x['jenis'] = $id;
+                        $x['nama_pengadu'] = $nama_pengadu;
                         $response->data = view('pengaduan/belum_punya_akun', $x);
                         break;
 
@@ -125,17 +134,25 @@ class Pengaduan extends BaseController
                         'required' => 'Id tidak boleh kosong. ',
                     ]
                 ],
+                'nama_pengadu' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama pengadu tidak boleh kosong. ',
+                    ]
+                ],
             ];
 
             if (!$this->validate($rules)) {
                 $response = new \stdClass;
                 $response->status = 400;
                 $response->message = $this->validator->getError('jenis')
-                    . $this->validator->getError('jenis_pengaduan');
+                    . $this->validator->getError('jenis_pengaduan')
+                    . $this->validator->getError('nama_pengadu');
                 return json_encode($response);
             } else {
                 $jenis = htmlspecialchars($this->request->getVar('jenis'), true);
                 $jenis_pengaduan = htmlspecialchars($this->request->getVar('jenis_pengaduan'), true);
+                $nama_pengadu = htmlspecialchars($this->request->getVar('nama_pengadu'), true);
                 if ($jenis === "sudah") {
 
                     $nisn = htmlspecialchars($this->request->getVar('nisn'), true);
@@ -313,7 +330,7 @@ class Pengaduan extends BaseController
                                     $response = new \stdClass;
                                     $response->status = 200;
                                     $response->message = "Berhasil mengambil data";
-                                    // $response->e = $encryptData;
+                                    $response->nama_pengadu = $nama_pengadu;
                                     $response->data = view('pengaduan/pd/add_pd_belum_ref', $x);
                                     return json_encode($response);
                                 } else {
@@ -793,6 +810,308 @@ class Pengaduan extends BaseController
         }
     }
 
+    public function addSavePengaduanAkunSekolahNoId()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                '_nama_pengadu' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Jenis pengaduan tidak boleh kosong. ',
+                    ]
+                ],
+                '_jenis_pengaduan_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Jenis pengaduan tidak boleh kosong. ',
+                    ]
+                ],
+                '_data_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Peserta didik id tidak boleh kosong. ',
+                    ]
+                ],
+                '_prov_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Provinsi tidak boleh kosong. ',
+                    ]
+                ],
+                '_kab_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kabupaten tidak boleh kosong. ',
+                    ]
+                ],
+                '_kec_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kecamatan tidak boleh kosong. ',
+                    ]
+                ],
+                '_kel_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kelurahan tidak boleh kosong. ',
+                    ]
+                ],
+                '_dusun_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Dusun tidak boleh kosong. ',
+                    ]
+                ],
+                '_lintang_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Lintang tidak boleh kosong. ',
+                    ]
+                ],
+                '_bujur_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Bujur tidak boleh kosong. ',
+                    ]
+                ],
+                '_nik_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'NIK tidak boleh kosong. ',
+                    ]
+                ],
+                '_kk_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kartu Keluarga tidak boleh kosong. ',
+                    ]
+                ],
+                '_email_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Email tidak boleh kosong. ',
+                    ]
+                ],
+                '_nohp_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'No WA tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('_data_pd_sekolah')
+                    . $this->validator->getError('_nama_pengadu')
+                    . $this->validator->getError('_jenis_pengaduan_pd_sekolah')
+                    . $this->validator->getError('_prov_pd_sekolah')
+                    . $this->validator->getError('_kab_pd_sekolah')
+                    . $this->validator->getError('_kec_pd_sekolah')
+                    . $this->validator->getError('_kel_pd_sekolah')
+                    . $this->validator->getError('_dusun_pd_sekolah')
+                    . $this->validator->getError('_lintang_pd_sekolah')
+                    . $this->validator->getError('_bujur_pd_sekolah')
+                    . $this->validator->getError('_nik_pd_sekolah')
+                    . $this->validator->getError('_kk_pd_sekolah')
+                    . $this->validator->getError('_email_pd_sekolah')
+                    . $this->validator->getError('_nohp_pd_sekolah');
+                return json_encode($response);
+            } else {
+                $jenis_pengaduan = htmlspecialchars($this->request->getVar('_jenis_pengaduan_pd_sekolah'), true);
+                $nama_pengadu = htmlspecialchars($this->request->getVar('_nama_pengadu'), true);
+                $dataPd = $this->request->getVar('_data_pd_sekolah');
+                $prov = htmlspecialchars($this->request->getVar('_prov_pd_sekolah'), true);
+                $kab = htmlspecialchars($this->request->getVar('_kab_pd_sekolah'), true);
+                $kec = htmlspecialchars($this->request->getVar('_kec_pd_sekolah'), true);
+                $kel = htmlspecialchars($this->request->getVar('_kel_pd_sekolah'), true);
+                $dusun = htmlspecialchars($this->request->getVar('_dusun_pd_sekolah'), true);
+                $lintang = htmlspecialchars($this->request->getVar('_lintang_pd_sekolah'), true);
+                $bujur = htmlspecialchars($this->request->getVar('_bujur_pd_sekolah'), true);
+                $nik = htmlspecialchars($this->request->getVar('_nik_pd_sekolah'), true);
+                $kk = htmlspecialchars($this->request->getVar('_kk_pd_sekolah'), true);
+                $email = htmlspecialchars($this->request->getVar('_email_pd_sekolah'), true);
+                $nohp = htmlspecialchars($this->request->getVar('_nohp_pd_sekolah'), true);
+
+                $dataPdFix = decrypt_json_data($dataPd, 'secret key handokowae.my.id');
+                $dataPdFix = (object)$dataPdFix;
+
+                $oldData = $this->_db->table('dapo_peserta')->where('nisn', $dataPdFix->nisn)->get()->getRowObject();
+                if ($oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Peserta didik sudah ada dengan Nisn: $oldData->nisn ($oldData->nama).";
+                    return json_encode($response);
+                }
+
+                $refSeklah = $this->_db->table('dapo_sekolah')->where('sekolah_id', $dataPdFix->sekolah_id)->get()->getRowObject();
+                if (!$refSeklah) {
+
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Referensi sekolah asal PD tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $ticketKey = generateRandomTicketKey();
+                $numberKey = 0;
+                $ticketKeyF = date('d') . $ticketKey . date('H');
+
+                $dataInsertPengajuan = [
+                    'id' => $ticketKeyF . $numberKey,
+                    'sekolah_id' => $dataPdFix->sekolah_id,
+                    'nama' => $dataPdFix->nama,
+                    'tempat_lahir' => $dataPdFix->tempat_lahir,
+                    'tanggal_lahir' => $dataPdFix->tanggal_lahir,
+                    'jenis_kelamin' => $dataPdFix->jenis_kelamin,
+                    'nisn' => $dataPdFix->nisn,
+                    'nik' => $nik,
+                    'no_kk' => $kk,
+                    'kab' => $kab,
+                    'kec' => $kec,
+                    'kel' => $kel,
+                    'kode_wilayah' => $kel,
+                    'alamat_jalan' => $dataPdFix->alamat_jalan,
+                    'desa_kelurahan' => $dataPdFix->desa_kelurahan,
+                    'rt' => $dataPdFix->rt,
+                    'rw' => $dataPdFix->rw,
+                    'nama_dusun' => $dataPdFix->nama_dusun,
+                    'nama_ibu_kandung' => $dataPdFix->nama_ibu_kandung,
+                    'pekerjaan_ibu' => $dataPdFix->pekerjaan_ibu,
+                    'penghasilan_ibu' => $dataPdFix->penghasilan_ibu,
+                    'nama_ayah' => $dataPdFix->nama_ayah,
+                    'pekerjaan_ayah' => $dataPdFix->pekerjaan_ayah,
+                    'penghasilan_ayah' => $dataPdFix->penghasilan_ayah,
+                    'nama_wali' => $dataPdFix->nama_wali,
+                    'pekerjaan_wali' => $dataPdFix->pekerjaan_wali,
+                    'penghasilan_wali' => $dataPdFix->penghasilan_wali,
+                    'kebutuhan_khusus' => $dataPdFix->kebutuhan_khusus,
+                    'no_kip' => $dataPdFix->no_kip,
+                    'no_pkh' => $dataPdFix->no_pkh,
+                    'tingkat_pendidikan_id' => $dataPdFix->tingkat_pendidikan,
+                    'dusun' => $dusun,
+                    'lintang' => $lintang,
+                    'bujur' => $bujur,
+                    'nama_pengadu' => $nama_pengadu,
+                    'email' => $email,
+                    'nohp' => $nohp,
+                    'is_edited' => 0,
+                    'created_at' => date('Y-m-d H:i:s'),
+                ];
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('dapo_peserta_pengajuan')->insert($dataInsertPengajuan);
+                    if ($this->_db->affectedRows() > 0) {
+                        $this->_db->table('data_pengaduan')->insert([
+                            'no_tiket' => $dataInsertPengajuan['id'],
+                            'jenis_pengaduan' => $dataInsertPengajuan['jenis_pengaduan'],
+                            'nama_pengadu' => $dataInsertPengajuan['nama_pengadu'],
+                            'email_pengadu' => $dataInsertPengajuan['email'],
+                            'nohp_pengadu' => $dataInsertPengajuan['nohp'],
+                        ]);
+                        $this->_db->transCommit();
+                        return $this->downloadTiketId($dataInsertPengajuan['id']);
+                        // $response = new \stdClass;
+                        // $response->status = 200;
+                        // $response->tiket_id = $dataInsertPengajuan['id'];
+                        // $response->message = "Data berhasil disimpan.";
+                        // return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menyimpan data. pd e";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $dbError = $this->_db->error();
+                    if (strpos($dbError['message'], 'Duplicate entry') !== false || strpos($dbError['message'], 'Key \'PRIMARY\'') !== false) {
+                        $dataInsertPengajuan['id'] = $ticketKeyF . $numberKey + 1;
+                        try {
+                            $this->_db->table('dapo_peserta_pengajuan')->insert($dataInsertPengajuan);
+                            if ($this->_db->affectedRows() > 0) {
+                                $this->_db->table('data_pengaduan')->insert([
+                                    'no_tiket' => $dataInsertPengajuan['id'],
+                                    'jenis_pengaduan' => $dataInsertPengajuan['jenis_pengaduan'],
+                                    'nama_pengadu' => $dataInsertPengajuan['nama_pengadu'],
+                                    'email_pengadu' => $dataInsertPengajuan['email'],
+                                    'nohp_pengadu' => $dataInsertPengajuan['nohp'],
+                                ]);
+                                $this->_db->transCommit();
+                                return $this->downloadTiketId($dataInsertPengajuan['id']);
+                                // $response = new \stdClass;
+                                // $response->status = 200;
+                                // $response->tiket_id = $dataInsertPengajuan['id'];
+                                // $response->message = "Data berhasil disimpan.";
+                                // return json_encode($response);
+                            } else {
+                                $this->_db->transRollback();
+                                $response = new \stdClass;
+                                $response->status = 400;
+                                $response->message = "Gagal menyimpan data. pd e";
+                                return json_encode($response);
+                            }
+                        } catch (\Throwable $th) {
+                            $dbError = $this->_db->error();
+                            if (strpos($dbError['message'], 'Duplicate entry') !== false || strpos($dbError['message'], 'Key \'PRIMARY\'') !== false) {
+                                $dataInsertPengajuan['id'] = $ticketKeyF . $numberKey + 2;
+                                try {
+                                    $this->_db->table('dapo_peserta_pengajuan')->insert($dataInsertPengajuan);
+                                    if ($this->_db->affectedRows() > 0) {
+                                        $this->_db->table('data_pengaduan')->insert([
+                                            'no_tiket' => $dataInsertPengajuan['id'],
+                                            'jenis_pengaduan' => $dataInsertPengajuan['jenis_pengaduan'],
+                                            'nama_pengadu' => $dataInsertPengajuan['nama_pengadu'],
+                                            'email_pengadu' => $dataInsertPengajuan['email'],
+                                            'nohp_pengadu' => $dataInsertPengajuan['nohp'],
+                                        ]);
+                                        $this->_db->transCommit();
+                                        return $this->downloadTiketId($dataInsertPengajuan['id']);
+
+                                        // $response = new \stdClass;
+                                        // $response->status = 200;
+                                        // $response->tiket_id = $dataInsertPengajuan['id'];
+                                        // $response->message = "Data berhasil disimpan.";
+                                        // return json_encode($response);
+                                    } else {
+                                        $this->_db->transRollback();
+                                        $response = new \stdClass;
+                                        $response->status = 400;
+                                        $response->message = "Gagal menyimpan data. pd e";
+                                        return json_encode($response);
+                                    }
+                                } catch (\Throwable $th) {
+                                    $this->_db->transRollback();
+                                    $response = new \stdClass;
+                                    $response->status = 400;
+                                    $response->message = "Gagal menyimpan data.";
+                                    return json_encode($response);
+                                }
+                            } else {
+                                $this->_db->transRollback();
+                                $response = new \stdClass;
+                                $response->status = 400;
+                                $response->message = "Gagal menyimpan data.";
+                                return json_encode($response);
+                            }
+                        }
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menyimpan data.";
+                        return json_encode($response);
+                    }
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
     public function generateAkun()
     {
         if ($this->request->isAJAX()) {
@@ -1075,6 +1394,113 @@ class Pengaduan extends BaseController
         } else {
             exit('Maaf tidak dapat diproses');
         }
+    }
+
+    private function downloadTiketId($id)
+    {
+        $tiket = $this->_db->table('dapo_peserta_pengajuan')
+            ->where('id', $id)->get()->getRowObject();
+
+        if (!$tiket) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Tiket pengaduan tidak ditemukan.";
+            return json_encode($response);
+        }
+
+        $html = '<table border="0">
+                        <tr>
+                            <td>Nama Pengadu</td>
+                            <td colspan="2">: {{ nama_pengadu }}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>: {{ email_pengadu }}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>No WA</td>
+                            <td>: {{ nohp_pengadu }}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>';
+
+        $html1 = '<table>
+                        <tr>
+                            <td><center><b>{{ no_tiket }}</b></center></td>
+                        </tr>
+                    </table>';
+        $html2 = '<p><center>No tiket pengaduan ini digunakan untuk<br />melacak status pengaduan melalui laman: <br /><b>https://ppdb.lampungtengahkab.go.id/pengaduan</b></center></p>';
+
+        $html = str_replace('{{ nama_pengadu }}', $tiket->nama_pengadu, $html);
+        $html = str_replace('{{ email_pengadu }}', $tiket->email, $html);
+        $html = str_replace('{{ nohp_pengadu }}', $tiket->nohp, $html);
+
+        $html1 = str_replace('{{ no_tiket }}', $tiket->id, $html1);
+
+        $kop = '<table border="0">
+                    <tr>
+                        <td width="17%" rowspan="4"><img src="https://ppdb.esline.id/favicon/apple-icon-120x120.png" style="width: 70px;" alt="Logo"></td>
+                        <td width="83%">DINAS PENDIDIKAN DAN KEBUDAYAAN</td>
+                    </tr>
+                    <tr>
+                        <td width="83%">KABUPATEN LAMPUNG TENGAH</td>
+                    </tr>
+                    <tr>
+                        <td width="83%">PENERIMAAN PESERTA DIDIK BARU (PPDB)</td>
+                    </tr>
+                    <tr>
+                        <td width="83%">TAHUN PELAJARAN 2024/2025</td>
+                    </tr>
+                </table>';
+        $pdf = new TcpdfFpdi('P', 'mm', PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        // Load HTML content
+        $pdf->AddPage();
+        $pdf->SetFont('times', 'B', 12);
+        $pdf->MultiCell(180, 10, $kop, 0, 'C', false, 1, 20, null, true, 0, true);
+        $pdf->MultiCell(180, 10, '<hr />', 0, 'C', false, 1, 20, null, true, 0, true);
+        // $pdf->Cell(200, 10, 'KARTU AKUN PPDB KAB. LAMPUNG TENGAH TAHUN 2024/2025', 0, 1, 'C');
+        $pdf->Ln(10);
+        $pdf->SetFont('times', 'N', 12);
+        $pdf->MultiCell(180, 10, '<h4>DATA PENGADU</h4>', 0, 'L', false, 1, 20, null, true, 0, true);
+        $pdf->MultiCell(180, 10, $html, 0, 'L', false, 1, 20, null, true, 0, true);
+        $pdf->Ln(10);
+        $pdf->MultiCell(180, 10, '<h4>TIKET PENGADUAN</h4>', 0, 'L', false, 1, 20, null, true, 0, true);
+        $pdf->MultiCell(180, 10, $html1, 0, 'L', false, 1, 20, null, true, 0, true);
+        $pdf->Ln(20);
+        $pdf->MultiCell(180, 10, $html2, 0, 'C', false, 1, 20, null, true, 0, true);
+        $pdf->Ln(20);
+        $pdf->MultiCell(70, 20, "PPDB Kab. Lampung Tengah,", 0, 'L', false, 1, 130, null, true, 0, true);
+        $pdf->Ln(10);
+        $pdf->MultiCell(70, 20, "Generate From Layanan", 0, 'L', false, 1, 130, null, true, 0, true);
+
+        // $pdf->WriteHTML($html);
+
+        // Output PDF
+        $dir = FCPATH . "uploads/temp";
+        $filename = 'TIKET_PENGADUAN_' . $tiket->id . '.pdf';
+        $fileName = $dir . '/' . $filename;
+        $pdf->Output($fileName, 'F'); // Generate and save to temporary file
+
+        sleep(2);
+
+        $fileContent = file_get_contents($fileName);
+        $base64Data = base64_encode($fileContent);
+        unlink($fileName); // Delete the temporary file
+
+        $response = new \stdClass;
+        $response->status = 200;
+        $response->message = "Tiket Pengaduan Berhasil Didownload.";
+        $response->data = $base64Data;
+        $response->filename = $filename;
+        return json_encode($response);
+        // } else {
+        //     $response = new \stdClass;
+        //     $response->status = 400;
+        //     $response->message = "Gagal mengenerate data.";
+        //     return json_encode($response);
+        // }
     }
 
     private function downloadAkunPrivate($id, $nama)

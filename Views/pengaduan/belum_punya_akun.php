@@ -77,6 +77,7 @@
                 data: {
                     jenis: jenisPd,
                     jenis_pengaduan: '<?= $jenis ?>',
+                    nama_pengadu: '<?= $nama_pengadu ?>',
                     nisn: nisnPd,
                     npsn: npsnPd,
                     tgl_lahir: tglLahirPd,
