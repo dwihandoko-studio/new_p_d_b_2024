@@ -1,4 +1,4 @@
-<h3>Hasil Lacak Tiket Dengan Nomor: <strong class="text-secondary"><?= $data->no_tiket ?></strong></h3>
+<h3>Hasil Lacak Tiket Dengan Nomor: <strong class="text-secondary"><u><?= $data->no_tiket ?></u></strong></h3>
 <h5>Berikut, informasi detail status tiket anda.</h5>
 <div id="DZ_W_TimeLine" class="widget-timeline dlab-scroll height370" style="margin-top: 20px;">
     <ul class="timeline">
