@@ -128,8 +128,8 @@ class Pengaduan extends BaseController
                 $jenis = htmlspecialchars($this->request->getVar('jenis'), true);
                 if ($jenis === "sudah") {
 
-                    $nisn = htmlspecialchars($this->request->getVar('nisn'), true);
-                    $npsn = htmlspecialchars($this->request->getVar('npsn'), true);
+                    $nisn = htmlspecialchars($this->request->getVar('_nisn'), true);
+                    $npsn = htmlspecialchars($this->request->getVar('_npsn'), true);
 
                     $cekDataRefPdLocal = $this->_db->table('dapo_peserta a')
                         ->select("a.*, b.nama as nama_sekolah, b.npsn as npsn_sekolah")
@@ -180,8 +180,8 @@ class Pengaduan extends BaseController
 
                         $result_curl = json_decode($send_data_curl);
 
-                        var_dump($result_curl);
-                        die;
+                        // var_dump($result_curl);
+                        // die;
 
                         if (isset($result_curl->error)) {
                             $response = new \stdClass;
@@ -197,6 +197,13 @@ class Pengaduan extends BaseController
                                 $response->message = $result_curl->message;
                                 return json_encode($response);
                             } else {
+                                if (isset($result_curl[0]->Keterangan)) {
+                                    $response = new \stdClass;
+                                    $response->status = 400;
+                                    $response->message = $result_curl[0]->Keterangan;
+                                    return json_encode($response);
+                                }
+
                                 if (count($result_curl) > 0) {
                                     $pdNya = $result_curl[0];
                                     $x['data'] = $pdNya;
