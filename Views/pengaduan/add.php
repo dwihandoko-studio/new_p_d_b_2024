@@ -13,9 +13,9 @@
                     <select class="default-select form-control wide mb-3" onchange="changedKlasifikasi(this)" id="_klasifikasi" name="_klasifikasi" required>
                         <option value=""> -- Pilih --</option>
                         <option value="belum punya akun">Belum Punya Akun</option>
-                        <option value="tidak bisa melakukan pendaftaran ke sekolah">Tidak Bisa Melakukan Pendaftaran Ke Sekolah</option>
+                        <!-- <option value="tidak bisa melakukan pendaftaran ke sekolah">Tidak Bisa Melakukan Pendaftaran Ke Sekolah</option>
                         <option value="lupa password">Lupa Password</option>
-                        <option value="tidak bisa melakukan pengkinian data">Tidak Bisa Melakukan Pengkinian Data</option>
+                        <option value="tidak bisa melakukan pengkinian data">Tidak Bisa Melakukan Pengkinian Data</option> -->
                     </select>
                 </div>
             </div>

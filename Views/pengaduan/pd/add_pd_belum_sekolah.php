@@ -1,18 +1,20 @@
-<form id="formAddData" class="formAddData" action="./addSaveBelum" method="post">
-    <input type="hidden" id="_tingkat_pendidikan_pd" name="_tingkat_pendidikan_pd" value="1" />
-    <input type="hidden" id="_sekolah_id" name="_sekolah_id" value="<?= $sekolah_id ?>" />
+<form id="formAddDataBelumSekolah" class="formAddDataBelumSekolah" action="./addSaveBelum" method="post">
+    <input type="hidden" id="_tingkat_pendidikan_pd_bs" name="_tingkat_pendidikan_pd_bs" value="1" />
+    <input type="hidden" id="_sekolah_id_bs" name="_sekolah_id_bs" value="<?= $sekolah_id ?>" />
+    <input type="hidden" id="_jenis_pengaduan_bs" name="_jenis_pengaduan_bs" value="<?= $jenis_pengaduan ?>" />
+    <input type="hidden" id="_nama_pengadu_bs" name="_nama_pengadu_bs" value="<?= $nama_pengadu ?>" />
     <div class="modal-body">
         <div class="row">
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">NIK</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_nik" name="_nik" value="<?= $nik ?>" readonly />
+                    <input type="text" class="form-control" id="_nik_bs" name="_nik_bs" value="<?= $nik ?>" readonly />
                 </div>
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Kartu Keluarga</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_kk" name="_kk" value="<?= $kk ?>" readonly />
+                    <input type="text" class="form-control" id="_kk_bs" name="_kk_bs" value="<?= $kk ?>" readonly />
                 </div>
             </div>
             <div class="mb-3 row">
@@ -20,7 +22,7 @@
                 <div class="col-sm-9">
                     <div class="input-group   input-primary">
                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Nama</span>
-                        <input type="text" class="form-control" id="_nama_pd" name="_nama_pd" value="" required />
+                        <input type="text" class="form-control" id="_nama_pd_bs" name="_nama_pd_bs" value="" required />
                     </div>
                 </div>
             </div>
@@ -29,7 +31,7 @@
                 <div class="col-sm-9">
                     <div class="input-group   input-primary">
                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Tempat lahir</span>
-                        <input type="text" class="form-control" id="_tempat_lahir_pd" name="_tempat_lahir_pd" value="" required />
+                        <input type="text" class="form-control" id="_tempat_lahir_pd_bs" name="_tempat_lahir_pd_bs" value="" required />
                     </div>
                 </div>
             </div>
@@ -38,7 +40,7 @@
                 <div class="col-sm-9">
                     <div class="input-group   input-primary">
                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Tgl Lahir</span>
-                        <input type="date" class="form-control" id="_tanggal_lahir_pd" name="_tanggal_lahir_pd" value="" required />
+                        <input type="date" class="form-control" id="_tanggal_lahir_pd_bs" name="_tanggal_lahir_pd_bs" value="" required />
                     </div>
                 </div>
             </div>
@@ -46,7 +48,7 @@
                 <label class="col-sm-3 col-form-label">Jenis Kelamin Pd</label>
                 <div class="col-sm-9">
                     <div class="input-group   input-primary">
-                        <select class="form-control" id="_jenis_kelamin_pd" name="_jenis_kelamin_pd" width="100%" style="width: 100%;" required>
+                        <select class="form-control" id="_jenis_kelamin_pd_bs" name="_jenis_kelamin_pd_bs" width="100%" style="width: 100%;" required>
                             <option value="">--Pilih--</option>
                             <option value="L">Laki-laki</option>
                             <option value="P">Perempuan</option>
@@ -59,7 +61,7 @@
                 <div class="col-sm-9">
                     <div class="input-group   input-primary">
                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Nama Ibu</span>
-                        <input type="text" class="form-control" id="_nama_ibu_kandung_pd" name="_nama_ibu_kandung_pd" value="" required />
+                        <input type="text" class="form-control" id="_nama_ibu_kandung_pd_bs" name="_nama_ibu_kandung_pd_bs" value="" required />
                     </div>
                 </div>
             </div>
@@ -67,7 +69,7 @@
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Provinsi</label>
                 <div class="col-sm-9">
-                    <select class="w-100" style="width: 100%;" id="_prov" name="_prov" onchange="changeProv(this)" required>
+                    <select class="w-100" style="width: 100%;" id="_prov_bs" name="_prov_bs" onchange="changeProv(this)" required>
                         <option value="">-- Pilih --</option>
                         <?php if (isset($props)) { ?>
                             <?php if (count($props) > 0) { ?>
@@ -82,7 +84,7 @@
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Kabupaten</label>
                 <div class="col-sm-9">
-                    <select class="w-100" style="width: 100%;" id="_kab" name="_kab" onchange="changeKab(this)" required>
+                    <select class="w-100" style="width: 100%;" id="_kab_bs" name="_kab_bs" onchange="changeKab(this)" required>
                         <option value="">-- Pilih --</option>
                         <?php if (isset($kabs)) { ?>
                             <?php if (count($kabs) > 0) { ?>
@@ -97,7 +99,7 @@
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Kecamatan</label>
                 <div class="col-sm-9">
-                    <select class="w-100" style="width: 100%;" id="_kec" name="_kec" onchange="changeKec(this)" required>
+                    <select class="w-100" style="width: 100%;" id="_kec_bs" name="_kec_bs" onchange="changeKec(this)" required>
                         <option value="">-- Pilih --</option>
                         <?php if (isset($kecs)) { ?>
                             <?php if (count($kecs) > 0) { ?>
@@ -112,7 +114,7 @@
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Desa/Kelurahan</label>
                 <div class="col-sm-9">
-                    <select class="w-100" style="width: 100%;" id="_kel" name="_kel" onchange="changeKel(this)" required>
+                    <select class="w-100" style="width: 100%;" id="_kel_bs" name="_kel_bs" onchange="changeKel(this)" required>
                         <option value="">-- Pilih --</option>
                         <?php if (isset($kels)) { ?>
                             <?php if (count($kels) > 0) { ?>
@@ -127,7 +129,7 @@
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Dusun</label>
                 <div class="col-sm-9">
-                    <select class="w-100" style="width: 100%;" id="_dusun" name="_dusun" onchange="changeDus(this)" required>
+                    <select class="w-100" style="width: 100%;" id="_dusun_bs" name="_dusun_bs" onchange="changeDus(this)" required>
                         <option value="">-- Pilih --</option>
                         <?php if (isset($dusuns)) { ?>
                             <?php if (count($dusuns) > 0) { ?>
@@ -148,7 +150,7 @@
                                 <div class="col-sm-9">
                                     <div class="input-group   input-primary">
                                         <span class="input-group-text">Lat</span>
-                                        <input type="text" class="form-control" id="_lintang" name="_lintang" value="" required />
+                                        <input type="text" class="form-control" id="_lintang_bs" name="_lintang_bs" value="" required />
                                     </div>
                                 </div>
                             </div>
@@ -157,7 +159,7 @@
                                 <div class="col-sm-9">
                                     <div class="input-group   input-primary">
                                         <span class="input-group-text">Long</span>
-                                        <input type="text" class="form-control" id="_bujur" name="_bujur" value="" required />
+                                        <input type="text" class="form-control" id="_bujur_bs" name="_bujur_bs" value="" required />
                                     </div>
                                 </div>
                             </div>
@@ -168,17 +170,33 @@
                     </div>
                 </div>
             </div>
+            <div class="mb-3 row">
+                <div class="col-sm-9">
+                    <div class="input-group   input-primary">
+                        <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Email</span>
+                        <input type="email" class="form-control" id="_email_bs" name="_email_bs" value="" required />
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-9">
+                    <div class="input-group   input-primary">
+                        <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Email</span>
+                        <input type="phone" class="form-control" id="_nohp_bs" name="_nohp_bs" value="" required />
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">SIMPAN DATA</button>
+        <button type="submit" class="btn btn-primary">AJUKAN DATA</button>
     </div>
 </form>
 <script>
     function ambilKoordinat(event) {
-        var lat = document.getElementsByName('_lintang')[0].value;
-        var long = document.getElementsByName('_bujur')[0].value;
+        var lat = document.getElementsByName('_lintang_bs')[0].value;
+        var long = document.getElementsByName('_bujur_bs')[0].value;
 
         if (lat === "" || lat === undefined) {
             lat = "-4.9787616753401345";
@@ -286,14 +304,14 @@
         const latitu = document.getElementsByName('_lat')[0].value;
         const longitu = document.getElementsByName('_long')[0].value;
 
-        document.getElementById('_lintang').value = latitu;
-        document.getElementById('_bujur').value = longitu;
+        document.getElementById('_lintang_bs').value = latitu;
+        document.getElementById('_bujur_bs').value = longitu;
 
         $('#content-mapModal').modal('hide');
     }
 
     function changeProv(event) {
-        const kabupatenSelect = $('#_kab');
+        const kabupatenSelect = $('#_kab_bs');
         kabupatenSelect.empty(); // Clear existing options
         if (event.value === "" || event.value === undefined) {} else {
             $.ajax({
@@ -348,7 +366,7 @@
     }
 
     function changeKab(event) {
-        const kecamatanSelect = $('#_kec');
+        const kecamatanSelect = $('#_kec_bs');
         kecamatanSelect.empty(); // Clear existing options
         if (event.value === "" || event.value === undefined) {} else {
             $.ajax({
@@ -403,7 +421,7 @@
     }
 
     function changeKec(event) {
-        const kelurahanSelect = $('#_kel');
+        const kelurahanSelect = $('#_kel_bs');
         kelurahanSelect.empty();
         if (event.value === "" || event.value === undefined) {} else {
             $.ajax({
@@ -489,27 +507,27 @@
         }
     }
 
-    $('#_prov').select2({
-        dropdownParent: ".contentBodyaddModal",
+    $('#_prov_bs').select2({
+        dropdownParent: ".content-dataPdModalBody",
     });
 
-    $('#_kab').select2({
-        dropdownParent: ".contentBodyaddModal",
+    $('#_kab_bs').select2({
+        dropdownParent: ".content-dataPdModalBody",
     });
-    $('#_kec').select2({
-        dropdownParent: ".contentBodyaddModal",
+    $('#_kec_bs').select2({
+        dropdownParent: ".content-dataPdModalBody",
     });
-    $('#_kel').select2({
-        dropdownParent: ".contentBodyaddModal",
+    $('#_kel_bs').select2({
+        dropdownParent: ".content-dataPdModalBody",
     });
-    $('#_dusun').select2({
-        dropdownParent: ".contentBodyaddModal",
+    $('#_dusun_bs').select2({
+        dropdownParent: ".content-dataPdModalBody",
     });
 
     function validateForm(formElement) {
-        const latitudeInput = formElement.querySelector('#_lintang');
-        const longitudeInput = formElement.querySelector('#_bujur');
-        const namaInput = formElement.querySelector('#_nama_pd');
+        const latitudeInput = formElement.querySelector('#_lintang_bs');
+        const longitudeInput = formElement.querySelector('#_bujur_bs');
+        const namaInput = formElement.querySelector('#_nama_pd_bs');
 
         if (namaInput.value === "" || namaInput.value === undefined) {
             Swal.fire(
@@ -554,31 +572,31 @@
     }
 
     // Example usage: attach event listeners to form submission buttons
-    const formAdd = document.getElementById('formAddData');
+    const formAdd = document.getElementById('formAddDataBelumSekolah');
     if (formAdd) {
         formAdd.addEventListener('submit', function(event) { // Prevent default form submission
             if (validateForm(this)) {
                 event.preventDefault();
-                const nama = document.getElementsByName('_nama_pd')[0].value;
+                const nama = document.getElementsByName('_nama_pd_bs')[0].value;
 
                 Swal.fire({
-                    title: 'Apakah anda yakin ingin menyimpan data PD Baru ini?',
-                    text: "Simpan PD: " + nama,
+                    title: 'Ajukan Pengaduan Verval Data Peserta Didik Belum Sekolah & Generate Akun?',
+                    text: "Pengaduan Data PD: " + nama,
                     showCancelButton: true,
                     icon: 'question',
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, SIMPAN!'
+                    confirmButtonText: 'Ya, AJUKAN!'
                 }).then((result) => {
                     if (result.value) {
                         $.ajax({
-                            url: "./addSaveBelum",
+                            url: "./addSavePengaduanAkunBelumSekolah",
                             type: 'POST',
                             data: $(this).serialize(),
                             dataType: 'JSON',
                             beforeSend: function() {
                                 Swal.fire({
-                                    title: 'Menyimpan data PD...',
+                                    title: 'Mengajukan data...',
                                     text: 'Please wait while we process your action.',
                                     allowOutsideClick: false,
                                     allowEscapeKey: false,
@@ -617,128 +635,30 @@
                                         })
                                     }
                                 } else {
-                                    Swal.fire({
-                                        title: "<strong>Data PD Belum Sekolah Berhasil di simpan</strong>",
-                                        icon: "info",
-                                        html: '<center><b>Penambahan Data Peserta Belum Sekolah</b><br/>Atas Nama: ' + resul.nama + ' Berhasil.<br/>' + resul.message + '</center>',
-                                        showCloseButton: false,
-                                        showCancelButton: true,
-                                        allowOutsideClick: false,
-                                        allowEscapeKey: false,
-                                        focusConfirm: false,
-                                        confirmButtonText: "Tidak",
-                                        confirmButtonText: `
-    <i class="las la-la-file-download"></i> Download Akun PD?
-  `,
-                                        confirmButtonAriaLabel: "File, Download"
-                                    }).then((confm) => {
-                                        if (confm.isConfirmed) {
-                                            $.ajax({
-                                                url: "./download",
-                                                type: 'POST',
-                                                data: {
-                                                    id: resul.peserta_didik_id,
-                                                    nama: resul.nama,
-                                                },
-                                                dataType: 'JSON',
-                                                beforeSend: function() {
-                                                    Swal.fire({
-                                                        title: 'Mendownload Akun PD...',
-                                                        text: 'Please wait while we process your action.',
-                                                        allowOutsideClick: false,
-                                                        allowEscapeKey: false,
-                                                        didOpen: () => {
-                                                            Swal.showLoading();
-                                                        }
-                                                    });
-                                                },
-                                                complete: function() {},
-                                                success: function(resul2) {
 
-                                                    if (resul2.status !== 200) {
-                                                        if (resul2.status !== 201) {
-                                                            if (resul2.status === 401) {
-                                                                Swal.fire(
-                                                                    'Failed!',
-                                                                    resul2.message,
-                                                                    'warning'
-                                                                ).then((valRes) => {
-                                                                    reloadPage();
-                                                                });
-                                                            } else {
-                                                                Swal.fire(
-                                                                    'GAGAL!',
-                                                                    resul2.message,
-                                                                    'warning'
-                                                                );
-                                                            }
-                                                        } else {
-                                                            Swal.fire(
-                                                                'Peringatan!',
-                                                                resul2.message,
-                                                                'success'
-                                                            ).then((valRes) => {
-                                                                // reloadPage();
-                                                                const decodedBytes = atob(resul2.data);
-                                                                const arrayBuffer = new ArrayBuffer(decodedBytes.length);
-                                                                const intArray = new Uint8Array(arrayBuffer);
-                                                                for (let i = 0; i < decodedBytes.length; i++) {
-                                                                    intArray[i] = decodedBytes.charCodeAt(i);
-                                                                }
-
-                                                                const blob = new Blob([intArray], {
-                                                                    type: 'application/pdf'
-                                                                });
-                                                                const link = document.createElement('a');
-                                                                link.href = URL.createObjectURL(blob);
-                                                                link.download = resul2.filename; // Set desired filename
-                                                                link.click();
-
-                                                                // Revoke the object URL after download (optional)
-                                                                URL.revokeObjectURL(link.href);
-
-                                                                reloadPage('<?= base_url('adm/layanan/pd') ?>');
-
-                                                            })
-                                                        }
-                                                    } else {
-                                                        Swal.fire(
-                                                            'BERHASIL!',
-                                                            resul.message,
-                                                            'success'
-                                                        ).then((valRes) => {
-                                                            const decodedBytes = atob(resul2.data);
-                                                            const arrayBuffer = new ArrayBuffer(decodedBytes.length);
-                                                            const intArray = new Uint8Array(arrayBuffer);
-                                                            for (let i = 0; i < decodedBytes.length; i++) {
-                                                                intArray[i] = decodedBytes.charCodeAt(i);
-                                                            }
-
-                                                            const blob = new Blob([intArray], {
-                                                                type: 'application/pdf'
-                                                            });
-                                                            const link = document.createElement('a');
-                                                            link.href = URL.createObjectURL(blob);
-                                                            link.download = resul2.filename; // Set desired filename
-                                                            link.click();
-                                                            URL.revokeObjectURL(link.href);
-
-                                                            reloadPage('<?= base_url('adm/layanan/pd') ?>');
-                                                        })
-                                                    }
-                                                },
-                                                error: function() {
-                                                    Swal.fire(
-                                                        'PERINGATAN!',
-                                                        "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
-                                                        'warning'
-                                                    );
-                                                }
-                                            });
-                                        } else {
-                                            reloadPage('<?= base_url('adm/layanan/pd') ?>');
+                                    Swal.fire(
+                                        'BERHASIL!',
+                                        resul.message,
+                                        'success'
+                                    ).then((valRes) => {
+                                        const decodedBytes = atob(resul.data);
+                                        const arrayBuffer = new ArrayBuffer(decodedBytes.length);
+                                        const intArray = new Uint8Array(arrayBuffer);
+                                        for (let i = 0; i < decodedBytes.length; i++) {
+                                            intArray[i] = decodedBytes.charCodeAt(i);
                                         }
-                                    });
+
+                                        const blob = new Blob([intArray], {
+                                            type: 'application/pdf'
+                                        });
+                                        const link = document.createElement('a');
+                                        link.href = URL.createObjectURL(blob);
+                                        link.download = resul.filename; // Set desired filename
+                                        link.click();
+                                        URL.revokeObjectURL(link.href);
+
+                                        reloadPage();
+                                    })
                                 }
                             },
                             error: function() {

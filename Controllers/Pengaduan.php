@@ -361,6 +361,9 @@ class Pengaduan extends BaseController
                             return json_encode($response);
                         }
 
+                        $x['jenis'] = $jenis;
+                        $x['jenis_pengaduan'] = $jenis_pengaduan;
+                        $x['nama_pengadu'] = $nama_pengadu;
                         $x['nik'] = $nik;
                         $x['kk'] = $kk;
                         $x['npsn'] = '10000001';
@@ -379,7 +382,7 @@ class Pengaduan extends BaseController
                         $response = new \stdClass;
                         $response->status = 200;
                         $response->message = "Berhasil mengambil data";
-                        $response->data = view('pengaduan/pd/addPdBelum', $x);
+                        $response->data = view('pengaduan/pd/add_pd_belum_sekolah', $x);
                         return json_encode($response);
                     } else {
                         $response = new \stdClass;
@@ -1014,7 +1017,7 @@ class Pengaduan extends BaseController
                             'nohp_pengadu' => $dataInsertPengajuan['nohp'],
                         ]);
                         $this->_db->transCommit();
-                        return $this->downloadTiketId($dataInsertPengajuan['id']);
+                        return $this->downloadTiketId($dataInsertPengajuan['id'], $jenis_pengaduan);
                         // $response = new \stdClass;
                         // $response->status = 200;
                         // $response->tiket_id = $dataInsertPengajuan['id'];
@@ -1043,7 +1046,7 @@ class Pengaduan extends BaseController
                                     'nohp_pengadu' => $dataInsertPengajuan['nohp'],
                                 ]);
                                 $this->_db->transCommit();
-                                return $this->downloadTiketId($dataInsertPengajuan['id']);
+                                return $this->downloadTiketId($dataInsertPengajuan['id'], $jenis_pengaduan);
                                 // $response = new \stdClass;
                                 // $response->status = 200;
                                 // $response->tiket_id = $dataInsertPengajuan['id'];
@@ -1072,7 +1075,356 @@ class Pengaduan extends BaseController
                                             'nohp_pengadu' => $dataInsertPengajuan['nohp'],
                                         ]);
                                         $this->_db->transCommit();
-                                        return $this->downloadTiketId($dataInsertPengajuan['id']);
+                                        return $this->downloadTiketId($dataInsertPengajuan['id'], $jenis_pengaduan);
+
+                                        // $response = new \stdClass;
+                                        // $response->status = 200;
+                                        // $response->tiket_id = $dataInsertPengajuan['id'];
+                                        // $response->message = "Data berhasil disimpan.";
+                                        // return json_encode($response);
+                                    } else {
+                                        $this->_db->transRollback();
+                                        $response = new \stdClass;
+                                        $response->status = 400;
+                                        $response->message = "Gagal menyimpan data. 3";
+                                        return json_encode($response);
+                                    }
+                                } catch (\Throwable $th) {
+                                    $this->_db->transRollback();
+                                    $response = new \stdClass;
+                                    $response->status = 400;
+                                    $response->message = "Gagal menyimpan data.2";
+                                    return json_encode($response);
+                                }
+                            } else {
+                                $this->_db->transRollback();
+                                $response = new \stdClass;
+                                $response->status = 400;
+                                $response->message = "Gagal menyimpan data.1";
+                                return json_encode($response);
+                            }
+                        }
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menyimpan data. 0";
+                        return json_encode($response);
+                    }
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function addSavePengaduanAkunBelumSekolah()
+    {
+        if ($this->request->isAJAX()) {
+            $rules = [
+                '_jenis_pengaduan_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Jenis pengaduan tidak boleh kosong. ',
+                    ]
+                ],
+                '_nama_pengadu_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama pengaduan tidak boleh kosong. ',
+                    ]
+                ],
+                '_tingkat_pendidikan_pd_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'tingkat pendidikan tidak boleh kosong. ',
+                    ]
+                ],
+                '_sekolah_id_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'sekolah id tidak boleh kosong. ',
+                    ]
+                ],
+                '_nik_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nik tidak boleh kosong. ',
+                    ]
+                ],
+                '_kk_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'No KK tidak boleh kosong. ',
+                    ]
+                ],
+                '_nama_pd_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama PD tidak boleh kosong. ',
+                    ]
+                ],
+                '_tempat_lahir_pd_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Tempat Lahir PD tidak boleh kosong. ',
+                    ]
+                ],
+                '_tanggal_lahir_pd_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Tanggal Lahir PD tidak boleh kosong. ',
+                    ]
+                ],
+                '_jenis_kelamin_pd_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Jenis kelamin PD tidak boleh kosong. ',
+                    ]
+                ],
+                '_nama_ibu_kandung_pd_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama ibu kandung PD tidak boleh kosong. ',
+                    ]
+                ],
+                '_kab_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kabupaten tidak boleh kosong. ',
+                    ]
+                ],
+                '_kec_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kecamatan tidak boleh kosong. ',
+                    ]
+                ],
+                '_kel_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kelurahan tidak boleh kosong. ',
+                    ]
+                ],
+                '_dusun_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Dusun tidak boleh kosong. ',
+                    ]
+                ],
+                '_lintang_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Lintang tidak boleh kosong. ',
+                    ]
+                ],
+                '_bujur_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Bujur tidak boleh kosong. ',
+                    ]
+                ],
+                '_email_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Email tidak boleh kosong. ',
+                    ]
+                ],
+                '_nohp_bs' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nohp tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('_jenis_pengaduan_bs')
+                    . $this->validator->getError('_nama_pengadu_bs')
+                    . $this->validator->getError('_tingkat_pendidikan_pd_bs')
+                    . $this->validator->getError('_sekolah_id_bs')
+                    . $this->validator->getError('_nik_bs')
+                    . $this->validator->getError('_kk_bs')
+                    . $this->validator->getError('_nama_pd_bs')
+                    . $this->validator->getError('_tempat_lahir_pd_bs')
+                    . $this->validator->getError('_tanggal_lahir_pd_bs')
+                    . $this->validator->getError('_jenis_kelamin_pd_bs')
+                    . $this->validator->getError('_nama_ibu_kandung_pd_bs')
+                    . $this->validator->getError('_kab_bs')
+                    . $this->validator->getError('_kec_bs')
+                    . $this->validator->getError('_kel_bs')
+                    . $this->validator->getError('_dusun_bs')
+                    . $this->validator->getError('_lintang_bs')
+                    . $this->validator->getError('_bujur_bs')
+                    . $this->validator->getError('_email_bs')
+                    . $this->validator->getError('_nohp_bs');
+                return json_encode($response);
+            } else {
+
+                $jenis_pengaduan = htmlspecialchars($this->request->getVar('_jenis_pengaduan_bs'), true);
+                $nama_pengadu = htmlspecialchars($this->request->getVar('_nama_pengadu_bs'), true);
+                $tingkat_pendidikan = htmlspecialchars($this->request->getVar('_tingkat_pendidikan_pd_bs'), true);
+                $sekolah_id = htmlspecialchars($this->request->getVar('_sekolah_id_bs'), true);
+                $nama = htmlspecialchars($this->request->getVar('_nama_pd_bs'), true);
+                $tempat_lahir = htmlspecialchars($this->request->getVar('_tempat_lahir_pd_bs'), true);
+                $tanggal_lahir = htmlspecialchars($this->request->getVar('_tanggal_lahir_pd_bs'), true);
+                $jenis_kelamin = htmlspecialchars($this->request->getVar('_jenis_kelamin_pd_bs'), true);
+                $nama_ibu_kandung = htmlspecialchars($this->request->getVar('_nama_ibu_kandung_pd_bs'), true);
+                $nik = htmlspecialchars($this->request->getVar('_nik_bs'), true);
+                $kk = htmlspecialchars($this->request->getVar('_kk_bs'), true);
+                $kab = htmlspecialchars($this->request->getVar('_kab_bs'), true);
+                $kec = htmlspecialchars($this->request->getVar('_kec_bs'), true);
+                $kel = htmlspecialchars($this->request->getVar('_kel_bs'), true);
+                $dusun = htmlspecialchars($this->request->getVar('_dusun_bs'), true);
+                $lintang = htmlspecialchars($this->request->getVar('_lintang_bs'), true);
+                $bujur = htmlspecialchars($this->request->getVar('_bujur_bs'), true);
+                $email = htmlspecialchars($this->request->getVar('_email_bs'), true);
+                $nohp = htmlspecialchars($this->request->getVar('_nohp_bs'), true);
+
+                $anyUser = $this->_db->table('_users_tb')->where('username', $nik)->get()->getRowObject();
+                if ($anyUser) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "NIK sudah terdaftar. Silahkan login dengan menggunakan NIK.";
+                    return json_encode($response);
+                }
+
+                $refSeklah = $this->_db->table('dapo_sekolah')->where('sekolah_id', $sekolah_id)->get()->getRowObject();
+                if (!$refSeklah) {
+
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Referensi asal PD tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $tglLahirReplace = str_replace("-", "", $tanggal_lahir);
+                $tglLahirConvert = substr($tglLahirReplace, 2, 8);
+                $totalNisn = $this->_db->table('dapo_peserta')->where("LEFT(nisn,8) = 'BS$tglLahirConvert'")->countAllResults();
+
+                if ($totalNisn > 0) {
+                    $totalSumNisn = $totalNisn + 1;
+                    if ($totalSumNisn > 9) {
+                        $urutNisn = $totalSumNisn;
+                    } else {
+                        $urutNisn = '0' . $totalSumNisn;
+                    }
+                } else {
+                    $urutNisn = '01';
+                }
+
+                $nisnCreate = "BS" . $tglLahirConvert . $urutNisn;
+
+
+                $ticketKey = generateRandomTicketKey();
+                $numberKey = 0;
+                $ticketKeyF = date('d') . $ticketKey . date('H');
+
+
+                $uuidLib = new Uuid();
+
+                $pdId = $uuidLib->v4();
+
+                $dataInsertPengajuan = [
+                    'id' => $ticketKeyF . $numberKey,
+                    'peserta_didik_id' => $pdId,
+                    'sekolah_id' => $sekolah_id,
+                    'nama' => $nama,
+                    'tempat_lahir' => $tempat_lahir,
+                    'tanggal_lahir' => $tanggal_lahir,
+                    'jenis_kelamin' => $jenis_kelamin,
+                    'nisn' => $nisnCreate,
+                    'nik' => $nik,
+                    'no_kk' => $kk,
+                    'kab' => $kab,
+                    'kec' => $kec,
+                    'kel' => $kel,
+                    'kode_wilayah' => $kel,
+                    'alamat_jalan' => '-',
+                    'desa_kelurahan' => '-',
+                    'rt' => 0,
+                    'rw' => 0,
+                    'nama_dusun' => '-',
+                    'nama_ibu_kandung' => $nama_ibu_kandung,
+                    'tingkat_pendidikan_id' => $tingkat_pendidikan,
+                    'dusun' => $dusun,
+                    'lintang' => $lintang,
+                    'bujur' => $bujur,
+                    'nama_pengadu' => $nama_pengadu,
+                    'email' => $email,
+                    'nohp' => $nohp,
+                    'is_edited' => 0,
+                    'created_at' => date('Y-m-d H:i:s'),
+                ];
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('dapo_peserta_pengajuan')->insert($dataInsertPengajuan);
+                    if ($this->_db->affectedRows() > 0) {
+                        $this->_db->table('data_pengaduan')->insert([
+                            'no_tiket' => $dataInsertPengajuan['id'],
+                            'jenis_pengaduan' => $jenis_pengaduan,
+                            'nama_pengadu' => $dataInsertPengajuan['nama_pengadu'],
+                            'email_pengadu' => $dataInsertPengajuan['email'],
+                            'nohp_pengadu' => $dataInsertPengajuan['nohp'],
+                        ]);
+                        $this->_db->transCommit();
+                        return $this->downloadTiketId($dataInsertPengajuan['id'], $jenis_pengaduan);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menyimpan data.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $dbError = $this->_db->error();
+                    if (strpos($dbError['message'], 'Duplicate entry') !== false || strpos($dbError['message'], 'Key \'PRIMARY\'') !== false) {
+                        $keyMore = $numberKey + 1;
+                        $dataInsertPengajuan['id'] = $ticketKeyF . $keyMore;
+                        try {
+                            $this->_db->table('dapo_peserta_pengajuan')->insert($dataInsertPengajuan);
+                            if ($this->_db->affectedRows() > 0) {
+                                $this->_db->table('data_pengaduan')->insert([
+                                    'no_tiket' => $dataInsertPengajuan['id'],
+                                    'jenis_pengaduan' => $jenis_pengaduan,
+                                    'nama_pengadu' => $dataInsertPengajuan['nama_pengadu'],
+                                    'email_pengadu' => $dataInsertPengajuan['email'],
+                                    'nohp_pengadu' => $dataInsertPengajuan['nohp'],
+                                ]);
+                                $this->_db->transCommit();
+                                return $this->downloadTiketId($dataInsertPengajuan['id'], $jenis_pengaduan);
+                                // $response = new \stdClass;
+                                // $response->status = 200;
+                                // $response->tiket_id = $dataInsertPengajuan['id'];
+                                // $response->message = "Data berhasil disimpan.";
+                                // return json_encode($response);
+                            } else {
+                                $this->_db->transRollback();
+                                $response = new \stdClass;
+                                $response->status = 400;
+                                $response->message = "Gagal menyimpan data. 4";
+                                return json_encode($response);
+                            }
+                        } catch (\Throwable $th) {
+                            $dbError = $this->_db->error();
+                            if (strpos($dbError['message'], 'Duplicate entry') !== false || strpos($dbError['message'], 'Key \'PRIMARY\'') !== false) {
+                                $keyMore1 = $numberKey + 2;
+                                $dataInsertPengajuan['id'] = $ticketKeyF . $keyMore1;
+                                try {
+                                    $this->_db->table('dapo_peserta_pengajuan')->insert($dataInsertPengajuan);
+                                    if ($this->_db->affectedRows() > 0) {
+                                        $this->_db->table('data_pengaduan')->insert([
+                                            'no_tiket' => $dataInsertPengajuan['id'],
+                                            'jenis_pengaduan' => $jenis_pengaduan,
+                                            'nama_pengadu' => $dataInsertPengajuan['nama_pengadu'],
+                                            'email_pengadu' => $dataInsertPengajuan['email'],
+                                            'nohp_pengadu' => $dataInsertPengajuan['nohp'],
+                                        ]);
+                                        $this->_db->transCommit();
+                                        return $this->downloadTiketId($dataInsertPengajuan['id'], $jenis_pengaduan);
 
                                         // $response = new \stdClass;
                                         // $response->status = 200;
@@ -1399,7 +1751,7 @@ class Pengaduan extends BaseController
         }
     }
 
-    private function downloadTiketId($id)
+    private function downloadTiketId($id, $jenis_pengaduan)
     {
         $tiket = $this->_db->table('dapo_peserta_pengajuan')
             ->where('id', $id)->get()->getRowObject();
@@ -1412,6 +1764,10 @@ class Pengaduan extends BaseController
         }
 
         $html = '<table border="0">
+                        <tr>
+                            <td>Jenis Pengaduan</td>
+                            <td colspan="2">: {{ jenis_pengadua }}</td>
+                        </tr>
                         <tr>
                             <td>Nama Pengadu</td>
                             <td colspan="2">: {{ nama_pengadu }}</td>
@@ -1428,13 +1784,14 @@ class Pengaduan extends BaseController
                         </tr>
                     </table>';
 
-        $html1 = '<table>
+        $html1 = '<table border="1">
                         <tr>
                             <td><center><b>{{ no_tiket }}</b></center></td>
                         </tr>
                     </table>';
-        $html2 = '<p><center>No tiket pengaduan ini digunakan untuk<br />melacak status pengaduan melalui laman: <br /><b>https://ppdb.lampungtengahkab.go.id/pengaduan</b></center></p>';
+        $html2 = '<p><center>No tiket pengaduan ini digunakan untuk<br />melacak status pengaduan melalui laman: <br /><b>https://ppdb.lampungtengahkab.go.id/pengaduan</b></center><br/>Email / No WA digunakan untuk mengirim informasikan perkembangan tiket.<br/>Apabila email dan no wa tidak sesuai, silah untuk mengupdate tiket pada menu lacak tiket.</p>';
 
+        $html = str_replace('{{ jenis_pengadua }}', $jenis_pengaduan, $html);
         $html = str_replace('{{ nama_pengadu }}', $tiket->nama_pengadu, $html);
         $html = str_replace('{{ email_pengadu }}', $tiket->email, $html);
         $html = str_replace('{{ nohp_pengadu }}', $tiket->nohp, $html);
@@ -1469,8 +1826,8 @@ class Pengaduan extends BaseController
         $pdf->MultiCell(180, 10, '<h4>DATA PENGADU</h4>', 0, 'L', false, 1, 20, null, true, 0, true);
         $pdf->MultiCell(180, 10, $html, 0, 'L', false, 1, 20, null, true, 0, true);
         $pdf->Ln(10);
-        $pdf->MultiCell(180, 10, '<h4>TIKET PENGADUAN</h4>', 0, 'L', false, 1, 20, null, true, 0, true);
-        $pdf->MultiCell(180, 10, $html1, 0, 'L', false, 1, 20, null, true, 0, true);
+        $pdf->MultiCell(180, 10, '<h4>TIKET PENGADUAN</h4>', 0, 'C', false, 1, 20, null, true, 0, true);
+        $pdf->MultiCell(180, 10, $html1, 0, 'C', false, 1, 20, null, true, 0, true);
         $pdf->Ln(20);
         $pdf->MultiCell(180, 10, $html2, 0, 'C', false, 1, 20, null, true, 0, true);
         $pdf->Ln(20);

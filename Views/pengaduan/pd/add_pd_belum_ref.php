@@ -639,34 +639,29 @@
                                         })
                                     }
                                 } else {
+
                                     Swal.fire(
                                         'BERHASIL!',
                                         resul.message,
                                         'success'
                                     ).then((valRes) => {
-                                        Swal.fire(
-                                            'BERHASIL!',
-                                            resul.message,
-                                            'success'
-                                        ).then((valRes) => {
-                                            const decodedBytes = atob(resul.data);
-                                            const arrayBuffer = new ArrayBuffer(decodedBytes.length);
-                                            const intArray = new Uint8Array(arrayBuffer);
-                                            for (let i = 0; i < decodedBytes.length; i++) {
-                                                intArray[i] = decodedBytes.charCodeAt(i);
-                                            }
+                                        const decodedBytes = atob(resul.data);
+                                        const arrayBuffer = new ArrayBuffer(decodedBytes.length);
+                                        const intArray = new Uint8Array(arrayBuffer);
+                                        for (let i = 0; i < decodedBytes.length; i++) {
+                                            intArray[i] = decodedBytes.charCodeAt(i);
+                                        }
 
-                                            const blob = new Blob([intArray], {
-                                                type: 'application/pdf'
-                                            });
-                                            const link = document.createElement('a');
-                                            link.href = URL.createObjectURL(blob);
-                                            link.download = resul.filename; // Set desired filename
-                                            link.click();
-                                            URL.revokeObjectURL(link.href);
+                                        const blob = new Blob([intArray], {
+                                            type: 'application/pdf'
+                                        });
+                                        const link = document.createElement('a');
+                                        link.href = URL.createObjectURL(blob);
+                                        link.download = resul.filename; // Set desired filename
+                                        link.click();
+                                        URL.revokeObjectURL(link.href);
 
-                                            reloadPage();
-                                        })
+                                        reloadPage();
                                     })
                                 }
                             },
