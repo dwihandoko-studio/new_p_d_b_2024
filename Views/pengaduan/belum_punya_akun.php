@@ -1,7 +1,7 @@
 <div class="mb-3 row">
     <label class="col-sm-3 col-form-label">Status Peserta :</label>
     <div class="col-sm-9">
-        <select class="form-control" id="_jenis" name="_jenis" onchange="changedStatusPeserta(this)" width="100%" style="width: 100%;" required>
+        <select class="form-control" id="_jenis_pd" name="_jenis_pd" onchange="changedStatusPeserta(this)" width="100%" style="width: 100%;" required>
             <option value="">--Pilih--</option>
             <option value="sudah">Sudah Sekolah</option>
             <option value="belum">Belum Sekolah</option>
@@ -60,8 +60,8 @@
     }
 
     function actionCekDataPd(event) {
-        const jenis = document.getElementsByName('_jenis')[0];
-        if (jenis.value === "sudah") {
+        const jenisPd = document.getElementsByName('_jenis_pd')[0].value;
+        if (jenis === "sudah") {
             const nisn = document.getElementsByName('_nisn')[0].value;
             const npsn = document.getElementsByName('_npsn')[0].value;
             $.ajax({
@@ -112,8 +112,8 @@
                 }
             });
         }
-        const nik = document.getElementsByName('_nik')[0].value;
-        const kk = document.getElementsByName('_kk')[0].value;
+        // const nik = document.getElementsByName('_nik')[0].value;
+        // const kk = document.getElementsByName('_kk')[0].value;
 
     }
 
