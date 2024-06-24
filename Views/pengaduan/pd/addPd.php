@@ -485,11 +485,6 @@
                     var marker;
 
                     // Create search control after map initialization
-                    const searchControl = L.esri.Geocoding.geosearch({
-                        position: 'topright',
-                        provider: new L.esri.Geocoding.ArcGISOnlineProvider()
-                    });
-                    searchControl.addTo(map);
 
                     marker = L.marker({
                         lat: lat,
@@ -523,6 +518,24 @@
                     marker.on('drag', onDrag);
                     map.on('click', onClick);
 
+                    L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+                        maxZoom: 20,
+                        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+                    }).addTo(map);
+                    $('.leaflet-control-attribution.leaflet-control').html('&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Supported By <a href="https://esline.id">Esline.id</a>');
+
+                    setTimeout(function() {
+                        map.invalidateSize();
+                        $("h6#title_map").css("display", "block");
+                    }, 1000);
+
+
+                    const searchControl = L.esri.Geocoding.geosearch({
+                        position: 'topright',
+                        provider: new L.esri.Geocoding.ArcGISOnlineProvider()
+                    });
+                    searchControl.addTo(map);
+
                     searchControl.on('results', function(data) {
                         if (data.results.length > 0) {
                             map.removeLayer(marker);
@@ -544,16 +557,6 @@
                     $('.geocoder-control-input').click(function() {
                         map.setZoom('13');
                     });
-                    L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-                        maxZoom: 20,
-                        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-                    }).addTo(map);
-                    $('.leaflet-control-attribution.leaflet-control').html('&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Supported By <a href="https://esline.id">Esline.id</a>');
-
-                    setTimeout(function() {
-                        map.invalidateSize();
-                        $("h6#title_map").css("display", "block");
-                    }, 1000);
 
 
                     // Swal.close();
