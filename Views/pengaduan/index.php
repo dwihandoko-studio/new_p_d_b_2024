@@ -33,8 +33,8 @@
         </div>
     </div>
 </div>
-<!-- <div id="content-addModal" class="modal fade content-addModal"> -->
-<div id="content-addModal" class="modal fade content-addModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="content-addModal" class="modal fade content-addModal">
+    <!-- <div id="content-addModal" class="modal fade content-addModal" tabindex="-1" role="dialog" aria-hidden="true"> -->
     <div class="modal-dialog modal-lg">
         <div class="modal-content ">
             <div class="modal-header">
@@ -47,8 +47,8 @@
         </div>
     </div>
 </div>
-<!-- <div id="content-dataPdModal" class="modal fade content-dataPdModal"> -->
-<div id="content-dataPdModal" class="modal fade content-dataPdModal" tabindex="-2" role="dialog" aria-hidden="true">
+<div id="content-dataPdModal" class="modal fade content-dataPdModal">
+    <!-- <div id="content-dataPdModal" class="modal fade content-dataPdModal" tabindex="-2" role="dialog" aria-hidden="true"> -->
     <div class="modal-dialog modal-lg">
         <div class="modal-content ">
             <div class="modal-header">
