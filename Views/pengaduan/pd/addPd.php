@@ -3,8 +3,8 @@
 <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.css">
 <script src="https://unpkg.com/esri-leaflet@2.2.4/dist/esri-leaflet.js"></script>
 <script src="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js"></script>
-<script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js"></script>
+<!--<script>
     $(document).ready(function() {
         $('#latlng').val('-5.114664,105.307347');
         $('input[name="regist[latitude]"]').val('-5.114664');
