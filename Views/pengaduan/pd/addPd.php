@@ -457,8 +457,9 @@
                         keyboard: false,
                     });
                     $('.content-mapModal').modal('show');
-                    getLocation();
+                    getLocation(); // Assuming this function retrieves lat/lng if needed
 
+                    // Map initialization
                     var map = L.map("map_inits").setView([lat, long], 14);
                     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Supported By <a href="https://esline.id">Esline.id</a>'
@@ -468,18 +469,12 @@
                     var longi = long;
                     var marker;
 
-                    // Tambahan Baru
+                    // Create search control after map initialization
                     const searchControl = L.esri.Geocoding.geosearch({
                         position: 'topright',
                         provider: new L.esri.Geocoding.ArcGISOnlineProvider()
                     });
-
                     searchControl.addTo(map);
-
-                    // var searchControl = L.esri.Geocoding.geosearch().addTo(map);
-                    // var results = L.layerGroup().addTo(map);
-
-                    // Batas akhir tambahan
 
                     marker = L.marker({
                         lat: lat,
@@ -500,7 +495,6 @@
 
                     var onClick = function(e) {
                         map.removeLayer(marker);
-                        // map.off('click', onClick); //turn off listener for map click
                         marker = L.marker(e.latlng, {
                             draggable: true
                         }).addTo(map);
@@ -508,8 +502,6 @@
                         longi = e.latlng.lng;
                         document.getElementById('_lat').value = lati;
                         document.getElementById('_long').value = longi;
-
-                        // marker.on('drag', onDrag);
                     };
                     marker.on('drag', onDrag);
                     map.on('click', onClick);
@@ -518,52 +510,144 @@
                         if (data.results.length > 0) {
                             map.removeLayer(marker);
                             const firstResult = data.results[0];
-                            const marker = L.marker(firstResult.latlng, {
+                            marker = L.marker(firstResult.latlng, {
                                 draggable: true
                             }).addTo(map);
                             // marker.bindPopup(firstResult.formattedAddress);
                             map.setView(firstResult.latlng, 14);
                             lati = firstResult.latlng.lat;
                             longi = firstResult.latlng.lng;
-                            document.getElementById('_lat').value = firstResult.latlng.lat
-                            document.getElementById('_long').value = firstResult.latlng.lng
-
-                            // map.off('click', onClick); //turn off listener for map click
-                            // marker = L.marker(data.latlng, {
-                            //     draggable: true
-                            // }).addTo(map);
+                            document.getElementById('_lat').value = firstResult.latlng.lat;
+                            document.getElementById('_long').value = firstResult.latlng.lng;
                         }
                     });
 
-                    // searchControl.on("results", function(data) {
-                    //     map.removeLayer(marker);
-
-                    //     lati = data.latlng.lat;
-                    //     longi = data.latlng.lng;
-                    //     document.getElementById('_lat').value = data.latlng.lat
-                    //     document.getElementById('_long').value = data.latlng.lng
-
-                    //     // map.off('click', onClick); //turn off listener for map click
-                    //     marker = L.marker(data.latlng, {
-                    //         draggable: true
-                    //     }).addTo(map);
-                    //     // document.getElementById('_lat').value = data.latlng.lat.toFixed(6)
-                    //     // document.getElementById('_long').value = data.latlng.lng.toFixed(6)
-                    //     // $('input[name="regist[latitude]"]').val(data.latlng.lat.toFixed(6));
-                    //     // $('input[name="regist[longitude]"]').val(data.latlng.lng.toFixed(6));
-                    //     // $("#latlng").val(data.latlng.lat.toFixed(6) + ',' + data.latlng.lng.toFixed(6));
-                    //     // changeCoord();
-                    // });
-
+                    // Additional event handlers or logic can go here
                     $('.geocoder-control-input').click(function() {
                         map.setZoom('13');
                     });
 
                     setTimeout(function() {
                         map.invalidateSize();
-                        // console.log("maps opened");
                         $("h6#title_map").css("display", "block");
                     }, 1000);
+
+
+                    // Swal.close();
+                    // $('#content-mapModalLabel').html('AMBIL LOKASI');
+                    // $('.content-mapBodyModal').html(resul.data);
+                    // $('.content-mapModal').modal({
+                    //     backdrop: 'static',
+                    //     keyboard: false,
+                    // });
+                    // $('.content-mapModal').modal('show');
+                    // getLocation();
+
+                    // var map = L.map("map_inits").setView([lat, long], 14);
+                    // L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                    //     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Supported By <a href="https://esline.id">Esline.id</a>'
+                    // }).addTo(map);
+
+                    // var lati = lat;
+                    // var longi = long;
+                    // var marker;
+
+                    // // Tambahan Baru
+                    // const searchControl = L.esri.Geocoding.geosearch({
+                    //     position: 'topright',
+                    //     provider: new L.esri.Geocoding.ArcGISOnlineProvider()
+                    // });
+
+                    // searchControl.addTo(map);
+
+                    // // var searchControl = L.esri.Geocoding.geosearch().addTo(map);
+                    // // var results = L.layerGroup().addTo(map);
+
+                    // // Batas akhir tambahan
+
+                    // marker = L.marker({
+                    //     lat: lat,
+                    //     lng: long
+                    // }, {
+                    //     draggable: true
+                    // }).addTo(map);
+                    // document.getElementById('_lat').value = lati;
+                    // document.getElementById('_long').value = longi;
+
+                    // var onDrag = function(e) {
+                    //     var latlng = marker.getLatLng();
+                    //     lati = latlng.lat;
+                    //     longi = latlng.lng;
+                    //     document.getElementById('_lat').value = latlng.lat;
+                    //     document.getElementById('_long').value = latlng.lng;
+                    // };
+
+                    // var onClick = function(e) {
+                    //     map.removeLayer(marker);
+                    //     // map.off('click', onClick); //turn off listener for map click
+                    //     marker = L.marker(e.latlng, {
+                    //         draggable: true
+                    //     }).addTo(map);
+                    //     lati = e.latlng.lat;
+                    //     longi = e.latlng.lng;
+                    //     document.getElementById('_lat').value = lati;
+                    //     document.getElementById('_long').value = longi;
+
+                    //     // marker.on('drag', onDrag);
+                    // };
+                    // marker.on('drag', onDrag);
+                    // map.on('click', onClick);
+
+                    // searchControl.on('results', function(data) {
+                    //     if (data.results.length > 0) {
+                    //         map.removeLayer(marker);
+                    //         const firstResult = data.results[0];
+                    //         const marker = L.marker(firstResult.latlng, {
+                    //             draggable: true
+                    //         }).addTo(map);
+                    //         // marker.bindPopup(firstResult.formattedAddress);
+                    //         map.setView(firstResult.latlng, 14);
+                    //         lati = firstResult.latlng.lat;
+                    //         longi = firstResult.latlng.lng;
+                    //         document.getElementById('_lat').value = firstResult.latlng.lat
+                    //         document.getElementById('_long').value = firstResult.latlng.lng
+
+                    //         // map.off('click', onClick); //turn off listener for map click
+                    //         // marker = L.marker(data.latlng, {
+                    //         //     draggable: true
+                    //         // }).addTo(map);
+                    //     }
+                    // });
+
+                    // // searchControl.on("results", function(data) {
+                    // //     map.removeLayer(marker);
+
+                    // //     lati = data.latlng.lat;
+                    // //     longi = data.latlng.lng;
+                    // //     document.getElementById('_lat').value = data.latlng.lat
+                    // //     document.getElementById('_long').value = data.latlng.lng
+
+                    // //     // map.off('click', onClick); //turn off listener for map click
+                    // //     marker = L.marker(data.latlng, {
+                    // //         draggable: true
+                    // //     }).addTo(map);
+                    // //     // document.getElementById('_lat').value = data.latlng.lat.toFixed(6)
+                    // //     // document.getElementById('_long').value = data.latlng.lng.toFixed(6)
+                    // //     // $('input[name="regist[latitude]"]').val(data.latlng.lat.toFixed(6));
+                    // //     // $('input[name="regist[longitude]"]').val(data.latlng.lng.toFixed(6));
+                    // //     // $("#latlng").val(data.latlng.lat.toFixed(6) + ',' + data.latlng.lng.toFixed(6));
+                    // //     // changeCoord();
+                    // // });
+
+                    // $('.geocoder-control-input').click(function() {
+                    //     map.setZoom('13');
+                    // });
+
+                    // setTimeout(function() {
+                    //     map.invalidateSize();
+                    //     // console.log("maps opened");
+                    //     $("h6#title_map").css("display", "block");
+                    // }, 1000);
 
                 }
             },
