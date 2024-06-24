@@ -59,7 +59,7 @@
                             <h5>Pengaduan</h5>
                         </div>
                         <p>Punya Kendala PPDB </p>
-                        <button class="btn btn-primary ms-5">BUAT PENGADUAN</button>
+                        <a href="./pengaduan" class="btn btn-primary ms-5">BUAT PENGADUAN</a>
                     </div>
                 </div>
             </div>
