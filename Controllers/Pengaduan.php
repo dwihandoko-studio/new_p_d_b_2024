@@ -174,6 +174,7 @@ class Pengaduan extends BaseController
                                 return json_encode($response);
                             }
 
+                            $x['jenis'] = $jenis_pengaduan;
                             $x['sek'] = $sekAsal;
                             $response = new \stdClass;
                             $response->status = 200;
