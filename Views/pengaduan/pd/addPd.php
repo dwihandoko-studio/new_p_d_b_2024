@@ -1,13 +1,18 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js" integrity="sha512-XZEy8UQ9rngkxQVugAdOuBRDmJ5N4vCuNXCh8KlniZgDKTvf7zl75QBtaVG1lEhMFe2a2DuA22nZYY+qsI2/xA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/localization/messages_id.min.js" integrity="sha512-DfJ6Ig0o86NC5sD0irSVxGaD3V/wXPhBh+Ma5TXcXhRE5NROXN5lNU5srIUc2p3+6RBBAy8v0YLuwIV9WYbMEQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/localization/messages_id.min.js" integrity="sha512-DfJ6Ig0o86NC5sD0irSVxGaD3V/wXPhBh+Ma5TXcXhRE5NROXN5lNU5srIUc2p3+6RBBAy8v0YLuwIV9WYbMEQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
-<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+<!-- <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script> -->
 <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.css">
-<script src="https://unpkg.com/esri-leaflet@2.2.4/dist/esri-leaflet.js"></script>
-<script src="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js"></script>
+<!-- <script src="https://unpkg.com/esri-leaflet@2.2.4/dist/esri-leaflet.js"></script> -->
+<!-- <script src="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.js"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js"></script> -->
+
+<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+<script src="https://unpkg.com/esri-leaflet@3.0.8/dist/esri-leaflet.js"></script>
+<script src="https://unpkg.com/esri-leaflet-geocoder@3.2.4/dist/esri-leaflet-geocoder.js"></script>
+
 <!--<script>
     $(document).ready(function() {
         $('#latlng').val('-5.114664,105.307347');
@@ -426,8 +431,15 @@
                     var marker;
 
                     // Tambahan Baru
-                    var searchControl = L.esri.Geocoding.geosearch().addTo(map);
-                    var results = L.layerGroup().addTo(map);
+                    const searchControl = L.esri.Geocoding.geosearch({
+                        position: 'topright',
+                        provider: new L.esri.Geocoding.ArcGISOnlineProvider()
+                    });
+
+                    searchControl.addTo(map);
+
+                    // var searchControl = L.esri.Geocoding.geosearch().addTo(map);
+                    // var results = L.layerGroup().addTo(map);
 
                     // Batas akhir tambahan
 
@@ -464,25 +476,46 @@
                     marker.on('drag', onDrag);
                     map.on('click', onClick);
 
-                    searchControl.on("results", function(data) {
-                        map.removeLayer(marker);
+                    searchControl.on('results', function(data) {
+                        if (data.results.length > 0) {
+                            map.removeLayer(marker);
+                            const firstResult = data.results[0];
+                            const marker = L.marker(firstResult.latlng, {
+                                draggable: true
+                            }).addTo(map);
+                            // marker.bindPopup(firstResult.formattedAddress);
+                            map.setView(firstResult.latlng, 14);
+                            lati = firstResult.latlng.lat;
+                            longi = firstResult.latlng.lng;
+                            document.getElementById('_lat').value = firstResult.latlng.lat
+                            document.getElementById('_long').value = firstResult.latlng.lng
 
-                        lati = data.latlng.lat;
-                        longi = data.latlng.lng;
-                        document.getElementById('_lat').value = data.latlng.lat
-                        document.getElementById('_long').value = data.latlng.lng
-
-                        // map.off('click', onClick); //turn off listener for map click
-                        marker = L.marker(data.latlng, {
-                            draggable: true
-                        }).addTo(map);
-                        // document.getElementById('_lat').value = data.latlng.lat.toFixed(6)
-                        // document.getElementById('_long').value = data.latlng.lng.toFixed(6)
-                        // $('input[name="regist[latitude]"]').val(data.latlng.lat.toFixed(6));
-                        // $('input[name="regist[longitude]"]').val(data.latlng.lng.toFixed(6));
-                        // $("#latlng").val(data.latlng.lat.toFixed(6) + ',' + data.latlng.lng.toFixed(6));
-                        // changeCoord();
+                            // map.off('click', onClick); //turn off listener for map click
+                            // marker = L.marker(data.latlng, {
+                            //     draggable: true
+                            // }).addTo(map);
+                        }
                     });
+
+                    // searchControl.on("results", function(data) {
+                    //     map.removeLayer(marker);
+
+                    //     lati = data.latlng.lat;
+                    //     longi = data.latlng.lng;
+                    //     document.getElementById('_lat').value = data.latlng.lat
+                    //     document.getElementById('_long').value = data.latlng.lng
+
+                    //     // map.off('click', onClick); //turn off listener for map click
+                    //     marker = L.marker(data.latlng, {
+                    //         draggable: true
+                    //     }).addTo(map);
+                    //     // document.getElementById('_lat').value = data.latlng.lat.toFixed(6)
+                    //     // document.getElementById('_long').value = data.latlng.lng.toFixed(6)
+                    //     // $('input[name="regist[latitude]"]').val(data.latlng.lat.toFixed(6));
+                    //     // $('input[name="regist[longitude]"]').val(data.latlng.lng.toFixed(6));
+                    //     // $("#latlng").val(data.latlng.lat.toFixed(6) + ',' + data.latlng.lng.toFixed(6));
+                    //     // changeCoord();
+                    // });
 
                     $('.geocoder-control-input').click(function() {
                         map.setZoom('13');
