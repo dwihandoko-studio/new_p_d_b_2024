@@ -117,7 +117,7 @@
                 }
             }
             marker.addTo(mymap);
-            $('.leaflet-control-attribution.leaflet-control').html('&copy; <a href="http://ginktech.net/">Gink Technology</a>');
+            $('.leaflet-control-attribution.leaflet-control').html('&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Supported By <a href="https://esline.id">Esline.id</a>');
             $('#latlng').change(function() {
                 changeCoord();
                 var latlngValue = $(this).val();
@@ -381,6 +381,20 @@
                     var lati = lat;
                     var longi = long;
                     var marker;
+
+                    // Tambahan Baru
+                    var searchControl = L.esri.Geocoding.geosearch().addTo(mymap);
+                    var results = L.layerGroup().addTo(mymap);
+                    searchControl.on("results", function(data) {
+                        $('input[name="regist[latitude]"]').val(data.latlng.lat.toFixed(6));
+                        $('input[name="regist[longitude]"]').val(data.latlng.lng.toFixed(6));
+                        // $("#latlng").val(data.latlng.lat.toFixed(6) + ',' + data.latlng.lng.toFixed(6));
+                        changeCoord();
+                    });
+                    $('.geocoder-control-input').click(function() {
+                        mymap.setZoom('13');
+                    });
+                    // Batas akhir tambahan
 
                     marker = L.marker({
                         lat: lat,
