@@ -69,6 +69,7 @@
                 type: 'POST',
                 data: {
                     jenis: jenisPd,
+                    jenis_pengaduan: '<?= $jenis ?>',
                     nisn: nisnPd,
                     npsn: npsnPd,
                 },

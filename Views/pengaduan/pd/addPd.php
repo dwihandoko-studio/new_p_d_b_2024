@@ -1,59 +1,61 @@
-<form id="formAddData" class="formAddData" action="./addSave" method="post">
-    <input type="hidden" id="_data_pd" name="_data_pd" value="<?= $encrypt_data ?>" />
+<form id="formAddPdSekolahData" class="formAddPdSekolahData" action="./addSave" method="post">
+    <input type="hidden" id="_data_pd_pd_sekolah" name="_data_pd_sekolah" value="<?= $encrypt_data ?>" />
+    <input type="hidden" id="_peserta_didik_id_pd_sekolah" name="_peserta_didik_id_pd_sekolah" value="<?= $data->peserta_didik_id ?>" />
+    <input type="hidden" id="_jenis_pengaduan_pd_sekolah" name="_jenis_pengaduan_pd_sekolah" value="<?= $jenis ?>" />
     <div class="modal-body">
         <div class="row">
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">NISN</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_nisn_pd" name="_nisn_pd" value="<?= $data->nisn ?>" placeholder="NISN..." readonly />
+                    <input type="text" class="form-control" id="_nisn_pd_pd_sekolah" name="_nisn_pd_pd_sekolah" value="<?= $data->nisn ?>" placeholder="NISN..." readonly />
                 </div>
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">NPSN</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_npsn_pd" name="_npsn_pd" value="<?= $npsn ?>" placeholder="NPSN..." readonly />
+                    <input type="text" class="form-control" id="_npsn_pd_pd_sekolah" name="_npsn_pd_pd_sekolah" value="<?= $npsn ?>" placeholder="NPSN..." readonly />
                 </div>
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Nama Pd</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_nama_pd" name="_nama_pd" value="<?= $data->nama ?>" readonly />
+                    <input type="text" class="form-control" id="_nama_pd_pd_sekolah" name="_nama_pd_pd_sekolah" value="<?= $data->nama ?>" readonly />
                 </div>
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Tempat Lahir Pd</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_tempat_lahir_pd" name="_tempat_lahir_pd" value="<?= $data->tempat_lahir ?>" readonly />
+                    <input type="text" class="form-control" id="_tempat_lahir_pd_pd_sekolah" name="_tempat_lahir_pd_pd_sekolah" value="<?= $data->tempat_lahir ?>" readonly />
                 </div>
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Tanggal Lahir Pd</label>
                 <div class="col-sm-9">
-                    <input type="date" class="form-control" id="_tanggal_lahir_pd" name="_tanggal_lahir_pd" value="<?= $data->tanggal_lahir ?>" readonly />
+                    <input type="date" class="form-control" id="_tanggal_lahir_pd_pd_sekolah" name="_tanggal_lahir_pd_pd_sekolah" value="<?= $data->tanggal_lahir ?>" readonly />
                 </div>
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Jenis Kelamin Pd</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_jenis_kelamin_pd" name="_jenis_kelamin_pd" value="<?= $data->jenis_kelamin ?>" readonly />
+                    <input type="text" class="form-control" id="_jenis_kelamin_pd_pd_sekolah" name="_jenis_kelamin_pd_pd_sekolah" value="<?= $data->jenis_kelamin ?>" readonly />
                 </div>
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Nama Ibu Kandung Pd</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_nama_ibu_kandung_pd" name="_nama_ibu_kandung_pd" value="<?= $data->nama_ibu_kandung ?>" readonly />
+                    <input type="text" class="form-control" id="_nama_ibu_kandung_pd_pd_sekolah" name="_nama_ibu_kandung_pd_pd_sekolah" value="<?= $data->nama_ibu_kandung ?>" readonly />
                 </div>
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Tingkat Pendidikan Pd</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_tingkat_pendidikan_pd" name="_tingkat_pendidikan_pd" value="<?= $data->tingkat_pendidikan ?>" readonly />
+                    <input type="text" class="form-control" id="_tingkat_pendidikan_pd_pd_sekolah" name="_tingkat_pendidikan_pd_pd_sekolah" value="<?= $data->tingkat_pendidikan ?>" readonly />
                 </div>
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Provinsi</label>
                 <div class="col-sm-9">
-                    <select class="w-100" style="width: 100%;" id="_prov" name="_prov" onchange="changeProv(this)" required>
+                    <select class="w-100" style="width: 100%;" id="_prov_pd_sekolah" name="_prov_pd_sekolah" onchange="changeProv(this)" required>
                         <option value="">-- Pilih --</option>
                         <?php if (isset($props)) { ?>
                             <?php if (count($props) > 0) { ?>
@@ -68,7 +70,7 @@
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Kabupaten</label>
                 <div class="col-sm-9">
-                    <select class="w-100" style="width: 100%;" id="_kab" name="_kab" onchange="changeKab(this)" required>
+                    <select class="w-100" style="width: 100%;" id="_kab_pd_sekolah" name="_kab_pd_sekolah" onchange="changeKab(this)" required>
                         <option value="">-- Pilih --</option>
                         <?php if (isset($kabs)) { ?>
                             <?php if (count($kabs) > 0) { ?>
@@ -83,7 +85,7 @@
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Kecamatan</label>
                 <div class="col-sm-9">
-                    <select class="w-100" style="width: 100%;" id="_kec" name="_kec" onchange="changeKec(this)" required>
+                    <select class="w-100" style="width: 100%;" id="_kec_pd_sekolah" name="_kec_pd_sekolah" onchange="changeKec(this)" required>
                         <option value="">-- Pilih --</option>
                         <?php if (isset($kecs)) { ?>
                             <?php if (count($kecs) > 0) { ?>
@@ -98,7 +100,7 @@
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Desa/Kelurahan</label>
                 <div class="col-sm-9">
-                    <select class="w-100" style="width: 100%;" id="_kel" name="_kel" onchange="changeKel(this)" required>
+                    <select class="w-100" style="width: 100%;" id="_kel_pd_sekolah" name="_kel_pd_sekolah" onchange="changeKel(this)" required>
                         <option value="">-- Pilih --</option>
                         <?php if (isset($kels)) { ?>
                             <?php if (count($kels) > 0) { ?>
@@ -113,7 +115,7 @@
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Dusun</label>
                 <div class="col-sm-9">
-                    <select class="w-100" style="width: 100%;" id="_dusun" name="_dusun" onchange="changeDus(this)" required>
+                    <select class="w-100" style="width: 100%;" id="_dusun_pd_sekolah" name="_dusun_pd_sekolah" onchange="changeDus(this)" required>
                         <option value="">-- Pilih --</option>
                         <?php if (isset($dusuns)) { ?>
                             <?php if (count($dusuns) > 0) { ?>
@@ -134,7 +136,7 @@
                                 <div class="col-sm-9">
                                     <div class="input-group   input-primary">
                                         <span class="input-group-text">Lat</span>
-                                        <input type="text" class="form-control" id="_lintang" name="_lintang" value="<?= $data->lintang ?>" required />
+                                        <input type="text" class="form-control" id="_lintang_pd_sekolah" name="_lintang_pd_sekolah" value="<?= $data->lintang ?>" required />
                                     </div>
                                 </div>
                             </div>
@@ -143,7 +145,7 @@
                                 <div class="col-sm-9">
                                     <div class="input-group   input-primary">
                                         <span class="input-group-text">Long</span>
-                                        <input type="text" class="form-control" id="_bujur" name="_bujur" value="<?= $data->bujur ?>" required />
+                                        <input type="text" class="form-control" id="_bujur_pd_sekolah" name="_bujur_pd_sekolah" value="<?= $data->bujur ?>" required />
                                     </div>
                                 </div>
                             </div>
@@ -159,7 +161,7 @@
                 <div class="col-sm-9">
                     <div class="input-group   input-primary">
                         <span class="input-group-text">NIK</span>
-                        <input type="text" class="form-control" id="_nik" name="_nik" value="<?= $data->nik ?>" required />
+                        <input type="text" class="form-control" id="_nik_pd_sekolah" name="_nik_pd_sekolah" value="<?= $data->nik ?>" required />
                     </div>
                 </div>
             </div>
@@ -168,18 +170,8 @@
                 <div class="col-sm-9">
                     <div class="input-group   input-primary">
                         <span class="input-group-text">KK</span>
-                        <input type="text" class="form-control" id="_kk" name="_kk" value="" required />
+                        <input type="text" class="form-control" id="_kk_pd_sekolah" name="_kk_pd_sekolah" value="" required />
                     </div>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">Peserta Didik Id</label>
-                <div class="col-sm-9">
-                    <div class="input-group   input-primary">
-                        <span class="input-group-text">PD ID</span>
-                        <input type="text" class="form-control" id="_peserta_didik_id" name="_peserta_didik_id" value="<?= $data->peserta_didik_id ?>" required />
-                    </div>
-                    <p>Didapatkan dari Verval PD untuk peserta didik idnya.</p>
                 </div>
             </div>
         </div>
@@ -191,8 +183,8 @@
 </form>
 <script>
     function ambilKoordinat(event) {
-        var lat = document.getElementsByName('_lintang')[0].value;
-        var long = document.getElementsByName('_bujur')[0].value;
+        var lat = document.getElementsByName('_lintang_pd_sekolah')[0].value;
+        var long = document.getElementsByName('_bujur_pd_sekolah')[0].value;
 
         if (lat === "" || lat === undefined) {
             <?php if (isset($sek)) { ?>
@@ -316,14 +308,14 @@
         const latitu = document.getElementsByName('_lat')[0].value;
         const longitu = document.getElementsByName('_long')[0].value;
 
-        document.getElementById('_lintang').value = latitu;
-        document.getElementById('_bujur').value = longitu;
+        document.getElementById('_lintang_pd_sekolah').value = latitu;
+        document.getElementById('_bujur_pd_sekolah').value = longitu;
 
         $('#content-mapModal').modal('hide');
     }
 
     function changeProv(event) {
-        const kabupatenSelect = $('#_kab');
+        const kabupatenSelect = $('#_kab_pd_sekolah');
         kabupatenSelect.empty(); // Clear existing options
         if (event.value === "" || event.value === undefined) {} else {
             $.ajax({
@@ -378,7 +370,7 @@
     }
 
     function changeKab(event) {
-        const kecamatanSelect = $('#_kec');
+        const kecamatanSelect = $('#_kec_pd_sekolah');
         kecamatanSelect.empty(); // Clear existing options
         if (event.value === "" || event.value === undefined) {} else {
             $.ajax({
@@ -433,7 +425,7 @@
     }
 
     function changeKec(event) {
-        const kelurahanSelect = $('#_kel');
+        const kelurahanSelect = $('#_kel_pd_sekolah');
         kelurahanSelect.empty();
         if (event.value === "" || event.value === undefined) {} else {
             $.ajax({
@@ -519,29 +511,28 @@
         }
     }
 
-    $('#_prov').select2({
-        dropdownParent: ".contentBodyaddModal",
+    $('#_prov_pd_sekolah').select2({
+        dropdownParent: ".content-dataPdModalBody",
     });
 
-    $('#_kab').select2({
-        dropdownParent: ".contentBodyaddModal",
+    $('#_kab_pd_sekolah').select2({
+        dropdownParent: ".content-dataPdModalBody",
     });
-    $('#_kec').select2({
-        dropdownParent: ".contentBodyaddModal",
+    $('#_kec_pd_sekolah').select2({
+        dropdownParent: ".content-dataPdModalBody",
     });
-    $('#_kel').select2({
-        dropdownParent: ".contentBodyaddModal",
+    $('#_kel_pd_sekolah').select2({
+        dropdownParent: ".content-dataPdModalBody",
     });
-    $('#_dusun').select2({
-        dropdownParent: ".contentBodyaddModal",
+    $('#_dusun_pd_sekolah').select2({
+        dropdownParent: ".content-dataPdModalBody",
     });
 
     function validateForm(formElement) {
-        const latitudeInput = formElement.querySelector('#_lintang');
-        const longitudeInput = formElement.querySelector('#_bujur');
-        const nikInput = formElement.querySelector('#_nik');
-        const kkInput = formElement.querySelector('#_kk');
-        const pdidInput = formElement.querySelector('#_peserta_didik_id');
+        const latitudeInput = formElement.querySelector('#_lintang_pd_sekolah');
+        const longitudeInput = formElement.querySelector('#_bujur_pd_sekolah');
+        const nikInput = formElement.querySelector('#_nik_pd_sekolah');
+        const kkInput = formElement.querySelector('#_kk_pd_sekolah');
 
         if (!validateLat(latitudeInput.value)) {
             Swal.fire(
@@ -591,31 +582,6 @@
             return false; // Prevent form submission if validation fails
         }
 
-        if (pdidInput.value === "" || pdidInput.value === undefined) {
-
-            Swal.fire(
-                'Failed!',
-                "Inputan Peserta didik id tidak valid.",
-                'warning'
-            ).then((valR) => {
-                pdidInput.focus();
-            });
-
-            return false; // Prevent form submission if validation fails
-        }
-
-        if ((pdidInput.value).length !== 36) {
-            Swal.fire(
-                'Failed!',
-                "Inputan Peserta didik id tidak valid.",
-                'warning'
-            ).then((valR) => {
-                pdidInput.focus();
-            });
-
-            return false; // Prevent form submission if validation fails
-        }
-
         // If validation passes, you can submit the form here
         // (e.g., formElement.submit())
 
@@ -623,31 +589,31 @@
     }
 
     // Example usage: attach event listeners to form submission buttons
-    const formAdd = document.getElementById('formAddData');
+    const formAdd = document.getElementById('formAddPdSekolahData');
     if (formAdd) {
         formAdd.addEventListener('submit', function(event) { // Prevent default form submission
             if (validateForm(this)) {
                 event.preventDefault();
-                const nama = document.getElementsByName('_nama_pd')[0].value;
+                const nama = document.getElementsByName('_nama_pd_pd_sekolah')[0].value;
 
                 Swal.fire({
-                    title: 'Apakah anda yakin ingin menyimpan data PD Baru ini?',
-                    text: "Simpan PD: " + nama,
+                    title: 'Ajukan Pengaduan Data Peserta Sekolah?',
+                    text: "Pengaduan Data PD: " + nama,
                     showCancelButton: true,
                     icon: 'question',
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, SIMPAN!'
+                    confirmButtonText: 'Ya, AJUKAN!'
                 }).then((result) => {
                     if (result.value) {
                         $.ajax({
-                            url: "./addSave",
+                            url: "./addSavePengaduanAkunSekolah",
                             type: 'POST',
                             data: $(this).serialize(),
                             dataType: 'JSON',
                             beforeSend: function() {
                                 Swal.fire({
-                                    title: 'Menyimpan data PD...',
+                                    title: 'Mengajukan data...',
                                     text: 'Please wait while we process your action.',
                                     allowOutsideClick: false,
                                     allowEscapeKey: false,
@@ -695,7 +661,8 @@
                                             url: "./download",
                                             type: 'POST',
                                             data: {
-                                                id: resul.peserta_didik_id,
+                                                id: resul.id_pengaduan,
+                                                jenis: resul.jenis_pengaduan,
                                                 nama: resul.nama,
                                             },
                                             dataType: 'JSON',

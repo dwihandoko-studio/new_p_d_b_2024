@@ -91,6 +91,7 @@ class Pengaduan extends BaseController
                 $response->status = 200;
                 switch ($id) {
                     case 'belum punya akun':
+                        $response->jenis = $id;
                         $response->data = view('pengaduan/belum_punya_akun');
                         break;
 
@@ -117,15 +118,23 @@ class Pengaduan extends BaseController
                         'required' => 'Id tidak boleh kosong. ',
                     ]
                 ],
+                'jenis_pengaduan' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
             ];
 
             if (!$this->validate($rules)) {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = $this->validator->getError('jenis');
+                $response->message = $this->validator->getError('jenis')
+                    . $this->validator->getError('jenis_pengaduan');
                 return json_encode($response);
             } else {
                 $jenis = htmlspecialchars($this->request->getVar('jenis'), true);
+                $jenis_pengaduan = htmlspecialchars($this->request->getVar('jenis_pengaduan'), true);
                 if ($jenis === "sudah") {
 
                     $nisn = htmlspecialchars($this->request->getVar('nisn'), true);
@@ -271,6 +280,7 @@ class Pengaduan extends BaseController
                                     }
 
                                     $x['sek'] = $sekAsal;
+                                    $x['jenis'] = $jenis_pengaduan;
                                     $response = new \stdClass;
                                     $response->status = 200;
                                     $response->message = "Berhasil mengambil data";
