@@ -39,7 +39,7 @@ class Filterauth implements FilterInterface
                     $totalSegment = $uri->getTotalSegments();
                     if ($totalSegment > 0) {
                         $uriMain = $uri->getSegment(1);
-                        if ($uriMain === "" || $uriMain === "home" || $uriMain === "auth" || $uriMain === "portal") {
+                        if ($uriMain === "" || $uriMain === "home" || $uriMain === "auth" || $uriMain === "portal" || $uriMain === "pengaduan") {
                         } else {
                             $mtLib = new Mtlib();
                             if ($mtLib->get()) {
@@ -155,7 +155,7 @@ class Filterauth implements FilterInterface
                     if ($totalSegment > 0) {
                         $uriMain = $uri->getSegment(1);
 
-                        if ($uriMain == "" || $uriMain == "home" || $uriMain == "auth") {
+                        if ($uriMain == "" || $uriMain == "home" || $uriMain == "auth" || $uriMain === "pengaduan") {
                         } else {
                             return redirect()->to(base_url('auth'));
                         }
@@ -168,7 +168,7 @@ class Filterauth implements FilterInterface
 
                     $uriMain = $uri->getSegment(1);
 
-                    if ($uriMain == "" || $uriMain == "home" || $uriMain == "auth") {
+                    if ($uriMain == "" || $uriMain == "home" || $uriMain == "auth" || $uriMain === "pengaduan") {
                     } else {
                         // var_dump($e);
                         // var_dump("<br>token salah");
@@ -210,7 +210,7 @@ class Filterauth implements FilterInterface
                     if ($totalSegment == 0) {
 
                         $uriMain = $uri->getSegment(1);
-                        if ($uriMain === "" || $uriMain === "home" || $uriMain == "portal") {
+                        if ($uriMain === "" || $uriMain === "home" || $uriMain == "portal" || $uriMain === "pengaduan") {
                         } else {
 
                             return redirect()->to(base_url('portal'));
