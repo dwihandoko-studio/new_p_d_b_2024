@@ -777,5 +777,5 @@
                 event.preventDefault();
             }
         });
-    } 
-</scrip>
+    }
+</script>
