@@ -4,7 +4,7 @@
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">NO TIKET</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_no_tiket_pengaduan" name="_no_tiket_pengaduan" minlength="9" value="" placeholder="No tiket..." required />
+                    <input type="text" class="form-control" id="_no_tiket_pengaduan" name="_no_tiket_pengaduan" minlength="6" value="" placeholder="No tiket..." required />
                 </div>
             </div>
         </div>
