@@ -291,7 +291,7 @@
                             </div>
                         </div>
                         <div class="col-3">
-                            <button type="button" style="width: 100%;" class="btn btn-sm btn-info waves-effect waves-light getMap">Ambil Koordinat</button>
+                            <button type="button" style="width: 100%;" onclick="getMapShowed()" class="btn btn-sm btn-info waves-effect waves-light">Ambil Koordinat</button>
                             <!-- <button type="button" onclick="ambilKoordinat(this);" style="width: 100%;" class="btn btn-sm btn-info waves-effect waves-light">Ambil Koordinat</button> -->
                         </div>
                     </div>

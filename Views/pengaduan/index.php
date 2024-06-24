@@ -187,7 +187,8 @@
             }
         }
         getLocation();
-        $('.getMap').click(function() {
+
+        function getMapShowed() {
             $('#content-mapModal').modal('show');
             // $('input[name="mapValue"]').val('OK');
             var redIcon = new L.Icon({
@@ -266,7 +267,7 @@
                 $('input[name="_lintang_pd_sekolah"]').val(latlngValue.split(",")[0]);
                 $('input[name="_bujur_pd_sekolah"]').val(latlngValue.split(",")[1]);
             });
-        });
+        };
     });
 </script>
 <?= $this->endSection(); ?>
