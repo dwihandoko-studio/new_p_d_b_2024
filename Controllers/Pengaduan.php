@@ -1053,7 +1053,7 @@ class Pengaduan extends BaseController
                                 $this->_db->transRollback();
                                 $response = new \stdClass;
                                 $response->status = 400;
-                                $response->message = "Gagal menyimpan data. pd e";
+                                $response->message = "Gagal menyimpan data. 4";
                                 return json_encode($response);
                             }
                         } catch (\Throwable $th) {
@@ -1083,21 +1083,21 @@ class Pengaduan extends BaseController
                                         $this->_db->transRollback();
                                         $response = new \stdClass;
                                         $response->status = 400;
-                                        $response->message = "Gagal menyimpan data. pd e";
+                                        $response->message = "Gagal menyimpan data. 3";
                                         return json_encode($response);
                                     }
                                 } catch (\Throwable $th) {
                                     $this->_db->transRollback();
                                     $response = new \stdClass;
                                     $response->status = 400;
-                                    $response->message = "Gagal menyimpan data.";
+                                    $response->message = "Gagal menyimpan data.2";
                                     return json_encode($response);
                                 }
                             } else {
                                 $this->_db->transRollback();
                                 $response = new \stdClass;
                                 $response->status = 400;
-                                $response->message = "Gagal menyimpan data.";
+                                $response->message = "Gagal menyimpan data.1";
                                 return json_encode($response);
                             }
                         }
@@ -1105,7 +1105,7 @@ class Pengaduan extends BaseController
                         $this->_db->transRollback();
                         $response = new \stdClass;
                         $response->status = 400;
-                        $response->message = "Gagal menyimpan data.";
+                        $response->message = "Gagal menyimpan data. 0";
                         return json_encode($response);
                     }
                 }
