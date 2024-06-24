@@ -36,6 +36,9 @@
         </div>
     </div>
 </div>
+<div class="col-12 mt-5">
+    <button type="button" onclick="actionCekData(this)" class="btn bnt-block btn-primary">CEK DATA</button>
+</div>
 <script>
     function changedStatusPeserta(event) {
         const selectedOption = event.value;
@@ -54,6 +57,64 @@
                 $('.content-belum-sekolah').css('display', 'none');
             }
         }
+    }
+
+    function actionCekData(event) {
+        const jenis = document.getElementsByName('_jenis')[0];
+        if (jenis === "sudah") {
+            const nisn = document.getElementsByName('_nisn')[0];
+            const npsn = document.getElementsByName('_npsn')[0];
+            $.ajax({
+                url: "./cekDataPd",
+                type: 'POST',
+                data: {
+                    jenis: jenis,
+                    nisn: nisn,
+                    npsn: npsn,
+                },
+                dataType: 'JSON',
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Sedang Loading...',
+                        text: 'Please wait while we process your action.',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                },
+                complete: function() {},
+                success: function(response) {
+                    if (response.status == 200) {
+                        Swal.close();
+                        $('#content-dataPdModalLabel').html('DATA PESERTA');
+                        $('.content-dataPdModalBody').html(response.data);
+                        $('.content-dataPdModal').modal({
+                            backdrop: 'static',
+                            keyboard: false,
+                        });
+                        $('.content-dataPdModal').modal('show');
+                    } else {
+                        Swal.fire(
+                            'Failed!',
+                            response.message,
+                            'warning'
+                        );
+                    }
+                },
+                error: function() {
+                    Swal.fire(
+                        'PERINGATAN!',
+                        "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                        'warning'
+                    );
+                }
+            });
+        }
+        const nik = document.getElementsByName('_nik')[0];
+        const kk = document.getElementsByName('_kk')[0];
+
     }
 
     function validateForm(formElement) {
