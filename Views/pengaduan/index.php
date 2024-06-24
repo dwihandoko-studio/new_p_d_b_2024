@@ -14,7 +14,16 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <a href="javascript:void(0)" class="btn btn-block btn-primary">Buat Pengaduan</a>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <a href="javascript:void(0)" class="btn btn-block btn-info">Lacak Tiket Pengaduan</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
