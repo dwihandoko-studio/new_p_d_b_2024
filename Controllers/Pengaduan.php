@@ -608,21 +608,75 @@ class Pengaduan extends BaseController
         }
     }
 
-    public function addSavePengaduanAkunSekolah()
+    public function addSavePengaduanAkunSekolahVerval()
     {
         if ($this->request->isAJAX()) {
 
             $rules = [
-                'jenis' => [
+                '_jenis_pengaduan_pd_sekolah' => [
                     'rules' => 'required|trim',
                     'errors' => [
-                        'required' => 'Id tidak boleh kosong. ',
+                        'required' => 'Jenis pengaduan tidak boleh kosong. ',
                     ]
                 ],
-                'jenis_pengaduan' => [
+                '_peserta_didik_id_pd_sekolah' => [
                     'rules' => 'required|trim',
                     'errors' => [
-                        'required' => 'Id tidak boleh kosong. ',
+                        'required' => 'Peserta didik id tidak boleh kosong. ',
+                    ]
+                ],
+                '_prov_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Provinsi tidak boleh kosong. ',
+                    ]
+                ],
+                '_kab_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kabupaten tidak boleh kosong. ',
+                    ]
+                ],
+                '_kec_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kecamatan tidak boleh kosong. ',
+                    ]
+                ],
+                '_kel_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kelurahan tidak boleh kosong. ',
+                    ]
+                ],
+                '_dusun_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Dusun tidak boleh kosong. ',
+                    ]
+                ],
+                '_lintang_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Lintang tidak boleh kosong. ',
+                    ]
+                ],
+                '_bujur_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Bujur tidak boleh kosong. ',
+                    ]
+                ],
+                '_nik_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'NIK tidak boleh kosong. ',
+                    ]
+                ],
+                '_kk_pd_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kartu Keluarga tidak boleh kosong. ',
                     ]
                 ],
             ];
@@ -630,224 +684,109 @@ class Pengaduan extends BaseController
             if (!$this->validate($rules)) {
                 $response = new \stdClass;
                 $response->status = 400;
-                $response->message = $this->validator->getError('jenis')
-                    . $this->validator->getError('jenis_pengaduan');
+                $response->message = $this->validator->getError('_peserta_didik_id_pd_sekolah')
+                    . $this->validator->getError('_jenis_pengaduan_pd_sekolah')
+                    . $this->validator->getError('_prov_pd_sekolah')
+                    . $this->validator->getError('_kab_pd_sekolah')
+                    . $this->validator->getError('_kec_pd_sekolah')
+                    . $this->validator->getError('_kel_pd_sekolah')
+                    . $this->validator->getError('_dusun_pd_sekolah')
+                    . $this->validator->getError('_lintang_pd_sekolah')
+                    . $this->validator->getError('_bujur_pd_sekolah')
+                    . $this->validator->getError('_nik_pd_sekolah')
+                    . $this->validator->getError('_kk_pd_sekolah');
                 return json_encode($response);
             } else {
-                $jenis = htmlspecialchars($this->request->getVar('jenis'), true);
-                $jenis_pengaduan = htmlspecialchars($this->request->getVar('jenis_pengaduan'), true);
-                if ($jenis === "sudah") {
+                $jenis_pengaduan = htmlspecialchars($this->request->getVar('_jenis_pengaduan_pd_sekolah'), true);
+                $peserta_didik_id = htmlspecialchars($this->request->getVar('_peserta_didik_id_pd_sekolah'), true);
+                $prov = htmlspecialchars($this->request->getVar('_prov_pd_sekolah'), true);
+                $kab = htmlspecialchars($this->request->getVar('_kab_pd_sekolah'), true);
+                $kec = htmlspecialchars($this->request->getVar('_kec_pd_sekolah'), true);
+                $kel = htmlspecialchars($this->request->getVar('_kel_pd_sekolah'), true);
+                $dusun = htmlspecialchars($this->request->getVar('_dusun_pd_sekolah'), true);
+                $lintang = htmlspecialchars($this->request->getVar('_lintang_pd_sekolah'), true);
+                $bujur = htmlspecialchars($this->request->getVar('_bujur_pd_sekolah'), true);
+                $nik = htmlspecialchars($this->request->getVar('_nik_pd_sekolah'), true);
+                $kk = htmlspecialchars($this->request->getVar('_kk_pd_sekolah'), true);
 
-                    $nisn = htmlspecialchars($this->request->getVar('nisn'), true);
-                    $npsn = htmlspecialchars($this->request->getVar('npsn'), true);
+                $oldData = $this->_db->table('dapo_peserta')
+                    ->where('peserta_didik_id', $peserta_didik_id)
+                    ->get()->getRowObject();
 
-                    $cekDataRefPdLocal = $this->_db->table('dapo_peserta a')
-                        ->select("a.*, b.nama as nama_sekolah, b.npsn as npsn_sekolah")
-                        ->join('dapo_sekolah b', 'b.sekolah_id = a.sekolah_id')
-                        ->where("a.nisn = '$nisn' AND b.npsn = '$npsn'")
+                if (!$oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                if (
+                    $oldData->nik === $nik
+                    && $oldData->no_kk === $kk
+                    && $oldData->kab === $kab
+                    && $oldData->kec === $kec
+                    && $oldData->kel === $kel
+                    && $oldData->dusun === $dusun
+                    && $oldData->lintang === $lintang
+                    && $oldData->bujur === $bujur
+                ) {
+                    $hasAcount = $this->_db->table('_users_tb')
+                        ->where('username', $oldData->nisn)
                         ->get()->getRowObject();
-
-                    if ($cekDataRefPdLocal) {
-                        $x['data'] = $cekDataRefPdLocal;
-                        $encryptData = encrypt_json_data($cekDataRefPdLocal, 'secret key handokowae.my.id');
-                        $x['encrypt_data'] = $encryptData;
-                        $x['npsn'] = $npsn;
-                        $x['props'] = $this->_db->table('ref_provinsi')
-                            ->get()->getResult();
-                        $x['kabs'] = $this->_db->table('ref_kabupaten')
-                            ->where("left(id,2) = left('{$cekDataRefPdLocal->kode_wilayah}',2)")->get()->getResult();
-                        $x['kecs'] = $this->_db->table('ref_kecamatan')
-                            ->where("left(id_kabupaten,4) = left('{$cekDataRefPdLocal->kode_wilayah}',4)")->get()->getResult();
-                        $x['kels'] = $this->_db->table('ref_kelurahan')
-                            ->where("left(id_kecamatan,6) = left('{$cekDataRefPdLocal->kode_wilayah}',6)")->get()->getResult();
-                        $x['dusuns'] = $this->_db->table('ref_dusun')->orderBy('urut', 'ASC')
-                            ->get()->getResult();
-                        $sekAsal = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('sekolah_id', $cekDataRefPdLocal->sekolah_id)->get()->getRowObject();
-
-                        if (!$sekAsal) {
-                            $response = new \stdClass;
-                            $response->status = 400;
-                            $response->message = "Referensi Sekolah Asal Tidak Ditemukan.";
-                            return json_encode($response);
-                        }
-
-                        $x['sek'] = $sekAsal;
+                    if ($hasAcount) {
                         $response = new \stdClass;
-                        $response->status = 200;
-                        $response->message = "Berhasil mengambil data";
-                        // $response->e = $encryptData;
-                        $response->data = view('pengaduan/pd/addPd', $x);
-                        return json_encode($response);
-                    } else {
-
-                        $curlHandle = curl_init("https://pelayanan.data.kemdikbud.go.id/vci/index.php/CPelayananData/getSiswa?kode_wilayah=120200&token=CD04B72E-17EB-4C2D-9421-DCF4240C7138&nisn=$nisn&npsn=$npsn");
-
-                        curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, "GET");
-                        curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
-                        curl_setopt($curlHandle, CURLOPT_TIMEOUT, 60);
-                        curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 60);
-                        $send_data_curl         = curl_exec($curlHandle);
-
-                        $result_curl = json_decode($send_data_curl);
-
-                        // var_dump($result_curl);
-                        // die;
-
-                        if (isset($result_curl->error)) {
-                            $response = new \stdClass;
-                            $response->status = 400;
-                            $response->message = "Gagal mengambil data.";
-                            return json_encode($response);
-                        }
-
-                        if ($result_curl) {
-                            if (isset($result_curl->message)) {
-                                $response = new \stdClass;
-                                $response->status = 400;
-                                $response->message = $result_curl->message;
-                                return json_encode($response);
-                            } else {
-                                if (isset($result_curl[0]->Keterangan)) {
-                                    $response = new \stdClass;
-                                    $response->status = 400;
-                                    $response->message = $result_curl[0]->Keterangan;
-                                    return json_encode($response);
-                                }
-
-                                if (count($result_curl) > 0) {
-                                    $pdNya = $result_curl[0];
-                                    $x['data'] = $pdNya;
-                                    $encryptData = encrypt_json_data($pdNya, 'secret key handokowae.my.id');
-                                    $x['encrypt_data'] = $encryptData;
-                                    $x['npsn'] = $npsn;
-                                    $x['props'] = $this->_db->table('ref_provinsi')
-                                        ->get()->getResult();
-                                    $x['kabs'] = $this->_db->table('ref_kabupaten')
-                                        ->where("left(id,2) = left('{$pdNya->kode_wilayah}',2)")->get()->getResult();
-                                    $x['kecs'] = $this->_db->table('ref_kecamatan')
-                                        ->where("left(id_kabupaten,4) = left('{$pdNya->kode_wilayah}',4)")->get()->getResult();
-                                    $x['kels'] = $this->_db->table('ref_kelurahan')
-                                        ->where("left(id_kecamatan,6) = left('{$pdNya->kode_wilayah}',6)")->get()->getResult();
-                                    $x['dusuns'] = $this->_db->table('ref_dusun')->orderBy('urut', 'ASC')
-                                        ->get()->getResult();
-                                    $sekAsal = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('sekolah_id', $pdNya->sekolah_id)->get()->getRowObject();
-
-                                    if (!$sekAsal) {
-                                        $refSekolah = $this->_db->table('ref_sekolah')->where('id', $pdNya->sekolah_id)->get()->getRowObject();
-                                        if (!$refSekolah) {
-                                            $response = new \stdClass;
-                                            $response->status = 400;
-                                            $response->message = "Referensi Sekolah Asal Tidak Ditemukan.";
-                                            return json_encode($response);
-                                        }
-
-                                        try {
-                                            $this->_db->table('dapo_sekolah')->insert([
-                                                'sekolah_id' => $refSekolah->id,
-                                                'nama' => $refSekolah->nama,
-                                                'npsn' => $refSekolah->npsn,
-                                                'kode_wilayah' => $refSekolah->kode_wilayah,
-                                                'kode_desa_kelurahan' => $refSekolah->kode_wilayah,
-                                                'desa_kelurahan' => $refSekolah->desa_kelurahan,
-                                                'kode_kecamatan' => substr($refSekolah->kode_wilayah, 0, 6),
-                                                'kecamatan' => getNameKecamatan(substr($refSekolah->kode_wilayah, 0, 6)),
-                                                'kode_kabupaten' => substr($refSekolah->kode_wilayah, 0, 4) . '00',
-                                                'kabupaten' => getNameKabupaten(substr($refSekolah->kode_wilayah, 0, 4) . '00'),
-                                                'kode_provinsi' => substr($refSekolah->kode_wilayah, 0, 2) . '0000',
-                                                'provinsi' => getNameProvinsi(substr($refSekolah->kode_wilayah, 0, 2) . '0000'),
-                                                'bentuk_pendidikan_id' => $refSekolah->bentuk_pendidikan_id,
-                                                'status_sekolah_id' => $refSekolah->status_sekolah,
-                                                'alamat_jalan' => $refSekolah->alamat_jalan,
-                                                'rt' => $refSekolah->rt,
-                                                'rw' => $refSekolah->rw,
-                                                'lintang' => $refSekolah->latitude,
-                                                'bujur' => $refSekolah->longitude,
-                                            ]);
-                                        } catch (\Throwable $th) {
-                                            $response = new \stdClass;
-                                            $response->status = 400;
-                                            $response->message = "Gagal mengambil ref sekolah asal.";
-                                            return json_encode($response);
-                                        }
-
-                                        $sekAsalNew = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('sekolah_id', $pdNya->sekolah_id)->get()->getRowObject();
-                                        if (!$sekAsalNew) {
-                                            $response = new \stdClass;
-                                            $response->status = 400;
-                                            $response->message = "Gagal mengambil ref sekolah asal baru.";
-                                            return json_encode($response);
-                                        }
-                                        $sekAsal = $sekAsalNew;
-                                    }
-
-                                    $x['sek'] = $sekAsal;
-                                    $x['jenis'] = $jenis_pengaduan;
-                                    $response = new \stdClass;
-                                    $response->status = 200;
-                                    $response->message = "Berhasil mengambil data";
-                                    // $response->e = $encryptData;
-                                    $response->data = view('pengaduan/pd/addPd', $x);
-                                    return json_encode($response);
-                                } else {
-                                    $response = new \stdClass;
-                                    $response->status = 400;
-                                    $response->message = "Data yang Anda cari tidak ditemukan atau peserta didik tidak berada di Tingkat Akhir.";
-                                    return json_encode($response);
-                                }
-                            }
-                        } else {
-                            $response = new \stdClass;
-                            $response->status = 400;
-                            $response->message = "Gagal mengambil data. request to backbone";
-                            return json_encode($response);
-                        }
-                    }
-                } else {
-                    if ($jenis === "belum") {
-                        $nik = htmlspecialchars($this->request->getVar('_nik'), true);
-                        $kk = htmlspecialchars($this->request->getVar('_kk'), true);
-
-                        $anyUser = $this->_db->table('_users_tb')->where('username', $nik)->get()->getRowObject();
-                        if ($anyUser) {
-                            $response = new \stdClass;
-                            $response->status = 400;
-                            $response->message = "NIK sudah terdaftar. Silahkan login dengan menggunakan NIK.";
-                            return json_encode($response);
-                        }
-
-                        $x['nik'] = $nik;
-                        $x['kk'] = $kk;
-                        $x['npsn'] = '10000001';
-                        $x['sekolah_id'] = '4a1512a8-b6ac-11ec-985c-0242ac120002';
-                        $x['props'] = $this->_db->table('ref_provinsi')
-                            ->get()->getResult();
-                        $x['kabs'] = $this->_db->table('ref_kabupaten')
-                            ->where("left(id,2) = '12'")->get()->getResult();
-                        $x['kecs'] = $this->_db->table('ref_kecamatan')
-                            ->where("left(id_kabupaten,4) = '1202'")->get()->getResult();
-                        $x['kels'] = $this->_db->table('ref_kelurahan')
-                            ->where("left(id_kecamatan,6) = '120202'")->get()->getResult();
-                        $x['dusuns'] = $this->_db->table('ref_dusun')->orderBy('urut', 'ASC')
-                            ->get()->getResult();
-                        $x['sek'] = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('npsn', '10000001')->get()->getRowObject();
-                        $response = new \stdClass;
-                        $response->status = 200;
-                        $response->message = "Berhasil mengambil data";
-                        $response->data = view('pengaduan/pd/addPdBelum', $x);
+                        $response->status = 204;
+                        $response->message = "Data sudah di verval. Silahkan login ke aplikasi";
                         return json_encode($response);
                     } else {
                         $response = new \stdClass;
-                        $response->status = 400;
-                        $response->message = "Jenis pd tidak diketahui.";
+                        $response->status = 201;
+                        $response->peserta_didik_id = $oldData->peserta_didik_id;
+                        $response->nama = $oldData->nama;
+                        $response->message = "Data sudah di verval. Namun belum generate akun.";
                         return json_encode($response);
                     }
                 }
 
-                $response = new \stdClass;
-                $response->status = 200;
-                $response->data = view('pengaduan/belum_punya_akun');
-                $response->message = "Permintaan diizinkan";
-                return json_encode($response);
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('dapo_peserta')->where('peserta_didik_id', $oldData->peserta_didik_id)->update([
+                        'nik' => $nik,
+                        'no_kk' => $kk,
+                        'kab' => $kab,
+                        'kec' => $kec,
+                        'kel' => $kel,
+                        'kode_wilayah' => $kel,
+                        'dusun' => $dusun,
+                        'lintang' => $lintang,
+                        'bujur' => $bujur,
+                        'is_edited' => 1,
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ]);
+                    if ($this->_db->affectedRows() > 0) {
+                        $this->_db->transCommit();
+
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->nama = $oldData->nama;
+                        $response->peserta_didik_id = $oldData->peserta_didik_id;
+                        $response->sekolah_id = $oldData->sekolah_id;
+                        $response->message = "Data berhasil diupdate.";
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal mengajukan verval data.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal mengajukan verval data.";
+                    return json_encode($response);
+                }
             }
         } else {
             exit('Maaf tidak dapat diproses');
