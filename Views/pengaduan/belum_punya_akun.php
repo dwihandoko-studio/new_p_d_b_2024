@@ -96,6 +96,7 @@
                             keyboard: false,
                         });
                         $('.content-dataPdModal').modal('show');
+                        $('.content-addModal').modal('hide');
                     } else {
                         Swal.fire(
                             'Failed!',
