@@ -61,9 +61,9 @@
 
     function actionCekData(event) {
         const jenis = document.getElementsByName('_jenis')[0];
-        if (jenis === "sudah") {
-            const nisn = document.getElementsByName('_nisn')[0];
-            const npsn = document.getElementsByName('_npsn')[0];
+        if (jenis.value === "sudah") {
+            const nisn = document.getElementsByName('_nisn')[0].value;
+            const npsn = document.getElementsByName('_npsn')[0].value;
             $.ajax({
                 url: "./cekDataPd",
                 type: 'POST',
@@ -112,8 +112,8 @@
                 }
             });
         }
-        const nik = document.getElementsByName('_nik')[0];
-        const kk = document.getElementsByName('_kk')[0];
+        const nik = document.getElementsByName('_nik')[0].value;
+        const kk = document.getElementsByName('_kk')[0].value;
 
     }
 
