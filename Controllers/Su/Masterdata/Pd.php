@@ -547,7 +547,7 @@ class Pd extends BaseController
 
                 $this->_db->transBegin();
                 try {
-                    $this->_db->table('dapo_peserta')->where('peserta_didik_id', $oldData->id)->delete();
+                    $this->_db->table('dapo_peserta')->where('peserta_didik_id', $oldData->peserta_didik_id)->delete();
                     if ($this->_db->affectedRows() > 0) {
                         $this->_db->transCommit();
 
