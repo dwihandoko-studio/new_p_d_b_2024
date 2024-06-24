@@ -92,7 +92,8 @@ class Pengaduan extends BaseController
                 switch ($id) {
                     case 'belum punya akun':
                         $response->jenis = $id;
-                        $response->data = view('pengaduan/belum_punya_akun');
+                        $x['jenis'] = $id;
+                        $response->data = view('pengaduan/belum_punya_akun', $x);
                         break;
 
                     default:
