@@ -466,10 +466,19 @@
                     // Assuming this function retrieves lat/lng if needed
 
                     // Map initialization
+                    var redIcon = new L.Icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    });
+
                     var map = L.map("map_inits").setView([lat, long], 14);
-                    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Supported By <a href="https://esline.id">Esline.id</a>'
-                    }).addTo(map);
+                    // L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                    //     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Supported By <a href="https://esline.id">Esline.id</a>'
+                    // }).addTo(map);
 
                     var lati = lat;
                     var longi = long;
@@ -486,7 +495,8 @@
                         lat: lat,
                         lng: long
                     }, {
-                        draggable: true
+                        draggable: true,
+                        icon: redIcon
                     }).addTo(map);
                     document.getElementById('_lat').value = lati;
                     document.getElementById('_long').value = longi;
@@ -502,7 +512,8 @@
                     var onClick = function(e) {
                         map.removeLayer(marker);
                         marker = L.marker(e.latlng, {
-                            draggable: true
+                            draggable: true,
+                            icon: redIcon
                         }).addTo(map);
                         lati = e.latlng.lat;
                         longi = e.latlng.lng;
@@ -517,7 +528,8 @@
                             map.removeLayer(marker);
                             const firstResult = data.results[0];
                             marker = L.marker(firstResult.latlng, {
-                                draggable: true
+                                draggable: true,
+                                icon: redIcon
                             }).addTo(map);
                             // marker.bindPopup(firstResult.formattedAddress);
                             map.setView(firstResult.latlng, 14);
@@ -532,6 +544,10 @@
                     $('.geocoder-control-input').click(function() {
                         map.setZoom('13');
                     });
+                    L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+                        maxZoom: 20,
+                        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+                    }).addTo(map);
 
                     setTimeout(function() {
                         map.invalidateSize();
