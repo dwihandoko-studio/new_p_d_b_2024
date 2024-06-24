@@ -327,6 +327,7 @@ class Pengaduan extends BaseController
 
                                     $x['sek'] = $sekAsal;
                                     $x['jenis'] = $jenis_pengaduan;
+                                    $x['nama_pengadu'] = $nama_pengadu;
                                     $response = new \stdClass;
                                     $response->status = 200;
                                     $response->message = "Berhasil mengambil data";
