@@ -337,6 +337,8 @@ class Sekolah extends BaseController
                     $response->message = "Session expired";
                     return json_encode($response);
                 }
+                $x['props'] = $this->_db->table('ref_provinsi')
+                    ->get()->getResult();
                 $x['jenjangs'] = $this->_db->table('dapo_sekolah')->select("bentuk_pendidikan_id, bentuk_pendidikan, count(bentuk_pendidikan_id) as jumlah")->groupBy('bentuk_pendidikan_id')->orderBy('bentuk_pendidikan', 'ASC')->get()->getResult();
 
                 $response = new \stdClass;
