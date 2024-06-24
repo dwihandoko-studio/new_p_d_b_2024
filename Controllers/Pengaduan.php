@@ -2,9 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Controllers\BaseController;
+
+use Config\Services;
+use App\Libraries\Uuid;
 use App\Libraries\Profilelib;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use setasign\Fpdi\TcpdfFpdi;
 
 class Pengaduan extends BaseController
 {
@@ -175,6 +180,8 @@ class Pengaduan extends BaseController
 
                         $result_curl = json_decode($send_data_curl);
 
+                        var_dump($result_curl);
+                        die;
 
                         if (isset($result_curl->error)) {
                             $response = new \stdClass;
