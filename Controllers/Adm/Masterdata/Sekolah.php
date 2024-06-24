@@ -310,47 +310,225 @@ class Sekolah extends BaseController
 
     public function add()
     {
-        if ($this->request->getMethod() != 'post') {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = "Permintaan tidak diizinkan";
-            return json_encode($response);
-        }
+        if ($this->request->isAJAX()) {
 
-        $rules = [
-            'action' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'Id tidak boleh kosong. ',
-                ]
-            ],
-        ];
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
 
-        if (!$this->validate($rules)) {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = $this->validator->getError('action');
-            return json_encode($response);
-        } else {
-            $id = htmlspecialchars($this->request->getVar('action'), true);
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+                $x['jenjangs'] = $this->_db->table('dapo_sekolah')->select("bentuk_pendidikan_id, bentuk_pendidikan, count(bentuk_pendidikan_id) as jumlah")->groupBy('bentuk_pendidikan_id')->orderBy('bentuk_pendidikan', 'ASC')->get()->getResult();
 
-            $roles = $this->_db->table('_role_user')->whereNotIn('id', [1, 6, 7])->get()->getResult();
-            $wilayahs = $this->_db->table('ref_kecamatan')->orderBy('nama_kecamatan', 'ASC')->get()->getResult();
-
-            if (count($roles) > 0 && count($wilayahs) > 0) {
-                $data['roles'] = $roles;
-                $data['wilayahs'] = $wilayahs;
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Permintaan diizinkan";
-                $response->data = view('situgu/adm/masterdata/pengguna/add', $data);
-                return json_encode($response);
-            } else {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Data tidak ditemukan";
+                $response->data = view('adm/masterdata/sekolah/add', $x);
                 return json_encode($response);
             }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function addSave()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                '_status_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Status sekolah tidak boleh kosong. ',
+                    ]
+                ],
+                '_bentuk_pendidikan' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Bentuk pendidikan tidak boleh kosong. ',
+                    ]
+                ],
+                '_id_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id pendidikan tidak boleh kosong. ',
+                    ]
+                ],
+                '_nama_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama sekolah tidak boleh kosong. ',
+                    ]
+                ],
+                '_npsn_sekolah' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'NPSN sekolah tidak boleh kosong. ',
+                    ]
+                ],
+                '_kode_pos' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kode pos sekolah tidak boleh kosong. ',
+                    ]
+                ],
+                '_prov' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Provinsi tidak boleh kosong. ',
+                    ]
+                ],
+                '_kab' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kabupaten tidak boleh kosong. ',
+                    ]
+                ],
+                '_kec' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kecamatan tidak boleh kosong. ',
+                    ]
+                ],
+                '_kel' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kelurahan tidak boleh kosong. ',
+                    ]
+                ],
+                '_lintang' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Lintang tidak boleh kosong. ',
+                    ]
+                ],
+                '_bujur' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Bujur tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('_status_sekolah')
+                    . $this->validator->getError('_bentuk_pendidikan')
+                    . $this->validator->getError('_id_sekolah')
+                    . $this->validator->getError('_nama_sekolah')
+                    . $this->validator->getError('_npsn_sekolah')
+                    . $this->validator->getError('_kode_pos')
+                    . $this->validator->getError('_prov')
+                    . $this->validator->getError('_kab')
+                    . $this->validator->getError('_kec')
+                    . $this->validator->getError('_kel')
+                    . $this->validator->getError('_lintang')
+                    . $this->validator->getError('_bujur');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+
+                $status_sekolah = htmlspecialchars($this->request->getVar('_status_sekolah'), true);
+                $bentuk_pendidikan = htmlspecialchars($this->request->getVar('_bentuk_pendidikan'), true);
+                $id_sekolah = htmlspecialchars($this->request->getVar('_id_sekolah'), true);
+                $nama_sekolah = htmlspecialchars($this->request->getVar('_nama_sekolah'), true);
+                $npsn_sekolah = htmlspecialchars($this->request->getVar('_npsn_sekolah'), true);
+                $kode_pos = htmlspecialchars($this->request->getVar('_kode_pos'), true);
+                $prov = htmlspecialchars($this->request->getVar('_prov'), true);
+                $kab = htmlspecialchars($this->request->getVar('_kab'), true);
+                $kec = htmlspecialchars($this->request->getVar('_kec'), true);
+                $kel = htmlspecialchars($this->request->getVar('_kel'), true);
+                $lintang = htmlspecialchars($this->request->getVar('_lintang'), true);
+                $bujur = htmlspecialchars($this->request->getVar('_bujur'), true);
+
+                $oldData = $this->_db->table('dapo_sekolah')->where('npsn', $npsn_sekolah)->get()->getRowObject();
+
+                if ($oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Referensi Sekolah Sudah Ada.";
+                    return json_encode($response);
+                }
+
+                $data = [
+                    'sekolah_id' => $id_sekolah,
+                    'semester_id' => '202302',
+                    'nama' => $nama_sekolah,
+                    'npsn' => $npsn_sekolah,
+                    'bentuk_pendidikan_id' => $bentuk_pendidikan,
+                    'status_sekolah_id' => $status_sekolah,
+                    'provinsi' => getNameProvinsi($prov),
+                    'kode_provinsi' => $prov,
+                    'kabupaten' => getNameKabupaten($kab),
+                    'kode_kabupaten' => $kab,
+                    'kecamatan' => getNameKecamatan($kec),
+                    'kode_kecamatan' => $kec,
+                    'desa_kelurahan' => getNameKelurahan($kel),
+                    'kode_desa_kelurahan' => $kel,
+                    'kode_wilayah' => $kel,
+                    'lintang' => $lintang,
+                    'bujur' => $bujur,
+                    'create_at' => date('Y-m-d H:i:s')
+                ];
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('dapo_sekolah')->insert($data);
+                    if ($this->_db->affectedRows() > 0) {
+
+                        $this->_db->transCommit();
+
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->url = base_url('portal');
+                        $response->message = "Data berhasil disimpan.";
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menyimpan data.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal menyimpan data. with error";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
         }
     }
 
@@ -524,206 +702,6 @@ class Sekolah extends BaseController
                     $response->message = "Gagal menyimpan data baru";
                     return json_encode($response);
                 }
-            }
-        }
-    }
-
-    public function addSave()
-    {
-        if ($this->request->getMethod() != 'post') {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = "Permintaan tidak diizinkan";
-            return json_encode($response);
-        }
-
-        $rules = [
-            'nama' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'Nama tidak boleh kosong. ',
-                ]
-            ],
-            'email' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'Email tidak boleh kosong. ',
-                ]
-            ],
-            'nohp' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'No handphone tidak boleh kosong. ',
-                ]
-            ],
-            'nip' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'NIP tidak boleh kosong. ',
-                ]
-            ],
-            'role' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Role tidak boleh kosong. ',
-                ]
-            ],
-            'wilayah' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Wilayah tidak boleh kosong. ',
-                ]
-            ],
-            'status' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Status tidak boleh kosong. ',
-                ]
-            ],
-        ];
-
-        $filenamelampiran = dot_array_search('file.name', $_FILES);
-        if ($filenamelampiran != '') {
-            $lampiranVal = [
-                'file' => [
-                    'rules' => 'uploaded[file]|max_size[file,512]|is_image[file]',
-                    'errors' => [
-                        'uploaded' => 'Pilih gambar profil terlebih dahulu. ',
-                        'max_size' => 'Ukuran gambar profil terlalu besar. ',
-                        'is_image' => 'Ekstensi yang anda upload harus berekstensi gambar. '
-                    ]
-                ],
-            ];
-            $rules = array_merge($rules, $lampiranVal);
-        }
-
-        if (!$this->validate($rules)) {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = $this->validator->getError('nama')
-                . $this->validator->getError('email')
-                . $this->validator->getError('nohp')
-                . $this->validator->getError('nip')
-                . $this->validator->getError('role')
-                . $this->validator->getError('wilayah')
-                . $this->validator->getError('status')
-                . $this->validator->getError('file');
-            return json_encode($response);
-        } else {
-            $Profilelib = new Profilelib();
-            $user = $Profilelib->user();
-            if ($user->status != 200) {
-                delete_cookie('jwt');
-                session()->destroy();
-                $response = new \stdClass;
-                $response->status = 401;
-                $response->message = "Permintaan diizinkan";
-                return json_encode($response);
-            }
-
-            $nama = htmlspecialchars($this->request->getVar('nama'), true);
-            $email = htmlspecialchars($this->request->getVar('email'), true);
-            $nohp = htmlspecialchars($this->request->getVar('nohp'), true);
-            $nip = htmlspecialchars($this->request->getVar('nip'), true);
-            $role = htmlspecialchars($this->request->getVar('role'), true);
-            $wilayah = htmlspecialchars($this->request->getVar('wilayah'), true);
-            $status = htmlspecialchars($this->request->getVar('status'), true);
-
-            $oldData =  $this->_db->table('_profil_users_tb')->where('email', $email)->get()->getRowObject();
-
-            if ($oldData) {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Email sudah terdaftar.";
-                return json_encode($response);
-            }
-
-            $uuidLib = new Uuid();
-
-            $data = [
-                'id' => $uuidLib->v4(),
-                'email' => $email,
-                'fullname' => $nama,
-                'no_hp' => $nohp,
-                'nip' => $nip,
-                'npsn' => $user->data->npsn,
-                'role_user' => $role,
-                'kecamatan' => $wilayah,
-                'created_at' => date('Y-m-d H:i:s'),
-            ];
-
-            $dir = FCPATH . "upload/user";
-
-            if ($filenamelampiran != '') {
-                $lampiran = $this->request->getFile('file');
-                $filesNamelampiran = $lampiran->getName();
-                $newNamelampiran = _create_name_foto($filesNamelampiran);
-
-                if ($lampiran->isValid() && !$lampiran->hasMoved()) {
-                    $lampiran->move($dir, $newNamelampiran);
-                    $data['profile_picture'] = $newNamelampiran;
-                } else {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Gagal mengupload gambar.";
-                    return json_encode($response);
-                }
-            }
-
-            $this->_db->transBegin();
-            try {
-                $this->_db->table('_users_tb')->insert([
-                    'id' => $data['id'],
-                    'email' => $data['email'],
-                    'password' => password_hash('123456', PASSWORD_BCRYPT),
-                    'scope' => 'app',
-                    'is_active' => $status,
-                    'wa_verified' => 0,
-                    'email_verified' => 0,
-                    'email_tertaut' => 0,
-                    'created_at' => date('Y-m-d H:i:s'),
-                ]);
-            } catch (\Exception $e) {
-                unlink($dir . '/' . $newNamelampiran);
-                $this->_db->transRollback();
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Gagal menyimpan data baru.";
-                return json_encode($response);
-            }
-
-            if ($this->_db->affectedRows() > 0) {
-                try {
-                    $this->_db->table('_profil_users_tb')->insert($data);
-                } catch (\Exception $e) {
-                    unlink($dir . '/' . $newNamelampiran);
-                    $this->_db->transRollback();
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Gagal menyimpan data baru.";
-                    return json_encode($response);
-                }
-                if ($this->_db->affectedRows() > 0) {
-                    $this->_db->transCommit();
-                    $response = new \stdClass;
-                    $response->status = 200;
-                    $response->message = "Data berhasil disimpan. Password Default Akun: 123456";
-                    return json_encode($response);
-                } else {
-                    unlink($dir . '/' . $newNamelampiran);
-                    $this->_db->transRollback();
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Gagal menyimpan data baru";
-                    return json_encode($response);
-                }
-            } else {
-                unlink($dir . '/' . $newNamelampiran);
-                $this->_db->transRollback();
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Gagal menyimpan data baru";
-                return json_encode($response);
             }
         }
     }

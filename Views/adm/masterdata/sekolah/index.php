@@ -14,45 +14,50 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-body">
                         <div class="row">
-                            <div class="col-6">
-                                <h4 class="card-title">Data Sekolah</h4>
+                            <div class="col-8">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4 class="card-title">Data Sekolah</h4>
 
-                            </div>
-                            <div class="col-3">
-                                <div class="mb-3">
-                                    <label for="_filter_kec" class="col-form-label">Filter Kecamatan:</label>
-                                    <select class="form-control filter-kec" id="_filter_kec" name="_filter_kec" width="100%" style="width: 100%;">
-                                        <option value="">--Pilih--</option>
-                                        <?php if (isset($kecamatans)) {
-                                            if (count($kecamatans) > 0) {
-                                                foreach ($kecamatans as $key => $value) { ?>
-                                                    <option value="<?= $value->id ?>"><?= $value->nama ?></option>
-                                        <?php }
-                                            }
-                                        } ?>
-                                    </select>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="mb-3">
+                                            <label for="_filter_kec" class="col-form-label">Filter Kecamatan:</label>
+                                            <select class="form-control filter-kec" id="_filter_kec" name="_filter_kec" width="100%" style="width: 100%;">
+                                                <option value="">--Pilih--</option>
+                                                <?php if (isset($kecamatans)) {
+                                                    if (count($kecamatans) > 0) {
+                                                        foreach ($kecamatans as $key => $value) { ?>
+                                                            <option value="<?= $value->id ?>"><?= $value->nama ?></option>
+                                                <?php }
+                                                    }
+                                                } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="mb-3">
+                                            <label for="_filter_jenjang" class="col-form-label">Filter Jenjang:</label>
+                                            <select class="form-control filter-jenjang" id="_filter_jenjang" name="_filter_jenjang" width="100%" style="width: 100%;">
+                                                <option value="">--Pilih--</option>
+                                                <?php if (isset($jenjangs)) {
+                                                    if (count($jenjangs) > 0) {
+                                                        foreach ($jenjangs as $key => $value) { ?>
+                                                            <option value="<?= $value->bentuk_pendidikan_id ?>"><?= $value->bentuk_pendidikan ?></option>
+                                                <?php }
+                                                    }
+                                                } ?>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-3">
-                                <div class="mb-3">
-                                    <label for="_filter_jenjang" class="col-form-label">Filter Jenjang:</label>
-                                    <select class="form-control filter-jenjang" id="_filter_jenjang" name="_filter_jenjang" width="100%" style="width: 100%;">
-                                        <option value="">--Pilih--</option>
-                                        <?php if (isset($jenjangs)) {
-                                            if (count($jenjangs) > 0) {
-                                                foreach ($jenjangs as $key => $value) { ?>
-                                                    <option value="<?= $value->bentuk_pendidikan_id ?>"><?= $value->bentuk_pendidikan ?></option>
-                                        <?php }
-                                            }
-                                        } ?>
-                                    </select>
-                                </div>
+                            <div class="col-4">
+                                <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnadd"><i class="las la-plus-circle font-size-16 align-middle me-2"></i> TAMBAH SEKOLAH</button> &nbsp;&nbsp;
                             </div>
                         </div>
-                    </div>
-                    <div class="card-body">
                         <div class="table-responsive">
                             <table id="data-datatables" class="display" style="min-width: 845px">
                                 <thead>
@@ -75,11 +80,75 @@
     </div>
 </div>
 
+<div id="content-uploadModal" class="modal fade content-uploadModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="content-uploadModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="contentBodyUploadModal">
+            </div>
+        </div>
+    </div>
+</div>
+
 <?= $this->endSection(); ?>
 
 <?= $this->section('scriptBottom'); ?>
 <script src="<?= base_url() ?>/assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script>
+    $(document).on('click', '.btnaddpd', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: "./add",
+            type: 'POST',
+            data: {
+                id: 'add',
+            },
+            dataType: "json",
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Sedang Loading . . .',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
+            complete: function() {},
+            success: function(response) {
+                if (response.status == 200) {
+                    Swal.close();
+                    $('#content-uploadModalLabel').html('TAMBAH DATA SEKOLAH');
+                    $('.contentBodyUploadModal').html(response.data);
+                    $('.content-uploadModal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                    });
+                    $('.content-uploadModal').modal('show');
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        "gagal mengambil data",
+                        'warning'
+                    );
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                Swal.fire(
+                    'Failed!',
+                    "gagal mengambil data (" + xhr.status.toString + ")",
+                    'warning'
+                );
+            }
+
+        });
+    });
+
     $(document).ready(function() {
         initSelect2('_filter_kec', $('.content-body'));
         initSelect2('_filter_jenjang', $('.content-body'));
