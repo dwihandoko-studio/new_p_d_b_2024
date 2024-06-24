@@ -1029,7 +1029,8 @@ class Pengaduan extends BaseController
                 } catch (\Throwable $th) {
                     $dbError = $this->_db->error();
                     if (strpos($dbError['message'], 'Duplicate entry') !== false || strpos($dbError['message'], 'Key \'PRIMARY\'') !== false) {
-                        $dataInsertPengajuan['id'] = $ticketKeyF . $numberKey + 1;
+                        $keyMore = $numberKey + 1;
+                        $dataInsertPengajuan['id'] = $ticketKeyF . $keyMore;
                         try {
                             $this->_db->table('dapo_peserta_pengajuan')->insert($dataInsertPengajuan);
                             if ($this->_db->affectedRows() > 0) {
@@ -1057,7 +1058,8 @@ class Pengaduan extends BaseController
                         } catch (\Throwable $th) {
                             $dbError = $this->_db->error();
                             if (strpos($dbError['message'], 'Duplicate entry') !== false || strpos($dbError['message'], 'Key \'PRIMARY\'') !== false) {
-                                $dataInsertPengajuan['id'] = $ticketKeyF . $numberKey + 2;
+                                $keyMore1 = $numberKey + 2;
+                                $dataInsertPengajuan['id'] = $ticketKeyF . $keyMore1;
                                 try {
                                     $this->_db->table('dapo_peserta_pengajuan')->insert($dataInsertPengajuan);
                                     if ($this->_db->affectedRows() > 0) {
