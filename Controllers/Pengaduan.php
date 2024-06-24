@@ -1889,8 +1889,8 @@ class Pengaduan extends BaseController
                     </table>';
         $html2 = '<p><center>No tiket pengaduan ini digunakan untuk<br />melacak status pengaduan melalui laman: <br /><b>https://ppdb.lampungtengahkab.go.id/pengaduan</b></center><br/>Email / No WA digunakan untuk mengirim informasikan perkembangan tiket.<br/>Apabila email dan no wa tidak sesuai, silah untuk mengupdate tiket pada menu lacak tiket.</p>';
 
-        $html = str_replace('{{ jenis_pengadua }}', $jenis_pengaduan, $html);
-        $html = str_replace('{{ nama_pengadu }}', $tiket->nama_pengadu, $html);
+        $html = str_replace('{{ jenis_pengadua }}', strtoupper($jenis_pengaduan), $html);
+        $html = str_replace('{{ nama_pengadu }}', strtoupper($tiket->nama_pengadu), $html);
         $html = str_replace('{{ email_pengadu }}', $tiket->email, $html);
         $html = str_replace('{{ nohp_pengadu }}', $tiket->nohp, $html);
 
