@@ -89,6 +89,9 @@
                 success: function(response) {
                     if (response.status == 200) {
                         Swal.close();
+                        $('.content-addModalBody').html("");
+                        $('.content-addModal').modal('hide');
+
                         $('#content-dataPdModalLabel').html('DATA PESERTA');
                         $('.content-dataPdModalBody').html(response.data);
                         $('.content-dataPdModal').modal({
@@ -96,8 +99,6 @@
                             keyboard: false,
                         });
                         $('.content-dataPdModal').modal('show');
-                        $('.content-addModalBody').html("");
-                        $('.content-addModal').modal('hide');
                     } else {
                         Swal.fire(
                             'Failed!',
