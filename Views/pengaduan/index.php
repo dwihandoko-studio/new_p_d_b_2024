@@ -50,7 +50,7 @@
 <div id="content-dataPdModal" class="modal fade content-dataPdModal">
     <!-- <div id="content-dataPdModal" class="modal fade content-dataPdModal" tabindex="-2" role="dialog" aria-hidden="true"> -->
     <div class="modal-dialog modal-lg">
-        <div class="modal-content ">
+        <div class="modal-content " style="overflow: auto;">
             <div class="modal-header">
                 <h5 class="modal-title" id="content-dataPdModalLabel">Modal title</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal">
