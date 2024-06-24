@@ -836,7 +836,7 @@ class Pendaftar extends BaseController
                 $dataPerubahan = $this->_db->table('_tb_pendaftar_temp')->where('id', $oldData->id)->get()->getRowArray();
 
                 $getJarak = $this->_db->table('dapo_sekolah a')
-                    ->select("a.nama, a.npsn, a.lintang, a.bujur, ROUND(getDistanceKm(a.lintang,a.bujur,'{$latitu[0]}','{$latitu[1]}'), 2) AS distance_in_km")
+                    ->select("a.nama, a.npsn, a.lintang, a.bujur, ROUND(getDistanceKm(a.lintang,a.bujur,'{$lintang}','{$bujur}'), 2) AS distance_in_km")
                     ->where("a.sekolah_id = '{$oldData->tujuan_sekolah_id_1}'")
                     ->get()->getRowObject();
                 if (!$getJarak) {
