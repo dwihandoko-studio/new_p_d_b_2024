@@ -56,51 +56,6 @@
         }
     }
 
-    function changedStatusPeserta(event) {
-        if (event.value === "" || event.value === undefined) {} else {
-            $.ajax({
-                url: "./form_add",
-                type: 'POST',
-                data: {
-                    id: event.value,
-                },
-                dataType: "json",
-                beforeSend: function() {
-                    Swal.fire({
-                        title: 'Sedang Loading . . .',
-                        allowEscapeKey: false,
-                        allowOutsideClick: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-                },
-                complete: function() {
-
-                },
-                success: function(response) {
-                    if (response.status == 200) {
-                        $('.content_pengaduan_baru').html(response.data);
-                    } else {
-                        Swal.fire(
-                            'Failed!',
-                            response.message,
-                            'warning'
-                        );
-                    }
-                },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    Swal.fire(
-                        'Failed!',
-                        "gagal mengambil data (" + xhr.status.toString + ")",
-                        'warning'
-                    );
-                }
-
-            });
-        }
-    }
-
     function validateForm(formElement) {
         const nama = document.getElementsByName('_nama')[0];
         const email = document.getElementsByName('_email')[0];
