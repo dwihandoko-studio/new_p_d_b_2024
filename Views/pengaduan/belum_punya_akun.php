@@ -61,16 +61,16 @@
 
     function actionCekDataPd(event) {
         const jenisPd = document.getElementsByName('_jenis_pd')[0].value;
-        if (jenis === "sudah") {
-            const nisn = document.getElementsByName('_nisn')[0].value;
-            const npsn = document.getElementsByName('_npsn')[0].value;
+        if (jenisPd === "sudah") {
+            const nisnPd = document.getElementsByName('_nisn')[0].value;
+            const npsnPd = document.getElementsByName('_npsn')[0].value;
             $.ajax({
                 url: "./cekDataPd",
                 type: 'POST',
                 data: {
-                    jenis: jenis,
-                    nisn: nisn,
-                    npsn: npsn,
+                    jenis: jenisPd,
+                    nisn: nisnPd,
+                    npsn: npsnPd,
                 },
                 dataType: 'JSON',
                 beforeSend: function() {
