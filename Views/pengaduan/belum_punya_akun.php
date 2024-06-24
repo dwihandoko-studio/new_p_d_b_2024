@@ -21,6 +21,12 @@
             <input type="text" class="form-control" id="_npsn" name="_npsn" placeholder="NPSN..." />
         </div>
     </div>
+    <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label">Tanggal Lahir</label>
+        <div class="col-sm-9">
+            <input type="date" class="form-control" id="_tgl_lahir" name="_tgl_lahir" />
+        </div>
+    </div>
 </div>
 <div class="col-12 content-belum-sekolah" id="content-belum-sekolah" style="display: none;">
     <div class="mb-3 row">
@@ -64,6 +70,7 @@
         if (jenisPd === "sudah") {
             const nisnPd = document.getElementsByName('_nisn')[0].value;
             const npsnPd = document.getElementsByName('_npsn')[0].value;
+            const tglLahirPd = document.getElementsByName('_tgl_lahir')[0].value;
             $.ajax({
                 url: "./cekDataPd",
                 type: 'POST',
@@ -72,6 +79,7 @@
                     jenis_pengaduan: '<?= $jenis ?>',
                     nisn: nisnPd,
                     npsn: npsnPd,
+                    tgl_lahir: tglLahirPd,
                 },
                 dataType: 'JSON',
                 beforeSend: function() {
@@ -100,11 +108,312 @@
                         });
                         $('.content-dataPdModal').modal('show');
                     } else {
-                        Swal.fire(
-                            'Failed!',
-                            response.message,
-                            'warning'
-                        );
+                        if (response.status == 201) {
+                            Swal.fire(
+                                'BERHASIL!',
+                                response.message,
+                                'success'
+                            ).then((valRes) => {
+                                $.ajax({
+                                    url: "./downloadAkun",
+                                    type: 'POST',
+                                    data: {
+                                        id: response.peserta_didik_id,
+                                        nama: response.nama,
+                                    },
+                                    dataType: 'JSON',
+                                    beforeSend: function() {
+                                        Swal.fire({
+                                            title: 'Mendownload Akun...',
+                                            text: 'Please wait while we process your action.',
+                                            allowOutsideClick: false,
+                                            allowEscapeKey: false,
+                                            didOpen: () => {
+                                                Swal.showLoading();
+                                            }
+                                        });
+                                    },
+                                    complete: function() {},
+                                    success: function(resul2) {
+
+                                        if (resul2.status !== 200) {
+                                            if (resul2.status !== 201) {
+                                                if (resul2.status === 401) {
+                                                    Swal.fire(
+                                                        'Failed!',
+                                                        resul2.message,
+                                                        'warning'
+                                                    ).then((valRes) => {
+                                                        reloadPage();
+                                                    });
+                                                } else {
+                                                    Swal.fire(
+                                                        'GAGAL!',
+                                                        resul2.message,
+                                                        'warning'
+                                                    );
+                                                }
+                                            } else {
+                                                Swal.fire(
+                                                    'Peringatan!',
+                                                    resul2.message,
+                                                    'success'
+                                                ).then((valRes) => {
+                                                    // reloadPage();
+                                                    const decodedBytes = atob(resul2.data);
+                                                    const arrayBuffer = new ArrayBuffer(decodedBytes.length);
+                                                    const intArray = new Uint8Array(arrayBuffer);
+                                                    for (let i = 0; i < decodedBytes.length; i++) {
+                                                        intArray[i] = decodedBytes.charCodeAt(i);
+                                                    }
+
+                                                    const blob = new Blob([intArray], {
+                                                        type: 'application/pdf'
+                                                    });
+                                                    const link = document.createElement('a');
+                                                    link.href = URL.createObjectURL(blob);
+                                                    link.download = resul2.filename; // Set desired filename
+                                                    link.click();
+
+                                                    // Revoke the object URL after download (optional)
+                                                    URL.revokeObjectURL(link.href);
+
+                                                    reloadPage('<?= base_url('pengaduan') ?>');
+
+                                                })
+                                            }
+                                        } else {
+                                            Swal.fire(
+                                                'BERHASIL!',
+                                                resul2.message,
+                                                'success'
+                                            ).then((valRes) => {
+                                                const decodedBytes = atob(resul2.data);
+                                                const arrayBuffer = new ArrayBuffer(decodedBytes.length);
+                                                const intArray = new Uint8Array(arrayBuffer);
+                                                for (let i = 0; i < decodedBytes.length; i++) {
+                                                    intArray[i] = decodedBytes.charCodeAt(i);
+                                                }
+
+                                                const blob = new Blob([intArray], {
+                                                    type: 'application/pdf'
+                                                });
+                                                const link = document.createElement('a');
+                                                link.href = URL.createObjectURL(blob);
+                                                link.download = resul2.filename; // Set desired filename
+                                                link.click();
+                                                URL.revokeObjectURL(link.href);
+
+                                                reloadPage('<?= base_url('pengaduan') ?>');
+                                            })
+                                        }
+                                    },
+                                    error: function() {
+                                        Swal.fire(
+                                            'PERINGATAN!',
+                                            "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                                            'warning'
+                                        );
+                                    }
+                                });
+                            })
+                        } else {
+                            if (response.status == 202) {
+                                Swal.fire({
+                                    title: "<strong>SUCCESS</strong>",
+                                    icon: "info",
+                                    html: '<center><b>' + response.message + '</center>',
+                                    showCloseButton: false,
+                                    showCancelButton: true,
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false,
+                                    focusConfirm: false,
+                                    confirmButtonText: `
+    <i class="las la-retweet"></i> Ajukan Generate Akun
+  `,
+                                    confirmButtonAriaLabel: "Akun, Generate"
+                                }).then((confm) => {
+                                    if (confm.value) {
+                                        $.ajax({
+                                            url: "./generateAkun",
+                                            type: 'POST',
+                                            data: {
+                                                id: response.peserta_didik_id,
+                                                nama: response.nama,
+                                            },
+                                            dataType: 'JSON',
+                                            beforeSend: function() {
+                                                Swal.fire({
+                                                    title: 'Sedang loading...',
+                                                    text: 'Please wait while we process your action.',
+                                                    allowOutsideClick: false,
+                                                    allowEscapeKey: false,
+                                                    didOpen: () => {
+                                                        Swal.showLoading();
+                                                    }
+                                                });
+                                            },
+                                            complete: function() {},
+                                            success: function(resulsuc) {
+                                                if (resulsuc.status !== 200) {
+                                                    if (resulsuc.status !== 201) {
+                                                        if (resulsuc.status === 401) {
+                                                            Swal.fire(
+                                                                'Failed!',
+                                                                resulsuc.message,
+                                                                'warning'
+                                                            ).then((valRes) => {
+                                                                reloadPage();
+                                                            });
+                                                        } else {
+                                                            Swal.fire(
+                                                                'GAGAL!',
+                                                                resulsuc.message,
+                                                                'warning'
+                                                            );
+                                                        }
+                                                    } else {
+                                                        $.ajax({
+                                                            url: "./downloadAkun",
+                                                            type: 'POST',
+                                                            data: {
+                                                                id: resulsuc.peserta_didik_id,
+                                                                nama: resulsuc.nama,
+                                                            },
+                                                            dataType: 'JSON',
+                                                            beforeSend: function() {
+                                                                Swal.fire({
+                                                                    title: 'Mendownload Akun...',
+                                                                    text: 'Please wait while we process your action.',
+                                                                    allowOutsideClick: false,
+                                                                    allowEscapeKey: false,
+                                                                    didOpen: () => {
+                                                                        Swal.showLoading();
+                                                                    }
+                                                                });
+                                                            },
+                                                            complete: function() {},
+                                                            success: function(resul2) {
+
+                                                                if (resul2.status !== 200) {
+                                                                    if (resul2.status !== 201) {
+                                                                        if (resul2.status === 401) {
+                                                                            Swal.fire(
+                                                                                'Failed!',
+                                                                                resul2.message,
+                                                                                'warning'
+                                                                            ).then((valRes) => {
+                                                                                reloadPage();
+                                                                            });
+                                                                        } else {
+                                                                            Swal.fire(
+                                                                                'GAGAL!',
+                                                                                resul2.message,
+                                                                                'warning'
+                                                                            );
+                                                                        }
+                                                                    } else {
+                                                                        Swal.fire(
+                                                                            'Peringatan!',
+                                                                            resul2.message,
+                                                                            'success'
+                                                                        ).then((valRes) => {
+                                                                            // reloadPage();
+                                                                            const decodedBytes = atob(resul2.data);
+                                                                            const arrayBuffer = new ArrayBuffer(decodedBytes.length);
+                                                                            const intArray = new Uint8Array(arrayBuffer);
+                                                                            for (let i = 0; i < decodedBytes.length; i++) {
+                                                                                intArray[i] = decodedBytes.charCodeAt(i);
+                                                                            }
+
+                                                                            const blob = new Blob([intArray], {
+                                                                                type: 'application/pdf'
+                                                                            });
+                                                                            const link = document.createElement('a');
+                                                                            link.href = URL.createObjectURL(blob);
+                                                                            link.download = resul2.filename; // Set desired filename
+                                                                            link.click();
+
+                                                                            // Revoke the object URL after download (optional)
+                                                                            URL.revokeObjectURL(link.href);
+
+                                                                            reloadPage('<?= base_url('pengaduan') ?>');
+
+                                                                        })
+                                                                    }
+                                                                } else {
+                                                                    Swal.fire(
+                                                                        'BERHASIL!',
+                                                                        resul2.message,
+                                                                        'success'
+                                                                    ).then((valRes) => {
+                                                                        const decodedBytes = atob(resul2.data);
+                                                                        const arrayBuffer = new ArrayBuffer(decodedBytes.length);
+                                                                        const intArray = new Uint8Array(arrayBuffer);
+                                                                        for (let i = 0; i < decodedBytes.length; i++) {
+                                                                            intArray[i] = decodedBytes.charCodeAt(i);
+                                                                        }
+
+                                                                        const blob = new Blob([intArray], {
+                                                                            type: 'application/pdf'
+                                                                        });
+                                                                        const link = document.createElement('a');
+                                                                        link.href = URL.createObjectURL(blob);
+                                                                        link.download = resul2.filename; // Set desired filename
+                                                                        link.click();
+                                                                        URL.revokeObjectURL(link.href);
+
+                                                                        reloadPage('<?= base_url('pengaduan') ?>');
+                                                                    })
+                                                                }
+                                                            },
+                                                            error: function() {
+                                                                Swal.fire(
+                                                                    'PERINGATAN!',
+                                                                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                                                                    'warning'
+                                                                );
+                                                            }
+                                                        });
+                                                    }
+                                                } else {
+                                                    Swal.fire(
+                                                        'BERHASIL!',
+                                                        resulsuc.message,
+                                                        'success'
+                                                    ).then((valRes) => {
+                                                        // reloadPage();
+                                                        const decodedBytes = atob(resulsuc.data);
+                                                        const arrayBuffer = new ArrayBuffer(decodedBytes.length);
+                                                        const intArray = new Uint8Array(arrayBuffer);
+                                                        for (let i = 0; i < decodedBytes.length; i++) {
+                                                            intArray[i] = decodedBytes.charCodeAt(i);
+                                                        }
+
+                                                        const blob = new Blob([intArray], {
+                                                            type: 'application/pdf'
+                                                        });
+                                                        const link = document.createElement('a');
+                                                        link.href = URL.createObjectURL(blob);
+                                                        link.download = resulsuc.filename;
+                                                        link.click();
+                                                        URL.revokeObjectURL(resulsuc.href);
+
+                                                        reloadPage();
+                                                    })
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Failed!',
+                                    response.message,
+                                    'warning'
+                                );
+                            }
+                        }
                     }
                 },
                 error: function() {

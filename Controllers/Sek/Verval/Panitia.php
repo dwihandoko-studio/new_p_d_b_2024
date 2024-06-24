@@ -824,12 +824,19 @@ class Panitia extends BaseController
                 $id = htmlspecialchars($this->request->getVar('id'), true);
                 $nama = htmlspecialchars($this->request->getVar('nama'), true);
 
-                $oldData = $this->_db->table('panitia_ppdb')->where('id', $id)->get()->getRowObject();
+                $oldData = $this->_db->table('_users_tb')->where('id', $id)->get()->getRowObject();
 
                 if (!$oldData) {
                     $response = new \stdClass;
                     $response->status = 400;
                     $response->message = "Data tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                if ((int)$oldData->level == 4) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Akun Admin Sekolah tidak bisa di disabled. Silahkan hubungi admin ppdb dinas";
                     return json_encode($response);
                 }
 
@@ -904,12 +911,19 @@ class Panitia extends BaseController
                 $id = htmlspecialchars($this->request->getVar('id'), true);
                 $nama = htmlspecialchars($this->request->getVar('nama'), true);
 
-                $oldData = $this->_db->table('panitia_ppdb')->where('id', $id)->get()->getRowObject();
+                $oldData = $this->_db->table('_users_tb')->where('id', $id)->get()->getRowObject();
 
                 if (!$oldData) {
                     $response = new \stdClass;
                     $response->status = 400;
                     $response->message = "Data tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                if ((int)$oldData->level == 4) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Akun Admin Sekolah tidak bisa di diaktifkan. Silahkan hubungi admin ppdb dinas";
                     return json_encode($response);
                 }
 
