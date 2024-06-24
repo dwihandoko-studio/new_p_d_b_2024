@@ -1,4 +1,6 @@
-<div id="DZ_W_TimeLine" class="widget-timeline dlab-scroll height370">
+<h3>Hasil Lacak Tiket Dengan Nomor: <?= $data->no_tiket ?></h3>
+<p>Berikut, informasi detail status tiket anda.</p>
+<div id="DZ_W_TimeLine" class="widget-timeline dlab-scroll height370" style="margin-top: 20px;">
     <ul class="timeline">
         <li>
             <div class="timeline-badge primary"></div>
