@@ -229,9 +229,7 @@
                                     allowOutsideClick: false,
                                     allowEscapeKey: false,
                                     focusConfirm: false,
-                                    confirmButtonText: `
-    <i class="las la-retweet"></i> Ajukan Generate Akun
-  `,
+                                    confirmButtonText: `<i class="las la-retweet"></i> Ajukan Generate Akun`,
                                     confirmButtonAriaLabel: "Akun, Generate"
                                 }).then((confm) => {
                                     if (confm.value) {
@@ -425,9 +423,62 @@
                     );
                 }
             });
+        } else if (jenisPd === "belum") {
+            const nikBl = document.getElementsByName('_nik')[0].value;
+            const kkBl = document.getElementsByName('_kk')[0].value;
+            $.ajax({
+                url: "./cekDataBs",
+                type: 'POST',
+                data: {
+                    jenis: jenisPd,
+                    jenis_pengaduan: '<?= $jenis ?>',
+                    nama_pengadu: '<?= $nama_pengadu ?>',
+                    nik: nikBl,
+                    kk: kkBl,
+                },
+                dataType: 'JSON',
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Sedang Loading...',
+                        text: 'Please wait while we process your action.',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                },
+                complete: function() {},
+                success: function(response) {
+                    if (response.status == 200) {
+                        Swal.close();
+                        $('.content-addModalBody').html("");
+                        $('.content-addModal').modal('hide');
+
+                        $('#content-dataPdModalLabel').html('DATA PESERTA');
+                        $('.content-dataPdModalBody').html(response.data);
+                        $('.content-dataPdModal').modal({
+                            backdrop: 'static',
+                            keyboard: false,
+                        });
+                        $('.content-dataPdModal').modal('show');
+                    } else {
+                        Swal.fire(
+                            'Failed!',
+                            response.message,
+                            'warning'
+                        );
+                    }
+                },
+                error: function() {
+                    Swal.fire(
+                        'PERINGATAN!',
+                        "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                        'warning'
+                    );
+                }
+            });
         }
-        // const nik = document.getElementsByName('_nik')[0].value;
-        // const kk = document.getElementsByName('_kk')[0].value;
 
     }
 

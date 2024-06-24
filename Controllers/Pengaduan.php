@@ -403,6 +403,90 @@ class Pengaduan extends BaseController
         }
     }
 
+    public function cekDataBs()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'jenis' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+                'jenis_pengaduan' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+                'nama_pengadu' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama pengadu tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('jenis')
+                    . $this->validator->getError('jenis_pengaduan')
+                    . $this->validator->getError('nama_pengadu');
+                return json_encode($response);
+            } else {
+                $jenis = htmlspecialchars($this->request->getVar('jenis'), true);
+                $jenis_pengaduan = htmlspecialchars($this->request->getVar('jenis_pengaduan'), true);
+                $nama_pengadu = htmlspecialchars($this->request->getVar('nama_pengadu'), true);
+
+                if ($jenis === "belum") {
+                    $nik = htmlspecialchars($this->request->getVar('_nik'), true);
+                    $kk = htmlspecialchars($this->request->getVar('_kk'), true);
+
+                    $anyUser = $this->_db->table('_users_tb')->where('username', $nik)->get()->getRowObject();
+                    if ($anyUser) {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "NIK sudah terdaftar. Silahkan login dengan menggunakan NIK.";
+                        return json_encode($response);
+                    }
+
+                    $x['jenis'] = $jenis;
+                    $x['jenis_pengaduan'] = $jenis_pengaduan;
+                    $x['nama_pengadu'] = $nama_pengadu;
+                    $x['nik'] = $nik;
+                    $x['kk'] = $kk;
+                    $x['npsn'] = '10000001';
+                    $x['sekolah_id'] = '4a1512a8-b6ac-11ec-985c-0242ac120002';
+                    $x['props'] = $this->_db->table('ref_provinsi')
+                        ->get()->getResult();
+                    $x['kabs'] = $this->_db->table('ref_kabupaten')
+                        ->where("left(id,2) = '12'")->get()->getResult();
+                    $x['kecs'] = $this->_db->table('ref_kecamatan')
+                        ->where("left(id_kabupaten,4) = '1202'")->get()->getResult();
+                    $x['kels'] = $this->_db->table('ref_kelurahan')
+                        ->where("left(id_kecamatan,6) = '120202'")->get()->getResult();
+                    $x['dusuns'] = $this->_db->table('ref_dusun')->orderBy('urut', 'ASC')
+                        ->get()->getResult();
+                    $x['sek'] = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('npsn', '10000001')->get()->getRowObject();
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->message = "Berhasil mengambil data";
+                    $response->data = view('pengaduan/pd/add_pd_belum_sekolah', $x);
+                    return json_encode($response);
+                } else {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Jenis pd tidak diketahui.";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
     public function refkab()
     {
         if ($this->request->isAJAX()) {
