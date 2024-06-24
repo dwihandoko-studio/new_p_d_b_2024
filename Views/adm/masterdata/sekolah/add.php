@@ -329,6 +329,20 @@
         $('.' + color).html('');
     }
 
+    $('#_prov').select2({
+        dropdownParent: ".contentBodyUploadModal",
+    });
+
+    $('#_kab').select2({
+        dropdownParent: ".contentBodyUploadModal",
+    });
+    $('#_kec').select2({
+        dropdownParent: ".contentBodyUploadModal",
+    });
+    $('#_kel').select2({
+        dropdownParent: ".contentBodyUploadModal",
+    });
+
     function validateLat(lat) {
         // Define the valid range for latitude and longitude in Indonesia
         const minLat = -11.0; // Southernmost point in Indonesia
