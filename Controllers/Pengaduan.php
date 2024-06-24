@@ -128,8 +128,8 @@ class Pengaduan extends BaseController
                 $jenis = htmlspecialchars($this->request->getVar('jenis'), true);
                 if ($jenis === "sudah") {
 
-                    $nisn = htmlspecialchars($this->request->getVar('_nisn'), true);
-                    $npsn = htmlspecialchars($this->request->getVar('_npsn'), true);
+                    $nisn = htmlspecialchars($this->request->getVar('nisn'), true);
+                    $npsn = htmlspecialchars($this->request->getVar('npsn'), true);
 
                     $cekDataRefPdLocal = $this->_db->table('dapo_peserta a')
                         ->select("a.*, b.nama as nama_sekolah, b.npsn as npsn_sekolah")
