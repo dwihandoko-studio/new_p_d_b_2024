@@ -99,7 +99,7 @@
 <?= $this->section('scriptBottom'); ?>
 <script src="<?= base_url() ?>/assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script>
-    $(document).on('click', '.btnaddpd', function(e) {
+    $(document).on('click', '.btnadd', function(e) {
         e.preventDefault();
 
         $.ajax({
