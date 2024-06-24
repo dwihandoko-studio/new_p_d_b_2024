@@ -512,20 +512,20 @@
     }
 
     $('#_prov_pd_sekolah').select2({
-        dropdownParent: ".content-dataPdModal",
+        dropdownParent: ".content-dataPdModalBody",
     });
 
     $('#_kab_pd_sekolah').select2({
-        dropdownParent: ".content-dataPdModal",
+        dropdownParent: ".content-dataPdModalBody",
     });
     $('#_kec_pd_sekolah').select2({
-        dropdownParent: ".content-dataPdModal",
+        dropdownParent: ".content-dataPdModalBody",
     });
     $('#_kel_pd_sekolah').select2({
-        dropdownParent: ".content-dataPdModal",
+        dropdownParent: ".content-dataPdModalBody",
     });
     $('#_dusun_pd_sekolah').select2({
-        dropdownParent: ".content-dataPdModal",
+        dropdownParent: ".content-dataPdModalBody",
     });
 
     function validateForm(formElement) {
