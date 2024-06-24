@@ -49,7 +49,7 @@
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Tingkat Pendidikan Pd</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="_tingkat_pendidikan_pd_pd_sekolah" name="_tingkat_pendidikan_pd_pd_sekolah" value="<?= $data->tingkat_pendidikan ?>" readonly />
+                    <input type="text" class="form-control" id="_tingkat_pendidikan_pd_pd_sekolah" name="_tingkat_pendidikan_pd_pd_sekolah" value="<?= $data->tingkat_pendidikan_id ?>" readonly />
                 </div>
             </div>
             <div class="mb-3 row">
