@@ -1,8 +1,8 @@
 <form id="formAddPdSekolahData" class="formAddPdSekolahData" action="./addSave" method="post">
-    <input type="hidden" id="_data_pd_pd_sekolah" name="_data_pd_sekolah" value="<?= $encrypt_data ?>" />
-    <input type="hidden" id="_peserta_didik_id_pd_sekolah" name="_peserta_didik_id_pd_sekolah" value="<?= $data->peserta_didik_id ?>" />
-    <input type="hidden" id="_jenis_pengaduan_pd_sekolah" name="_jenis_pengaduan_pd_sekolah" value="<?= $jenis ?>" />
     <div class="modal-body">
+        <input type="hidden" id="_data_pd_pd_sekolah" name="_data_pd_sekolah" value="<?= $encrypt_data ?>" />
+        <input type="hidden" id="_peserta_didik_id_pd_sekolah" name="_peserta_didik_id_pd_sekolah" value="<?= $data->peserta_didik_id ?>" />
+        <input type="hidden" id="_jenis_pengaduan_pd_sekolah" name="_jenis_pengaduan_pd_sekolah" value="<?= $jenis ?>" />
         <div class="row">
             <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">NISN</label>
