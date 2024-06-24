@@ -184,7 +184,7 @@
                 <div class="col-sm-9">
                     <div class="input-group   input-primary">
                         <span class="input-group-text">No WA</span>
-                        <input type="phone" class="form-control" id="_nohp_pd_sekolah" name="_nohp_pd_sekolah" value="" required />
+                        <input type="phone" class="form-control" id="_nohp_pd_sekolah" name="_nohp_pd_sekolah" minlength="9" value="" required />
                     </div>
                 </div>
             </div>

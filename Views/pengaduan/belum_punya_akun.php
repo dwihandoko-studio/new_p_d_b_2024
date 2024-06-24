@@ -12,13 +12,13 @@
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">NISN</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" id="_nisn" name="_nisn" value="" placeholder="NISN..." />
+            <input type="text" class="form-control" id="_nisn" name="_nisn" minlength="10" maxlength="10" value="" placeholder="NISN..." />
         </div>
     </div>
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">NPSN</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" id="_npsn" name="_npsn" placeholder="NPSN..." />
+            <input type="text" class="form-control" id="_npsn" name="_npsn" minlength="8" maxlength="8" placeholder="NPSN..." />
         </div>
     </div>
     <div class="mb-3 row">
@@ -32,13 +32,13 @@
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">NIK</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" id="_nik" name="_nik" value="" placeholder="NIK..." />
+            <input type="text" class="form-control" id="_nik" name="_nik" minlength="16" maxlength="16" value="" placeholder="NIK..." />
         </div>
     </div>
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">No. Kartu Keluarga</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" id="_kk" name="_kk" placeholder="Nomor Kartu Keluarga..." />
+            <input type="text" class="form-control" id="_kk" name="_kk" minlength="16" maxlength="16" placeholder="Nomor Kartu Keluarga..." />
         </div>
     </div>
 </div>

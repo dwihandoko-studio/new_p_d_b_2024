@@ -182,7 +182,7 @@
                 <div class="col-sm-9">
                     <div class="input-group   input-primary">
                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">No WA</span>
-                        <input type="phone" class="form-control" id="_nohp_bs" name="_nohp_bs" value="" required />
+                        <input type="phone" class="form-control" id="_nohp_bs" name="_nohp_bs" minlength="9" value="" required />
                     </div>
                 </div>
             </div>
