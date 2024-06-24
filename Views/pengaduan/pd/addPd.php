@@ -1,9 +1,9 @@
-<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
 <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.css">
 <script src="https://unpkg.com/esri-leaflet@2.2.4/dist/esri-leaflet.js"></script>
 <script src="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js"></script>
 <script>
     $(document).ready(function() {
         $('#latlng').val('-5.114664,105.307347');
@@ -265,6 +265,7 @@
                                 <div class="col-sm-9">
                                     <div class="input-group   input-primary">
                                         <span class="input-group-text">Lat</span>
+                                        <input type="hidden" id="_lintang_pd_sekolah_from_current" name="_lintang_pd_sekolah_from_current" />
                                         <input type="text" class="form-control" id="_lintang_pd_sekolah" name="_lintang_pd_sekolah" value="<?= $data->lintang ?>" required />
                                     </div>
                                 </div>
@@ -274,6 +275,7 @@
                                 <div class="col-sm-9">
                                     <div class="input-group   input-primary">
                                         <span class="input-group-text">Long</span>
+                                        <input type="hidden" id="_bujur_pd_sekolah_from_current" name="_bujur_pd_sekolah_from_current" />
                                         <input type="text" class="form-control" id="_bujur_pd_sekolah" name="_bujur_pd_sekolah" value="<?= $data->bujur ?>" required />
                                     </div>
                                 </div>
@@ -311,6 +313,42 @@
     </div>
 </form>
 <script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            var options = {
+                timeout: 60000
+            };
+            navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
+        } else {
+            alert("Sorry, browser does not support geolocation!");
+        }
+    }
+
+    function showLocation(position) {
+        var latitude_Cur = position.coords.latitude.toFixed(6);
+        var longitude_Cur = position.coords.longitude.toFixed(6);
+        $('#_lintang_pd_sekolah_from_current').val(latitude_Cur);
+        $('#_bujur_pd_sekolah_from_current').val(longitude_Cur);
+        // $('input[name="regist[latitude]"]').val(latitude);
+        // $('input[name="regist[longitude]"]').val(longitude);
+    }
+
+    function errorHandler(err) {
+        if (err.code == 1) {
+            toastr.error("Akses Lokasi / GPS di Block!", 'Failed !', {
+                closeButton: true,
+                progressBar: true,
+                timeOut: 15000
+            });
+        } else if (err.code == 2) {
+            toastr.error("Position is unavailable!", 'Failed !', {
+                closeButton: true,
+                progressBar: true,
+                timeOut: 15000
+            });
+        }
+    }
+
     function ambilKoordinat(event) {
         var lat = document.getElementsByName('_lintang_pd_sekolah')[0].value;
         var long = document.getElementsByName('_bujur_pd_sekolah')[0].value;
@@ -372,6 +410,7 @@
                         keyboard: false,
                     });
                     $('.content-mapModal').modal('show');
+                    getLocation();
 
                     var map = L.map("map_inits").setView([lat, long], 14);
                     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -383,17 +422,9 @@
                     var marker;
 
                     // Tambahan Baru
-                    var searchControl = L.esri.Geocoding.geosearch().addTo(mymap);
-                    var results = L.layerGroup().addTo(mymap);
-                    searchControl.on("results", function(data) {
-                        $('input[name="regist[latitude]"]').val(data.latlng.lat.toFixed(6));
-                        $('input[name="regist[longitude]"]').val(data.latlng.lng.toFixed(6));
-                        // $("#latlng").val(data.latlng.lat.toFixed(6) + ',' + data.latlng.lng.toFixed(6));
-                        changeCoord();
-                    });
-                    $('.geocoder-control-input').click(function() {
-                        mymap.setZoom('13');
-                    });
+                    var searchControl = L.esri.Geocoding.geosearch().addTo(map);
+                    var results = L.layerGroup().addTo(map);
+
                     // Batas akhir tambahan
 
                     marker = L.marker({
@@ -429,6 +460,30 @@
                     marker.on('drag', onDrag);
                     map.on('click', onClick);
 
+                    searchControl.on("results", function(data) {
+                        map.removeLayer(marker);
+
+                        lati = data.latlng.lat;
+                        longi = data.latlng.lng;
+                        document.getElementById('_lat').value = data.latlng.lat
+                        document.getElementById('_long').value = data.latlng.lng
+
+                        // map.off('click', onClick); //turn off listener for map click
+                        marker = L.marker(data.latlng, {
+                            draggable: true
+                        }).addTo(map);
+                        // document.getElementById('_lat').value = data.latlng.lat.toFixed(6)
+                        // document.getElementById('_long').value = data.latlng.lng.toFixed(6)
+                        // $('input[name="regist[latitude]"]').val(data.latlng.lat.toFixed(6));
+                        // $('input[name="regist[longitude]"]').val(data.latlng.lng.toFixed(6));
+                        // $("#latlng").val(data.latlng.lat.toFixed(6) + ',' + data.latlng.lng.toFixed(6));
+                        // changeCoord();
+                    });
+
+                    $('.geocoder-control-input').click(function() {
+                        map.setZoom('13');
+                    });
+
                     setTimeout(function() {
                         map.invalidateSize();
                         // console.log("maps opened");
@@ -446,6 +501,19 @@
             }
         });
     }
+
+    // function changeCoord() {
+    //     try {
+    //         var e = latLngInput.val();
+    //         var lat = e.split(",")[0];
+    //         var lng = e.split(",")[1];
+    //         var newLatLng = new L.LatLng(lat, lng);
+    //         marker.setLatLng(newLatLng);
+    //         mymap.setView(newLatLng);
+    //     } catch (e) {
+    //         console.log("error");
+    //     }
+    // }
 
     function takedKoordinat() {
         const latitu = document.getElementsByName('_lat')[0].value;
