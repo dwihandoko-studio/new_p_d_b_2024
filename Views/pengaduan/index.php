@@ -188,87 +188,89 @@
         }
         getLocation();
 
-        function getMapShowed() {
-            $('#content-mapModal').modal('show');
-            // $('input[name="mapValue"]').val('OK');
-            var redIcon = new L.Icon({
-                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                shadowSize: [41, 41]
-            });
-            $('#getNowLocation').click(function() {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(showPosition);
-                } else {
-                    // $('#latlng').val('-5.114664,105.307347');
-                }
 
-                function showPosition(position) {
-                    // $('#latlng').val(position.coords.latitude.toFixed(6) + ',' + position.coords.longitude.toFixed(6));
-                    changeCoord();
-                    var latlngValue = $('#_lat_long_sek').val();
-                    $('input[name="_lintang_pd_sekolah"]').val(latlngValue.split(",")[0]);
-                    $('input[name="_bujur_pd_sekolah"]').val(latlngValue.split(",")[1]);
-                }
-            });
-            var latLngInput = $("#_lat_long_sek");
-            var latLngInputVal = latLngInput.val();
-            $('#mapid').html('<div id="showMap" style="height: 50vh; width:100%;"></div>');
-            var mymap = L.map('showMap').setView([latLngInputVal.split(",")[0], latLngInputVal.split(",")[1]], 15);
-            var marker = L.marker([latLngInputVal.split(",")[0], latLngInputVal.split(",")[1]], {
-                draggable: true,
-                icon: redIcon
-            });
-            marker.on('dragend', function(e) {
-                $('input[name="_lintang_pd_sekolah"]').val(e.target._latlng.lat.toFixed(6));
-                $('input[name="_bujur_pd_sekolah"]').val(e.target._latlng.lng.toFixed(6));
-                latLngInput.val(e.target._latlng.lat.toFixed(6) + "," + e.target._latlng.lng.toFixed(6));
-                var lat = e.target._latlng.lat.toFixed(6);
-                var lng = e.target._latlng.lng.toFixed(6);
-                var newLatLng = new L.LatLng(lat, lng);
-                marker.setLatLng(newLatLng);
-            });
-            var searchControl = L.esri.Geocoding.geosearch().addTo(mymap);
-            var results = L.layerGroup().addTo(mymap);
-            searchControl.on("results", function(data) {
-                $('input[name="_lintang_pd_sekolah"]').val(data.latlng.lat.toFixed(6));
-                $('input[name="_bujur_pd_sekolah"]').val(data.latlng.lng.toFixed(6));
-                $("#_lat_long_sek").val(data.latlng.lat.toFixed(6) + ',' + data.latlng.lng.toFixed(6));
-                changeCoord();
-            });
-            $('.geocoder-control-input').click(function() {
-                mymap.setZoom('13');
-            });
-            L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-                maxZoom: 20,
-                subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-            }).addTo(mymap);
+    });
 
-            function changeCoord() {
-                try {
-                    var e = latLngInput.val();
-                    var lat = e.split(",")[0];
-                    var lng = e.split(",")[1];
-                    var newLatLng = new L.LatLng(lat, lng);
-                    marker.setLatLng(newLatLng);
-                    mymap.setView(newLatLng);
-                } catch (e) {
-                    console.log("error");
-                }
+    function getMapShowed() {
+        $('#content-mapModal').modal('show');
+        // $('input[name="mapValue"]').val('OK');
+        var redIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+        $('#getNowLocation').click(function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                // $('#latlng').val('-5.114664,105.307347');
             }
-            marker.addTo(mymap);
-            $('.leaflet-control-attribution.leaflet-control').html('&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Supported By <a href="https://esline.id">Esline.id</a>');
-            $('#_lat_long_sek').change(function() {
+
+            function showPosition(position) {
+                // $('#latlng').val(position.coords.latitude.toFixed(6) + ',' + position.coords.longitude.toFixed(6));
                 changeCoord();
-                var latlngValue = $(this).val();
+                var latlngValue = $('#_lat_long_sek').val();
                 $('input[name="_lintang_pd_sekolah"]').val(latlngValue.split(",")[0]);
                 $('input[name="_bujur_pd_sekolah"]').val(latlngValue.split(",")[1]);
-            });
-        };
-    });
+            }
+        });
+        var latLngInput = $("#_lat_long_sek");
+        var latLngInputVal = latLngInput.val();
+        $('#mapid').html('<div id="showMap" style="height: 50vh; width:100%;"></div>');
+        var mymap = L.map('showMap').setView([latLngInputVal.split(",")[0], latLngInputVal.split(",")[1]], 15);
+        var marker = L.marker([latLngInputVal.split(",")[0], latLngInputVal.split(",")[1]], {
+            draggable: true,
+            icon: redIcon
+        });
+        marker.on('dragend', function(e) {
+            $('input[name="_lintang_pd_sekolah"]').val(e.target._latlng.lat.toFixed(6));
+            $('input[name="_bujur_pd_sekolah"]').val(e.target._latlng.lng.toFixed(6));
+            latLngInput.val(e.target._latlng.lat.toFixed(6) + "," + e.target._latlng.lng.toFixed(6));
+            var lat = e.target._latlng.lat.toFixed(6);
+            var lng = e.target._latlng.lng.toFixed(6);
+            var newLatLng = new L.LatLng(lat, lng);
+            marker.setLatLng(newLatLng);
+        });
+        var searchControl = L.esri.Geocoding.geosearch().addTo(mymap);
+        var results = L.layerGroup().addTo(mymap);
+        searchControl.on("results", function(data) {
+            $('input[name="_lintang_pd_sekolah"]').val(data.latlng.lat.toFixed(6));
+            $('input[name="_bujur_pd_sekolah"]').val(data.latlng.lng.toFixed(6));
+            $("#_lat_long_sek").val(data.latlng.lat.toFixed(6) + ',' + data.latlng.lng.toFixed(6));
+            changeCoord();
+        });
+        $('.geocoder-control-input').click(function() {
+            mymap.setZoom('13');
+        });
+        L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+        }).addTo(mymap);
+
+        function changeCoord() {
+            try {
+                var e = latLngInput.val();
+                var lat = e.split(",")[0];
+                var lng = e.split(",")[1];
+                var newLatLng = new L.LatLng(lat, lng);
+                marker.setLatLng(newLatLng);
+                mymap.setView(newLatLng);
+            } catch (e) {
+                console.log("error");
+            }
+        }
+        marker.addTo(mymap);
+        $('.leaflet-control-attribution.leaflet-control').html('&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Supported By <a href="https://esline.id">Esline.id</a>');
+        $('#_lat_long_sek').change(function() {
+            changeCoord();
+            var latlngValue = $(this).val();
+            $('input[name="_lintang_pd_sekolah"]').val(latlngValue.split(",")[0]);
+            $('input[name="_bujur_pd_sekolah"]').val(latlngValue.split(",")[1]);
+        });
+    };
 </script>
 <?= $this->endSection(); ?>
 
