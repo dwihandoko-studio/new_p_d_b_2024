@@ -171,27 +171,27 @@ class Pengaduan extends BaseController
                         curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
                         curl_setopt($curlHandle, CURLOPT_TIMEOUT, 60);
                         curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 60);
-                        $send_data         = curl_exec($curlHandle);
+                        $send_data_curl         = curl_exec($curlHandle);
 
-                        $result = json_decode($send_data);
+                        $result_curl = json_decode($send_data_curl);
 
 
-                        if (isset($result->error)) {
+                        if (isset($result_curl->error)) {
                             $response = new \stdClass;
                             $response->status = 400;
                             $response->message = "Gagal mengambil data.";
                             return json_encode($response);
                         }
 
-                        if ($result) {
-                            if (isset($result->message)) {
+                        if ($result_curl) {
+                            if (isset($result_curl->message)) {
                                 $response = new \stdClass;
                                 $response->status = 400;
-                                $response->message = $result->message;
+                                $response->message = $result_curl->message;
                                 return json_encode($response);
                             } else {
-                                if (count($result) > 0) {
-                                    $pdNya = $result[0];
+                                if (count($result_curl) > 0) {
+                                    $pdNya = $result_curl[0];
                                     $x['data'] = $pdNya;
                                     $encryptData = encrypt_json_data($pdNya, 'secret key handokowae.my.id');
                                     $x['encrypt_data'] = $encryptData;
