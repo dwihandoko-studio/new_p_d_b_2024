@@ -37,7 +37,7 @@
     </div>
 </div>
 <div class="col-12 mt-5">
-    <button type="button" onclick="actionCekData(this)" class="btn btn-block btn-primary">CEK DATA</button>
+    <button type="button" onclick="actionCekDataPd(this)" class="btn btn-block btn-primary">CEK DATA</button>
 </div>
 <script>
     function changedStatusPeserta(event) {
@@ -59,7 +59,7 @@
         }
     }
 
-    function actionCekData(event) {
+    function actionCekDataPd(event) {
         const jenis = document.getElementsByName('_jenis')[0];
         if (jenis.value === "sudah") {
             const nisn = document.getElementsByName('_nisn')[0].value;
