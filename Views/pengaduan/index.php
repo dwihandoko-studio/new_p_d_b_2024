@@ -237,6 +237,7 @@
         var searchControl = L.esri.Geocoding.geosearch().addTo(mymap);
         var results = L.layerGroup().addTo(mymap);
         searchControl.on("results", function(data) {
+            console.log(data);
             $('input[name="_lintang_pd_sekolah"]').val(data.latlng.lat.toFixed(6));
             $('input[name="_bujur_pd_sekolah"]').val(data.latlng.lng.toFixed(6));
             $("#_lat_long_sek").val(data.latlng.lat.toFixed(6) + ',' + data.latlng.lng.toFixed(6));
