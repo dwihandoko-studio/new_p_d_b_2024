@@ -2624,7 +2624,7 @@ function getNameBentukPendidikan($id)
 		->where('bentuk_pendidikan_id', $id)->limit(1)
 		->get()->getRowObject();
 	if ($limit) {
-		return $limit->bentuk_pendidikan_id;
+		return $limit->bentuk_pendidikan;
 	} else {
 		return "";
 	}
