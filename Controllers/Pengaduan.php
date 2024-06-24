@@ -426,6 +426,18 @@ class Pengaduan extends BaseController
                         'required' => 'Nama pengadu tidak boleh kosong. ',
                     ]
                 ],
+                'nik' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'NIK tidak boleh kosong. ',
+                    ]
+                ],
+                'kk' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'KK tidak boleh kosong. ',
+                    ]
+                ],
             ];
 
             if (!$this->validate($rules)) {
@@ -433,7 +445,9 @@ class Pengaduan extends BaseController
                 $response->status = 400;
                 $response->message = $this->validator->getError('jenis')
                     . $this->validator->getError('jenis_pengaduan')
-                    . $this->validator->getError('nama_pengadu');
+                    . $this->validator->getError('nama_pengadu')
+                    . $this->validator->getError('nik')
+                    . $this->validator->getError('kk');
                 return json_encode($response);
             } else {
                 $jenis = htmlspecialchars($this->request->getVar('jenis'), true);
@@ -441,8 +455,8 @@ class Pengaduan extends BaseController
                 $nama_pengadu = htmlspecialchars($this->request->getVar('nama_pengadu'), true);
 
                 if ($jenis === "belum") {
-                    $nik = htmlspecialchars($this->request->getVar('_nik'), true);
-                    $kk = htmlspecialchars($this->request->getVar('_kk'), true);
+                    $nik = htmlspecialchars($this->request->getVar('nik'), true);
+                    $kk = htmlspecialchars($this->request->getVar('kk'), true);
 
                     $anyUser = $this->_db->table('_users_tb')->where('username', $nik)->get()->getRowObject();
                     if ($anyUser) {
