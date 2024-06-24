@@ -20,16 +20,31 @@
                                         <a href="javascript:buatPengaduan();" class="btn btn-block btn-primary">Buat Pengaduan</a>
                                     </div>
                                     <div class="col-lg-6">
-                                        <a href="javascript:void(0)" class="btn btn-block btn-info">Lacak Tiket Pengaduan</a>
+                                        <a href="javascript:lacakPengaduan();" class="btn btn-block btn-info">Lacak Tiket Pengaduan</a>
                                     </div>
                                 </div>
                             </div>
+                            <div id="content-lacak-pengaduan" class="content-lacak-pengaduan"></div>
                         </div>
                     </div>
                 </div>
             </div>
             <?= $this->include('t-dashboard/bottom'); ?>
 
+        </div>
+    </div>
+</div>
+<div id="content-lacakModal" class="modal fade content-lacakModal">
+    <!-- <div id="content-lacakModal" class="modal fade content-lacakModal" tabindex="-1" role="dialog" aria-hidden="true"> -->
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="content-lacakModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="content-lacakModalBody">
+            </div>
         </div>
     </div>
 </div>
@@ -111,6 +126,54 @@
                         keyboard: false,
                     });
                     $('.content-addModal').modal('show');
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        "gagal mengambil data",
+                        'warning'
+                    );
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                Swal.fire(
+                    'Failed!',
+                    "gagal mengambil data (" + xhr.status.toString + ")",
+                    'warning'
+                );
+            }
+
+        });
+    }
+
+    function lacakPengaduan() {
+        $.ajax({
+            url: "./lacak_tiket",
+            type: 'POST',
+            data: {
+                id: 'add',
+            },
+            dataType: "json",
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Sedang Loading . . .',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
+            complete: function() {},
+            success: function(response) {
+                if (response.status == 200) {
+                    Swal.close();
+                    $('#content-lacakModalLabel').html('LACAK TIKET PENGADUAN');
+                    $('.content-lacakModalBody').html(response.data);
+                    $('.content-lacakModal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                    });
+                    $('.content-lacakModal').modal('show');
                 } else {
                     Swal.fire(
                         'Failed!',

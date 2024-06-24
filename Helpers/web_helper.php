@@ -2756,3 +2756,25 @@ function generateRandomTicketKey()
 
 	return $randomString;
 }
+
+function getStatusTicketPengaduan($status)
+{
+	switch ((int)$status) {
+		case 0:
+			return "Dalam Antrian";
+			break;
+		case 1:
+			return "Sedang Diproses";
+			break;
+		case 2:
+			return "Selesai";
+			break;
+		case 3:
+			return "Ditolak";
+			break;
+
+		default:
+			return "Menunggu Approval";
+			break;
+	}
+}
