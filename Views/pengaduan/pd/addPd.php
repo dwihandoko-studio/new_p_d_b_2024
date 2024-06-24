@@ -344,17 +344,55 @@
 
     function errorHandler(err) {
         if (err.code == 1) {
-            toastr.error("Akses Lokasi / GPS di Block!", 'Failed !', {
-                closeButton: true,
-                progressBar: true,
-                timeOut: 15000
+            toastr.error("Akses Lokasi / GPS di Block!", "Gagal !", {
+                positionClass: "toast-top-right",
+                timeOut: 5e3,
+                closeButton: !0,
+                debug: !1,
+                newestOnTop: !0,
+                progressBar: !0,
+                preventDuplicates: !0,
+                onclick: null,
+                showDuration: "300",
+                hideDuration: "1000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut",
+                tapToDismiss: !1
             });
+
+            // toastr.error("Akses Lokasi / GPS di Block!", 'Failed !', {
+            //     closeButton: true,
+            //     progressBar: true,
+            //     timeOut: 15000
+            // });
         } else if (err.code == 2) {
-            toastr.error("Position is unavailable!", 'Failed !', {
-                closeButton: true,
-                progressBar: true,
-                timeOut: 15000
+            toastr.error("Position is unavailable!", "Gagal !", {
+                positionClass: "toast-top-right",
+                timeOut: 5e3,
+                closeButton: !0,
+                debug: !1,
+                newestOnTop: !0,
+                progressBar: !0,
+                preventDuplicates: !0,
+                onclick: null,
+                showDuration: "300",
+                hideDuration: "1000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut",
+                tapToDismiss: !1
             });
+
+            // toastr.error("Position is unavailable!", 'Failed !', {
+            //     closeButton: true,
+            //     progressBar: true,
+            //     timeOut: 15000
+            // });
         }
     }
 

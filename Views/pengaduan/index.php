@@ -81,6 +81,7 @@
 <script src="<?= base_url() ?>/assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="<?= base_url() ?>/assets/vendor/sweetalert2/sweetalert2.min.js"></script>
 <script src="<?= base_url() ?>/assets/vendor/select2/js/select2.min.js"></script>
+<script src="<?= base_url() ?>/assets/vendor/toastr/js/toastr.min.js"></script>
 <script>
     function buatPengaduan() {
         $.ajax({
