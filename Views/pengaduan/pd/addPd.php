@@ -548,6 +548,7 @@
                         maxZoom: 20,
                         subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
                     }).addTo(map);
+                    $('.leaflet-control-attribution.leaflet-control').html('&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Supported By <a href="https://esline.id">Esline.id</a>');
 
                     setTimeout(function() {
                         map.invalidateSize();
