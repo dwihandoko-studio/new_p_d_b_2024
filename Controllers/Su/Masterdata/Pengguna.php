@@ -44,7 +44,7 @@ class Pengguna extends BaseController
                             <div class="dropdown-menu" style="">
                                 <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->id . '\', \'' . str_replace("'", "", $list->username) . '\');"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
                                 <a class="dropdown-item" href="javascript:actionResetPassword(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->username))  . '\', \'' . $list->email  . '\');"><i class="bx bx-key font-size-16 align-middle"></i> &nbsp;Reset Password</a>
-                                <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . str_replace("'", "", $list->username)  . '\', \'' . $list->email . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
+                                <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . str_replace("'", "", $list->username)  . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
                                 <div class="dropdown-divider"></div>
                             </div>
                         </div>';
@@ -56,7 +56,7 @@ class Pengguna extends BaseController
                             <div class="dropdown-menu" style="">
                                 <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->id . '\', \'' . str_replace("'", "", $list->username) . '\');"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
                                 <a class="dropdown-item" href="javascript:actionResetPassword(\'' . $list->id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->username))  . '\', \'' . $list->email  . '\');"><i class="bx bx-key font-size-16 align-middle"></i> &nbsp;Reset Password</a>
-                                <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . str_replace("'", "", $list->username)  . '\', \'' . $list->username . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
+                                <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\', \'' . str_replace("'", "", $list->username)  . '\');"><i class="bx bx-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
                                 <div class="dropdown-divider"></div>
                             </div>
                         </div>';
@@ -1082,81 +1082,90 @@ class Pengguna extends BaseController
         }
     }
 
-    public function delete()
+    public function hapus()
     {
-        if ($this->request->getMethod() != 'post') {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = "Permintaan tidak diizinkan";
-            return json_encode($response);
-        }
+        if ($this->request->isAJAX()) {
 
-        $rules = [
-            'id' => [
-                'rules' => 'required|trim',
-                'errors' => [
-                    'required' => 'Id tidak boleh kosong. ',
-                ]
-            ],
-        ];
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+                'nama' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama tidak boleh kosong. ',
+                    ]
+                ],
+            ];
 
-        if (!$this->validate($rules)) {
-            $response = new \stdClass;
-            $response->status = 400;
-            $response->message = $this->validator->getError('id');
-            return json_encode($response);
-        } else {
-            $id = htmlspecialchars($this->request->getVar('id'), true);
-
-            $Profilelib = new Profilelib();
-            $user = $Profilelib->user();
-            if ($user->status != 200) {
-                delete_cookie('jwt');
-                session()->destroy();
+            if (!$this->validate($rules)) {
                 $response = new \stdClass;
-                $response->status = 401;
-                $response->message = "Permintaan diizinkan";
+                $response->status = 400;
+                $response->message = $this->validator->getError('id')
+                    . $this->validator->getError('nama');
                 return json_encode($response);
-            }
-            $current = $this->_db->table('_users_tb')
-                ->where('id', $id)->get()->getRowObject();
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->userSekolah();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
 
-            if ($current) {
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+                $nama = htmlspecialchars($this->request->getVar('nama'), true);
+
+                $oldData = $this->_db->table('_users_tb')->where('id', $id)->get()->getRowObject();
+
+                if (!$oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                if ((int)$oldData->level == 4) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Admin sekolah tidak dapat dihapus. Silahkan gunakan menu edit, untuk merubah data.";
+                    return json_encode($response);
+                }
+
                 $this->_db->transBegin();
                 try {
-                    $this->_db->table('_users_tb')->where('id', $id)->delete();
-
+                    $this->_db->table('_users_tb')->where('id', $oldData->id)->delete();
                     if ($this->_db->affectedRows() > 0) {
-                        try {
-                            $dir = FCPATH . "uploads/user";
-                            unlink($dir . '/' . $current->image);
-                        } catch (\Throwable $err) {
-                        }
                         $this->_db->transCommit();
+
                         $response = new \stdClass;
                         $response->status = 200;
+                        $response->url = base_url('portal');
                         $response->message = "Data berhasil dihapus.";
                         return json_encode($response);
                     } else {
                         $this->_db->transRollback();
                         $response = new \stdClass;
                         $response->status = 400;
-                        $response->message = "Data gagal dihapus.";
+                        $response->message = "Gagal mengupdate data.";
                         return json_encode($response);
                     }
                 } catch (\Throwable $th) {
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->message = "Data gagal dihapus.";
+                    $response->message = "Gagal mengupdate data. with error";
                     return json_encode($response);
                 }
-            } else {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Data tidak ditemukan";
-                return json_encode($response);
             }
+        } else {
+            exit('Maaf tidak dapat diproses');
         }
     }
 
