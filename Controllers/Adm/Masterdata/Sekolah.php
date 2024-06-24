@@ -650,35 +650,35 @@ class Sekolah extends BaseController
                     'kode_wilayah' => $kel,
                     'lintang' => $lintang,
                     'bujur' => $bujur,
-                    'create_at' => date('Y-m-d H:i:s')
+                    'create_date' => date('Y-m-d H:i:s')
                 ];
 
                 $this->_db->transBegin();
-                // try {
-                $this->_db->table('dapo_sekolah')->insert($data);
-                if ($this->_db->affectedRows() > 0) {
+                try {
+                    $this->_db->table('dapo_sekolah')->insert($data);
+                    if ($this->_db->affectedRows() > 0) {
 
-                    $this->_db->transCommit();
+                        $this->_db->transCommit();
 
-                    $response = new \stdClass;
-                    $response->status = 200;
-                    $response->url = base_url('portal');
-                    $response->message = "Data berhasil disimpan.";
-                    return json_encode($response);
-                } else {
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->url = base_url('portal');
+                        $response->message = "Data berhasil disimpan.";
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menyimpan data.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->message = "Gagal menyimpan data.";
+                    $response->message = "Gagal menyimpan data. with error";
                     return json_encode($response);
                 }
-                // } catch (\Throwable $th) {
-                //     $this->_db->transRollback();
-                //     $response = new \stdClass;
-                //     $response->status = 400;
-                //     $response->message = "Gagal menyimpan data. with error";
-                //     return json_encode($response);
-                // }
             }
         } else {
             exit('Maaf tidak dapat diproses');
