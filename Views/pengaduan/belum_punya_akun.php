@@ -37,7 +37,7 @@
     </div>
 </div>
 <div class="col-12 mt-5">
-    <button type="button" onclick="actionCekData(this)" class="btn bnt-block btn-primary">CEK DATA</button>
+    <button type="button" onclick="actionCekData(this)" class="btn btn-block btn-primary">CEK DATA</button>
 </div>
 <script>
     function changedStatusPeserta(event) {
