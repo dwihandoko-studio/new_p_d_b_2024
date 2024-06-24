@@ -1003,112 +1003,112 @@ class Pengaduan extends BaseController
                 ];
 
                 $this->_db->transBegin();
-                try {
-                    $this->_db->table('dapo_peserta_pengajuan')->insert($dataInsertPengajuan);
-                    if ($this->_db->affectedRows() > 0) {
-                        $this->_db->table('data_pengaduan')->insert([
-                            'no_tiket' => $dataInsertPengajuan['id'],
-                            'jenis_pengaduan' => $dataInsertPengajuan['jenis_pengaduan'],
-                            'nama_pengadu' => $dataInsertPengajuan['nama_pengadu'],
-                            'email_pengadu' => $dataInsertPengajuan['email'],
-                            'nohp_pengadu' => $dataInsertPengajuan['nohp'],
-                        ]);
-                        $this->_db->transCommit();
-                        return $this->downloadTiketId($dataInsertPengajuan['id']);
-                        // $response = new \stdClass;
-                        // $response->status = 200;
-                        // $response->tiket_id = $dataInsertPengajuan['id'];
-                        // $response->message = "Data berhasil disimpan.";
-                        // return json_encode($response);
-                    } else {
-                        $this->_db->transRollback();
-                        $response = new \stdClass;
-                        $response->status = 400;
-                        $response->message = "Gagal menyimpan data. pd e";
-                        return json_encode($response);
-                    }
-                } catch (\Throwable $th) {
-                    $dbError = $this->_db->error();
-                    if (strpos($dbError['message'], 'Duplicate entry') !== false || strpos($dbError['message'], 'Key \'PRIMARY\'') !== false) {
-                        $keyMore = $numberKey + 1;
-                        $dataInsertPengajuan['id'] = $ticketKeyF . $keyMore;
-                        try {
-                            $this->_db->table('dapo_peserta_pengajuan')->insert($dataInsertPengajuan);
-                            if ($this->_db->affectedRows() > 0) {
-                                $this->_db->table('data_pengaduan')->insert([
-                                    'no_tiket' => $dataInsertPengajuan['id'],
-                                    'jenis_pengaduan' => $dataInsertPengajuan['jenis_pengaduan'],
-                                    'nama_pengadu' => $dataInsertPengajuan['nama_pengadu'],
-                                    'email_pengadu' => $dataInsertPengajuan['email'],
-                                    'nohp_pengadu' => $dataInsertPengajuan['nohp'],
-                                ]);
-                                $this->_db->transCommit();
-                                return $this->downloadTiketId($dataInsertPengajuan['id']);
-                                // $response = new \stdClass;
-                                // $response->status = 200;
-                                // $response->tiket_id = $dataInsertPengajuan['id'];
-                                // $response->message = "Data berhasil disimpan.";
-                                // return json_encode($response);
-                            } else {
-                                $this->_db->transRollback();
-                                $response = new \stdClass;
-                                $response->status = 400;
-                                $response->message = "Gagal menyimpan data. 4";
-                                return json_encode($response);
-                            }
-                        } catch (\Throwable $th) {
-                            $dbError = $this->_db->error();
-                            if (strpos($dbError['message'], 'Duplicate entry') !== false || strpos($dbError['message'], 'Key \'PRIMARY\'') !== false) {
-                                $keyMore1 = $numberKey + 2;
-                                $dataInsertPengajuan['id'] = $ticketKeyF . $keyMore1;
-                                try {
-                                    $this->_db->table('dapo_peserta_pengajuan')->insert($dataInsertPengajuan);
-                                    if ($this->_db->affectedRows() > 0) {
-                                        $this->_db->table('data_pengaduan')->insert([
-                                            'no_tiket' => $dataInsertPengajuan['id'],
-                                            'jenis_pengaduan' => $dataInsertPengajuan['jenis_pengaduan'],
-                                            'nama_pengadu' => $dataInsertPengajuan['nama_pengadu'],
-                                            'email_pengadu' => $dataInsertPengajuan['email'],
-                                            'nohp_pengadu' => $dataInsertPengajuan['nohp'],
-                                        ]);
-                                        $this->_db->transCommit();
-                                        return $this->downloadTiketId($dataInsertPengajuan['id']);
-
-                                        // $response = new \stdClass;
-                                        // $response->status = 200;
-                                        // $response->tiket_id = $dataInsertPengajuan['id'];
-                                        // $response->message = "Data berhasil disimpan.";
-                                        // return json_encode($response);
-                                    } else {
-                                        $this->_db->transRollback();
-                                        $response = new \stdClass;
-                                        $response->status = 400;
-                                        $response->message = "Gagal menyimpan data. 3";
-                                        return json_encode($response);
-                                    }
-                                } catch (\Throwable $th) {
-                                    $this->_db->transRollback();
-                                    $response = new \stdClass;
-                                    $response->status = 400;
-                                    $response->message = "Gagal menyimpan data.2";
-                                    return json_encode($response);
-                                }
-                            } else {
-                                $this->_db->transRollback();
-                                $response = new \stdClass;
-                                $response->status = 400;
-                                $response->message = "Gagal menyimpan data.1";
-                                return json_encode($response);
-                            }
-                        }
-                    } else {
-                        $this->_db->transRollback();
-                        $response = new \stdClass;
-                        $response->status = 400;
-                        $response->message = "Gagal menyimpan data. 0";
-                        return json_encode($response);
-                    }
+                // try {
+                $this->_db->table('dapo_peserta_pengajuan')->insert($dataInsertPengajuan);
+                if ($this->_db->affectedRows() > 0) {
+                    $this->_db->table('data_pengaduan')->insert([
+                        'no_tiket' => $dataInsertPengajuan['id'],
+                        'jenis_pengaduan' => $dataInsertPengajuan['jenis_pengaduan'],
+                        'nama_pengadu' => $dataInsertPengajuan['nama_pengadu'],
+                        'email_pengadu' => $dataInsertPengajuan['email'],
+                        'nohp_pengadu' => $dataInsertPengajuan['nohp'],
+                    ]);
+                    $this->_db->transCommit();
+                    return $this->downloadTiketId($dataInsertPengajuan['id']);
+                    // $response = new \stdClass;
+                    // $response->status = 200;
+                    // $response->tiket_id = $dataInsertPengajuan['id'];
+                    // $response->message = "Data berhasil disimpan.";
+                    // return json_encode($response);
+                } else {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal menyimpan data. pd e";
+                    return json_encode($response);
                 }
+                // } catch (\Throwable $th) {
+                //     $dbError = $this->_db->error();
+                //     if (strpos($dbError['message'], 'Duplicate entry') !== false || strpos($dbError['message'], 'Key \'PRIMARY\'') !== false) {
+                //         $keyMore = $numberKey + 1;
+                //         $dataInsertPengajuan['id'] = $ticketKeyF . $keyMore;
+                //         try {
+                //             $this->_db->table('dapo_peserta_pengajuan')->insert($dataInsertPengajuan);
+                //             if ($this->_db->affectedRows() > 0) {
+                //                 $this->_db->table('data_pengaduan')->insert([
+                //                     'no_tiket' => $dataInsertPengajuan['id'],
+                //                     'jenis_pengaduan' => $dataInsertPengajuan['jenis_pengaduan'],
+                //                     'nama_pengadu' => $dataInsertPengajuan['nama_pengadu'],
+                //                     'email_pengadu' => $dataInsertPengajuan['email'],
+                //                     'nohp_pengadu' => $dataInsertPengajuan['nohp'],
+                //                 ]);
+                //                 $this->_db->transCommit();
+                //                 return $this->downloadTiketId($dataInsertPengajuan['id']);
+                //                 // $response = new \stdClass;
+                //                 // $response->status = 200;
+                //                 // $response->tiket_id = $dataInsertPengajuan['id'];
+                //                 // $response->message = "Data berhasil disimpan.";
+                //                 // return json_encode($response);
+                //             } else {
+                //                 $this->_db->transRollback();
+                //                 $response = new \stdClass;
+                //                 $response->status = 400;
+                //                 $response->message = "Gagal menyimpan data. 4";
+                //                 return json_encode($response);
+                //             }
+                //         } catch (\Throwable $th) {
+                //             $dbError = $this->_db->error();
+                //             if (strpos($dbError['message'], 'Duplicate entry') !== false || strpos($dbError['message'], 'Key \'PRIMARY\'') !== false) {
+                //                 $keyMore1 = $numberKey + 2;
+                //                 $dataInsertPengajuan['id'] = $ticketKeyF . $keyMore1;
+                //                 try {
+                //                     $this->_db->table('dapo_peserta_pengajuan')->insert($dataInsertPengajuan);
+                //                     if ($this->_db->affectedRows() > 0) {
+                //                         $this->_db->table('data_pengaduan')->insert([
+                //                             'no_tiket' => $dataInsertPengajuan['id'],
+                //                             'jenis_pengaduan' => $dataInsertPengajuan['jenis_pengaduan'],
+                //                             'nama_pengadu' => $dataInsertPengajuan['nama_pengadu'],
+                //                             'email_pengadu' => $dataInsertPengajuan['email'],
+                //                             'nohp_pengadu' => $dataInsertPengajuan['nohp'],
+                //                         ]);
+                //                         $this->_db->transCommit();
+                //                         return $this->downloadTiketId($dataInsertPengajuan['id']);
+
+                //                         // $response = new \stdClass;
+                //                         // $response->status = 200;
+                //                         // $response->tiket_id = $dataInsertPengajuan['id'];
+                //                         // $response->message = "Data berhasil disimpan.";
+                //                         // return json_encode($response);
+                //                     } else {
+                //                         $this->_db->transRollback();
+                //                         $response = new \stdClass;
+                //                         $response->status = 400;
+                //                         $response->message = "Gagal menyimpan data. 3";
+                //                         return json_encode($response);
+                //                     }
+                //                 } catch (\Throwable $th) {
+                //                     $this->_db->transRollback();
+                //                     $response = new \stdClass;
+                //                     $response->status = 400;
+                //                     $response->message = "Gagal menyimpan data.2";
+                //                     return json_encode($response);
+                //                 }
+                //             } else {
+                //                 $this->_db->transRollback();
+                //                 $response = new \stdClass;
+                //                 $response->status = 400;
+                //                 $response->message = "Gagal menyimpan data.1";
+                //                 return json_encode($response);
+                //             }
+                //         }
+                // } else {
+                //     $this->_db->transRollback();
+                //     $response = new \stdClass;
+                //     $response->status = 400;
+                //     $response->message = "Gagal menyimpan data. 0";
+                //     return json_encode($response);
+                // }
+                // }
             }
         } else {
             exit('Maaf tidak dapat diproses');
