@@ -54,6 +54,7 @@
                             reloadPage();
                         })
                     } else {
+                        Swal.close();
                         $('.content-lacak-pengaduan').html(response.data);
                         $('.content-lacakModal').modal('hide');
                     }

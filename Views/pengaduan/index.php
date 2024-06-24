@@ -24,7 +24,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="content-lacak-pengaduan" class="content-lacak-pengaduan"></div>
+                            <div id="content-lacak-pengaduan" class="content-lacak-pengaduan" style="margin-top: 30px;"></div>
                         </div>
                     </div>
                 </div>
