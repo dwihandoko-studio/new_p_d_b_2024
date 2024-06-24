@@ -66,7 +66,7 @@
                         <?php if (isset($props)) { ?>
                             <?php if (count($props) > 0) { ?>
                                 <?php foreach ($props as $key => $value) { ?>
-                                    <option value="<?= $value->id ?>" <?= (substr($value->id, 0, 2) === substr($data->kode_wilayah, 0, 2)) ? ' selected' : "" ?>><?= $value->nama ?></option>
+                                    <option value="<?= $value->id ?>"><?= $value->nama ?></option>
                                 <?php } ?>
                             <?php } ?>
                         <?php } ?>
