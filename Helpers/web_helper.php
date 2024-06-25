@@ -2800,3 +2800,30 @@ function getStatusTicketPengaduanButton($status)
 			break;
 	}
 }
+
+function getNameJabatanPpdb($jabatan)
+{
+	switch ((int)$jabatan) {
+		case 1:
+			return 'Penanggung jawab';
+			break;
+		case 2:
+			return 'Ketua';
+			break;
+		case 3:
+			return 'Wakil Ketua';
+			break;
+		case 4:
+			return 'Sekretaris';
+			break;
+		case 5:
+			return 'Bendahara';
+			break;
+		case 6:
+			return 'Anggota';
+			break;
+		default:
+			return 'Anggota';
+			break;
+	}
+}

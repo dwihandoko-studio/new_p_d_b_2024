@@ -64,6 +64,7 @@
                 <ul aria-expanded="false">
                     <li><a href="<?= base_url('sek/ppdb/laporan/panduan') ?>">Panduan Aplikasi</a></li>
                     <li><a href="<?= base_url('sek/ppdb/laporan/ba') ?>">Berita Acara</a></li>
+                    <li><a href="<?= base_url('sek/ppdb/laporan/pengumuman') ?>">Pengumuman PPDB</a></li>
                 </ul>
             </li>
         </ul>
