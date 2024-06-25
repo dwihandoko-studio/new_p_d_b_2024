@@ -3,7 +3,7 @@
 namespace App\Controllers\Adm;
 
 use App\Controllers\BaseController;
-use App\Models\Adm\PengaduanModel;
+use App\Models\Adm\Pengaduan\PengaduanModel;
 use Config\Services;
 use App\Libraries\Profilelib;
 use App\Libraries\Helplib;

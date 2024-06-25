@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Adm;
+namespace App\Models\Adm\Pengaduan;
 
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\Model;
