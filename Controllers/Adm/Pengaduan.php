@@ -36,18 +36,14 @@ class Pengaduan extends BaseController
             $row = [];
 
             $row[] = $no;
-            $action = '<a class="btn btn-primary" href="./detaillist?id=' . $list->sekolah_id . '&n=' . $list->nama . '"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
+            $action = '<a class="btn btn-primary" href="./detail?id=' . $list->no_tiket . '&n=' . $list->nama_pengaju . '"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
                                 ';
 
             $row[] = $action;
-            $row[] = $list->nama;
+            $row[] = ucwords($list->jenis_pengaduan);
             $row[] = $list->npsn;
-            $row[] = $list->bentuk_pendidikan;
-            $row[] = $list->kecamatan;
-            $row[] = $list->total;
-            $row[] = $list->verified;
-            $row[] = $list->notverified;
-            $row[] = $list->generate;
+            $row[] = $list->nama_pengaduan;
+            $row[] = $list->no_tiket;
 
             $data[] = $row;
         }
