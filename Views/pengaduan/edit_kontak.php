@@ -27,9 +27,9 @@
         $(id).removeAttr('style');
         $('.' + color).html('');
     }
-    const formLacakTiket = document.getElementById('formEditKontakData');
-    if (formLacakTiket) {
-        formLacakTiket.addEventListener('submit', function(event) { // Prevent default form submission
+    const formEditKontak = document.getElementById('formEditKontakData');
+    if (formEditKontak) {
+        formEditKontak.addEventListener('submit', function(event) { // Prevent default form submission
 
             event.preventDefault();
             const emailPengaduan = document.getElementsByName('_email_tiket_pengaduan')[0].value;
