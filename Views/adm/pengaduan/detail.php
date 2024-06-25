@@ -49,15 +49,16 @@
                                     <a href="javascript:void(0);" class="btn btn-primary light btn-xs mb-1"><?= strtolower($data->email_pengadu) ?></a>
                                     <a href="javascript:void(0);" class="btn btn-primary light btn-xs mb-1"><?= $data->nohp_pengadu ?></a>
                                 </div>
-                                <div class="comment-respond" id="respond">
-                                    <h4 class="comment-reply-title text-primary mb-3" id="reply-title">Aksi </h4>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="mb-3">
+                                <?php if ((int)$data->status == 0 || (int)$data->status == 1 || (int)$data->status == 2) { ?>
+                                    <div class="comment-respond" id="respond">
+                                        <h4 class="comment-reply-title text-primary mb-3" id="reply-title">Aksi </h4>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
                                                 <?php if ((int)$data->status == 0) { ?>
                                                     <button onclick="prosesPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-sm btn-primary">Proses Pengaduan</button>
                                                 <?php } else { ?>
-                                                    <?php if ((int)$data->status == 3) { ?>
+                                                    <?php if ((int)$data->status == 3 || (int)$data->status == 2) { ?>
                                                     <?php } else { ?>
                                                         <div class="row">
                                                             <div class="col-lg-4">
@@ -68,11 +69,11 @@
                                                             </div>
                                                         </div>
                                                     <?php } ?>
-                                                <?php } ?>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                <?php } ?>
                             </div>
                         </div>
                     <?php } ?>
