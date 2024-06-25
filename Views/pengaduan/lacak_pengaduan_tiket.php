@@ -9,7 +9,7 @@
                 <h6 class="mb-0"><?= strtoupper($data->jenis_pengaduan) ?> - Status <strong class="text-primary"><?= getStatusTicketPengaduan($data->status) ?></strong>.</h6>
                 <span><?= $data->nama_pengadu ?></span>
                 <span><?= $data->email_pengadu ?></span>
-                <span><?= $data->nohp_pengadu ?></span>
+                <span><?= $data->nohp_pengadu ?> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<button class="btn btn-xxs btn-light" onclick="changeKontak('<?= $data->no_tiket ?>')">Edit Kontak</button></span>
             </a>
         </li>
         <!-- <li>
@@ -55,3 +55,52 @@
         </li> -->
     </ul>
 </div>
+<script>
+    function changeKontak(id) {
+        $.ajax({
+            url: "./changeKontak",
+            type: 'POST',
+            data: {
+                id: id,
+            },
+            dataType: 'JSON',
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Sedang Loading...',
+                    text: 'Please wait while we process your action.',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
+            complete: function() {},
+            success: function(response) {
+                if (response.status == 200) {
+                    Swal.close();
+                    $('#content-changeModalLabel').html('EDIT KONTAK TIKET');
+                    $('.content-changeModalBody').html(response.data);
+                    $('.content-changeModal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                    });
+                    $('.content-changeModal').modal('show');
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        response.message,
+                        'warning'
+                    );
+                }
+            },
+            error: function() {
+                Swal.fire(
+                    'PERINGATAN!',
+                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                    'warning'
+                );
+            }
+        });
+    }
+</script>

@@ -110,6 +110,101 @@ class Pengaduan extends BaseController
         }
     }
 
+    public function saveChangeKontak()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                '_id_tiket_pengaduan' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'No tiket tidak boleh kosong. ',
+                    ]
+                ],
+                '_email_tiket_pengaduan' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Email tiket tidak boleh kosong. ',
+                    ]
+                ],
+                '_nohp_tiket_pengaduan' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'No WA tiket tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('_id_tiket_pengaduan')
+                    . $this->validator->getError('_email_tiket_pengaduan')
+                    . $this->validator->getError('_nohp_tiket_pengaduan');
+                return json_encode($response);
+            } else {
+                $tiket = htmlspecialchars($this->request->getVar('_id_tiket_pengaduan'), true);
+                $email = htmlspecialchars($this->request->getVar('_email_tiket_pengaduan'), true);
+                $nohp = htmlspecialchars($this->request->getVar('_nohp_tiket_pengaduan'), true);
+
+                $oldData = $this->_db->table('data_pengaduan')
+                    ->where('no_tiket', $tiket)->get()->getRowObject();
+
+                if (!$oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Kontak Tiket pengaduan tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('data_pengaduan')->where('no_tiket', $oldData->no_tiket)->update([
+                        'email_pengadu' => $email,
+                        'nohp_pengadu' => $nohp,
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ]);
+                    if ($this->_db->affectedRows() > 0) {
+                        $this->_db->table('dapo_peserta_pengajuan')->where('id', $oldData->no_tiket)->update([
+                            'email_pengadu' => $email,
+                            'nohp_pengadu' => $nohp,
+                            'updated_at' => date('Y-m-d H:i:s'),
+                        ]);
+                        if ($this->_db->affectedRows() > 0) {
+                            $this->_db->transCommit();
+
+                            $response = new \stdClass;
+                            $response->status = 200;
+                            $response->message = "Data berhasil diupdate.";
+                            return json_encode($response);
+                        } else {
+                            $this->_db->transRollback();
+                            $response = new \stdClass;
+                            $response->status = 400;
+                            $response->message = "Gagal memperoses data.";
+                            return json_encode($response);
+                        }
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal memperoses data.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal memperoses data. with error";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
     public function add()
     {
         if ($this->request->isAJAX()) {

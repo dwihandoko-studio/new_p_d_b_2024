@@ -48,6 +48,20 @@
         </div>
     </div>
 </div>
+<div id="content-changeModal" class="modal fade content-changeModal">
+    <!-- <div id="content-changeModal" class="modal fade content-changeModal" tabindex="-1" role="dialog" aria-hidden="true"> -->
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="content-changeModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="content-changeModalBody">
+            </div>
+        </div>
+    </div>
+</div>
 <div id="content-addModal" class="modal fade content-addModal">
     <!-- <div id="content-addModal" class="modal fade content-addModal" tabindex="-1" role="dialog" aria-hidden="true"> -->
     <div class="modal-dialog modal-lg">
