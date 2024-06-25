@@ -58,7 +58,7 @@ class SekolahModel extends Model
     }
     function get_datatables()
     {
-        $select = "a.*, b.nama as nama_sekolah, b.status_sekolah_id, b.kecamatan as nama_kecamatan, (SELECT count(id) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND status_pendaftaran = 1) as jumlah_pendaftar";
+        $select = "a.*, b.nama as nama_sekolah, b.bentuk_pendidikan as bentuk_pendidikan_sekolah, b.status_sekolah_id, b.kecamatan as nama_kecamatan, (SELECT count(id) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND status_pendaftaran = 1) as jumlah_pendaftar";
         $this->dt->select($select);
         // $this->dt->join('_users_profile_sekolah e', 'a.sekolah_id = e.sekolah_id');
         $this->dt->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id', 'LEFT');

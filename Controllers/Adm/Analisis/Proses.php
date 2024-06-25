@@ -43,10 +43,10 @@ class Proses extends BaseController
                                 ';
 
             $row[] = $action;
-            $row[] = $list->nama;
+            $row[] = $list->nama_sekolah;
             $row[] = $list->npsn;
-            $row[] = $list->bentuk_pendidikan;
-            $row[] = $list->kecamatan;
+            $row[] = $list->bentuk_pendidikan_sekolah;
+            $row[] = $list->nama_kecamatan;
             $row[] = '<span class="badge light badge-primary">' . $list->jumlah_pendaftar . '</span>';
 
             $data[] = $row;
