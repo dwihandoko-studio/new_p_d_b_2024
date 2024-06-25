@@ -150,6 +150,13 @@
                         reloadPage();
                     })
                 }
+            },
+            error: function() {
+                Swal.fire(
+                    'PERINGATAN!',
+                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                    'warning'
+                );
             }
         });
     }
