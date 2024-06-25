@@ -106,6 +106,7 @@ class Pengaduan extends BaseController
             $data['error_tutup'] = "Data pengaduan tidak ditemukan dengan nomor tiket tersebut.";
             $data['error_url'] = base_url('adm/pengaduan');
         }
+        $data['data'] = $oldData;
 
         $data['title'] = "DETAIL DATA PENGADUAN";
         $data['id'] = $id;

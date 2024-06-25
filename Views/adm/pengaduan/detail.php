@@ -9,7 +9,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active"><a href="javascript:void(0)">Pengaduan</a></li>
                 <li class="breadcrumb-item active"><a href="javascript:void(0)">Detail</a></li>
-                <li class="breadcrumb-item"><a href="javascript:void(0)"><?= $data->no_tiket ?></a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)"><?= isset($data) ? $data->no_tiket : "" ?></a></li>
             </ol>
         </div>
         <div class="row">
