@@ -1,4 +1,7 @@
 <div class="mb-3 row">
+    <h3>DATA PENGAJUAN VERVAL DAN AKUN</h3>
+</div>
+<div class="mb-3 row">
     <label class="col-sm-3 col-form-label">NISN</label>
     <div class="col-sm-9">
         <input type="text" class="form-control" id="_nisn_pd" name="_nisn_pd" value="<?= $data->nisn ?>" placeholder="NISN..." readonly />
