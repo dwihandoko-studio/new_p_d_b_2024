@@ -14,7 +14,7 @@
 //nilai konfigurasi Frame di bawah 4 tidak direkomendasikan
 
 // QRcode::png($codeContents, $tempdir . $sekolah->id . '.png', QR_ECLEVEL_M, 4);
-$qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=' . base_url('web/pengumuman') . '?sekolah=' . $sekolah->id . '&choe=UTF-8'));
+$qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://qrcode.esline.id/generate?data=' . base_url() . '/home/detail_sekolah?d=' . $sekolah->sekolah_id . '&choe=UTF-8'));
 
 ?>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
@@ -42,7 +42,7 @@ $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://ch
     <div style="border: 2px  dashed #cbd4dd;">
         <div style="max-width: 100%; padding-left: 10px; padding-right: 8px;">
             <p>LAMPIRAN 1<br>
-                DATA PESERTA YANG LULUS PPDB JALUR AFIRMASI TA. 2023/2024<br>
+                DATA PESERTA YANG LULUS PPDB JALUR AFIRMASI TA. 2024/2025<br>
                 KABUPATEN LAMPUNG TENGAH<br><br>
                 Satuan Pendidikan : <?= $sekolah->nama ?><br>
                 NPSN : <?= $sekolah->npsn ?></p>
@@ -63,19 +63,19 @@ $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://ch
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (isset($data_lolos_afirmasi)) {
-                        if (count($data_lolos_afirmasi) > 0) {
+                    <?php if (isset($lolos)) {
+                        if (count($lolos) > 0) {
                             $no = 1;
-                            foreach ($data_lolos_afirmasi as $key => $value) { ?>
+                            foreach ($lolos as $key => $value) { ?>
                                 <tr>
                                     <td style="font-size: 12px">
-                                        <?= $value->rangking ?>
+                                        <?= $key + 1 ?>
                                     </td>
                                     <td style="font-size: 12px">
-                                        <?= $value->fullname ?>
+                                        <?= $value->nama_peserta ?>
                                     </td>
                                     <td style="font-size: 12px">
-                                        <?= $value->nisn ?>
+                                        <?= $value->nisn_peserta ?>
                                     </td>
                                     <td style="font-size: 10px">
                                         <?= $value->kode_pendaftaran ?>
@@ -116,7 +116,7 @@ $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://ch
                     <td style="text-align: left; padding-left: 10px; padding-bottom: 10px; padding-top: 10px;">
                         <img class="img" src="<?= $qrCode ?>" ec="H" style="width: 30mm; background-color: white; color: black;">
                         <!--<b>INFORMASI</b><br>-->
-                        <!--1. Pada saat pengumuman PPDB 2023/2024. Bagi peserta PPDB YANG TIDAK LOLOS di sekolah tujuan, langsung dapat mendaftar<br>-->
+                        <!--1. Pada saat pengumuman PPDB 2024/2025. Bagi peserta PPDB YANG TIDAK LOLOS di sekolah tujuan, langsung dapat mendaftar<br>-->
                         <!--   melalui PPDB Dalam Jaringan ke Sekolah Terdekat yang Jumlah Kuotanya belum terpenuhi sampai tanggal 30 Juni 2023.<br>-->
                         <!--2. Peserta yang tidak lolos dan kemudian mendaftar kembali melalui PPDB Dalam Jaringan, akan otomatis dapat melihat Sekolah-Sekolah<br>-->
                         <!--   yang Kuotanya Belum Tercukupi.<br>-->
