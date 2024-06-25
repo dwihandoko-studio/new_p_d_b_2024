@@ -72,7 +72,7 @@
                                         </div> -->
                                         <div class="col-lg-12">
                                             <div class="mb-3">
-                                                <button class="btn btn-primary">Proses Pengaduan</button>
+                                                <button class="btn btn-sm btn-primary">Proses Pengaduan</button>
                                                 <!-- <input type="submit" value="Post Comment" class="submit btn btn-primary" id="submit" name="submit"> -->
                                             </div>
                                         </div>
