@@ -32,12 +32,11 @@
                     <li class="list-group-item d-flex justify-content-between"><span class="mb-0">NPSN Tujuan :</span><strong><?= $data->npsn_sekolah_tujuan ?></strong></li>
                     <li class="list-group-item d-flex justify-content-between"><span class="mb-0">Jarak Domisili :</span><strong><?= round($data->jarak_domisili, 3) ?> Km</strong></li>
                 </ul>
-                <br />
-                <span class="mb-5 mt-5" style="font-size: 1rem;">
-                    <center>Anda dinyatakan <b>TIDAK LOLOS</b> seleksi PPDB Tahun Ajaran 2024/2025 <br />di : <b><?= $data->nama_sekolah_tujuan ?></b> Melalui Jalur <b><?= $data->via_jalur ?></b>.</center>
-                </span>
-                <br />
-                <br />
+                <div class="mb-5 mt-5">
+                    <span class="mb-5 mt-5" style="font-size: 1rem;">
+                        <center>Anda dinyatakan <b>TIDAK LOLOS</b> seleksi PPDB Tahun Ajaran 2024/2025 <br />di : <b><?= $data->nama_sekolah_tujuan ?></b> Melalui Jalur <b><?= $data->via_jalur ?></b>.</center>
+                    </span>
+                </div>
             </div>
         <?php } ?>
     <?php } ?>
