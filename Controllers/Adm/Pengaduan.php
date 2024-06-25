@@ -542,7 +542,7 @@ class Pengaduan extends BaseController
 
                             $dataUser = [
                                 'id' => $uuidLib->v4(),
-                                'username' => $oldDataPd->nisn,
+                                'username' => $oldDataPd->nik,
                                 'password' => $passwordFix,
                                 'is_active' => 1,
                                 'level' => 5,
