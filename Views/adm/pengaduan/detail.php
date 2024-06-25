@@ -65,7 +65,7 @@
                                                 <?php } else { ?>
                                                     <?php if ((int)$data->status == 3 || (int)$data->status == 2) { ?>
                                                         <?php if ((int)$data->status == 2) { ?>
-                                                            <button onclick="sendPesan('<?= $data->nohp_pengadu ?>', '<?= $data->email_pengadu ?>', '<?= $data->no_tiket ?>', '<?= $data->nama_pengadu ?>', '', '<?= base_url('auth') . '/download?t=' . $data->no_tiket ?>')" class="btn btn-block btn-sm btn-warning">Kirim Ulang Notifikasi</button>
+                                                            <button onclick="sendPesan('<?= $data->nohp_pengadu ?>', '<?= $data->email_pengadu ?>', '<?= $data->no_tiket ?>', '<?= $data->nama_pengadu ?>', '', '<?= base_url('auth') . '/download?t=' . $data->no_tiket ?>')" class="btn btn-sm btn-info">Kirim Ulang Notifikasi</button>
                                                         <?php } ?>
                                                     <?php } else { ?>
                                                         <div class="row">
