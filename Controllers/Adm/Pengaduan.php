@@ -200,6 +200,162 @@ class Pengaduan extends BaseController
         }
     }
 
+    public function formTolak()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+                'nama' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id')
+                    . $this->validator->getError('nama');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    return redirect()->to(base_url('auth'));
+                }
+
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+                $nama = htmlspecialchars($this->request->getVar('nama'), true);
+
+                $oldData = $this->_db->table('data_pengaduan a')
+                    ->where('a.no_tiket', $id)
+                    ->get()->getRowObject();
+
+                if (!$oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $x['data'] = $oldData;
+
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('adm/pengaduan/form_tolak', $x);
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function tolakSave()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                '_id_tolak' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Tiket tidak boleh kosong. ',
+                    ]
+                ],
+                '_nama_tolak' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama pengadu tidak boleh kosong. ',
+                    ]
+                ],
+                '_keterangan_penolakan' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama pengadu tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('_id_tolak')
+                    . $this->validator->getError('_nama_tolak')
+                    . $this->validator->getError('_keterangan_penolakan');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+
+                $id = htmlspecialchars($this->request->getVar('_id_tolak'), true);
+                $nama = htmlspecialchars($this->request->getVar('_nama_tolak'), true);
+                $keterangan = htmlspecialchars($this->request->getVar('_keterangan_penolakan'), true);
+
+                $oldData = $this->_db->table('data_pengaduan a')
+                    ->where('a.no_tiket', $id)
+                    ->get()->getRowObject();
+
+                if (!$oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data pengaduan tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('data_pengaduan')->where('no_tiket', $oldData->no_tiket)->update([
+                        'status' => 3,
+                        'keterangan' => $keterangan,
+                        'admin_approve' => $user->data->id,
+                        'updated_at' => date('Y-m-d H:i:s'),
+                        'date_approve' => date('Y-m-d H:i:s'),
+                    ]);
+                    if ($this->_db->affectedRows() > 0) {
+                        $this->_db->transCommit();
+
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->message = "Data berhasil ditolak.";
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menolak data.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal menolak data. with error";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
     public function proses()
     {
         if ($this->request->isAJAX()) {

@@ -62,7 +62,7 @@
                                                             <button onclick="tolakPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-block btn-sm btn-warning">Tolak Pengaduan</button>
                                                         </div>
                                                         <div class="col-lg-4">
-                                                            <button onclick="selesaiPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-block btn-sm btn-primary">Verifikasi</button>
+                                                            <button onclick="selesaiPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-block btn-sm btn-primary">Verifikasi & Generate Akun</button>
                                                         </div>
                                                     </div>
                                                 <?php } ?>
@@ -74,6 +74,19 @@
                         </div>
                     <?php } ?>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="content-editModal" class="modal fade content-editModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="content-editModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="content-editBodyModal">
             </div>
         </div>
     </div>
@@ -96,6 +109,67 @@
 
 <?= $this->section('scriptBottom'); ?>
 <script>
+    function tolakPengaduan(id, nama) {
+        Swal.fire({
+            title: 'Apakah anda yakin ingin menolak data pengaduan ini?',
+            text: "Tolak pengaduan: " + nama,
+            showCancelButton: true,
+            icon: 'question',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Tolak!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "./tolak",
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        nama: nama
+                    },
+                    dataType: 'JSON',
+                    beforeSend: function() {
+                        Swal.fire({
+                            title: 'Memproses data...',
+                            text: 'Please wait while we process your action.',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
+                    complete: function() {},
+                    success: function(resul) {
+                        if (resul.status == 200) {
+                            Swal.close();
+                            $('#content-editModalLabel').html(resul.title);
+                            $('.content-editBodyModal').html(resul.data);
+                            $('.content-editModal').modal({
+                                backdrop: 'static',
+                                keyboard: false,
+                            });
+                            $('.content-editModal').modal('show');
+                        } else {
+                            Swal.fire(
+                                'Failed!',
+                                resul.message,
+                                'warning'
+                            );
+                        }
+                    },
+                    error: function() {
+                        Swal.fire(
+                            'PERINGATAN!',
+                            "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                            'warning'
+                        );
+                    }
+                });
+            }
+        });
+    };
+
     function prosesPengaduan(id, nama) {
         Swal.fire({
             title: 'Apakah anda yakin ingin memproses data pengaduan ini?',
