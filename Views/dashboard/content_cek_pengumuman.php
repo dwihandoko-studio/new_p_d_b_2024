@@ -40,6 +40,12 @@
                     </span>
                 </div>
             </div>
+        <?php } else { ?>
+            <div class="mb-5 mt-5" style="padding-left: 20px; padding-right: 20px;">
+                <span class="mb-5 mt-5" style="font-size: 1rem;">
+                    <center>Menunggu Hasil Pengumuman.</center>
+                </span>
+            </div>
         <?php } ?>
     <?php } ?>
 </div>
