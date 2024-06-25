@@ -157,8 +157,9 @@ class Pengaduan extends BaseController
 
                 if ($jenis_pengaduan == "belum punya akun") {
                     $oldData = $this->_db->table('data_pengaduan a')
-                        ->select("b.*, a.no_tiket, a.jenis_pengaduan, a.email_pengadu, a.nohp_pengadu, a.file, a.status, a.keterangan, a.created_at as created_pengaduan, a.updated_at as updated_pengaduan, a.admin_approve")
+                        ->select("b.*, c.npsn, c.nama as nama_sekolah_as, a.no_tiket, a.jenis_pengaduan, a.email_pengadu, a.nohp_pengadu, a.file, a.status, a.keterangan, a.created_at as created_pengaduan, a.updated_at as updated_pengaduan, a.admin_approve")
                         ->join('dapo_peserta_pengajuan b', 'a.no_tiket = b.id')
+                        ->join('dapo_sekolah c', 'b.sekolah_id = c.sekolah_id')
                         ->where('a.no_tiket', $id)
                         ->get()->getRowObject();
 
