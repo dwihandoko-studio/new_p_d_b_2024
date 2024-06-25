@@ -181,6 +181,7 @@
         <p>Didapatkan dari Verval PD untuk peserta didik idnya.</p>
     </div>
 </div>
+
 <script>
     function ambilKoordinat(event) {
         var lat = document.getElementsByName('_lintang')[0].value;

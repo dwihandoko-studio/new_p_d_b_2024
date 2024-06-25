@@ -52,28 +52,9 @@
                                 <div class="comment-respond" id="respond">
                                     <h4 class="comment-reply-title text-primary mb-3" id="reply-title">Aksi </h4>
                                     <div class="row">
-                                        <!-- <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="author" class="text-black font-w600 form-label">Name <span class="required">*</span></label>
-                                                <input type="text" class="form-control" value="Author" name="Author" placeholder="Author" id="author">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="email" class="text-black font-w600 form-label">Email <span class="required">*</span></label>
-                                                <input type="text" class="form-control" value="Email" placeholder="Email" name="Email" id="email">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="mb-3">
-                                                <label for="comment" class="text-black font-w600 form-label">Comment</label>
-                                                <textarea rows="8" class="form-control" name="comment" placeholder="Comment" id="comment"></textarea>
-                                            </div>
-                                        </div> -->
                                         <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <button class="btn btn-sm btn-primary">Proses Pengaduan</button>
-                                                <!-- <input type="submit" value="Post Comment" class="submit btn btn-primary" id="submit" name="submit"> -->
                                             </div>
                                         </div>
                                     </div>
