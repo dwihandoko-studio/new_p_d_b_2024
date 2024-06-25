@@ -121,7 +121,7 @@
         }).then((result) => {
             if (result.value) {
                 $.ajax({
-                    url: "./tolak",
+                    url: "./formTolak",
                     type: 'POST',
                     data: {
                         id: id,
