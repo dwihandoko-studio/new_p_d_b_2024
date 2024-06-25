@@ -54,7 +54,7 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="mb-3">
-                                                <button class="btn btn-sm btn-primary">Proses Pengaduan</button>
+                                                <button onclick="prosesPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-sm btn-primary">Proses Pengaduan</button>
                                             </div>
                                         </div>
                                     </div>
@@ -85,6 +85,87 @@
 
 <?= $this->section('scriptBottom'); ?>
 <script>
+    function prosesPengaduan(id, nama) {
+        Swal.fire({
+            title: 'Apakah anda yakin ingin memproses data pengaduan ini?',
+            text: "Proses pengaduan: " + nama,
+            showCancelButton: true,
+            icon: 'question',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Proses!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "./proses",
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        nama: nama
+                    },
+                    dataType: 'JSON',
+                    beforeSend: function() {
+                        Swal.fire({
+                            title: 'Memproses data...',
+                            text: 'Please wait while we process your action.',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
+                    complete: function() {},
+                    success: function(resul) {
+
+                        if (resul.status !== 200) {
+                            if (resul.status !== 201) {
+                                if (resul.status === 401) {
+                                    Swal.fire(
+                                        'Failed!',
+                                        resul.message,
+                                        'warning'
+                                    ).then((valRes) => {
+                                        reloadPage();
+                                    });
+                                } else {
+                                    Swal.fire(
+                                        'GAGAL!',
+                                        resul.message,
+                                        'warning'
+                                    );
+                                }
+                            } else {
+                                Swal.fire(
+                                    'Peringatan!',
+                                    resul.message,
+                                    'success'
+                                ).then((valRes) => {
+                                    reloadPage();
+                                })
+                            }
+                        } else {
+                            Swal.fire(
+                                'BERHASIL!',
+                                resul.message,
+                                'success'
+                            ).then((valRes) => {
+                                reloadPage();
+                            })
+                        }
+                    },
+                    error: function() {
+                        Swal.fire(
+                            'PERINGATAN!',
+                            "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                            'warning'
+                        );
+                    }
+                });
+            }
+        });
+    };
+
     function getContentPengaduan(tiket, jenis) {
         $.ajax({
             url: "./getPengaduan",

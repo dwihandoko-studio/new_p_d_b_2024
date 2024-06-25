@@ -200,6 +200,90 @@ class Pengaduan extends BaseController
         }
     }
 
+    public function proses()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Tiket tidak boleh kosong. ',
+                    ]
+                ],
+                'nama' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama pengadu tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id')
+                    . $this->validator->getError('nama');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+                $nama = htmlspecialchars($this->request->getVar('nama'), true);
+
+                $oldData = $this->_db->table('data_pengaduan a')
+                    ->where('a.no_tiket', $id)
+                    ->get()->getRowObject();
+
+                if (!$oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data pengaduan tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('data_pengaduan')->where('no_tiket', $oldData->no_tiket)->update([
+                        'status' => 1,
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ]);
+                    if ($this->_db->affectedRows() > 0) {
+                        $this->_db->transCommit();
+
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->message = "Data berhasil diproses.";
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal memperoses data.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal memperoses data. with error";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
     public function refkab()
     {
         if ($this->request->isAJAX()) {
