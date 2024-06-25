@@ -95,7 +95,19 @@ class Pengaduan extends BaseController
 
         $id = htmlspecialchars($this->request->getGet('id'), true);
         $name = htmlspecialchars($this->request->getGet('n'), true);
-        $data['title'] = "DATA PENGADUAN";
+
+        $oldData = $this->_db->table('data_pengaduan a')
+            ->select("b.*, a.jenis_pengaduan, a.file, a.status, a.keterangan, a.created_at as created_pengaduan, a.updated_at as updated_pengaduan, a.admin_approve")
+            ->join('dapo_peserta_pengajuan b', 'a.no_tiket = b.id')
+            ->where('a.no_tiket', $id)
+            ->get()->getRowObject();
+
+        if (!$oldData) {
+            $data['error_tutup'] = "Data pengaduan tidak ditemukan dengan nomor tiket tersebut.";
+            $data['error_url'] = base_url('adm/pengaduan');
+        }
+
+        $data['title'] = "DETAIL DATA PENGADUAN";
         $data['id'] = $id;
         $data['user'] = $user->data;
         $data['level'] = $user->level;
