@@ -82,4 +82,25 @@ class Pengaduan extends BaseController
         $data['title'] = 'Dashboard';
         return view('adm/pengaduan/index', $data);
     }
+
+    public function detail()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
+
+        $id = htmlspecialchars($this->request->getGet('id'), true);
+        $name = htmlspecialchars($this->request->getGet('n'), true);
+        $data['title'] = "DATA PENGADUAN";
+        $data['id'] = $id;
+        $data['user'] = $user->data;
+        $data['level'] = $user->level;
+        $data['level_nama'] = $user->level_nama;
+
+        return view('adm/pengaduan/detail', $data);
+    }
 }
