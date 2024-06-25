@@ -664,14 +664,15 @@ class Home extends BaseController
                     $response = new \stdClass;
                     $response->status = 400;
                     $response->message = "Mohon maaf, saat ini hasil pengumuman belum dibuka.";
-                    return $response;
-                }
+                    return json_encode($response);
+                } else {
 
-                $response = new \stdClass;
-                $response->status = 200;
-                $response->message = "Permintaan diizinkan";
-                $response->data = view('dashboard/cek_pengumuman');
-                return json_encode($response);
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->message = "Permintaan diizinkan";
+                    $response->data = view('dashboard/cek_pengumuman');
+                    return json_encode($response);
+                }
             }
         } else {
             exit('Maaf tidak dapat diproses');
