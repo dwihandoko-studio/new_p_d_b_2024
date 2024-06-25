@@ -147,7 +147,7 @@ class Proses extends BaseController
     }
 
 
-    public function verified()
+    public function verified_otomatis()
     {
         $Profilelib = new Profilelib();
         $user = $Profilelib->user();
