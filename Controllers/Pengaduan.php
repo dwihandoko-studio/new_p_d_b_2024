@@ -202,32 +202,25 @@ class Pengaduan extends BaseController
 
 
                 $this->_db->transBegin();
-                try {
-                    $this->_db->table('data_pengaduan')->where('no_tiket', $oldData->no_tiket)->update([
+                // try {
+                $this->_db->table('data_pengaduan')->where('no_tiket', $oldData->no_tiket)->update([
+                    'email_pengadu' => $email,
+                    'nohp_pengadu' => $nohp,
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ]);
+                if ($this->_db->affectedRows() > 0) {
+                    $this->_db->table('dapo_peserta_pengajuan')->where('id', $oldData->no_tiket)->update([
                         'email_pengadu' => $email,
                         'nohp_pengadu' => $nohp,
                         'updated_at' => date('Y-m-d H:i:s'),
                     ]);
                     if ($this->_db->affectedRows() > 0) {
-                        $this->_db->table('dapo_peserta_pengajuan')->where('id', $oldData->no_tiket)->update([
-                            'email_pengadu' => $email,
-                            'nohp_pengadu' => $nohp,
-                            'updated_at' => date('Y-m-d H:i:s'),
-                        ]);
-                        if ($this->_db->affectedRows() > 0) {
-                            $this->_db->transCommit();
+                        $this->_db->transCommit();
 
-                            $response = new \stdClass;
-                            $response->status = 200;
-                            $response->message = "Data berhasil diupdate.";
-                            return json_encode($response);
-                        } else {
-                            $this->_db->transRollback();
-                            $response = new \stdClass;
-                            $response->status = 400;
-                            $response->message = "Gagal memperoses data.";
-                            return json_encode($response);
-                        }
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->message = "Data berhasil diupdate.";
+                        return json_encode($response);
                     } else {
                         $this->_db->transRollback();
                         $response = new \stdClass;
@@ -235,13 +228,20 @@ class Pengaduan extends BaseController
                         $response->message = "Gagal memperoses data.";
                         return json_encode($response);
                     }
-                } catch (\Throwable $th) {
+                } else {
                     $this->_db->transRollback();
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->message = "Gagal memperoses data. with error";
+                    $response->message = "Gagal memperoses data.";
                     return json_encode($response);
                 }
+                // } catch (\Throwable $th) {
+                //     $this->_db->transRollback();
+                //     $response = new \stdClass;
+                //     $response->status = 400;
+                //     $response->message = "Gagal memperoses data. with error";
+                //     return json_encode($response);
+                // }
             }
         } else {
             exit('Maaf tidak dapat diproses');
