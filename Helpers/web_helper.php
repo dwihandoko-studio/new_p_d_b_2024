@@ -2507,6 +2507,22 @@ function sekolahName($id)
 	}
 }
 
+function getNamaAndNpsnSekolah($id)
+{
+	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
+	$db      = \Config\Database::connect();
+
+	$data = $db->table('dapo_sekolah')
+		->select('nama, npsn')
+		->where('sekolah_id', $id)
+		->get()->getRowObject();
+	if ($data) {
+		return $data->nama . '  (' . $data->npsn . ')';
+	} else {
+		return '-';
+	}
+}
+
 function getSekolahName($id)
 {
 	// SELECT COUNT(*) as total FROM _tb_pendaftar WHERE peserta_didik_id = ? AND via_jalur = 'PELIMPAHAN'
