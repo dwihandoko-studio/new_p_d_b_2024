@@ -37,7 +37,7 @@
                     <label class="col-sm-3 col-form-label">Upload Foto: </label>
                     <div class="col-sm-9">
                         <input class="form-control" type="file" id="_file" name="_file" onFocus="inputFocus(this);" accept="image/*">
-                        <p class="font-size-11">Format : <code data-toggle="tooltip" data-placement="bottom" title="jpg, png, jpeg">Files</code> and Maximum File Size <code>500 Kb</code></p>
+                        <p class="font-size-11">Format : <code data-toggle="tooltip" data-placement="bottom" title="jpg, png, jpeg">Files</code> and Maximum File Size <code>2 Mb</code></p>
                         <div class="help-block _file" for="_file"></div>
                     </div>
                 </div>
@@ -70,12 +70,12 @@
                     return false;
                 }
 
-                if (file.size > 1 * 512 * 1000) {
+                if (file.size > 2 * 1024 * 1000) {
                     e.target.value = "";
                     // $('.imagePreviewUpload').attr('src', '');
                     Swal.fire(
                         'Warning!!!',
-                        "Ukuran file tidak boleh lebih dari 500 Kb.",
+                        "Ukuran file tidak boleh lebih dari 2 Mb.",
                         'warning'
                     );
                     return false;
