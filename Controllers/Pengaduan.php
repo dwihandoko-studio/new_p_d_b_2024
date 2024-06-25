@@ -110,6 +110,49 @@ class Pengaduan extends BaseController
         }
     }
 
+    public function changeKontak()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'No tiket tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id');
+                return json_encode($response);
+            } else {
+                $tiket = htmlspecialchars($this->request->getVar('id'), true);
+
+                $data = $this->_db->table('data_pengaduan')
+                    ->where('no_tiket', $tiket)->get()->getRowObject();
+
+                if (!$tiket) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Tiket pengaduan tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $x['data'] = $data;
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('pengaduan/edit_kontak', $x);
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
     public function saveChangeKontak()
     {
         if ($this->request->isAJAX()) {
