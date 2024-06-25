@@ -663,7 +663,7 @@ class Home extends BaseController
 
                 $response = new \stdClass;
                 $response->status = 200;
-                $response->data = $oldData;
+                $response->olddata = $oldData;
                 $response->message = "Permintaan diizinkan";
                 $response->data = view('dashboard/cek_pengumuman');
                 return json_encode($response);
