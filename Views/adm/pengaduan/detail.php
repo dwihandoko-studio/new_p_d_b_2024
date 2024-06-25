@@ -183,7 +183,8 @@
     };
 
     function openWhatsAppChatWithLink(recipientPhoneNumber, pdfLink) {
-        const whatsAppUrl = `https://web.whatsapp.com/send?phone=<span class="math-inline">\{recipientPhoneNumber\}&text\=</span>{encodeURIComponent('*Download Hasil Pengaduan:* ${pdfLink}')}`;
+        // const whatsAppUrl = `https://web.whatsapp.com/send?phone=<span class="math-inline">\{recipientPhoneNumber\}&text\=</span>{encodeURIComponent('*Download Hasil Pengaduan:* ${pdfLink}')}`;
+        const whatsAppUrl = `https://web.whatsapp.com/send?phone=${recipientPhoneNumber}&text=${encodeURIComponent(`*Download Hasil Pengaduan:* ${pdfLink}`)}`;
         window.open(whatsAppUrl, '_blank');
     }
 
