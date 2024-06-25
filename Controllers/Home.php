@@ -648,30 +648,29 @@ class Home extends BaseController
                     ->limit(1)
                     ->get()->getRowObject();
 
-                // if ($oldData) {
-                //     $today = date("Y-m-d H:i:s");
+                if (!$oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Untuk saat ini jadwal pengumuman belum tersedia.";
+                    return json_encode($response);
+                }
 
-                //     $startdate = strtotime($today);
-                //     $enddateAwal = strtotime($oldData->tgl_pengumuman);
+                $today = date("Y-m-d H:i:s");
 
-                //     if ($startdate < $enddateAwal) {
-                //         $response = new \stdClass;
-                //         $response->code = 400;
-                //         $response->message = "Mohon maaf, saat ini hasil pengumuman belum dibuka.";
-                //         return $response;
-                //     }
+                $startdate = strtotime($today);
+                $enddateAwal = strtotime($oldData->tgl_pengumuman);
+
+                if ($startdate < $enddateAwal) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Mohon maaf, saat ini hasil pengumuman belum dibuka.";
+                    return $response;
+                }
 
                 $response = new \stdClass;
                 $response->status = 200;
-                $response->olddata = $oldData;
                 $response->message = "Permintaan diizinkan";
                 $response->data = view('dashboard/cek_pengumuman');
-                return json_encode($response);
-                // }
-
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = "Untuk saat ini jadwal pengumuman belum tersedia.";
                 return json_encode($response);
             }
         } else {
