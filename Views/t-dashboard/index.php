@@ -44,6 +44,7 @@
     <script>
         const BASE_URL = '<?= base_url() ?>';
     </script>
+    <link href="<?= base_url() ?>/assets/vendor/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
     <?= $this->renderSection('scriptTop'); ?>
 </head>
 
@@ -134,11 +135,25 @@
         <?= $this->include('t-dashboard/menu'); ?>
 
         <?= $this->renderSection('content'); ?>
+        <div id="content-cekPengumumanModal" class="modal fade content-cekPengumumanModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="content-cekPengumumanModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal">
+                        </button>
+                    </div>
+                    <div class="content-cekPengumumanBodyModal">
+
+                    </div>
+                </div>
+            </div>
+        </div>
         <?= $this->include('t-dashboard/footer'); ?>
     </div>
     <script src="<?= base_url() ?>/assets/vendor/global/global.min.js"></script>
     <script src="<?= base_url() ?>/assets/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
-
+    <script src="<?= base_url() ?>/assets/vendor/sweetalert2/sweetalert2.min.js"></script>
     <?= $this->renderSection('scriptBottom'); ?>
 
     <script src="<?= base_url() ?>/assets/js/custom.min.js"></script>
@@ -146,6 +161,54 @@
     <script src="<?= base_url() ?>/assets/js/demo.js"></script>
     <script src="<?= base_url() ?>/assets/js/styleSwitcher.js"></script>
     <script>
+        function cekPengumuman() {
+            $.ajax({
+                url: "./loadModal",
+                type: 'POST',
+                data: {
+                    id: 'pengumuman',
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Sedang Loading . . .',
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                },
+                complete: function() {},
+                success: function(responseP) {
+                    if (responseP.status == 200) {
+                        Swal.close();
+                        $('#content-cekPengumumanModalLabel').html('PENGUMUMAN');
+                        $('.content-cekPengumumanBodyModal').html(responseP.data);
+                        $('.content-cekPengumumanModal').modal({
+                            backdrop: 'static',
+                            keyboard: false,
+                        });
+                        $('.content-cekPengumumanModal').modal('show');
+                    } else {
+                        Swal.fire(
+                            'Peringatan!',
+                            responseP.message,
+                            'warning'
+                        );
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    Swal.fire(
+                        'Failed!',
+                        "gagal mengambil data (" + xhr.status.toString + ")",
+                        'warning'
+                    );
+                }
+
+            });
+        }
+
         function initSelect2(event, parrent) {
             $('#' + event).select2({
                 width: "100%",

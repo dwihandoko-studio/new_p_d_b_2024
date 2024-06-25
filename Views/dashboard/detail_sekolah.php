@@ -225,6 +225,58 @@
                     </div>
                 </div>
             </div>
+            <!-- <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4 class="card-title">Pengumuman Hasil PPDB 2024/2025 Sekolah <?= $sekolah->nama ?></h4>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="mb-3">
+                                                    <label for="_filter_jalur" class="col-form-label">Jalur:</label>
+                                                    <select class="form-control filter-kec" id="_filter_jalur" name="_filter_jalur" width="100%" style="width: 100%;">
+                                                        <option value="">--Pilih--</option>
+                                                        <?php if ((int)$sekolah->status_sekolah_id == 1) { ?>
+                                                            <option value="AFIRMASI">AFIRMASI</option>
+                                                            <option value="ZONASI">ZONASI</option>
+                                                            <option value="MUTASI">MUTASI</option>
+                                                            <option value="PRESTASI">PRESTASI</option>
+                                                        <?php } else { ?>
+                                                            <option value="SWASTA" selected>SWASTA</option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12" style="margin-top: 30px;">
+                                <div class="table-responsive">
+                                    <table id="data-datatables-wilayan-zona-ppdb" class="display" style="min-width: 845px">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Kabupaten</th>
+                                                <th>Kecamatan</th>
+                                                <th>Desa / Kelurahan</th>
+                                                <th>Dusun</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
             <?= $this->include('t-dashboard/bottom'); ?>
 
         </div>

@@ -15,6 +15,9 @@
                             </li> -->
 
                     <li class="nav-item">
+                        <a href="javascript:cekPengumuman();"><span class="btn btn-info ms-5"></i>PENGUMUMAN</span></a>
+                    </li>
+                    <li class="nav-item">
                         <a href="<?= base_url('auth') ?>"><span class="btn btn-primary ms-5"></i>MASUK</span></a>
                     </li>
                     <!-- <li class="nav-item dropdown notification_dropdown">
