@@ -21,7 +21,7 @@
         </div>
     <?php } else { ?>
         <?php if ((int)$data->status_pendaftaran === 3) { ?>
-            <div class="card text-white bg-primary">
+            <div class="card text-white bg-danger">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between"><span class="mb-0">No Pendaftaran :</span><strong><?= $data->kode_pendaftaran ?></strong></li>
                     <li class="list-group-item d-flex justify-content-between"><span class="mb-0">Jalur :</span><strong><?= $data->via_jalur ?></strong></li>
