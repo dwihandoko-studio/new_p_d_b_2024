@@ -588,6 +588,7 @@ class Pengaduan extends BaseController
                                         $response->nohp = $oldData->nohp_pengadu;
                                         $response->email = $oldDataPd->email_pengadu;
                                         $response->url = base_url('adm/pengaduan');
+                                        $response->url_pdf = base_url('auth') . '/download?t=' . $oldData->no_tiket;
                                         $response->message = "Data berhasil disimpan.";
                                         return json_encode($response);
                                     } else {

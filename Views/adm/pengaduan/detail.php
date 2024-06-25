@@ -184,13 +184,6 @@
         window.open(whatsAppUrl, '_blank');
     }
 
-    // const sharePDFButton = document.getElementById('share-pdf-button');
-    // sharePDFButton.addEventListener('click', () => {
-    //     const recipientPhoneNumber = '+1234567890'; // Replace with actual recipient phone number (in international format)
-    //     const pdfLink = 'https://your-server.com/path/to/your/pdf.pdf'; // Replace with your PDF link
-    //     openWhatsAppChatWithLink(recipientPhoneNumber, pdfLink);
-    // });
-
     function sendPesan(nohp, email, id, nama, url, urlPdf) {
         openWhatsAppChatWithLink(nohp, urlPdf);
         // $.ajax({
