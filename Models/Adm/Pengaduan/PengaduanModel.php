@@ -54,6 +54,7 @@ class PengaduanModel extends Model
     {
         // $this->dt->select("b.sekolah_id, a.nama, b.npsn, b.bentuk_pendidikan_id, a.bentuk_pendidikan, a.kecamatan, b.jumlah_rombel_kebutuhan, b.is_locked");
         // $this->dt->join('dapo_sekolah a', 'a.sekolah_id = b.sekolah_id');
+        $this->dt->whereIn('a.status', [0, 1]);
         if ($this->request->getPost('jenis_pengaduan')) {
             $kec = htmlspecialchars($this->request->getPost('jenis_pengaduan'), true);
             if ($kec !== "") {
@@ -76,6 +77,7 @@ class PengaduanModel extends Model
     {
         // $this->dt->select("b.sekolah_id, a.nama, b.npsn, b.bentuk_pendidikan_id, a.bentuk_pendidikan, a.kecamatan, a.kode_kecamatan, b.jumlah_rombel_kebutuhan");
         // $this->dt->join('dapo_sekolah a', 'a.sekolah_id = b.sekolah_id');
+        $this->dt->whereIn('a.status', [0, 1]);
         if ($this->request->getPost('jenis_pengaduan')) {
             $kec = htmlspecialchars($this->request->getPost('jenis_pengaduan'), true);
             if ($kec !== "") {
@@ -96,6 +98,7 @@ class PengaduanModel extends Model
     {
         // $this->dt->select("b.sekolah_id, a.nama, b.npsn, b.bentuk_pendidikan_id, a.bentuk_pendidikan, a.kecamatan, a.kode_kecamatan, b.jumlah_rombel_kebutuhan");
         // $this->dt->join('dapo_sekolah a', 'a.sekolah_id = b.sekolah_id');
+        $this->dt->whereIn('a.status', [0, 1]);
         if ($this->request->getPost('jenis_pengaduan')) {
             $kec = htmlspecialchars($this->request->getPost('jenis_pengaduan'), true);
             if ($kec !== "") {
