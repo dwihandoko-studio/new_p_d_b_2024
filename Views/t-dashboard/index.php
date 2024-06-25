@@ -199,6 +199,7 @@
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError);
                     Swal.fire(
                         'Failed!',
                         "gagal mengambil data (" + xhr.status.toString + ")",
