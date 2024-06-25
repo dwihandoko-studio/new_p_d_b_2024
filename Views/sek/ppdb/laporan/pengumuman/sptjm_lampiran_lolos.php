@@ -1,4 +1,4 @@
-<?php $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://qrcode.esline.id/generate?data=' . base_url() . '/home/detail_sekolah?d=' . $data->id . '&choe=UTF-8')); ?>
+<?php $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://qrcode.esline.id/generate?data=' . base_url() . '/home/detail_sekolah?d=' . $sekolah->sekolah_id . '&choe=UTF-8')); ?>
 <div style="border: 2px  dashed #cbd4dd;">
     <div style="max-width: 100%; padding-left: 10px; padding-right: 8px;">
         <p>LAMPIRAN 1<br>
