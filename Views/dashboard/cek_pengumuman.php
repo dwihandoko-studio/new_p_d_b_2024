@@ -58,7 +58,7 @@
                     })
                 } else {
                     Swal.close();
-                    $('.content_hasil_pengumumann').html(response.data);
+                    $('.content_hasil_pengumuman').html(response.data);
                     event.style.display = 'none';
                 }
             },
