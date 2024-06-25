@@ -57,14 +57,17 @@
                                                 <?php if ((int)$data->status == 0) { ?>
                                                     <button onclick="prosesPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-sm btn-primary">Proses Pengaduan</button>
                                                 <?php } else { ?>
-                                                    <div class="row">
-                                                        <div class="col-lg-4">
-                                                            <button onclick="tolakPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-block btn-sm btn-warning">Tolak Pengaduan</button>
+                                                    <?php if ((int)$data->status == 3) { ?>
+                                                    <?php } else { ?>
+                                                        <div class="row">
+                                                            <div class="col-lg-4">
+                                                                <button onclick="tolakPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-block btn-sm btn-warning">Tolak Pengaduan</button>
+                                                            </div>
+                                                            <div class="col-lg-4">
+                                                                <button onclick="selesaiPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-block btn-sm btn-primary">Verifikasi & Generate Akun</button>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-lg-4">
-                                                            <button onclick="selesaiPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-block btn-sm btn-primary">Verifikasi & Generate Akun</button>
-                                                        </div>
-                                                    </div>
+                                                    <?php } ?>
                                                 <?php } ?>
                                             </div>
                                         </div>
