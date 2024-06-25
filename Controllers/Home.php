@@ -642,11 +642,12 @@ class Home extends BaseController
             } else {
                 $id = htmlspecialchars($this->request->getVar('id'), true);
 
-                // $oldData = $this->_db->table('_setting_jadwal_tb ')
-                //     ->select("tgl_pengumuman")
-                //     ->orderBy('tgl_pengumuman', 'ASC')
-                //     ->limit(1)
-                //     ->get()->getRowObject();
+                $oldData = $this->_db->table('_setting_jadwal_tb ')
+                    ->select("tgl_pengumuman")
+                    ->orderBy('tgl_pengumuman', 'ASC')
+                    ->limit(1)
+                    ->get()->getRowObject();
+
                 // if ($oldData) {
                 //     $today = date("Y-m-d H:i:s");
 
@@ -660,11 +661,12 @@ class Home extends BaseController
                 //         return $response;
                 //     }
 
-                //     $response = new \stdClass;
-                //     $response->status = 200;
-                //     $response->message = "Permintaan diizinkan";
-                //     $response->data = view('dashboard/cek_pengumuman');
-                //     return json_encode($response);
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->data = $oldData;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('dashboard/cek_pengumuman');
+                return json_encode($response);
                 // }
 
                 $response = new \stdClass;
