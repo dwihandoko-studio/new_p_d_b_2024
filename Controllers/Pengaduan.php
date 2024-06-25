@@ -2350,4 +2350,103 @@ class Pengaduan extends BaseController
         //     return json_encode($response);
         // }
     }
+
+    public function loadModal()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id');
+                return json_encode($response);
+            } else {
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+
+                $oldData = $this->_db->table('_setting_jadwal_tb ')
+                    ->select("tgl_pengumuman")
+                    ->orderBy('tgl_pengumuman', 'ASC')
+                    ->limit(1)
+                    ->get()->getRowObject();
+
+                if (!$oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Untuk saat ini jadwal pengumuman belum tersedia.";
+                    return json_encode($response);
+                }
+
+                $today = date("Y-m-d H:i:s");
+
+                $startdate = strtotime($today);
+                $enddateAwal = strtotime($oldData->tgl_pengumuman);
+
+                if ($startdate < $enddateAwal) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Mohon maaf, saat ini hasil pengumuman belum dibuka.";
+                    return json_encode($response);
+                } else {
+
+                    $response = new \stdClass;
+                    $response->status = 200;
+                    $response->message = "Permintaan diizinkan";
+                    $response->data = view('dashboard/cek_pengumuman');
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function submitCekPengumuman()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'nopes' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'No peserta tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('nopes');
+                return json_encode($response);
+            } else {
+                $nopes = htmlspecialchars($this->request->getVar('nopes'), true);
+
+                $nisn = $this->_db->table('_tb_pendaftar')->where('nisn_peserta', $nopes)->orderBy('updated_aproval', 'DESC')->limit(1)->get()->getRowObject();
+                if (!$nisn) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Nomor peserta tidak ditemukan.";
+                    return json_encode($response);
+                }
+                $x['data'] = $nisn;
+
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('dashboard/content_cek_pengumuman', $x);
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
 }
