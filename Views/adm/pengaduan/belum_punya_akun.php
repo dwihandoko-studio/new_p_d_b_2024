@@ -2,6 +2,7 @@
     <h3>DATA PENGAJUAN VERVAL DAN AKUN</h3>
 </div>
 <form id="formVerifikasiData" class="formVerifikasiData" action="./verifikasiSave" method="post">
+    <input type="hidden" id="_no_tiket_pd" name="_no_tiket_pd" value="<?= $data->no_tiket ?>" readonly />
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">NISN</label>
         <div class="col-sm-9">
@@ -177,7 +178,7 @@
         <div class="col-sm-9">
             <div class="input-group   input-primary">
                 <span class="input-group-text">PD ID</span>
-                <input type="text" class="form-control" id="_peserta_didik_id" name="_peserta_didik_id" value="<?= $data->peserta_didik_id ?>" required />
+                <input type="text" class="form-control" id="_peserta_didik_id_pd" name="_peserta_didik_id_pd" minlength="36" maxlength="36" value="<?= $data->peserta_didik_id ?>" required />
             </div>
             <p>Didapatkan dari Verval PD untuk peserta didik idnya.</p>
         </div>
@@ -215,7 +216,7 @@
                 }).then((result) => {
                     if (result.value) {
                         $.ajax({
-                            url: "./verifikasiSave",
+                            url: "./verifikasiSudahSave",
                             type: 'POST',
                             data: $(this).serialize(),
                             dataType: 'JSON',
@@ -234,39 +235,103 @@
                             success: function(resul) {
 
                                 if (resul.status !== 200) {
-                                    if (resul.status !== 201) {
-                                        if (resul.status === 401) {
-                                            Swal.fire(
-                                                'Failed!',
-                                                resul.message,
-                                                'warning'
-                                            ).then((valRes) => {
-                                                reloadPage();
+                                    Swal.fire(
+                                        'GAGAL!',
+                                        resul.message,
+                                        'warning'
+                                    );
+                                } else {
+                                    Swal.fire({
+                                        title: "<strong>VERIFIKASI DAN GENERATE AKUN BERHASIL</strong>",
+                                        icon: "info",
+                                        html: '<center><b>Proses Verifikasi dan Generate Aku Peserta Didik Via Pengaduan</b><br/>Atas Nama: ' + resul.nama + ' Berhasil</center>',
+                                        showCloseButton: false,
+                                        showCancelButton: true,
+                                        allowOutsideClick: false,
+                                        allowEscapeKey: false,
+                                        focusConfirm: false,
+                                        confirmButtonText: "Tidak",
+                                        confirmButtonText: `<i class="las la-file-download"></i> Download Akun PD?`,
+                                        confirmButtonAriaLabel: "File, Download"
+                                    }).then((confm) => {
+                                        if (confm.isConfirmed) {
+                                            $.ajax({
+                                                url: "./download",
+                                                type: 'POST',
+                                                data: {
+                                                    id: resul.peserta_didik_id,
+                                                    nama: resul.nama,
+                                                },
+                                                dataType: 'JSON',
+                                                beforeSend: function() {
+                                                    Swal.fire({
+                                                        title: 'Mendowload Akun...',
+                                                        text: 'Please wait while we process your action.',
+                                                        allowOutsideClick: false,
+                                                        allowEscapeKey: false,
+                                                        didOpen: () => {
+                                                            Swal.showLoading();
+                                                        }
+                                                    });
+                                                },
+                                                complete: function() {},
+                                                success: function(resul1) {
+                                                    if (resul1.status !== 200) {
+                                                        Swal.fire(
+                                                            'GAGAL!',
+                                                            resul1.message,
+                                                            'warning'
+                                                        );
+                                                    } else {
+                                                        Swal.fire(
+                                                            'BERHASIL!',
+                                                            resul1.message,
+                                                            'success'
+                                                        ).then((valResT) => {
+
+                                                            const decodedBytes = atob(resul1.data);
+                                                            const arrayBuffer = new ArrayBuffer(decodedBytes.length);
+                                                            const intArray = new Uint8Array(arrayBuffer);
+                                                            for (let i = 0; i < decodedBytes.length; i++) {
+                                                                intArray[i] = decodedBytes.charCodeAt(i);
+                                                            }
+
+                                                            const blob = new Blob([intArray], {
+                                                                type: 'application/pdf'
+                                                            });
+                                                            const link = document.createElement('a');
+                                                            link.href = URL.createObjectURL(blob);
+                                                            link.download = resul1.filename; // Set desired filename
+                                                            link.click();
+                                                            URL.revokeObjectURL(link.href);
+
+                                                            reloadPage(resul.url);
+
+                                                        })
+                                                    }
+                                                },
+                                                error: function() {
+                                                    Swal.fire(
+                                                        'PERINGATAN!',
+                                                        "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                                                        'warning'
+                                                    );
+                                                }
                                             });
                                         } else {
-                                            Swal.fire(
-                                                'GAGAL!',
-                                                resul.message,
-                                                'warning'
-                                            );
+                                            reloadPage(resul.url);
                                         }
-                                    } else {
-                                        Swal.fire(
-                                            'Peringatan!',
-                                            resul.message,
-                                            'success'
-                                        ).then((valRes) => {
-                                            reloadPage();
-                                        })
-                                    }
-                                } else {
-                                    Swal.fire(
-                                        'BERHASIL!',
-                                        resul.message,
-                                        'success'
-                                    ).then((valRes) => {
-                                        reloadPage(resul.url);
-                                    })
+                                    });
+
+
+
+                                    // Swal.fire(
+                                    //     'BERHASIL!',
+                                    //     resul.message,
+                                    //     'success'
+                                    // ).then((valRes) => {
+                                    //     reloadPage(resul.url);
+                                    // })
                                 }
                             },
                             error: function() {
