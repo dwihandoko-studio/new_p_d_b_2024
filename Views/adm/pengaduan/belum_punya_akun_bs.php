@@ -152,7 +152,7 @@
     <div class="col-sm-9">
         <div class="input-group   input-primary">
             <span class="input-group-text">KK</span>
-            <input type="text" class="form-control" id="_kk" name="_kk" value="<?= $data->kk ?>" required />
+            <input type="text" class="form-control" id="_kk" name="_kk" value="<?= $data->no_kk ?>" required />
         </div>
     </div>
 </div>
