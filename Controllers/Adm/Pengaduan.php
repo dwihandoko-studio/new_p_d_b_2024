@@ -126,7 +126,7 @@ class Pengaduan extends BaseController
                         'required' => 'Tiket tidak boleh kosong. ',
                     ]
                 ],
-                'jenis_pengaduan' => [
+                'jenis' => [
                     'rules' => 'required|trim',
                     'errors' => [
                         'required' => 'Jenis pengaduan tidak boleh kosong. ',
@@ -138,7 +138,7 @@ class Pengaduan extends BaseController
                 $response = new \stdClass;
                 $response->status = 400;
                 $response->message = $this->validator->getError('tiket')
-                    . $this->validator->getError('jenis_pengaduan');
+                    . $this->validator->getError('jenis');
                 return json_encode($response);
             } else {
                 $Profilelib = new Profilelib();
@@ -153,7 +153,7 @@ class Pengaduan extends BaseController
                 }
 
                 $id = htmlspecialchars($this->request->getVar('tiket'), true);
-                $jenis_pengaduan = htmlspecialchars($this->request->getVar('jenis_pengaduan'), true);
+                $jenis_pengaduan = htmlspecialchars($this->request->getVar('jenis'), true);
 
                 if ($jenis_pengaduan == "belum punya akun") {
                     $oldData = $this->_db->table('data_pengaduan a')
