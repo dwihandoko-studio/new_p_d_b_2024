@@ -13,9 +13,11 @@
                 <li class="list-group-item d-flex justify-content-between"><span class="mb-0">NPSN Tujuan :</span><strong><?= $data->npsn_sekolah_tujuan ?></strong></li>
                 <li class="list-group-item d-flex justify-content-between"><span class="mb-0">Jarak Domisili :</span><strong><?= round($data->jarak_domisili, 3) ?> Km</strong></li>
             </ul>
-            <span>
-                <center>Anda dinyatakan <b>LOLOS</b> pada seleksi PPDB Tahun Ajaran 2024/2025 <br />di : <b><?= $data->nama_sekolah_tujuan ?></b> Melalui Jalur <b><?= $data->via_jalur ?></b>. <br />Selanjutnya silahkan melakukan konfirmasi dan daftar ulang ke Sekolah Tujuan <br>sesuai jadwal yang telah ditentukan.</center>
-            </span>
+            <div class="mb-5 mt-5">
+                <span class="mb-5 mt-5" style="font-size: 1rem;">
+                    <center>Anda dinyatakan <b>LOLOS</b> pada seleksi PPDB Tahun Ajaran 2024/2025 <br />di : <b><?= $data->nama_sekolah_tujuan ?></b> Melalui Jalur <b><?= $data->via_jalur ?></b>. <br />Selanjutnya silahkan melakukan konfirmasi dan daftar ulang ke Sekolah Tujuan <br>sesuai jadwal yang telah ditentukan.</center>
+                </span>
+            </div>
         </div>
     <?php } else { ?>
         <?php if ((int)$data->status_pendaftaran === 3) { ?>
