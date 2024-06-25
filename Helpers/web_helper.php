@@ -2778,3 +2778,25 @@ function getStatusTicketPengaduan($status)
 			break;
 	}
 }
+
+function getStatusTicketPengaduanButton($status)
+{
+	switch ((int)$status) {
+		case 0:
+			return "btn-light";
+			break;
+		case 1:
+			return "btn-info";
+			break;
+		case 2:
+			return "btn-primary";
+			break;
+		case 3:
+			return "btn-danger";
+			break;
+
+		default:
+			return "btn-dark";
+			break;
+	}
+}
