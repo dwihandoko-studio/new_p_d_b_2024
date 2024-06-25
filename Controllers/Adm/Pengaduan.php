@@ -334,6 +334,7 @@ class Pengaduan extends BaseController
 
                         $response = new \stdClass;
                         $response->status = 200;
+                        $response->url = base_url('adm/pengaduan');
                         $response->message = "Data berhasil ditolak.";
                         return json_encode($response);
                     } else {
