@@ -44,7 +44,7 @@
                                     <?php } ?>
                                 <?php } ?>
                                 <div class="content_data_pengaduan_detail" id="content_data_pengaduan_detail"></div>
-                                <?php if ((int)$data->status == 0) { ?>
+                                <?php if ((int)$data->status == 3) { ?>
                                     <div class="profile-skills mt-5 mb-5">
                                         <h4 class="text-primary mb-2">Keterangan Penolakan</h4>
                                         <p><?= $data->keterangan ?></p>
