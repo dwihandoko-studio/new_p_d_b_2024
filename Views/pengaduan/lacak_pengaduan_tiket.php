@@ -134,14 +134,31 @@
             complete: function() {},
             success: function(response) {
                 if (response.status == 200) {
-                    Swal.close();
-                    $('#content-changeModalLabel').html('EDIT KONTAK TIKET');
-                    $('.content-changeModalBody').html(response.data);
-                    $('.content-changeModal').modal({
-                        backdrop: 'static',
-                        keyboard: false,
-                    });
-                    $('.content-changeModal').modal('show');
+                    Swal.fire(
+                        'BERHASIL!',
+                        response.message,
+                        'success'
+                    ).then((valResT) => {
+
+                        const decodedBytes = atob(response.data);
+                        const arrayBuffer = new ArrayBuffer(decodedBytes.length);
+                        const intArray = new Uint8Array(arrayBuffer);
+                        for (let i = 0; i < decodedBytes.length; i++) {
+                            intArray[i] = decodedBytes.charCodeAt(i);
+                        }
+
+                        const blob = new Blob([intArray], {
+                            type: 'application/pdf'
+                        });
+                        const link = document.createElement('a');
+                        link.href = URL.createObjectURL(blob);
+                        link.download = response.filename; // Set desired filename
+                        link.click();
+                        URL.revokeObjectURL(link.href);
+
+                        reloadPage(resul.url);
+
+                    })
                 } else {
                     Swal.fire(
                         'Failed!',
