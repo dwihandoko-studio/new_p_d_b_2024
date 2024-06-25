@@ -179,7 +179,36 @@
         });
     };
 
-    function sendPesan(nohp, email, id, nama, url) {
+    function openWhatsAppChatWithLink(recipientPhoneNumber, pdfLink) {
+        const whatsAppUrl = `https://web.whatsapp.com/send?phone=<span class="math-inline">\{recipientPhoneNumber\}&text\=</span>{encodeURIComponent('*Download Hasil Pengaduan:* ${pdfLink}')}`;
+        window.open(whatsAppUrl, '_blank');
+    }
+
+    // const sharePDFButton = document.getElementById('share-pdf-button');
+    // sharePDFButton.addEventListener('click', () => {
+    //     const recipientPhoneNumber = '+1234567890'; // Replace with actual recipient phone number (in international format)
+    //     const pdfLink = 'https://your-server.com/path/to/your/pdf.pdf'; // Replace with your PDF link
+    //     openWhatsAppChatWithLink(recipientPhoneNumber, pdfLink);
+    // });
+
+    function sendPesan(nohp, email, id, nama, url, urlPdf) {
+        openWhatsAppChatWithLink(nohp, urlPdf);
+        // $.ajax({
+        //     url: "./sendPesan",
+        //     type: 'POST',
+        //     data: {
+        //         nohp: nohp,
+        //         email: email,
+        //         id: id,
+        //         nama: nama,
+        //     },
+        //     dataType: 'JSON',
+        //     beforeSend: function() {},
+        //     complete: function() {},
+        //     success: function(response) {},
+        //     error: function() {}
+        // });
+
         reloadPage(url);
     }
 

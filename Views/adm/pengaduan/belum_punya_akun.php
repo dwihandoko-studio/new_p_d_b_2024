@@ -319,7 +319,7 @@
                                                                 confirmButtonAriaLabel: "Send, Pesan"
                                                             }).then((confm) => {
                                                                 if (confm.isConfirmed) {
-                                                                    sendPesan(resul.nohp, resul.email, resul.peserta_didik_id, resul.nama, resul.url);
+                                                                    sendPesan(resul.nohp, resul.email, resul.peserta_didik_id, resul.nama, resul.url, resul.url_pdf);
                                                                 } else {
                                                                     reloadPage(resul.url);
                                                                 }
