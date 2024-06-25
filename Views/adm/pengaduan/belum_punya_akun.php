@@ -5,7 +5,7 @@
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">NISN</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control invalid" id="_nisn_pd" name="_nisn_pd" value="<?= $data->nisn ?>" placeholder="NISN..." readonly />
+            <input type="text" class="form-control input-danger" id="_nisn_pd" name="_nisn_pd" value="<?= $data->nisn ?>" placeholder="NISN..." readonly />
         </div>
     </div>
     <div class="mb-3 row">
