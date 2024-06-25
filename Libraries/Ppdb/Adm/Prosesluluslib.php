@@ -493,7 +493,7 @@ class Prosesluluslib
                 'action_app' => 'riwayat_pendaftaran_page',
                 'token' => $pen->id_pendaftaran,
                 'send_from' => $userId,
-                'send_to' => $pen->id,
+                'send_to' => $pen->user_id,
             ]);
 
             // $onesignal = new Fcmlib();

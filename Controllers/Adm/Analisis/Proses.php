@@ -377,6 +377,104 @@ class Proses extends BaseController
         }
     }
 
+    public function proses_tidak_lulusa_afirmasi_sd()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
+
+        // $selectSekolah = "a.id as id_pendaftaran, a.tujuan_sekolah_id_1, j.nama as nama_sekolah_tujuan, j.npsn as npsn_sekolah_tujuan, a.via_jalur, a.created_at, count(a.peserta_didik_id) as jumlah_pendaftar";  //14
+        $dataSekolahs = $this->_db->table('_tb_pendaftar a')
+            ->select("a.tujuan_sekolah_id_1, a.status_pendaftaran, b.bentuk_pendidikan_id, b.status_sekolah_id, count(a.peserta_didik_id) as jumlah_pendaftar")
+            ->join('dapo_sekolah b', 'a.tujuan_sekolah_id_1 = b.sekolah_id')
+            ->where('a.status_pendaftaran', 1)
+            ->where('a.via_jalur', 'AFIRMASI')
+            ->where('b.bentuk_pendidikan_id', 5)
+            ->groupBy('a.tujuan_sekolah_id_1')
+            ->get()->getResult();
+
+        if (count($dataSekolahs) > 0) {
+            print_r("DATA SEKOLAH " . count($dataSekolahs));
+            foreach ($dataSekolahs as $key => $id) {
+                if ((int)$id->status_sekolah_id != 1) {
+                    print_r("SEKOLAH SWASTA SKIP ");
+                    continue;
+                }
+
+                $afirmasiData = $this->_db->table('_tb_pendaftar a')
+                    ->select("a.id as id_pendaftaran, a.user_id, a.via_jalur, a.tujuan_sekolah_id_1, a.status_pendaftaran, a.jarak_domisili, a.created_at")
+                    ->where('a.tujuan_sekolah_id_1', $id->tujuan_sekolah_id_1)
+                    ->where('a.status_pendaftaran', 1)
+                    ->where('a.via_jalur', 'AFIRMASI')
+                    ->orderBy('a.jarak_domisili', 'ASC')
+                    ->orderBy('a.created_at', 'ASC')
+                    ->get()->getResult();
+
+                $lulusLib = new Prosesluluslib();
+
+                if (count($afirmasiData) > 0) {
+                    $lulusLib->prosesTidakLulusAfirmasi($afirmasiData, $user->data->id);
+                }
+            }
+            print_r("SELESAI PROSES KELULUSAN ");
+        } else {
+            print_r("DATA SEKOLAH TIDAK DITEMUKAN");
+        }
+    }
+
+    public function proses_tidak_lulusa_afirmasi_smp()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
+
+        // $selectSekolah = "a.id as id_pendaftaran, a.tujuan_sekolah_id_1, j.nama as nama_sekolah_tujuan, j.npsn as npsn_sekolah_tujuan, a.via_jalur, a.created_at, count(a.peserta_didik_id) as jumlah_pendaftar";  //14
+        $dataSekolahs = $this->_db->table('_tb_pendaftar a')
+            ->select("a.tujuan_sekolah_id_1, a.status_pendaftaran, b.bentuk_pendidikan_id, b.status_sekolah_id, count(a.peserta_didik_id) as jumlah_pendaftar")
+            ->join('dapo_sekolah b', 'a.tujuan_sekolah_id_1 = b.sekolah_id')
+            ->where('a.status_pendaftaran', 1)
+            ->where('a.via_jalur', 'AFIRMASI')
+            ->where('b.bentuk_pendidikan_id', 6)
+            ->groupBy('a.tujuan_sekolah_id_1')
+            ->get()->getResult();
+
+        if (count($dataSekolahs) > 0) {
+            print_r("DATA SEKOLAH " . count($dataSekolahs));
+            foreach ($dataSekolahs as $key => $id) {
+                if ((int)$id->status_sekolah_id != 1) {
+                    print_r("SEKOLAH SWASTA SKIP ");
+                    continue;
+                }
+
+                $afirmasiData = $this->_db->table('_tb_pendaftar a')
+                    ->select("a.id as id_pendaftaran, a.user_id, a.via_jalur, a.tujuan_sekolah_id_1, a.status_pendaftaran, a.jarak_domisili, a.created_at")
+                    ->where('a.tujuan_sekolah_id_1', $id->tujuan_sekolah_id_1)
+                    ->where('a.status_pendaftaran', 1)
+                    ->where('a.via_jalur', 'AFIRMASI')
+                    ->orderBy('a.jarak_domisili', 'ASC')
+                    ->orderBy('a.created_at', 'ASC')
+                    ->get()->getResult();
+
+                $lulusLib = new Prosesluluslib();
+
+                if (count($afirmasiData) > 0) {
+                    $lulusLib->prosesTidakLulusAfirmasi($afirmasiData, $user->data->id);
+                }
+            }
+            print_r("SELESAI PROSES KELULUSAN ");
+        } else {
+            print_r("DATA SEKOLAH TIDAK DITEMUKAN");
+        }
+    }
+
     // public function proseskelulusanafirmasismp()
     // {
     //     $Profilelib = new Profilelib();
