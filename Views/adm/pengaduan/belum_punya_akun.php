@@ -305,7 +305,25 @@
                                                             link.click();
                                                             URL.revokeObjectURL(link.href);
 
-                                                            reloadPage(resul.url);
+                                                            Swal.fire({
+                                                                title: "<strong>KIRIM AKUN KE WA & EMAIL</strong>",
+                                                                icon: "question",
+                                                                html: '<center><b>Kirim akun peserta didik ke</b><br/>No WA: ' + resul.nohp + ' & Email: ' + resul.email + '</center>',
+                                                                showCloseButton: false,
+                                                                showCancelButton: true,
+                                                                allowOutsideClick: false,
+                                                                allowEscapeKey: false,
+                                                                focusConfirm: false,
+                                                                confirmButtonText: "Tidak",
+                                                                confirmButtonText: `<i class="las la-hand-point-right"></i> Kirim Pesan?`,
+                                                                confirmButtonAriaLabel: "Send, Pesan"
+                                                            }).then((confm) => {
+                                                                if (confm.isConfirmed) {
+                                                                    sendPesan(resul.nohp, resul.email, resul.peserta_didik_id, resul.nama, resul.url);
+                                                                } else {
+                                                                    reloadPage(resul.url);
+                                                                }
+                                                            })
 
                                                         })
                                                     }

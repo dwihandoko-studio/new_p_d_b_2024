@@ -179,6 +179,10 @@
         });
     };
 
+    function sendPesan(nohp, email, id, nama, url) {
+        reloadPage(url);
+    }
+
     function prosesPengaduan(id, nama) {
         Swal.fire({
             title: 'Apakah anda yakin ingin memproses data pengaduan ini?',

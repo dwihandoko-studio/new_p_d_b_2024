@@ -585,6 +585,8 @@ class Pengaduan extends BaseController
                                         $response->status = 200;
                                         $response->peserta_didik_id = $pdId;
                                         $response->nama = $oldDataPd->nama;
+                                        $response->nohp = $oldData->nohp_pengadu;
+                                        $response->email = $oldDataPd->email_pengadu;
                                         $response->url = base_url('adm/pengaduan');
                                         $response->message = "Data berhasil disimpan.";
                                         return json_encode($response);
