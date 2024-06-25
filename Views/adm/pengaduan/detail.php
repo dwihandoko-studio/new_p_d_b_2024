@@ -43,7 +43,7 @@
                                         <img src="https://invome.dexignlab.com/codeigniter/demo/public/assets/images/profile/8.jpg" alt="" class="img-fluid mb-3 w-100 rounded">
                                     <?php } ?>
                                 <?php } ?>
-                                <!-- <p></p> -->
+                                <div class="content_data_pengaduan_detail" id="content_data_pengaduan_detail"></div>
                                 <div class="profile-skills mt-5 mb-5">
                                     <h4 class="text-primary mb-2">Informasi Pengadu</h4>
                                     <a href="javascript:void();;" class="btn btn-primary light btn-xs mb-1"><?= strtolower($data->email_pengadu) ?></a>
@@ -104,6 +104,49 @@
 
 <?= $this->section('scriptBottom'); ?>
 <script>
+    function getContentPengaduan(tiket, jenis) {
+        $.ajax({
+            url: "./getPengaduan",
+            type: 'POST',
+            data: {
+                tiket: tiket,
+                jenis: jenis,
+            },
+            dataType: 'JSON',
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Sedang Loading...',
+                    text: 'Please wait while we process your action.',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
+            complete: function() {},
+            success: function(response) {
+                if (response.status == 200) {
+                    Swal.close();
+                    $('.content_data_pengaduan_detail').html(response.data);
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        response.message,
+                        'warning'
+                    );
+                }
+            },
+            error: function() {
+                Swal.fire(
+                    'PERINGATAN!',
+                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                    'warning'
+                );
+            }
+        });
+    }
+
     function inputFocus(id) {
         const color = $(id).attr('id');
         $(id).removeAttr('style');
@@ -111,6 +154,11 @@
     }
 
     $(document).ready(function() {
+
+        <?php if (isset($data)) { ?>
+            getContentPengaduan('<?= $data->no_tiket ?>', '<?= $data->jenis_pengaduan ?>');
+        <?php } ?>
+
         // initSelect2('_filter_kec', $('.content-body'));
         // initSelect2('_filter_jenjang', $('.content-body'));
     });
