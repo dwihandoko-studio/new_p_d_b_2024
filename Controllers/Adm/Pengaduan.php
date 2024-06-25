@@ -97,7 +97,7 @@ class Pengaduan extends BaseController
         $name = htmlspecialchars($this->request->getGet('n'), true);
 
         $oldData = $this->_db->table('data_pengaduan a')
-            ->select("b.*, a.jenis_pengaduan, a.file, a.status, a.keterangan, a.created_at as created_pengaduan, a.updated_at as updated_pengaduan, a.admin_approve")
+            ->select("b.*, a.no_tiket, a.jenis_pengaduan, a.file, a.status, a.keterangan, a.created_at as created_pengaduan, a.updated_at as updated_pengaduan, a.admin_approve")
             ->join('dapo_peserta_pengajuan b', 'a.no_tiket = b.id')
             ->where('a.no_tiket', $id)
             ->get()->getRowObject();
