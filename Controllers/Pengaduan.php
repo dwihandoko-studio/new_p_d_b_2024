@@ -210,8 +210,8 @@ class Pengaduan extends BaseController
                 ]);
                 if ($this->_db->affectedRows() > 0) {
                     $this->_db->table('dapo_peserta_pengajuan')->where('id', $oldData->no_tiket)->update([
-                        'email_pengadu' => $email,
-                        'nohp_pengadu' => $nohp,
+                        'email' => $email,
+                        'nohp' => $nohp,
                         'updated_at' => date('Y-m-d H:i:s'),
                     ]);
                     if ($this->_db->affectedRows() > 0) {
