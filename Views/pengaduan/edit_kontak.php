@@ -58,9 +58,7 @@
                             'Peringatan!',
                             response.message,
                             'warning'
-                        ).then((valRes) => {
-                            reloadPage();
-                        })
+                        );
                     } else {
                         Swal.fire(
                             'BERHASIL!',
