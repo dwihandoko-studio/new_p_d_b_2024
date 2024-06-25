@@ -36,13 +36,13 @@ class Pengaduan extends BaseController
             $row = [];
 
             $row[] = $no;
-            $action = '<a class="btn btn-primary" href="./detail?id=' . $list->no_tiket . '&n=' . $list->nama_pengaju . '"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
+            $action = '<a class="btn btn-primary" href="./detail?id=' . $list->no_tiket . '&n=' . $list->nama_pengadu . '"><i class="bx bxs-show font-size-16 align-middle"></i> &nbsp;Detail</a>
                                 ';
 
             $row[] = $action;
             $row[] = ucwords($list->jenis_pengaduan);
             $row[] = $list->npsn;
-            $row[] = $list->nama_pengaduan;
+            $row[] = $list->nama_pengadu;
             $row[] = $list->no_tiket;
 
             $data[] = $row;

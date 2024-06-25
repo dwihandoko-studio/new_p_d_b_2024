@@ -8,8 +8,8 @@ use CodeIgniter\Model;
 class PengaduanModel extends Model
 {
     protected $table = "data_pengaduan a";
-    protected $column_order = array(null, null, 'a.jenis_pengaduan', 'a.nama_pengaduan', 'a.no_tiket');
-    protected $column_search = array('a.no_tiket', 'a.nama_pengaduan');
+    protected $column_order = array(null, null, 'a.jenis_pengaduan', 'a.nama_pengadu', 'a.no_tiket');
+    protected $column_search = array('a.no_tiket', 'a.nama_pengadu');
     // protected $order = array('a.username' => 'asc');
     protected $request;
     protected $db;
