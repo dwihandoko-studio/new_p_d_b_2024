@@ -166,9 +166,9 @@
                 url: "./loadModal",
                 type: 'POST',
                 data: {
-                    id: 'pengumuman',
+                    id: 'pengumuman'
                 },
-                dataType: "json",
+                dataType: "JSON",
                 beforeSend: function() {
                     Swal.fire({
                         title: 'Sedang Loading . . .',
