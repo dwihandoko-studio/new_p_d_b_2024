@@ -1,6 +1,6 @@
 <form id="formTolakData" class="formTolakData" action="./tolakSave" method="post">
     <input type="hidden" id="_id_tolak" name="_id_tolak" value="<?= $data->no_tiket ?>" />
-    <input type="hidden" id="_nama_tolak" name="_nama_tolak" value="<?= replaceTandaBacaPetik($data->nama_pegadu) ?>" />
+    <input type="hidden" id="_nama_tolak" name="_nama_tolak" value="<?= replaceTandaBacaPetik($data->nama_pengadu) ?>" />
     <div class="modal-body">
         <div class="row">
             <div class="mb-3 row">
