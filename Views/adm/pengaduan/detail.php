@@ -32,7 +32,7 @@
                             <div class="post-details">
                                 <h3 class="mb-2 text-black"><?= strtoupper($data->jenis_pengaduan) ?></h3>
                                 <ul class="mb-4 post-meta d-flex flex-wrap">
-                                    <li class="post-author me-3">Status Pengaduan <button class="btn btn-xs <?= getStatusTicketPengaduanButton($data->status) ?>"><?= getStatusTicketPengaduan($data->status) ?></button></li>
+                                    <li class="post-author me-3"><button class="btn btn-xxs <?= getStatusTicketPengaduanButton($data->status) ?>"><?= getStatusTicketPengaduan($data->status) ?></button></li>
                                     <li class="post-author me-3">By <?= ucfirst(strtolower($data->nama_pengadu)) ?></li>
                                     <li class="post-date me-3"><i class="far fa-calendar-plus me-2"></i><?= tgl_indo($data->created_at) ?></li>
                                     <li class="post-comment"><i class="fas fa-clock"></i> <?= make_time_long_ago_new($data->created_at) ?></li>
