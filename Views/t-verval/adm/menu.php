@@ -76,6 +76,14 @@
                     <li><a href="<?= base_url('adm/validasi/pdakhir') ?>">Pd Tingkat Akhir</a></li>
                 </ul>
             </li>
+            <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+                    <i class="fas fa-binoculars"></i>
+                    <span class="nav-text">Analisis</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="<?= base_url('adm/analisis/proses') ?>">Proses</a></li>
+                </ul>
+            </li>
             <li><a href="<?= base_url('adm/pengaduan') ?>" class="" aria-expanded="false">
                     <i class="fab fa-teamspeak"></i>
                     <span class="nav-text">Pengaduan</span>
