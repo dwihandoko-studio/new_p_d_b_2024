@@ -7,7 +7,7 @@ use App\Models\Adm\Analisis\ProsesjalurModel;
 use App\Models\Adm\Analisis\SekolahModel;
 use Config\Services;
 use App\Libraries\Profilelib;
-use App\Libraries\Adm\Prosesluluslib;
+use App\Libraries\Ppdb\Adm\Prosesluluslib;
 use App\Libraries\Apilib;
 use App\Libraries\Uuid;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;

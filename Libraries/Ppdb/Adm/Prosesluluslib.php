@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Libraries\Adm;
+namespace App\Libraries\Ppdb\Adm;
 
 use App\Libraries\Uuid;
 use Firebase\JWT\JWT;
