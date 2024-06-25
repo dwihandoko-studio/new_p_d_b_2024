@@ -59,7 +59,7 @@
                                                 <?php } else { ?>
                                                     <div class="row">
                                                         <div class="col-lg-4">
-                                                            <button onclick="tolakPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-block btn-sm btn-primary">Tolak Pengaduan</button>
+                                                            <button onclick="tolakPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-block btn-sm btn-warning">Tolak Pengaduan</button>
                                                         </div>
                                                         <div class="col-lg-4">
                                                             <button onclick="selesaiPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-block btn-sm btn-primary">Verifikasi</button>
