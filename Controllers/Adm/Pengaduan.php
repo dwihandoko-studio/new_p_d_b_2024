@@ -171,6 +171,17 @@ class Pengaduan extends BaseController
                     }
 
                     $x['data'] = $oldData;
+                    $x['props'] = $this->_db->table('ref_provinsi')
+                        ->get()->getResult();
+                    $x['kabs'] = $this->_db->table('ref_kabupaten')
+                        ->where("left(id,2) = left('{$oldData->kode_wilayah}',2)")->get()->getResult();
+                    $x['kecs'] = $this->_db->table('ref_kecamatan')
+                        ->where("left(id_kabupaten,4) = left('{$oldData->kode_wilayah}',4)")->get()->getResult();
+                    $x['kels'] = $this->_db->table('ref_kelurahan')
+                        ->where("left(id_kecamatan,6) = left('{$oldData->kode_wilayah}',6)")->get()->getResult();
+                    $x['dusuns'] = $this->_db->table('ref_dusun')->orderBy('urut', 'ASC')
+                        ->get()->getResult();
+                    $x['sek'] = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('sekolah_id', $oldData->sekolah_id)->get()->getRowObject();
 
                     $response = new \stdClass;
                     $response->status = 200;
