@@ -153,6 +153,7 @@ class Home extends BaseController
         set_cookie('containerLayout', 'wide', strval(3600 * 24 * 1));
         $data['title'] = 'Statistik || PPDB 2024/2025 Kab. Lampung Tengah';
 
+        $data['kecamatans'] = $this->_db->table('ref_kecamatan')->where('id_kabupaten', '120200')->orderBy('nama', 'ASC')->get()->getResult();
         return view('dashboard/statistik', $data);
     }
 
