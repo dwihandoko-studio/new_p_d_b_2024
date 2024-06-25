@@ -11,7 +11,7 @@
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">NPSN</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" id="_npsn_pd" name="_npsn_pd" value="<?= $npsn ?>" placeholder="NPSN..." readonly />
+            <input type="text" class="form-control" id="_npsn_pd" name="_npsn_pd" value="<?= $sek->npsn ?>" placeholder="NPSN..." readonly />
         </div>
     </div>
     <div class="mb-3 row">
