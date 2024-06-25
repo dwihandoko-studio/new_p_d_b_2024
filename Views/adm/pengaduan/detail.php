@@ -182,9 +182,35 @@
         });
     };
 
+    function validateAndFormatPhoneNumber(phoneNumber) {
+        // Remove all non-digit characters
+        const digitsOnly = phoneNumber.replace(/\D/g, "");
+
+        // Check if the length is valid (10 or 11 digits)
+        // if (digitsOnly.length !== 10 && digitsOnly.length !== 11) {
+        //     return "Invalid phone number length";
+        // }
+
+        // Prepend "62" if necessary (assuming Indonesian phone numbers)
+        let formattedNumber;
+        // if (digitsOnly.length === 10) {
+        //     formattedNumber = `62${digitsOnly}`;
+        // } else {
+        // Handle cases where the number starts with "0" (remove leading zero)
+        if (digitsOnly.startsWith("0")) {
+            formattedNumber = `62${digitsOnly.slice(1)}`;
+        } else {
+            return "Invalid phone number format (should start with 0)";
+        }
+        // }
+
+        return formattedNumber;
+    }
+
     function openWhatsAppChatWithLink(recipientPhoneNumber, pdfLink) {
+        const phoneNumberNya = validateAndFormatPhoneNumber(recipientPhoneNumber);
         // const whatsAppUrl = `https://web.whatsapp.com/send?phone=<span class="math-inline">\{recipientPhoneNumber\}&text\=</span>{encodeURIComponent('*Download Hasil Pengaduan:* ${pdfLink}')}`;
-        const whatsAppUrl = `https://web.whatsapp.com/send?phone=${recipientPhoneNumber}&text=${encodeURIComponent(`*Download Hasil Pengaduan:* ${pdfLink}`)}`;
+        const whatsAppUrl = `https://web.whatsapp.com/send?phone=${phoneNumberNya}&text=${encodeURIComponent(`*Download Hasil Pengaduan:* ${pdfLink}`)}`;
         window.open(whatsAppUrl, '_blank');
     }
 
