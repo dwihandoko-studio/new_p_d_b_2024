@@ -46,8 +46,8 @@
                                 <div class="content_data_pengaduan_detail" id="content_data_pengaduan_detail"></div>
                                 <div class="profile-skills mt-5 mb-5">
                                     <h4 class="text-primary mb-2">Informasi Pengadu</h4>
-                                    <a href="javascript:void();;" class="btn btn-primary light btn-xs mb-1"><?= strtolower($data->email_pengadu) ?></a>
-                                    <a href="javascript:void();;" class="btn btn-primary light btn-xs mb-1"><?= $data->nohp_pengadu ?></a>
+                                    <a href="javascript:void(0);" class="btn btn-primary light btn-xs mb-1"><?= strtolower($data->email_pengadu) ?></a>
+                                    <a href="javascript:void(0);" class="btn btn-primary light btn-xs mb-1"><?= $data->nohp_pengadu ?></a>
                                 </div>
                                 <div class="comment-respond" id="respond">
                                     <h4 class="comment-reply-title text-primary mb-3" id="reply-title">Aksi </h4>
