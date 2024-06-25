@@ -42,6 +42,8 @@
                                             <label for="_filter_jenjang" class="col-form-label">Filter Jenjang:</label>
                                             <select class="form-control filter-jenjang" id="_filter_jenjang" name="_filter_jenjang" width="100%" style="width: 100%;">
                                                 <option value="">--Pilih--</option>
+                                                <option value="5">SD</option>
+                                                <option value="6">SMP</option>
                                                 <?php if (isset($jenjangs)) {
                                                     if (count($jenjangs) > 0) {
                                                         foreach ($jenjangs as $key => $value) { ?>
