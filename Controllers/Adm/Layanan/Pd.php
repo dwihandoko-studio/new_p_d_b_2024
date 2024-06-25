@@ -190,46 +190,46 @@ class Pd extends BaseController
         return view('adm/layanan/pd/index', $data);
     }
 
-    public function add()
-    {
-        if ($this->request->isAJAX()) {
+    // public function add()
+    // {
+    //     if ($this->request->isAJAX()) {
 
-            $rules = [
-                'id' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Id tidak boleh kosong. ',
-                    ]
-                ],
-            ];
+    //         $rules = [
+    //             'id' => [
+    //                 'rules' => 'required|trim',
+    //                 'errors' => [
+    //                     'required' => 'Id tidak boleh kosong. ',
+    //                 ]
+    //             ],
+    //         ];
 
-            if (!$this->validate($rules)) {
-                $response = new \stdClass;
-                $response->status = 400;
-                $response->message = $this->validator->getError('id');
-                return json_encode($response);
-            } else {
-                $Profilelib = new Profilelib();
-                $user = $Profilelib->user();
-                if ($user->status != 200) {
-                    delete_cookie('jwt');
-                    session()->destroy();
-                    $response = new \stdClass;
-                    $response->status = 401;
-                    $response->message = "Session expired";
-                    return json_encode($response);
-                }
+    //         if (!$this->validate($rules)) {
+    //             $response = new \stdClass;
+    //             $response->status = 400;
+    //             $response->message = $this->validator->getError('id');
+    //             return json_encode($response);
+    //         } else {
+    //             $Profilelib = new Profilelib();
+    //             $user = $Profilelib->user();
+    //             if ($user->status != 200) {
+    //                 delete_cookie('jwt');
+    //                 session()->destroy();
+    //                 $response = new \stdClass;
+    //                 $response->status = 401;
+    //                 $response->message = "Session expired";
+    //                 return json_encode($response);
+    //             }
 
-                $response = new \stdClass;
-                $response->status = 200;
-                $response->message = "Permintaan diizinkan";
-                $response->data = view('adm/layanan/pd/add');
-                return json_encode($response);
-            }
-        } else {
-            exit('Maaf tidak dapat diproses');
-        }
-    }
+    //             $response = new \stdClass;
+    //             $response->status = 200;
+    //             $response->message = "Permintaan diizinkan";
+    //             $response->data = view('adm/layanan/pd/add');
+    //             return json_encode($response);
+    //         }
+    //     } else {
+    //         exit('Maaf tidak dapat diproses');
+    //     }
+    // }
 
     public function cekData()
     {
