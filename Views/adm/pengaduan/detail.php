@@ -57,8 +57,14 @@
                                                 <?php if ((int)$data->status == 0) { ?>
                                                     <button onclick="prosesPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-sm btn-primary">Proses Pengaduan</button>
                                                 <?php } else { ?>
-                                                    <button onclick="tolakPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-sm btn-primary">Tolak Pengaduan</button> &nbsp;&nbsp;
-                                                    &nbsp; &nbsp; <button onclick="selesaiPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-sm btn-primary">Verifikasi</button>
+                                                    <div class="row">
+                                                        <div class="col-lg-4">
+                                                            <button onclick="tolakPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-block btn-sm btn-primary">Tolak Pengaduan</button>
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <button onclick="selesaiPengaduan('<?= $data->no_tiket ?>', '<?= ucfirst(strtolower($data->nama_pengadu)) ?>')" class="btn btn-block btn-sm btn-primary">Verifikasi</button>
+                                                        </div>
+                                                    </div>
                                                 <?php } ?>
                                             </div>
                                         </div>
