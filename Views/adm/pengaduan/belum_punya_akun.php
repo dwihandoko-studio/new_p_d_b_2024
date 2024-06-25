@@ -218,7 +218,7 @@
                         $.ajax({
                             url: "./verifikasiSudahSave",
                             type: 'POST',
-                            data: $(this).serialize(),
+                            data: formElementsVerifikasi.serialize(),
                             dataType: 'JSON',
                             beforeSend: function() {
                                 Swal.fire({
