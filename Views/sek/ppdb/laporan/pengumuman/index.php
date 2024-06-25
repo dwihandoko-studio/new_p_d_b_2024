@@ -19,11 +19,12 @@
                             <div class="col-lg-12">
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <a href="javascript:downloadSptjm('afirmasi');" class="btn btn-block btn-primary">Download SPTJM AFIRMASI</a>
+                                        <a href="javascript:downloadSptjmAfirmasi();" class="btn btn-block btn-primary">Download SPTJM AFIRMASI</a>
+                                        <!-- <a href="javascript:downloadSptjm('afirmasi');" class="btn btn-block btn-primary">Download SPTJM AFIRMASI</a> -->
                                     </div>
-                                    <!-- <div class="col-lg-6">
-                                        <a href="javascript:lacakPengaduan();" class="btn btn-block btn-info">Download LAMPIRAN SPTJ AFIRMASI</a>
-                                    </div> -->
+                                    <div class="col-lg-6">
+                                        <a href="javascript:downloadLampiranAfirmasi();" class="btn btn-block btn-info">Download LAMPIRAN SPTJ AFIRMASI</a>
+                                    </div>
                                 </div>
                             </div>
                             <div id="content-lacak-pengaduan" class="content-lacak-pengaduan" style="margin-top: 30px;"></div>
@@ -142,6 +143,14 @@
                 );
             }
         });
+    }
+
+    function downloadSptjmAfirmasi() {
+        window.open('<?= base_url('sek/ppdb/laporan/pengumuman/downloadsptjmafirmasi') ?>', '_blank').focus();
+    }
+
+    function downloadLampiranAfirmasi() {
+        window.open('<?= base_url('sek/ppdb/laporan/pengumuman/downloadlampiranafirmasi') ?>', '_blank').focus();
     }
 
     function inputFocus(id) {

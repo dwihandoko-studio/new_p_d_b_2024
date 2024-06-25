@@ -357,6 +357,69 @@ class Pengumuman extends BaseController
         }
     }
 
+    public function downloadsptjmafirmasi()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->userSekolah();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            $response = new \stdClass;
+            $response->status = 401;
+            $response->message = "Session expired";
+            return json_encode($response);
+        }
+
+        // $id = htmlspecialchars($this->request->getVar('id'), true);
+
+        // if ($id === 'afirmasi') {
+        $sekolah = $this->_db->table('panitia_ppdb a')
+            ->select("b.*, a.nama as nama_panitia, a.jabatan_ppdb, a.jabatan")
+            ->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id')
+            ->where('a. sekolah_id', $user->data->sekolah_id)->orderBy('a.jabatan_ppdb', 'ASC')->limit(1)->get()->getRowObject();
+        if (!$sekolah) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Data Sekolah Tidak Ditemukan";
+            return json_encode($response);
+        }
+
+        $pesertaLolos = $this->_db->table('_tb_pendaftar a')
+            ->select("a.*")
+            ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
+            ->where('a.via_jalur', 'AFIRMASI')
+            ->where('a.status_pendaftaran', 2)
+            ->orderBy('jarak_domisili', 'ASC')
+            ->get()->getResult();
+
+        $pesertaTidakLolos = $this->_db->table('_tb_pendaftar a')
+            ->select("a.*")
+            ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
+            ->where('a.via_jalur', 'AFIRMASI')
+            ->where('a.status_pendaftaran', 3)
+            ->orderBy('jarak_domisili', 'ASC')
+            ->get()->getResult();
+
+        $x['jalur'] = 'AFIRMASI';
+        $x['sekolah'] = $sekolah;
+        $x['lolos'] = $pesertaLolos;
+        $x['gagal'] = $pesertaTidakLolos;
+
+        $response = new \stdClass;
+        $response->status = 200;
+        $response->data = view('sek/ppdb/laporan/pengumuman/cetak-sptjm-afirmasi', $x);;
+        $response->message = "SPTJM tersedia.";
+        return json_encode($response);
+
+        // return $this->downloadSptjm('AFIRMASI', $sekolah, $pesertaLolos, $pesertaTidakLolos);
+        // } else {
+        //     $response = new \stdClass;
+        //     $response->status = 400;
+        //     $response->message = "SPTJM tidak tersedia.";
+        //     return json_encode($response);
+        // }
+    }
+
     private function downloadSptjm($jalur, $sekolah, $pesertaLolos, $pesertaTidakLolos)
     {
         $pdf = new TcpdfFpdi('P', 'mm', PDF_PAGE_FORMAT, true, 'UTF-8', false);
