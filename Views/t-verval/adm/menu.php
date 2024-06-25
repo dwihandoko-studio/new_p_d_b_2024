@@ -76,6 +76,11 @@
                     <li><a href="<?= base_url('adm/validasi/pdakhir') ?>">Pd Tingkat Akhir</a></li>
                 </ul>
             </li>
+            <li><a href="<?= base_url() ?>" class="" aria-expanded="false">
+                    <i class="fab fa-teamspeak"></i>
+                    <span class="nav-text">Pengaduan</span>
+                </a>
+            </li>
         </ul>
 
         <div class="copyright">
