@@ -41,7 +41,6 @@ class Pengaduan extends BaseController
 
             $row[] = $action;
             $row[] = ucwords($list->jenis_pengaduan);
-            $row[] = $list->npsn;
             $row[] = $list->nama_pengadu;
             $row[] = $list->no_tiket;
 
