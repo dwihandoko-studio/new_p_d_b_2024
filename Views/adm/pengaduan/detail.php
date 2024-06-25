@@ -44,6 +44,12 @@
                                     <?php } ?>
                                 <?php } ?>
                                 <div class="content_data_pengaduan_detail" id="content_data_pengaduan_detail"></div>
+                                <?php if ((int)$data->status == 0) { ?>
+                                    <div class="profile-skills mt-5 mb-5">
+                                        <h4 class="text-primary mb-2">Keterangan Penolakan</h4>
+                                        <p><?= $data->keterangan ?></p>
+                                    </div>
+                                <?php } ?>
                                 <div class="profile-skills mt-5 mb-5">
                                     <h4 class="text-primary mb-2">Informasi Pengadu</h4>
                                     <a href="javascript:void(0);" class="btn btn-primary light btn-xs mb-1"><?= strtolower($data->email_pengadu) ?></a>
