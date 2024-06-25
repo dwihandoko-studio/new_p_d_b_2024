@@ -44,8 +44,8 @@
     <script>
         const BASE_URL = '<?= base_url() ?>';
     </script>
-    <link href="<?= base_url() ?>/assets/vendor/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
     <?= $this->renderSection('scriptTop'); ?>
+    <link href="<?= base_url() ?>/assets/vendor/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -153,8 +153,8 @@
     </div>
     <script src="<?= base_url() ?>/assets/vendor/global/global.min.js"></script>
     <script src="<?= base_url() ?>/assets/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
-    <script src="<?= base_url() ?>/assets/vendor/sweetalert2/sweetalert2.min.js"></script>
     <?= $this->renderSection('scriptBottom'); ?>
+    <script src="<?= base_url() ?>/assets/vendor/sweetalert2/sweetalert2.min.js"></script>
 
     <script src="<?= base_url() ?>/assets/js/custom.min.js"></script>
     <script src="<?= base_url() ?>/assets/js/dlabnav-init.js"></script>
