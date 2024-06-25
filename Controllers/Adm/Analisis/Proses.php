@@ -3,7 +3,7 @@
 namespace App\Controllers\Adm\Analisis;
 
 use App\Controllers\BaseController;
-use App\Models\Adm\Layanan\AkunModel;
+use App\Models\Adm\Analisis\ProsesjalurModel;
 use App\Models\Adm\Analisis\SekolahModel;
 use Config\Services;
 use App\Libraries\Profilelib;
@@ -63,7 +63,7 @@ class Proses extends BaseController
     public function getAllDetail()
     {
         $request = Services::request();
-        $datamodel = new AkunModel($request);
+        $datamodel = new ProsesjalurModel($request);
 
 
         $lists = $datamodel->get_datatables();
@@ -74,30 +74,20 @@ class Proses extends BaseController
             $row = [];
 
             $row[] = $no;
-            $action = '<div class="btn-group">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
-                <div class="dropdown-menu" style="">
-                    <a class="dropdown-item" href="javascript:actionResetPassword(\'' . $list->peserta_didik_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\');"><i class="bx bx-key font-size-16 align-middle"></i> &nbsp;Reset Password</a>
-                </div>
-            </div>';
+            // $action = '<div class="btn-group">
+            //     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
+            //     <div class="dropdown-menu" style="">
+            //         <a class="dropdown-item" href="javascript:actionResetPassword(\'' . $list->peserta_didik_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\');"><i class="bx bx-key font-size-16 align-middle"></i> &nbsp;Reset Password</a>
+            //     </div>
+            // </div>';
 
-            $row[] = $action;
-            $row[] = $list->nisn;
-            $row[] = $list->nik;
-            $row[] = $list->nama;
-            $row[] = $list->tempat_lahir;
-            $row[] = $list->tanggal_lahir;
-            if ($list->user_id && ($list->user_id != NULL)) {
-                $row[] = '<button type="button" class="btn btn-success btn-xxs">Sudah Tergenerate</button>';
-            } else {
-                $row[] = '<button type="button" onclick="actionGenerate(\'' . $list->peserta_didik_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\')" class="btn btn-info btn-xxs">Generate</button>';
-            }
-            if ($list->user_id && ($list->user_id != NULL)) {
-                $row[] = '<button type="button" onclick="actionDownload(\'' . $list->peserta_didik_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\')" class="btn btn-info btn-xxs"><i class="fas fa-donwload font-size-16 align-middle">Download</button>';
-            } else {
-                $row[] = '&nbsp;';
-            }
-
+            // $row[] = $action;
+            $row[] = $list->nama_peserta;
+            $row[] = $list->nisn_peserta;
+            $row[] = $list->via_jalur;
+            $row[] = $list->jarak_domisili . ' Km';
+            $row[] = $list->nama_sekolah_asal;
+            $row[] = $list->npsn_sekolah_asal;
             $data[] = $row;
         }
         $output = [
@@ -134,27 +124,27 @@ class Proses extends BaseController
         return view('adm/analisis/proses/sekolah', $data);
     }
 
-    // public function detaillist()
-    // {
-    //     $Profilelib = new Profilelib();
-    //     $user = $Profilelib->user();
-    //     if ($user->status != 200) {
-    //         delete_cookie('jwt');
-    //         session()->destroy();
-    //         return redirect()->to(base_url('auth'));
-    //     }
+    public function detaillist()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
 
-    //     $id = htmlspecialchars($this->request->getGet('id'), true);
-    //     $name = htmlspecialchars($this->request->getGet('n'), true);
-    //     $data['title'] = "DATA PESERTA DIDIK SEKOLAH $name";
-    //     $data['id'] = $id;
-    //     $data['nama_sekolah'] = $name;
-    //     $data['user'] = $user->data;
-    //     $data['level'] = $user->level;
-    //     $data['level_nama'] = $user->level_nama;
+        $id = htmlspecialchars($this->request->getGet('id'), true);
+        $name = htmlspecialchars($this->request->getGet('n'), true);
+        $data['title'] = "ANALISIS PROSES DATA PESERTA DIDIK SEKOLAH $name";
+        $data['id'] = $id;
+        $data['nama_sekolah'] = $name;
+        $data['user'] = $user->data;
+        $data['level'] = $user->level;
+        $data['level_nama'] = $user->level_nama;
 
-    //     return view('adm/layanan/akun/index', $data);
-    // }
+        return view('adm/analisis/proses/index', $data);
+    }
 
     // public function generate()
     // {
