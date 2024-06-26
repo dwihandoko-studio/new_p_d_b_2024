@@ -51,7 +51,7 @@
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            z-index: 20;
+            z-index: 100000;
             max-width: 190px;
             cursor: pointer !important;
         }
