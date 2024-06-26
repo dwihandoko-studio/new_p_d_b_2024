@@ -375,6 +375,7 @@
     function validateForm(formElement) {
         const latitudeInput = formElement.querySelector('#_lintang');
         const longitudeInput = formElement.querySelector('#_bujur');
+        const pdidInput = formElement.querySelector('#_id_sekolah');
 
         if (!validateLat(latitudeInput.value)) {
             Swal.fire(
@@ -395,6 +396,31 @@
                 'warning'
             ).then((valR) => {
                 longitudeInput.focus();
+            });
+
+            return false; // Prevent form submission if validation fails
+        }
+
+        if (pdidInput.value === "" || pdidInput.value === undefined) {
+
+            Swal.fire(
+                'Failed!',
+                "Inputan Sekolah id tidak valid.",
+                'warning'
+            ).then((valR) => {
+                pdidInput.focus();
+            });
+
+            return false; // Prevent form submission if validation fails
+        }
+
+        if ((pdidInput.value).length !== 36) {
+            Swal.fire(
+                'Failed!',
+                "Inputan Sekolah id tidak valid.",
+                'warning'
+            ).then((valR) => {
+                pdidInput.focus();
             });
 
             return false; // Prevent form submission if validation fails
