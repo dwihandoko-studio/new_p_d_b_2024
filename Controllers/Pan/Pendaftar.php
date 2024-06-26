@@ -488,6 +488,17 @@ class Pendaftar extends BaseController
                     'hasil_verifikasi' => $hasil_verifikasi
                 ];
 
+                $canSubmitToVerif = $this->_db->table('_tb_pendaftar')
+                    // ->where('peserta_didik_id', $dataMove['peserta_didik_id'])
+                    ->where("peserta_didik_id = '$oldData->peserta_didik_id' AND (status_pendaftaran = 1 OR status_pendaftaran = 2)")
+                    ->countAllResults();
+
+                if ($canSubmitToVerif > 0) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Proses tidak dapat dilanjutkan.";
+                    return json_encode($response);
+                }
 
                 $dataMove = $this->_db->table('_tb_pendaftar_temp')->where('id', $oldData->id)->get()->getRowArray();
 
