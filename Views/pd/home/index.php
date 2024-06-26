@@ -19,6 +19,18 @@
                     </div>
                 </div>
             <?php } ?>
+            <?php if (isset($hasTidakLolosAfirmasi)) { ?>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="alert alert-danger notification">
+                                <p class="notificaiton-title mb-2"><strong>INFORMASI !!!</strong></p>
+                                <p><?= $hasTidakLolosAfirmasi->message ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
