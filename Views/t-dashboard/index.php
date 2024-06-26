@@ -56,6 +56,10 @@
             cursor: pointer !important;
         }
 
+        .showed-on-page {
+            display: none !important;
+        }
+
         /* .float-bob-y {
             animation-name: float-bob-y;
             animation-duration: 2s;
