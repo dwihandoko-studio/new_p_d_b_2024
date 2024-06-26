@@ -523,7 +523,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-4 mb-2">
-                                <a href="<?= base_url('pan/ppdb/rekap/tolak') ?>" class="btn btn-block btn-xs btn-primary waves-effect waves-light"><i class="las la-undo font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> Kembali</a>
+                                <a href="<?= base_url('pan/rekap/tolak') ?>" class="btn btn-block btn-xs btn-primary waves-effect waves-light"><i class="las la-undo font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> Kembali</a>
                             </div>
                         </div>
                     </div>
