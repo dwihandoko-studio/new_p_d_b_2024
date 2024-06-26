@@ -46,17 +46,17 @@
     </script>
     <?= $this->renderSection('scriptTop'); ?>
     <link href="<?= base_url() ?>/assets/vendor/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
-    <!-- <style>
+    <style>
         .button-pengaduan {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            z-index: 100000;
+            z-index: 10;
             max-width: 190px;
             cursor: pointer !important;
         }
 
-        .float-bob-y {
+        /* .float-bob-y {
             animation-name: float-bob-y;
             animation-duration: 2s;
             animation-iteration-count: infinite;
@@ -100,12 +100,16 @@
             -o-animation-duration: 15s;
             -o-animation-iteration-count: infinite;
             -o-animation-timing-function: linear;
-        }
-    </style> -->
+        } */
+    </style>
 </head>
 
 <body>
-
+    <div class="button-pengaduan showed-on-page" onclick="openPengaduanPage()">
+        <figure class="image float-bob-y clearfix">
+            <img src="<?= base_url('uploads') ?>/cs.webp" alt="">
+        </figure>
+    </div>
     <div id="preloader" style="display: none;">
         <div class="lds-ripple">
             <div></div>
@@ -208,11 +212,7 @@
         <?= $this->include('t-dashboard/footer'); ?>
 
     </div>
-    <!-- <div class="button-pengaduan showed-on-page" onclick="openPengaduanPage()">
-        <figure class="image float-bob-y clearfix">
-            <img src="<?= base_url('uploads') ?>/cs.webp" alt="">
-        </figure>
-    </div> -->
+
     <script src="<?= base_url() ?>/assets/vendor/global/global.min.js"></script>
     <script src="<?= base_url() ?>/assets/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
     <?= $this->renderSection('scriptBottom'); ?>
