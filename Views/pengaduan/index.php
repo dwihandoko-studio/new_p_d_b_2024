@@ -172,8 +172,9 @@
                 _no_tiket_pengaduan: noTiketPengaduan
             },
             dataType: 'JSON',
-            beforeSend: function() {
+            beforeSend: async function() {
                 $('.content-lacak-pengaduan').html("");
+                await sleep(2000);
                 Swal.fire({
                     title: 'Mengambil data...',
                     text: 'Please wait while we process your action.',
