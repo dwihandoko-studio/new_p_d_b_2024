@@ -168,7 +168,9 @@
         $.ajax({
             url: "./getLacakTiket",
             type: 'POST',
-            data: $(this).serialize(),
+            data: {
+                _no_tiket_pengaduan: noTiketPengaduan
+            },
             dataType: 'JSON',
             beforeSend: function() {
                 Swal.fire({
