@@ -21,7 +21,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <!-- <a href="javascript:lacakPengaduan();" class="btn btn-block btn-info">Lacak Tiket Pengaduan</a> -->
-                                        <div class="input-group search-area">
+                                        <div class="input-group input-primary search-area">
                                             <input type="text" class="form-control" placeholder="Search here...">
                                             <span class="input-group-text"><a href="javascript:void(0)"><i class="flaticon-381-search-2"></i></a></span>
                                         </div>
