@@ -189,11 +189,9 @@
                 if (response.status !== 200) {
                     Swal.fire(
                         'Peringatan!',
-                        resul.message,
+                        response.message,
                         'warning'
-                    ).then((valRes) => {
-                        reloadPage();
-                    })
+                    );
                 } else {
                     Swal.close();
                     $('.content-lacak-pengaduan').html(response.data);
