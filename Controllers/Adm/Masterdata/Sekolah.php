@@ -339,7 +339,8 @@ class Sekolah extends BaseController
                 }
                 $x['props'] = $this->_db->table('ref_provinsi')
                     ->get()->getResult();
-                $x['jenjangs'] = $this->_db->table('dapo_sekolah')->select("bentuk_pendidikan_id, bentuk_pendidikan, count(bentuk_pendidikan_id) as jumlah")->groupBy('bentuk_pendidikan_id')->orderBy('bentuk_pendidikan', 'ASC')->get()->getResult();
+                $x['jenjangs'] = $this->_db->table('ref_bentuk_pendidikan')->select("id as bentuk_pendidikan_id, nama as bentuk_pendidikan")->orderBy('id', 'ASC')->get()->getResult();
+                // $x['jenjangs'] = $this->_db->table('dapo_sekolah')->select("bentuk_pendidikan_id, bentuk_pendidikan, count(bentuk_pendidikan_id) as jumlah")->groupBy('bentuk_pendidikan_id')->orderBy('bentuk_pendidikan', 'ASC')->get()->getResult();
 
                 $response = new \stdClass;
                 $response->status = 200;

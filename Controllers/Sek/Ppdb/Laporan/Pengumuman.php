@@ -458,7 +458,8 @@ class Pengumuman extends BaseController
             ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
             ->where('a.via_jalur', 'AFIRMASI')
             ->where('a.status_pendaftaran', 2)
-            ->orderBy('jarak_domisili', 'ASC')
+            ->orderBy('a.jarak_domisili', 'ASC')
+            ->orderBy('a.created_at', 'ASC')
             ->get()->getResult();
 
         $pesertaTidakLolos = $this->_db->table('_tb_pendaftar a')
@@ -467,6 +468,7 @@ class Pengumuman extends BaseController
             ->where('a.via_jalur', 'AFIRMASI')
             ->where('a.status_pendaftaran', 3)
             ->orderBy('jarak_domisili', 'ASC')
+            ->orderBy('a.created_at', 'ASC')
             ->get()->getResult();
 
         $x['jalur'] = 'AFIRMASI';
