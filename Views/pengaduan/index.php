@@ -208,6 +208,10 @@
         });
     }
 
+    async function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
     // function lacakPengaduan() {
     //     $.ajax({
     //         url: "./lacak_tiket",
