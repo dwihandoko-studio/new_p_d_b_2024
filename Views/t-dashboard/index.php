@@ -47,7 +47,7 @@
     <?= $this->renderSection('scriptTop'); ?>
     <link href="<?= base_url() ?>/assets/vendor/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
     <style>
-        .button-pengaduan {
+        /* .button-pengaduan {
             position: fixed !important;
             bottom: 2rem !important;
             right: 2rem !important;
@@ -58,7 +58,7 @@
 
         .showed-on-page {
             display: none !important;
-        }
+        } */
 
         /* .float-bob-y {
             animation-name: float-bob-y;
@@ -109,11 +109,11 @@
 </head>
 
 <body>
-    <div class="button-pengaduan showed-on-page" onclick="openPengaduanPage()">
+    <!-- <div class="button-pengaduan showed-on-page" onclick="openPengaduanPage()">
         <figure class="image float-bob-y clearfix">
             <img src="<?= base_url('uploads') ?>/cs.webp" alt="">
         </figure>
-    </div>
+    </div> -->
     <div id="preloader" style="display: none;">
         <div class="lds-ripple">
             <div></div>
