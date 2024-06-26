@@ -117,6 +117,7 @@ class Home extends BaseController
 
             $dataLib = new Datalib();
             $cekAvailableRegistered = $dataLib->cekAlreadyRegistered($user->data->peserta_didik_id);
+            var_dump($cekAvailableRegistered);
             if ($cekAvailableRegistered) {
                 if ((int)$cekAvailableRegistered->status_pendaftaran !== 3) {
                     switch ((int)$cekAvailableRegistered->status_pendaftaran) {
