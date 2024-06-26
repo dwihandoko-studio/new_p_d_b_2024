@@ -173,6 +173,7 @@
             },
             dataType: 'JSON',
             beforeSend: function() {
+                $('.content-lacak-pengaduan').html("");
                 Swal.fire({
                     title: 'Mengambil data...',
                     text: 'Please wait while we process your action.',
