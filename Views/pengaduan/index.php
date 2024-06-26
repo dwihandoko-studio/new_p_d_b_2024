@@ -186,7 +186,7 @@
             },
             complete: function() {},
             success: async function(response) {
-                await sleep(2000);
+                await sleep(1000);
                 if (response.status !== 200) {
                     Swal.fire(
                         'Peringatan!',
