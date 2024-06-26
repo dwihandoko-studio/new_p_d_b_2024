@@ -376,7 +376,7 @@ class Pengumuman extends BaseController
         $sekolah = $this->_db->table('panitia_ppdb a')
             ->select("b.*, a.nama as nama_panitia, a.jabatan_ppdb, a.jabatan")
             ->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id')
-            ->where('a. sekolah_id', $user->data->sekolah_id)->orderBy('a.jabatan_ppdb', 'ASC')->limit(1)->get()->getRowObject();
+            ->where('a. sekolah_id', $user->data->sekolah_id)->limit(1)->get()->getRowObject();
         if (!$sekolah) {
             $response = new \stdClass;
             $response->status = 400;
@@ -439,7 +439,7 @@ class Pengumuman extends BaseController
         $sekolah = $this->_db->table('panitia_ppdb a')
             ->select("b.*, a.nama as nama_panitia, a.jabatan_ppdb, a.jabatan")
             ->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id')
-            ->where('a. sekolah_id', $user->data->sekolah_id)->orderBy('a.jabatan_ppdb', 'ASC')->limit(1)->get()->getRowObject();
+            ->where('a. sekolah_id', $user->data->sekolah_id)->limit(1)->get()->getRowObject();
         if (!$sekolah) {
             $response = new \stdClass;
             $response->status = 400;
