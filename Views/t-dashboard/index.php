@@ -48,11 +48,11 @@
     <link href="<?= base_url() ?>/assets/vendor/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
     <style>
         .button-pengaduan {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 10;
-            max-width: 190px;
+            position: fixed !important;
+            bottom: 2rem !important;
+            right: 2rem !important;
+            z-index: 1000000000 !important;
+            max-width: 190px !important;
             cursor: pointer !important;
         }
 
