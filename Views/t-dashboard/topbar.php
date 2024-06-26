@@ -14,9 +14,9 @@
                                 </div>
                             </li> -->
 
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="<?= base_url('pengaduan') ?>"><span class="btn btn-xs btn-warning ms-5"></i>PENGADUAN</span></a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a href="javascript:cekPengumuman();"><span class="btn btn-xs btn-info ms-5"></i>PENGUMUMAN</span></a>
                     </li>
