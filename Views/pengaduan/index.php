@@ -20,7 +20,11 @@
                                         <a href="javascript:buatPengaduan();" class="btn btn-block btn-primary">Buat Pengaduan</a>
                                     </div>
                                     <div class="col-lg-6">
-                                        <a href="javascript:lacakPengaduan();" class="btn btn-block btn-info">Lacak Tiket Pengaduan</a>
+                                        <!-- <a href="javascript:lacakPengaduan();" class="btn btn-block btn-info">Lacak Tiket Pengaduan</a> -->
+                                        <div class="input-group search-area">
+                                            <input type="text" class="form-control" placeholder="Search here...">
+                                            <span class="input-group-text"><a href="javascript:void(0)"><i class="flaticon-381-search-2"></i></a></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
