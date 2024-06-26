@@ -66,6 +66,7 @@ class Lolos extends BaseController
             $row[] = $list->nama_sekolah_asal;
             $row[] = $list->npsn_sekolah_asal;
             $row[] = round($list->jarak_domisili, 3) . ' Km';
+            $row[] = $list->nama_verifikator;
 
             $data[] = $row;
         }
@@ -126,9 +127,10 @@ class Lolos extends BaseController
         $id = htmlspecialchars($this->request->getGet('d'), true);
 
         $oldData = $this->_db->table('_tb_pendaftar a')
-            ->select("a.*, b.nama_ibu_kandung, b.nik, b.no_kk, b.alamat_jalan, b.no_kip, b.no_pkh, c.nohp, c.email")
+            ->select("a.*, b.nama_ibu_kandung, b.nik, b.no_kk, b.alamat_jalan, b.no_kip, b.no_pkh, c.nohp, c.email, d.nama as nama_verifikator")
             ->join('dapo_peserta b', 'b.peserta_didik_id = a.peserta_didik_id')
             ->join('_users_tb c', 'c.id = a.user_id')
+            ->join('_users_profile_sekolah d', 'a.admin_approval = d.user_id', 'LEFT')
             ->where('a.id', $id)
             ->get()->getRowObject();
 
