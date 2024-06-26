@@ -682,7 +682,7 @@ class Pengaduan extends BaseController
                 if (!($refSeklah)) {
                     $response = new \stdClass;
                     $response->status = 400;
-                    $response->message = "Data ref sekolah tidak ditemukan.";
+                    $response->message = "Data ref sekolah tidak ditemukan. Silahkan tambahkan referensi sekolah terlebih dahulu.";
                     return json_encode($response);
                 }
 

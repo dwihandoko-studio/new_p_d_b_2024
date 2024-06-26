@@ -529,47 +529,49 @@ class Pengaduan extends BaseController
                                     if (!$sekAsal) {
                                         $refSekolah = $this->_db->table('ref_sekolah')->where('id', $pdNya->sekolah_id)->get()->getRowObject();
                                         if (!$refSekolah) {
-                                            $response = new \stdClass;
-                                            $response->status = 400;
-                                            $response->message = "Referensi Sekolah Asal Tidak Ditemukan.";
-                                            return json_encode($response);
-                                        }
+                                            // $response = new \stdClass;
+                                            // $response->status = 400;
+                                            // $response->message = "Referensi Sekolah Asal Tidak Ditemukan.";
+                                            // return json_encode($response);
+                                            $sekAsalNew = NULL;
+                                        } else {
 
-                                        try {
-                                            $this->_db->table('dapo_sekolah')->insert([
-                                                'sekolah_id' => $refSekolah->id,
-                                                'nama' => $refSekolah->nama,
-                                                'npsn' => $refSekolah->npsn,
-                                                'kode_wilayah' => $refSekolah->kode_wilayah,
-                                                'kode_desa_kelurahan' => $refSekolah->kode_wilayah,
-                                                'desa_kelurahan' => $refSekolah->desa_kelurahan,
-                                                'kode_kecamatan' => substr($refSekolah->kode_wilayah, 0, 6),
-                                                'kecamatan' => getNameKecamatan(substr($refSekolah->kode_wilayah, 0, 6)),
-                                                'kode_kabupaten' => substr($refSekolah->kode_wilayah, 0, 4) . '00',
-                                                'kabupaten' => getNameKabupaten(substr($refSekolah->kode_wilayah, 0, 4) . '00'),
-                                                'kode_provinsi' => substr($refSekolah->kode_wilayah, 0, 2) . '0000',
-                                                'provinsi' => getNameProvinsi(substr($refSekolah->kode_wilayah, 0, 2) . '0000'),
-                                                'bentuk_pendidikan_id' => $refSekolah->bentuk_pendidikan_id,
-                                                'status_sekolah_id' => $refSekolah->status_sekolah,
-                                                'alamat_jalan' => $refSekolah->alamat_jalan,
-                                                'rt' => $refSekolah->rt,
-                                                'rw' => $refSekolah->rw,
-                                                'lintang' => $refSekolah->latitude,
-                                                'bujur' => $refSekolah->longitude,
-                                            ]);
-                                        } catch (\Throwable $th) {
-                                            $response = new \stdClass;
-                                            $response->status = 400;
-                                            $response->message = "Gagal mengambil ref sekolah asal.";
-                                            return json_encode($response);
-                                        }
+                                            try {
+                                                $this->_db->table('dapo_sekolah')->insert([
+                                                    'sekolah_id' => $refSekolah->id,
+                                                    'nama' => $refSekolah->nama,
+                                                    'npsn' => $refSekolah->npsn,
+                                                    'kode_wilayah' => $refSekolah->kode_wilayah,
+                                                    'kode_desa_kelurahan' => $refSekolah->kode_wilayah,
+                                                    'desa_kelurahan' => $refSekolah->desa_kelurahan,
+                                                    'kode_kecamatan' => substr($refSekolah->kode_wilayah, 0, 6),
+                                                    'kecamatan' => getNameKecamatan(substr($refSekolah->kode_wilayah, 0, 6)),
+                                                    'kode_kabupaten' => substr($refSekolah->kode_wilayah, 0, 4) . '00',
+                                                    'kabupaten' => getNameKabupaten(substr($refSekolah->kode_wilayah, 0, 4) . '00'),
+                                                    'kode_provinsi' => substr($refSekolah->kode_wilayah, 0, 2) . '0000',
+                                                    'provinsi' => getNameProvinsi(substr($refSekolah->kode_wilayah, 0, 2) . '0000'),
+                                                    'bentuk_pendidikan_id' => $refSekolah->bentuk_pendidikan_id,
+                                                    'status_sekolah_id' => $refSekolah->status_sekolah,
+                                                    'alamat_jalan' => $refSekolah->alamat_jalan,
+                                                    'rt' => $refSekolah->rt,
+                                                    'rw' => $refSekolah->rw,
+                                                    'lintang' => $refSekolah->latitude,
+                                                    'bujur' => $refSekolah->longitude,
+                                                ]);
+                                            } catch (\Throwable $th) {
+                                                $response = new \stdClass;
+                                                $response->status = 400;
+                                                $response->message = "Gagal mengambil ref sekolah asal.";
+                                                return json_encode($response);
+                                            }
 
-                                        $sekAsalNew = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('sekolah_id', $pdNya->sekolah_id)->get()->getRowObject();
-                                        if (!$sekAsalNew) {
-                                            $response = new \stdClass;
-                                            $response->status = 400;
-                                            $response->message = "Gagal mengambil ref sekolah asal baru.";
-                                            return json_encode($response);
+                                            $sekAsalNew = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('sekolah_id', $pdNya->sekolah_id)->get()->getRowObject();
+                                            if (!$sekAsalNew) {
+                                                $response = new \stdClass;
+                                                $response->status = 400;
+                                                $response->message = "Gagal mengambil ref sekolah asal baru.";
+                                                return json_encode($response);
+                                            }
                                         }
                                         $sekAsal = $sekAsalNew;
                                     }
@@ -1297,14 +1299,14 @@ class Pengaduan extends BaseController
                     return json_encode($response);
                 }
 
-                $refSeklah = $this->_db->table('dapo_sekolah')->where('sekolah_id', $dataPdFix->sekolah_id)->get()->getRowObject();
-                if (!$refSeklah) {
+                // $refSeklah = $this->_db->table('dapo_sekolah')->where('sekolah_id', $dataPdFix->sekolah_id)->get()->getRowObject();
+                // if (!$refSeklah) {
 
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Referensi sekolah asal PD tidak ditemukan.";
-                    return json_encode($response);
-                }
+                //     $response = new \stdClass;
+                //     $response->status = 400;
+                //     $response->message = "Referensi sekolah asal PD tidak ditemukan.";
+                //     return json_encode($response);
+                // }
 
                 $ticketKey = generateRandomTicketKey();
                 $numberKey = 0;
