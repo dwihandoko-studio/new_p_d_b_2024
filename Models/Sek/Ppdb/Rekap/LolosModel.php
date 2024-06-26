@@ -8,7 +8,7 @@ use CodeIgniter\Model;
 class LolosModel extends Model
 {
     protected $table = "_tb_pendaftar a";
-    protected $column_order = array(null, 'a.nama_peserta', 'a.nisn_peserta', 'a.via_jalur', 'a.nama_sekolah_asal', 'a.npsn_sekolah_asal', 'a.jarak_domisili');
+    protected $column_order = array(null, 'a.nama_peserta', 'a.nisn_peserta', 'a.via_jalur', 'a.nama_sekolah_asal', 'a.npsn_sekolah_asal', 'a.jarak_domisili', null);
     protected $column_search = array('a.nisn_peserta', 'a.nama_peserta', 'a.kode_pendaftaran');
     // protected $order = array('a.username' => 'asc');
     protected $request;
@@ -50,8 +50,8 @@ class LolosModel extends Model
     }
     function get_datatables($id)
     {
-        $this->dt->select("a.id, a.kode_pendaftaran, a.nama_peserta, a.nisn_peserta, a.nama_sekolah_asal, a.npsn_sekolah_asal, a.via_jalur, a.jarak_domisili, a.tujuan_sekolah_id_1");
-        // $this->dt->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id');
+        $this->dt->select("a.id, a.kode_pendaftaran, a.nama_peserta, a.nisn_peserta, a.nama_sekolah_asal, a.npsn_sekolah_asal, a.via_jalur, a.jarak_domisili, a.tujuan_sekolah_id_1, b.nama as nama_verifikator");
+        $this->dt->join('_users_profile_sekolah b', 'a.admin_approval = b.user_id');
         // $this->dt->whereNotIn('a.level', [0]);
 
         $this->dt->where('a.tujuan_sekolah_id_1', $id);
