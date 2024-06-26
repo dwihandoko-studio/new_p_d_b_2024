@@ -21,11 +21,13 @@
             <?php } ?>
             <?php if (isset($hasTidakLolosAfirmasi)) { ?>
                 <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="alert alert-danger notification">
-                                <p class="notificaiton-title mb-2"><strong>INFORMASI !!!</strong></p>
-                                <p><?= $hasTidakLolosAfirmasi->message ?></p>
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close"><span><i class="mdi mdi-btn-close"></i></span>
+                        </button>
+                        <div class="media">
+                            <div class="media-body">
+                                <h5 class="mt-1 mb-1">Informasi!!!</h5>
+                                <p class="mb-0"><?= $hasTidakLolosAfirmasi->message ?></p>
                             </div>
                         </div>
                     </div>
