@@ -158,7 +158,7 @@ class Proses extends BaseController
             return redirect()->to(base_url('auth'));
         }
 
-        $data = $this->_db->table('_tb_pendaftar_temp')->get()->getResultArray();
+        $data = $this->_db->table('_tb_pendaftar_temp')->where('via_jalur', 'AFIRMASI')->get()->getResultArray();
         if (count($data) > 0) {
             print_r("MULAI VERIFIED OTOMATIS<br>");
             foreach ($data as $key => $cekRegisterTemp) {
