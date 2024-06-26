@@ -38,6 +38,11 @@
                     <span class="nav-text">Statistik</span>
                 </a>
             </li>
+            <li><a href="<?= base_url('pengaduan') ?>" class="" aria-expanded="false">
+                    <i class="fas fa-head-side-cough"></i>
+                    <span class="nav-text">Pengaduan</span>
+                </a>
+            </li>
         </ul>
 
         <div class="copyright">
