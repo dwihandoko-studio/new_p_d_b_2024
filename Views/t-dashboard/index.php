@@ -46,7 +46,7 @@
     </script>
     <?= $this->renderSection('scriptTop'); ?>
     <link href="<?= base_url() ?>/assets/vendor/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
-    <style>
+    <!-- <style>
         .button-pengaduan {
             position: fixed;
             bottom: 2rem;
@@ -101,7 +101,7 @@
             -o-animation-iteration-count: infinite;
             -o-animation-timing-function: linear;
         }
-    </style>
+    </style> -->
 </head>
 
 <body>
@@ -208,11 +208,11 @@
         <?= $this->include('t-dashboard/footer'); ?>
 
     </div>
-    <div class="button-pengaduan showed-on-page" onclick="openPengaduanPage()">
+    <!-- <div class="button-pengaduan showed-on-page" onclick="openPengaduanPage()">
         <figure class="image float-bob-y clearfix">
             <img src="<?= base_url('uploads') ?>/cs.webp" alt="">
         </figure>
-    </div>
+    </div> -->
     <script src="<?= base_url() ?>/assets/vendor/global/global.min.js"></script>
     <script src="<?= base_url() ?>/assets/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
     <?= $this->renderSection('scriptBottom'); ?>
