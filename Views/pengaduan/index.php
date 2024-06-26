@@ -22,8 +22,8 @@
                                     <div class="col-lg-6">
                                         <!-- <a href="javascript:lacakPengaduan();" class="btn btn-block btn-info">Lacak Tiket Pengaduan</a> -->
                                         <div class="input-group input-primary search-area">
-                                            <input type="text" class="form-control" placeholder="Search here...">
-                                            <span class="input-group-text"><a href="javascript:void(0)"><i class="flaticon-381-search-2"></i></a></span>
+                                            <input type="text" id="_no_tiket_pengaduan" name="_no_tiket_pengaduan" minlength="6" class="form-control" placeholder="Masukkan no tiket...">
+                                            <span class="input-group-text"><a href="javascript:lacakPengaduan();"><i class="flaticon-381-search-2"></i></a></span>
                                         </div>
                                     </div>
                                 </div>
@@ -164,18 +164,18 @@
     }
 
     function lacakPengaduan() {
+        const noTiketPengaduan = document.getElementsByName('_no_tiket_pengaduan')[0].value;
         $.ajax({
-            url: "./lacak_tiket",
+            url: "./getLacakTiket",
             type: 'POST',
-            data: {
-                id: 'add',
-            },
-            dataType: "json",
+            data: $(this).serialize(),
+            dataType: 'JSON',
             beforeSend: function() {
                 Swal.fire({
-                    title: 'Sedang Loading . . .',
-                    allowEscapeKey: false,
+                    title: 'Mengambil data...',
+                    text: 'Please wait while we process your action.',
                     allowOutsideClick: false,
+                    allowEscapeKey: false,
                     didOpen: () => {
                         Swal.showLoading();
                     }
@@ -183,33 +183,77 @@
             },
             complete: function() {},
             success: function(response) {
-                if (response.status == 200) {
-                    Swal.close();
-                    $('#content-lacakModalLabel').html('LACAK TIKET PENGADUAN');
-                    $('.content-lacakModalBody').html(response.data);
-                    $('.content-lacakModal').modal({
-                        backdrop: 'static',
-                        keyboard: false,
-                    });
-                    $('.content-lacakModal').modal('show');
-                } else {
+
+                if (response.status !== 200) {
                     Swal.fire(
-                        'Failed!',
-                        "gagal mengambil data",
+                        'Peringatan!',
+                        resul.message,
                         'warning'
-                    );
+                    ).then((valRes) => {
+                        reloadPage();
+                    })
+                } else {
+                    Swal.close();
+                    $('.content-lacak-pengaduan').html(response.data);
                 }
             },
-            error: function(xhr, ajaxOptions, thrownError) {
+            error: function() {
                 Swal.fire(
-                    'Failed!',
-                    "gagal mengambil data (" + xhr.status.toString + ")",
+                    'PERINGATAN!',
+                    "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
                     'warning'
                 );
             }
-
         });
     }
+
+    // function lacakPengaduan() {
+    //     $.ajax({
+    //         url: "./lacak_tiket",
+    //         type: 'POST',
+    //         data: {
+    //             id: 'add',
+    //         },
+    //         dataType: "json",
+    //         beforeSend: function() {
+    //             Swal.fire({
+    //                 title: 'Sedang Loading . . .',
+    //                 allowEscapeKey: false,
+    //                 allowOutsideClick: false,
+    //                 didOpen: () => {
+    //                     Swal.showLoading();
+    //                 }
+    //             });
+    //         },
+    //         complete: function() {},
+    //         success: function(response) {
+    //             if (response.status == 200) {
+    //                 Swal.close();
+    //                 $('#content-lacakModalLabel').html('LACAK TIKET PENGADUAN');
+    //                 $('.content-lacakModalBody').html(response.data);
+    //                 $('.content-lacakModal').modal({
+    //                     backdrop: 'static',
+    //                     keyboard: false,
+    //                 });
+    //                 $('.content-lacakModal').modal('show');
+    //             } else {
+    //                 Swal.fire(
+    //                     'Failed!',
+    //                     "gagal mengambil data",
+    //                     'warning'
+    //                 );
+    //             }
+    //         },
+    //         error: function(xhr, ajaxOptions, thrownError) {
+    //             Swal.fire(
+    //                 'Failed!',
+    //                 "gagal mengambil data (" + xhr.status.toString + ")",
+    //                 'warning'
+    //             );
+    //         }
+
+    //     });
+    // }
 
     $(document).ready(function() {
         // initSelect2('_filter_kec', $('.content-body'));
