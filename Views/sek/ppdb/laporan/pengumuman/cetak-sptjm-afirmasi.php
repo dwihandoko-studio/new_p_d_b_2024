@@ -19,7 +19,7 @@ $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://qr
 
 ?>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://layanan.disdikbud.lampungtengahkab.go.id/assets/css/bootstrap.min.css">
 <!-- <link rel="stylesheet" href="<?= base_url('new-assets'); ?>/assets/vendor/bootstrap/dist/bootstrap.min.css"> -->
 <link rel="shortcut icon" href="https://ppdb.lampungtengahkab.go.id/favicon/apple-icon-76x76.png">
 
