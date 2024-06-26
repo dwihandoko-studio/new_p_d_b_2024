@@ -70,6 +70,15 @@ class Afirmasi extends BaseController
             }
         }
 
+        $cekAvailableRegisteredTidakLolos = $dataLib->cekAlreadyRegisteredTidakLolosAfirmasi($user->data->peserta_didik_id);
+        if ($cekAvailableRegisteredTidakLolos) {
+            if ($cekAvailableRegisteredTidakLolos->via_jalur === "AFIRMASI") {
+                $hasRegisterTidakLolos = new \stdClass;
+                $hasRegisterTidakLolos->message = "Anda dinyatakan <b>TIDAK LOLOS</b> seleksi PPDB Tahun Ajaran 2023/2024 <br/>di : <b>" . $cekAvailableRegisteredTidakLolos->nama_sekolah_tujuan . "(" . $cekAvailableRegisteredTidakLolos->npsn_sekolah_tujuan . ")</b> Melalui Jalur <b>" . $cekAvailableRegisteredTidakLolos->via_jalur . "</b>. <br/>Selanjutnya anda dapat mendaftar kembali menggunakan jalur yang lain (ZONASI, PRESTASI, MUTASI)";
+                $data['hasTidakLolosAfirmasi'] = $hasRegisterTidakLolos;
+            }
+        }
+
         $dataLib = new Datalib();
         $canDaftar = $dataLib->canRegister("afirmasi");
         if ($canDaftar->code !== 200) {
