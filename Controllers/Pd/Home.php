@@ -135,11 +135,15 @@ class Home extends BaseController
                     $hasRegister->koreg = $cekAvailableRegistered->kode_pendaftaran;
 
                     $data['hasRegister'] = $hasRegister;
-                } else {
-                    if ($cekAvailableRegistered->via_jalur === "AFIRMASI") {
-                        $hasRegister->message = "Anda dinyatakan <b>TIDAK LOLOS</b> seleksi PPDB Tahun Ajaran 2023/2024 <br/>di : <b>" . $cekAvailableRegistered->nama_sekolah_tujuan . "(" . $cekAvailableRegistered->npsn_sekolah_tujuan . ")</b> Melalui Jalur <b>" . $cekAvailableRegistered->via_jalur . "</b>. <br/>Selanjutnya anda dapat mendaftar kembali menggunakan jalur yang lain (ZONASI, PRESTASI, MUTASI)";
-                        $data['hasTidakLolosAfirmasi'] = $hasRegister;
-                    }
+                }
+            }
+
+            $cekAvailableRegisteredTidakLolos = $dataLib->cekAlreadyRegisteredTidakLolosAfirmasi($user->data->peserta_didik_id);
+            if ($cekAvailableRegisteredTidakLolos) {
+                if ($cekAvailableRegisteredTidakLolos->via_jalur === "AFIRMASI") {
+                    $hasRegisterTidakLolos = new \stdClass;
+                    $hasRegisterTidakLolos->message = "Anda dinyatakan <b>TIDAK LOLOS</b> seleksi PPDB Tahun Ajaran 2023/2024 <br/>di : <b>" . $cekAvailableRegistered->nama_sekolah_tujuan . "(" . $cekAvailableRegistered->npsn_sekolah_tujuan . ")</b> Melalui Jalur <b>" . $cekAvailableRegistered->via_jalur . "</b>. <br/>Selanjutnya anda dapat mendaftar kembali menggunakan jalur yang lain (ZONASI, PRESTASI, MUTASI)";
+                    $data['hasTidakLolosAfirmasi'] = $hasRegisterTidakLolos;
                 }
             }
         }
