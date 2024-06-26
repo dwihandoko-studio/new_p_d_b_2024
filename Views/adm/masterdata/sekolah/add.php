@@ -342,6 +342,9 @@
     $('#_kel').select2({
         dropdownParent: ".contentBodyUploadModal",
     });
+    $('#_bentuk_pendidikan').select2({
+        dropdownParent: ".contentBodyUploadModal",
+    });
 
     function validateLat(lat) {
         // Define the valid range for latitude and longitude in Indonesia
