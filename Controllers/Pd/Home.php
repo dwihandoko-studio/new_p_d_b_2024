@@ -223,7 +223,7 @@ class Home extends BaseController
                     ]
                 ],
                 '_file' => [
-                    'rules' => 'uploaded[_file]|max_size[_file,2048]|mime_in[_file,image/jpeg,image/jpg,image/png]',
+                    'rules' => 'uploaded[_file]|max_size[_file,5048]|mime_in[_file,image/jpeg,image/jpg,image/png]',
                     'errors' => [
                         'uploaded' => 'Pilih file terlebih dahulu. ',
                         'max_size' => 'Ukuran file terlalu besar, Maximum 2 Mb. ',
