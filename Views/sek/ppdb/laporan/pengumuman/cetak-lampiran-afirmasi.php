@@ -20,7 +20,7 @@ $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://qr
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 <!-- <link rel="stylesheet" href="https://layanan.disdikbud.lampungtengahkab.go.id/assets/css/bootstrap.min.css"> -->
 <!-- <link rel="stylesheet" href="<?= base_url('new-assets'); ?>/assets/vendor/bootstrap/dist/bootstrap.min.css"> -->
-<link rel="shortcut icon" href="https://ppdb.lampungtengahkab.go.id/favicon/apple-icon-76x76.png">
+<link rel="shortcut icon" href="<?= base_url(); ?>/favicon/apple-icon-76x76.png">
 
 <!DOCTYPE html>
 

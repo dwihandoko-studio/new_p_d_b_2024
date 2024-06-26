@@ -17,11 +17,13 @@
 
 $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://qrcode.esline.id/generate?data=' . base_url() . '/home/detail_sekolah?d=' . $sekolah->sekolah_id . '&choe=UTF-8'));
 
+$qrLogo = "data:image/png;base64," . base64_encode(file_get_contents(FCPATH .  'favicon/android-icon-144x144.png'));
+
 ?>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 <!-- <link rel="stylesheet" href="https://layanan.disdikbud.lampungtengahkab.go.id/assets/css/bootstrap.min.css"> -->
 <!-- <link rel="stylesheet" href="<?= base_url('new-assets'); ?>/assets/vendor/bootstrap/dist/bootstrap.min.css"> -->
-<link rel="shortcut icon" href="https://ppdb.lampungtengahkab.go.id/favicon/apple-icon-76x76.png">
+<link rel="shortcut icon" href="<?= base_url(); ?>/favicon/apple-icon-76x76.png">
 
 <!DOCTYPE html>
 
@@ -46,7 +48,9 @@ $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://qr
             <table width="100%" style="border: solid #cbd4dd; font-size: 12px">
                 <tr>
                     <td colspan="5" width="10%" style="border:none;">
-                        <img class="img" src="<?= base_url('favicon/android-icon-144x144.png') ?>" ec="H" style="width: 30mm; background-color: white; color: black;">
+                        <!-- <img class="img" src="<?php // echo base_url('favicon/android-icon-144x144.png') 
+                                                    ?>" ec="H" style="width: 30mm; background-color: white; color: black;"> -->
+                        <img class="img" src="<?= $qrLogo ?>" ec="H" style="width: 30mm; background-color: white; color: black;">
                     </td>
                     <td style="text-align: center;">
                         <span style="margin-top: 8px; font-size: 20px;">PEMERERINTAH KABUPATEN LAMPUNG TENGAH</span><br>
