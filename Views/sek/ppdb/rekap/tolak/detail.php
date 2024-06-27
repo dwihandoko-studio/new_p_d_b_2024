@@ -164,6 +164,11 @@
                     </div>
                 </div>
             </div>
+
+            <?php if (isset($riwayat_perubahan_data)) { ?>
+                <?= $this->include('sek/ppdb/rekap/riwayat_perubahan_data'); ?>
+            <?php } ?>
+
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -176,10 +181,6 @@
                     </div>
                 </div>
             </div>
-
-            <?php if (isset($riwayat_perubahan_data)) { ?>
-                <?= $this->include('sek/ppdb/rekap/riwayat_perubahan_data'); ?>
-            <?php } ?>
 
             <div class="col-12">
                 <div class="card">
