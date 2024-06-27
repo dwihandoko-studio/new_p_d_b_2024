@@ -40,6 +40,9 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-sm btn-primary waves-effect waves-light btnDownload"><i class="fas fa-download font-size-16 align-middle me-2"></i> DOWNLOAD</button> &nbsp;&nbsp;
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -65,12 +68,74 @@
         </div>
     </div>
 </div>
-
+<div id="content-uploadModal" class="modal fade content-uploadModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="content-uploadModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="contentBodyUploadModal">
+            </div>
+        </div>
+    </div>
+</div>
 <?= $this->endSection(); ?>
 
 <?= $this->section('scriptBottom'); ?>
 <script src="<?= base_url() ?>/assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script>
+    $(document).on('click', '.btnDownload', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: "./form_download",
+            type: 'POST',
+            data: {
+                id: 'download',
+            },
+            dataType: "json",
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Sedang Loading . . .',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
+            complete: function() {},
+            success: function(response) {
+                if (response.status == 200) {
+                    Swal.close();
+                    $('#content-uploadModalLabel').html('DOWNDLOAD DATA');
+                    $('.contentBodyUploadModal').html(response.data);
+                    $('.content-uploadModal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                    });
+                    $('.content-uploadModal').modal('show');
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        response.message,
+                        'warning'
+                    );
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                Swal.fire(
+                    'Failed!',
+                    "gagal mengambil data (" + xhr.status.toString + ")",
+                    'warning'
+                );
+            }
+
+        });
+    });
+
     function inputFocus(id) {
         const color = $(id).attr('id');
         $(id).removeAttr('style');
