@@ -48,8 +48,9 @@ class PendaftaranModel extends Model
         //     $this->dt->orderBy(key($order), $order[key($order)]);
         // }
     }
-    function get_datatables($id)
+    function get_datatables()
     {
+        $id = htmlspecialchars($this->request->getPost('id'), true);
         $this->dt->select("a.id, a.kode_pendaftaran, a.nama_peserta, a.nisn_peserta, a.nama_sekolah_asal, a.npsn_sekolah_asal, a.via_jalur, a.jarak_domisili, a.tujuan_sekolah_id_1, b.nama as nama_verifikator");
         $this->dt->join('_users_profile_sekolah b', 'a.admin_approval = b.user_id', 'LEFT');
         // $this->dt->whereNotIn('a.level', [0]);
@@ -67,8 +68,9 @@ class PendaftaranModel extends Model
         $query = $this->dt->get();
         return $query->getResult();
     }
-    function count_filtered($id)
+    function count_filtered()
     {
+        $id = htmlspecialchars($this->request->getPost('id'), true);
         // $this->dt->select("a.peserta_didik_id, a.sekolah_id, a.nama, a.nisn, a.tempat_lahir, a.jenis_kelamin, a.nik, a.no_kk, a.nama_ibu_kandung, a.tingkat_pendidikan_id, a.tingkat_pendidikan, CONCAT(a.lintang, ',', a.bujur) as latlong, a.semester_id, b.nama as nama_sekolah, b.npsn as npsn_sekolah");
         // $this->dt->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id');
         // $this->dt->join('_role_user b', 'a.level = b.id');
@@ -85,8 +87,9 @@ class PendaftaranModel extends Model
 
         return $this->dt->countAllResults();
     }
-    public function count_all($id)
+    public function count_all()
     {
+        $id = htmlspecialchars($this->request->getPost('id'), true);
         // $this->dt->select("a.peserta_didik_id, a.sekolah_id, a.nama, a.nisn, a.tempat_lahir, a.jenis_kelamin, a.nik, a.no_kk, a.nama_ibu_kandung, a.tingkat_pendidikan_id, a.tingkat_pendidikan, CONCAT(a.lintang, ',', a.bujur) as latlong, a.semester_id, b.nama as nama_sekolah, b.npsn as npsn_sekolah");
         // $this->dt->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id');
         // $this->dt->join('_role_user b', 'a.level = b.id');
