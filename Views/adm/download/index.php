@@ -14,7 +14,7 @@
         </div>
         <div class="row">
             <div class="col-xl-3 col-xxl-6 col-lg-6 col-sm-6">
-                <a href="<?= base_url('adm/download/kuota') ?>">
+                <a href="<?= base_url('adm/download/zonasi') ?>">
                     <div class="widget-stat card bg-primary">
                         <div class="card-body  p-4">
                             <div class="media">
@@ -22,8 +22,8 @@
                                     <i class="la la-users"></i>
                                 </span>
                                 <div class="media-body text-white">
-                                    <p class="mb-1">Data Kuota</p>
-                                    <small>Data Kesiapan Kuota Sekolah</small>
+                                    <p class="mb-1">Sebaran Sekolah</p>
+                                    <small>Penetapan Wilayah Zonasi (Data Wilayah Zonasi)</small>
                                 </div>
                             </div>
                         </div>
@@ -39,8 +39,8 @@
                                     <i class="la la-users"></i>
                                 </span>
                                 <div class="media-body text-white">
-                                    <p class="mb-1">Data Zona</p>
-                                    <small>Data Kesiapan Zonasi Wilayah Sekolah</small>
+                                    <p class="mb-1">Kapasitas Daya Tampung</p>
+                                    <small>Data Kesiapan Jumlah Rombel Sekolah</small>
                                 </div>
                             </div>
                         </div>
