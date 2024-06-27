@@ -30,7 +30,7 @@
         if ((keterangan_penolakan.value === "" || keterangan_penolakan.value === undefined)) {
             Swal.fire(
                 'Peringatan!',
-                "Silahkan pilih jabatan.",
+                "Silahkan masukan keterangan.",
                 'warning'
             ).then((valRes) => {
                 keterangan_penolakan.focus();

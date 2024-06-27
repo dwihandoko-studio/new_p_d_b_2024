@@ -606,6 +606,68 @@
 
 <?= $this->section('scriptBottom'); ?>
 <script>
+    function aksiCabutBerkas(id, koreg, nama) {
+        Swal.fire({
+            title: 'Apakah anda yakin ingin melakukan cabut berkas data pendaftaran verifikasi peserta ini?',
+            text: "Cabut Berkas Pendaftaran: " + nama,
+            showCancelButton: true,
+            icon: 'question',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Cabut Berkas!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "./formCabut",
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        koreg: koreg,
+                        nama: nama
+                    },
+                    dataType: 'JSON',
+                    beforeSend: function() {
+                        Swal.fire({
+                            title: 'Sedang loading...',
+                            text: 'Please wait while we process your action.',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
+                    complete: function() {},
+                    success: function(response) {
+                        if (response.status == 200) {
+                            Swal.close();
+                            $('#content-editModalLabel').html('LAYANAN CABUT BERKAS VERIFIKASI PENDAFTARAN');
+                            $('.content-editBodyModal').html(response.data);
+                            $('.content-editModal').modal({
+                                backdrop: 'static',
+                                keyboard: false,
+                            });
+                            $('.content-editModal').modal('show');
+                        } else {
+                            Swal.fire(
+                                'Peringatan!',
+                                response.message,
+                                'warning'
+                            );
+                        }
+                    },
+                    error: function() {
+                        Swal.fire(
+                            'PERINGATAN!',
+                            "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                            'warning'
+                        );
+                    }
+                });
+            }
+        });
+    }
+
     $(document).on('click', '.lihatPetanya', function(e) {
         // const dataId = e.getAttribute('data-id');
         const url = this.dataset.id;

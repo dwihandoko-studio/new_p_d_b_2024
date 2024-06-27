@@ -7,6 +7,8 @@ use App\Models\Adm\Layanan\PendaftaranModel;
 use App\Models\Adm\Masterdata\SekolahpdModel;
 use Config\Services;
 use App\Libraries\Profilelib;
+use App\Libraries\Ppdb\Adm\Riwayatlib;
+use App\Libraries\Ppdb\Notificationlib;
 use App\Libraries\Apilib;
 use App\Libraries\Uuid;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -225,6 +227,193 @@ class Cabutberkas extends BaseController
             return view('adm/layanan/cabutberkas/detail', $data);
         }
     }
+
+
+    public function formTolak()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+                'koreg' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kode pendaftaran tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id')
+                    . $this->validator->getError('nama')
+                    . $this->validator->getError('koreg');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    return redirect()->to(base_url('auth'));
+                }
+
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+                $koreg = htmlspecialchars($this->request->getVar('koreg'), true);
+                $nama = htmlspecialchars($this->request->getVar('nama'), true);
+
+                $oldData = $this->_db->table('_tb_pendaftar a')
+                    ->select("a.*, b.nama_ibu_kandung, b.nik, b.no_kk, b.alamat_jalan, b.no_kip, b.no_pkh, c.nohp, c.email")
+                    ->join('dapo_peserta b', 'b.peserta_didik_id = a.peserta_didik_id')
+                    ->join('_users_tb c', 'c.id = a.user_id')
+                    ->where('a.id', $id)
+                    ->get()->getRowObject();
+
+                if (!$oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $x['data'] = $oldData;
+
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('adm/layanan/cabutberkas/form_keterangan', $x);
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function cabutBerkasSave()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                '_id_cabut_berkas' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+                '_nama_cabut_berkas' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama tidak boleh kosong. ',
+                    ]
+                ],
+                '_keterangan_cabut_berkas' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Keterangan tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('_id_cabut_berkas')
+                    . $this->validator->getError('_nama_cabut_berkas')
+                    . $this->validator->getError('_keterangan_cabut_berkas');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+
+                $id = htmlspecialchars($this->request->getVar('_id_cabut_berkas'), true);
+                $nama = htmlspecialchars($this->request->getVar('_nama_cabut_berkas'), true);
+                $keterangan_penolakan = htmlspecialchars($this->request->getVar('_keterangan_cabut_berkas'), true);
+
+                $oldData = $this->_db->table('_tb_pendaftar a')
+                    ->select("a.*, b.nama_ibu_kandung, b.nik, b.no_kk, b.alamat_jalan, b.no_kip, b.no_pkh, c.nohp, c.email")
+                    ->join('dapo_peserta b', 'b.peserta_didik_id = a.peserta_didik_id')
+                    ->join('_users_tb c', 'c.id = a.user_id')
+                    ->where('a.id', $id)
+                    ->get()->getRowObject();
+
+                if (!$oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $dataMove = $this->_db->table('_tb_pendaftar')->where('id', $oldData->id)->get()->getRowArray();
+
+                $this->_db->transBegin();
+
+                $dataMove['updated_at'] = date('Y-m-d H:i:s');
+                $dataMove['update_reject'] = date('Y-m-d H:i:s');
+                $dataMove['admin_approval'] = $user->data->id;
+                $dataMove['keterangan_penolakan'] = "Cabut berkas pendaftaran dengan keterangan: " . $keterangan_penolakan;
+                $dataMove['status_pendaftaran'] = 3;
+
+                $this->_db->table('_tb_pendaftar_tolak')->insert($dataMove);
+                if ($this->_db->affectedRows() > 0) {
+                    $this->_db->table('_tb_pendaftar')->where('id', $dataMove['id'])->delete();
+                    if ($this->_db->affectedRows() > 0) {
+                        try {
+                            $riwayatLib = new Riwayatlib();
+                            $riwayatLib->insert($user->data->id, "Menolak Pendaftaran $oldData->nama_peserta via Jalur $oldData->via_jalur dengan NISN : " . $oldData->nisn_peserta, "Tolak Pendaftaran Jalur $oldData->via_jalur", "tolak");
+
+                            $saveNotifSystem = new Notificationlib();
+                            $saveNotifSystem->send([
+                                'judul' => "Pendaftaran Jalur $oldData->via_jalur Ditolak.",
+                                'isi' => "Pendaftaran anda melalui jalur $oldData->via_jalur ditolak dengan keterangan: $keterangan_penolakan.",
+                                'action_web' => 'peserta/riwayat/pendaftaran',
+                                'action_app' => 'riwayat_pendaftaran_page',
+                                'token' => $dataMove['id'],
+                                'send_from' => $user->data->id,
+                                'send_to' => $dataMove['user_id'],
+                            ]);
+                        } catch (\Throwable $th) {
+                        }
+                        $this->_db->transCommit();
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->url = base_url('adm/layanan/cabutberkas');
+                        $response->message = "Cabut Berkas Verifikasi pendaftaran $oldData->nama_peserta berhasil dilakukan.";
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal cabut berkas verifikasi status pendaftaran peserta. $oldData->nama_peserta";
+                        return json_encode($response);
+                    }
+                } else {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal cabut berkas verifikasi pendaftaran peserta. $oldData->nama_peserta";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+
     // public function add()
     // {
     //     if ($this->request->isAJAX()) {
