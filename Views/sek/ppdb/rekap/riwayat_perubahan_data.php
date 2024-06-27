@@ -1,6 +1,13 @@
 <div class="col-12">
     <div class="card">
         <div class="card-body">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-6">
+                        <h4 class="card-title">Riwayat Perubahan Data</h4>
+                    </div>
+                </div>
+            </div>
             <div class="accordion accordion-solid-bg" id="accordion-eight">
                 <?php foreach ($riwayat_perubahan_data as $key => $value) { ?>
                     <?php $dataLama = json_decode($value->data_lama);
