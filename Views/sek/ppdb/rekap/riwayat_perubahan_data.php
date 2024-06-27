@@ -85,7 +85,7 @@
 
                         <div class="accordion-item">
                             <div class="accordion-header collapsed rounded-lg" id="accord-8Two<?= $key ?>" data-bs-toggle="collapse" data-bs-target="#collapse8Two<?= $key ?>" aria-controls="collapse8Two<?= $key ?>" aria-expanded="true" role="button">
-                                <span class="accordion-header-icon"></span>
+                                <span class="accordion-header-icon"><?= tgl_indo2($value->created_at) ?></span>
                                 <span class="accordion-header-text"><?= ucwords(strtolower($value->nama_pengaju)) ?> (<?= $value->status_pengaju ?>)</span>
                                 <span class="accordion-header-indicator"></span>
                             </div>
