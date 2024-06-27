@@ -1529,11 +1529,7 @@ class Pendaftar extends BaseController
 
             // Menuliskan file Excel
             if ($jalur == "all") {
-                if ($status == "all") {
-                    $filename = 'DATA_PENDAFTAR.xls';
-                } else {
-                    $filename = 'DATA_PENDAFTAR_' . $status . '.xls';
-                }
+                $filename = 'DATA_PENDAFTAR.xls';
             } else {
                 $filename = 'DATA_PENDAFTAR_' . strtoupper($jalur) . '.xls';
             }
