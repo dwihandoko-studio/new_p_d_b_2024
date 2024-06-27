@@ -533,14 +533,14 @@ class Home extends BaseController
                 $nama = htmlspecialchars($this->request->getVar('name'), true);
 
                 $terverifikasi = $this->_db->table('_tb_pendaftar')
-                    ->select("id, kode_pendaftaran, via_jalur, nama_peserta as fullname, CONCAT('xx', SUBSTRING_INDEX(nisn_peserta, '-', 4), 'xx') as nisn, nama_sekolah_asal, count(nisn_peserta) as jumlahDaftar")
+                    ->select("id, kode_pendaftaran, via_jalur, nama_peserta as fullname, CONCAT('xx', MID(nisn_peserta,3,6), 'xx') as nisn, nama_sekolah_asal, count(nisn_peserta) as jumlahDaftar")
                     ->where('tujuan_sekolah_id_1', $id)
                     ->groupBy('nisn_peserta')
                     ->orderBy('created_at', 'asc')
                     ->get()->getResult();
 
                 $belumverifikasi = $this->_db->table('_tb_pendaftar_temp')
-                    ->select("id, kode_pendaftaran, via_jalur, nama_peserta as fullname, CONCAT('xx', SUBSTRING_INDEX(nisn_peserta, '-', 4), 'xx') as nisn, nama_sekolah_asal, count(nisn_peserta) as jumlahDaftar")
+                    ->select("id, kode_pendaftaran, via_jalur, nama_peserta as fullname, CONCAT('xx', MID(nisn_peserta,3,6), 'xx') as nisn, nama_sekolah_asal, count(nisn_peserta) as jumlahDaftar")
                     ->where('tujuan_sekolah_id_1', $id)
                     ->groupBy('nisn_peserta')
                     ->orderBy('created_at', 'asc')
