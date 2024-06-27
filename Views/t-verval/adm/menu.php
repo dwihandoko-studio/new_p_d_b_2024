@@ -91,6 +91,11 @@
                     <span class="nav-text">Pengaduan</span>
                 </a>
             </li>
+            <li><a href="<?= base_url('adm/download') ?>" class="" aria-expanded="false">
+                    <i class="fas fa-download"></i>
+                    <span class="nav-text">Download</span>
+                </a>
+            </li>
         </ul>
 
         <div class="copyright">
