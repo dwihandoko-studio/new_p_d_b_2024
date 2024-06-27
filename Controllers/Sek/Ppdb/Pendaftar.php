@@ -11,6 +11,7 @@ use App\Libraries\Ppdb\Notificationlib;
 use App\Libraries\Apilib;
 use App\Libraries\Uuid;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use setasign\Fpdi\TcpdfFpdi;
 use App\Libraries\Ppdb\Datalib;
@@ -1443,7 +1444,7 @@ class Pendaftar extends BaseController
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Permintaan diizinkan";
-                $response->data = view('sek/ppdb/rekap/lolos/download', $x);
+                $response->data = view('sek/ppdb/pendaftar/download', $x);
                 return json_encode($response);
             }
         } else {
