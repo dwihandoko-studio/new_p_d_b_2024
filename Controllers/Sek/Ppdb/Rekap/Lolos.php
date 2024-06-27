@@ -145,6 +145,9 @@ class Lolos extends BaseController
             ->where("JSON_CONTAINS(a.data_lama, '$.kode_pendaftaran', '$oldData->kode_pendaftaran')")
             ->orderBy('a.created_at', 'DESC')
             ->get()->getResult();
+
+        var_dump($perubahanData);
+        die;
         if (count($perubahanData) > 0) {
             $data['riwayat_perubahan_data'] = $perubahanData;
         }
