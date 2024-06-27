@@ -140,9 +140,10 @@ class Lolos extends BaseController
 
         // if (!($oldData->id_perubahan == "" || $oldData->id_perubahan == null)) {
         $perubahanData = $this->_db->table('riwayat_perubahan_data a')
-            // ->select("a.*, b.nama as nama_admin_perubahan")
-            // ->join('_users_profile_sekolah b', 'a.user_id = b.user_id')
-            ->where("JSON_CONTAINS(a.data_lama, '$.kode_pendaftaran', '$oldData->kode_pendaftaran')")
+            ->select('a.*')
+            ->select('b.nama as nama_admin_perubahan')
+            ->join('_users_profile_sekolah b', 'a.user_id = b.user_id', 'left')
+            ->where('JSON_CONTAINS(a.data_lama, "$.kode_pendaftaran", "$oldData->kode_pendaftaran")')
             ->orderBy('a.created_at', 'DESC')
             ->get()->getResult();
 
