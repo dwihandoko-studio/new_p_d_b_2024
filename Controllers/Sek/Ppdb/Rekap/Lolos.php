@@ -144,7 +144,7 @@ class Lolos extends BaseController
             ->select('b.nama as nama_admin_perubahan')
             ->join('_users_profile_sekolah b', 'a.user_id = b.user_id', 'left')
             ->where('JSON_CONTAINS(a.data_lama, "$.kode_pendaftaran", "$oldData->kode_pendaftaran")')
-            ->orderBy('a.created_at', 'DESC')
+            ->orderBy('a.created_ats', 'DESC')
             ->get()->getResult();
 
         var_dump($perubahanData);
