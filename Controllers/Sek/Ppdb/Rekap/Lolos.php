@@ -208,7 +208,7 @@ class Lolos extends BaseController
                 $response = new \stdClass;
                 $response->status = 200;
                 $response->message = "Permintaan diizinkan";
-                $response->data = view('sek/ppdb/download', $x);
+                $response->data = view('sek/ppdb/rekap/lolos/download', $x);
                 return json_encode($response);
             }
         } else {
