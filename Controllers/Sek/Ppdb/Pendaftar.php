@@ -1400,6 +1400,157 @@ class Pendaftar extends BaseController
         }
     }
 
+    public function form_download()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->userSekolah();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+                $refSekolah = $this->_db->table('dapo_sekolah')->select("status_sekolah_id")->where('sekolah_id', $user->data->sekolah_id)->get()->getRowObject();
+                if (!$refSekolah) {
+                    redirect()->to(base_url('sek/ppdb/home'));
+                }
+                if ((int)$refSekolah->status_sekolah_id == 1) {
+                    $x['sekNegeri'] = true;
+                    $x['sekSwasta'] = false;
+                } else {
+                    $x['sekNegeri'] = false;
+                    $x['sekSwasta'] = true;
+                }
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('sek/ppdb/rekap/lolos/download', $x);
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function download()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->userSekolah();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
+
+        $jalur = htmlspecialchars($this->request->getGet('j'), true);
+        $status = htmlspecialchars($this->request->getGet('s'), true);
+        if ($jalur == "") {
+            return view('404');
+        }
+        if ($status == "") {
+            return view('404');
+        }
+
+        try {
+
+            $spreadsheet = new Spreadsheet();
+            $worksheet = $spreadsheet->getActiveSheet();
+
+            // Menulis nama kolom ke dalam baris pertama worksheet
+            $worksheet->fromArray(['NO', 'NAMA PESERTA', 'NISN PESERTA', 'TEMPAT LAHIR PESERTA', 'TANGGAL LAHIR PESERTA', 'JENIS KELAMIN', 'NO PENDAFTARAN', 'VIA JALUR', 'JARAK DOMISILI', 'WAKTU PENDAFTARAN'], NULL, 'A3');
+
+            // Mengambil data dari database
+            if ($jalur == "all") {
+                $query = $this->_db->table('_tb_pendaftar_temp a')
+                    ->select("a.kode_pendaftaran, a.nama_peserta, a.nisn_peserta, a.tempat_lahir_peserta, a.tanggal_lahir_peserta, a.jenis_kelamin_peserta, a.kab_peserta, a.kec_peserta, a.kel_peserta, a.dusun_peserta, a.lat_long_peserta, a.nama_sekolah_asal, a.npsn_sekolah_asal, a.nama_sekolah_tujuan, a.npsn_sekolah_tujuan, a.jarak_domisili, a.via_jalur, a.status_pendaftaran, a.created_at, a.updated_aproval, a.admin_approval")
+                    // ->join('_users_profile_sekolah b', 'a.admin_approval = b.user_id')
+                    ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
+                    // ->whereIn('a.status_pendaftaran', [1, 2, 3])
+                    // ->orderBy('a.status_pendaftaran', 'ASC')
+                    ->orderBy('a.via_jalur', 'ASC')
+                    ->orderBy('a.nama_peserta', 'ASC')
+                    ->get();
+            } else {
+                $query = $this->_db->table('_tb_pendaftar_temp a')
+                    ->select("a.kode_pendaftaran, a.nama_peserta, a.nisn_peserta, a.tempat_lahir_peserta, a.tanggal_lahir_peserta, a.jenis_kelamin_peserta, a.kab_peserta, a.kec_peserta, a.kel_peserta, a.dusun_peserta, a.lat_long_peserta, a.nama_sekolah_asal, a.npsn_sekolah_asal, a.nama_sekolah_tujuan, a.npsn_sekolah_tujuan, a.jarak_domisili, a.via_jalur, a.status_pendaftaran, a.created_at, a.updated_aproval, a.admin_approval")
+                    // ->join('_users_profile_sekolah b', 'a.admin_approval = b.user_id')
+                    ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
+                    ->where('a.via_jalur', $jalur)
+                    // ->whereIn('a.status_pendaftaran', [1, 2, 3])
+                    // ->orderBy('a.status_pendaftaran', 'ASC')
+                    ->orderBy('a.nama_peserta', 'ASC')
+                    ->get();
+            }
+
+            // Menulis data ke dalam worksheet
+            $data = $query->getResult();
+            $row = 4;
+            if (count($data) > 0) {
+                foreach ($data as $key => $item) {
+                    $worksheet->getCell('A' . $row)->setValue($key + 1);
+                    $worksheet->getCell('B' . $row)->setValue($item->nama_peserta);
+                    if (substr((string)$item->nisn_peserta, 0, 2) == "BS") {
+                        $worksheet->setCellValueExplicit("C" . $row, "", \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                    } else {
+                        $worksheet->setCellValueExplicit("C" . $row, (string)$item->nisn_peserta, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                    }
+                    $worksheet->getCell('D' . $row)->setValue($item->tempat_lahir_peserta);
+                    $worksheet->getCell('E' . $row)->setValue($item->tanggal_lahir_peserta);
+                    $worksheet->getCell('F' . $row)->setValue($item->jenis_kelamin_peserta);
+                    $worksheet->getCell('G' . $row)->setValue($item->kode_pendaftaran);
+                    $worksheet->getCell('H' . $row)->setValue($item->via_jalur);
+                    $jarakDomisili = round($item->jarak_domisili, 3) . ' Km';
+                    $worksheet->getCell('I' . $row)->setValue($jarakDomisili);
+                    $worksheet->setCellValueExplicit("J" . $row, tgl_indo2($item->created_at), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                    // $worksheet->setCellValueExplicit("G" . $row, $item->us_pang_mk_tahun, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+
+                    $row++;
+                }
+            }
+
+            // Menyiapkan objek writer untuk menulis file Excel
+            $writer = new Xls($spreadsheet);
+
+            // Menuliskan file Excel
+            if ($jalur == "all") {
+                if ($status == "all") {
+                    $filename = 'DATA_PENDAFTAR.xls';
+                } else {
+                    $filename = 'DATA_PENDAFTAR_' . $status . '.xls';
+                }
+            } else {
+                $filename = 'DATA_PENDAFTAR_' . strtoupper($jalur) . '.xls';
+            }
+            header('Content-Type: application/vnd-ms-excel');
+            // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+            exit();
+            //code...
+        } catch (\Throwable $th) {
+            var_dump($th);
+        }
+    }
 
     // public function perubahanPrestasiSave()
     // {
