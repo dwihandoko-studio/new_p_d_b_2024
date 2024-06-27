@@ -51,7 +51,7 @@
             const cJalur = document.getElementsByName('_jalur_download')[0].value;
             const cStatus = document.getElementsByName('_jalur_status')[0].value;
 
-            window.open('<?= base_url('sek/ppdb/rekap/lolos') ?>/download?j=' + cJalur + 's=' + cStatus, '_blank').focus();
+            window.open('<?= base_url('sek/ppdb/rekap/lolos') ?>/download?j=' + cJalur + '&s=' + cStatus, '_blank').focus();
             reloadPage();
             // $.ajax({
             //     url: "./download",
