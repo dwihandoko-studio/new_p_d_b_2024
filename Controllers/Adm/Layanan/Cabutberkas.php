@@ -229,7 +229,7 @@ class Cabutberkas extends BaseController
     }
 
 
-    public function formTolak()
+    public function formCabut()
     {
         if ($this->request->isAJAX()) {
 
