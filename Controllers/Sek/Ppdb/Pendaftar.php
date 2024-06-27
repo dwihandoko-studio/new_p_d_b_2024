@@ -1463,11 +1463,7 @@ class Pendaftar extends BaseController
         }
 
         $jalur = htmlspecialchars($this->request->getGet('j'), true);
-        $status = htmlspecialchars($this->request->getGet('s'), true);
         if ($jalur == "") {
-            return view('404');
-        }
-        if ($status == "") {
             return view('404');
         }
 
