@@ -112,9 +112,9 @@
         cRekapD += '<th>';
         cRekapD += 'Jalur';
         cRekapD += '</th>';
-        cRekapD += '<th>';
-        cRekapD += 'No Pendaftaran';
-        cRekapD += '</th>';
+        // cRekapD += '<th>';
+        // cRekapD += 'No Pendaftaran';
+        // cRekapD += '</th>';
         cRekapD += '<th>';
         cRekapD += 'Nama Peserta';
         cRekapD += '</th>';
@@ -123,6 +123,9 @@
         cRekapD += '</th>';
         cRekapD += '<th>';
         cRekapD += 'Asal Sekolah';
+        cRekapD += '</th>';
+        cRekapD += '<th>';
+        cRekapD += 'NPSN Asal Sekolah';
         cRekapD += '</th>';
         cRekapD += '</tr>';
         cRekapD += '</thead>';
@@ -158,6 +161,9 @@
         cRekapD += '</th>';
         cRekapD += '<th>';
         cRekapD += 'Asal Sekolah';
+        cRekapD += '</th>';
+        cRekapD += '<th>';
+        cRekapD += 'NPSN Asal Sekolah';
         cRekapD += '</th>';
         cRekapD += '</tr>';
         cRekapD += '</thead>';
@@ -213,9 +219,9 @@
                             htmlRekap += '<td>';
                             htmlRekap += msg.data_terverifikasi[stepr].via_jalur;
                             htmlRekap += '</td>';
-                            htmlRekap += '<td>';
-                            htmlRekap += msg.data_terverifikasi[stepr].kode_pendaftaran;
-                            htmlRekap += '</td>';
+                            // htmlRekap += '<td>';
+                            // htmlRekap += msg.data_terverifikasi[stepr].kode_pendaftaran;
+                            // htmlRekap += '</td>';
                             htmlRekap += '<td>';
                             htmlRekap += msg.data_terverifikasi[stepr].fullname;
                             htmlRekap += '</td>';
@@ -224,6 +230,9 @@
                             htmlRekap += '</td>';
                             htmlRekap += '<td>';
                             htmlRekap += msg.data_terverifikasi[stepr].nama_sekolah_asal;
+                            htmlRekap += '</td>';
+                            htmlRekap += '<td>';
+                            htmlRekap += msg.data_terverifikasi[stepr].npsn_sekolah_asal;
                             htmlRekap += '</td>';
                             htmlRekap += '</tr>';
                         }
@@ -260,6 +269,9 @@
                             htmlRekapB += '</td>';
                             htmlRekapB += '<td>';
                             htmlRekapB += msg.data_belum_verifikasi[stepb].nama_sekolah_asal;
+                            htmlRekapB += '</td>';
+                            htmlRekapB += '<td>';
+                            htmlRekapB += msg.data_belum_verifikasi[stepb].npsn_sekolah_asal;
                             htmlRekapB += '</td>';
                             htmlRekapB += '</tr>';
                         }
