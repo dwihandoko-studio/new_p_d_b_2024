@@ -3,8 +3,8 @@
         <div class="card-body">
             <div class="accordion accordion-solid-bg" id="accordion-eight">
                 <?php foreach ($riwayat_perubahan_data as $key => $value) { ?>
-                    <?php $dataLama = json_decode($data->data_lama);
-                    $dataBaru = json_decode($data->data_baru);
+                    <?php $dataLama = json_decode($value->data_lama);
+                    $dataBaru = json_decode($value->data_baru);
                     ?>
                     <?php if ($key == 0) { ?>
                         <div class="accordion-item">
