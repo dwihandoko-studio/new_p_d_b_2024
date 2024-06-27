@@ -305,7 +305,7 @@ class Lolos extends BaseController
                     $worksheet->getCell('F' . $row)->setValue($item->jenis_kelamin_peserta);
                     $worksheet->getCell('G' . $row)->setValue($item->kode_pendaftaran);
                     $worksheet->getCell('H' . $row)->setValue($item->via_jalur);
-                    $jarakDomisili = $item->jarak_domisili . ' Km';
+                    $jarakDomisili = round($item->jarak_domisili, 3) . ' Km';
                     $worksheet->getCell('I' . $row)->setValue($jarakDomisili);
                     switch ((int)$item->status_pendaftaran) {
                         case 1:
