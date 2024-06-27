@@ -540,7 +540,7 @@ class Home extends BaseController
                     ->get()->getResult();
 
                 $belumverifikasi = $this->_db->table('_tb_pendaftar_temp')
-                    ->select("id, kode_pendaftaran, via_jalur, nama_peserta as fullname, SUBSTRING_INDEX(nisn_peserta, '-', 4), 'xx') as nisn, nama_sekolah_asal, count(nisn_peserta) as jumlahDaftar")
+                    ->select("id, kode_pendaftaran, via_jalur, nama_peserta as fullname, CONCAT('xx', SUBSTRING_INDEX(nisn_peserta, '-', 4), 'xx') as nisn, nama_sekolah_asal, count(nisn_peserta) as jumlahDaftar")
                     ->where('tujuan_sekolah_id_1', $id)
                     ->groupBy('nisn_peserta')
                     ->orderBy('created_at', 'asc')
