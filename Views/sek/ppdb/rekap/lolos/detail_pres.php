@@ -394,18 +394,18 @@
                     </div>
                     <?php if (isset($dokument->nilai_rata_rapor)) { ?>
                         <?php if ($dokument->nilai_rata_rapor) { ?>
-                            <!-- <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="mb-3">
-                                                <div class="input-group   input-primary">
-                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Nilai Rata-Rata</span>
-                                                    <input type="text" id="_nilai_rata2" name="_nilai_rata2" class="form-control" value="<?= $dokument->nilai_rata_rapor ?>" readonly />
-                                                </div>
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <div class="input-group   input-primary">
+                                                <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Poin Nilai Rapor</span>
+                                                <input type="text" id="_nilai_rata2" name="_nilai_rata2" class="form-control" value="<?= round($dokument->nilai_rata_rapor, 3) ?>" readonly />
                                             </div>
                                         </div>
                                     </div>
-                                </div> -->
+                                </div>
+                            </div>
                         <?php } ?>
                     <?php } ?>
                 <?php } ?>
@@ -503,7 +503,35 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <div class="input-group   input-primary">
+                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Poin Prestasi</span>
+                                            <input type="text" id="_point_prestasi" name="_point_prestasi" class="form-control" value="<?= $dokument->nilai_tambahan ?>" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     <?php } ?>
+                <?php } ?>
+            <?php } ?>
+            <?php if (isset($dokument->nilai_prestasi)) { ?>
+                <?php if ($dokument->nilai_prestasi) { ?>
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="input-group   input-primary">
+                                        <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Total Poin</span>
+                                        <input type="text" id="_total_point_prestasi" name="_total_point_prestasi" class="form-control" value="<?= round($dokument->nilai_prestasi, 3) ?>" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <?php } ?>
             <?php } ?>
 

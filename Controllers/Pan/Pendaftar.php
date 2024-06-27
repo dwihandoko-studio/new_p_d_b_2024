@@ -498,7 +498,7 @@ class Pendaftar extends BaseController
                     $response->status = 400;
                     $response->message = "Proses tidak dapat dilanjutkan.";
                     return json_encode($response);
-                }
+                } 
 
                 $dataMove = $this->_db->table('_tb_pendaftar_temp')->where('id', $oldData->id)->get()->getRowArray();
 
