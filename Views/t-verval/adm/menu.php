@@ -66,6 +66,7 @@
                     <li><a href="<?= base_url('adm/layanan/pd') ?>">PD Tingkat Akhir</a></li>
                     <li><a href="<?= base_url('adm/layanan/akun') ?>">Akun PD</a></li>
                     <li><a href="<?= base_url('adm/layanan/panitia') ?>">Panitia PPDB</a></li>
+                    <li><a href="<?= base_url('adm/layanan/cabutberkas') ?>">Cabut Berkas Verifikasi</a></li>
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
