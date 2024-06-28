@@ -554,7 +554,7 @@
                                 <a href="<?= base_url('pan/rekap/lolos') ?>" class="btn btn-block btn-xs btn-primary waves-effect waves-light"><i class="las la-undo font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> Kembali</a>
                             </div>
                             <div class="col-4 mb-2">
-                                <button type="button" onclick="aksiCabutBerkas('<?= $data->id ?>', '<?= $data->kode_pendaftaran ?>', '<?= replaceTandaBacaPetik($data->nama_peserta) ?>')" class="btn btn-block btn-xs btn-info waves-effect waves-light"><i class="fas fa-business-time font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> Layanan Cabut Berkas Verifikasi</button>
+                                <button type="button" onclick="aksiPerubahan('<?= $data->id ?>', '<?= $data->kode_pendaftaran ?>', '<?= replaceTandaBacaPetik($data->nama_peserta) ?>')" class="btn btn-block btn-xs btn-info waves-effect waves-light"><i class="las la-edit font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> Layanan Perubahan Data Verifikasi</button>
                             </div>
                         </div>
                     </div>
@@ -606,7 +606,7 @@
 
 <?= $this->section('scriptBottom'); ?>
 <script>
-    function aksiCabutBerkas(id, koreg, nama) {
+    function aksiPerubahan(id, koreg, nama) {
         Swal.fire({
             title: 'Apakah anda yakin ingin melakukan perubahan data pendaftaran verifikasi peserta ini?',
             text: "Perubahan Data Pendaftaran: " + nama,
