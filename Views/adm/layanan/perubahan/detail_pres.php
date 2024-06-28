@@ -608,17 +608,17 @@
 <script>
     function aksiCabutBerkas(id, koreg, nama) {
         Swal.fire({
-            title: 'Apakah anda yakin ingin melakukan cabut berkas data pendaftaran verifikasi peserta ini?',
-            text: "Cabut Berkas Pendaftaran: " + nama,
+            title: 'Apakah anda yakin ingin melakukan perubahan data pendaftaran verifikasi peserta ini?',
+            text: "Perubahan Data Pendaftaran: " + nama,
             showCancelButton: true,
             icon: 'question',
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Cabut Berkas!'
+            confirmButtonText: 'Ya, Perubahan!'
         }).then((result) => {
             if (result.value) {
                 $.ajax({
-                    url: "./formCabut",
+                    url: "./formPerubahan",
                     type: 'POST',
                     data: {
                         id: id,
@@ -641,7 +641,7 @@
                     success: function(response) {
                         if (response.status == 200) {
                             Swal.close();
-                            $('#content-editModalLabel').html('LAYANAN CABUT BERKAS VERIFIKASI PENDAFTARAN');
+                            $('#content-editModalLabel').html('LAYANAN PERUBAHAN DATA VERIFIKASI PENDAFTARAN');
                             $('.content-editBodyModal').html(response.data);
                             $('.content-editModal').modal({
                                 backdrop: 'static',
