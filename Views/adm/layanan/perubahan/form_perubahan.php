@@ -88,7 +88,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 mt-3">
+                        <div class="col-lg-12 mt-3">
                             <div class="row">
                                 <div class="col-6">
                                     <?php $lat_long = explode(",", $data->lat_long_peserta); ?>
