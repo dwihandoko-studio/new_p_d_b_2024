@@ -3,7 +3,7 @@
     <input type="hidden" id="_id_perubahan" name="_id_perubahan" value="<?= $data->id ?>" />
     <input type="hidden" id="_nama_perubahan" name="_nama_perubahan" value="<?= replaceTandaBacaPetik($data->nama_peserta) ?>" />
     <div class="modal-body">
-        <div class="card">
+        <!-- <div class="card">
             <div class="card-body">
                 <div class="col-12">
                     <div class="row">
@@ -42,8 +42,9 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="perubahan_data_domisili" class="card perubahan_data_domisili" style="display: none;">
+        </div> -->
+        <!-- <div id="perubahan_data_domisili" class="card perubahan_data_domisili" style="display: none;"> -->
+        <div id="perubahan_data_domisili" class="card perubahan_data_domisili">
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
@@ -133,6 +134,7 @@
             <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary">SIMPAN PERUBAHAN</button>
         </div>
+    </div>
 </form>
 <script>
     function ambilKoordinat(event) {
