@@ -324,24 +324,24 @@ class Perubahan extends BaseController
                         'required' => 'Nama tidak boleh kosong. ',
                     ]
                 ],
-                '_pengaju' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Pengaju tidak boleh kosong. ',
-                    ]
-                ],
-                '_status_pengaju' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Status pengaju tidak boleh kosong. ',
-                    ]
-                ],
-                '_perubahan_pengaju' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Perubahan pengaju tidak boleh kosong. ',
-                    ]
-                ],
+                // '_pengaju' => [
+                //     'rules' => 'required|trim',
+                //     'errors' => [
+                //         'required' => 'Pengaju tidak boleh kosong. ',
+                //     ]
+                // ],
+                // '_status_pengaju' => [
+                //     'rules' => 'required|trim',
+                //     'errors' => [
+                //         'required' => 'Status pengaju tidak boleh kosong. ',
+                //     ]
+                // ],
+                // '_perubahan_pengaju' => [
+                //     'rules' => 'required|trim',
+                //     'errors' => [
+                //         'required' => 'Perubahan pengaju tidak boleh kosong. ',
+                //     ]
+                // ],
                 '_lintang' => [
                     'rules' => 'required|trim',
                     'errors' => [
@@ -361,9 +361,9 @@ class Perubahan extends BaseController
                 $response->status = 400;
                 $response->message = $this->validator->getError('_id_perubahan')
                     . $this->validator->getError('_nama_perubahan')
-                    . $this->validator->getError('_pengaju')
-                    . $this->validator->getError('_status_pengaju')
-                    . $this->validator->getError('_perubahan_pengaju')
+                    // . $this->validator->getError('_pengaju')
+                    // . $this->validator->getError('_status_pengaju')
+                    // . $this->validator->getError('_perubahan_pengaju')
                     . $this->validator->getError('_lintang')
                     . $this->validator->getError('_bujur');
                 return json_encode($response);
@@ -381,9 +381,13 @@ class Perubahan extends BaseController
 
                 $id = htmlspecialchars($this->request->getVar('_id_perubahan'), true);
                 $nama = htmlspecialchars($this->request->getVar('_nama_perubahan'), true);
-                $nama_pengaju = htmlspecialchars($this->request->getVar('_pengaju'), true);
-                $status_pengaju = htmlspecialchars($this->request->getVar('_status_pengaju'), true);
-                $perubahan_pengaju = htmlspecialchars($this->request->getVar('_perubahan_pengaju'), true);
+                // $nama_pengaju = htmlspecialchars($this->request->getVar('_pengaju'), true);
+                // $status_pengaju = htmlspecialchars($this->request->getVar('_status_pengaju'), true);
+                // $perubahan_pengaju = htmlspecialchars($this->request->getVar('_perubahan_pengaju'), true);
+                $nama_pengaju = "Adm";
+                $status_pengaju = "Layanan Perubahan";
+                $perubahan_pengaju = "domisili";
+
                 $lintang = htmlspecialchars($this->request->getVar('_lintang'), true);
                 $bujur = htmlspecialchars($this->request->getVar('_bujur'), true);
 

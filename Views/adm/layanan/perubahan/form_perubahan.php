@@ -297,35 +297,35 @@
     function validateFormPerubahan(formElement) {
         const latitudeInput = formElement.querySelector('#_lintang');
         const longitudeInput = formElement.querySelector('#_bujur');
-        const inPengaju = formElement.querySelector('#_pengaju');
-        const inStatusPengaju = formElement.querySelector('#_status_pengaju');
-        const inPerubahanPengaju = formElement.querySelector('#_perubahan_pengaju');
-        if ((inPengaju === "" || inPengaju === undefined)) {
-            Swal.fire(
-                'Peringatan!',
-                "Silahkan masukkan nama pengaju perubahan data.",
-                'warning'
-            ).then((valRes) => {
-                inPengaju.focus();
-            });
-            return false;
-        }
-        if ((inStatusPengaju === "" || inStatusPengaju === undefined)) {
-            Swal.fire(
-                'Peringatan!',
-                "Silahkan pilih status pengaju perubahan data.",
-                'warning'
-            ).then((valRes) => {});
-            return false;
-        }
-        if ((inPerubahanPengaju === "" || inPerubahanPengaju === undefined)) {
-            Swal.fire(
-                'Peringatan!',
-                "Silahkan pilih jenis perubahan data.",
-                'warning'
-            ).then((valRes) => {});
-            return false;
-        }
+        // const inPengaju = formElement.querySelector('#_pengaju');
+        // const inStatusPengaju = formElement.querySelector('#_status_pengaju');
+        // const inPerubahanPengaju = formElement.querySelector('#_perubahan_pengaju');
+        // if ((inPengaju === "" || inPengaju === undefined)) {
+        //     Swal.fire(
+        //         'Peringatan!',
+        //         "Silahkan masukkan nama pengaju perubahan data.",
+        //         'warning'
+        //     ).then((valRes) => {
+        //         inPengaju.focus();
+        //     });
+        //     return false;
+        // }
+        // if ((inStatusPengaju === "" || inStatusPengaju === undefined)) {
+        //     Swal.fire(
+        //         'Peringatan!',
+        //         "Silahkan pilih status pengaju perubahan data.",
+        //         'warning'
+        //     ).then((valRes) => {});
+        //     return false;
+        // }
+        // if ((inPerubahanPengaju === "" || inPerubahanPengaju === undefined)) {
+        //     Swal.fire(
+        //         'Peringatan!',
+        //         "Silahkan pilih jenis perubahan data.",
+        //         'warning'
+        //     ).then((valRes) => {});
+        //     return false;
+        // }
 
         if (!validateLat(latitudeInput.value)) {
             Swal.fire(
