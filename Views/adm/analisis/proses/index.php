@@ -143,6 +143,9 @@
             ]
             // "columnDefs": [],
         });
+        $('#_filter_jalur').change(function() {
+            tableDatatables.draw();
+        });
     });
 </script>
 <?= $this->endSection(); ?>
