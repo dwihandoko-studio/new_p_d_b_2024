@@ -89,38 +89,32 @@
                             </div>
                         </div>
                         <div class="col-lg-12 mt-3">
-                            <div class="row">
-                                <div class="col-6">
-                                    <?php $lat_long = explode(",", $data->lat_long_peserta); ?>
-                                    <div class="col-6">
-                                        <div class="mb-3 row">
-                                            <div class="col-12">
-                                                <div class="row">
-                                                    <div class="col-9">
-                                                        <div class="mb-3 row">
-                                                            <label class="col-sm-3 col-form-label">Lintang</label>
-                                                            <div class="col-sm-9">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text">Lat</span>
-                                                                    <input type="text" class="form-control" id="_lintang" name="_lintang" value="<?= $lat_long[0] ?>" required />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mb-3 row">
-                                                            <label class="col-sm-3 col-form-label">Bujur</label>
-                                                            <div class="col-sm-9">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text">Long</span>
-                                                                    <input type="text" class="form-control" id="_bujur" name="_bujur" value="<?= $lat_long[1] ?>" required />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-3">
-                                                        <button type="button" onclick="ambilKoordinat(this);" style="width: 100%;" class="btn btn-sm btn-info waves-effect waves-light">Ambil Koordinat</button>
+                            <?php $lat_long = explode(",", $data->lat_long_peserta); ?>
+                            <div class="mb-3 row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <div class="mb-3 row">
+                                                <label class="col-sm-3 col-form-label">Lintang</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group   input-primary">
+                                                        <span class="input-group-text">Lat</span>
+                                                        <input type="text" class="form-control" id="_lintang" name="_lintang" value="<?= $lat_long[0] ?>" required />
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="mb-3 row">
+                                                <label class="col-sm-3 col-form-label">Bujur</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group   input-primary">
+                                                        <span class="input-group-text">Long</span>
+                                                        <input type="text" class="form-control" id="_bujur" name="_bujur" value="<?= $lat_long[1] ?>" required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <button type="button" onclick="ambilKoordinat(this);" style="width: 100%;" class="btn btn-sm btn-info waves-effect waves-light">Ambil Koordinat</button>
                                         </div>
                                     </div>
                                 </div>
