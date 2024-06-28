@@ -23,11 +23,13 @@ class Pengaduan extends BaseController
 
     public function index()
     {
-        return redirect()->to(base_url('pengaduan/data'));
+        return redirect()->to(base_url('home/data'));
+        // return redirect()->to(base_url('pengaduan/data'));
     }
 
     public function data()
     {
+        return redirect()->to(base_url('home/data'));
         set_cookie('layout', 'horizontal', strval(3600 * 24 * 1));
         set_cookie('headerPosition', 'static', strval(3600 * 24 * 1));
         set_cookie('containerLayout', 'wide', strval(3600 * 24 * 1));

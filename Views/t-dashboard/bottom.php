@@ -53,15 +53,15 @@
                         <p style="margin-bottom: 0px;"><a href="https://s.id/panduan_pendaftaran_ppdb_lamteng_2024">Panduan Pendaftaran PPDB Kab. Lampung Tengah TA. 2024/2025</a></p>
                     </div>
                 </div>
-                <div class="col-xl-4">
+                <!-- <div class="col-xl-4">
                     <div class="mail-list rounded">
                         <div class="intro-title d-flex justify-content-between my-0">
                             <h5>Pengaduan</h5>
                         </div>
                         <p>Punya Kendala PPDB </p>
-                        <a href="<?= base_url('pengaduan') ?>"><button type="button" class="btn btn-block btn-primary">BUAT PENGADUAN</button></a>
+                        <a href="javascript:alert('Mohon maaf saat ini proses submit pengaduan untuk buat akun tel!');"><button type="button" class="btn btn-block btn-primary">BUAT PENGADUAN</button></a>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
