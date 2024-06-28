@@ -227,11 +227,7 @@ class Tolak extends BaseController
         }
 
         $jalur = htmlspecialchars($this->request->getGet('j'), true);
-        $status = htmlspecialchars($this->request->getGet('s'), true);
         if ($jalur == "") {
-            return view('404');
-        }
-        if ($status == "") {
             return view('404');
         }
 
@@ -245,47 +241,47 @@ class Tolak extends BaseController
 
             // Mengambil data dari database
             if ($jalur == "all") {
-                if ($status == "all") {
-                    $query = $this->_db->table('_tb_pendaftar_tolak a')
-                        ->select("a.kode_pendaftaran, a.nama_peserta, a.nisn_peserta, a.tempat_lahir_peserta, a.tanggal_lahir_peserta, a.jenis_kelamin_peserta, a.kab_peserta, a.kec_peserta, a.kel_peserta, a.dusun_peserta, a.lat_long_peserta, a.nama_sekolah_asal, a.npsn_sekolah_asal, a.nama_sekolah_tujuan, a.npsn_sekolah_tujuan, a.jarak_domisili, a.via_jalur, a.status_pendaftaran, a.created_at, a.update_reject, a.admin_approval, b.nama as nama_verifikator, a.keterangan_penolakan")
-                        ->join('_users_profile_sekolah b', 'a.admin_approval = b.user_id')
-                        ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
-                        ->whereIn('a.status_pendaftaran', [1, 2, 3])
-                        ->orderBy('a.status_pendaftaran', 'ASC')
-                        ->orderBy('a.via_jalur', 'ASC')
-                        ->orderBy('a.nama_peserta', 'ASC')
-                        ->get();
-                } else {
-                    $query = $this->_db->table('_tb_pendaftar_tolak a')
-                        ->select("a.kode_pendaftaran, a.nama_peserta, a.nisn_peserta, a.tempat_lahir_peserta, a.tanggal_lahir_peserta, a.jenis_kelamin_peserta, a.kab_peserta, a.kec_peserta, a.kel_peserta, a.dusun_peserta, a.lat_long_peserta, a.nama_sekolah_asal, a.npsn_sekolah_asal, a.nama_sekolah_tujuan, a.npsn_sekolah_tujuan, a.jarak_domisili, a.via_jalur, a.status_pendaftaran, a.created_at, a.update_reject, a.admin_approval, b.nama as nama_verifikator, a.keterangan_penolakan")
-                        ->join('_users_profile_sekolah b', 'a.admin_approval = b.user_id')
-                        ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
-                        ->where('a.status_pendaftaran', $status)
-                        ->orderBy('a.via_jalur', 'ASC')
-                        ->orderBy('a.nama_peserta', 'ASC')
-                        ->get();
-                }
+                // if ($status == "all") {
+                //     $query = $this->_db->table('_tb_pendaftar_tolak a')
+                //         ->select("a.kode_pendaftaran, a.nama_peserta, a.nisn_peserta, a.tempat_lahir_peserta, a.tanggal_lahir_peserta, a.jenis_kelamin_peserta, a.kab_peserta, a.kec_peserta, a.kel_peserta, a.dusun_peserta, a.lat_long_peserta, a.nama_sekolah_asal, a.npsn_sekolah_asal, a.nama_sekolah_tujuan, a.npsn_sekolah_tujuan, a.jarak_domisili, a.via_jalur, a.status_pendaftaran, a.created_at, a.update_reject, a.admin_approval, b.nama as nama_verifikator, a.keterangan_penolakan")
+                //         ->join('_users_profile_sekolah b', 'a.admin_approval = b.user_id')
+                //         ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
+                //         ->whereIn('a.status_pendaftaran', [1, 2, 3])
+                //         ->orderBy('a.status_pendaftaran', 'ASC')
+                //         ->orderBy('a.via_jalur', 'ASC')
+                //         ->orderBy('a.nama_peserta', 'ASC')
+                //         ->get();
+                // } else {
+                $query = $this->_db->table('_tb_pendaftar_tolak a')
+                    ->select("a.kode_pendaftaran, a.nama_peserta, a.nisn_peserta, a.tempat_lahir_peserta, a.tanggal_lahir_peserta, a.jenis_kelamin_peserta, a.kab_peserta, a.kec_peserta, a.kel_peserta, a.dusun_peserta, a.lat_long_peserta, a.nama_sekolah_asal, a.npsn_sekolah_asal, a.nama_sekolah_tujuan, a.npsn_sekolah_tujuan, a.jarak_domisili, a.via_jalur, a.status_pendaftaran, a.created_at, a.update_reject, a.admin_approval, b.nama as nama_verifikator, a.keterangan_penolakan")
+                    ->join('_users_profile_sekolah b', 'a.admin_approval = b.user_id')
+                    ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
+                    // ->where('a.status_pendaftaran', $status)
+                    ->orderBy('a.via_jalur', 'ASC')
+                    ->orderBy('a.nama_peserta', 'ASC')
+                    ->get();
+                // }
             } else {
-                if ($status == "all") {
-                    $query = $this->_db->table('_tb_pendaftar_tolak a')
-                        ->select("a.kode_pendaftaran, a.nama_peserta, a.nisn_peserta, a.tempat_lahir_peserta, a.tanggal_lahir_peserta, a.jenis_kelamin_peserta, a.kab_peserta, a.kec_peserta, a.kel_peserta, a.dusun_peserta, a.lat_long_peserta, a.nama_sekolah_asal, a.npsn_sekolah_asal, a.nama_sekolah_tujuan, a.npsn_sekolah_tujuan, a.jarak_domisili, a.via_jalur, a.status_pendaftaran, a.created_at, a.update_reject, a.admin_approval, b.nama as nama_verifikator, a.keterangan_penolakan")
-                        ->join('_users_profile_sekolah b', 'a.admin_approval = b.user_id')
-                        ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
-                        ->where('a.via_jalur', $jalur)
-                        ->whereIn('a.status_pendaftaran', [1, 2, 3])
-                        ->orderBy('a.status_pendaftaran', 'ASC')
-                        ->orderBy('a.nama_peserta', 'ASC')
-                        ->get();
-                } else {
-                    $query = $this->_db->table('_tb_pendaftar_tolak a')
-                        ->select("a.kode_pendaftaran, a.nama_peserta, a.nisn_peserta, a.tempat_lahir_peserta, a.tanggal_lahir_peserta, a.jenis_kelamin_peserta, a.kab_peserta, a.kec_peserta, a.kel_peserta, a.dusun_peserta, a.lat_long_peserta, a.nama_sekolah_asal, a.npsn_sekolah_asal, a.nama_sekolah_tujuan, a.npsn_sekolah_tujuan, a.jarak_domisili, a.via_jalur, a.status_pendaftaran, a.created_at, a.update_reject, a.admin_approval, b.nama as nama_verifikator, a.keterangan_penolakan")
-                        ->join('_users_profile_sekolah b', 'a.admin_approval = b.user_id')
-                        ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
-                        ->where('a.status_pendaftaran', $status)
-                        ->where('a.via_jalur', $jalur)
-                        ->orderBy('a.nama_peserta', 'ASC')
-                        ->get();
-                }
+                // if ($status == "all") {
+                //     $query = $this->_db->table('_tb_pendaftar_tolak a')
+                //         ->select("a.kode_pendaftaran, a.nama_peserta, a.nisn_peserta, a.tempat_lahir_peserta, a.tanggal_lahir_peserta, a.jenis_kelamin_peserta, a.kab_peserta, a.kec_peserta, a.kel_peserta, a.dusun_peserta, a.lat_long_peserta, a.nama_sekolah_asal, a.npsn_sekolah_asal, a.nama_sekolah_tujuan, a.npsn_sekolah_tujuan, a.jarak_domisili, a.via_jalur, a.status_pendaftaran, a.created_at, a.update_reject, a.admin_approval, b.nama as nama_verifikator, a.keterangan_penolakan")
+                //         ->join('_users_profile_sekolah b', 'a.admin_approval = b.user_id')
+                //         ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
+                //         ->where('a.via_jalur', $jalur)
+                //         ->whereIn('a.status_pendaftaran', [1, 2, 3])
+                //         ->orderBy('a.status_pendaftaran', 'ASC')
+                //         ->orderBy('a.nama_peserta', 'ASC')
+                //         ->get();
+                // } else {
+                $query = $this->_db->table('_tb_pendaftar_tolak a')
+                    ->select("a.kode_pendaftaran, a.nama_peserta, a.nisn_peserta, a.tempat_lahir_peserta, a.tanggal_lahir_peserta, a.jenis_kelamin_peserta, a.kab_peserta, a.kec_peserta, a.kel_peserta, a.dusun_peserta, a.lat_long_peserta, a.nama_sekolah_asal, a.npsn_sekolah_asal, a.nama_sekolah_tujuan, a.npsn_sekolah_tujuan, a.jarak_domisili, a.via_jalur, a.status_pendaftaran, a.created_at, a.update_reject, a.admin_approval, b.nama as nama_verifikator, a.keterangan_penolakan")
+                    ->join('_users_profile_sekolah b', 'a.admin_approval = b.user_id')
+                    ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
+                    // ->where('a.status_pendaftaran', $status)
+                    ->where('a.via_jalur', $jalur)
+                    ->orderBy('a.nama_peserta', 'ASC')
+                    ->get();
+                // }
             }
 
             // Menulis data ke dalam worksheet
@@ -336,17 +332,17 @@ class Tolak extends BaseController
 
             // Menuliskan file Excel
             if ($jalur == "all") {
-                if ($status == "all") {
-                    $filename = 'DATA_PENDAFTAR_DITOLAK_VERIFIKASI.xls';
-                } else {
-                    $filename = 'DATA_PENDAFTAR_DITOLAK_VERIFIKASI_' . $status . '.xls';
-                }
+                // if ($status == "all") {
+                $filename = 'DATA_PENDAFTAR_DITOLAK_VERIFIKASI.xls';
+                // } else {
+                //     $filename = 'DATA_PENDAFTAR_DITOLAK_VERIFIKASI_' . $status . '.xls';
+                // }
             } else {
-                if ($status == "all") {
-                    $filename = 'DATA_PENDAFTAR_DITOLAK_VERIFIKASI_' . strtoupper($jalur) . '.xls';
-                } else {
-                    $filename = 'DATA_PENDAFTAR_DITOLAK_VERIFIKASI_' . $status . '_' . strtoupper($jalur) . '.xls';
-                }
+                // if ($status == "all") {
+                $filename = 'DATA_PENDAFTAR_DITOLAK_VERIFIKASI_' . strtoupper($jalur) . '.xls';
+                // } else {
+                //     $filename = 'DATA_PENDAFTAR_DITOLAK_VERIFIKASI_' . $status . '_' . strtoupper($jalur) . '.xls';
+                // }
             }
             header('Content-Type: application/vnd-ms-excel');
             // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

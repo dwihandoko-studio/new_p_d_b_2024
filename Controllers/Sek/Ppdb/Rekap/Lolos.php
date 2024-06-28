@@ -196,7 +196,10 @@ class Lolos extends BaseController
                 }
                 $refSekolah = $this->_db->table('dapo_sekolah')->select("status_sekolah_id")->where('sekolah_id', $user->data->sekolah_id)->get()->getRowObject();
                 if (!$refSekolah) {
-                    redirect()->to(base_url('sek/ppdb/home'));
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Ref sekolah tidak ditemukan.";
+                    return json_encode($response);
                 }
                 if ((int)$refSekolah->status_sekolah_id == 1) {
                     $x['sekNegeri'] = true;

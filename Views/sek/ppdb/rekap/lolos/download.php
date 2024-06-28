@@ -23,7 +23,7 @@
                     </select>
                 </div>
             </div>
-            <!-- <div class="mb-3 row">
+            <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Pilih Status Pendaftaran :</label>
                 <div class="col-sm-9">
                     <select class="default-select form-control wide mb-3" id="_jalur_status" name="_jalur_status" required>
@@ -34,7 +34,7 @@
                         <option value="3"> TIDAK LOLOS </option>
                     </select>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
     <div class="modal-footer">
@@ -49,9 +49,9 @@
 
             event.preventDefault();
             const cJalur = document.getElementsByName('_jalur_download')[0].value;
-            // const cStatus = document.getElementsByName('_jalur_status')[0].value;
+            const cStatus = document.getElementsByName('_jalur_status')[0].value;
 
-            window.open('<?= base_url('sek/ppdb/rekap/tolak') ?>/download?j=' + cJalur, '_blank').focus();
+            window.open('<?= base_url('sek/ppdb/rekap/lolos') ?>/download?j=' + cJalur + '&s=' + cStatus, '_blank').focus();
             reloadPage();
             // $.ajax({
             //     url: "./download",
