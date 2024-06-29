@@ -727,7 +727,7 @@ class Perubahan extends BaseController
                         $response = new \stdClass;
                         $response->status = 200;
                         $response->nama = $oldData->nama_peserta;
-                        $response->url = base_url('adm/layanan/perubahan') . '/download_berita_acara?id=' . $dataPerubahan['id_perubahan'];
+                        $response->url = base_url('adm/layanan/perubahan') . '/download_berita_acara?id=' . $dataPerubahan['id_perubahan_ad'];
                         $response->message = "Perubahan data pendaftaran $oldData->nama_peserta berhasil dilakukan.";
                         return json_encode($response);
                     } else {
