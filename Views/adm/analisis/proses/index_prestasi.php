@@ -95,6 +95,11 @@
                     "orderable": false,
                 },
                 {
+                    "targets": 1,
+                    "orderable": false,
+                    "type": 'string',
+                },
+                {
                     "targets": 2,
                     "orderable": false,
                     "type": 'string',
