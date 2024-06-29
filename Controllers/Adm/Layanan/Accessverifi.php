@@ -118,7 +118,7 @@ class Accessverifi extends BaseController
                     return json_encode($response);
                 }
 
-                $x['levels'] = $this->_db->table('_role_user')->whereNotIN('id', [0, 1, 2, 5])->orderBy('role', 'ASC')->get()->getResult();
+                $x['roles'] = $this->_db->table('_role_user')->whereNotIN('id', [0, 1, 2, 5])->orderBy('role', 'ASC')->get()->getResult();
 
                 $response = new \stdClass;
                 $response->status = 200;
