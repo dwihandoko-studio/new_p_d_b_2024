@@ -415,10 +415,14 @@ class Zonasi extends BaseController
                 $dataLib = new Datalib();
                 $canDaftar = $dataLib->canRegister("zonasi");
                 if ($canDaftar->code !== 200) {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = $canDaftar->message . " untuk <b>Jalur Zonasi</b>.";
-                    return json_encode($response);
+                    $cekCustomize = $dataLib->customVerifi($user->data->id);
+                    if ($cekCustomize) {
+                    } else {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = $canDaftar->message . " untuk <b>Jalur Zonasi</b>.";
+                        return json_encode($response);
+                    }
                 }
 
                 $userPd = $this->_db->table('dapo_peserta')->where('peserta_didik_id', $user->data->peserta_didik_id)->get()->getRowObject();
