@@ -13,7 +13,7 @@
 
         </div>
         <div class="row">
-            <div class="col-xl-3 col-xxl-6 col-lg-6 col-sm-6">
+            <div class="col-xl-4">
                 <a href="<?= base_url('adm/download/zonasi') ?>" class="btn btn-rounded btn-primary"><span class="btn-icon-start text-primary"><i class="fa fa-download color-primary"></i>
                     </span>Download Data Wilayah Zonasi</a>
                 <!-- <a href="<?= base_url('adm/download/zonasi') ?>">
@@ -32,7 +32,7 @@
                     </div>
                 </a> -->
             </div>
-            <div class="col-xl-3 col-xxl-6 col-lg-6 col-sm-6">
+            <div class="col-xl-4">
                 <a href="<?= base_url('adm/download/kuota') ?>" class="btn btn-rounded btn-info"><span class="btn-icon-start text-info"><i class="fa fa-download color-info"></i>
                     </span>Download Kapasitas Daya Tampung</a>
                 <!-- <a href="<?= base_url('adm/download/kuota') ?>">
@@ -51,7 +51,7 @@
                     </div>
                 </a> -->
             </div>
-            <div class="col-xl-3 col-xxl-6 col-lg-6 col-sm-6">
+            <div class="col-xl-4">
                 <a href="<?= base_url('adm/download/kuota') ?>" class="btn btn-rounded btn-warning"><span class="btn-icon-start text-warning"><i class="fa fa-download color-warning"></i>
                     </span>Download Pendaftar Berdasarkan Usia</a>
                 <!-- <a href="<?= base_url('adm/download/pendaftar_usia') ?>">
