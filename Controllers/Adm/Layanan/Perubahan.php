@@ -468,6 +468,8 @@ class Perubahan extends BaseController
                 $nama = htmlspecialchars($this->request->getVar('_nama_perubahan'), true);
 
                 $prestasi_dimiliki = htmlspecialchars($this->request->getVar('_prestasi_dimiliki'), true);
+
+                $nilai_rata2 = htmlspecialchars($this->request->getVar('_nilai_rata2'), true);
                 // $nama_pengaju = htmlspecialchars($this->request->getVar('_pengaju'), true);
                 // $status_pengaju = htmlspecialchars($this->request->getVar('_status_pengaju'), true);
                 // $perubahan_pengaju = htmlspecialchars($this->request->getVar('_perubahan_pengaju'), true);
@@ -493,7 +495,93 @@ class Perubahan extends BaseController
                 $perubahan_pengaju = "prestasi";
 
                 $lampiran_pendaftaran['prestasi_dimiliki'] = $prestasi_dimiliki;
-                $nilai_prestasi = (float)$lampiran_pendaftaran['nilai_rata_rapor'];
+                if ($nilai_rata2 !== "") {
+                    if ((float)$nilai_rata2 == (float)$lampiran_pendaftaran['nilai_rata_rapor']) {
+                        $nilai_prestasi = (float)$lampiran_pendaftaran['nilai_rata_rapor'];
+                    } else {
+                        $pa_1 = htmlspecialchars($this->request->getVar('__pa_1'), true);
+                        $pa_2 = htmlspecialchars($this->request->getVar('__pa_2'), true);
+                        $pa_3 = htmlspecialchars($this->request->getVar('__pa_3'), true);
+                        $pa_4 = htmlspecialchars($this->request->getVar('__pa_4'), true);
+                        $pa_5 = htmlspecialchars($this->request->getVar('__pa_5'), true);
+                        $pkn_1 = htmlspecialchars($this->request->getVar('__pkn_1'), true);
+                        $pkn_2 = htmlspecialchars($this->request->getVar('__pkn_2'), true);
+                        $pkn_3 = htmlspecialchars($this->request->getVar('__pkn_3'), true);
+                        $pkn_4 = htmlspecialchars($this->request->getVar('__pkn_4'), true);
+                        $pkn_5 = htmlspecialchars($this->request->getVar('__pkn_5'), true);
+                        $bi_1 = htmlspecialchars($this->request->getVar('__bi_1'), true);
+                        $bi_2 = htmlspecialchars($this->request->getVar('__bi_2'), true);
+                        $bi_3 = htmlspecialchars($this->request->getVar('__bi_3'), true);
+                        $bi_4 = htmlspecialchars($this->request->getVar('__bi_4'), true);
+                        $bi_5 = htmlspecialchars($this->request->getVar('__bi_5'), true);
+                        $mtk_1 = htmlspecialchars($this->request->getVar('__mtk_1'), true);
+                        $mtk_2 = htmlspecialchars($this->request->getVar('__mtk_2'), true);
+                        $mtk_3 = htmlspecialchars($this->request->getVar('__mtk_3'), true);
+                        $mtk_4 = htmlspecialchars($this->request->getVar('__mtk_4'), true);
+                        $mtk_5 = htmlspecialchars($this->request->getVar('__mtk_5'), true);
+                        $ipa_1 = htmlspecialchars($this->request->getVar('__ipa_1'), true);
+                        $ipa_2 = htmlspecialchars($this->request->getVar('__ipa_2'), true);
+                        $ipa_3 = htmlspecialchars($this->request->getVar('__ipa_3'), true);
+                        $ipa_4 = htmlspecialchars($this->request->getVar('__ipa_4'), true);
+                        $ipa_5 = htmlspecialchars($this->request->getVar('__ipa_5'), true);
+                        $ips_1 = htmlspecialchars($this->request->getVar('__ips_1'), true);
+                        $ips_2 = htmlspecialchars($this->request->getVar('__ips_2'), true);
+                        $ips_3 = htmlspecialchars($this->request->getVar('__ips_3'), true);
+                        $ips_4 = htmlspecialchars($this->request->getVar('__ips_4'), true);
+                        $ips_5 = htmlspecialchars($this->request->getVar('__ips_5'), true);
+
+                        $lampiran_pendaftaran['nilai_rapor'] = [
+                            'semester_1' => [
+                                'pa' => $pa_1,
+                                'pkn' => $pkn_1,
+                                'bi' => $bi_1,
+                                'mtk' => $mtk_1,
+                                'ipa' => $ipa_1,
+                                'ips' => $ips_1,
+                            ],
+                            'semester_2' => [
+                                'pa' => $pa_2,
+                                'pkn' => $pkn_2,
+                                'bi' => $bi_2,
+                                'mtk' => $mtk_2,
+                                'ipa' => $ipa_2,
+                                'ips' => $ips_2,
+                            ],
+                            'semester_3' => [
+                                'pa' => $pa_3,
+                                'pkn' => $pkn_3,
+                                'bi' => $bi_3,
+                                'mtk' => $mtk_3,
+                                'ipa' => $ipa_3,
+                                'ips' => $ips_3,
+                            ],
+                            'semester_4' => [
+                                'pa' => $pa_4,
+                                'pkn' => $pkn_4,
+                                'bi' => $bi_4,
+                                'mtk' => $mtk_4,
+                                'ipa' => $ipa_4,
+                                'ips' => $ips_4,
+                            ],
+                            'semester_5' => [
+                                'pa' => $pa_5,
+                                'pkn' => $pkn_5,
+                                'bi' => $bi_5,
+                                'mtk' => $mtk_5,
+                                'ipa' => $ipa_5,
+                                'ips' => $ips_5,
+                            ],
+                        ];
+
+                        $jumlah_nilai_raport = (float)$pa_1 + (float)$pa_2 + (float)$pa_3 + (float)$pa_4 + (float)$pa_5 + (float)$pkn_1 + (float)$pkn_2 + (float)$pkn_3 + (float)$pkn_4 + (float)$pkn_5 + (float)$bi_1 + (float)$bi_2 + (float)$bi_3 + (float)$bi_4 + (float)$bi_5 + (float)$mtk_1 + (float)$mtk_2 + (float)$mtk_3 + (float)$mtk_4 + (float)$mtk_5 + (float)$ipa_1 + (float)$ipa_2 + (float)$ipa_3 + (float)$ipa_4 + (float)$ipa_5 + (float)$ips_1 + (float)$ips_2 + (float)$ips_3 + (float)$ips_4 + (float)$ips_5;
+                        $jumlah_nilai_rata2 = $jumlah_nilai_raport > 0 ? $jumlah_nilai_raport / 30 : 0;
+                        $jumlah_nilai_rata2_f = (float)$jumlah_nilai_rata2;
+                        $jumlah_nilai_rata2_fix = (float)$jumlah_nilai_rata2_f / 2;
+                        $nilai_prestasi = $jumlah_nilai_rata2_fix;
+
+                        $lampiran_pendaftaran['nilai_rata_rapor'] = $jumlah_nilai_rata2_fix;
+                    }
+                }
                 // $lampiran_pendaftaran['nilai_rata_rapor'] = $oldLampiran->nilai_rata_rapor;
 
                 $poin_akademik = 0;
@@ -1529,4 +1617,86 @@ class Perubahan extends BaseController
             exit('Maaf tidak dapat diproses');
         }
     }
+
+    // public function downloadhasementarasmp()
+    // {
+    //     $Profilelib = new Profilelib();
+    //     $user = $Profilelib->user();
+    //     if ($user->status != 200) {
+    //         delete_cookie('jwt');
+    //         session()->destroy();
+    //         return redirect()->to(base_url('auth'));
+    //     }
+
+    //     $jalur = htmlspecialchars($this->request->getGet('j'), true);
+    //     $sekId = htmlspecialchars($this->request->getGet('i'), true);
+
+    //     // $selectSekolah = "a.id as id_pendaftaran, a.tujuan_sekolah_id_1, j.nama as nama_sekolah_tujuan, j.npsn as npsn_sekolah_tujuan, a.via_jalur, a.created_at, count(a.peserta_didik_id) as jumlah_pendaftar";  //14
+    //     // $dataSekolahs = $this->_db->table('_tb_pendaftar a')
+    //     //     ->select("a.tujuan_sekolah_id_1, a.status_pendaftaran, b.bentuk_pendidikan_id, b.status_sekolah_id, count(a.peserta_didik_id) as jumlah_pendaftar")
+    //     //     ->join('dapo_sekolah b', 'a.tujuan_sekolah_id_1 = b.sekolah_id')
+    //     //     ->where('a.status_pendaftaran', 1)
+    //     //     ->where('a.via_jalur', $jalur)
+    //     //     ->where('b.bentuk_pendidikan_id', 6)
+    //     //     ->groupBy('a.tujuan_sekolah_id_1')
+    //     //     ->get()->getResult();
+
+    //     // if (count($dataSekolahs) > 0) {
+    //     //     print_r("DATA SEKOLAH " . count($dataSekolahs));
+    //     //     foreach ($dataSekolahs as $key => $id) {
+    //     // print_r("SELESAI PROSES KELULUSAN ");
+    //     $kuota = $this->_db->table('_setting_kuota_tb')->select("zonasi, afirmasi, mutasi, prestasi, (zonasi + afirmasi + mutasi + prestasi) as total, (SELECT count(peserta_didik_id) FROM _tb_pendaftar WHERE status_pendaftaran = 2 AND via_jalur = '$jalur' AND tujuan_sekolah_id_1 = '{$sekId}' ) as jumlah_lolos")->where('sekolah_id', $sekId)->get()->getRowObject();
+
+    //     if (!$kuota) {
+    //         print_r("KUOTA TIDAK DITEMUKAN <br> ");
+    //         continue;
+    //     }
+
+
+
+    //     // if ((int)$kuota->jumlah_lolos >= (int)$kuota->afirmasi) {
+    //     //     print_r("KUOTA AFIRMASI SUDAH PENUH <br> ");
+    //     //     continue;
+    //     // }
+
+    //     // $sekolah = $this->_db->table('ref_sekolah_tujuan')->select("status_sekolah")->where('id', $id->tujuan_sekolah_id_1)->get()->getRowObject();
+
+    //     // if (!$sekolah) {
+    //     //     print_r("SEKOLAH TIDAK DITEMUKAN ");
+    //     //     continue;
+    //     // }
+
+    //     // if ((int)$id->status_sekolah_id != 1) {
+    //     //     print_r("SEKOLAH SWASTA SKIP ");
+    //     //     continue;
+    //     // }
+
+    //     // $
+
+    //     // $limitKuotaAfirmasi = 
+
+    //     // $select = "b.id, b.nisn, b.fullname, b.peserta_didik_id, b.latitude, b.longitude, a.tujuan_sekolah_id_1, a.id as id_pendaftaran, c.nama as nama_sekolah_asal, c.npsn as npsn_sekolah_asal, j.nama as nama_sekolah_tujuan, j.npsn as npsn_sekolah_tujuan, j.latitude as latitude_sekolah_tujuan, j.longitude as longitude_sekolah_tujuan, a.kode_pendaftaran, a.via_jalur, a.created_at, ROUND(getDistanceKm(b.latitude,b.longitude,j.latitude,j.longitude), 2) AS jarak";
+
+
+    //     $afirmasiData = $this->_db->table('_tb_pendaftar a')
+    //         ->select("a.id as id_pendaftaran, a.user_id, a.via_jalur, a.tujuan_sekolah_id_1, a.status_pendaftaran, a.jarak_domisili, a.created_at")
+    //         ->where('a.tujuan_sekolah_id_1', $id->tujuan_sekolah_id_1)
+    //         ->where('a.status_pendaftaran', 1)
+    //         ->where('a.via_jalur', 'AFIRMASI')
+    //         ->orderBy('a.jarak_domisili', 'ASC')
+    //         ->orderBy('a.created_at', 'ASC')
+    //         ->limit((int)$kuota->afirmasi)
+    //         ->get()->getResult();
+
+    //     $lulusLib = new Prosesluluslib();
+
+    //     if (count($afirmasiData) > 0) {
+    //         $lulusLib->prosesLulusAfirmasi($afirmasiData, $user->data->id);
+    //     }
+    //     //     }
+    //     //     print_r("SELESAI PROSES KELULUSAN ");
+    //     // } else {
+    //     //     print_r("DATA SEKOLAH TIDAK DITEMUKAN");
+    //     // }
+    // }
 }

@@ -52,7 +52,7 @@ class PendaftaranModel extends Model
             }
         }
 
-        $this->dt->orderBy('a.created_at', 'desc');
+        $this->dt->orderBy('a.created_at', 'ASC');
         // if ($this->request->getPost('order')) {
         //     $this->dt->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
         // } else if (isset($this->order)) {
