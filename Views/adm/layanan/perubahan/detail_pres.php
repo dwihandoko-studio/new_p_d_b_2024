@@ -180,37 +180,37 @@
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Pendidikan Agama</span>
-                                                        <input type="number" id="__pa_1" name="__pa_1" class="form-control" value="<?= $dokument->nilai_rapor->semester_1->pa ?>" readonly />
+                                                        <input type="number" id="pa_1" name="pa_1" class="form-control" value="<?= $dokument->nilai_rapor->semester_1->pa ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">PKn</span>
-                                                        <input type="number" id="__pkn_1" name="__pkn_1" class="form-control" value="<?= $dokument->nilai_rapor->semester_1->pkn ?>" readonly />
+                                                        <input type="number" id="pkn_1" name="pkn_1" class="form-control" value="<?= $dokument->nilai_rapor->semester_1->pkn ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Bahasa Indonesia</span>
-                                                        <input type="number" id="__bi_1" name="__bi_1" class="form-control" value="<?= $dokument->nilai_rapor->semester_1->bi ?>" readonly />
+                                                        <input type="number" id="bi_1" name="bi_1" class="form-control" value="<?= $dokument->nilai_rapor->semester_1->bi ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">MTK</span>
-                                                        <input type="number" id="__mtk_1" name="__mtk_1" class="form-control" value="<?= $dokument->nilai_rapor->semester_1->mtk ?>" readonly />
+                                                        <input type="number" id="mtk_1" name="mtk_1" class="form-control" value="<?= $dokument->nilai_rapor->semester_1->mtk ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPA</span>
-                                                        <input type="number" id="__ipa_1" name="__ipa_1" class="form-control" value="<?= $dokument->nilai_rapor->semester_1->ipa ?>" readonly />
+                                                        <input type="number" id="ipa_1" name="ipa_1" class="form-control" value="<?= $dokument->nilai_rapor->semester_1->ipa ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPS</span>
-                                                        <input type="number" id="__ips_1" name="__ips_1" class="form-control" value="<?= $dokument->nilai_rapor->semester_1->ips ?>" readonly />
+                                                        <input type="number" id="ips_1" name="ips_1" class="form-control" value="<?= $dokument->nilai_rapor->semester_1->ips ?>" readonly />
                                                     </div>
                                                 </div>
                                             </div>
@@ -223,37 +223,37 @@
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Pendidikan Agama</span>
-                                                        <input type="number" id="__pa_2" name="__pa_2" class="form-control" value="<?= $dokument->nilai_rapor->semester_2->pa ?>" readonly />
+                                                        <input type="number" id="pa_2" name="pa_2" class="form-control" value="<?= $dokument->nilai_rapor->semester_2->pa ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">PKn</span>
-                                                        <input type="number" id="__pkn_2" name="__pkn_2" class="form-control" value="<?= $dokument->nilai_rapor->semester_2->pkn ?>" readonly />
+                                                        <input type="number" id="pkn_2" name="pkn_2" class="form-control" value="<?= $dokument->nilai_rapor->semester_2->pkn ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Bahasa Indonesia</span>
-                                                        <input type="number" id="__bi_2" name="__bi_2" class="form-control" value="<?= $dokument->nilai_rapor->semester_2->bi ?>" readonly />
+                                                        <input type="number" id="bi_2" name="bi_2" class="form-control" value="<?= $dokument->nilai_rapor->semester_2->bi ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">MTK</span>
-                                                        <input type="number" id="__mtk_2" name="__mtk_2" class="form-control" value="<?= $dokument->nilai_rapor->semester_2->mtk ?>" readonly />
+                                                        <input type="number" id="mtk_2" name="mtk_2" class="form-control" value="<?= $dokument->nilai_rapor->semester_2->mtk ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPA</span>
-                                                        <input type="number" id="__ipa_2" name="__ipa_2" class="form-control" value="<?= $dokument->nilai_rapor->semester_2->ipa ?>" readonly />
+                                                        <input type="number" id="ipa_2" name="ipa_2" class="form-control" value="<?= $dokument->nilai_rapor->semester_2->ipa ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPS</span>
-                                                        <input type="number" id="__ips_2" name="__ips_2" class="form-control" value="<?= $dokument->nilai_rapor->semester_2->ips ?>" readonly />
+                                                        <input type="number" id="ips_2" name="ips_2" class="form-control" value="<?= $dokument->nilai_rapor->semester_2->ips ?>" readonly />
                                                     </div>
                                                 </div>
                                             </div>
@@ -266,37 +266,37 @@
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Pendidikan Agama</span>
-                                                        <input type="number" id="__pa_3" name="__pa_3" class="form-control" value="<?= $dokument->nilai_rapor->semester_3->pa ?>" readonly />
+                                                        <input type="number" id="pa_3" name="pa_3" class="form-control" value="<?= $dokument->nilai_rapor->semester_3->pa ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">PKn</span>
-                                                        <input type="number" id="__pkn_3" name="__pkn_3" class="form-control" value="<?= $dokument->nilai_rapor->semester_3->pkn ?>" readonly />
+                                                        <input type="number" id="pkn_3" name="pkn_3" class="form-control" value="<?= $dokument->nilai_rapor->semester_3->pkn ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Bahasa Indonesia</span>
-                                                        <input type="number" id="__bi_3" name="__bi_3" class="form-control" value="<?= $dokument->nilai_rapor->semester_3->bi ?>" readonly />
+                                                        <input type="number" id="bi_3" name="bi_3" class="form-control" value="<?= $dokument->nilai_rapor->semester_3->bi ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">MTK</span>
-                                                        <input type="number" id="__mtk_3" name="__mtk_3" class="form-control" value="<?= $dokument->nilai_rapor->semester_3->mtk ?>" readonly />
+                                                        <input type="number" id="mtk_3" name="mtk_3" class="form-control" value="<?= $dokument->nilai_rapor->semester_3->mtk ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPA</span>
-                                                        <input type="number" id="__ipa_3" name="__ipa_3" class="form-control" value="<?= $dokument->nilai_rapor->semester_3->ipa ?>" readonly />
+                                                        <input type="number" id="ipa_3" name="ipa_3" class="form-control" value="<?= $dokument->nilai_rapor->semester_3->ipa ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPS</span>
-                                                        <input type="number" id="__ips_3" name="__ips_3" class="form-control" value="<?= $dokument->nilai_rapor->semester_3->ips ?>" readonly />
+                                                        <input type="number" id="ips_3" name="ips_3" class="form-control" value="<?= $dokument->nilai_rapor->semester_3->ips ?>" readonly />
                                                     </div>
                                                 </div>
                                             </div>
@@ -309,37 +309,37 @@
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Pendidikan Agama</span>
-                                                        <input type="number" id="__pa_4" name="__pa_4" class="form-control" value="<?= $dokument->nilai_rapor->semester_4->pa ?>" readonly />
+                                                        <input type="number" id="pa_4" name="pa_4" class="form-control" value="<?= $dokument->nilai_rapor->semester_4->pa ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">PKn</span>
-                                                        <input type="number" id="__pkn_4" name="__pkn_4" class="form-control" value="<?= $dokument->nilai_rapor->semester_4->pkn ?>" readonly />
+                                                        <input type="number" id="pkn_4" name="pkn_4" class="form-control" value="<?= $dokument->nilai_rapor->semester_4->pkn ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Bahasa Indonesia</span>
-                                                        <input type="number" id="__bi_4" name="__bi_4" class="form-control" value="<?= $dokument->nilai_rapor->semester_4->bi ?>" readonly />
+                                                        <input type="number" id="bi_4" name="bi_4" class="form-control" value="<?= $dokument->nilai_rapor->semester_4->bi ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">MTK</span>
-                                                        <input type="number" id="__mtk_4" name="__mtk_4" class="form-control" value="<?= $dokument->nilai_rapor->semester_4->mtk ?>" readonly />
+                                                        <input type="number" id="mtk_4" name="mtk_4" class="form-control" value="<?= $dokument->nilai_rapor->semester_4->mtk ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPA</span>
-                                                        <input type="number" id="__ipa_4" name="__ipa_4" class="form-control" value="<?= $dokument->nilai_rapor->semester_4->ipa ?>" readonly />
+                                                        <input type="number" id="ipa_4" name="ipa_4" class="form-control" value="<?= $dokument->nilai_rapor->semester_4->ipa ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPS</span>
-                                                        <input type="number" id="__ips_4" name="__ips_4" class="form-control" value="<?= $dokument->nilai_rapor->semester_4->ips ?>" readonly />
+                                                        <input type="number" id="ips_4" name="ips_4" class="form-control" value="<?= $dokument->nilai_rapor->semester_4->ips ?>" readonly />
                                                     </div>
                                                 </div>
                                             </div>
@@ -352,37 +352,37 @@
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Pendidikan Agama</span>
-                                                        <input type="number" id="__pa_5" name="__pa_5" class="form-control" value="<?= $dokument->nilai_rapor->semester_5->pa ?>" readonly />
+                                                        <input type="number" id="pa_5" name="pa_5" class="form-control" value="<?= $dokument->nilai_rapor->semester_5->pa ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">PKn</span>
-                                                        <input type="number" id="__pkn_5" name="__pkn_5" class="form-control" value="<?= $dokument->nilai_rapor->semester_5->pkn ?>" readonly />
+                                                        <input type="number" id="pkn_5" name="pkn_5" class="form-control" value="<?= $dokument->nilai_rapor->semester_5->pkn ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Bahasa Indonesia</span>
-                                                        <input type="number" id="__bi_5" name="__bi_5" class="form-control" value="<?= $dokument->nilai_rapor->semester_5->bi ?>" readonly />
+                                                        <input type="number" id="bi_5" name="bi_5" class="form-control" value="<?= $dokument->nilai_rapor->semester_5->bi ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">MTK</span>
-                                                        <input type="number" id="__mtk_5" name="__mtk_5" class="form-control" value="<?= $dokument->nilai_rapor->semester_5->mtk ?>" readonly />
+                                                        <input type="number" id="mtk_5" name="mtk_5" class="form-control" value="<?= $dokument->nilai_rapor->semester_5->mtk ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPA</span>
-                                                        <input type="number" id="__ipa_5" name="__ipa_5" class="form-control" value="<?= $dokument->nilai_rapor->semester_5->ipa ?>" readonly />
+                                                        <input type="number" id="ipa_5" name="ipa_5" class="form-control" value="<?= $dokument->nilai_rapor->semester_5->ipa ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPS</span>
-                                                        <input type="number" id="__ips_5" name="__ips_5" class="form-control" value="<?= $dokument->nilai_rapor->semester_5->ips ?>" readonly />
+                                                        <input type="number" id="ips_5" name="ips_5" class="form-control" value="<?= $dokument->nilai_rapor->semester_5->ips ?>" readonly />
                                                     </div>
                                                 </div>
                                             </div>
@@ -400,7 +400,7 @@
                                         <div class="mb-3">
                                             <div class="input-group   input-primary">
                                                 <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Poin Nilai Rapor</span>
-                                                <input type="text" id="_nilai_rata2" name="_nilai_rata2" class="form-control" value="<?= round($dokument->nilai_rata_rapor, 3) ?>" readonly />
+                                                <input type="text" id="nilai_rata2" name="nilai_rata2" class="form-control" value="<?= round($dokument->nilai_rata_rapor, 3) ?>" readonly />
                                             </div>
                                         </div>
                                     </div>
