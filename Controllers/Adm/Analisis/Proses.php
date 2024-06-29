@@ -127,7 +127,7 @@ class Proses extends BaseController
             $row[] = $list->via_jalur;
             $row[] = $list->jarak_domisili . ' Km';
             $row[] = $list->nama_sekolah_asal;
-            $row[] = $list->npsn_sekolah_asal;
+            $row[] = $list->poin_prestasi;
             $data[] = $row;
         }
         $output = [

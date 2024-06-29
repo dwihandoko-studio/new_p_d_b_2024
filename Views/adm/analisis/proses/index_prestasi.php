@@ -38,14 +38,14 @@
                                 <table id="data-datatables" class="display" style="min-width: 845px">
                                     <thead>
                                         <tr>
-                                            <th>Action</th>
+                                            <th>#</th>
+                                            <!-- <th>Action</th> -->
                                             <th>Nama Peserta Didik</th>
                                             <th>NISN</th>
-                                            <th>Jalur</th>
-                                            <th>Sekolah Asal</th>
-                                            <th>Npsn Asal</th>
-                                            <th>Jarak</th>
-                                            <th>Verifikator</th>
+                                            <th>JALUR</th>
+                                            <th>JARAK</th>
+                                            <th>SEKOLAH ASAL</th>
+                                            <th>POIN PRESTASI</th>
                                         </tr>
                                     </thead>
                                 </table>
