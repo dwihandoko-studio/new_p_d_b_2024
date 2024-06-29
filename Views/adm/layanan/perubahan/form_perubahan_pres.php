@@ -257,7 +257,7 @@
                                                 <div class="mb-3">
                                                     <div class="input-group   input-primary">
                                                         <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Nilai Rata-Rata</span>
-                                                        <input type="text" id="_nilai_rata2" name="_nilai_rata2" class="form-control" value="<?= isset($dokument->nilai_rapor) ? $dokument->nilai_rapor : '' ?>" readonly required />
+                                                        <input type="text" id="_nilai_rata2" name="_nilai_rata2" class="form-control" value="<?= isset($dokument->nilai_rata_rapor) ? $dokument->nilai_rata_rapor : '' ?>" readonly required />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">&nbsp;
