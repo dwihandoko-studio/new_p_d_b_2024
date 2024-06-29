@@ -56,7 +56,7 @@ class ProsesjalurprestasiModel extends Model
             $i++;
         }
 
-        $this->dt->orderBy("poin_prestasi", 'DESC');
+        $this->dt->orderBy("a.poin_prestasi", 'DESC');
         $this->dt->orderBy('a.jarak_domisili', 'ASC');
         $this->dt->orderBy('a.created_at', 'ASC');
         // if ($this->request->getPost('order')) {
@@ -70,7 +70,7 @@ class ProsesjalurprestasiModel extends Model
     function get_datatables()
     {
         $this->_get_datatables_query();
-        $this->dt->select("a.*, JSON_UNQUOTE(JSON_EXTRACT(a.lampiran,'$.nilai_prestasi')) as poin_prestasi");
+        // $this->dt->select("a.*, JSON_UNQUOTE(JSON_EXTRACT(a.lampiran,'$.nilai_prestasi')) as poin_prestasi");
         // $this->dt->where("a.tujuan_sekolah_id = (SELECT sekolah_id FROM _users_profil_tb WHERE id = '$userId') AND (a.status_pendaftaran = 1)");
         $this->dt->where('a.status_pendaftaran', 1);
         // $this->dt->whereIn('a.status_pendaftaran', [2, 3]);
