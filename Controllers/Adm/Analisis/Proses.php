@@ -100,6 +100,45 @@ class Proses extends BaseController
         echo json_encode($output);
     }
 
+    public function getAllDetailPrestasi()
+    {
+        $request = Services::request();
+        $datamodel = new ProsesjalurModel($request);
+
+
+        $lists = $datamodel->get_datatables();
+        $data = [];
+        $no = $request->getPost("start");
+        foreach ($lists as $list) {
+            $no++;
+            $row = [];
+
+            $row[] = $no;
+            // $action = '<div class="btn-group">
+            //     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
+            //     <div class="dropdown-menu" style="">
+            //         <a class="dropdown-item" href="javascript:actionResetPassword(\'' . $list->peserta_didik_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\');"><i class="bx bx-key font-size-16 align-middle"></i> &nbsp;Reset Password</a>
+            //     </div>
+            // </div>';
+
+            // $row[] = $action;
+            $row[] = $list->nama_peserta;
+            $row[] = $list->nisn_peserta;
+            $row[] = $list->via_jalur;
+            $row[] = $list->jarak_domisili . ' Km';
+            $row[] = $list->nama_sekolah_asal;
+            $row[] = $list->npsn_sekolah_asal;
+            $data[] = $row;
+        }
+        $output = [
+            "draw" => $request->getPost('draw'),
+            "recordsTotal" => $datamodel->count_all(),
+            "recordsFiltered" => $datamodel->count_filtered(),
+            "data" => $data
+        ];
+        echo json_encode($output);
+    }
+
     public function index()
     {
         return redirect()->to(base_url('adm/analisis/proses/data'));
@@ -143,8 +182,31 @@ class Proses extends BaseController
         $data['user'] = $user->data;
         $data['level'] = $user->level;
         $data['level_nama'] = $user->level_nama;
+        $data['url_prestasi'] = base_url() . '/adm/analisis/proses/detaillistprestasi?id=' . $id . '&n=' . $name;
 
         return view('adm/analisis/proses/index', $data);
+    }
+
+    public function detaillistprestasi()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
+
+        $id = htmlspecialchars($this->request->getGet('id'), true);
+        $name = htmlspecialchars($this->request->getGet('n'), true);
+        $data['title'] = "ANALISIS PROSES DATA PESERTA DIDIK SEKOLAH $name";
+        $data['id'] = $id;
+        $data['nama_sekolah'] = $name;
+        $data['user'] = $user->data;
+        $data['level'] = $user->level;
+        $data['level_nama'] = $user->level_nama;
+
+        return view('adm/analisis/proses/index_prestasi', $data);
     }
 
 

@@ -38,10 +38,12 @@
                                                 <option value="AFIRMASI">AFIRMASI</option>
                                                 <option value="ZONASI">ZONASI</option>
                                                 <option value="MUTASI">MUTASI</option>
-                                                <option value="PRESTASI">PRESTASI</option>
                                                 <option value="SWASTA">SWASTA</option>
                                             </select>
                                         </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <a href="<?= $url_prestasi ?>" class="btn btn-sm btn-primary waves-effect waves-light btnupload"><i class="fas fa-upload font-size-16 align-middle me-2"></i> UPLOAD</a> &nbsp;&nbsp;
                                     </div>
                                 </div>
                             </div>
