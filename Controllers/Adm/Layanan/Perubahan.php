@@ -809,7 +809,7 @@ class Perubahan extends BaseController
                 $uuid = new Uuid();
                 $id_perubahan = $uuid->v4();
                 $dataPerubahan['id_perubahan_ad'] = $id_perubahan;
-                $dataPerubahan['poin_prestasi'] = (float)$lampiran_pendaftaran['nilai_prestasi'];
+                $dataPerubahan['poin_prestasi'] = $nilai_prestasi_fix;
                 $dataPerubahan['lampiran'] = json_encode($lampiran_pendaftaran);
 
                 $this->_db->transBegin();
