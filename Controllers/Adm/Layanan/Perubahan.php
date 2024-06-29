@@ -1404,8 +1404,8 @@ class Perubahan extends BaseController
                         ';
                 }
             } else {
-                $prestasiLama = json_decode($dataLama['lampiran']);
-                $prestasiBaru = json_decode($dataBaru['lampiran']);
+                $prestasiLama = json_decode($dataLama->lampiran);
+                $prestasiBaru = json_decode($dataBaru->lampiran);
                 $htmlPerubahan .= "<tr><td>Jenis Prestasi</td><td>$prestasiLama->prestasi_dimiliki</td><td>$prestasiBaru->prestasi_dimiliki</td></tr>";
                 $htmlPerubahan .= "<tr><td>Poin Rapor</td><td>$prestasiLama->nilai_rata_rapor</td><td>$prestasiBaru->nilai_rata_rapor</td></tr>";
                 $htmlPerubahan .= "<tr><td>Poin Prestasi</td><td>$prestasiLama->nilai_tambahan</td><td>$prestasiBaru->nilai_tambahan</td></tr>";
