@@ -297,7 +297,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-12 prestasi-akademik-content" id="prestasi-akademik-content" style="display: none;">
+                                        <div class="col-12 prestasi-akademik-content" id="prestasi-akademik-content" style="display: <?= isset($dokument->prestasi_dimiliki) ? ($dokument->prestasi_dimiliki == "akademik" ? ' block' : 'none') : 'none' ?>;">
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="input-group mb-3">
@@ -346,7 +346,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 prestasi-nonakademik-content" id="prestasi-nonakademik-content" style="display: none;">
+                                        <div class="col-12 prestasi-nonakademik-content" id="prestasi-nonakademik-content" style="display: <?= isset($dokument->prestasi_dimiliki) ? ($dokument->prestasi_dimiliki == "nonakademik" ? ' block' : 'none') : 'none' ?>;">
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="input-group mb-3">
