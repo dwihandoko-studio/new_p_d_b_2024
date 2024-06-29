@@ -3,47 +3,7 @@
     <input type="hidden" id="_id_perubahan" name="_id_perubahan" value="<?= $data->id ?>" />
     <input type="hidden" id="_nama_perubahan" name="_nama_perubahan" value="<?= replaceTandaBacaPetik($data->nama_peserta) ?>" />
     <div class="modal-body">
-        <!-- <div class="card">
-            <div class="card-body">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-12">
-                            <h4 class="card-title">Data Yang Mengajukan</h4>
-                        </div>
-                        <div class="col-12 mb-2">
-                            <div class="input-group   input-primary">
-                                <span class="input-group-text" style="width: 150px; min-width: 150px;min-width: 150px;">Nama yang mengajukan</span>
-                                <input type="text" class="form-control" id="_pengaju" name="_pengaju" value="" required />
-                            </div>
-                        </div>
-                        <div class="col-12 mt-3 mb-2">
-                            <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Status :</label>
-                                <div class="col-sm-9">
-                                    <select class="w-100" id="_status_pengaju" name="_status_pengaju" required>
-                                        <option value="">-- Pilih --</option>
-                                        <option value="Orang Tua / Wali">Orang Tua / Wali</option>
-                                        <option value="Peserta Didik">Peserta Didik</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 mb-2">
-                            <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Data yang diajukan :</label>
-                                <div class="col-sm-9">
-                                    <select class="w-100" id="_perubahan_pengaju" name="_perubahan_pengaju" onchange="changePerubahanData(this)" required>
-                                        <option value="">-- Pilih --</option>
-                                        <option value="domisili">Domisili Peserta</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        <!-- <div id="perubahan_data_domisili" class="card perubahan_data_domisili" style="display: none;"> -->
+
         <div id="perubahan_data_domisili" class="card perubahan_data_domisili">
             <div class="card-body">
                 <div class="row">
@@ -81,45 +41,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-12" style="margin-top: 20px;">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h4 class="card-title">Data Domisili</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 mt-3">
-                            <?php $lat_long = explode(",", $data->lat_long_peserta); ?>
-                            <div class="mb-3 row">
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-9">
-                                            <div class="mb-3 row">
-                                                <label class="col-sm-3 col-form-label">Lintang</label>
-                                                <div class="col-sm-9">
-                                                    <div class="input-group   input-primary">
-                                                        <span class="input-group-text">Lat</span>
-                                                        <input type="text" class="form-control" id="_lintang" name="_lintang" value="<?= $lat_long[0] ?>" required />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-3 row">
-                                                <label class="col-sm-3 col-form-label">Bujur</label>
-                                                <div class="col-sm-9">
-                                                    <div class="input-group   input-primary">
-                                                        <span class="input-group-text">Long</span>
-                                                        <input type="text" class="form-control" id="_bujur" name="_bujur" value="<?= $lat_long[1] ?>" required />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-3">
-                                            <button type="button" onclick="ambilKoordinat(this);" style="width: 100%;" class="btn btn-sm btn-info waves-effect waves-light">Ambil Koordinat</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                         <?php if (isset($dokument->nilai_rapor)) { ?>
                             <?php if ($dokument->nilai_rapor) { ?>
                                 <div class="col-12">
@@ -129,253 +50,229 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <?php if (isset($dokument->nilai_rapor->semester_1)) { ?>
-                                                    <?php if ($dokument->nilai_rapor->semester_1) { ?>
-                                                        <div class="col-6">
-                                                            <h4>Nilai Rapor Kelas 4 Semester 1 :</h4>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Pendidikan Agama</span>
-                                                                    <input type="number" id="__pa_1" name="__pa_1" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_1->pa ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">PKn</span>
-                                                                    <input type="number" id="__pkn_1" name="__pkn_1" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_1->pkn ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Bahasa Indonesia</span>
-                                                                    <input type="number" id="__bi_1" name="__bi_1" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_1->bi ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">MTK</span>
-                                                                    <input type="number" id="__mtk_1" name="__mtk_1" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_1->mtk ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPA</span>
-                                                                    <input type="number" id="__ipa_1" name="__ipa_1" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_1->ipa ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPS</span>
-                                                                    <input type="number" id="__ips_1" name="__ips_1" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_1->ips ?>" required />
-                                                                </div>
-                                                            </div>
+                                                <div class="col-6">
+                                                    <h4>Nilai Rapor Kelas 4 Semester 1 :</h4>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Pendidikan Agama</span>
+                                                            <input type="number" id="__pa_1" name="__pa_1" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_1) ? $dokument->nilai_rapor->semester_1->pa : '') : '' ?>" required />
                                                         </div>
-                                                    <?php } ?>
-                                                <?php } ?>
-                                                <?php if (isset($dokument->nilai_rapor->semester_2)) { ?>
-                                                    <?php if ($dokument->nilai_rapor->semester_2) { ?>
-                                                        <div class="col-6">
-                                                            <h4>Nilai Rapor Kelas 4 Semester 2 :</h4>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Pendidikan Agama</span>
-                                                                    <input type="number" id="__pa_2" name="__pa_2" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_2->pa ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">PKn</span>
-                                                                    <input type="number" id="__pkn_2" name="__pkn_2" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_2->pkn ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Bahasa Indonesia</span>
-                                                                    <input type="number" id="__bi_2" name="__bi_2" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_2->bi ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">MTK</span>
-                                                                    <input type="number" id="__mtk_2" name="__mtk_2" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_2->mtk ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPA</span>
-                                                                    <input type="number" id="__ipa_2" name="__ipa_2" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_2->ipa ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPS</span>
-                                                                    <input type="number" id="__ips_2" name="__ips_2" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_2->ips ?>" required />
-                                                                </div>
-                                                            </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">PKn</span>
+                                                            <input type="number" id="__pkn_1" name="__pkn_1" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_1) ? $dokument->nilai_rapor->semester_1->pkn : '') : '' ?>" required />
                                                         </div>
-                                                    <?php } ?>
-                                                <?php } ?>
-                                                <?php if (isset($dokument->nilai_rapor->semester_3)) { ?>
-                                                    <?php if ($dokument->nilai_rapor->semester_3) { ?>
-                                                        <div class="col-6 mt-2">
-                                                            <h4>Nilai Rapor Kelas 5 Semester 1 :</h4>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Pendidikan Agama</span>
-                                                                    <input type="number" id="__pa_3" name="__pa_3" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_3->pa ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">PKn</span>
-                                                                    <input type="number" id="__pkn_3" name="__pkn_3" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_3->pkn ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Bahasa Indonesia</span>
-                                                                    <input type="number" id="__bi_3" name="__bi_3" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_3->bi ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">MTK</span>
-                                                                    <input type="number" id="__mtk_3" name="__mtk_3" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_3->mtk ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPA</span>
-                                                                    <input type="number" id="__ipa_3" name="__ipa_3" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_3->ipa ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPS</span>
-                                                                    <input type="number" id="__ips_3" name="__ips_3" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_3->ips ?>" required />
-                                                                </div>
-                                                            </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Bahasa Indonesia</span>
+                                                            <input type="number" id="__bi_1" name="__bi_1" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_1) ? $dokument->nilai_rapor->semester_1->bi : '') : '' ?>" required />
                                                         </div>
-                                                    <?php } ?>
-                                                <?php } ?>
-                                                <?php if (isset($dokument->nilai_rapor->semester_4)) { ?>
-                                                    <?php if ($dokument->nilai_rapor->semester_4) { ?>
-                                                        <div class="col-6 mt-2">
-                                                            <h4>Nilai Rapor Kelas 5 Semester 2 :</h4>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Pendidikan Agama</span>
-                                                                    <input type="number" id="__pa_4" name="__pa_4" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_4->pa ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">PKn</span>
-                                                                    <input type="number" id="__pkn_4" name="__pkn_4" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_4->pkn ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Bahasa Indonesia</span>
-                                                                    <input type="number" id="__bi_4" name="__bi_4" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_4->bi ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">MTK</span>
-                                                                    <input type="number" id="__mtk_4" name="__mtk_4" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_4->mtk ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPA</span>
-                                                                    <input type="number" id="__ipa_4" name="__ipa_4" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_4->ipa ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPS</span>
-                                                                    <input type="number" id="__ips_4" name="__ips_4" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_4->ips ?>" required />
-                                                                </div>
-                                                            </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">MTK</span>
+                                                            <input type="number" id="__mtk_1" name="__mtk_1" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_1) ? $dokument->nilai_rapor->semester_1->mtk : '') : '' ?>" required />
                                                         </div>
-                                                    <?php } ?>
-                                                <?php } ?>
-                                                <?php if (isset($dokument->nilai_rapor->semester_5)) { ?>
-                                                    <?php if ($dokument->nilai_rapor->semester_5) { ?>
-                                                        <div class="col-6 mt-2">
-                                                            <h4>Nilai Rapor Kelas 6 Semester 1 :</h4>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Pendidikan Agama</span>
-                                                                    <input type="number" id="__pa_5" name="__pa_5" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_5->pa ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">PKn</span>
-                                                                    <input type="number" id="__pkn_5" name="__pkn_5" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_5->pkn ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Bahasa Indonesia</span>
-                                                                    <input type="number" id="__bi_5" name="__bi_5" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_5->bi ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">MTK</span>
-                                                                    <input type="number" id="__mtk_5" name="__mtk_5" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_5->mtk ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPA</span>
-                                                                    <input type="number" id="__ipa_5" name="__ipa_5" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_5->ipa ?>" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div class="input-group   input-primary">
-                                                                    <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPS</span>
-                                                                    <input type="number" id="__ips_5" name="__ips_5" class="form-control" max="100" value="<?= $dokument->nilai_rapor->semester_5->ips ?>" required />
-                                                                </div>
-                                                            </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPA</span>
+                                                            <input type="number" id="__ipa_1" name="__ipa_1" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_1) ? $dokument->nilai_rapor->semester_1->ipa : '') : '' ?>" required />
                                                         </div>
-                                                    <?php } ?>
-                                                <?php } ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php if (isset($dokument->nilai_rata_rapor)) { ?>
-                                    <?php if ($dokument->nilai_rata_rapor) { ?>
-                                        <div class="col-12">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="col-6 mt-2">
-                                                        <h4>&nbsp;</h4>
-                                                        <div class="mb-3">
-                                                            <div class="input-group   input-primary">
-                                                                <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Nilai Rata-Rata</span>
-                                                                <input type="text" id="_nilai_rata2" name="_nilai_rata2" class="form-control" value="" readonly required />
-                                                            </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPS</span>
+                                                            <input type="number" id="__ips_1" name="__ips_1" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_1) ? $dokument->nilai_rapor->semester_1->ips : '') : '' ?>" required />
                                                         </div>
-                                                        <div class="mb-3">&nbsp;
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <h4>Nilai Rapor Kelas 4 Semester 2 :</h4>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Pendidikan Agama</span>
+                                                            <input type="number" id="__pa_2" name="__pa_2" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_2) ? $dokument->nilai_rapor->semester_2->pa : '') : '' ?>" required />
                                                         </div>
-                                                        <div class="mb-3">&nbsp;
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">PKn</span>
+                                                            <input type="number" id="__pkn_2" name="__pkn_2" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_2) ? $dokument->nilai_rapor->semester_2->pkn : '') : '' ?>" required />
                                                         </div>
-                                                        <div class="mb-3">&nbsp;
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Bahasa Indonesia</span>
+                                                            <input type="number" id="__bi_2" name="__bi_2" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_2) ? $dokument->nilai_rapor->semester_2->bi : '') : '' ?>" required />
                                                         </div>
-                                                        <div class="mb-3">
-                                                            <button type="button" onclick="hitungNilaiRatarata(this)" class="btn btn-sm btn-primary waves-effect waves-light"><i class="las la-clipboard-list font-size-16 align-middle me-2"></i> HITUNG NILAI</button> &nbsp;&nbsp;
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">MTK</span>
+                                                            <input type="number" id="__mtk_2" name="__mtk_2" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_2) ? $dokument->nilai_rapor->semester_2->mtk : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPA</span>
+                                                            <input type="number" id="__ipa_2" name="__ipa_2" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_2) ? $dokument->nilai_rapor->semester_2->ipa : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPS</span>
+                                                            <input type="number" id="__ips_2" name="__ips_2" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_2) ? $dokument->nilai_rapor->semester_2->ips : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 mt-2">
+                                                    <h4>Nilai Rapor Kelas 5 Semester 1 :</h4>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Pendidikan Agama</span>
+                                                            <input type="number" id="__pa_3" name="__pa_3" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_3) ? $dokument->nilai_rapor->semester_3->pa : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">PKn</span>
+                                                            <input type="number" id="__pkn_3" name="__pkn_3" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_3) ? $dokument->nilai_rapor->semester_3->pkn : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Bahasa Indonesia</span>
+                                                            <input type="number" id="__bi_3" name="__bi_3" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_3) ? $dokument->nilai_rapor->semester_3->bi : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">MTK</span>
+                                                            <input type="number" id="__mtk_3" name="__mtk_3" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_3) ? $dokument->nilai_rapor->semester_3->mtk : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPA</span>
+                                                            <input type="number" id="__ipa_3" name="__ipa_3" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_3) ? $dokument->nilai_rapor->semester_3->ipa : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPS</span>
+                                                            <input type="number" id="__ips_3" name="__ips_3" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_3) ? $dokument->nilai_rapor->semester_3->ips : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 mt-2">
+                                                    <h4>Nilai Rapor Kelas 5 Semester 2 :</h4>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Pendidikan Agama</span>
+                                                            <input type="number" id="__pa_4" name="__pa_4" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_4) ? $dokument->nilai_rapor->semester_4->pa : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">PKn</span>
+                                                            <input type="number" id="__pkn_4" name="__pkn_4" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_4) ? $dokument->nilai_rapor->semester_4->pkn : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Bahasa Indonesia</span>
+                                                            <input type="number" id="__bi_4" name="__bi_4" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_4) ? $dokument->nilai_rapor->semester_4->bi : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">MTK</span>
+                                                            <input type="number" id="__mtk_4" name="__mtk_4" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_4) ? $dokument->nilai_rapor->semester_4->mtk : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPA</span>
+                                                            <input type="number" id="__ipa_4" name="__ipa_4" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_4) ? $dokument->nilai_rapor->semester_4->ipa : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPS</span>
+                                                            <input type="number" id="__ips_4" name="__ips_4" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_4) ? $dokument->nilai_rapor->semester_4->ips : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 mt-2">
+                                                    <h4>Nilai Rapor Kelas 6 Semester 1 :</h4>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Pendidikan Agama</span>
+                                                            <input type="number" id="__pa_5" name="__pa_5" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_5) ? $dokument->nilai_rapor->semester_5->pa : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">PKn</span>
+                                                            <input type="number" id="__pkn_5" name="__pkn_5" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_5) ? $dokument->nilai_rapor->semester_5->pkn : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Bahasa Indonesia</span>
+                                                            <input type="number" id="__bi_5" name="__bi_5" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_5) ? $dokument->nilai_rapor->semester_5->bi : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">MTK</span>
+                                                            <input type="number" id="__mtk_5" name="__mtk_5" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_5) ? $dokument->nilai_rapor->semester_5->mtk : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPA</span>
+                                                            <input type="number" id="__ipa_5" name="__ipa_5" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_5) ? $dokument->nilai_rapor->semester_5->ipa : '') : '' ?>" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="input-group   input-primary">
+                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">IPS</span>
+                                                            <input type="number" id="__ips_5" name="__ips_5" class="form-control" max="100" value="<?= isset($dokument->nilai_rapor) ? (isset($dokument->nilai_rapor->semester_5) ? $dokument->nilai_rapor->semester_5->ips : '') : '' ?>" required />
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    <?php } ?>
-                                <?php } ?>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-6 mt-2">
+                                                <h4>&nbsp;</h4>
+                                                <div class="mb-3">
+                                                    <div class="input-group   input-primary">
+                                                        <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Nilai Rata-Rata</span>
+                                                        <input type="text" id="_nilai_rata2" name="_nilai_rata2" class="form-control" value="<?= isset($dokument->nilai_rapor) ? $dokument->nilai_rapor : '' ?>" readonly required />
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">&nbsp;
+                                                </div>
+                                                <div class="mb-3">&nbsp;
+                                                </div>
+                                                <div class="mb-3">&nbsp;
+                                                </div>
+                                                <div class="mb-3">
+                                                    <button type="button" onclick="hitungNilaiRatarata(this)" class="btn btn-sm btn-primary waves-effect waves-light"><i class="las la-clipboard-list font-size-16 align-middle me-2"></i> HITUNG NILAI</button> &nbsp;&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             <?php } ?>
                         <?php } ?>
                         <div class="col-12">
