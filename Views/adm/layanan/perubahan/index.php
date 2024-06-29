@@ -30,7 +30,7 @@
                                                 <option value="AFIRMASI">AFIRMASI</option>
                                                 <option value="ZONASI">ZONASI</option>
                                                 <option value="MUTASI">MUTASI</option>
-                                                <!-- <option value="PRESTASI">PRESTASI</option> -->
+                                                <option value="PRESTASI">PRESTASI</option>
                                                 <option value="SWASTA">SWASTA</option>
                                             </select>
                                         </div>
