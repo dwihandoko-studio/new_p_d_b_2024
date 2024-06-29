@@ -228,6 +228,85 @@ class Perubahan extends BaseController
         }
     }
 
+    public function formPerubahanPres()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+                'koreg' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Kode pendaftaran tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id')
+                    . $this->validator->getError('nama')
+                    . $this->validator->getError('koreg');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    return redirect()->to(base_url('auth'));
+                }
+
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+                $koreg = htmlspecialchars($this->request->getVar('koreg'), true);
+                $nama = htmlspecialchars($this->request->getVar('nama'), true);
+
+                $oldData = $this->_db->table('_tb_pendaftar a')
+                    ->select("a.*, b.nama_ibu_kandung, b.nik, b.no_kk, b.alamat_jalan, b.no_kip, b.no_pkh, c.nohp, c.email")
+                    ->join('dapo_peserta b', 'b.peserta_didik_id = a.peserta_didik_id')
+                    ->join('_users_tb c', 'c.id = a.user_id')
+                    ->where('a.id', $id)
+                    ->get()->getRowObject();
+
+                if (!$oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $x['data'] = $oldData;
+
+
+                // $x['props'] = $this->_db->table('ref_provinsi')
+                //     ->get()->getResult();
+                // $x['kabs'] = $this->_db->table('ref_kabupaten')
+                //     ->where("left(id,2) = left('{$oldData->kab_peserta}',2)")->get()->getResult();
+                // $x['kecs'] = $this->_db->table('ref_kecamatan')
+                //     ->where("id_kabupaten = '{$oldData->kab_peserta}'")->get()->getResult();
+                // $x['kels'] = $this->_db->table('ref_kelurahan')
+                //     ->where("id_kecamatan = '{$oldData->kec_peserta}'")->get()->getResult();
+                // $x['dusuns'] = $this->_db->table('ref_dusun')->orderBy('urut', 'ASC')
+                //     ->get()->getResult();
+                $x['sek'] = $this->_db->table('dapo_sekolah')->select("lintang, bujur")->where('sekolah_id', $oldData->from_sekolah_id)->get()->getRowObject();
+
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                $response->data = view('adm/layanan/perubahan/form_perubahan_pres', $x);
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
     public function formPerubahan()
     {
         if ($this->request->isAJAX()) {
@@ -301,6 +380,188 @@ class Perubahan extends BaseController
                 $response->message = "Permintaan diizinkan";
                 $response->data = view('adm/layanan/perubahan/form_perubahan', $x);
                 return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function perubahanSavePres()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                '_id_perubahan' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+                '_nama_perubahan' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Nama tidak boleh kosong. ',
+                    ]
+                ],
+                // '_pengaju' => [
+                //     'rules' => 'required|trim',
+                //     'errors' => [
+                //         'required' => 'Pengaju tidak boleh kosong. ',
+                //     ]
+                // ],
+                // '_status_pengaju' => [
+                //     'rules' => 'required|trim',
+                //     'errors' => [
+                //         'required' => 'Status pengaju tidak boleh kosong. ',
+                //     ]
+                // ],
+                // '_perubahan_pengaju' => [
+                //     'rules' => 'required|trim',
+                //     'errors' => [
+                //         'required' => 'Perubahan pengaju tidak boleh kosong. ',
+                //     ]
+                // ],
+                '_lintang' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Lintang tidak boleh kosong. ',
+                    ]
+                ],
+                '_bujur' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Bujur tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('_id_perubahan')
+                    . $this->validator->getError('_nama_perubahan')
+                    // . $this->validator->getError('_pengaju')
+                    // . $this->validator->getError('_status_pengaju')
+                    // . $this->validator->getError('_perubahan_pengaju')
+                    . $this->validator->getError('_lintang')
+                    . $this->validator->getError('_bujur');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+
+                $id = htmlspecialchars($this->request->getVar('_id_perubahan'), true);
+                $nama = htmlspecialchars($this->request->getVar('_nama_perubahan'), true);
+                // $nama_pengaju = htmlspecialchars($this->request->getVar('_pengaju'), true);
+                // $status_pengaju = htmlspecialchars($this->request->getVar('_status_pengaju'), true);
+                // $perubahan_pengaju = htmlspecialchars($this->request->getVar('_perubahan_pengaju'), true);
+                $nama_pengaju = "Adm";
+                $status_pengaju = "Layanan Perubahan";
+                $perubahan_pengaju = "domisili";
+
+                $lintang = htmlspecialchars($this->request->getVar('_lintang'), true);
+                $bujur = htmlspecialchars($this->request->getVar('_bujur'), true);
+
+                $oldData = $this->_db->table('_tb_pendaftar a')
+                    ->select("a.*, b.nama_ibu_kandung, b.nik, b.no_kk, b.alamat_jalan, b.no_kip, b.no_pkh, c.nohp, c.email")
+                    ->join('dapo_peserta b', 'b.peserta_didik_id = a.peserta_didik_id')
+                    ->join('_users_tb c', 'c.id = a.user_id')
+                    ->where('a.id', $id)
+                    ->get()->getRowObject();
+
+                if (!$oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Data tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $lat_long = $lintang . "," . $bujur;
+
+                if (
+                    ($lat_long === $oldData->lat_long_peserta)
+                ) {
+                    $response = new \stdClass;
+                    $response->status = 201;
+                    $response->message = "Tidak ada perubahan data yang disimpan.";
+                    return json_encode($response);
+                }
+
+                $latitu = explode(",", $oldData->lat_long_peserta);
+
+                $dataPerubahan = $this->_db->table('_tb_pendaftar')->where('id', $oldData->id)->get()->getRowArray();
+
+                $getJarak = $this->_db->table('dapo_sekolah a')
+                    ->select("a.nama, a.npsn, a.lintang, a.bujur, ROUND(getDistanceKm(a.lintang,a.bujur,'{$lintang}','{$bujur}'), 2) AS distance_in_km")
+                    ->where("a.sekolah_id = '{$oldData->tujuan_sekolah_id_1}'")
+                    ->get()->getRowObject();
+                if (!$getJarak) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal menghitung jarak domisili.";
+                    return json_encode($response);
+                }
+
+                $dataLama = json_encode($dataPerubahan);
+
+                $dataPerubahan['jarak_domisili'] = $getJarak->distance_in_km;
+
+                if (!($lat_long === $oldData->lat_long_peserta)) {
+                    $dataPerubahan['lat_long_peserta'] = $lat_long;
+                }
+                $uuid = new Uuid();
+                $id_perubahan = $uuid->v4();
+                $dataPerubahan['id_perubahan_ad'] = $id_perubahan;
+
+                $this->_db->transBegin();
+                $this->_db->table('_tb_pendaftar')->where('id', $oldData->id)->update($dataPerubahan);
+                if ($this->_db->affectedRows() > 0) {
+                    $this->_db->table('riwayat_perubahan_data_adm')->insert([
+                        'id_perubahan' => $dataPerubahan['id_perubahan'],
+                        'nama_pengaju' => $nama_pengaju,
+                        'status_pengaju' => $status_pengaju,
+                        'perubahan_pengaju' => $perubahan_pengaju,
+                        'data_lama' => $dataLama,
+                        'data_baru' => json_encode($dataPerubahan),
+                        'user_id' => $user->data->id,
+                        'created_at' => date('Y-m-d H:i:s')
+                    ]);
+                    if ($this->_db->affectedRows() > 0) {
+                        try {
+                            $riwayatLib = new Riwayatlib();
+                            $riwayatLib->insert("Melakukan perubahan data pendaftaran $oldData->nama_peserta via Jalur $oldData->via_jalur dengan NISN : " . $oldData->nisn_peserta, "Perubahan data pendaftaran $oldData->nisn_peserta", "update");
+                        } catch (\Throwable $th) {
+                        }
+                        $this->_db->transCommit();
+
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->nama = $oldData->nama_peserta;
+                        $response->url = base_url('adm/layanan/perubahan') . '/download_berita_acara?id=' . $dataPerubahan['id_perubahan'];
+                        $response->message = "Perubahan data pendaftaran $oldData->nama_peserta berhasil dilakukan.";
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal melakukan perubahan pendaftaran peserta. $oldData->nama_peserta";
+                        return json_encode($response);
+                    }
+                } else {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal melakukan perubahan pendaftaran peserta. $oldData->nama_peserta";
+                    return json_encode($response);
+                }
             }
         } else {
             exit('Maaf tidak dapat diproses');

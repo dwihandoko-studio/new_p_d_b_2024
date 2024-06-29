@@ -551,10 +551,13 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-4 mb-2">
-                                <a href="<?= base_url('pan/rekap/lolos') ?>" class="btn btn-block btn-xs btn-primary waves-effect waves-light"><i class="las la-undo font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> Kembali</a>
+                                <a href="<?= base_url('adm/layanan/perubahan') ?>" class="btn btn-block btn-xs btn-primary waves-effect waves-light"><i class="las la-undo font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> Kembali</a>
                             </div>
                             <div class="col-4 mb-2">
-                                <button type="button" onclick="aksiPerubahan('<?= $data->id ?>', '<?= $data->kode_pendaftaran ?>', '<?= replaceTandaBacaPetik($data->nama_peserta) ?>')" class="btn btn-block btn-xs btn-info waves-effect waves-light"><i class="las la-edit font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> Layanan Perubahan Data Verifikasi</button>
+                                <button type="button" onclick="aksiPerubahan('<?= $data->id ?>', '<?= $data->kode_pendaftaran ?>', '<?= replaceTandaBacaPetik($data->nama_peserta) ?>')" class="btn btn-block btn-xs btn-info waves-effect waves-light"><i class="las la-edit font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> Layanan Perubahan Data Domisili Verifikasi</button>
+                            </div>
+                            <div class="col-4 mb-2">
+                                <button type="button" onclick="aksiPerubahanPres('<?= $data->id ?>', '<?= $data->kode_pendaftaran ?>', '<?= replaceTandaBacaPetik($data->nama_peserta) ?>')" class="btn btn-block btn-xs btn-info waves-effect waves-light"><i class="las la-edit font-size-16 align-middle me-2" style="font-size: 1.5rem !important;"></i> Layanan Perubahan Data Prestasi Verifikasi</button>
                             </div>
                         </div>
                     </div>
@@ -606,6 +609,68 @@
 
 <?= $this->section('scriptBottom'); ?>
 <script>
+    function aksiPerubahanPres(id, koreg, nama) {
+        Swal.fire({
+            title: 'Apakah anda yakin ingin melakukan perubahan data pendaftaran verifikasi peserta ini?',
+            text: "Perubahan Data Pendaftaran: " + nama,
+            showCancelButton: true,
+            icon: 'question',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Perubahan!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "./formPerubahanPres",
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        koreg: koreg,
+                        nama: nama
+                    },
+                    dataType: 'JSON',
+                    beforeSend: function() {
+                        Swal.fire({
+                            title: 'Sedang loading...',
+                            text: 'Please wait while we process your action.',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
+                    complete: function() {},
+                    success: function(response) {
+                        if (response.status == 200) {
+                            Swal.close();
+                            $('#content-editModalLabel').html('LAYANAN PERUBAHAN DATA VERIFIKASI PENDAFTARAN');
+                            $('.content-editBodyModal').html(response.data);
+                            $('.content-editModal').modal({
+                                backdrop: 'static',
+                                keyboard: false,
+                            });
+                            $('.content-editModal').modal('show');
+                        } else {
+                            Swal.fire(
+                                'Peringatan!',
+                                response.message,
+                                'warning'
+                            );
+                        }
+                    },
+                    error: function() {
+                        Swal.fire(
+                            'PERINGATAN!',
+                            "Server sedang sibuk, silahkan ulangi beberapa saat lagi.",
+                            'warning'
+                        );
+                    }
+                });
+            }
+        });
+    }
+
     function aksiPerubahan(id, koreg, nama) {
         Swal.fire({
             title: 'Apakah anda yakin ingin melakukan perubahan data pendaftaran verifikasi peserta ini?',
