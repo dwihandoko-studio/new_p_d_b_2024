@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-4">
-                                <h4 class="card-title">Data Cabut Berkas Verifikasi Sekolah</h4>
+                                <h4 class="card-title">Data Perubahan Verifikasi Sekolah</h4>
                             </div>
                             <div class="col-8">
                                 <div class="row">
