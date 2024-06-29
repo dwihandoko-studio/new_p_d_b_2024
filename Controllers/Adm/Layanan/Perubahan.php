@@ -707,7 +707,7 @@ class Perubahan extends BaseController
                 $this->_db->table('_tb_pendaftar')->where('id', $oldData->id)->update($dataPerubahan);
                 if ($this->_db->affectedRows() > 0) {
                     $this->_db->table('riwayat_perubahan_data_adm')->insert([
-                        'id_perubahan' => $dataPerubahan['id_perubahan'],
+                        'id_perubahan' => $dataPerubahan['id_perubahan_ad'],
                         'nama_pengaju' => $nama_pengaju,
                         'status_pengaju' => $status_pengaju,
                         'perubahan_pengaju' => $perubahan_pengaju,
