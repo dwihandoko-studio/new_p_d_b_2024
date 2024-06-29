@@ -625,6 +625,7 @@
     function juaraNonakademik(event) {}
 
     function hitungNilaiRatarata(event) {
+        console.log("working");
         const inputElements = document.querySelectorAll('input[name^="__"]');
         let sum = 0;
         let numberOfInputs = 0;
