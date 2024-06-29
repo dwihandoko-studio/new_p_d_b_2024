@@ -40,6 +40,18 @@ class PendaftaranModel extends Model
             $i++;
         }
 
+        if ($this->request->getPost('jalur')) {
+            $jalur = htmlspecialchars($this->request->getPost('jalur'), true);
+            if ($jalur !== "") {
+                if ($jalur == "PRESTASI") {
+                    $this->dt->orderBy('a.poin_prestasi', 'DESC');
+                    $this->dt->orderBy('a.jarak_domisili', 'ASC');
+                } else {
+                    $this->dt->orderBy('a.jarak_domisili', 'ASC');
+                }
+            }
+        }
+
         $this->dt->orderBy('a.created_at', 'desc');
         // if ($this->request->getPost('order')) {
         //     $this->dt->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
