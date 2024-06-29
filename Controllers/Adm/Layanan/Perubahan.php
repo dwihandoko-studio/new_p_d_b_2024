@@ -493,7 +493,7 @@ class Perubahan extends BaseController
                 $perubahan_pengaju = "domisili";
 
                 $lampiran_pendaftaran['prestasi_dimiliki'] = $prestasi_dimiliki;
-                $nilai_prestasi = 0;
+                $nilai_prestasi = (float)$lampiran_pendaftaran['nilai_rata_rapor'];
                 // $lampiran_pendaftaran['nilai_rata_rapor'] = $oldLampiran->nilai_rata_rapor;
 
                 $poin_akademik = 0;
@@ -721,6 +721,7 @@ class Perubahan extends BaseController
                 $uuid = new Uuid();
                 $id_perubahan = $uuid->v4();
                 $dataPerubahan['id_perubahan_ad'] = $id_perubahan;
+                $dataPerubahan['poin_prestasi'] = (float)$lampiran_pendaftaran['nilai_prestasi'];
                 $dataPerubahan['lampiran'] = json_encode($lampiran_pendaftaran);
 
                 $this->_db->transBegin();
