@@ -43,9 +43,9 @@
                                             <th>Nama Peserta Didik</th>
                                             <th>NISN</th>
                                             <th>JALUR</th>
-                                            <th>JARAK</th>
                                             <th>SEKOLAH ASAL</th>
                                             <th>POIN PRESTASI</th>
+                                            <th>JARAK</th>
                                         </tr>
                                     </thead>
                                 </table>
