@@ -579,7 +579,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <!-- <div class="col-12">
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="mb-3">
@@ -590,11 +590,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 <?php } ?>
                             <?php } ?>
                         <?php } ?>
-                        <?php if (isset($dokument->nilai_prestasi)) { ?>
+                        <!-- <?php if (isset($dokument->nilai_prestasi)) { ?>
                             <?php if ($dokument->nilai_prestasi) { ?>
                                 <div class="col-12">
                                     <div class="card">
@@ -609,7 +609,7 @@
                                     </div>
                                 </div>
                             <?php } ?>
-                        <?php } ?>
+                        <?php } ?> -->
                     </div>
                 </div>
             </div>
