@@ -68,9 +68,6 @@
 <?= $this->section('scriptBottom'); ?>
 <script src="<?= base_url() ?>/assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
 
-<script src="https://code.jquery.com/3.5.1/jquery.slim.min.js"></script>
-<script src="https://cdn.datatables.net/1.12.1/js/dataTables.buttons.min.js"></script>
-
 <script>
     $(document).ready(function() {
         // initSelect2('_filter_kec', $('.content-body'));
@@ -98,11 +95,6 @@
                 [10, 25, 50, 100, 200, -1],
                 [10, 25, 50, 100, 200, "All"]
             ],
-            dom: 'Bfrtip',
-            buttons: ["copy", "excel", "pdf"],
-            layout: {
-                topStart: 'buttons'
-            },
             "columnDefs": [{
                     "targets": 0,
                     "orderable": false,
@@ -149,6 +141,5 @@
 
 <?= $this->section('scriptTop'); ?>
 <link href="<?= base_url() ?>/assets/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/buttons.dataTables.min.css">
 
 <?= $this->endSection(); ?>
