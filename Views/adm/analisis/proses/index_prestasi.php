@@ -9,7 +9,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active"><a href="javascript:void(0)">Layanan</a></li>
                 <li class="breadcrumb-item active"><a href="javascript:void(0)">Perubahan Data Verifikasi</a></li>
-                <li class="breadcrumb-item"><a href="javascript:void(0)"><?= $sekolah ?></a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)"><?= $nama_sekolah ?></a></li>
             </ol>
         </div>
         <div class="row">
@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-4">
-                                <h4 class="card-title">Data Lolos Verifikasi Berkas <?= $sekolah ?> PRESTASI</h4>
+                                <h4 class="card-title">Data Lolos Verifikasi Berkas <?= $nama_sekolah ?> PRESTASI</h4>
                             </div>
                             <div class="col-8">
                                 <div class="row">

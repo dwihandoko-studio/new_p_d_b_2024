@@ -202,6 +202,7 @@ class Proses extends BaseController
         $data['title'] = "ANALISIS PROSES DATA PESERTA DIDIK SEKOLAH $name";
         $data['id'] = $id;
         $data['nama_sekolah'] = $name;
+        $data['sekolah'] = $name;
         $data['user'] = $user->data;
         $data['level'] = $user->level;
         $data['level_nama'] = $user->level_nama;
