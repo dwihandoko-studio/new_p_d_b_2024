@@ -76,7 +76,7 @@ class Perubahan extends BaseController
             $no++;
             $row = [];
 
-            $row[] = $no;
+            // $row[] = $no;
             // $action = '<div class="btn-group">
             //                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
             //                 <div class="dropdown-menu" style="">
@@ -93,8 +93,8 @@ class Perubahan extends BaseController
             $row[] = $list->nisn_peserta;
             $row[] = $list->via_jalur;
             $row[] = $list->nama_sekolah_asal;
-            $row[] = $list->npsn_sekolah_asal;
-            $row[] = $list->nama_verifikator;
+            // $row[] = $list->npsn_sekolah_asal;
+            $row[] = $list->poin_prestasi;
             $row[] = round($list->jarak_domisili, 3) . ' Km';
             // switch ($list->is_active) {
             //     case 1:
