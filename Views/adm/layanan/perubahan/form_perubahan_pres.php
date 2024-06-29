@@ -1,5 +1,5 @@
 <?php $dokument = json_decode($data->lampiran); ?>
-<form id="formPerubahanData" class="formPerubahanData" action="./perubahanSavePres" method="post">
+<form id="formPerubahanDataPrestasi" class="formPerubahanDataPrestasi" action="./perubahanSavePres" method="post">
     <input type="hidden" id="_id_perubahan" name="_id_perubahan" value="<?= $data->id ?>" />
     <input type="hidden" id="_nama_perubahan" name="_nama_perubahan" value="<?= replaceTandaBacaPetik($data->nama_peserta) ?>" />
     <div class="modal-body">
@@ -120,7 +120,7 @@
                                 </div>
                             </div>
                         </div>
-                        <?php if (isset($dokument->nilai_rapor)) { ?>
+                        <!-- <?php if (isset($dokument->nilai_rapor)) { ?>
                             <?php if ($dokument->nilai_rapor) { ?>
                                 <div class="col-12">
                                     <div class="card">
@@ -385,7 +385,25 @@
                                     <?php } ?>
                                 <?php } ?>
                             <?php } ?>
-                        <?php } ?>
+                        <?php } ?> -->
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="input-group mb-3">
+                                                <select class="default-select form-control wide" style="width: 100%;" id="_prestasi_dimiliki" name="_prestasi_dimiliki" onchange="changeJenisPrestasi(this)" required>
+                                                    <option value="">-- Pilih --</option>
+                                                    <option value="akademik" <?= isset($dokument->prestasi_dimiliki) ? ($dokument->prestasi_dimiliki == "akademik" ? ' selected' : '') : '' ?>>Prestasi Akademik</option>
+                                                    <option value="nonakademik" <?= isset($dokument->prestasi_dimiliki) ? ($dokument->prestasi_dimiliki == "nonakademik" ? ' selected' : '') : '' ?>>Prestasi Non Akademik</option>
+                                                    <option value="tidakada" <?= isset($dokument->prestasi_dimiliki) ? ($dokument->prestasi_dimiliki == "tidakada" ? ' selected' : '') : '' ?>>Prestasi Sekolah</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <?php if (isset($dokument->prestasi_dimiliki)) { ?>
                             <?php if ($dokument->prestasi_dimiliki) { ?>
                                 <?php if ($dokument->prestasi_dimiliki == "akademik" || $dokument->prestasi_dimiliki == "nonakademik") { ?>
@@ -963,7 +981,7 @@
     }
 
     // Example usage: attach event listeners to form submission buttons
-    const formPerubahan = document.getElementById('formPerubahanData');
+    const formPerubahan = document.getElementById('formPerubahanDataPrestasi');
     if (formPerubahan) {
         formPerubahan.addEventListener('submit', function(event) { // Prevent default form submission
             const nama = this.querySelector('#_nama_perubahan').value;

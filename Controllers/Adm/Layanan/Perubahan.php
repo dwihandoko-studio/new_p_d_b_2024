@@ -421,18 +421,24 @@ class Perubahan extends BaseController
                 //         'required' => 'Perubahan pengaju tidak boleh kosong. ',
                 //     ]
                 // ],
-                '_lintang' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Lintang tidak boleh kosong. ',
-                    ]
-                ],
-                '_bujur' => [
-                    'rules' => 'required|trim',
-                    'errors' => [
-                        'required' => 'Bujur tidak boleh kosong. ',
-                    ]
-                ],
+                // '_lintang' => [
+                //     'rules' => 'required|trim',
+                //     'errors' => [
+                //         'required' => 'Lintang tidak boleh kosong. ',
+                //     ]
+                // ],
+                // '_bujur' => [
+                //     'rules' => 'required|trim',
+                //     'errors' => [
+                //         'required' => 'Bujur tidak boleh kosong. ',
+                //     ]
+                // ],
+                // '_tingkat_akademik' => [
+                //     'rules' => 'required|trim',
+                //     'errors' => [
+                //         'required' => 'Bujur tidak boleh kosong. ',
+                //     ]
+                // ],
             ];
 
             if (!$this->validate($rules)) {
@@ -460,15 +466,11 @@ class Perubahan extends BaseController
 
                 $id = htmlspecialchars($this->request->getVar('_id_perubahan'), true);
                 $nama = htmlspecialchars($this->request->getVar('_nama_perubahan'), true);
+
+                $prestasi_dimiliki = htmlspecialchars($this->request->getVar('_prestasi_dimiliki'), true);
                 // $nama_pengaju = htmlspecialchars($this->request->getVar('_pengaju'), true);
                 // $status_pengaju = htmlspecialchars($this->request->getVar('_status_pengaju'), true);
                 // $perubahan_pengaju = htmlspecialchars($this->request->getVar('_perubahan_pengaju'), true);
-                $nama_pengaju = "Adm";
-                $status_pengaju = "Layanan Perubahan";
-                $perubahan_pengaju = "domisili";
-
-                $lintang = htmlspecialchars($this->request->getVar('_lintang'), true);
-                $bujur = htmlspecialchars($this->request->getVar('_bujur'), true);
 
                 $oldData = $this->_db->table('_tb_pendaftar a')
                     ->select("a.*, b.nama_ibu_kandung, b.nik, b.no_kk, b.alamat_jalan, b.no_kip, b.no_pkh, c.nohp, c.email")
@@ -484,42 +486,242 @@ class Perubahan extends BaseController
                     return json_encode($response);
                 }
 
-                $lat_long = $lintang . "," . $bujur;
+                $lampiran_pendaftaran = json_decode($oldData->lampiran, true);
 
-                if (
-                    ($lat_long === $oldData->lat_long_peserta)
-                ) {
-                    $response = new \stdClass;
-                    $response->status = 201;
-                    $response->message = "Tidak ada perubahan data yang disimpan.";
-                    return json_encode($response);
+                $nama_pengaju = "Adm";
+                $status_pengaju = "Layanan Perubahan";
+                $perubahan_pengaju = "domisili";
+
+                $lampiran_pendaftaran['prestasi_dimiliki'] = $prestasi_dimiliki;
+                $nilai_prestasi = 0;
+                // $lampiran_pendaftaran['nilai_rata_rapor'] = $oldLampiran->nilai_rata_rapor;
+
+                $poin_akademik = 0;
+                if ($prestasi_dimiliki === "akademik") {
+                    $kategori_akademik = htmlspecialchars($this->request->getVar('_kategori_akademik'), true);
+                    $tingkat_akademik = htmlspecialchars($this->request->getVar('_tingkat_akademik'), true);
+                    $penyelenggara_akademik = htmlspecialchars($this->request->getVar('_penyelenggara_akademik'), true);
+                    $juara_akademik = htmlspecialchars($this->request->getVar('_juara_akademik'), true);
+
+                    if ($kategori_akademik == "") {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Kategori akademik belum dipilih. ";
+                        return json_encode($response);
+                    }
+                    if ($tingkat_akademik == "") {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Tingkat akademik belum dipilih. ";
+                        return json_encode($response);
+                    }
+                    if ($penyelenggara_akademik == "") {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Penyelenggara akademik belum dipilih. ";
+                        return json_encode($response);
+                    }
+                    if ($juara_akademik == "") {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Juara akademik belum dipilih. ";
+                        return json_encode($response);
+                    }
+
+                    if ($tingkat_akademik == "internasional" && $juara_akademik == "1") {
+                        $poin_akademik += (float)100;
+                    }
+                    if ($tingkat_akademik == "internasional" && $juara_akademik == "2") {
+                        $poin_akademik += (float)85;
+                    }
+                    if ($tingkat_akademik == "internasional" && $juara_akademik == "3") {
+                        $poin_akademik += (float)76;
+                    }
+
+                    if ($tingkat_akademik == "nasional" && $juara_akademik == "1") {
+                        $poin_akademik += (float)75;
+                    }
+                    if ($tingkat_akademik == "nasional" && $juara_akademik == "2") {
+                        $poin_akademik += (float)65;
+                    }
+                    if ($tingkat_akademik == "nasional" && $juara_akademik == "3") {
+                        $poin_akademik += (float)51;
+                    }
+
+                    if ($tingkat_akademik == "provinsi" && $juara_akademik == "1") {
+                        $poin_akademik += (float)50;
+                    }
+                    if ($tingkat_akademik == "provinsi" && $juara_akademik == "2") {
+                        $poin_akademik += (float)40;
+                    }
+                    if ($tingkat_akademik == "provinsi" && $juara_akademik == "3") {
+                        $poin_akademik += (float)31;
+                    }
+
+                    if ($tingkat_akademik == "kabupaten" && $juara_akademik == "1") {
+                        $poin_akademik += (float)30;
+                    }
+                    if ($tingkat_akademik == "kabupaten" && $juara_akademik == "2") {
+                        $poin_akademik += (float)20;
+                    }
+                    if ($tingkat_akademik == "kabupaten" && $juara_akademik == "3") {
+                        $poin_akademik += (float)11;
+                    }
+
+                    if ($tingkat_akademik == "kecamatan" && $juara_akademik == "1") {
+                        $poin_akademik += (float)10;
+                    }
+                    if ($tingkat_akademik == "kecamatan" && $juara_akademik == "2") {
+                        $poin_akademik += (float)8;
+                    }
+                    if ($tingkat_akademik == "kecamatan" && $juara_akademik == "3") {
+                        $poin_akademik += (float)6;
+                    }
+
+                    $lampiran_pendaftaran['prestasi_akademik'] = [
+                        'kategori' => $kategori_akademik,
+                        'tingkat' => $tingkat_akademik,
+                        'penyelenggara' => $penyelenggara_akademik,
+                        'juara' => $juara_akademik,
+                    ];
+                } else if ($prestasi_dimiliki === "nonakademik") {
+                    $kategori_nonakademik = htmlspecialchars($this->request->getVar('_kategori_nonakademik'), true);
+                    $tingkat_nonakademik = htmlspecialchars($this->request->getVar('_tingkat_nonakademik'), true);
+                    $penyelenggara_nonakademik = htmlspecialchars($this->request->getVar('_penyelenggara_nonakademik'), true);
+                    $juara_nonakademik = htmlspecialchars($this->request->getVar('_juara_nonakademik'), true);
+
+
+                    if ($kategori_nonakademik == "") {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Kategori akademik belum dipilih. ";
+                        return json_encode($response);
+                    }
+                    if ($tingkat_nonakademik == "") {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Tingkat akademik belum dipilih. ";
+                        return json_encode($response);
+                    }
+                    if ($penyelenggara_nonakademik == "") {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Penyelenggara akademik belum dipilih. ";
+                        return json_encode($response);
+                    }
+                    if ($juara_nonakademik == "") {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Juara akademik belum dipilih. ";
+                        return json_encode($response);
+                    }
+
+                    if ($tingkat_nonakademik == "internasional" && $juara_nonakademik == "1") {
+                        $poin_akademik += (float)100;
+                    }
+                    if ($tingkat_nonakademik == "internasional" && $juara_nonakademik == "2") {
+                        $poin_akademik += (float)85;
+                    }
+                    if ($tingkat_nonakademik == "internasional" && $juara_nonakademik == "3") {
+                        $poin_akademik += (float)76;
+                    }
+
+                    if ($tingkat_nonakademik == "nasional" && $juara_nonakademik == "1") {
+                        $poin_akademik += (float)75;
+                    }
+                    if ($tingkat_nonakademik == "nasional" && $juara_nonakademik == "2") {
+                        $poin_akademik += (float)65;
+                    }
+                    if ($tingkat_nonakademik == "nasional" && $juara_nonakademik == "3") {
+                        $poin_akademik += (float)51;
+                    }
+
+                    if ($tingkat_nonakademik == "provinsi" && $juara_nonakademik == "1") {
+                        $poin_akademik += (float)50;
+                    }
+                    if ($tingkat_nonakademik == "provinsi" && $juara_nonakademik == "2") {
+                        $poin_akademik += (float)40;
+                    }
+                    if ($tingkat_nonakademik == "provinsi" && $juara_nonakademik == "3") {
+                        $poin_akademik += (float)31;
+                    }
+
+                    if ($tingkat_nonakademik == "kabupaten" && $juara_nonakademik == "1") {
+                        $poin_akademik += (float)30;
+                    }
+                    if ($tingkat_nonakademik == "kabupaten" && $juara_nonakademik == "2") {
+                        $poin_akademik += (float)20;
+                    }
+                    if ($tingkat_nonakademik == "kabupaten" && $juara_nonakademik == "3") {
+                        $poin_akademik += (float)11;
+                    }
+
+                    if ($tingkat_nonakademik == "kecamatan" && $juara_nonakademik == "1") {
+                        $poin_akademik += (float)10;
+                    }
+                    if ($tingkat_nonakademik == "kecamatan" && $juara_nonakademik == "2") {
+                        $poin_akademik += (float)8;
+                    }
+                    if ($tingkat_nonakademik == "kecamatan" && $juara_nonakademik == "3") {
+                        $poin_akademik += (float)6;
+                    }
+
+                    $lampiran_pendaftaran['prestasi_nonakademik'] = [
+                        'kategori' => $kategori_nonakademik,
+                        'tingkat' => $tingkat_nonakademik,
+                        'penyelenggara' => $penyelenggara_nonakademik,
+                        'juara' => $juara_nonakademik,
+                    ];
+                } else {
                 }
 
-                $latitu = explode(",", $oldData->lat_long_peserta);
+                $lampiran_pendaftaran['nilai_tambahan'] = (float)$poin_akademik;
+
+                $nilai_prestasi_fix = (float)$nilai_prestasi + (float)$poin_akademik;
+
+                $lampiran_pendaftaran['nilai_prestasi'] = $nilai_prestasi_fix;
+
+
+                // $lintang = htmlspecialchars($this->request->getVar('_lintang'), true);
+                // $bujur = htmlspecialchars($this->request->getVar('_bujur'), true);
+
+                // $lat_long = $lintang . "," . $bujur;
+
+                // if (
+                //     ($lat_long === $oldData->lat_long_peserta)
+                // ) {
+                //     $response = new \stdClass;
+                //     $response->status = 201;
+                //     $response->message = "Tidak ada perubahan data yang disimpan.";
+                //     return json_encode($response);
+                // }
+
+                // $latitu = explode(",", $oldData->lat_long_peserta);
 
                 $dataPerubahan = $this->_db->table('_tb_pendaftar')->where('id', $oldData->id)->get()->getRowArray();
 
-                $getJarak = $this->_db->table('dapo_sekolah a')
-                    ->select("a.nama, a.npsn, a.lintang, a.bujur, ROUND(getDistanceKm(a.lintang,a.bujur,'{$lintang}','{$bujur}'), 2) AS distance_in_km")
-                    ->where("a.sekolah_id = '{$oldData->tujuan_sekolah_id_1}'")
-                    ->get()->getRowObject();
-                if (!$getJarak) {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = "Gagal menghitung jarak domisili.";
-                    return json_encode($response);
-                }
+                // $getJarak = $this->_db->table('dapo_sekolah a')
+                //     ->select("a.nama, a.npsn, a.lintang, a.bujur, ROUND(getDistanceKm(a.lintang,a.bujur,'{$lintang}','{$bujur}'), 2) AS distance_in_km")
+                //     ->where("a.sekolah_id = '{$oldData->tujuan_sekolah_id_1}'")
+                //     ->get()->getRowObject();
+                // if (!$getJarak) {
+                //     $response = new \stdClass;
+                //     $response->status = 400;
+                //     $response->message = "Gagal menghitung jarak domisili.";
+                //     return json_encode($response);
+                // }
 
                 $dataLama = json_encode($dataPerubahan);
 
-                $dataPerubahan['jarak_domisili'] = $getJarak->distance_in_km;
+                // $dataPerubahan['jarak_domisili'] = $getJarak->distance_in_km;
 
-                if (!($lat_long === $oldData->lat_long_peserta)) {
-                    $dataPerubahan['lat_long_peserta'] = $lat_long;
-                }
+                // if (!($lat_long === $oldData->lat_long_peserta)) {
+                //     $dataPerubahan['lat_long_peserta'] = $lat_long;
+                // }
                 $uuid = new Uuid();
                 $id_perubahan = $uuid->v4();
                 $dataPerubahan['id_perubahan_ad'] = $id_perubahan;
+                $dataPerubahan['lampiran'] = json_encode($lampiran_pendaftaran);
 
                 $this->_db->transBegin();
                 $this->_db->table('_tb_pendaftar')->where('id', $oldData->id)->update($dataPerubahan);
@@ -529,7 +731,7 @@ class Perubahan extends BaseController
                         'nama_pengaju' => $nama_pengaju,
                         'status_pengaju' => $status_pengaju,
                         'perubahan_pengaju' => $perubahan_pengaju,
-                        'data_lama' => $dataLama,
+                        'data_lama' => json_encode($dataLama),
                         'data_baru' => json_encode($dataPerubahan),
                         'user_id' => $user->data->id,
                         'created_at' => date('Y-m-d H:i:s')
