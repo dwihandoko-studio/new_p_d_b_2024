@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12" style="margin-top: 20px;">
+                        <!-- <div class="col-12" style="margin-top: 20px;">
                             <div class="row">
                                 <div class="col-6">
                                     <h4 class="card-title">Data Domisili</h4>
@@ -119,7 +119,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- <?php if (isset($dokument->nilai_rapor)) { ?>
                             <?php if ($dokument->nilai_rapor) { ?>
                                 <div class="col-12">
