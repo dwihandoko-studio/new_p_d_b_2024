@@ -94,8 +94,8 @@ class Perubahan extends BaseController
             $row[] = $list->via_jalur;
             $row[] = $list->nama_sekolah_asal;
             $row[] = $list->npsn_sekolah_asal;
-            $row[] = round($list->jarak_domisili, 3) . ' Km';
             $row[] = $list->nama_verifikator;
+            $row[] = round($list->jarak_domisili, 3) . ' Km';
             // switch ($list->is_active) {
             //     case 1:
             //         $row[] = '<div class="text-center">

@@ -49,8 +49,8 @@
                                             <th>Jalur</th>
                                             <th>Sekolah Asal</th>
                                             <th>Npsn Asal</th>
+                                            <th>Poin</th>
                                             <th>Jarak</th>
-                                            <th>Verifikator</th>
                                         </tr>
                                     </thead>
                                 </table>

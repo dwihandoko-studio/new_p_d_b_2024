@@ -8,7 +8,7 @@ use CodeIgniter\Model;
 class PendaftaranModel extends Model
 {
     protected $table = "_tb_pendaftar a";
-    protected $column_order = array(null, 'a.nama_peserta', 'a.nisn_peserta', 'a.via_jalur', 'a.nama_sekolah_asal', 'a.npsn_sekolah_asal', 'a.jarak_domisili');
+    protected $column_order = array(null, 'a.nama_peserta', 'a.nisn_peserta', 'a.via_jalur', 'a.nama_sekolah_asal', 'a.poin_prestasi', 'a.jarak_domisili');
     protected $column_search = array('a.nisn_peserta', 'a.nama_peserta', 'a.kode_pendaftaran');
     // protected $order = array('a.username' => 'asc');
     protected $request;
@@ -51,7 +51,7 @@ class PendaftaranModel extends Model
     function get_datatables()
     {
         $id = htmlspecialchars($this->request->getPost('id'), true);
-        $this->dt->select("a.id, a.kode_pendaftaran, a.nama_peserta, a.nisn_peserta, a.nama_sekolah_asal, a.npsn_sekolah_asal, a.via_jalur, a.jarak_domisili, a.tujuan_sekolah_id_1, b.nama as nama_verifikator");
+        $this->dt->select("a.id, a.kode_pendaftaran, a.poin_prestasi, a.nama_peserta, a.nisn_peserta, a.nama_sekolah_asal, a.npsn_sekolah_asal, a.via_jalur, a.jarak_domisili, a.tujuan_sekolah_id_1, b.nama as nama_verifikator");
         $this->dt->join('_users_profile_sekolah b', 'a.admin_approval = b.user_id', 'LEFT');
         // $this->dt->whereNotIn('a.level', [0]);
 
