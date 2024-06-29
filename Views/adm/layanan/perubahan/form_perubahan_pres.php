@@ -913,8 +913,8 @@
     });
 
     function validateFormPerubahan(formElement) {
-        const latitudeInput = formElement.querySelector('#_lintang');
-        const longitudeInput = formElement.querySelector('#_bujur');
+        // const latitudeInput = formElement.querySelector('#_lintang');
+        // const longitudeInput = formElement.querySelector('#_bujur');
         // const inPengaju = formElement.querySelector('#_pengaju');
         // const inStatusPengaju = formElement.querySelector('#_status_pengaju');
         // const inPerubahanPengaju = formElement.querySelector('#_perubahan_pengaju');
@@ -945,29 +945,29 @@
         //     return false;
         // }
 
-        if (!validateLat(latitudeInput.value)) {
-            Swal.fire(
-                'Failed!',
-                "Inputan Lintang tidak valid.",
-                'warning'
-            ).then((valR) => {
-                latitudeInput.focus();
-            });
+        // if (!validateLat(latitudeInput.value)) {
+        //     Swal.fire(
+        //         'Failed!',
+        //         "Inputan Lintang tidak valid.",
+        //         'warning'
+        //     ).then((valR) => {
+        //         latitudeInput.focus();
+        //     });
 
-            return false; // Prevent form submission if validation fails
-        }
+        //     return false; // Prevent form submission if validation fails
+        // }
 
-        if (!validateLong(longitudeInput.value)) {
-            Swal.fire(
-                'Failed!',
-                "Inputan Bujur tidak valid.",
-                'warning'
-            ).then((valR) => {
-                longitudeInput.focus();
-            });
+        // if (!validateLong(longitudeInput.value)) {
+        //     Swal.fire(
+        //         'Failed!',
+        //         "Inputan Bujur tidak valid.",
+        //         'warning'
+        //     ).then((valR) => {
+        //         longitudeInput.focus();
+        //     });
 
-            return false; // Prevent form submission if validation fails
-        }
+        //     return false; // Prevent form submission if validation fails
+        // }
         // If validation passes, you can submit the form here
         // (e.g., formElement.submit())
 
