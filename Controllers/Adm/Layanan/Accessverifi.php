@@ -193,4 +193,88 @@ class Accessverifi extends BaseController
             exit('Maaf tidak dapat diproses');
         }
     }
+
+    public function addSave()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                '_role' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Role tidak boleh kosong. ',
+                    ]
+                ],
+                '_filter_pengguna' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Pengguna tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('_role')
+                    . $this->validator->getError('_filter_pengguna');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->user();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    $response = new \stdClass;
+                    $response->status = 401;
+                    $response->message = "Session expired";
+                    return json_encode($response);
+                }
+
+                $role = htmlspecialchars($this->request->getVar('_role'), true);
+                $pengguna = htmlspecialchars($this->request->getVar('_filter_pengguna'), true);
+
+                $oldData = $this->_db->table('_users_tb')->where('id', $pengguna)->get()->getRowObject();
+                if (!$oldData) {
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Pengguna tidak ditemukan.";
+                    return json_encode($response);
+                }
+
+                $dataUser = [
+                    'user_id' => $pengguna,
+                ];
+
+                $this->_db->transBegin();
+                try {
+                    $this->_db->table('custom_verifi')->insert($dataUser);
+                    if ($this->_db->affectedRows() > 0) {
+
+                        $this->_db->transCommit();
+
+                        $response = new \stdClass;
+                        $response->status = 200;
+                        $response->url = base_url('portal');
+                        $response->message = "Data berhasil disimpan";
+                        return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = "Gagal menyimpan data.";
+                        return json_encode($response);
+                    }
+                } catch (\Throwable $th) {
+                    $this->_db->transRollback();
+                    $response = new \stdClass;
+                    $response->status = 400;
+                    $response->message = "Gagal menyimpan data. with error";
+                    return json_encode($response);
+                }
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
 }

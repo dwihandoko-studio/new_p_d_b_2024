@@ -130,12 +130,12 @@
     if (form) {
         form.addEventListener('submit', function(event) { // Prevent default form submission
 
+            event.preventDefault();
             if (validateForm(this)) {
-                event.preventDefault();
-                const nama = document.getElementsByName('_nama')[0].value;
+                // const role = document.getElementsByName('_role')[0].value;
                 Swal.fire({
                     title: 'Apakah anda yakin ingin menyimpan data ini?',
-                    text: "Tambah Data Panitia: " + nama,
+                    text: "Tambah Acess Verifi",
                     showCancelButton: true,
                     icon: 'question',
                     confirmButtonColor: '#3085d6',
