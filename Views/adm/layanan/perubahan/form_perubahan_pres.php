@@ -353,10 +353,30 @@
                                         <div class="col-12">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <div class="mb-3">
-                                                        <div class="input-group   input-primary">
-                                                            <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Poin Nilai Rapor</span>
-                                                            <input type="text" id="_nilai_rata2" name="_nilai_rata2" class="form-control" value="<?= round($dokument->nilai_rata_rapor, 3) ?>" required />
+                                                    <div class="col-6 mt-2">
+                                                        <div class="mb-3">
+                                                            <div class="input-group   input-primary">
+                                                                <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Poin Nilai Rapor</span>
+                                                                <input type="text" id="_nilai_rata2" name="_nilai_rata2" class="form-control" value="<?= round($dokument->nilai_rata_rapor, 3) ?>" required />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 mt-2">
+                                                        <h4>&nbsp;</h4>
+                                                        <div class="mb-3">
+                                                            <div class="input-group   input-primary">
+                                                                <span class="input-group-text" style="width: 110px; min-width: 110px;min-width: 110px;">Nilai Rata-Rata</span>
+                                                                <input type="text" id="_nilai_rata2" name="_nilai_rata2" class="form-control" value="" readonly required />
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3">&nbsp;
+                                                        </div>
+                                                        <div class="mb-3">&nbsp;
+                                                        </div>
+                                                        <div class="mb-3">&nbsp;
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <button type="button" onclick="hitungNilaiRatarata(this)" class="btn btn-sm btn-primary waves-effect waves-light"><i class="las la-clipboard-list font-size-16 align-middle me-2"></i> HITUNG NILAI</button> &nbsp;&nbsp;
                                                         </div>
                                                     </div>
                                                 </div>
@@ -382,36 +402,77 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-6">
-                                                            <div class="mb-3">
+                                                            <div class="input-group mb-3">
+                                                                <label for="_kec" class="col-form-label">Kategori Prestasi:</label>
+                                                                <select onchange="kategoriAkademik(this)" class="default-select form-control wide" style="width: 100%;" id="_kategori_akademik" name="_kategori_akademik">
+                                                                    <option value="">-- Pilih --</option>
+                                                                    <option value="sains" <?= $dokument->prestasi_akademik->kategori == "sains" ? ' selected' : '' ?>>Sains</option>
+                                                                    <option value="teknologi" <?= $dokument->prestasi_akademik->kategori == "teknologi" ? ' selected' : '' ?>>Teknologi</option>
+                                                                    <option value="riset" <?= $dokument->prestasi_akademik->kategori == "riset" ? ' selected' : '' ?>>Riset</option>
+                                                                    <option value="inovasi" <?= $dokument->prestasi_akademik->kategori == "inovasi" ? ' selected' : '' ?>>Inovasi</option>
+                                                                </select>
+                                                            </div>
+                                                            <!-- <div class="mb-3">
                                                                 <div class="input-group   input-primary">
                                                                     <span class="input-group-text" style="width: 140px; min-width: 140px;min-width: 140px;">Kategori Prestasi</span>
                                                                     <input type="text" class="form-control" value="<?= ucwords($dokument->prestasi_akademik->kategori) ?>" required />
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                         <div class="col-6">
-                                                            <div class="mb-3">
+                                                            <div class="input-group mb-3">
+                                                                <label for="_kec" class="col-form-label">Tingkat:</label>
+                                                                <select onchange="tingkatAkademik(this)" class="default-select form-control wide" style="width: 100%;" id="_tingkat_akademik" name="_tingkat_akademik">
+                                                                    <option value="">-- Pilih --</option>
+                                                                    <option value="kecamatan" <?= $dokument->prestasi_akademik->tingkat == "kecamatan" ? ' selected' : '' ?>>Tingkat Kecamatan</option>
+                                                                    <option value="kabupaten" <?= $dokument->prestasi_akademik->tingkat == "kabupaten" ? ' selected' : '' ?>>Tingkat Kabupaten / Kota</option>
+                                                                    <option value="provinsi" <?= $dokument->prestasi_akademik->tingkat == "provinsi" ? ' selected' : '' ?>>Tingkat Provinsi</option>
+                                                                    <option value="nasional" <?= $dokument->prestasi_akademik->tingkat == "nasional" ? ' selected' : '' ?>>Tingkat Nasional</option>
+                                                                    <option value="internasional" <?= $dokument->prestasi_akademik->tingkat == "internasional" ? ' selected' : '' ?>>Tingkat Internasional</option>
+                                                                </select>
+                                                            </div>
+                                                            <!-- <div class="mb-3">
                                                                 <div class="input-group   input-primary">
                                                                     <span class="input-group-text" style="width: 140px; min-width: 140px;min-width: 140px;">Tingkat Prestasi</span>
                                                                     <input type="text" class="form-control" value="<?= ucwords($dokument->prestasi_akademik->tingkat) ?>" required />
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                         <div class="col-6">
-                                                            <div class="mb-3">
+                                                            <div class="input-group mb-3">
+                                                                <label for="_kec" class="col-form-label">Penyelenggara:</label>
+                                                                <select onchange="penyelenggaraAkademik(this)" class="default-select form-control wide" style="width: 100%;" id="_penyelenggara_akademik" name="_penyelenggara_akademik">
+                                                                    <option value="">-- Pilih --</option>
+                                                                    <option value="pusat" <?= $dokument->prestasi_akademik->penyelenggara == "pusat" ? ' selected' : '' ?>>Pemerintah Pusat</option>
+                                                                    <option value="daerah" <?= $dokument->prestasi_akademik->penyelenggara == "daerah" ? ' selected' : '' ?>>Pemerintah Daerah</option>
+                                                                    <option value="bumn" <?= $dokument->prestasi_akademik->penyelenggara == "bumn" ? ' selected' : '' ?>>Badan Usaha Milik Negara (BUMN)</option>
+                                                                    <option value="bumd" <?= $dokument->prestasi_akademik->penyelenggara == "bumd" ? ' selected' : '' ?>>Badan Usaha Milik Daerah (BUMD)</option>
+                                                                    <option value="lainnya" <?= $dokument->prestasi_akademik->penyelenggara == "lainnya" ? ' selected' : '' ?>>Lembaga Lainnya</option>
+                                                                </select>
+                                                            </div>
+                                                            <!-- <div class="mb-3">
                                                                 <div class="input-group   input-primary">
                                                                     <span class="input-group-text" style="width: 140px; min-width: 140px;min-width: 140px;">Penyelenggara Prestasi</span>
                                                                     <input type="text" class="form-control" value="<?= ucwords($dokument->prestasi_akademik->penyelenggara) ?>" required />
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                         <div class="col-6">
-                                                            <div class="mb-3">
+                                                            <div class="input-group mb-3">
+                                                                <label for="_kec" class="col-form-label">Juara:</label>
+                                                                <select onchange="juaraAkademik(this)" class="default-select form-control wide" style="width: 100%;" id="_juara_akademik" name="_juara_akademik">
+                                                                    <option value="">-- Pilih --</option>
+                                                                    <option value="1" <?= $dokument->prestasi_akademik->juara == "1" ? ' selected' : '' ?>>Juara 1</option>
+                                                                    <option value="2" <?= $dokument->prestasi_akademik->juara == "2" ? ' selected' : '' ?>>Juara 2</option>
+                                                                    <option value="3" <?= $dokument->prestasi_akademik->juara == "3" ? ' selected' : '' ?>>Juara 3</option>
+                                                                </select>
+                                                            </div>
+                                                            <!-- <div class="mb-3">
                                                                 <div class="input-group   input-primary">
                                                                     <span class="input-group-text" style="width: 140px; min-width: 140px;min-width: 140px;">Juara Prestasi</span>
                                                                     <input type="text" class="form-control" value="<?= ucwords($dokument->prestasi_akademik->juara) ?>" required />
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                     <?php } ?>
                                                     <?php if ($dokument->prestasi_dimiliki == "nonakademik") { ?>
@@ -423,36 +484,77 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-6">
-                                                            <div class="mb-3">
+                                                            <div class="input-group mb-3">
+                                                                <label for="_kec" class="col-form-label">Kategori Prestasi:</label>
+                                                                <select onchange="kategoriNonakademik(this)" class="default-select form-control wide" style="width: 100%;" id="_kategori_nonakademik" name="_kategori_nonakademik">
+                                                                    <option value="">-- Pilih --</option>
+                                                                    <option value="senibudaya" <?= $dokument->prestasi_nonakademik->kategori == "senibudaya" ? ' selected' : '' ?>>Seni Budaya</option>
+                                                                    <option value="olahraga" <?= $dokument->prestasi_nonakademik->kategori == "olahraga" ? ' selected' : '' ?>>Olah Raga</option>
+                                                                    <option value="pramuka" <?= $dokument->prestasi_nonakademik->kategori == "pramuka" ? ' selected' : '' ?>>Pramuka</option>
+                                                                    <option value="tahfidz" <?= $dokument->prestasi_nonakademik->kategori == "tahfidz" ? ' selected' : '' ?>>Tahfidz</option>
+                                                                </select>
+                                                            </div>
+                                                            <!-- <div class="mb-3">
                                                                 <div class="input-group   input-primary">
                                                                     <span class="input-group-text" style="width: 140px; min-width: 140px;min-width: 140px;">Kategori Prestasi</span>
                                                                     <input type="text" class="form-control" value="<?= ucwords($dokument->prestasi_nonakademik->kategori) ?>" required />
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                         <div class="col-6">
-                                                            <div class="mb-3">
+                                                            <div class="input-group mb-3">
+                                                                <label for="_kec" class="col-form-label">Tingkat:</label>
+                                                                <select onchange="tingkatNonakademik(this)" class="default-select form-control wide" style="width: 100%;" id="_tingkat_nonakademik" name="_tingkat_nonakademik">
+                                                                    <option value="">-- Pilih --</option>
+                                                                    <option value="kecamatan" <?= $dokument->prestasi_nonakademik->tingkat == "kecamatan" ? ' selected' : '' ?>>Tingkat Kecamatan</option>
+                                                                    <option value="kabupaten" <?= $dokument->prestasi_nonakademik->tingkat == "kabupaten" ? ' selected' : '' ?>>Tingkat Kabupaten / Kota</option>
+                                                                    <option value="provinsi" <?= $dokument->prestasi_nonakademik->tingkat == "provinsi" ? ' selected' : '' ?>>Tingkat Provinsi</option>
+                                                                    <option value="nasional" <?= $dokument->prestasi_nonakademik->tingkat == "nasional" ? ' selected' : '' ?>>Tingkat Nasional</option>
+                                                                    <option value="internasional" <?= $dokument->prestasi_nonakademik->tingkat == "internasional" ? ' selected' : '' ?>>Tingkat Internasional</option>
+                                                                </select>
+                                                            </div>
+                                                            <!-- <div class="mb-3">
                                                                 <div class="input-group   input-primary">
                                                                     <span class="input-group-text" style="width: 140px; min-width: 140px;min-width: 140px;">Tingkat Prestasi</span>
                                                                     <input type="text" class="form-control" value="<?= ucwords($dokument->prestasi_nonakademik->tingkat) ?>" required />
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                         <div class="col-6">
-                                                            <div class="mb-3">
+                                                            <div class="input-group mb-3">
+                                                                <label for="_kec" class="col-form-label">Penyelenggara:</label>
+                                                                <select onchange="penyelenggaraNonakademik(this)" class="default-select form-control wide" style="width: 100%;" id="_penyelenggara_nonakademik" name="_penyelenggara_nonakademik">
+                                                                    <option value="">-- Pilih --</option>
+                                                                    <option value="pusat" <?= $dokument->prestasi_nonakademik->penyelenggara == "pusat" ? ' selected' : '' ?>>Pemerintah Pusat</option>
+                                                                    <option value="daerah" <?= $dokument->prestasi_nonakademik->penyelenggara == "daerah" ? ' selected' : '' ?>>Pemerintah Daerah</option>
+                                                                    <option value="bumn" <?= $dokument->prestasi_nonakademik->penyelenggara == "bumn" ? ' selected' : '' ?>>Badan Usaha Milik Negara (BUMN)</option>
+                                                                    <option value="bumd" <?= $dokument->prestasi_nonakademik->penyelenggara == "bumd" ? ' selected' : '' ?>>Badan Usaha Milik Daerah (BUMD)</option>
+                                                                    <option value="lainnya" <?= $dokument->prestasi_nonakademik->penyelenggara == "lainnya" ? ' selected' : '' ?>>Lembaga Lainnya</option>
+                                                                </select>
+                                                            </div>
+                                                            <!-- <div class="mb-3">
                                                                 <div class="input-group   input-primary">
                                                                     <span class="input-group-text" style="width: 140px; min-width: 140px;min-width: 140px;">Penyelenggara Prestasi</span>
                                                                     <input type="text" class="form-control" value="<?= ucwords($dokument->prestasi_nonakademik->penyelenggara) ?>" required />
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                         <div class="col-6">
-                                                            <div class="mb-3">
+                                                            <div class="input-group mb-3">
+                                                                <label for="_kec" class="col-form-label">Juara:</label>
+                                                                <select onchange="juaraNonakademik(this)" class="default-select form-control wide" style="width: 100%;" id="_juara_nonakademik" name="_juara_nonakademik">
+                                                                    <option value="">-- Pilih --</option>
+                                                                    <option value="1" <?= $dokument->prestasi_nonakademik->juara == "1" ? ' selected' : '' ?>>Juara 1</option>
+                                                                    <option value="2" <?= $dokument->prestasi_nonakademik->juara == "2" ? ' selected' : '' ?>>Juara 2</option>
+                                                                    <option value="3" <?= $dokument->prestasi_nonakademik->juara == "3" ? ' selected' : '' ?>>Juara 3</option>
+                                                                </select>
+                                                            </div>
+                                                            <!-- <div class="mb-3">
                                                                 <div class="input-group   input-primary">
                                                                     <span class="input-group-text" style="width: 140px; min-width: 140px;min-width: 140px;">Juara Prestasi</span>
                                                                     <input type="text" class="form-control" value="<?= ucwords($dokument->prestasi_nonakademik->juara) ?>" required />
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                     <?php } ?>
                                                 </div>
@@ -501,6 +603,134 @@
     </div>
 </form>
 <script>
+    function changeJenisPrestasi(event) {
+        const selectedOption = event.value;
+        if (selectedOption === "" || selectedOption === undefined) {
+            $('.prestasi-akademik-content').css('display', 'none');
+            $('.prestasi-nonakademik-content').css('display', 'none');
+        } else {
+            if (selectedOption === "akademik") {
+                $('.prestasi-akademik-content').css('display', 'block');
+                $('.prestasi-nonakademik-content').css('display', 'none');
+            } else if (selectedOption === "nonakademik") {
+                $('.prestasi-akademik-content').css('display', 'none');
+                $('.prestasi-nonakademik-content').css('display', 'block');
+            } else {
+                $('.prestasi-akademik-content').css('display', 'none');
+                $('.prestasi-nonakademik-content').css('display', 'none');
+            }
+        }
+    }
+
+    function kategoriAkademik(event) {
+        const tingkatAkademikSelects = $('#_tingkat_akademik');
+        tingkatAkademikSelects.empty();
+        const penyelenggaraAkademikSelects = $('#_penyelenggara_akademik');
+        penyelenggaraAkademikSelects.empty();
+        const juaraAkademikSelects = $('#_juara_akademik');
+        juaraAkademikSelects.empty();
+        if (event.value === "" || event.value === undefined) {} else {
+            tingkatAkademikSelects.append('<option value="">-- Pilih --</option>');
+            tingkatAkademikSelects.append('<option value="kecamatan">Tingkat Kecamatan</option>');
+            tingkatAkademikSelects.append('<option value="kabupaten">Tingkat Kabupaten / Kota</option>');
+            tingkatAkademikSelects.append('<option value="provinsi">Tingkat Provinsi</option>');
+            tingkatAkademikSelects.append('<option value="nasional">Tingkat Nasional</option>');
+            tingkatAkademikSelects.append('<option value="internasional">Tingkat Internasional</option>');
+        }
+    }
+
+    function tingkatAkademik(event) {
+        const penyelenggaraAkademikSelects = $('#_penyelenggara_akademik');
+        penyelenggaraAkademikSelects.empty();
+        const juaraAkademikSelects = $('#_juara_akademik');
+        juaraAkademikSelects.empty();
+        if (event.value === "" || event.value === undefined) {} else {
+            penyelenggaraAkademikSelects.append('<option value="">-- Pilih --</option>');
+            penyelenggaraAkademikSelects.append('<option value="pusat">Pemerintah Pusat</option>');
+            penyelenggaraAkademikSelects.append('<option value="daerah">Pemerintah Daerah</option>');
+            penyelenggaraAkademikSelects.append('<option value="bumn">Badan Usaha Milik Negara (BUMN)</option>');
+            penyelenggaraAkademikSelects.append('<option value="bumd">Badan Usaha Milik Daerah (BUMD)</option>');
+            penyelenggaraAkademikSelects.append('<option value="lainnya">Lembaga Lainnya</option>');
+        }
+    }
+
+    function penyelenggaraAkademik(event) {
+        const juaraAkademikSelects = $('#_juara_akademik');
+        juaraAkademikSelects.empty();
+        if (event.value === "" || event.value === undefined) {} else {
+
+            juaraAkademikSelects.append('<option value="">-- Pilih --</option>');
+            juaraAkademikSelects.append('<option value="1">Juara 1</option>');
+            juaraAkademikSelects.append('<option value="2">Juara 2</option>');
+            juaraAkademikSelects.append('<option value="3">Juara 3</option>');
+        }
+    }
+
+    function juaraAkademik(event) {}
+
+    function kategoriNonakademik(event) {
+        const tingkatNonAkademikSelects = $('#_tingkat_nonakademik');
+        tingkatNonAkademikSelects.empty();
+        const penyelenggaraNonakademikSelects = $('#_penyelenggara_nonakademik');
+        penyelenggaraNonakademikSelects.empty();
+        const juaraNonakademikSelects = $('#_juara_nonakademik');
+        juaraNonakademikSelects.empty();
+        if (event.value === "" || event.value === undefined) {} else {
+            tingkatNonAkademikSelects.append('<option value="">-- Pilih --</option>');
+            tingkatNonAkademikSelects.append('<option value="kecamatan">Tingkat Kecamatan</option>');
+            tingkatNonAkademikSelects.append('<option value="kabupaten">Tingkat Kabupaten / Kota</option>');
+            tingkatNonAkademikSelects.append('<option value="provinsi">Tingkat Provinsi</option>');
+            tingkatNonAkademikSelects.append('<option value="nasional">Tingkat Nasional</option>');
+            tingkatNonAkademikSelects.append('<option value="internasional">Tingkat Internasional</option>');
+        }
+    }
+
+    function tingkatNonakademik(event) {
+        const penyelenggaraNonakademikSelects = $('#_penyelenggara_nonakademik');
+        penyelenggaraNonakademikSelects.empty();
+        const juaraNonakademikSelects = $('#_juara_nonakademik');
+        juaraNonakademikSelects.empty();
+        if (event.value === "" || event.value === undefined) {} else {
+            penyelenggaraNonakademikSelects.append('<option value="">-- Pilih --</option>');
+            penyelenggaraNonakademikSelects.append('<option value="pusat">Pemerintah Pusat</option>');
+            penyelenggaraNonakademikSelects.append('<option value="daerah">Pemerintah Daerah</option>');
+            penyelenggaraNonakademikSelects.append('<option value="bumn">Badan Usaha Milik Negara (BUMN)</option>');
+            penyelenggaraNonakademikSelects.append('<option value="bumd">Badan Usaha Milik Daerah (BUMD)</option>');
+            penyelenggaraNonakademikSelects.append('<option value="lainnya">Lembaga Lainnya</option>');
+        }
+    }
+
+    function penyelenggaraNonakademik(event) {
+        const juaraNonakademikSelects = $('#_juara_nonakademik');
+        juaraNonakademikSelects.empty();
+        if (event.value === "" || event.value === undefined) {} else {
+
+            juaraNonakademikSelects.append('<option value="">-- Pilih --</option>');
+            juaraNonakademikSelects.append('<option value="1">Juara 1</option>');
+            juaraNonakademikSelects.append('<option value="2">Juara 2</option>');
+            juaraNonakademikSelects.append('<option value="3">Juara 3</option>');
+        }
+    }
+
+    function juaraNonakademik(event) {}
+
+    function hitungNilaiRatarata(event) {
+        const inputElements = document.querySelectorAll('input[name^="__"]');
+        let sum = 0;
+        let numberOfInputs = 0;
+
+        for (const input of inputElements) {
+            if (!isNaN(input.value) && input.value !== "") {
+                sum += parseFloat(input.value);
+                numberOfInputs++;
+            }
+        }
+
+        let average = numberOfInputs > 0 ? sum / numberOfInputs : 0;
+
+        document.getElementById("_nilai_rata2").value = average.toFixed(2);
+    }
+
     function ambilKoordinat(event) {
         var lat = document.getElementsByName('_lintang')[0].value;
         var long = document.getElementsByName('_bujur')[0].value;
