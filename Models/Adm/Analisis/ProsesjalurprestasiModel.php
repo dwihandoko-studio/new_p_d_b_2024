@@ -81,7 +81,7 @@ class ProsesjalurprestasiModel extends Model
         if ($filter_jalur != "") {
             $this->dt->where('a.via_jalur', $filter_jalur);
         } else {
-            $this->dt->where('a.via_jalur', 'AFIRMASI');
+            $this->dt->where('a.via_jalur', 'PRESTASI');
         }
 
         // if ($filter_jenjang != "") {
@@ -106,7 +106,7 @@ class ProsesjalurprestasiModel extends Model
         if ($filter_jalur != "") {
             $this->dt->where('a.via_jalur', $filter_jalur);
         } else {
-            $this->dt->where('a.via_jalur', 'AFIRMASI');
+            $this->dt->where('a.via_jalur', 'PRESTASI');
         }
 
         // if ($filter_jenjang != "") {
@@ -127,7 +127,7 @@ class ProsesjalurprestasiModel extends Model
         if ($filter_jalur != "") {
             $this->dt->where('a.via_jalur', $filter_jalur);
         } else {
-            $this->dt->where('a.via_jalur', 'AFIRMASI');
+            $this->dt->where('a.via_jalur', 'PRESTASI');
         }
 
         // if ($filter_jenjang != "") {

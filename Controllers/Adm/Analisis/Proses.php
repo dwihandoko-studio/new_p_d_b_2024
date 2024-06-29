@@ -4,6 +4,7 @@ namespace App\Controllers\Adm\Analisis;
 
 use App\Controllers\BaseController;
 use App\Models\Adm\Analisis\ProsesjalurModel;
+use App\Models\Adm\Analisis\ProsesjalurprestasiModel;
 use App\Models\Adm\Analisis\SekolahModel;
 use Config\Services;
 use App\Libraries\Profilelib;
@@ -103,7 +104,7 @@ class Proses extends BaseController
     public function getAllDetailPrestasi()
     {
         $request = Services::request();
-        $datamodel = new ProsesjalurModel($request);
+        $datamodel = new ProsesjalurprestasiModel($request);
 
 
         $lists = $datamodel->get_datatables();
