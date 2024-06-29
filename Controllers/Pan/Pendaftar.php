@@ -215,10 +215,14 @@ class Pendaftar extends BaseController
                 $dataLib = new Datalib();
                 $canDaftar = $dataLib->canVerifikasi(strtolower($oldData->via_jalur));
                 if ($canDaftar->code !== 200) {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = $canDaftar->message . " untuk <b>Jalur $oldData->via_jalur</b>.";
-                    return json_encode($response);
+                    $cekCustomize = $dataLib->customVerifi($user->data->id);
+                    if ($cekCustomize) {
+                    } else {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = $canDaftar->message . " untuk <b>Jalur $oldData->via_jalur</b>.";
+                        return json_encode($response);
+                    }
                 }
 
                 $x['data'] = $oldData;
@@ -394,10 +398,14 @@ class Pendaftar extends BaseController
                 $dataLib = new Datalib();
                 $canDaftar = $dataLib->canVerifikasi(strtolower($oldData->via_jalur));
                 if ($canDaftar->code !== 200) {
-                    $response = new \stdClass;
-                    $response->status = 400;
-                    $response->message = $canDaftar->message . " untuk <b>Jalur $oldData->via_jalur</b>.";
-                    return json_encode($response);
+                    $cekCustomize = $dataLib->customVerifi($user->data->id);
+                    if ($cekCustomize) {
+                    } else {
+                        $response = new \stdClass;
+                        $response->status = 400;
+                        $response->message = $canDaftar->message . " untuk <b>Jalur $oldData->via_jalur</b>.";
+                        return json_encode($response);
+                    }
                 }
 
                 $check_data_peserta = htmlspecialchars($this->request->getVar('_data_peserta'), true);
