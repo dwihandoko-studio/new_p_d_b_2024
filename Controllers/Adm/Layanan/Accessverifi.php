@@ -43,7 +43,7 @@ class Accessverifi extends BaseController
             $action = '<div class="btn-group">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
                             <div class="dropdown-menu" style="">
-                                <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->id . '\',\'' . $list->nama . '\',\'' . $list->nama_sekolah . '\');"><i class="fas fa-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
+                                <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->user_id . '\',\'' . $list->nama . '\',\'' . $list->nama_sekolah . '\');"><i class="fas fa-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
                             </div>
                         </div>';
 

@@ -51,9 +51,9 @@ class AccessverifiModel extends Model
     function get_datatables()
     {
         // $this->dt->select("a.peserta_didik_id, a.sekolah_id, a.nama, a.nisn, a.tempat_lahir, a.tanggal_lahir, a.jenis_kelamin, a.nik, b.user_id");
-        $this->dt->select("a.id, b.nama, b.npsn, b.nama_sekolah, c.level, d.role");
-        $this->dt->join('_users_profile_sekolah b', 'b.user_id = a.id', 'LEFT');
-        $this->dt->join('_users_tb c', 'c.id = a.id', 'LEFT');
+        $this->dt->select("a.user_id, b.nama, b.npsn, b.nama_sekolah, c.level, d.role");
+        $this->dt->join('_users_profile_sekolah b', 'b.user_id = a.user_id', 'LEFT');
+        $this->dt->join('_users_tb c', 'c.id = a.user_id', 'LEFT');
         $this->dt->join('_role_user d', 'd.id = c.level', 'LEFT');
         // $this->dt->whereNotIn('a.level', [0]);
         $level = htmlspecialchars($this->request->getPost('level'), true);
