@@ -351,4 +351,9 @@ class Datalib
         $response->message = "Maaf, Usia peserta per-tanggal 1 Juli 2024 adalah $years tahun $months bulan, belum mencukupi untuk mendaftar ke sekolah tingkat jenjang yang dituju. (Permendikbud No. 1 Tahun 2021 Tentang PPDB). ";
         return $response;
     }
+
+    public function customVerifi($userId)
+    {
+        return $this->_db->table('custom_verifi')->where('user_id', $userId)->get()->getRowObject();
+    }
 }
