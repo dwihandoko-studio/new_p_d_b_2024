@@ -40,7 +40,7 @@
                         <center>Silahkan untuk dapat mendaftar ke sekolah yang kuotanya masih belum tercukupi.</center><br />
                         <center>
                             <div class="text-center">
-                                <a href="<?= base_url('home/pelimpahan') ?>" class="btn btn-primary btn-block">Data Sekolah Masih Mempunyai Kuota</a>
+                                <a href="<?= base_url('home/pelimpahan') ?>" class="btn btn-light btn-block">Data Sekolah Masih Mempunyai Kuota</a>
                             </div>
                         </center>
                     </span>
