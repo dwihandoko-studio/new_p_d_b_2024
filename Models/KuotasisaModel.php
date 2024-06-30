@@ -73,7 +73,7 @@ class KuotasisaModel extends Model
         if ($this->request->getPost('status')) {
             $status = htmlspecialchars($this->request->getPost('status'), true);
             if ($status !== "") {
-                $this->dt->where('b.status_sekolah_id', $status);
+                $this->dt->where('a.status_sekolah_id', $status);
             }
         }
         $this->_get_datatables_query();
@@ -103,7 +103,7 @@ class KuotasisaModel extends Model
         if ($this->request->getPost('status')) {
             $status = htmlspecialchars($this->request->getPost('status'), true);
             if ($status !== "") {
-                $this->dt->where('b.status_sekolah_id', $status);
+                $this->dt->where('a.status_sekolah_id', $status);
             }
         }
         $this->_get_datatables_query();
@@ -131,7 +131,7 @@ class KuotasisaModel extends Model
         if ($this->request->getPost('status')) {
             $status = htmlspecialchars($this->request->getPost('status'), true);
             if ($status !== "") {
-                $this->dt->where('b.status_sekolah_id', $status);
+                $this->dt->where('a.status_sekolah_id', $status);
             }
         }
         $this->_get_datatables_query();
