@@ -37,7 +37,7 @@
                                                                         <?php if (isset($kecamatans)) {
                                                                             if (count($kecamatans) > 0) {
                                                                                 foreach ($kecamatans as $key => $value) { ?>
-                                                                                    <option value="<?= $value->id ?>"><?= $value->nama ?></option>
+                                                                                    <option value="<?= $value->id ?>" <?= isset($kec) ? ($kec == $value->id ? ' selected' : '') : '' ?>><?= $value->nama ?></option>
                                                                         <?php }
                                                                             }
                                                                         } ?>
@@ -49,15 +49,8 @@
                                                                     <label for="_filter_jenjang" class="col-form-label">Filter Jenjang:</label>
                                                                     <select class="form-control filter-jenjang" id="_filter_jenjang" name="_filter_jenjang" width="100%" style="width: 100%;">
                                                                         <option value="">--Pilih--</option>
-                                                                        <option value="5">SD</option>
-                                                                        <option value="6">SMP</option>
-                                                                        <?php if (isset($jenjangs)) {
-                                                                            if (count($jenjangs) > 0) {
-                                                                                foreach ($jenjangs as $key => $value) { ?>
-                                                                                    <option value="<?= $value->bentuk_pendidikan_id ?>"><?= $value->bentuk_pendidikan ?></option>
-                                                                        <?php }
-                                                                            }
-                                                                        } ?>
+                                                                        <option value="5" <?= isset($jen) ? ($jen == "5" ? ' selected' : '') : '' ?>>SD</option>
+                                                                        <option value="6" <?= isset($jen) ? ($jen == "6" ? ' selected' : '') : '' ?>>SMP</option>
                                                                     </select>
                                                                 </div>
                                                             </div>

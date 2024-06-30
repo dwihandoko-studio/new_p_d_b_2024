@@ -36,7 +36,13 @@
                 </ul>
                 <div class="mb-5 mt-5" style="padding-left: 20px; padding-right: 20px;">
                     <span class="mb-5 mt-5" style="font-size: 1rem;">
-                        <center>Anda dinyatakan <b>TIDAK LOLOS</b> seleksi PPDB Tahun Ajaran 2024/2025 di : <br /><b><?= $data->nama_sekolah_tujuan ?></b> Melalui Jalur <b><?= $data->via_jalur ?></b>.</center>
+                        <center>Anda dinyatakan <b>TIDAK LOLOS</b> seleksi PPDB Tahun Ajaran 2024/2025 di : <br /><b><?= $data->nama_sekolah_tujuan ?></b> Melalui Jalur <b><?= $data->via_jalur ?></b>.</center><br />
+                        <center>Silahkan untuk dapat mendaftar ke sekolah yang kuotanya masih belum tercukupi.</center><br />
+                        <center>
+                            <div class="text-center">
+                                <a href="<?= base_url('home/pelimpahan') ?>" class="btn btn-primary btn-block">Data Sekolah Masih Mempunyai Kuota</a>
+                            </div>
+                        </center>
                     </span>
                 </div>
             </div>

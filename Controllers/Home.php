@@ -165,6 +165,17 @@ class Home extends BaseController
         set_cookie('containerLayout', 'wide', strval(3600 * 24 * 1));
         $data['title'] = 'Kuota PPDB Sekolah Belum Terpenuhi || PPDB 2024/2025 Kab. Lampung Tengah';
 
+        $jen = htmlspecialchars($this->request->getGet('j'), true);
+        $kec = htmlspecialchars($this->request->getGet('k'), true);
+
+        if ($jen !== "") {
+            $data['jen'] = $jen;
+        }
+
+        if ($kec !== "") {
+            $data['kec'] = $kec;
+        }
+
         $data['kecamatans'] = $this->_db->table('ref_kecamatan')->where('id_kabupaten', '120200')->orderBy('nama', 'ASC')->get()->getResult();
         return view('dashboard/pelimpahan', $data);
     }
