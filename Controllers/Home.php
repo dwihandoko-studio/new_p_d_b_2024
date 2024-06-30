@@ -324,33 +324,14 @@ class Home extends BaseController
         $data = [];
         $no = $request->getPost("start");
         foreach ($lists as $list) {
+            if ((int)$list->sisa < 1) {
+                continue;
+            }
             $no++;
             $row = [];
 
             $row[] = $no;
-            // if ((int)$list->is_locked == 1) {
-            //     $action = '<div class="btn-group">
-            //     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
-            //     <div class="dropdown-menu" style="">
-            //         <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->sekolah_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama)) . '\');"><i class="fas fa-eye font-size-16 align-middle"></i> &nbsp;Detail</a>
-            //         <a class="dropdown-item" href="javascript:actionEdit(\'' . $list->sekolah_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\');"><i class="fas fa-edit font-size-16 align-middle"></i> &nbsp;Edit</a>
-            //         <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->sekolah_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\');"><i class="fas fa-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
-            //         <div class="dropdown-divider"></div>
-            //     </div>
-            // </div>';
-            // } else {
-            //     $action = '<div class="btn-group">
-            //     <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
-            //     <div class="dropdown-menu" style="">
-            //         <a class="dropdown-item" href="javascript:actionDetail(\'' . $list->sekolah_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama)) . '\');"><i class="fas fa-eye font-size-16 align-middle"></i> &nbsp;Detail</a>
-            //         <a class="dropdown-item" href="javascript:actionEdit(\'' . $list->sekolah_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\');"><i class="fas fa-edit font-size-16 align-middle"></i> &nbsp;Edit</a>
-            //         <a class="dropdown-item" href="javascript:actionHapus(\'' . $list->sekolah_id . '\', \'' . str_replace('&#039;', "`", str_replace("'", "`", $list->nama))  . '\');"><i class="fas fa-trash font-size-16 align-middle"></i> &nbsp;Hapus</a>
-            //         <div class="dropdown-divider"></div>
-            //     </div>
-            // </div>';
-            // }
 
-            // $row[] = $action;
             $row[] = '<a href="' . base_url() . '/home/detail_sekolah?d=' . $list->sekolah_id . '"><strong style="color: #00167b;">' . $list->npsn . '</strong></a>';
             $row[] = '<a href="' . base_url() . '/home/detail_sekolah?d=' . $list->sekolah_id . '"><strong style="color: #00167b;">' . $list->nama . '</strong></a>';
             $row[] = $list->bentuk_pendidikan;
