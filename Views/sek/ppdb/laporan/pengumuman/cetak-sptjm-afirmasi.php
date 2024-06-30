@@ -98,7 +98,7 @@ $qrLogo = "data:image/png;base64," . base64_encode(file_get_contents(FCPATH .  '
             <ol>
                 <li>Proses kegiatan PPDB dilakukan secara daring, mengacu pada peraturan yang telah ditetapkan, transparan, akuntable, Non Diskriminatif dan Berkeadilan.</li>
                 <li>Verifikasi dokumen pendaftaran penerimaan peserta didik baru TA. 2024/2025 Jalur Afirmasi dilaksanakan oleh Panitia PPDB Sekolah, dan dihadiri oleh Orang Tua/Wali/Peserta sesuai jadwal yang telah ditetapkan.</li>
-                <li>Dari hasil proses Penerimaan Peserta Didik Baru (PPDB) Tahun Pelajaran 2024/2025, Jalur Afirmasi dilaksanakan sesuai jadwal yang telah ditetapkan, selanjutnya data peserta PPDB TP. 2024/2025 yang terlampir pada surat ini, dinyatakan lulus dan di terima di sekolah.</li>
+                <li>Dari hasil proses Penerimaan Peserta Didik Baru (PPDB) Tahun Pelajaran 2024/2025, Jalur Afirmasi dilaksanakan sesuai jadwal yang telah ditetapkan, selanjutnya data peserta PPDB TP. 2024/2025 yang terlampir pada surat ini adalah peserta yang lolos dan tidak lolos proses seleksi PPDB TP. 2024/2025 di <?= $sekolah->nama ?>.</li>
                 <!-- <li>Proses kegiatan PPDB dilakukan secara daring, mengacu pada peraturan yang telah ditetapkan, Pelaksanaan PPDB secara transparan, akuntable, Non Diskriminatif dan Berkeadilan.</li>
                 <li>Seleksi proses penerimaan peserta didik baru TA. 2024/2025 Jalur Afirmasi dilaksanakan sesuai dengan peraturan yang telah di tetapkan dan dapat di pertanggungjawabkan.</li>
                 <li>Data Peserta PPDB TA. 2024/2025 Jalur Afirmasi yang terlampir pada surat ini, dinyatakan lulus dan di terima di sekolah.</li> -->
