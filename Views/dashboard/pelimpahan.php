@@ -116,6 +116,7 @@
     $(document).ready(function() {
         initSelect2('_filter_kec', $('.content-body'));
         initSelect2('_filter_jenjang', $('.content-body'));
+        initSelect2('_filter_status', $('.content-body'));
         let tableDatatables = $('#data-datatables').DataTable({
             "processing": true,
             "serverSide": true,
