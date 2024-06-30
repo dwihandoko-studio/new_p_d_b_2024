@@ -40,7 +40,7 @@ class KuotasisaModel extends Model
             $i++;
         }
 
-        $this->dt->where("sisa >= 0");
+        $this->dt->where("((b.zonasi + b.afirmasi + b.mutasi + b.prestasi) - (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar WHERE status_pendaftaran = 2)) >= 0");
         $this->dt->orderBy('sisa', 'ASC');
         // $this->dt->orderBy('sisa', 'DESC');
         // $this->dt->orderBy('b.bentuk_pendidikan_id', 'desc');
