@@ -18,18 +18,18 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 mb-3">
                                         <a href="javascript:downloadSptjmAfirmasi();" class="btn btn-block btn-primary">Download SPTJM AFIRMASI</a>
                                         <!-- <a href="javascript:downloadSptjm('afirmasi');" class="btn btn-block btn-primary">Download SPTJM AFIRMASI</a> -->
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 mb-3">
                                         <a href="javascript:downloadLampiranAfirmasi();" class="btn btn-block btn-info">Download LAMPIRAN SPTJ AFIRMASI</a>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 mb-3">
                                         <a href="javascript:downloadSptjmZonmupres();" class="btn btn-block btn-warning">Download SPTJM Zonasi, Mutasi & Prestasi</a>
                                         <!-- <a href="javascript:downloadSptjm('afirmasi');" class="btn btn-block btn-primary">Download SPTJM AFIRMASI</a> -->
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 mb-3">
                                         <a href="javascript:downloadLampiranZonmupres();" class="btn btn-block btn-secondary">Download LAMPIRAN SPTJ Zonasi, Mutasi & Prestasi</a>
                                     </div>
                                 </div>
