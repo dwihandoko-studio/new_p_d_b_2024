@@ -88,7 +88,7 @@ $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://qr
                                         <?= $vallozon->npsn_sekolah_asal ?>
                                     </td>
                                     <td style="font-size: 12px">
-                                        <?= $vallozon->ket ?? "" ?>
+                                        LULUS
                                     </td>
                                 </tr>
                             <?php
@@ -149,7 +149,7 @@ $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://qr
                                         <?= $vallomut->npsn_sekolah_asal ?>
                                     </td>
                                     <td style="font-size: 12px">
-                                        <?= $vallomut->ket ?? "" ?>
+                                        LULUS
                                     </td>
                                 </tr>
                             <?php
@@ -210,7 +210,7 @@ $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://qr
                                         <?= $vallopres->npsn_sekolah_asal ?>
                                     </td>
                                     <td style="font-size: 12px">
-                                        <?= $vallopres->ket ?? "" ?>
+                                        LULUS
                                     </td>
                                 </tr>
                             <?php
@@ -298,7 +298,7 @@ $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://qr
                                         <?= $valGaZon->npsn_sekolah_asal ?>
                                     </td>
                                     <td style="font-size: 12px">
-                                        <?= $valGaZon->ket ?? "" ?>
+                                        TIDAK LULUS
                                     </td>
                                 </tr>
                             <?php
@@ -359,7 +359,7 @@ $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://qr
                                         <?= $valGaMut->npsn_sekolah_asal ?>
                                     </td>
                                     <td style="font-size: 12px">
-                                        <?= $valGaMut->ket ?? "" ?>
+                                        TIDAK LULUS
                                     </td>
                                 </tr>
                             <?php
@@ -420,7 +420,7 @@ $qrCode = "data:image/png;base64," . base64_encode(file_get_contents('https://qr
                                         <?= $valGaPres->npsn_sekolah_asal ?>
                                     </td>
                                     <td style="font-size: 12px">
-                                        <?= $valGaPres->ket ?? "" ?>
+                                        TIDAK LULUS
                                     </td>
                                 </tr>
                             <?php

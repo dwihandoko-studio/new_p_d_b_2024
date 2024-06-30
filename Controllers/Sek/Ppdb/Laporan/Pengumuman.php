@@ -592,9 +592,9 @@ class Pengumuman extends BaseController
             ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
             ->where('a.via_jalur', 'ZONASI')
             ->where('a.status_pendaftaran', 2)
-            ->orderBy('a.rangking', 'ASC')
-            // ->orderBy('a.jarak_domisili', 'ASC')
-            // ->orderBy('a.created_at', 'ASC')
+            // ->orderBy('a.rangking', 'ASC')
+            ->orderBy('a.jarak_domisili', 'ASC')
+            ->orderBy('a.created_at', 'ASC')
             ->get()->getResult();
 
         $pesertaTidakLolosZonasi = $this->_db->table('_tb_pendaftar a')
@@ -602,9 +602,9 @@ class Pengumuman extends BaseController
             ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
             ->where('a.via_jalur', 'ZONASI')
             ->where('a.status_pendaftaran', 3)
-            ->orderBy('a.rangking', 'ASC')
-            // ->orderBy('jarak_domisili', 'ASC')
-            // ->orderBy('a.created_at', 'ASC')
+            // ->orderBy('a.rangking', 'ASC')
+            ->orderBy('jarak_domisili', 'ASC')
+            ->orderBy('a.created_at', 'ASC')
             ->get()->getResult();
 
         $pesertaLolosMutasi = $this->_db->table('_tb_pendaftar a')
@@ -612,9 +612,9 @@ class Pengumuman extends BaseController
             ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
             ->where('a.via_jalur', 'MUTASI')
             ->where('a.status_pendaftaran', 2)
-            ->orderBy('a.rangking', 'ASC')
-            // ->orderBy('a.jarak_domisili', 'ASC')
-            // ->orderBy('a.created_at', 'ASC')
+            // ->orderBy('a.rangking', 'ASC')
+            ->orderBy('a.jarak_domisili', 'ASC')
+            ->orderBy('a.created_at', 'ASC')
             ->get()->getResult();
 
         $pesertaTidakLolosMutasi = $this->_db->table('_tb_pendaftar a')
@@ -622,9 +622,9 @@ class Pengumuman extends BaseController
             ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
             ->where('a.via_jalur', 'MUTASI')
             ->where('a.status_pendaftaran', 3)
-            ->orderBy('a.rangking', 'ASC')
-            // ->orderBy('jarak_domisili', 'ASC')
-            // ->orderBy('a.created_at', 'ASC')
+            // ->orderBy('a.rangking', 'ASC')
+            ->orderBy('jarak_domisili', 'ASC')
+            ->orderBy('a.created_at', 'ASC')
             ->get()->getResult();
 
         $pesertaLolosPrestasi = $this->_db->table('_tb_pendaftar a')
@@ -632,9 +632,10 @@ class Pengumuman extends BaseController
             ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
             ->where('a.via_jalur', 'PRESTASI')
             ->where('a.status_pendaftaran', 2)
-            ->orderBy('a.rangking', 'ASC')
-            // ->orderBy('a.jarak_domisili', 'ASC')
-            // ->orderBy('a.created_at', 'ASC')
+            // ->orderBy('a.rangking', 'ASC')
+            ->orderBy('a.poin_prestasi', 'DESC')
+            ->orderBy('a.jarak_domisili', 'ASC')
+            ->orderBy('a.created_at', 'ASC')
             ->get()->getResult();
 
         $pesertaTidakLolosPrestasi = $this->_db->table('_tb_pendaftar a')
@@ -642,9 +643,10 @@ class Pengumuman extends BaseController
             ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
             ->where('a.via_jalur', 'PRESTASI')
             ->where('a.status_pendaftaran', 3)
-            ->orderBy('a.rangking', 'ASC')
-            // ->orderBy('jarak_domisili', 'ASC')
-            // ->orderBy('a.created_at', 'ASC')
+            // ->orderBy('a.rangking', 'ASC')
+            ->orderBy('a.poin_prestasi', 'DESC')
+            ->orderBy('a.jarak_domisili', 'ASC')
+            ->orderBy('a.created_at', 'ASC')
             ->get()->getResult();
 
         $x['jalur'] = 'ZONASI, MUTASI & PRESTASI';
