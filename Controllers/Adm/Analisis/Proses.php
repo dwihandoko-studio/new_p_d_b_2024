@@ -1208,6 +1208,168 @@ class Proses extends BaseController
         }
     }
 
+    public function proseskelulusanprestasidarisisazonasisd()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
+
+        // $selectSekolah = "a.id as id_pendaftaran, a.tujuan_sekolah_id_1, j.nama as nama_sekolah_tujuan, j.npsn as npsn_sekolah_tujuan, a.via_jalur, a.created_at, count(a.peserta_didik_id) as jumlah_pendaftar";  //14
+        $dataSekolahs = $this->_db->table('_tb_pendaftar a')
+            ->select("a.tujuan_sekolah_id_1, a.status_pendaftaran, b.bentuk_pendidikan_id, b.status_sekolah_id, count(a.peserta_didik_id) as jumlah_pendaftar")
+            ->join('dapo_sekolah b', 'a.tujuan_sekolah_id_1 = b.sekolah_id')
+            ->where('a.status_pendaftaran', 1)
+            ->where('a.via_jalur', 'PRESTASI')
+            ->where('b.bentuk_pendidikan_id', 5)
+            ->groupBy('a.tujuan_sekolah_id_1')
+            ->get()->getResult();
+
+        if (count($dataSekolahs) > 0) {
+            print_r("DATA SEKOLAH " . count($dataSekolahs));
+            foreach ($dataSekolahs as $key => $id) {
+
+                if ((int)$id->status_sekolah_id != 1) {
+                    print_r("SEKOLAH SWASTA SKIP ");
+                    continue;
+                }
+
+                // print_r("SELESAI PROSES KELULUSAN ");
+                $kuota = $this->_db->table('_setting_kuota_tb')->select("zonasi, afirmasi, mutasi, prestasi, (zonasi + afirmasi + mutasi + prestasi) as total, (SELECT count(peserta_didik_id) FROM _tb_pendaftar WHERE status_pendaftaran = 2 AND tujuan_sekolah_id_1 = '{$id->tujuan_sekolah_id_1}' ) as jumlah_lolos")->where('sekolah_id', $id->tujuan_sekolah_id_1)->get()->getRowObject();
+
+                if (!$kuota) {
+                    print_r("KUOTA TIDAK DITEMUKAN <br> ");
+                    continue;
+                }
+
+                if (((int)$kuota->total - (int)$kuota->jumlah_lolos) < 1) {
+                    print_r("SISA KUOTA ZONASI UNTUK PRESTASI SUDAH PENUH <br> ");
+                    continue;
+                }
+
+                $limitPrestasiSisa = ((int)$kuota->total - (int)$kuota->jumlah_lolos);
+
+                // $sekolah = $this->_db->table('ref_sekolah_tujuan')->select("status_sekolah")->where('id', $id->tujuan_sekolah_id_1)->get()->getRowObject();
+
+                // if (!$sekolah) {
+                //     print_r("SEKOLAH TIDAK DITEMUKAN ");
+                //     continue;
+                // }
+
+                // $
+
+                // $limitKuotaMutasi = 
+
+                // $select = "b.id, b.nisn, b.fullname, b.peserta_didik_id, b.latitude, b.longitude, a.tujuan_sekolah_id_1, a.id as id_pendaftaran, c.nama as nama_sekolah_asal, c.npsn as npsn_sekolah_asal, j.nama as nama_sekolah_tujuan, j.npsn as npsn_sekolah_tujuan, j.latitude as latitude_sekolah_tujuan, j.longitude as longitude_sekolah_tujuan, a.kode_pendaftaran, a.via_jalur, a.created_at, ROUND(getDistanceKm(b.latitude,b.longitude,j.latitude,j.longitude), 2) AS jarak";
+
+
+                $prestasisisaZonasiData = $this->_db->table('_tb_pendaftar a')
+                    ->select("a.id as id_pendaftaran, a.user_id, a.via_jalur, a.tujuan_sekolah_id_1, a.status_pendaftaran, a.jarak_domisili, a.created_at")
+                    ->where('a.tujuan_sekolah_id_1', $id->tujuan_sekolah_id_1)
+                    ->where('a.status_pendaftaran', 1)
+                    ->where('a.via_jalur', 'PRESTASI')
+                    ->orderBy('a.poin_prestasi', 'DESC')
+                    ->orderBy('a.jarak_domisili', 'ASC')
+                    ->orderBy('a.created_at', 'ASC')
+                    ->limit($limitPrestasiSisa)
+                    ->get()->getResult();
+
+                $lulusLib = new Prosesluluslib();
+
+                if (count($prestasisisaZonasiData) > 0) {
+                    $lulusLib->prosesLulusPrestasi($prestasisisaZonasiData, $user->data->id);
+                }
+            }
+            print_r("SELESAI PROSES KELULUSAN PRESTASI DARI SISA ZONASI ");
+        } else {
+            print_r("DATA SEKOLAH TIDAK DITEMUKAN");
+        }
+    }
+
+    public function proseskelulusanprestasidarisisazonasismp()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
+
+        // $selectSekolah = "a.id as id_pendaftaran, a.tujuan_sekolah_id_1, j.nama as nama_sekolah_tujuan, j.npsn as npsn_sekolah_tujuan, a.via_jalur, a.created_at, count(a.peserta_didik_id) as jumlah_pendaftar";  //14
+        $dataSekolahs = $this->_db->table('_tb_pendaftar a')
+            ->select("a.tujuan_sekolah_id_1, a.status_pendaftaran, b.bentuk_pendidikan_id, b.status_sekolah_id, count(a.peserta_didik_id) as jumlah_pendaftar")
+            ->join('dapo_sekolah b', 'a.tujuan_sekolah_id_1 = b.sekolah_id')
+            ->where('a.status_pendaftaran', 1)
+            ->where('a.via_jalur', 'PRESTASI')
+            ->where('b.bentuk_pendidikan_id', 6)
+            ->groupBy('a.tujuan_sekolah_id_1')
+            ->get()->getResult();
+
+        if (count($dataSekolahs) > 0) {
+            print_r("DATA SEKOLAH " . count($dataSekolahs));
+            foreach ($dataSekolahs as $key => $id) {
+
+                if ((int)$id->status_sekolah_id != 1) {
+                    print_r("SEKOLAH SWASTA SKIP ");
+                    continue;
+                }
+
+                // print_r("SELESAI PROSES KELULUSAN ");
+                $kuota = $this->_db->table('_setting_kuota_tb')->select("zonasi, afirmasi, mutasi, prestasi, (zonasi + afirmasi + mutasi + prestasi) as total, (SELECT count(peserta_didik_id) FROM _tb_pendaftar WHERE status_pendaftaran = 2 AND tujuan_sekolah_id_1 = '{$id->tujuan_sekolah_id_1}' ) as jumlah_lolos")->where('sekolah_id', $id->tujuan_sekolah_id_1)->get()->getRowObject();
+
+                if (!$kuota) {
+                    print_r("KUOTA TIDAK DITEMUKAN <br> ");
+                    continue;
+                }
+
+                if (((int)$kuota->total - (int)$kuota->jumlah_lolos) < 1) {
+                    print_r("KUOTA PRESTASI DARI SISA ZONASI SUDAH PENUH <br> ");
+                    continue;
+                }
+
+                $limitPrestasiSisa = ((int)$kuota->total - (int)$kuota->jumlah_lolos);
+
+                // $sekolah = $this->_db->table('ref_sekolah_tujuan')->select("status_sekolah")->where('id', $id->tujuan_sekolah_id_1)->get()->getRowObject();
+
+                // if (!$sekolah) {
+                //     print_r("SEKOLAH TIDAK DITEMUKAN ");
+                //     continue;
+                // }
+
+                // $
+
+                // $limitKuotaMutasi = 
+
+                // $select = "b.id, b.nisn, b.fullname, b.peserta_didik_id, b.latitude, b.longitude, a.tujuan_sekolah_id_1, a.id as id_pendaftaran, c.nama as nama_sekolah_asal, c.npsn as npsn_sekolah_asal, j.nama as nama_sekolah_tujuan, j.npsn as npsn_sekolah_tujuan, j.latitude as latitude_sekolah_tujuan, j.longitude as longitude_sekolah_tujuan, a.kode_pendaftaran, a.via_jalur, a.created_at, ROUND(getDistanceKm(b.latitude,b.longitude,j.latitude,j.longitude), 2) AS jarak";
+
+
+                $prestasisisaZonasiData = $this->_db->table('_tb_pendaftar a')
+                    ->select("a.id as id_pendaftaran, a.user_id, a.via_jalur, a.tujuan_sekolah_id_1, a.status_pendaftaran, a.jarak_domisili, a.created_at")
+                    ->where('a.tujuan_sekolah_id_1', $id->tujuan_sekolah_id_1)
+                    ->where('a.status_pendaftaran', 1)
+                    ->where('a.via_jalur', 'PRESTASI')
+                    ->orderBy('a.poin_prestasi', 'DESC')
+                    ->orderBy('a.jarak_domisili', 'ASC')
+                    ->orderBy('a.created_at', 'ASC')
+                    ->limit($limitPrestasiSisa)
+                    ->get()->getResult();
+
+                $lulusLib = new Prosesluluslib();
+
+                if (count($prestasisisaZonasiData) > 0) {
+                    $lulusLib->prosesLulusPrestasi($prestasisisaZonasiData, $user->data->id);
+                }
+            }
+            print_r("SELESAI PROSES KELULUSAN PRESTASI DARI SISA ZONASI ");
+        } else {
+            print_r("DATA SEKOLAH TIDAK DITEMUKAN");
+        }
+    }
+
     public function proses_tidak_lulusa_prestasi_sd()
     {
         $Profilelib = new Profilelib();
