@@ -93,7 +93,7 @@ class Filterauth implements FilterInterface
                                             return redirect()->to(base_url('pd/home'));
                                         }
                                     } else {
-                                        return redirect()->to(base_url('portal'));
+                                        return redirect()->to(base_url('home/data'));
                                     }
                                 }
                             } else {
@@ -142,12 +142,12 @@ class Filterauth implements FilterInterface
                                         return redirect()->to(base_url('pd/home'));
                                     }
                                 } else {
-                                    return redirect()->to(base_url('portal'));
+                                    return redirect()->to(base_url('home/data'));
                                 }
                             }
                         }
                     } else {
-                        return redirect()->to(base_url('portal'));
+                        return redirect()->to(base_url('home/data'));
                     }
                 } else {
                     $uri = current_url(true);
@@ -213,10 +213,10 @@ class Filterauth implements FilterInterface
                         if ($uriMain === "" || $uriMain === "home" || $uriMain == "portal" || $uriMain === "pengaduan") {
                         } else {
 
-                            return redirect()->to(base_url('portal'));
+                            return redirect()->to(base_url('home/data'));
                         }
                     } else {
-                        return redirect()->to(base_url('portal'));
+                        return redirect()->to(base_url('home/data'));
                     }
                 } else {
                     $uri = current_url(true);

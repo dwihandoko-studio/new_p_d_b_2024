@@ -39,6 +39,7 @@ class Filters extends BaseConfig
                 'except' => [
                     'auth', 'auth/*',
                     'home', 'home/*',
+                    'maintenance', 'maintenance/*',
                     'pengaduan', 'pengaduan/*',
                 ]
             ]
@@ -49,6 +50,7 @@ class Filters extends BaseConfig
                     'auth', 'auth/*',
                     'portal', 'portal/*',
                     'home', 'home/*',
+                    'maintenance', 'maintenance/*',
                     'pengaduan', 'pengaduan/*',
                     'su', 'su/*',
                     'adm', 'adm/*',
