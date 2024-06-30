@@ -120,10 +120,7 @@
                                     <div class="text-center mb-3">
                                         <a href="#"><img src="<?= base_url() ?>/assets/images/logo-full.png" alt=""></a>
                                     </div>
-                                    <h4 class="text-center mb-4">Maintenance</h4>
-                                    <p>
-                                        <center>Sata ini, system sedang melakukan proses analis.</center>
-                                    </p>
+                                    <h4 class="text-center mb-4">PPDB Kabupaten Lampung Tengah Tahun Pelajaran 2024/2025 saat ini sedang dalam proses analisis data validasi</h4>
                                 </div>
                             </div>
                         </div>
