@@ -760,7 +760,10 @@ class Home extends BaseController
             } else {
                 $nopes = htmlspecialchars($this->request->getVar('nopes'), true);
 
-                $nisn = $this->_db->table('_tb_pendaftar')->where('nisn_peserta', $nopes)->orderBy('updated_aproval', 'DESC')->limit(1)->get()->getRowObject();
+                $nisn = $this->_db->table('_tb_pendaftar a')
+                    ->select("a.*, b.bentuk_pendidikan_id")
+                    ->join('dapo_sekolah b', 'b.sekolah_id = a.tujuan_sekolah_id_1')
+                    ->where('a.nisn_peserta', $nopes)->orderBy('a.updated_aproval', 'DESC')->limit(1)->get()->getRowObject();
                 if (!$nisn) {
                     $response = new \stdClass;
                     $response->status = 400;
