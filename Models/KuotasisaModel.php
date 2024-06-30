@@ -40,9 +40,9 @@ class KuotasisaModel extends Model
             $i++;
         }
 
-        // $this->dt->where("sisa >= 0");
+        $this->dt->where("sisa >= 0");
         $this->dt->orderBy('sisa', 'ASC');
-        $this->dt->orderBy('sisa', 'DESC');
+        // $this->dt->orderBy('sisa', 'DESC');
         // $this->dt->orderBy('b.bentuk_pendidikan_id', 'desc');
         // $this->dt->orderBy('a.nama', 'asc');
         // if ($this->request->getPost('order')) {
