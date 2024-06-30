@@ -324,9 +324,9 @@ class Home extends BaseController
         $data = [];
         $no = $request->getPost("start");
         foreach ($lists as $list) {
-            if ((int)$list->sisa < 1) {
-                continue;
-            }
+            // if ((int)$list->sisa < 1) {
+            //     continue;
+            // }
             $no++;
             $row = [];
 
