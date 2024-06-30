@@ -121,7 +121,9 @@
                                         <a href="#"><img src="<?= base_url() ?>/assets/images/logo-full.png" alt=""></a>
                                     </div>
                                     <h4 class="text-center mb-4">Maintenance</h4>
-                                    <p>Sata ini, system sedang melakukan proses analis.</p>
+                                    <p>
+                                        <center>Sata ini, system sedang melakukan proses analis.</center>
+                                    </p>
                                 </div>
                             </div>
                         </div>
