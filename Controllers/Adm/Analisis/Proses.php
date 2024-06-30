@@ -815,6 +815,12 @@ class Proses extends BaseController
         if (count($dataSekolahs) > 0) {
             print_r("DATA SEKOLAH " . count($dataSekolahs));
             foreach ($dataSekolahs as $key => $id) {
+
+                if ((int)$id->status_sekolah_id != 1) {
+                    print_r("SEKOLAH SWASTA SKIP ");
+                    continue;
+                }
+
                 // print_r("SELESAI PROSES KELULUSAN ");
                 $kuota = $this->_db->table('_setting_kuota_tb')->select("zonasi, afirmasi, mutasi, prestasi, (zonasi + afirmasi + mutasi + prestasi) as total, (SELECT count(peserta_didik_id) FROM _tb_pendaftar WHERE status_pendaftaran = 2 AND via_jalur = 'PRESTASI' AND tujuan_sekolah_id_1 = '{$id->tujuan_sekolah_id_1}' ) as jumlah_lolos")->where('sekolah_id', $id->tujuan_sekolah_id_1)->get()->getRowObject();
 
@@ -834,11 +840,6 @@ class Proses extends BaseController
                 //     print_r("SEKOLAH TIDAK DITEMUKAN ");
                 //     continue;
                 // }
-
-                if ((int)$id->status_sekolah_id != 1) {
-                    print_r("SEKOLAH SWASTA SKIP ");
-                    continue;
-                }
 
                 // $
 
@@ -893,6 +894,12 @@ class Proses extends BaseController
         if (count($dataSekolahs) > 0) {
             print_r("DATA SEKOLAH " . count($dataSekolahs));
             foreach ($dataSekolahs as $key => $id) {
+
+                if ((int)$id->status_sekolah_id != 1) {
+                    print_r("SEKOLAH SWASTA SKIP ");
+                    continue;
+                }
+
                 // print_r("SELESAI PROSES KELULUSAN ");
                 $kuota = $this->_db->table('_setting_kuota_tb')->select("zonasi, afirmasi, mutasi, prestasi, (zonasi + afirmasi + mutasi + prestasi) as total, (SELECT count(peserta_didik_id) FROM _tb_pendaftar WHERE status_pendaftaran = 2 AND via_jalur = 'PRESTASI' AND tujuan_sekolah_id_1 = '{$id->tujuan_sekolah_id_1}' ) as jumlah_lolos")->where('sekolah_id', $id->tujuan_sekolah_id_1)->get()->getRowObject();
 
@@ -912,11 +919,6 @@ class Proses extends BaseController
                 //     print_r("SEKOLAH TIDAK DITEMUKAN ");
                 //     continue;
                 // }
-
-                if ((int)$id->status_sekolah_id != 1) {
-                    print_r("SEKOLAH SWASTA SKIP ");
-                    continue;
-                }
 
                 // $
 
