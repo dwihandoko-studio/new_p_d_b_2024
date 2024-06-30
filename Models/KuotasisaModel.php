@@ -70,6 +70,12 @@ class KuotasisaModel extends Model
                 $this->dt->where('b.bentuk_pendidikan_id', $jenjang);
             }
         }
+        if ($this->request->getPost('status')) {
+            $status = htmlspecialchars($this->request->getPost('status'), true);
+            if ($status !== "") {
+                $this->dt->where('b.status_sekolah_id', $status);
+            }
+        }
         $this->_get_datatables_query();
         if ($this->request->getPost('length') != -1)
             $this->dt->limit($this->request->getPost('length'), $this->request->getPost('start'));
@@ -94,6 +100,12 @@ class KuotasisaModel extends Model
                 $this->dt->where('b.bentuk_pendidikan_id', $jenjang);
             }
         }
+        if ($this->request->getPost('status')) {
+            $status = htmlspecialchars($this->request->getPost('status'), true);
+            if ($status !== "") {
+                $this->dt->where('b.status_sekolah_id', $status);
+            }
+        }
         $this->_get_datatables_query();
 
         return $this->dt->countAllResults();
@@ -114,6 +126,12 @@ class KuotasisaModel extends Model
             $jenjang = htmlspecialchars($this->request->getPost('jenjang'), true);
             if ($jenjang !== "") {
                 $this->dt->where('b.bentuk_pendidikan_id', $jenjang);
+            }
+        }
+        if ($this->request->getPost('status')) {
+            $status = htmlspecialchars($this->request->getPost('status'), true);
+            if ($status !== "") {
+                $this->dt->where('b.status_sekolah_id', $status);
             }
         }
         $this->_get_datatables_query();

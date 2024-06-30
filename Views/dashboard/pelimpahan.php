@@ -29,7 +29,7 @@
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="row">
-                                                            <div class="col-6">
+                                                            <div class="col-4">
                                                                 <div class="mb-3">
                                                                     <label for="_filter_kec" class="col-form-label">Filter Kecamatan:</label>
                                                                     <select class="form-control filter-kec" id="_filter_kec" name="_filter_kec" width="100%" style="width: 100%;">
@@ -44,7 +44,7 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-6">
+                                                            <div class="col-4">
                                                                 <div class="mb-3">
                                                                     <label for="_filter_jenjang" class="col-form-label">Filter Jenjang:</label>
                                                                     <select class="form-control filter-jenjang" id="_filter_jenjang" name="_filter_jenjang" width="100%" style="width: 100%;">
@@ -58,6 +58,16 @@
                                                                         <?php }
                                                                             }
                                                                         } ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <div class="mb-3">
+                                                                    <label for="_filter_status" class="col-form-label">Filter Status:</label>
+                                                                    <select class="form-control filter-status" id="_filter_status" name="_filter_status" width="100%" style="width: 100%;">
+                                                                        <option value="">--Pilih--</option>
+                                                                        <option value="1">NEGERI</option>
+                                                                        <option value="2">SWASTA</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -116,6 +126,7 @@
                 "data": function(data) {
                     data.kec = $('#_filter_kec').val();
                     data.jenjang = $('#_filter_jenjang').val();
+                    data.status = $('#_filter_status').val();
                 }
             },
             language: {
@@ -174,6 +185,9 @@
             tableDatatables.draw();
         });
         $('#_filter_jenjang').change(function() {
+            tableDatatables.draw();
+        });
+        $('#_filter_status').change(function() {
             tableDatatables.draw();
         });
     });
