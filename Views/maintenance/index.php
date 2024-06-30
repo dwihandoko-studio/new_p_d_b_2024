@@ -121,7 +121,9 @@
                                         <a href="#"><img src="<?= base_url() ?>/assets/images/logo-full.png" alt=""></a>
                                     </div>
                                     <h4 class="text-center mb-4">PPDB Kabupaten Lampung Tengah Tahun Pelajaran 2024/2025 saat ini sedang dalam proses analisis data validasi</h4>
-                                    <center><a href="<?= base_url('home/data') ?>" class="btn btn-primary">Kembali</a></center>
+                                    <div class="text-center">
+                                        <button type="button" onclick="actionKembali()" class="btn btn-primary btn-block">Kembali</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -139,6 +141,11 @@
     <script src="<?= base_url() ?>/assets/js/custom.min.js"></script>
     <script src="<?= base_url() ?>/assets/js/dlabnav-init.js"></script>
     <script src="<?= base_url() ?>/assets/js/styleSwitcher.js"></script>
+    <script>
+        function actionKembali() {
+            document.location.href = "<?= base_url('home/data'); ?>";
+        }
+    </script>
 </body>
 
 </html>
