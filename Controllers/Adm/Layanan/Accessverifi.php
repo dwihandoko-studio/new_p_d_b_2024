@@ -329,7 +329,7 @@ class Accessverifi extends BaseController
 
                 $this->_db->transBegin();
                 try {
-                    $this->_db->table('custom_verifi')->where('user_id', $oldData->id)->delete();
+                    $this->_db->table('custom_verifi')->where('user_id', $oldData->user_id)->delete();
                     if ($this->_db->affectedRows() > 0) {
                         $this->_db->transCommit();
 
