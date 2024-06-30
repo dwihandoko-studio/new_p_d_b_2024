@@ -200,7 +200,7 @@
 
         <?= $this->renderSection('content'); ?>
         <div id="content-cekPengumumanModal" class="modal fade content-cekPengumumanModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content ">
                     <div class="modal-header">
                         <h5 class="modal-title" id="content-cekPengumumanModalLabel">Modal title</h5>
