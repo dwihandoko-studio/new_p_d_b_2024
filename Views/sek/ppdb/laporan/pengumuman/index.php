@@ -25,6 +25,13 @@
                                     <div class="col-lg-6">
                                         <a href="javascript:downloadLampiranAfirmasi();" class="btn btn-block btn-info">Download LAMPIRAN SPTJ AFIRMASI</a>
                                     </div>
+                                    <div class="col-lg-6">
+                                        <a href="javascript:downloadSptjmZonmupres();" class="btn btn-block btn-warning">Download SPTJM Zonasi, Mutasi & Prestasi</a>
+                                        <!-- <a href="javascript:downloadSptjm('afirmasi');" class="btn btn-block btn-primary">Download SPTJM AFIRMASI</a> -->
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <a href="javascript:downloadLampiranZonmupres();" class="btn btn-block btn-secondary">Download LAMPIRAN SPTJ Zonasi, Mutasi & Prestasi</a>
+                                    </div>
                                 </div>
                             </div>
                             <div id="content-lacak-pengaduan" class="content-lacak-pengaduan" style="margin-top: 30px;"></div>
@@ -151,6 +158,14 @@
 
     function downloadLampiranAfirmasi() {
         window.open('<?= base_url('sek/ppdb/laporan/pengumuman/downloadlampiranafirmasi') ?>', '_blank').focus();
+    }
+
+    function downloadSptjmZonmupres() {
+        window.open('<?= base_url('sek/ppdb/laporan/pengumuman/downloadsptjmzonmupres') ?>', '_blank').focus();
+    }
+
+    function downloadLampiranZonmupres() {
+        window.open('<?= base_url('sek/ppdb/laporan/pengumuman/downloadlampiranzonmupres') ?>', '_blank').focus();
     }
 
     function inputFocus(id) {
