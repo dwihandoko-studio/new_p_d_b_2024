@@ -81,7 +81,7 @@ $qrLogo = "data:image/png;base64," . base64_encode(file_get_contents(FCPATH .  '
         <div style="max-width: 100%; padding-left: 20px; padding-right: 20px; text-align: center; align-items: center;">
             <center></center>
             <h4>SURAT PERTANGGUNGJAWABAN MUTLAK<br>
-                PENDAFTARAN PESERTA DIDIK BARU (PPDB)<br>
+                PENERIMAAN PESERTA DIDIK BARU (PPDB)<br>
                 JALUR ZONASI, MUTASI DAN PRESTASI<br>
                 TAHUN PELAJARAN 2024/2025</h4>
             </center>
