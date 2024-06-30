@@ -55,6 +55,7 @@ class KuotasisaModel extends Model
         $this->dt->select("b.sekolah_id, a.status_sekolah_id, a.status_sekolah, a.nama, b.npsn, b.bentuk_pendidikan_id, a.bentuk_pendidikan, a.kecamatan, ((b.zonasi + b.afirmasi + b.mutasi + b.prestasi) - (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar WHERE status_pendaftaran = 2)) as sisa, b.is_locked");
         $this->dt->join('dapo_sekolah a', 'a.sekolah_id = b.sekolah_id');
         $this->dt->where('b.is_locked', 1);
+        $this->dt->where("sisa > 0");
         if ($this->request->getPost('kec')) {
             $kec = htmlspecialchars($this->request->getPost('kec'), true);
             if ($kec !== "") {
@@ -78,6 +79,7 @@ class KuotasisaModel extends Model
         $this->dt->select("b.sekolah_id, a.status_sekolah_id, a.status_sekolah, a.nama, b.npsn, b.bentuk_pendidikan_id, a.bentuk_pendidikan, a.kecamatan, ((b.zonasi + b.afirmasi + b.mutasi + b.prestasi) - (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar WHERE status_pendaftaran = 2)) as sisa, b.is_locked");
         $this->dt->join('dapo_sekolah a', 'a.sekolah_id = b.sekolah_id');
         $this->dt->where('b.is_locked', 1);
+        $this->dt->where("sisa > 0");
         if ($this->request->getPost('kec')) {
             $kec = htmlspecialchars($this->request->getPost('kec'), true);
             if ($kec !== "") {
@@ -99,6 +101,7 @@ class KuotasisaModel extends Model
         $this->dt->select("b.sekolah_id, a.status_sekolah_id, a.status_sekolah, a.nama, b.npsn, b.bentuk_pendidikan_id, a.bentuk_pendidikan, a.kecamatan, ((b.zonasi + b.afirmasi + b.mutasi + b.prestasi) - (SELECT count(tujuan_sekolah_id_1) FROM _tb_pendaftar WHERE status_pendaftaran = 2)) as sisa, b.is_locked");
         $this->dt->join('dapo_sekolah a', 'a.sekolah_id = b.sekolah_id');
         $this->dt->where('b.is_locked', 1);
+        $this->dt->where("sisa > 0");
         if ($this->request->getPost('kec')) {
             $kec = htmlspecialchars($this->request->getPost('kec'), true);
             if ($kec !== "") {
