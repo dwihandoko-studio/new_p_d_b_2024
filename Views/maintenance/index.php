@@ -121,7 +121,7 @@
                                         <a href="#"><img src="<?= base_url() ?>/assets/images/logo-full.png" alt=""></a>
                                     </div>
                                     <h4 class="text-center mb-4">PPDB Kabupaten Lampung Tengah Tahun Pelajaran 2024/2025 saat ini sedang dalam proses analisis data validasi</h4>
-                                    <center><a href="<?= base_url('home/data') ?>" class="btn btn-xs btn-primary">Kembali</a></center>
+                                    <center><a href="<?= base_url('home/data') ?>" class="btn btn-primary">Kembali</a></center>
                                 </div>
                             </div>
                         </div>
