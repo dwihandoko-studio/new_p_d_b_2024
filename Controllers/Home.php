@@ -353,8 +353,8 @@ class Home extends BaseController
             // $row[] = $action;
             $row[] = '<a href="' . base_url() . '/home/detail_sekolah?d=' . $list->sekolah_id . '"><strong style="color: #00167b;">' . $list->npsn . '</strong></a>';
             $row[] = '<a href="' . base_url() . '/home/detail_sekolah?d=' . $list->sekolah_id . '"><strong style="color: #00167b;">' . $list->nama . '</strong></a>';
-            $row[] = $list->jenjang;
-            $row[] = $list->status;
+            $row[] = $list->bentuk_pendidikan;
+            $row[] = $list->status_sekolah;
             $row[] = $list->kecamatan;
             $row[] = $list->sisa;
 
