@@ -941,7 +941,6 @@ class Download extends BaseController
             $worksheet->getColumnDimension('E')->setWidth(8);
             $worksheet->getColumnDimension('F')->setWidth(7);
             $worksheet->getColumnDimension('G')->setWidth(9);
-            $worksheet->getColumnDimension('H')->setWidth(9);
             // Mengambil data dari database
             $query = $this->_db->table('_setting_kuota_tb a')
                 ->select("a.sekolah_id, b.kecamatan, a.npsn, b.nama, b.bentuk_pendidikan_id, b.bentuk_pendidikan, b.status_sekolah, (SELECT count(*) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND LEFT(via_jalur,2) = 'BS') AS jumlah_peserta")
@@ -964,7 +963,6 @@ class Download extends BaseController
                     $worksheet->getCell('E' . $row)->setValue($item->bentuk_pendidikan);
                     $worksheet->getCell('F' . $row)->setValue($item->status_sekolah);
                     $worksheet->getCell('G' . $row)->setValue($item->jumlah_peserta);
-                    $worksheet->getCell('H' . $row)->setValue($item->jumlah_diterima);
                     $row++;
                 }
             }
@@ -973,7 +971,7 @@ class Download extends BaseController
             $styleKop = $worksheet->getStyle('A1:A4');
             $styleKop->setFont($boldFont);
 
-            $styleHeader = $worksheet->getStyle('A5:H6');  // Adjust range based on your merged cells
+            $styleHeader = $worksheet->getStyle('A5:G6');  // Adjust range based on your merged cells
 
             // Set vertical and horizontal alignment
             $styleHeader->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
@@ -981,7 +979,7 @@ class Download extends BaseController
             // Apply bold font style to header cells
             $styleHeader->setFont($boldFont);
 
-            $rowsToStyle = range('F', 'H');
+            $rowsToStyle = range('F', 'G');
 
             foreach ($rowsToStyle as $row) {
                 $styleRow = $worksheet->getStyle($row);
