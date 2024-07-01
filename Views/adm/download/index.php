@@ -13,20 +13,20 @@
 
         </div>
         <div class="row">
-            <div class="col-xl-4">
+            <div class="col-xl-4 mb-3">
                 <a href="<?= base_url('adm/download/pelenggara') ?>" target="_blank" class="btn btn-rounded btn-primary"><span class="btn-icon-start text-primary"><i class="fa fa-download color-primary"></i>
                     </span>Download Data Penyelenggara</a>
             </div>
-            <div class="col-xl-4">
+            <div class="col-xl-4 mb-3">
                 <a href="<?= base_url('adm/download/kuota') ?>" target="_blank" class="btn btn-rounded btn-info"><span class="btn-icon-start text-info"><i class="fa fa-download color-info"></i>
                     </span>Download Kapasitas Daya Tampung</a>
             </div>
-            <div class="col-xl-4">
+            <div class="col-xl-4 mb-3">
                 <a href="<?= base_url('adm/download/usia') ?>" target="_blank" class="btn btn-rounded btn-warning"><span class="btn-icon-start text-warning"><i class="fa fa-download color-warning"></i>
                     </span>Download Pendaftar Berdasarkan Usia</a>
             </div>
-            <div class="col-xl-4">
-                <a href="<?= base_url('adm/download/afirmasi') ?>" target="_blank" class="btn btn-rounded btn-danger"><span class="btn-icon-start text-warning"><i class="fa fa-download color-warning"></i>
+            <div class="col-xl-4 mb-3">
+                <a href="<?= base_url('adm/download/afirmasi') ?>" target="_blank" class="btn btn-rounded btn-danger"><span class="btn-icon-start text-danger"><i class="fa fa-download color-danger"></i>
                     </span>Download Rekapitulasi Jalur Afirmasi</a>
             </div>
         </div>
