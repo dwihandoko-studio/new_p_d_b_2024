@@ -47,7 +47,7 @@
             </div>
             <div class="col-xl-4 mb-3">
                 <a href="<?= base_url('adm/download/belumsekolah') ?>" target="_blank" class="btn btn-rounded btn-warning"><span class="btn-icon-start text-warning"><i class="fa fa-download color-warning"></i>
-                    </span>Download Rekapitulasi Peserta Belum Sekolah</a>
+                    </span>Download Rekapitulasi Belum Sekolah</a>
             </div>
         </div>
     </div>
