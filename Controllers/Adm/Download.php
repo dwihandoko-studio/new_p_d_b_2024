@@ -220,6 +220,161 @@ class Download extends BaseController
         }
     }
 
+    public function usia()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
+
+        try {
+
+            $spreadsheet = new Spreadsheet();
+            $worksheet = $spreadsheet->getActiveSheet();
+
+            // Menulis nama kolom ke dalam baris pertama worksheet
+            $worksheet->getCell('A1')->setValue("REKAPITULASI PESERTA PPDB BERDASARKAN USIA");
+            $worksheet->getCell('A2')->setValue("KABUPATEN LAMPUNG TENGAH");
+            $worksheet->getCell('A3')->setValue("TAHUN PELAJARAN 2024/2025");
+            $worksheet->mergeCells('G5:A8');
+            $worksheet->fromArray(['NO', 'KECAMATAN', 'NPSN', 'SATUAN PENDIDIKAN', 'JENJANG', 'STATUS', 'USIA'], NULL, 'A5');
+            $worksheet->fromArray(['<6', '6', '7', '>7', '<12', '12', '13', '14', '15', '>15'], NULL, 'G5');
+
+            $worksheet->getColumnDimension('A')->setWidth(4);
+            $worksheet->getColumnDimension('B')->setWidth(30);
+            $worksheet->getColumnDimension('C')->setWidth(10);
+            $worksheet->getColumnDimension('D')->setWidth(50);
+            $worksheet->getColumnDimension('E')->setWidth(8);
+            $worksheet->getColumnDimension('F')->setWidth(7);
+            $worksheet->getColumnDimension('G')->setWidth(5);
+            $worksheet->getColumnDimension('H')->setWidth(5);
+            $worksheet->getColumnDimension('I')->setWidth(5);
+            $worksheet->getColumnDimension('J')->setWidth(5);
+            $worksheet->getColumnDimension('K')->setWidth(5);
+            $worksheet->getColumnDimension('L')->setWidth(5);
+            $worksheet->getColumnDimension('M')->setWidth(5);
+            $worksheet->getColumnDimension('N')->setWidth(5);
+            $worksheet->getColumnDimension('O')->setWidth(5);
+            $worksheet->getColumnDimension('P')->setWidth(5);
+            // Mengambil data dari database
+            $query = $this->_db->table('_setting_kuota_tb a')
+                ->select("a.sekolah_id, b.kecamatan, a.npsn, b.nama, b.bentuk_pendidikan_id, b.bentuk_pendidikan, b.status_sekolah")
+                ->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id')
+                ->orderBy('b.bentuk_pendidikan_id', 'DESC')
+                ->orderBy('b.status_sekolah', 'ASC')
+                ->orderBy('b.nama', 'ASC')
+                ->get();
+
+            // Menulis data ke dalam worksheet
+            $data = $query->getResult();
+            $row = 6;
+            if (count($data) > 0) {
+                foreach ($data as $key => $item) {
+                    $worksheet->getCell('A' . $row)->setValue($key + 1);
+                    $worksheet->getCell('B' . $row)->setValue($item->kecamatan);
+                    $worksheet->getCell('C' . $row)->setValue($item->npsn);
+                    $worksheet->getCell('D' . $row)->setValue($item->nama);
+                    $worksheet->getCell('E' . $row)->setValue($item->bentuk_pendidikan);
+                    $worksheet->getCell('F' . $row)->setValue($item->status_sekolah);
+                    $umurs = $this->_db->table('_tb_pendaftar')
+                        ->select("YEAR('2024-07-01') - YEAR(_tb_pendaftar.tanggal_lahir_peserta) - (
+                            CASE
+                            WHEN MONTH('2024-07-01') < MONTH(_tb_pendaftar.tanggal_lahir_peserta) OR (
+                                MONTH('2024-07-01') = MONTH(_tb_pendaftar.tanggal_lahir_peserta) AND
+                                DAY('2024-07-01') < DAY(_tb_pendaftar.tanggal_lahir_peserta)
+                            )
+                            THEN 1
+                            ELSE 0
+                            END
+                        ) AS umur_dalam_tahun, COUNT(*) AS jumlah_peserta")
+                        ->where('_tb_pendaftar.sekolah_tujuan_id_1', $item->sekolah_id)
+                        ->get()->getResult();
+
+                    if (count($umurs) > 0) {
+                        $umur_k6 = 0;
+                        $umur_6 = 0;
+                        $umur_6 = 0;
+                        $umur_7 = 0;
+                        $umur_b7 = 0;
+                        $umur_k12 = 0;
+                        $umur_12 = 0;
+                        $umur_13 = 0;
+                        $umur_14 = 0;
+                        $umur_15 = 0;
+                        $umur_b15 = 0;
+                        foreach ($umurs as $key => $value) {
+                            if ((int)$value->umur_dalam_tahun < 6) {
+                                $umur_k6 = (int)$value->jumlah_peserta;
+                            }
+                            if ((int)$value->umur_dalam_tahun == 6) {
+                                $umur_6 = (int)$value->jumlah_peserta;
+                            }
+                            if ((int)$value->umur_dalam_tahun == 7) {
+                                $umur_7 = (int)$value->jumlah_peserta;
+                            }
+                            if ((int)$value->umur_dalam_tahun > 7 && (int)$value->umur_dalam_tahun < 11) {
+                                $umur_b7 = (int)$value->jumlah_peserta;
+                            }
+                            if ((int)$value->umur_dalam_tahun < 12 && (int)$value->umur_dalam_tahun > 10) {
+                                $umur_k12 = (int)$value->jumlah_peserta;
+                            }
+                            if ((int)$value->umur_dalam_tahun == 12) {
+                                $umur_12 = (int)$value->jumlah_peserta;
+                            }
+                            if ((int)$value->umur_dalam_tahun == 13) {
+                                $umur_13 = (int)$value->jumlah_peserta;
+                            }
+                            if ((int)$value->umur_dalam_tahun == 14) {
+                                $umur_14 = (int)$value->jumlah_peserta;
+                            }
+                            if ((int)$value->umur_dalam_tahun == 15) {
+                                $umur_15 = (int)$value->jumlah_peserta;
+                            }
+                            if ((int)$value->umur_dalam_tahun > 15) {
+                                $umur_b15 = (int)$value->jumlah_peserta;
+                            }
+                        }
+                        $worksheet->getCell('G' . $row)->setValue($umur_k6);
+                        $worksheet->getCell('H' . $row)->setValue($umur_6);
+                        $worksheet->getCell('I' . $row)->setValue($umur_7);
+                        $worksheet->getCell('J' . $row)->setValue($umur_b7);
+                        $worksheet->getCell('K' . $row)->setValue($umur_k12);
+                        $worksheet->getCell('L' . $row)->setValue($umur_12);
+                        $worksheet->getCell('M' . $row)->setValue($umur_13);
+                        $worksheet->getCell('N' . $row)->setValue($umur_14);
+                        $worksheet->getCell('O' . $row)->setValue($umur_15);
+                        $worksheet->getCell('P' . $row)->setValue($umur_b15);
+                    } else {
+                        $worksheet->getCell('G' . $row)->setValue(0);
+                        $worksheet->getCell('H' . $row)->setValue(0);
+                        $worksheet->getCell('I' . $row)->setValue(0);
+                        $worksheet->getCell('J' . $row)->setValue(0);
+                        $worksheet->getCell('K' . $row)->setValue(0);
+                        $worksheet->getCell('L' . $row)->setValue(0);
+                        $worksheet->getCell('M' . $row)->setValue(0);
+                        $worksheet->getCell('N' . $row)->setValue(0);
+                        $worksheet->getCell('O' . $row)->setValue(0);
+                        $worksheet->getCell('P' . $row)->setValue(0);
+                    }
+                    $row++;
+                }
+            }
+
+            $writer = new Xls($spreadsheet);
+            $filename = 'DATA_REKAPITULASI_PESERTA_PPDB_BERDASARKAN_USIA.xls';
+            header('Content-Type: application/vnd-ms-excel');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+            exit();
+        } catch (\Throwable $th) {
+            var_dump($th);
+        }
+    }
+
     public function download()
     {
         if ($this->request->isAJAX()) {

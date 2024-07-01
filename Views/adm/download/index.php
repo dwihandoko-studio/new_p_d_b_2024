@@ -22,23 +22,8 @@
                     </span>Download Kapasitas Daya Tampung</a>
             </div>
             <div class="col-xl-4">
-                <a href="<?= base_url('adm/download/kuota') ?>" target="_blank" class="btn btn-rounded btn-warning"><span class="btn-icon-start text-warning"><i class="fa fa-download color-warning"></i>
+                <a href="<?= base_url('adm/download/usia') ?>" target="_blank" class="btn btn-rounded btn-warning"><span class="btn-icon-start text-warning"><i class="fa fa-download color-warning"></i>
                     </span>Download Pendaftar Berdasarkan Usia</a>
-                <!-- <a href="<?= base_url('adm/download/pendaftar_usia') ?>">
-                    <div class="widget-stat card bg-primary">
-                        <div class="card-body  p-4">
-                            <div class="media">
-                                <span class="me-3">
-                                    <i class="la la-users"></i>
-                                </span>
-                                <div class="media-body text-white">
-                                    <p class="mb-1">Data Pendaftar</p>
-                                    <small>Data Pendaftar Sekolah</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a> -->
             </div>
         </div>
     </div>
