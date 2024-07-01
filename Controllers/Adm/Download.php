@@ -79,7 +79,7 @@ class Download extends BaseController
             $worksheet->getColumnDimension('B')->setWidth(30);
             $worksheet->getColumnDimension('C')->setWidth(10);
             $worksheet->getColumnDimension('D')->setWidth(50);
-            $worksheet->getColumnDimension('E')->setWidth(7);
+            $worksheet->getColumnDimension('E')->setWidth(8);
             $worksheet->getColumnDimension('F')->setWidth(7);
             // Mengambil data dari database
             $query = $this->_db->table('_setting_kuota_tb a')
@@ -106,7 +106,7 @@ class Download extends BaseController
             }
 
             $writer = new Xls($spreadsheet);
-            $filename = 'DATA_KESIAPAN_ROMBEL_PPDB.xls';
+            $filename = 'DATA_SEKOLAH_PENYELENGGARA_PPDB.xls';
             header('Content-Type: application/vnd-ms-excel');
             header('Content-Disposition: attachment;filename="' . $filename . '"');
             header('Cache-Control: max-age=0');
@@ -148,7 +148,7 @@ class Download extends BaseController
             $worksheet->getColumnDimension('B')->setWidth(30);
             $worksheet->getColumnDimension('C')->setWidth(10);
             $worksheet->getColumnDimension('D')->setWidth(50);
-            $worksheet->getColumnDimension('E')->setWidth(7);
+            $worksheet->getColumnDimension('E')->setWidth(8);
             $worksheet->getColumnDimension('F')->setWidth(7);
             $worksheet->getColumnDimension('G')->setWidth(23);
             $worksheet->getColumnDimension('H')->setWidth(23);
