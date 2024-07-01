@@ -255,25 +255,6 @@ class Download extends BaseController
             $worksheet->fromArray(['NO', 'KECAMATAN', 'NPSN', 'SATUAN PENDIDIKAN', 'JENJANG', 'STATUS', 'USIA'], NULL, 'A5');
             $worksheet->fromArray(['<6', '6', '7', '>7', '<12', '12', '13', '14', '15', '>15'], NULL, 'G6');
 
-            $styleKop = $worksheet->getStyle('A1:F4');
-            $styleKop->setFont($boldFont);
-
-            $styleHeader = $worksheet->getStyle('A5:P6');  // Adjust range based on your merged cells
-
-            // Set vertical and horizontal alignment
-            $styleHeader->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            $styleHeader->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-            // Apply bold font style to header cells
-            $styleHeader->setFont($boldFont);
-
-            $rowsToStyle = range('F', 'P');
-
-            foreach ($rowsToStyle as $row) {
-                $styleRow = $worksheet->getStyle($row);
-                $styleRow->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                $styleRow->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-            }
-
             $worksheet->getColumnDimension('A')->setWidth(5);
             $worksheet->getColumnDimension('B')->setWidth(30);
             $worksheet->getColumnDimension('C')->setWidth(10);
@@ -393,6 +374,27 @@ class Download extends BaseController
                     $row++;
                 }
             }
+
+
+            $styleKop = $worksheet->getStyle('A1:A4');
+            $styleKop->setFont($boldFont);
+
+            $styleHeader = $worksheet->getStyle('A5:P6');  // Adjust range based on your merged cells
+
+            // Set vertical and horizontal alignment
+            $styleHeader->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $styleHeader->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            // Apply bold font style to header cells
+            $styleHeader->setFont($boldFont);
+
+            $rowsToStyle = range('F', 'P');
+
+            foreach ($rowsToStyle as $row) {
+                $styleRow = $worksheet->getStyle($row);
+                $styleRow->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $styleRow->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            }
+
 
             $writer = new Xls($spreadsheet);
             $filename = 'DATA_REKAPITULASI_PESERTA_PPDB_BERDASARKAN_USIA.xls';
