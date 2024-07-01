@@ -245,6 +245,7 @@ class Download extends BaseController
             $worksheet->mergeCells('B5:B6');
             $worksheet->mergeCells('C5:C6');
             $worksheet->mergeCells('D5:D6');
+            $worksheet->mergeCells('E5:E6');
             $worksheet->mergeCells('F5:F6');
             $worksheet->mergeCells('G5:P5');
             $worksheet->fromArray(['NO', 'KECAMATAN', 'NPSN', 'SATUAN PENDIDIKAN', 'JENJANG', 'STATUS', 'USIA'], NULL, 'A5');
@@ -256,7 +257,7 @@ class Download extends BaseController
             $styleHeader->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             $styleHeader->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 
-            $rowsToStyle = range('F', 'J');
+            $rowsToStyle = range('F', 'P');
 
             foreach ($rowsToStyle as $row) {
                 $styleRow = $worksheet->getStyle($row);
@@ -264,7 +265,7 @@ class Download extends BaseController
                 $styleRow->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
             }
 
-            $worksheet->getColumnDimension('A')->setWidth(4);
+            $worksheet->getColumnDimension('A')->setWidth(5);
             $worksheet->getColumnDimension('B')->setWidth(30);
             $worksheet->getColumnDimension('C')->setWidth(10);
             $worksheet->getColumnDimension('D')->setWidth(50);
