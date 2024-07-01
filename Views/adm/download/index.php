@@ -14,42 +14,12 @@
         </div>
         <div class="row">
             <div class="col-xl-4">
-                <a href="<?= base_url('adm/download/zonasi') ?>" target="_blank" class="btn btn-rounded btn-primary"><span class="btn-icon-start text-primary"><i class="fa fa-download color-primary"></i>
-                    </span>Download Data Wilayah Zonasi</a>
-                <!-- <a href="<?= base_url('adm/download/zonasi') ?>">
-                    <div class="widget-stat card bg-primary">
-                        <div class="card-body  p-4">
-                            <div class="media">
-                                <span class="me-3">
-                                    <i class="la la-users"></i>
-                                </span>
-                                <div class="media-body text-white">
-                                    <p class="mb-1">Sebaran Sekolah</p>
-                                    <small>Penetapan Wilayah Zonasi (Data Wilayah Zonasi)</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a> -->
+                <a href="<?= base_url('adm/download/pelenggara') ?>" target="_blank" class="btn btn-rounded btn-primary"><span class="btn-icon-start text-primary"><i class="fa fa-download color-primary"></i>
+                    </span>Download Data Penyelenggara</a>
             </div>
             <div class="col-xl-4">
                 <a href="<?= base_url('adm/download/kuota') ?>" target="_blank" class="btn btn-rounded btn-info"><span class="btn-icon-start text-info"><i class="fa fa-download color-info"></i>
                     </span>Download Kapasitas Daya Tampung</a>
-                <!-- <a href="<?= base_url('adm/download/kuota') ?>">
-                    <div class="widget-stat card bg-primary">
-                        <div class="card-body  p-4">
-                            <div class="media">
-                                <span class="me-3">
-                                    <i class="la la-users"></i>
-                                </span>
-                                <div class="media-body text-white">
-                                    <p class="mb-1">Kapasitas Daya Tampung</p>
-                                    <small>Data Kesiapan Jumlah Rombel Sekolah</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a> -->
             </div>
             <div class="col-xl-4">
                 <a href="<?= base_url('adm/download/kuota') ?>" target="_blank" class="btn btn-rounded btn-warning"><span class="btn-icon-start text-warning"><i class="fa fa-download color-warning"></i>
