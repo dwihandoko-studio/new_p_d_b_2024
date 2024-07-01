@@ -14,7 +14,7 @@
         </div>
         <div class="row">
             <div class="col-xl-4">
-                <a href="<?= base_url('adm/download/zonasi') ?>" class="btn btn-rounded btn-primary"><span class="btn-icon-start text-primary"><i class="fa fa-download color-primary"></i>
+                <a href="<?= base_url('adm/download/zonasi') ?>" target="_blank" class="btn btn-rounded btn-primary"><span class="btn-icon-start text-primary"><i class="fa fa-download color-primary"></i>
                     </span>Download Data Wilayah Zonasi</a>
                 <!-- <a href="<?= base_url('adm/download/zonasi') ?>">
                     <div class="widget-stat card bg-primary">
@@ -33,7 +33,7 @@
                 </a> -->
             </div>
             <div class="col-xl-4">
-                <a href="<?= base_url('adm/download/kuota') ?>" class="btn btn-rounded btn-info"><span class="btn-icon-start text-info"><i class="fa fa-download color-info"></i>
+                <a href="<?= base_url('adm/download/kuota') ?>" target="_blank" class="btn btn-rounded btn-info"><span class="btn-icon-start text-info"><i class="fa fa-download color-info"></i>
                     </span>Download Kapasitas Daya Tampung</a>
                 <!-- <a href="<?= base_url('adm/download/kuota') ?>">
                     <div class="widget-stat card bg-primary">
@@ -52,7 +52,7 @@
                 </a> -->
             </div>
             <div class="col-xl-4">
-                <a href="<?= base_url('adm/download/kuota') ?>" class="btn btn-rounded btn-warning"><span class="btn-icon-start text-warning"><i class="fa fa-download color-warning"></i>
+                <a href="<?= base_url('adm/download/kuota') ?>" target="_blank" class="btn btn-rounded btn-warning"><span class="btn-icon-start text-warning"><i class="fa fa-download color-warning"></i>
                     </span>Download Pendaftar Berdasarkan Usia</a>
                 <!-- <a href="<?= base_url('adm/download/pendaftar_usia') ?>">
                     <div class="widget-stat card bg-primary">
