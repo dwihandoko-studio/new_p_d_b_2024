@@ -943,7 +943,7 @@ class Download extends BaseController
             $worksheet->getColumnDimension('G')->setWidth(9);
             // Mengambil data dari database
             $query = $this->_db->table('_setting_kuota_tb a')
-                ->select("a.sekolah_id, b.kecamatan, a.npsn, b.nama, b.bentuk_pendidikan_id, b.bentuk_pendidikan, b.status_sekolah, (SELECT count(*) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND LEFT(via_jalur,2) = 'BS') AS jumlah_peserta")
+                ->select("a.sekolah_id, b.kecamatan, a.npsn, b.nama, b.bentuk_pendidikan_id, b.bentuk_pendidikan, b.status_sekolah, (SELECT count(*) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND LEFT(nisn_peserta,2) = 'BS') AS jumlah_peserta")
                 ->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id')
                 ->where("b.bentuk_pendidikan_id = 5")
                 ->orderBy('b.bentuk_pendidikan_id', 'DESC')
