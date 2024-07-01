@@ -11,6 +11,7 @@ use App\Libraries\Uuid;
 use setasign\Fpdi\TcpdfFpdi;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Font;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 
 
@@ -237,6 +238,9 @@ class Download extends BaseController
             $spreadsheet = new Spreadsheet();
             $worksheet = $spreadsheet->getActiveSheet();
 
+            $boldFont = new Font();
+            $boldFont->setBold(true);
+
             // Menulis nama kolom ke dalam baris pertama worksheet
             $worksheet->getCell('A1')->setValue("REKAPITULASI PESERTA PPDB BERDASARKAN USIA");
             $worksheet->getCell('A2')->setValue("KABUPATEN LAMPUNG TENGAH");
@@ -251,11 +255,16 @@ class Download extends BaseController
             $worksheet->fromArray(['NO', 'KECAMATAN', 'NPSN', 'SATUAN PENDIDIKAN', 'JENJANG', 'STATUS', 'USIA'], NULL, 'A5');
             $worksheet->fromArray(['<6', '6', '7', '>7', '<12', '12', '13', '14', '15', '>15'], NULL, 'G6');
 
-            $styleHeader = $worksheet->getStyle('A5:F6');  // Adjust range based on your merged cells
+            $styleKop = $worksheet->getStyle('A1:F4');
+            $styleKop->setFont($boldFont);
+
+            $styleHeader = $worksheet->getStyle('A5:P6');  // Adjust range based on your merged cells
 
             // Set vertical and horizontal alignment
             $styleHeader->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             $styleHeader->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            // Apply bold font style to header cells
+            $styleHeader->setFont($boldFont);
 
             $rowsToStyle = range('F', 'P');
 
