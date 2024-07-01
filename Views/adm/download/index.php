@@ -25,6 +25,10 @@
                 <a href="<?= base_url('adm/download/usia') ?>" target="_blank" class="btn btn-rounded btn-warning"><span class="btn-icon-start text-warning"><i class="fa fa-download color-warning"></i>
                     </span>Download Pendaftar Berdasarkan Usia</a>
             </div>
+            <div class="col-xl-4">
+                <a href="<?= base_url('adm/download/afirmasi') ?>" target="_blank" class="btn btn-rounded btn-danger"><span class="btn-icon-start text-warning"><i class="fa fa-download color-warning"></i>
+                    </span>Download Rekapitulasi Jalur Afirmasi</a>
+            </div>
         </div>
     </div>
 </div>
