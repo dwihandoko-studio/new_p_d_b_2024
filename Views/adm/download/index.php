@@ -45,6 +45,10 @@
                 <a href="<?= base_url('adm/download/swasta') ?>" target="_blank" class="btn btn-rounded btn-info"><span class="btn-icon-start text-info"><i class="fa fa-download color-info"></i>
                     </span>Download Rekapitulasi Sekolah Swasta</a>
             </div>
+            <div class="col-xl-4 mb-3">
+                <a href="<?= base_url('adm/download/belumsekolah') ?>" target="_blank" class="btn btn-rounded btn-warning"><span class="btn-icon-start text-warning"><i class="fa fa-download color-warning"></i>
+                    </span>Download Rekapitulasi Peserta Belum Sekolah</a>
+            </div>
         </div>
     </div>
 </div>
