@@ -271,16 +271,16 @@ class Download extends BaseController
             $worksheet->getColumnDimension('D')->setWidth(50);
             $worksheet->getColumnDimension('E')->setWidth(8);
             $worksheet->getColumnDimension('F')->setWidth(7);
-            $worksheet->getColumnDimension('G')->setWidth(5);
-            $worksheet->getColumnDimension('H')->setWidth(5);
-            $worksheet->getColumnDimension('I')->setWidth(5);
-            $worksheet->getColumnDimension('J')->setWidth(5);
-            $worksheet->getColumnDimension('K')->setWidth(5);
-            $worksheet->getColumnDimension('L')->setWidth(5);
-            $worksheet->getColumnDimension('M')->setWidth(5);
-            $worksheet->getColumnDimension('N')->setWidth(5);
-            $worksheet->getColumnDimension('O')->setWidth(5);
-            $worksheet->getColumnDimension('P')->setWidth(5);
+            $worksheet->getColumnDimension('G')->setWidth(7);
+            $worksheet->getColumnDimension('H')->setWidth(7);
+            $worksheet->getColumnDimension('I')->setWidth(7);
+            $worksheet->getColumnDimension('J')->setWidth(7);
+            $worksheet->getColumnDimension('K')->setWidth(7);
+            $worksheet->getColumnDimension('L')->setWidth(7);
+            $worksheet->getColumnDimension('M')->setWidth(7);
+            $worksheet->getColumnDimension('N')->setWidth(7);
+            $worksheet->getColumnDimension('O')->setWidth(7);
+            $worksheet->getColumnDimension('P')->setWidth(7);
             // Mengambil data dari database
             $query = $this->_db->table('_setting_kuota_tb a')
                 ->select("a.sekolah_id, b.kecamatan, a.npsn, b.nama, b.bentuk_pendidikan_id, b.bentuk_pendidikan, b.status_sekolah")
