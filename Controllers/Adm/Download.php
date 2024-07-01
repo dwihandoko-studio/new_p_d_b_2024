@@ -10,7 +10,9 @@ use App\Libraries\Helplib;
 use App\Libraries\Uuid;
 use setasign\Fpdi\TcpdfFpdi;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
+
 
 class Download extends BaseController
 {
@@ -240,8 +242,27 @@ class Download extends BaseController
             $worksheet->getCell('A2')->setValue("KABUPATEN LAMPUNG TENGAH");
             $worksheet->getCell('A3')->setValue("TAHUN PELAJARAN 2024/2025");
             $worksheet->mergeCells('G5:A8');
+            $worksheet->mergeCells('A5:A6');
+            $worksheet->mergeCells('B5:B6');
+            $worksheet->mergeCells('C5:C6');
+            $worksheet->mergeCells('D5:D6');
+            $worksheet->mergeCells('F5:F6');
             $worksheet->fromArray(['NO', 'KECAMATAN', 'NPSN', 'SATUAN PENDIDIKAN', 'JENJANG', 'STATUS', 'USIA'], NULL, 'A5');
-            $worksheet->fromArray(['<6', '6', '7', '>7', '<12', '12', '13', '14', '15', '>15'], NULL, 'G5');
+            $worksheet->fromArray(['<6', '6', '7', '>7', '<12', '12', '13', '14', '15', '>15'], NULL, 'G6');
+
+            $styleHeader = $worksheet->getStyle('A5:P8');  // Adjust range based on your merged cells
+
+            // Set vertical and horizontal alignment
+            $styleHeader->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $styleHeader->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+
+            $rowsToStyle = range('F', 'J');
+
+            foreach ($rowsToStyle as $row) {
+                $styleRow = $worksheet->getStyle($row);
+                $styleRow->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $styleRow->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            }
 
             $worksheet->getColumnDimension('A')->setWidth(4);
             $worksheet->getColumnDimension('B')->setWidth(30);
@@ -270,7 +291,7 @@ class Download extends BaseController
 
             // Menulis data ke dalam worksheet
             $data = $query->getResult();
-            $row = 6;
+            $row = 7;
             if (count($data) > 0) {
                 foreach ($data as $key => $item) {
                     $worksheet->getCell('A' . $row)->setValue($key + 1);
