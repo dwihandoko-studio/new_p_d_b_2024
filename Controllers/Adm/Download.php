@@ -241,16 +241,16 @@ class Download extends BaseController
             $worksheet->getCell('A1')->setValue("REKAPITULASI PESERTA PPDB BERDASARKAN USIA");
             $worksheet->getCell('A2')->setValue("KABUPATEN LAMPUNG TENGAH");
             $worksheet->getCell('A3')->setValue("TAHUN PELAJARAN 2024/2025");
-            $worksheet->mergeCells('G5:A8');
             $worksheet->mergeCells('A5:A6');
             $worksheet->mergeCells('B5:B6');
             $worksheet->mergeCells('C5:C6');
             $worksheet->mergeCells('D5:D6');
             $worksheet->mergeCells('F5:F6');
+            $worksheet->mergeCells('G5:P5');
             $worksheet->fromArray(['NO', 'KECAMATAN', 'NPSN', 'SATUAN PENDIDIKAN', 'JENJANG', 'STATUS', 'USIA'], NULL, 'A5');
             $worksheet->fromArray(['<6', '6', '7', '>7', '<12', '12', '13', '14', '15', '>15'], NULL, 'G6');
 
-            $styleHeader = $worksheet->getStyle('A5:P8');  // Adjust range based on your merged cells
+            $styleHeader = $worksheet->getStyle('A5:F6');  // Adjust range based on your merged cells
 
             // Set vertical and horizontal alignment
             $styleHeader->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
