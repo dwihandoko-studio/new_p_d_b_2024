@@ -80,6 +80,15 @@ class Download extends BaseController
             // $worksheet->getCell('A4')->setValue("");
             $worksheet->fromArray(['NO', 'KECAMATAN', 'NPSN', 'SATUAN PENDIDIKAN', 'JENJANG', 'STATUS', 'JUMLAH KESIAPAN ROMBER', 'JUMLAH PD / ROMBEL', 'JUMLAH PESERTA'], NULL, 'A5');
 
+            $worksheet->getColumnDimension('A')->setWidth(4);
+            $worksheet->getColumnDimension('B')->setWidth(30);
+            $worksheet->getColumnDimension('C')->setWidth(10);
+            $worksheet->getColumnDimension('D')->setWidth(50);
+            $worksheet->getColumnDimension('E')->setWidth(7);
+            $worksheet->getColumnDimension('F')->setWidth(7);
+            $worksheet->getColumnDimension('G')->setWidth(23);
+            $worksheet->getColumnDimension('H')->setWidth(23);
+            $worksheet->getColumnDimension('I')->setWidth(23);
             // Mengambil data dari database
             $query = $this->_db->table('_setting_kuota_tb a')
                 ->select("b.kecamatan, a.npsn, b.nama, b.bentuk_pendidikan_id, b.bentuk_pendidikan, b.status_sekolah, a.jumlah_rombel_kebutuhan, CASE WHEN b.bentuk_pendidikan_id = 6 THEN 32 ELSE 28 END AS jumlah_pd_rombel, CASE WHEN b.bentuk_pendidikan_id = 6 THEN 32*a.jumlah_rombel_kebutuhan ELSE 28*a.jumlah_rombel_kebutuhan END AS jumlah_total_pd")
@@ -99,20 +108,27 @@ class Download extends BaseController
             if (count($data) > 0) {
                 foreach ($data as $key => $item) {
                     $worksheet->getCell('A' . $row)->setValue($key + 1);
-                    $worksheet->getCell('B' . $row)->setValue($item->nama_peserta);
-                    if (substr((string)$item->nisn_peserta, 0, 2) == "BS") {
-                        $worksheet->setCellValueExplicit("C" . $row, "", \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-                    } else {
-                        $worksheet->setCellValueExplicit("C" . $row, (string)$item->nisn_peserta, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-                    }
-                    $worksheet->getCell('D' . $row)->setValue($item->tempat_lahir_peserta);
-                    $worksheet->getCell('E' . $row)->setValue($item->tanggal_lahir_peserta);
-                    $worksheet->getCell('F' . $row)->setValue($item->jenis_kelamin_peserta);
-                    $worksheet->getCell('G' . $row)->setValue($item->kode_pendaftaran);
-                    $worksheet->getCell('H' . $row)->setValue($item->via_jalur);
-                    $jarakDomisili = round($item->jarak_domisili, 3) . ' Km';
-                    $worksheet->getCell('I' . $row)->setValue($jarakDomisili);
-                    $worksheet->setCellValueExplicit("J" . $row, tgl_indo2($item->created_at), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                    $worksheet->getCell('B' . $row)->setValue($item->kecamatan);
+                    $worksheet->getCell('C' . $row)->setValue($item->npsn);
+                    $worksheet->getCell('D' . $row)->setValue($item->nama);
+                    $worksheet->getCell('E' . $row)->setValue($item->bentuk_pendidikan);
+                    $worksheet->getCell('F' . $row)->setValue($item->status_sekolah);
+                    $worksheet->getCell('G' . $row)->setValue($item->jumlah_rombel_kebutuhan);
+                    $worksheet->getCell('H' . $row)->setValue($item->jumlah_pd_rombel);
+                    $worksheet->getCell('I' . $row)->setValue($item->jumlah_total_pd);
+                    // if (substr((string)$item->nisn_peserta, 0, 2) == "BS") {
+                    //     $worksheet->setCellValueExplicit("C" . $row, "", \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                    // } else {
+                    //     $worksheet->setCellValueExplicit("C" . $row, (string)$item->nisn_peserta, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                    // }
+                    // $worksheet->getCell('D' . $row)->setValue($item->tempat_lahir_peserta);
+                    // $worksheet->getCell('E' . $row)->setValue($item->tanggal_lahir_peserta);
+                    // $worksheet->getCell('F' . $row)->setValue($item->jenis_kelamin_peserta);
+                    // $worksheet->getCell('G' . $row)->setValue($item->kode_pendaftaran);
+                    // $worksheet->getCell('H' . $row)->setValue($item->via_jalur);
+                    // $jarakDomisili = round($item->jarak_domisili, 3) . ' Km';
+                    // $worksheet->getCell('I' . $row)->setValue($jarakDomisili);
+                    // $worksheet->setCellValueExplicit("J" . $row, tgl_indo2($item->created_at), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
                     // $worksheet->setCellValueExplicit("G" . $row, $item->us_pang_mk_tahun, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 
                     $row++;
@@ -123,11 +139,11 @@ class Download extends BaseController
             $writer = new Xls($spreadsheet);
 
             // Menuliskan file Excel
-            if ($jalur == "all") {
-                $filename = 'DATA_PENDAFTAR.xls';
-            } else {
-                $filename = 'DATA_PENDAFTAR_' . strtoupper($jalur) . '.xls';
-            }
+            // if ($jalur == "all") {
+            $filename = 'DATA_KESIAPAN_ROMBEL_PPDB.xls';
+            // } else {
+            //     $filename = 'DATA_PENDAFTAR_' . strtoupper($jalur) . '.xls';
+            // }
             header('Content-Type: application/vnd-ms-excel');
             // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment;filename="' . $filename . '"');
