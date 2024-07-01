@@ -280,17 +280,17 @@ class Download extends BaseController
                     $worksheet->getCell('E' . $row)->setValue($item->bentuk_pendidikan);
                     $worksheet->getCell('F' . $row)->setValue($item->status_sekolah);
                     $umurs = $this->_db->table('_tb_pendaftar')
-                        ->select("YEAR('2024-07-01') - YEAR(_tb_pendaftar.tanggal_lahir_peserta) - (
+                        ->select("YEAR('2024-07-01') - YEAR(tanggal_lahir_peserta) - (
                             CASE
-                            WHEN MONTH('2024-07-01') < MONTH(_tb_pendaftar.tanggal_lahir_peserta) OR (
-                                MONTH('2024-07-01') = MONTH(_tb_pendaftar.tanggal_lahir_peserta) AND
-                                DAY('2024-07-01') < DAY(_tb_pendaftar.tanggal_lahir_peserta)
+                            WHEN MONTH('2024-07-01') < MONTH(tanggal_lahir_peserta) OR (
+                                MONTH('2024-07-01') = MONTH(tanggal_lahir_peserta) AND
+                                DAY('2024-07-01') < DAY(tanggal_lahir_peserta)
                             )
                             THEN 1
                             ELSE 0
                             END
                         ) AS umur_dalam_tahun, COUNT(*) AS jumlah_peserta")
-                        ->where('_tb_pendaftar.sekolah_tujuan_id_1', $item->sekolah_id)
+                        ->where('tujuan_sekolah_id_1', $item->sekolah_id)
                         ->get()->getResult();
 
                     if (count($umurs) > 0) {
