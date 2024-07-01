@@ -287,81 +287,81 @@ class Proses extends BaseController
     //     }
     // }
 
-    // public function verified_otomatis_tidak_lolos()
-    // {
-    //     $Profilelib = new Profilelib();
-    //     $user = $Profilelib->user();
-    //     if ($user->status != 200) {
-    //         delete_cookie('jwt');
-    //         session()->destroy();
-    //         return redirect()->to(base_url('auth'));
-    //     }
+    public function verified_otomatis_tidak_lolos()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
 
-    //     $data = $this->_db->table('_tb_pendaftar_temp')->get()->getResultArray();
-    //     // $data = $this->_db->table('_tb_pendaftar_temp')->where('via_jalur', 'AFIRMASI')->get()->getResultArray();
-    //     if (count($data) > 0) {
-    //         print_r("MULAI VERIFIED OTOMATIS<br>");
-    //         foreach ($data as $key => $cekRegisterTemp) {
-    //             $cekRegisterTemp['updated_at'] = date('Y-m-d H:i:s');
-    //             $cekRegisterTemp['update_reject'] = date('Y-m-d H:i:s');
-    //             $cekRegisterTemp['admin_approval'] = 'system_auto';
-    //             $cekRegisterTemp['status_pendaftaran'] = 3;
-    //             $cekRegisterTemp['keterangan_penolakan'] = "Sekolah tujuan tidak melakukan proses verifikasi pendaftaran.";
+        $data = $this->_db->table('_tb_pendaftar_temp')->get()->getResultArray();
+        // $data = $this->_db->table('_tb_pendaftar_temp')->where('via_jalur', 'AFIRMASI')->get()->getResultArray();
+        if (count($data) > 0) {
+            print_r("MULAI VERIFIED OTOMATIS<br>");
+            foreach ($data as $key => $cekRegisterTemp) {
+                $cekRegisterTemp['updated_at'] = date('Y-m-d H:i:s');
+                $cekRegisterTemp['update_reject'] = date('Y-m-d H:i:s');
+                $cekRegisterTemp['admin_approval'] = 'system_auto';
+                $cekRegisterTemp['status_pendaftaran'] = 3;
+                $cekRegisterTemp['keterangan_penolakan'] = "Sekolah tujuan tidak melakukan proses verifikasi pendaftaran.";
 
-    //             $this->_db->transBegin();
-    //             $this->_db->table('_tb_pendaftar_tolak')->insert($cekRegisterTemp);
-    //             if ($this->_db->affectedRows() > 0) {
-    //                 $this->_db->table('_tb_pendaftar_temp')->where('id', $cekRegisterTemp['id'])->delete();
-    //                 if ($this->_db->affectedRows() > 0) {
+                $this->_db->transBegin();
+                $this->_db->table('_tb_pendaftar_tolak')->insert($cekRegisterTemp);
+                if ($this->_db->affectedRows() > 0) {
+                    $this->_db->table('_tb_pendaftar_temp')->where('id', $cekRegisterTemp['id'])->delete();
+                    if ($this->_db->affectedRows() > 0) {
 
-    //                     // try {
+                        // try {
 
-    //                     // $riwayatLib = new Riwayatlib();
-    //                     // $riwayatLib->insert("Memverifikasi Pendaftaran $name via Jalur Afirmasi dengan No Pendaftaran : " . $cekRegisterTemp['kode_pendaftaran'], "Memverifikasi Pendaftaran Jalur Afirmasi", "submit");
+                        // $riwayatLib = new Riwayatlib();
+                        // $riwayatLib->insert("Memverifikasi Pendaftaran $name via Jalur Afirmasi dengan No Pendaftaran : " . $cekRegisterTemp['kode_pendaftaran'], "Memverifikasi Pendaftaran Jalur Afirmasi", "submit");
 
-    //                     // $saveNotifSystem = new Notificationlib();
-    //                     // $saveNotifSystem->send([
-    //                     //     'judul' => "Pendaftaran Jalur " . $cekRegisterTemp['via_jalur'] ." Telah Diverifikasi.",
-    //                     //     'isi' => "Pendaftaran anda melalui jalur " . $cekRegisterTemp['via_jalur'] ." telah diverifikasi otomatis by system karena proses verifikasi oleh sekolah sudah di, selanjutnya silahkan menunggu pengumuman sesuai jadwal yang telah ditentukan.",
-    //                     //     'action_web' => 'peserta/riwayat/pendaftaran',
-    //                     //     'action_app' => 'riwayat_pendaftaran_page',
-    //                     //     'token' => $cekRegisterTemp['kode_pendaftaran'],
-    //                     //     'send_from' => $userId,
-    //                     //     'send_to' => $cekRegisterTemp['user_id'],
-    //                     // ]);
+                        // $saveNotifSystem = new Notificationlib();
+                        // $saveNotifSystem->send([
+                        //     'judul' => "Pendaftaran Jalur " . $cekRegisterTemp['via_jalur'] ." Telah Diverifikasi.",
+                        //     'isi' => "Pendaftaran anda melalui jalur " . $cekRegisterTemp['via_jalur'] ." telah diverifikasi otomatis by system karena proses verifikasi oleh sekolah sudah di, selanjutnya silahkan menunggu pengumuman sesuai jadwal yang telah ditentukan.",
+                        //     'action_web' => 'peserta/riwayat/pendaftaran',
+                        //     'action_app' => 'riwayat_pendaftaran_page',
+                        //     'token' => $cekRegisterTemp['kode_pendaftaran'],
+                        //     'send_from' => $userId,
+                        //     'send_to' => $cekRegisterTemp['user_id'],
+                        // ]);
 
-    //                     // $onesignal = new Fcmlib();
-    //                     // $send = $onesignal->pushNotifToUser([
-    //                     //     'title' => "Pendaftaran Jalur Afirmasi Telah Diverifikasi.",
-    //                     //     'content' => "Pendaftaran anda melalui jalur afirmasi telah diverifikasi oleh sekolah tujuan, selanjutnya silahkan menunggu pengumuman sesuai jadwal yang telah ditentukan.",
-    //                     //     'send_to' => $cekRegisterTemp['user_id'],
-    //                     //     'app_url' => 'riwayat_pendaftaran_page',
-    //                     // ]);
-    //                     // } catch (\Throwable $th) {
-    //                     // }
+                        // $onesignal = new Fcmlib();
+                        // $send = $onesignal->pushNotifToUser([
+                        //     'title' => "Pendaftaran Jalur Afirmasi Telah Diverifikasi.",
+                        //     'content' => "Pendaftaran anda melalui jalur afirmasi telah diverifikasi oleh sekolah tujuan, selanjutnya silahkan menunggu pengumuman sesuai jadwal yang telah ditentukan.",
+                        //     'send_to' => $cekRegisterTemp['user_id'],
+                        //     'app_url' => 'riwayat_pendaftaran_page',
+                        // ]);
+                        // } catch (\Throwable $th) {
+                        // }
 
-    //                     $this->_db->transCommit();
-    //                     print_r("BERHASIL VERIVIED AUTO<br>");
-    //                     continue;
-    //                     // $response = new \stdClass;
-    //                     // $response->code = 200;
-    //                     // $response->message = "Verifikasi pendaftaran $name berhasil dilakukan.";
-    //                     // return json_encode($response);
-    //                 } else {
-    //                     $this->_db->transRollback();
-    //                     print_r("GAGAL VERIVIED AUTO<br>" . $cekRegisterTemp['id']);
-    //                     continue;
-    //                 }
-    //             } else {
-    //                 $this->_db->transRollback();
-    //                 print_r("GAGAL VERIVIED AUTO<br>" . $cekRegisterTemp['id']);
-    //                 continue;
-    //             }
-    //         }
-    //     } else {
-    //         print_r("TIDAK ADA DATA");
-    //     }
-    // }
+                        $this->_db->transCommit();
+                        print_r("BERHASIL VERIVIED AUTO<br>");
+                        continue;
+                        // $response = new \stdClass;
+                        // $response->code = 200;
+                        // $response->message = "Verifikasi pendaftaran $name berhasil dilakukan.";
+                        // return json_encode($response);
+                    } else {
+                        $this->_db->transRollback();
+                        print_r("GAGAL VERIVIED AUTO<br>" . $cekRegisterTemp['id']);
+                        continue;
+                    }
+                } else {
+                    $this->_db->transRollback();
+                    print_r("GAGAL VERIVIED AUTO<br>" . $cekRegisterTemp['id']);
+                    continue;
+                }
+            }
+        } else {
+            print_r("TIDAK ADA DATA");
+        }
+    }
 
     // public function proseskelulusanafirmasisd()
     // {
