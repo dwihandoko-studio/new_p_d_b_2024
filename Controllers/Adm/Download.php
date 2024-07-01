@@ -446,12 +446,13 @@ class Download extends BaseController
             $worksheet->getColumnDimension('D')->setWidth(50);
             $worksheet->getColumnDimension('E')->setWidth(8);
             $worksheet->getColumnDimension('F')->setWidth(7);
-            $worksheet->getColumnDimension('G')->setWidth(7);
-            $worksheet->getColumnDimension('H')->setWidth(7);
+            $worksheet->getColumnDimension('G')->setWidth(9);
+            $worksheet->getColumnDimension('H')->setWidth(9);
             // Mengambil data dari database
             $query = $this->_db->table('_setting_kuota_tb a')
                 ->select("a.sekolah_id, b.kecamatan, a.npsn, b.nama, b.bentuk_pendidikan_id, b.bentuk_pendidikan, b.status_sekolah, (SELECT count(*) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'AFIRMASI') AS jumlah_peserta, (SELECT count(*) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'AFIRMASI' AND status_pendaftaran = 2) AS jumlah_diterima")
                 ->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id')
+                ->where('b.status_sekolah_id', '1')
                 ->orderBy('b.bentuk_pendidikan_id', 'DESC')
                 ->orderBy('b.status_sekolah', 'ASC')
                 ->orderBy('b.nama', 'ASC')
@@ -496,6 +497,402 @@ class Download extends BaseController
 
             $writer = new Xls($spreadsheet);
             $filename = 'DATA_REKAPITULASI_PESERTA_PPDB_JALUR_AFIRMASI.xls';
+            header('Content-Type: application/vnd-ms-excel');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+            exit();
+        } catch (\Throwable $th) {
+            var_dump($th);
+        }
+    }
+
+    public function zonasi()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
+
+        try {
+
+            $spreadsheet = new Spreadsheet();
+            $worksheet = $spreadsheet->getActiveSheet();
+
+            $boldFont = new Font();
+            $boldFont->setBold(true);
+
+            // Menulis nama kolom ke dalam baris pertama worksheet
+            $worksheet->getCell('A1')->setValue("REKAPITULASI PESERTA PPDB JALUR ZONASI");
+            $worksheet->getCell('A2')->setValue("KABUPATEN LAMPUNG TENGAH");
+            $worksheet->getCell('A3')->setValue("TAHUN PELAJARAN 2024/2025");
+            $worksheet->mergeCells('A5:A6');
+            $worksheet->mergeCells('B5:B6');
+            $worksheet->mergeCells('C5:C6');
+            $worksheet->mergeCells('D5:D6');
+            $worksheet->mergeCells('E5:E6');
+            $worksheet->mergeCells('F5:F6');
+            $worksheet->mergeCells('G5:H5');
+            $worksheet->fromArray(['NO', 'KECAMATAN', 'NPSN', 'SATUAN PENDIDIKAN', 'JENJANG', 'STATUS', 'JUMLAH'], NULL, 'A5');
+            $worksheet->fromArray(['PESERTA', 'DITERIMA'], NULL, 'G6');
+
+            $worksheet->getColumnDimension('A')->setWidth(5);
+            $worksheet->getColumnDimension('B')->setWidth(30);
+            $worksheet->getColumnDimension('C')->setWidth(10);
+            $worksheet->getColumnDimension('D')->setWidth(50);
+            $worksheet->getColumnDimension('E')->setWidth(8);
+            $worksheet->getColumnDimension('F')->setWidth(7);
+            $worksheet->getColumnDimension('G')->setWidth(9);
+            $worksheet->getColumnDimension('H')->setWidth(9);
+            // Mengambil data dari database
+            $query = $this->_db->table('_setting_kuota_tb a')
+                ->select("a.sekolah_id, b.kecamatan, a.npsn, b.nama, b.bentuk_pendidikan_id, b.bentuk_pendidikan, b.status_sekolah, (SELECT count(*) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'ZONASI') AS jumlah_peserta, (SELECT count(*) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'ZONASI' AND status_pendaftaran = 2) AS jumlah_diterima")
+                ->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id')
+                ->where('b.status_sekolah_id', '1')
+                ->orderBy('b.bentuk_pendidikan_id', 'DESC')
+                ->orderBy('b.status_sekolah', 'ASC')
+                ->orderBy('b.nama', 'ASC')
+                ->get();
+
+            // Menulis data ke dalam worksheet
+            $data = $query->getResult();
+            $row = 7;
+            if (count($data) > 0) {
+                foreach ($data as $key => $item) {
+                    $worksheet->getCell('A' . $row)->setValue($key + 1);
+                    $worksheet->getCell('B' . $row)->setValue($item->kecamatan);
+                    $worksheet->getCell('C' . $row)->setValue($item->npsn);
+                    $worksheet->getCell('D' . $row)->setValue($item->nama);
+                    $worksheet->getCell('E' . $row)->setValue($item->bentuk_pendidikan);
+                    $worksheet->getCell('F' . $row)->setValue($item->status_sekolah);
+                    $worksheet->getCell('G' . $row)->setValue($item->jumlah_peserta);
+                    $worksheet->getCell('H' . $row)->setValue($item->jumlah_diterima);
+                    $row++;
+                }
+            }
+
+
+            $styleKop = $worksheet->getStyle('A1:A4');
+            $styleKop->setFont($boldFont);
+
+            $styleHeader = $worksheet->getStyle('A5:H6');  // Adjust range based on your merged cells
+
+            // Set vertical and horizontal alignment
+            $styleHeader->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $styleHeader->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            // Apply bold font style to header cells
+            $styleHeader->setFont($boldFont);
+
+            $rowsToStyle = range('F', 'H');
+
+            foreach ($rowsToStyle as $row) {
+                $styleRow = $worksheet->getStyle($row);
+                $styleRow->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $styleRow->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            }
+
+            $writer = new Xls($spreadsheet);
+            $filename = 'DATA_REKAPITULASI_PESERTA_PPDB_JALUR_ZONASI.xls';
+            header('Content-Type: application/vnd-ms-excel');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+            exit();
+        } catch (\Throwable $th) {
+            var_dump($th);
+        }
+    }
+
+    public function mutasi()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
+
+        try {
+
+            $spreadsheet = new Spreadsheet();
+            $worksheet = $spreadsheet->getActiveSheet();
+
+            $boldFont = new Font();
+            $boldFont->setBold(true);
+
+            // Menulis nama kolom ke dalam baris pertama worksheet
+            $worksheet->getCell('A1')->setValue("REKAPITULASI PESERTA PPDB JALUR MUTASI");
+            $worksheet->getCell('A2')->setValue("KABUPATEN LAMPUNG TENGAH");
+            $worksheet->getCell('A3')->setValue("TAHUN PELAJARAN 2024/2025");
+            $worksheet->mergeCells('A5:A6');
+            $worksheet->mergeCells('B5:B6');
+            $worksheet->mergeCells('C5:C6');
+            $worksheet->mergeCells('D5:D6');
+            $worksheet->mergeCells('E5:E6');
+            $worksheet->mergeCells('F5:F6');
+            $worksheet->mergeCells('G5:H5');
+            $worksheet->fromArray(['NO', 'KECAMATAN', 'NPSN', 'SATUAN PENDIDIKAN', 'JENJANG', 'STATUS', 'JUMLAH'], NULL, 'A5');
+            $worksheet->fromArray(['PESERTA', 'DITERIMA'], NULL, 'G6');
+
+            $worksheet->getColumnDimension('A')->setWidth(5);
+            $worksheet->getColumnDimension('B')->setWidth(30);
+            $worksheet->getColumnDimension('C')->setWidth(10);
+            $worksheet->getColumnDimension('D')->setWidth(50);
+            $worksheet->getColumnDimension('E')->setWidth(8);
+            $worksheet->getColumnDimension('F')->setWidth(7);
+            $worksheet->getColumnDimension('G')->setWidth(9);
+            $worksheet->getColumnDimension('H')->setWidth(9);
+            // Mengambil data dari database
+            $query = $this->_db->table('_setting_kuota_tb a')
+                ->select("a.sekolah_id, b.kecamatan, a.npsn, b.nama, b.bentuk_pendidikan_id, b.bentuk_pendidikan, b.status_sekolah, (SELECT count(*) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'MUTASI') AS jumlah_peserta, (SELECT count(*) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'MUTASI' AND status_pendaftaran = 2) AS jumlah_diterima")
+                ->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id')
+                ->where('b.status_sekolah_id', '1')
+                ->orderBy('b.bentuk_pendidikan_id', 'DESC')
+                ->orderBy('b.status_sekolah', 'ASC')
+                ->orderBy('b.nama', 'ASC')
+                ->get();
+
+            // Menulis data ke dalam worksheet
+            $data = $query->getResult();
+            $row = 7;
+            if (count($data) > 0) {
+                foreach ($data as $key => $item) {
+                    $worksheet->getCell('A' . $row)->setValue($key + 1);
+                    $worksheet->getCell('B' . $row)->setValue($item->kecamatan);
+                    $worksheet->getCell('C' . $row)->setValue($item->npsn);
+                    $worksheet->getCell('D' . $row)->setValue($item->nama);
+                    $worksheet->getCell('E' . $row)->setValue($item->bentuk_pendidikan);
+                    $worksheet->getCell('F' . $row)->setValue($item->status_sekolah);
+                    $worksheet->getCell('G' . $row)->setValue($item->jumlah_peserta);
+                    $worksheet->getCell('H' . $row)->setValue($item->jumlah_diterima);
+                    $row++;
+                }
+            }
+
+
+            $styleKop = $worksheet->getStyle('A1:A4');
+            $styleKop->setFont($boldFont);
+
+            $styleHeader = $worksheet->getStyle('A5:H6');  // Adjust range based on your merged cells
+
+            // Set vertical and horizontal alignment
+            $styleHeader->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $styleHeader->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            // Apply bold font style to header cells
+            $styleHeader->setFont($boldFont);
+
+            $rowsToStyle = range('F', 'H');
+
+            foreach ($rowsToStyle as $row) {
+                $styleRow = $worksheet->getStyle($row);
+                $styleRow->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $styleRow->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            }
+
+            $writer = new Xls($spreadsheet);
+            $filename = 'DATA_REKAPITULASI_PESERTA_PPDB_JALUR_MUTASI.xls';
+            header('Content-Type: application/vnd-ms-excel');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+            exit();
+        } catch (\Throwable $th) {
+            var_dump($th);
+        }
+    }
+
+    public function prestasi()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
+
+        try {
+
+            $spreadsheet = new Spreadsheet();
+            $worksheet = $spreadsheet->getActiveSheet();
+
+            $boldFont = new Font();
+            $boldFont->setBold(true);
+
+            // Menulis nama kolom ke dalam baris pertama worksheet
+            $worksheet->getCell('A1')->setValue("REKAPITULASI PESERTA PPDB JALUR PRESTASI");
+            $worksheet->getCell('A2')->setValue("KABUPATEN LAMPUNG TENGAH");
+            $worksheet->getCell('A3')->setValue("TAHUN PELAJARAN 2024/2025");
+            $worksheet->mergeCells('A5:A6');
+            $worksheet->mergeCells('B5:B6');
+            $worksheet->mergeCells('C5:C6');
+            $worksheet->mergeCells('D5:D6');
+            $worksheet->mergeCells('E5:E6');
+            $worksheet->mergeCells('F5:F6');
+            $worksheet->mergeCells('G5:H5');
+            $worksheet->fromArray(['NO', 'KECAMATAN', 'NPSN', 'SATUAN PENDIDIKAN', 'JENJANG', 'STATUS', 'JUMLAH'], NULL, 'A5');
+            $worksheet->fromArray(['PESERTA', 'DITERIMA'], NULL, 'G6');
+
+            $worksheet->getColumnDimension('A')->setWidth(5);
+            $worksheet->getColumnDimension('B')->setWidth(30);
+            $worksheet->getColumnDimension('C')->setWidth(10);
+            $worksheet->getColumnDimension('D')->setWidth(50);
+            $worksheet->getColumnDimension('E')->setWidth(8);
+            $worksheet->getColumnDimension('F')->setWidth(7);
+            $worksheet->getColumnDimension('G')->setWidth(9);
+            $worksheet->getColumnDimension('H')->setWidth(9);
+            // Mengambil data dari database
+            $query = $this->_db->table('_setting_kuota_tb a')
+                ->select("a.sekolah_id, b.kecamatan, a.npsn, b.nama, b.bentuk_pendidikan_id, b.bentuk_pendidikan, b.status_sekolah, (SELECT count(*) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'PRESTASI') AS jumlah_peserta, (SELECT count(*) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'PRESTASI' AND status_pendaftaran = 2) AS jumlah_diterima")
+                ->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id')
+                ->where('b.status_sekolah_id', '1')
+                ->orderBy('b.bentuk_pendidikan_id', 'DESC')
+                ->orderBy('b.status_sekolah', 'ASC')
+                ->orderBy('b.nama', 'ASC')
+                ->get();
+
+            // Menulis data ke dalam worksheet
+            $data = $query->getResult();
+            $row = 7;
+            if (count($data) > 0) {
+                foreach ($data as $key => $item) {
+                    $worksheet->getCell('A' . $row)->setValue($key + 1);
+                    $worksheet->getCell('B' . $row)->setValue($item->kecamatan);
+                    $worksheet->getCell('C' . $row)->setValue($item->npsn);
+                    $worksheet->getCell('D' . $row)->setValue($item->nama);
+                    $worksheet->getCell('E' . $row)->setValue($item->bentuk_pendidikan);
+                    $worksheet->getCell('F' . $row)->setValue($item->status_sekolah);
+                    $worksheet->getCell('G' . $row)->setValue($item->jumlah_peserta);
+                    $worksheet->getCell('H' . $row)->setValue($item->jumlah_diterima);
+                    $row++;
+                }
+            }
+
+
+            $styleKop = $worksheet->getStyle('A1:A4');
+            $styleKop->setFont($boldFont);
+
+            $styleHeader = $worksheet->getStyle('A5:H6');  // Adjust range based on your merged cells
+
+            // Set vertical and horizontal alignment
+            $styleHeader->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $styleHeader->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            // Apply bold font style to header cells
+            $styleHeader->setFont($boldFont);
+
+            $rowsToStyle = range('F', 'H');
+
+            foreach ($rowsToStyle as $row) {
+                $styleRow = $worksheet->getStyle($row);
+                $styleRow->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $styleRow->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            }
+
+            $writer = new Xls($spreadsheet);
+            $filename = 'DATA_REKAPITULASI_PESERTA_PPDB_JALUR_PRESTASI.xls';
+            header('Content-Type: application/vnd-ms-excel');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+            exit();
+        } catch (\Throwable $th) {
+            var_dump($th);
+        }
+    }
+
+    public function swasta()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
+
+        try {
+
+            $spreadsheet = new Spreadsheet();
+            $worksheet = $spreadsheet->getActiveSheet();
+
+            $boldFont = new Font();
+            $boldFont->setBold(true);
+
+            // Menulis nama kolom ke dalam baris pertama worksheet
+            $worksheet->getCell('A1')->setValue("REKAPITULASI PESERTA PPDB SEKOLAH SWASTA");
+            $worksheet->getCell('A2')->setValue("KABUPATEN LAMPUNG TENGAH");
+            $worksheet->getCell('A3')->setValue("TAHUN PELAJARAN 2024/2025");
+            $worksheet->mergeCells('A5:A6');
+            $worksheet->mergeCells('B5:B6');
+            $worksheet->mergeCells('C5:C6');
+            $worksheet->mergeCells('D5:D6');
+            $worksheet->mergeCells('E5:E6');
+            $worksheet->mergeCells('F5:F6');
+            $worksheet->mergeCells('G5:H5');
+            $worksheet->fromArray(['NO', 'KECAMATAN', 'NPSN', 'SATUAN PENDIDIKAN', 'JENJANG', 'STATUS', 'JUMLAH'], NULL, 'A5');
+            $worksheet->fromArray(['PESERTA', 'DITERIMA'], NULL, 'G6');
+
+            $worksheet->getColumnDimension('A')->setWidth(5);
+            $worksheet->getColumnDimension('B')->setWidth(30);
+            $worksheet->getColumnDimension('C')->setWidth(10);
+            $worksheet->getColumnDimension('D')->setWidth(50);
+            $worksheet->getColumnDimension('E')->setWidth(8);
+            $worksheet->getColumnDimension('F')->setWidth(7);
+            $worksheet->getColumnDimension('G')->setWidth(9);
+            $worksheet->getColumnDimension('H')->setWidth(9);
+            // Mengambil data dari database
+            $query = $this->_db->table('_setting_kuota_tb a')
+                ->select("a.sekolah_id, b.kecamatan, a.npsn, b.nama, b.bentuk_pendidikan_id, b.bentuk_pendidikan, b.status_sekolah, (SELECT count(*) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'SWASTA') AS jumlah_peserta, (SELECT count(*) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id AND via_jalur = 'SWASTA' AND status_pendaftaran = 2) AS jumlah_diterima")
+                ->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id')
+                ->where("b.status_sekolah_id != '1'")
+                ->orderBy('b.bentuk_pendidikan_id', 'DESC')
+                ->orderBy('b.status_sekolah', 'ASC')
+                ->orderBy('b.nama', 'ASC')
+                ->get();
+
+            // Menulis data ke dalam worksheet
+            $data = $query->getResult();
+            $row = 7;
+            if (count($data) > 0) {
+                foreach ($data as $key => $item) {
+                    $worksheet->getCell('A' . $row)->setValue($key + 1);
+                    $worksheet->getCell('B' . $row)->setValue($item->kecamatan);
+                    $worksheet->getCell('C' . $row)->setValue($item->npsn);
+                    $worksheet->getCell('D' . $row)->setValue($item->nama);
+                    $worksheet->getCell('E' . $row)->setValue($item->bentuk_pendidikan);
+                    $worksheet->getCell('F' . $row)->setValue($item->status_sekolah);
+                    $worksheet->getCell('G' . $row)->setValue($item->jumlah_peserta);
+                    $worksheet->getCell('H' . $row)->setValue($item->jumlah_diterima);
+                    $row++;
+                }
+            }
+
+
+            $styleKop = $worksheet->getStyle('A1:A4');
+            $styleKop->setFont($boldFont);
+
+            $styleHeader = $worksheet->getStyle('A5:H6');  // Adjust range based on your merged cells
+
+            // Set vertical and horizontal alignment
+            $styleHeader->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $styleHeader->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            // Apply bold font style to header cells
+            $styleHeader->setFont($boldFont);
+
+            $rowsToStyle = range('F', 'H');
+
+            foreach ($rowsToStyle as $row) {
+                $styleRow = $worksheet->getStyle($row);
+                $styleRow->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $styleRow->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            }
+
+            $writer = new Xls($spreadsheet);
+            $filename = 'DATA_REKAPITULASI_PESERTA_PPDB_SEKOLAH_SWASTA.xls';
             header('Content-Type: application/vnd-ms-excel');
             header('Content-Disposition: attachment;filename="' . $filename . '"');
             header('Cache-Control: max-age=0');

@@ -29,6 +29,22 @@
                 <a href="<?= base_url('adm/download/afirmasi') ?>" target="_blank" class="btn btn-rounded btn-danger"><span class="btn-icon-start text-danger"><i class="fa fa-download color-danger"></i>
                     </span>Download Rekapitulasi Jalur Afirmasi</a>
             </div>
+            <div class="col-xl-4 mb-3">
+                <a href="<?= base_url('adm/download/zonasi') ?>" target="_blank" class="btn btn-rounded btn-secondary"><span class="btn-icon-start text-secondary"><i class="fa fa-download color-secondary"></i>
+                    </span>Download Rekapitulasi Jalur Zonasi</a>
+            </div>
+            <div class="col-xl-4 mb-3">
+                <a href="<?= base_url('adm/download/mutasi') ?>" target="_blank" class="btn btn-rounded btn-light"><span class="btn-icon-start text-light"><i class="fa fa-download color-light"></i>
+                    </span>Download Rekapitulasi Jalur Mutasi</a>
+            </div>
+            <div class="col-xl-4 mb-3">
+                <a href="<?= base_url('adm/download/prestasi') ?>" target="_blank" class="btn btn-rounded btn-primary"><span class="btn-icon-start text-primary"><i class="fa fa-download color-primary"></i>
+                    </span>Download Rekapitulasi Jalur Prestasi</a>
+            </div>
+            <div class="col-xl-4 mb-3">
+                <a href="<?= base_url('adm/download/swasta') ?>" target="_blank" class="btn btn-rounded btn-info"><span class="btn-icon-start text-info"><i class="fa fa-download color-info"></i>
+                    </span>Download Rekapitulasi Sekolah Swasta</a>
+            </div>
         </div>
     </div>
 </div>
