@@ -18,20 +18,32 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="row">
-                                    <div class="col-lg-6 mb-3">
-                                        <a href="javascript:downloadSptjmAfirmasi();" class="btn btn-block btn-primary">Download SPTJM AFIRMASI</a>
-                                        <!-- <a href="javascript:downloadSptjm('afirmasi');" class="btn btn-block btn-primary">Download SPTJM AFIRMASI</a> -->
-                                    </div>
-                                    <div class="col-lg-6 mb-3">
-                                        <a href="javascript:downloadLampiranAfirmasi();" class="btn btn-block btn-info">Download LAMPIRAN SPTJ AFIRMASI</a>
-                                    </div>
-                                    <div class="col-lg-6 mb-3">
-                                        <a href="javascript:downloadSptjmZonmupres();" class="btn btn-block btn-warning">Download SPTJM Zonasi, Mutasi & Prestasi</a>
-                                        <!-- <a href="javascript:downloadSptjm('afirmasi');" class="btn btn-block btn-primary">Download SPTJM AFIRMASI</a> -->
-                                    </div>
-                                    <div class="col-lg-6 mb-3">
-                                        <a href="javascript:downloadLampiranZonmupres();" class="btn btn-block btn-secondary">Download LAMPIRAN SPTJ Zonasi, Mutasi & Prestasi</a>
-                                    </div>
+                                    <?php if (isset($sekNegeri)) { ?>
+                                        <?php if ($sekNegeri) { ?>
+                                            <div class="col-lg-6 mb-3">
+                                                <a href="javascript:downloadSptjmAfirmasi();" class="btn btn-block btn-primary">Download SPTJM AFIRMASI</a>
+                                            </div>
+                                            <div class="col-lg-6 mb-3">
+                                                <a href="javascript:downloadLampiranAfirmasi();" class="btn btn-block btn-info">Download LAMPIRAN SPTJM AFIRMASI</a>
+                                            </div>
+                                            <div class="col-lg-6 mb-3">
+                                                <a href="javascript:downloadSptjmZonmupres();" class="btn btn-block btn-warning">Download SPTJM Zonasi, Mutasi & Prestasi</a>
+                                            </div>
+                                            <div class="col-lg-6 mb-3">
+                                                <a href="javascript:downloadLampiranZonmupres();" class="btn btn-block btn-secondary">Download LAMPIRAN SPTJM Zonasi, Mutasi & Prestasi</a>
+                                            </div>
+                                        <?php } ?>
+                                    <?php } ?>
+                                    <?php if (isset($sekSwasta)) { ?>
+                                        <?php if ($sekSwasta) { ?>
+                                            <div class="col-lg-6 mb-3">
+                                                <a href="javascript:downloadSptjmSwasta();" class="btn btn-block btn-primary">Download SPTJM SWASTA</a>
+                                            </div>
+                                            <div class="col-lg-6 mb-3">
+                                                <a href="javascript:downloadLampiranSwasta();" class="btn btn-block btn-info">Download LAMPIRAN SPTJM SWASTA</a>
+                                            </div>
+                                        <?php } ?>
+                                    <?php } ?>
                                 </div>
                             </div>
                             <div id="content-lacak-pengaduan" class="content-lacak-pengaduan" style="margin-top: 30px;"></div>
@@ -166,6 +178,14 @@
 
     function downloadLampiranZonmupres() {
         window.open('<?= base_url('sek/ppdb/laporan/pengumuman/downloadlampiranzonmupres') ?>', '_blank').focus();
+    }
+
+    function downloadSptjmSwasta() {
+        window.open('<?= base_url('sek/ppdb/laporan/pengumuman/downloadsptjmswasta') ?>', '_blank').focus();
+    }
+
+    function downloadLampiranSwasta() {
+        window.open('<?= base_url('sek/ppdb/laporan/pengumuman/downloadlampiranswasta') ?>', '_blank').focus();
     }
 
     function inputFocus(id) {
