@@ -979,9 +979,9 @@ class Pengumuman extends BaseController
             }
 
             if ($this->_db->affectedRows() > 0) {
-                if ($oldData->image == NULL || $oldData->image == "") {
+                if ($oldData->lampiran_sptjm == NULL || $oldData->lampiran_sptjm == "") {
                 } else {
-                    unlink($dir . '/' . $oldData->image);
+                    unlink($dir . '/' . $oldData->lampiran_sptjm);
                 }
                 // createAktifitas($user->data->id, "Mengupload lampiran data $jenis", "Mengupload Lampiran $jenis", "upload", $user->data->sekolah_id);
                 $this->_db->transCommit();
