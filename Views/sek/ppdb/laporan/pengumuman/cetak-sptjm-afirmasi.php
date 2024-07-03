@@ -124,7 +124,7 @@ $qrLogo = "data:image/png;base64," . base64_encode(file_get_contents(FCPATH .  '
                         &nbsp;&nbsp;
                     </td>
                     <td style="text-align: left; padding-left: 10px; padding-bottom: 10px; padding-top: 10px; font-size: 14px;">
-                        Lampung Tengah, .... Juni 2024<br>
+                        Lampung Tengah, .... Juli 2024<br>
                         Yang membuat,<br><br><br><br>
                         materai<br><br><br>
                         <u>.............................</u><br>
