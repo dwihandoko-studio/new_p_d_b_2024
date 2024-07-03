@@ -848,4 +848,156 @@ class Pengumuman extends BaseController
         $response->filename = $filename;
         return json_encode($response);
     }
+
+
+    public function upload()
+    {
+        if ($this->request->isAJAX()) {
+
+            $rules = [
+                'id' => [
+                    'rules' => 'required|trim',
+                    'errors' => [
+                        'required' => 'Id tidak boleh kosong. ',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = $this->validator->getError('id');
+                return json_encode($response);
+            } else {
+                $Profilelib = new Profilelib();
+                $user = $Profilelib->userSekolah();
+                if ($user->status != 200) {
+                    delete_cookie('jwt');
+                    session()->destroy();
+                    return redirect()->to(base_url('auth'));
+                }
+
+                $id = htmlspecialchars($this->request->getVar('id'), true);
+                $response = new \stdClass;
+
+                $x['title'] = "UPLOAD SPTJM";
+                $response->title = "UPLOAD SPTJM";
+                $x['user'] = $user->data;
+                $response->data = view('sek/ppdb/laporan/pengumuman/upload', $x);
+                $response->status = 200;
+                $response->message = "Permintaan diizinkan";
+                return json_encode($response);
+            }
+        } else {
+            exit('Maaf tidak dapat diproses');
+        }
+    }
+
+    public function uploadSave()
+    {
+        if ($this->request->getMethod() != 'post') {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = "Permintaan tidak diizinkan";
+            return json_encode($response);
+        }
+
+        $rules = [
+            '_file' => [
+                'rules' => 'uploaded[_file]|max_size[_file,2048]|mime_in[_file,image/jpeg,image/jpg,image/png,application/pdf]',
+                'errors' => [
+                    'uploaded' => 'Pilih file terlebih dahulu. ',
+                    'max_size' => 'Ukuran file terlalu besar, Maximum 2 Mb. ',
+                    'mime_in' => 'Ekstensi yang anda upload harus berekstensi gambar atau pdf. '
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            $response = new \stdClass;
+            $response->status = 400;
+            $response->message = $this->validator->getError('_jenis')
+                . $this->validator->getError('_file');
+            return json_encode($response);
+        } else {
+            $Profilelib = new Profilelib();
+            $user = $Profilelib->userSekolah();
+            if ($user->status != 200) {
+                delete_cookie('jwt');
+                session()->destroy();
+                $response = new \stdClass;
+                $response->status = 401;
+                $response->message = "Permintaan diizinkan";
+                return json_encode($response);
+            }
+
+
+            $dir = FCPATH . "uploads/sptjm";
+            $field_db = 'lampiran_sptjm';
+            $table_db = '_users_profile_sekolah';
+
+            $lampiran = $this->request->getFile('_file');
+            $filesNamelampiran = $lampiran->getName();
+            $newNamelampiran = _create_name_file($filesNamelampiran);
+
+            $data = [];
+
+            if ($lampiran->isValid() && !$lampiran->hasMoved()) {
+                $lampiran->move($dir, $newNamelampiran);
+                $data[$field_db] = $newNamelampiran;
+            } else {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal mengupload file.";
+                return json_encode($response);
+            }
+
+            $oldData = $this->_db->table($table_db)->where('user_id', $user->data->id)->get()->getRowObject();
+
+            if (!$oldData) {
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal mengupload file. User tidak ditemukan.";
+                return json_encode($response);
+            } else {
+                $data['updated_at'] = date('Y-m-d H:i:s');
+            }
+
+            $this->_db->transBegin();
+            try {
+                $this->_db->table($table_db)->where('user_id', $oldData->user_id)->update($data);
+            } catch (\Exception $e) {
+                unlink($dir . '/' . $newNamelampiran);
+
+                $this->_db->transRollback();
+
+                $response = new \stdClass;
+                $response->status = 400;
+                // $response->error = var_dump($e);
+                $response->message = "Gagal menyimpan data. with error";
+                return json_encode($response);
+            }
+
+            if ($this->_db->affectedRows() > 0) {
+                if ($oldData->image == NULL || $oldData->image == "") {
+                } else {
+                    unlink($dir . '/' . $oldData->image);
+                }
+                // createAktifitas($user->data->id, "Mengupload lampiran data $jenis", "Mengupload Lampiran $jenis", "upload", $user->data->sekolah_id);
+                $this->_db->transCommit();
+                $response = new \stdClass;
+                $response->status = 200;
+                $response->message = "Data berhasil diupload.";
+                return json_encode($response);
+            } else {
+                unlink($dir . '/' . $newNamelampiran);
+
+                $this->_db->transRollback();
+                $response = new \stdClass;
+                $response->status = 400;
+                $response->message = "Gagal menyimpan data";
+                return json_encode($response);
+            }
+        }
+    }
 }

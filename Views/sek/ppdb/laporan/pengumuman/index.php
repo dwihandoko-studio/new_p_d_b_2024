@@ -44,6 +44,9 @@
                                             </div>
                                         <?php } ?>
                                     <?php } ?>
+                                    <div class="col-lg-6 mb-3">
+                                        <a href="javascript:aksiUploadSptjm();" class="btn btn-block btn-info">Upload SPTJM</a>
+                                    </div>
                                 </div>
                             </div>
                             <div id="content-lacak-pengaduan" class="content-lacak-pengaduan" style="margin-top: 30px;"></div>
@@ -54,12 +57,72 @@
         </div>
     </div>
 </div>
-
+<div id="content-editModal" class="modal fade content-editModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="content-editModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="content-editBodyModal">
+            </div>
+        </div>
+    </div>
+</div>
 <?= $this->endSection(); ?>
 
 <?= $this->section('scriptBottom'); ?>
 <script src="<?= base_url() ?>/assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script>
+    function aksiUploadSptjm(action) {
+        $.ajax({
+            url: "./upload",
+            type: 'POST',
+            data: {
+                id: 'image',
+            },
+            dataType: "json",
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Sedang Loading . . .',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
+            complete: function() {},
+            success: function(response) {
+                if (response.status == 200) {
+                    Swal.close();
+                    $('#content-editModalLabel').html(response.title);
+                    $('.content-editBodyModal').html(response.data);
+                    $('.content-editModal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                    });
+                    $('.content-editModal').modal('show');
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        "gagal mengambil data",
+                        'warning'
+                    );
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                Swal.fire(
+                    'Failed!',
+                    "gagal mengambil data (" + xhr.status.toString + ")",
+                    'warning'
+                );
+            }
+
+        });
+    }
+
     function downloadSptjm(id) {
         $.ajax({
             url: './download_sptjm',
