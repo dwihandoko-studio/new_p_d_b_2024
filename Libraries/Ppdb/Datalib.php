@@ -39,6 +39,37 @@ class Datalib
         }
     }
 
+    public function cekAlreadyRegisteredTertolak($peserta_didik_id)
+    {
+        $cekRegisterApprove = $this->_db->query("SELECT id, kode_pendaftaran, peserta_didik_id, nama_peserta, nisn_peserta, tempat_lahir_peserta, tanggal_lahir_peserta, jenis_kelamin_peserta, kab_peserta, kec_peserta, kel_peserta, dusun_peserta, lat_long_peserta, user_id, from_sekolah_id, nama_sekolah_asal, npsn_sekolah_asal, tujuan_sekolah_id_1, nama_sekolah_tujuan, npsn_sekolah_tujuan, jarak_domisili, via_jalur, keterangan, status_pendaftaran, created_at, updated_at, updated_aproval, update_reject, updated_registered, admin_approval, keterangan_penolakan, pendaftar, batal_pendaftar, rangking, ket, id_perubahan FROM (
+			(SELECT id, kode_pendaftaran, peserta_didik_id, nama_peserta, nisn_peserta, tempat_lahir_peserta, tanggal_lahir_peserta, jenis_kelamin_peserta, kab_peserta, kec_peserta, kel_peserta, dusun_peserta, lat_long_peserta, user_id, from_sekolah_id, nama_sekolah_asal, npsn_sekolah_asal, tujuan_sekolah_id_1, nama_sekolah_tujuan, npsn_sekolah_tujuan, jarak_domisili, via_jalur, keterangan, status_pendaftaran, created_at, updated_at, updated_aproval, update_reject, updated_registered, admin_approval, keterangan_penolakan, pendaftar, batal_pendaftar, rangking, ket, id_perubahan FROM _tb_pendaftar_temp WHERE peserta_didik_id = '{$peserta_didik_id}') 
+			UNION ALL 
+			(SELECT id, kode_pendaftaran, peserta_didik_id, nama_peserta, nisn_peserta, tempat_lahir_peserta, tanggal_lahir_peserta, jenis_kelamin_peserta, kab_peserta, kec_peserta, kel_peserta, dusun_peserta, lat_long_peserta, user_id, from_sekolah_id, nama_sekolah_asal, npsn_sekolah_asal, tujuan_sekolah_id_1, nama_sekolah_tujuan, npsn_sekolah_tujuan, jarak_domisili, via_jalur, keterangan, status_pendaftaran, created_at, updated_at, updated_aproval, update_reject, updated_registered, admin_approval, keterangan_penolakan, pendaftar, batal_pendaftar, rangking, ket, id_perubahan FROM _tb_pendaftar WHERE peserta_didik_id = '{$peserta_didik_id}') 
+			UNION ALL 
+			(SELECT id, kode_pendaftaran, peserta_didik_id, nama_peserta, nisn_peserta, tempat_lahir_peserta, tanggal_lahir_peserta, jenis_kelamin_peserta, kab_peserta, kec_peserta, kel_peserta, dusun_peserta, lat_long_peserta, user_id, from_sekolah_id, nama_sekolah_asal, npsn_sekolah_asal, tujuan_sekolah_id_1, nama_sekolah_tujuan, npsn_sekolah_tujuan, jarak_domisili, via_jalur, keterangan, status_pendaftaran, created_at, updated_at, updated_aproval, update_reject, updated_registered, admin_approval, keterangan_penolakan, pendaftar, batal_pendaftar, rangking, ket, id_perubahan FROM _tb_pendaftar_tolak WHERE peserta_didik_id = '{$peserta_didik_id}')
+		) AS a ORDER BY a.created_at DESC LIMIT 1")->getRow();
+
+        if ($cekRegisterApprove) {
+            switch ((int)$cekRegisterApprove->status_pendaftaran) {
+                case 1:
+                    return $cekRegisterApprove;
+                    break;
+                case 2:
+                    return $cekRegisterApprove;
+                    break;
+                case 3:
+                    return $cekRegisterApprove;
+                    break;
+
+                default:
+                    return $cekRegisterApprove;
+                    break;
+            }
+        } else {
+            return false;
+        }
+    }
+
     public function cekAlreadyRegistered($peserta_didik_id)
     {
         $cekRegisterApprove = $this->_db->query("SELECT id, kode_pendaftaran, peserta_didik_id, nama_peserta, nisn_peserta, tempat_lahir_peserta, tanggal_lahir_peserta, jenis_kelamin_peserta, kab_peserta, kec_peserta, kel_peserta, dusun_peserta, lat_long_peserta, user_id, from_sekolah_id, nama_sekolah_asal, npsn_sekolah_asal, tujuan_sekolah_id_1, nama_sekolah_tujuan, npsn_sekolah_tujuan, jarak_domisili, via_jalur, keterangan, status_pendaftaran, created_at, updated_at, updated_aproval, update_reject, updated_registered, admin_approval, keterangan_penolakan, pendaftar, batal_pendaftar, rangking, ket, id_perubahan FROM (

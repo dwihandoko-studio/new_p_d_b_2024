@@ -140,6 +140,13 @@ class Home extends BaseController
                 }
             }
 
+            $cekAlreadyRegisteredTertolak = $dataLib->cekAlreadyRegisteredTertolak($user->data->peserta_didik_id);
+            if ($cekAlreadyRegisteredTertolak) {
+                if ($cekAlreadyRegisteredTertolak->status_pendaftaran === 3) {
+                    $data['tertolakVerifikasi'] = "Pendaftaran anda melalui jalur $cekAvailableRegistered->via_jalur ditolak dengan keterangan: $cekAvailableRegistered->keterangan_penolakan.";
+                }
+            }
+
             $cekAvailableRegisteredTidakLolos = $dataLib->cekAlreadyRegisteredTidakLolosAfirmasi($user->data->peserta_didik_id);
             if ($cekAvailableRegisteredTidakLolos) {
                 if ($cekAvailableRegisteredTidakLolos->via_jalur === "AFIRMASI") {
