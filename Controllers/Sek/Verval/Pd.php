@@ -147,7 +147,7 @@ class Pd extends BaseController
         }
 
         //Validasi Tutup
-        $data['error_tutup'] = "Batas waktu proses edit domisili sudah ditutup. Silahkan hubungi admin PPDB Dinas.";
+        // $data['error_tutup'] = "Batas waktu proses edit domisili sudah ditutup. Silahkan hubungi admin PPDB Dinas.";
         $data['user'] = $user->data;
         $data['level'] = $user->level;
         $data['level_nama'] = $user->level_nama;
