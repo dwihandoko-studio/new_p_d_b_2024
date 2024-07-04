@@ -143,7 +143,7 @@ class Home extends BaseController
             $cekAlreadyRegisteredTertolak = $dataLib->cekAlreadyRegisteredTertolak($user->data->peserta_didik_id);
             if ($cekAlreadyRegisteredTertolak) {
                 if ((int)$cekAlreadyRegisteredTertolak->status_pendaftaran === 3) {
-                    $data['tertolakVerifikasi'] = "Pendaftaran anda melalui jalur $cekAlreadyRegisteredTertolak->via_jalur ditolak dengan keterangan: $cekAlreadyRegisteredTertolak->keterangan_penolakan.";
+                    $data['tertolakVerifikasi'] = "Pendaftaran anda melalui jalur $cekAlreadyRegisteredTertolak->via_jalur ditolak verifikasi oleh panitia sekolah tujuan dengan keterangan: $cekAlreadyRegisteredTertolak->keterangan_penolakan.";
                 }
             }
 
