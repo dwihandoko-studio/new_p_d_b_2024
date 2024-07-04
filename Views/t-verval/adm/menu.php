@@ -67,7 +67,6 @@
                     <li><a href="<?= base_url('adm/layanan/akun') ?>">Akun PD</a></li>
                     <li><a href="<?= base_url('adm/layanan/panitia') ?>">Panitia PPDB</a></li>
                     <li><a href="<?= base_url('adm/layanan/cabutberkas') ?>">Cabut Berkas Verifikasi</a></li>
-                    <li><a href="<?= base_url('adm/layanan/perubahan') ?>">Perubahan</a></li>
                     <li><a href="<?= base_url('adm/layanan/accessverifi') ?>">Access Verifi</a></li>
                 </ul>
             </li>
