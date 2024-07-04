@@ -171,6 +171,43 @@
         </form>
     </div>
     <script>
+        function showLocation(position) {
+            var latitudeSS = position.coords.latitude.toFixed(6);
+            var longitudeSS = position.coords.longitude.toFixed(6);
+            console.log(latitudeSS);
+            console.log(longitudeSS);
+            // $('#latlng').val(latitude + ',' + longitude);
+            $('input[name="_lintang"]').val(latitudeSS);
+            $('input[name="_bujur"]').val(longitudeSS);
+        }
+
+        function errorHandler(err) {
+            if (err.code == 1) {
+                toastr.error("Akses Lokasi / GPS di Block!", 'Failed !', {
+                    closeButton: true,
+                    progressBar: true,
+                    timeOut: 15000
+                });
+            } else if (err.code == 2) {
+                toastr.error("Position is unavailable!", 'Failed !', {
+                    closeButton: true,
+                    progressBar: true,
+                    timeOut: 15000
+                });
+            }
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                var options = {
+                    timeout: 60000
+                };
+                navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
+            } else {
+                alert("Sorry, browser does not support geolocation!");
+            }
+        }
+
         function ambilKoordinat(event) {
             var lat = document.getElementsByName('_lintang')[0].value;
             var long = document.getElementsByName('_bujur')[0].value;
@@ -647,5 +684,10 @@
         //     e.preventDefault();
 
         // });
+
+
+        $(document).ready(function() {
+            getLocation();
+        });
     </script>
 <?php } ?>
