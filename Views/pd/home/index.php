@@ -33,6 +33,20 @@
                     </div>
                 </div>
             <?php } ?>
+            <?php if (isset($tertolakVerifikasi)) { ?>
+                <div class="col-12">
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close"><span><i class="mdi mdi-btn-close"></i></span>
+                        </button>
+                        <div class="media">
+                            <div class="media-body">
+                                <h5 class="mt-1 mb-1">Informasi!!!</h5>
+                                <p class="mb-0"><?= $tertolakVerifikasi ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">

@@ -135,6 +135,8 @@ class Home extends BaseController
                     $hasRegister->koreg = $cekAvailableRegistered->kode_pendaftaran;
 
                     $data['hasRegister'] = $hasRegister;
+                } else {
+                    $data['tertolakVerifikasi'] = "Pendaftaran anda melalui jalur $cekAvailableRegistered->via_jalur ditolak dengan keterangan: $cekAvailableRegistered->keterangan_penolakan.";
                 }
             }
 
