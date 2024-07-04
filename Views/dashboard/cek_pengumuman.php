@@ -51,7 +51,7 @@
                 if (response.status !== 200) {
                     Swal.fire(
                         'Peringatan!',
-                        resul.message,
+                        response.message,
                         'warning'
                     ).then((valRes) => {
                         reloadPage();
