@@ -390,4 +390,37 @@ class Home extends BaseController
     {
         phpinfo();
     }
+
+    public function testToken()
+    {
+        $curlHandle = curl_init("http://118.98.237.214/v1/api-gateway/authenticate/authenticateV2/");
+        curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, "GET");
+        // curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+        $username = 'ifkhar.halim@lampungtengahkab.go.id';
+        $password = 'HalimGolok@123#';
+        $authorization = base64_encode($username . ':' . $password); // Encode username:password
+
+        curl_setopt($curlHandle, CURLOPT_HTTPHEADER, array(
+            'Authorization: Basic ' . $authorization,
+            'Content-Type: application/json' // Keep Content-Type if needed
+        ));
+        curl_setopt($curlHandle, CURLOPT_TIMEOUT, 30);
+        curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 30);
+
+        $send_data         = curl_exec($curlHandle);
+
+        $result = json_decode($send_data);
+
+
+        if (isset($result->error)) {
+            return false;
+        }
+
+        if ($result) {
+            return $result;
+        } else {
+            return false;
+        }
+    }
 }
