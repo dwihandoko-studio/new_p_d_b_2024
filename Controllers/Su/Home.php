@@ -393,7 +393,7 @@ class Home extends BaseController
 
     public function testToken()
     {
-        $curlHandle = curl_init("http://118.98.237.214/v1/api-gateway/authenticate/authenticateV2/");
+        $curlHandle = curl_init("http://118.98.237.214/v1/api-gateway/authenticate/authenticateV2");
         curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, "GET");
         // curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $data);
         curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
