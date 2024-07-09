@@ -414,13 +414,13 @@ class Home extends BaseController
 
 
         if (isset($result->error)) {
-            return false;
+            return $result->error;
         }
 
         if ($result) {
             return $result;
         } else {
-            return false;
+            return $send_data;
         }
     }
 }
