@@ -412,6 +412,7 @@ class Home extends BaseController
 
         $result = json_decode($send_data);
 
+        return $send_data;
 
         if (isset($result->error)) {
             return $result->error;
