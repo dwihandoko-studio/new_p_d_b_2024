@@ -426,6 +426,9 @@ class Home extends BaseController
                                 'id' => 1,
                                 'token' => $result->data->token,
                             ]);
+                            echo "GET TOKEN SUCCESS.";
+                            var_dump($result);
+                            die;
                         } catch (\Throwable $th) {
                             $dbError = $this->_db->error();
                             if (strpos($dbError['message'], 'Duplicate entry') !== false || strpos($dbError['message'], 'Key \'PRIMARY\'') !== false) {
@@ -433,10 +436,10 @@ class Home extends BaseController
                                     'token' => $result->data->token,
                                 ]);
                             }
+                            echo "GET TOKEN UPDATE.";
+                            var_dump($result);
+                            die;
                         }
-                        echo "GET TOKEN.";
-                        var_dump($result);
-                        die;
                     } else {
                         echo "GET TOKEN.";
                         var_dump($result);
