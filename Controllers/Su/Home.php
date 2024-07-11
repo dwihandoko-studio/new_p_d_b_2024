@@ -477,6 +477,9 @@ class Home extends BaseController
         $datas = $this->_db->table('data_balikan_via_api')->where("status_syn = 0 AND peserta_didik_id IS NOT NULL")->limit(500)->get()->getResult();
         if (count($datas) > 0) {
             foreach ($datas as $key => $value) {
+                $this->_db->table('data_balikan_via_api')->where('id', $value - id)->update([
+                    'has_syn' => 1,
+                ]);
                 $result = $this->sendDataBalikan($value, $tokenSyn->token);
                 if (isset($result['status_sync'])) {
                     if ($result['status_sync'] == 1) {
