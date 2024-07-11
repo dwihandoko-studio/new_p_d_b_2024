@@ -584,14 +584,14 @@ class Home extends BaseController
                     return $sukses;
                 } else {
                     if ((int)$result->statusCode == 203) {
-                        $this->insertGagalSyn($data->id, $data, $result->message);
+                        $this->deleteGagalSyn($data->id);
                         $sukses = [
                             'status_sync' => 1,
                             'message' => $result->message
                         ];
                         return $sukses;
                     } else {
-                        $this->deleteGagalSyn($data->id);
+                        $this->insertGagalSyn($data->id, $data, $result->message);
                         $sukses = [
                             'status_sync' => 1,
                             'message' => $result->message
