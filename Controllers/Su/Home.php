@@ -474,10 +474,10 @@ class Home extends BaseController
         }
         echo $tokenSyn->token;
         echo "<br/>";
-        $datas = $this->_db->table('data_balikan_via_api_tk')->where("status_syn = 0 AND cant_sync = 0")->limit(50)->get()->getResult();
+        $datas = $this->_db->table('data_balikan_via_api')->where("status_syn = 0 AND cant_sync = 0")->limit(50)->get()->getResult();
         if (count($datas) > 0) {
             foreach ($datas as $key => $value) {
-                $this->_db->table('data_balikan_via_api_tk')->where('id', $value->id)->update([
+                $this->_db->table('data_balikan_via_api')->where('id', $value->id)->update([
                     'has_syn' => 1,
                 ]);
                 $result = $this->sendDataBalikan($value, $tokenSyn->token);
@@ -584,7 +584,7 @@ class Home extends BaseController
                     return $sukses;
                 } else {
                     if ((int)$result->statusCode == 203) {
-                        $this->deleteGagalSyn($data->id);
+                        // $this->deleteGagalSyn($data->id);
                         $sukses = [
                             'status_sync' => 1,
                             'message' => $result->message
@@ -652,7 +652,7 @@ class Home extends BaseController
             'updated_syn' => date('Y-m-d H:i:s')
         ];
 
-        return $this->_db->table('data_balikan_via_api_tk')->where('id', $id)->update($data_update);
+        return $this->_db->table('data_balikan_via_api')->where('id', $id)->update($data_update);
     }
 
 
