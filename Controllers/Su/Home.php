@@ -467,6 +467,8 @@ class Home extends BaseController
             echo "TOKEN SYNCRONE TIDAK ADA.";
             die;
         }
+        echo $tokenSyn->token;
+        echo "<br/>";
         $datas = $this->_db->table('data_balikan_via_api')->where('status_syn', 0)->limit(5000)->get()->getResult();
         if (count($datas) > 0) {
             foreach ($datas as $key => $value) {
@@ -562,6 +564,7 @@ class Home extends BaseController
         }
 
         if ($result) {
+
             if (isset($result->statusCode)) {
                 if ((int)$result->statusCode == 200) {
                     $this->updateBerhasilSyn($data->id);
