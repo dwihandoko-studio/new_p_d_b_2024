@@ -472,7 +472,7 @@ class Home extends BaseController
         }
         echo $tokenSyn->token;
         echo "<br/>";
-        $datas = $this->_db->table('data_balikan_via_api')->where('status_syn', 0)->limit(5000)->get()->getResult();
+        $datas = $this->_db->table('data_balikan_via_api')->where('status_syn', 0)->limit(1000)->get()->getResult();
         if (count($datas) > 0) {
             foreach ($datas as $key => $value) {
                 $result = $this->sendDataBalikan($value, $tokenSyn->token);
