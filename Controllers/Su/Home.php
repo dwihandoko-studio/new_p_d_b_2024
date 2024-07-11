@@ -413,14 +413,37 @@ class Home extends BaseController
 
         $result = json_decode($send_data);
 
-        return $send_data;
-
         if (isset($result->error)) {
             return $result->error;
         }
 
         if ($result) {
-            return $result;
+            if (isset($result->data)) {
+                if (isset($result->data->token)) {
+                    if ($result->data->token !== "") {
+                        try {
+                            $this->_db->table('aa_token_sync')->insert([
+                                'id' => 1,
+                                'token' => $result->data->token,
+                            ]);
+                        } catch (\Throwable $th) {
+                            $dbError = $this->_db->error();
+                            if (strpos($dbError['message'], 'Duplicate entry') !== false || strpos($dbError['message'], 'Key \'PRIMARY\'') !== false) {
+                                $this->_db->table('aa_token_sync')->where('id', 1)->update([
+                                    'token' => $result->data->token,
+                                ]);
+                            }
+                        }
+                        return $result;
+                    } else {
+                        return $result;
+                    }
+                } else {
+                    return $result;
+                }
+            } else {
+                return $result;
+            }
         } else {
             return $send_data;
         }
@@ -429,10 +452,15 @@ class Home extends BaseController
     public function synDataBalikan()
     {
         ob_start();
+        $tokenSyn = $this->_db->table('aa_token_sync')->where('id', 1)->get()->getRowObject();
+        if (!$tokenSyn) {
+            echo "TOKEN SYNCRONE TIDAK ADA.";
+            die;
+        }
         $datas = $this->_db->table('data_balikan_via_api')->where('status_syn', 0)->limit(5000)->get()->getResult();
         if (count($datas) > 0) {
             foreach ($datas as $key => $value) {
-                $result = $this->sendDataBalikan($value);
+                $result = $this->sendDataBalikan($value, $tokenSyn->token);
                 if (isset($result['status_sync'])) {
                     if ($result['status_sync'] == 1) {
                         echo "Berhasil Sync: $value->id<br/>";
@@ -461,7 +489,7 @@ class Home extends BaseController
         }
     }
 
-    private function sendDataBalikan($data)
+    private function sendDataBalikan($data, $tokenBearer)
     {
         $data_peserta = [
             'token' => getenv('lay.default.token'),
@@ -497,7 +525,8 @@ class Home extends BaseController
             'nama_sekolah_tujuan' => $data->nama_sekolah_tujuan ?? NULL
         ];
 
-        $tokenBearer = getenv('lay.default.token_bearer');
+
+        // $tokenBearer = getenv('lay.default.token_bearer');
 
         $curlHandle = curl_init("http://118.98.237.214/v1/api-gateway/pd/tambahDataHasilPPDB");
         curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, "POST");
