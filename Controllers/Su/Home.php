@@ -576,6 +576,7 @@ class Home extends BaseController
             if (isset($result->statusCode)) {
                 if ((int)$result->statusCode == 200) {
                     $this->updateBerhasilSyn($data->id);
+                    $this->deleteGagalSyn($data->id);
                     $sukses = [
                         'status_sync' => 1,
                         'message' => $result->message
@@ -626,6 +627,12 @@ class Home extends BaseController
                 ]);
             }
         }
+        return true;
+    }
+
+    private function deleteGagalSyn($id)
+    {
+        $this->_db->table('aa_gagal_syn_balikan')->where('id', $id)->delete();
         return true;
     }
 
