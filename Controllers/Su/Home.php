@@ -464,7 +464,7 @@ class Home extends BaseController
 
     public function synDataBalikan()
     {
-        set_time_limit(0);
+        // set_time_limit(0);
 
         ob_start();
         $tokenSyn = $this->_db->table('aa_token_sync')->where('id', 1)->get()->getRowObject();
@@ -474,7 +474,7 @@ class Home extends BaseController
         }
         echo $tokenSyn->token;
         echo "<br/>";
-        $datas = $this->_db->table('data_balikan_via_api')->where('status_syn', 0)->limit(1000)->get()->getResult();
+        $datas = $this->_db->table('data_balikan_via_api')->where('status_syn', 0)->limit(500)->get()->getResult();
         if (count($datas) > 0) {
             foreach ($datas as $key => $value) {
                 $result = $this->sendDataBalikan($value, $tokenSyn->token);
