@@ -464,6 +464,8 @@ class Home extends BaseController
 
     public function synDataBalikan()
     {
+        set_time_limit(0);
+
         ob_start();
         $tokenSyn = $this->_db->table('aa_token_sync')->where('id', 1)->get()->getRowObject();
         if (!$tokenSyn) {
