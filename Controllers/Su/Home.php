@@ -5,6 +5,7 @@ namespace App\Controllers\Su;
 use App\Controllers\BaseController;
 use App\Libraries\Profilelib;
 use App\Libraries\Helplib;
+use App\Libraries\Uuid;
 
 class Home extends BaseController
 {
@@ -423,5 +424,168 @@ class Home extends BaseController
         } else {
             return $send_data;
         }
+    }
+
+    public function synDataBalikan()
+    {
+        ob_start();
+        $datas = $this->_db->table('data_balikan_via_api')->where('status_syn', 0)->limit(5000)->get()->getResult();
+        if (count($datas) > 0) {
+            foreach ($datas as $key => $value) {
+                $result = $this->sendDataBalikan($value);
+                if (isset($result['status_sync'])) {
+                    if ($result['status_sync'] == 1) {
+                        echo "Berhasil Sync: $value->id<br/>";
+                        var_dump($result['message']);
+                        echo "<br/>";
+                        ob_flush();
+                        flush();
+                        continue;
+                    } else {
+                        echo "Gagal Sync: $value->id<br/>";
+                        var_dump($result['error']);
+                        ob_flush();
+                        flush();
+                        die;
+                    }
+                } else {
+                    echo "Gagal Sync: $value->id<br/>";
+                    ob_flush();
+                    flush();
+                    die;
+                }
+            }
+        } else {
+            echo "TIDAK ADA DATA.";
+            die;
+        }
+    }
+
+    private function sendDataBalikan($data)
+    {
+        $data_peserta = [
+            'token' => 'token',
+            'peserta_didik_id' => $data->peserta_didik_id ?? NULL,
+            'sekolah_id_asal' => $data->sekolah_id_asal ?? NULL,
+            'npsn_sekolah_asal' => $data->npsn_sekolah_asal ?? NULL,
+            'nama_sekolah_asal' => $data->nama_sekolah_asal ?? NULL,
+            'nik' => $data->nik ?? NULL,
+            'nisn' => $data->nisn ?? NULL,
+            'nama' => $data->nama ?? NULL,
+            'tempat_lahir' => $data->tempat_lahir ?? NULL,
+            'tanggal_lahir' => $data->tanggal_lahir ?? NULL,
+            'jenis_kelamin' => $data->jenis_kelamin ?? NULL,
+            'nik_ibu' => $data->nik_ibu ?? NULL,
+            'nama_ibu_kandung' => $data->nama_ibu_kandung ?? NULL,
+            'nama_ayah' => $data->nama_ayah ?? NULL,
+            'nik_ayah' => $data->nik_ayah ?? NULL,
+            'nama_wali' => $data->nama_wali ?? NULL,
+            'nik_wali' => $data->nik_wali ?? NULL,
+            'alamat_jalan' => $data->alamat_jalan ?? NULL,
+            'rt' => $data->rt ?? NULL,
+            'rw' => $data->rw ?? NULL,
+            'nama_dusun' => $data->nama_dusun ?? NULL,
+            'desa_kelurahan' => $data->desa_kelurahan ?? NULL,
+            'kode_wilayah_siswa' => $data->kode_wilayah_siswa ?? NULL,
+            'lintang' => $data->lintang ?? NULL,
+            'bujur' => $data->bujur ?? NULL,
+            'kebutuhan_khusus_id' => $data->kebutuhan_khusus_id ?? NULL,
+            'agama_id' => $data->agama_id ?? NULL,
+            'no_kk' => $data->no_kk ?? NULL,
+            'sekolah_id_tujuan' => $data->sekolah_id_tujuan ?? NULL,
+            'npsn_sekolah_tujuan' => $data->npsn_sekolah_tujuan ?? NULL,
+            'nama_sekolah_tujuan' => $data->nama_sekolah_tujuan ?? NULL
+        ];
+
+        $token = '';
+
+        $curlHandle = curl_init("http://118.98.237.214/v1/api-gateway/pd/tambahDataHasilPPDB");
+        curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curlHandle, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curlHandle, CURLOPT_HTTPHEADER, array(
+            'Authorization: Bearer ' . $token,
+            'Content-Type: application/json'
+        ));
+        curl_setopt($curlHandle, CURLOPT_TIMEOUT, 30);
+        curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 30);
+
+        $send_data         = curl_exec($curlHandle);
+
+        $result = json_decode($send_data);
+
+        if (isset($result->error)) {
+            $gagal = [
+                'status_sync' => 0,
+                'error' => $result->error
+            ];
+            return $gagal;
+        }
+
+        if ($result) {
+            if (isset($result->statusCode)) {
+                if ((int)$result->statusCode == 200) {
+                    $this->updateBerhasilSyn($data->id);
+                    $sukses = [
+                        'status_sync' => 1,
+                        'message' => $result->message
+                    ];
+                    return $sukses;
+                } else {
+                    $this->insertGagalSyn($data->id, $data, $result->message);
+                    $sukses = [
+                        'status_sync' => 1,
+                        'message' => $result->message
+                    ];
+                    return $sukses;
+                }
+            } else {
+                $gagal = [
+                    'status_sync' => 0,
+                    'error' => $result
+                ];
+                return $gagal;
+            }
+        } else {
+            $gagal = [
+                'status_sync' => 0,
+                'error' => $send_data
+            ];
+            return $gagal;
+        }
+    }
+
+    private function insertGagalSyn($id, $data, $pesan)
+    {
+        $data_insert = [
+            'id' => $id,
+            'data_syn' => json_encode($data),
+            'keterangan' => $pesan,
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+
+        try {
+            $this->_db->table('aa_gagal_syn_balikan')->insert($data_insert);
+        } catch (\Throwable $th) {
+            $dbError = $this->_db->error();
+            if (strpos($dbError['message'], 'Duplicate entry') !== false || strpos($dbError['message'], 'Key \'PRIMARY\'') !== false) {
+                $this->_db->table('aa_gagal_syn_balikan')->where('id', $id)->update([
+                    'data_syn' => json_encode($data),
+                    'keterangan' => $pesan,
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
+            }
+        }
+        return true;
+    }
+
+    private function updateBerhasilSyn($id)
+    {
+        $data_update = [
+            'status_syn' => 1,
+            'updated_syn' => date('Y-m-d H:i:s')
+        ];
+
+        return $this->_db->table('data_balikan_via_api')->where('id', $id)->update($data_update);
     }
 }
