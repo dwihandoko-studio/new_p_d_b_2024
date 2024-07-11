@@ -392,7 +392,7 @@ class Home extends BaseController
         phpinfo();
     }
 
-    public function testToken()
+    public function getTokenSync()
     {
         $curlHandle = curl_init("http://118.98.237.214/v1/api-gateway/authenticate/authenticateV2/");
         curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, "GET");
