@@ -464,7 +464,7 @@ class Home extends BaseController
     private function sendDataBalikan($data)
     {
         $data_peserta = [
-            'token' => 'token',
+            'token' => getenv('lay.default.token'),
             'peserta_didik_id' => $data->peserta_didik_id ?? NULL,
             'sekolah_id_asal' => $data->sekolah_id_asal ?? NULL,
             'npsn_sekolah_asal' => $data->npsn_sekolah_asal ?? NULL,
@@ -497,14 +497,14 @@ class Home extends BaseController
             'nama_sekolah_tujuan' => $data->nama_sekolah_tujuan ?? NULL
         ];
 
-        $token = '';
+        $tokenBearer = getenv('lay.default.token_bearer');
 
         $curlHandle = curl_init("http://118.98.237.214/v1/api-gateway/pd/tambahDataHasilPPDB");
         curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($curlHandle, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($curlHandle, CURLOPT_POSTFIELDS, json_encode($data_peserta));
         curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curlHandle, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $token,
+            'Authorization: Bearer ' . $tokenBearer,
             'Content-Type: application/json'
         ));
         curl_setopt($curlHandle, CURLOPT_TIMEOUT, 30);
