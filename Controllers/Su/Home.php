@@ -434,18 +434,28 @@ class Home extends BaseController
                                 ]);
                             }
                         }
-                        return $result;
+                        echo "GET TOKEN.";
+                        var_dump($result);
+                        die;
                     } else {
-                        return $result;
+                        echo "GET TOKEN.";
+                        var_dump($result);
+                        die;
                     }
                 } else {
-                    return $result;
+                    echo "GET TOKEN.";
+                    var_dump($result);
+                    die;
                 }
             } else {
-                return $result;
+                echo "GET TOKEN.";
+                var_dump($result);
+                die;
             }
         } else {
-            return $send_data;
+            echo "GET TOKEN.";
+            var_dump($send_data);
+            die;
         }
     }
 
