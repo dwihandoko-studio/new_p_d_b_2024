@@ -397,8 +397,8 @@ class Home extends BaseController
         curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, "GET");
         // curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $data);
         curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
-        $username = '';
-        $password = '';
+        $username = getenv('lay.default.username');
+        $password = getenv('lay.default.password');
         $authorization = base64_encode($username . ':' . $password); // Encode username:password
 
         curl_setopt($curlHandle, CURLOPT_HTTPHEADER, array(
