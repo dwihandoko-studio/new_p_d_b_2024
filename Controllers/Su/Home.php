@@ -474,19 +474,19 @@ class Home extends BaseController
         }
         echo $tokenSyn->token;
         echo "<br/>";
-        // $datas = $this->_db->table('data_balikan_via_api')->where("status_syn = 0 AND cant_sync = 0")->where("id IN (SELECT id FROM aa_gagal_syn_balikan WHERE keterangan = 'Data terdeteksi sudah ada sebelumnya.' LIMIT 50)")->limit(50)->get()->getResult();
-        $subQuery = $this->_db->table('aa_gagal_syn_balikan')
-            ->select('id')
-            ->where('keterangan', 'Data terdeteksi sudah ada sebelumnya.')
-            ->limit(50);
+        $datas = $this->_db->table('data_balikan_via_api')->where("status_syn = 0 AND cant_sync = 0")->where("id IN (SELECT id FROM aa_gagal_syn_balikan WHERE keterangan = 'Data terdeteksi sudah ada sebelumnya.')")->limit(50)->get()->getResult();
+        // $subQuery = $this->_db->table('aa_gagal_syn_balikan')
+        //     ->select('id')
+        //     ->where('keterangan', 'Data terdeteksi sudah ada sebelumnya.')
+        //     ->limit(50);
 
-        $datas = $this->_db->table('data_balikan_via_api')
-            ->where('status_syn', 0)
-            ->where('cant_sync', 0)
-            ->whereIn('id', $subQuery)
-            ->limit(50)
-            ->get()
-            ->getResult();
+        // $datas = $this->_db->table('data_balikan_via_api')
+        //     ->where('status_syn', 0)
+        //     ->where('cant_sync', 0)
+        //     ->whereIn('id', $subQuery)
+        //     ->limit(50)
+        //     ->get()
+        //     ->getResult();
         if (count($datas) > 0) {
             foreach ($datas as $key => $value) {
                 $this->_db->table('data_balikan_via_api')->where('id', $value->id)->update([
