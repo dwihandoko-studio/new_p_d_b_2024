@@ -464,9 +464,14 @@ class Home extends BaseController
 
     public function synDataBalikan()
     {
-        // set_time_limit(0);
+        set_time_limit(0);
 
         ob_start();
+
+        header('Cache-Control: no-cache');
+        header('Pragma: no-cache');
+        header('Content-Type: text/html; charset=UTF-8');
+
         $tokenSyn = $this->_db->table('aa_token_sync')->where('id', 1)->get()->getRowObject();
         if (!$tokenSyn) {
             echo "TOKEN SYNCRONE TIDAK ADA.";
@@ -474,7 +479,7 @@ class Home extends BaseController
         }
         echo $tokenSyn->token;
         echo "<br/>";
-        $datas = $this->_db->table('data_balikan_via_api')->where("status_syn = 0 AND cant_sync = 0")->limit(50)->get()->getResult();
+        $datas = $this->_db->table('data_balikan_via_api')->where("status_syn = 0 AND cant_sync = 0")->get()->getResult();
         if (count($datas) > 0) {
             foreach ($datas as $key => $value) {
                 $this->_db->table('data_balikan_via_api')->where('id', $value->id)->update([
@@ -486,27 +491,31 @@ class Home extends BaseController
                         echo "Berhasil Sync: $value->id<br/>";
                         var_dump($result['message']);
                         echo "<br/>";
-                        ob_flush();
-                        flush();
-                        continue;
+                        // ob_flush();
+                        // flush();
+                        // continue;
                     } else {
                         echo "Gagal Sync: $value->id<br/>";
                         var_dump($result['error']);
-                        ob_flush();
-                        flush();
-                        die;
+                        // ob_flush();
+                        // flush();
+                        // die;
                     }
                 } else {
                     echo "Gagal Sync: $value->id<br/>";
-                    ob_flush();
-                    flush();
-                    die;
+                    // ob_flush();
+                    // flush();
+                    // die;
                 }
+                ob_flush();
+                flush();
             }
         } else {
             echo "TIDAK ADA DATA.";
-            die;
+            // die;
         }
+
+        ob_end_flush();
     }
 
     private function sendDataBalikan($data, $tokenBearer)
