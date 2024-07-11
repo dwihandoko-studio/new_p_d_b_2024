@@ -474,7 +474,7 @@ class Home extends BaseController
         }
         echo $tokenSyn->token;
         echo "<br/>";
-        $datas = $this->_db->table('data_balikan_via_api')->where("status_syn = 0 AND cant_sync = 0")->limit(50)->get()->getResult();
+        $datas = $this->_db->table('data_balikan_via_api')->where("status_syn = 0 AND cant_sync = 0")->where("id IN (SELECT id FROM aa_gagal_syn_balikan WHERE keterangan = 'Data terdeteksi sudah ada sebelumnya.' LIMIT 50)")->limit(50)->get()->getResult();
         if (count($datas) > 0) {
             foreach ($datas as $key => $value) {
                 $this->_db->table('data_balikan_via_api')->where('id', $value->id)->update([
@@ -583,12 +583,21 @@ class Home extends BaseController
                     ];
                     return $sukses;
                 } else {
-                    $this->insertGagalSyn($data->id, $data, $result->message);
-                    $sukses = [
-                        'status_sync' => 1,
-                        'message' => $result->message
-                    ];
-                    return $sukses;
+                    if ((int)$result->statusCode == 203) {
+                        $this->insertGagalSyn($data->id, $data, $result->message);
+                        $sukses = [
+                            'status_sync' => 1,
+                            'message' => $result->message
+                        ];
+                        return $sukses;
+                    } else {
+                        $this->deleteGagalSyn($data->id);
+                        $sukses = [
+                            'status_sync' => 1,
+                            'message' => $result->message
+                        ];
+                        return $sukses;
+                    }
                 }
             } else {
                 $gagal = [
