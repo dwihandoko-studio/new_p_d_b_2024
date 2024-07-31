@@ -186,7 +186,7 @@ class Download extends BaseController
                         ->orderBy('a.kelurahan', 'asc')
                         ->get();
 
-                    $dataKuota = $query->getResult();
+                    $dataKuota = $queryZonasi->getResult();
                     if (count($dataKuota) > 0) {
                         foreach ($dataKuota as $keyKuota => $itemKuota) {
                             $worksheet->getCell('A' . $row)->setValue($key + 1);
