@@ -227,7 +227,7 @@ class Download extends BaseController
 
             // Menuliskan file Excel
             // if ($jalur == "all") {
-            $filename = 'DATA_KESIAPAN_ROMBEL_PPDB.xls';
+            $filename = 'DATA_KESIAPAN_PEMETAAN_ZONASI_PPDB.xls';
             // } else {
             //     $filename = 'DATA_PENDAFTAR_' . strtoupper($jalur) . '.xls';
             // }
