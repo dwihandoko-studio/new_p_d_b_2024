@@ -190,7 +190,7 @@ class Download extends BaseController
                     $dataKuota = $queryZonasi->getResult();
                     if (count($dataKuota) > 0) {
                         foreach ($dataKuota as $keyKuota => $itemKuota) {
-                            $worksheet->getCell('A' . $row)->setValue($key + 1);
+                            $worksheet->getCell('A' . $row)->setValue($keyKuota + 1);
                             $worksheet->getCell('B' . $row)->setValue($item->kecamatan);
                             $worksheet->getCell('C' . $row)->setValue($item->npsn);
                             $worksheet->getCell('D' . $row)->setValue($item->nama);
