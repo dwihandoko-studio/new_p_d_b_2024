@@ -120,6 +120,129 @@ class Download extends BaseController
         }
     }
 
+    public function petazonasi()
+    {
+        $Profilelib = new Profilelib();
+        $user = $Profilelib->user();
+        if ($user->status != 200) {
+            delete_cookie('jwt');
+            session()->destroy();
+            return redirect()->to(base_url('auth'));
+        }
+
+        // $jalur = htmlspecialchars($this->request->getGet('j'), true);
+        // if ($jalur == "") {
+        //     return view('404');
+        // }
+
+        try {
+
+            $spreadsheet = new Spreadsheet();
+            $worksheet = $spreadsheet->getActiveSheet();
+
+            // Menulis nama kolom ke dalam baris pertama worksheet
+            $worksheet->getCell('A1')->setValue("DATA KESIAPAN ZONASI PPDB");
+            $worksheet->getCell('A2')->setValue("KABUPATEN LAMPUNG TENGAH");
+            $worksheet->getCell('A3')->setValue("TAHUN PELAJARAN 2024/2025");
+            // $worksheet->getCell('A4')->setValue("");
+            $worksheet->fromArray(['NO', 'KECAMATAN', 'NPSN', 'SATUAN PENDIDIKAN', 'JENJANG', 'STATUS', 'PROVINSI', 'KABUPATEN', 'KECAMATAN', 'KELURAHAN', 'DUSUN/LINGKUNGAN'], NULL, 'A5');
+
+            $worksheet->getColumnDimension('A')->setWidth(4);
+            $worksheet->getColumnDimension('B')->setWidth(30);
+            $worksheet->getColumnDimension('C')->setWidth(10);
+            $worksheet->getColumnDimension('D')->setWidth(50);
+            $worksheet->getColumnDimension('E')->setWidth(8);
+            $worksheet->getColumnDimension('F')->setWidth(7);
+            $worksheet->getColumnDimension('G')->setWidth(30);
+            $worksheet->getColumnDimension('H')->setWidth(30);
+            $worksheet->getColumnDimension('I')->setWidth(30);
+            $worksheet->getColumnDimension('J')->setWidth(30);
+            $worksheet->getColumnDimension('K')->setWidth(30);
+            // Mengambil data dari database
+            $query = $this->_db->table('_setting_kuota_tb a')
+                ->select("b.kecamatan, a.npsn, b.nama, b.bentuk_pendidikan_id, b.bentuk_pendidikan, b.status_sekolah, a.jumlah_rombel_kebutuhan, (CASE WHEN b.bentuk_pendidikan_id = 6 THEN 32 ELSE 28 END) AS jumlah_pd_rombel, (CASE WHEN b.bentuk_pendidikan_id = 6 THEN (32 * a.jumlah_rombel_kebutuhan) ELSE (28 * a.jumlah_rombel_kebutuhan) END) AS jumlah_total_pd")
+                ->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id')
+                // ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
+                // ->whereIn('a.status_pendaftaran', [1, 2, 3])
+                // ->orderBy('a.status_pendaftaran', 'ASC')
+                // ->orderBy('a.via_jalur', 'ASC')
+                ->orderBy('b.bentuk_pendidikan_id', 'DESC')
+                ->orderBy('b.status_sekolah', 'ASC')
+                ->orderBy('b.nama', 'ASC')
+                ->get();
+
+            // Menulis data ke dalam worksheet
+            $data = $query->getResult();
+            $row = 6;
+            if (count($data) > 0) {
+                foreach ($data as $key => $item) {
+                    $queryZonasi = $this->_db->table('_setting_zonasi_tb a')
+                        ->select("a.*, b.nama as nama_provinsi, c.nama as nama_kabupaten, d.nama as nama_kecamatan, e.nama as nama_kelurahan, (SELECT count(dusun) FROM _setting_zonasi_tb WHERE dusun = a.dusun) as jumlah_dusun, count(dusun) as jumlah")
+                        ->join('ref_provinsi b', 'b.id = a.provinsi')
+                        ->join('ref_kabupaten c', 'c.id = a.kabupaten')
+                        ->join('ref_kecamatan d', 'd.id = a.kecamatan')
+                        ->join('ref_kelurahan e', 'e.id = a.kelurahan')
+                        ->orderBy('a.kecamatan', 'asc')
+                        ->orderBy('a.kelurahan', 'asc')
+                        ->get();
+
+                    $dataKuota = $query->getResult();
+                    if (count($dataKuota) > 0) {
+                        foreach ($dataKuota as $keyKuota => $itemKuota) {
+                            $worksheet->getCell('A' . $row)->setValue($key + 1);
+                            $worksheet->getCell('B' . $row)->setValue($item->kecamatan);
+                            $worksheet->getCell('C' . $row)->setValue($item->npsn);
+                            $worksheet->getCell('D' . $row)->setValue($item->nama);
+                            $worksheet->getCell('E' . $row)->setValue($item->bentuk_pendidikan);
+                            $worksheet->getCell('F' . $row)->setValue($item->status_sekolah);
+                            $worksheet->getCell('G' . $row)->setValue($itemKuota->nama_provinsi);
+                            $worksheet->getCell('H' . $row)->setValue($itemKuota->nama_kabupaten);
+                            $worksheet->getCell('I' . $row)->setValue($itemKuota->nama_kecamatan);
+                            $worksheet->getCell('I' . $row)->setValue($itemKuota->nama_kelurahan);
+                            $namaDusun = getDusunList($itemKuota->kelurahan, $itemKuota->sekolah_id);
+                            $worksheet->getCell('K' . $row)->setValue($namaDusun);
+                            // if (substr((string)$item->nisn_peserta, 0, 2) == "BS") {
+                            //     $worksheet->setCellValueExplicit("C" . $row, "", \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                            // } else {
+                            //     $worksheet->setCellValueExplicit("C" . $row, (string)$item->nisn_peserta, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                            // }
+                            // $worksheet->getCell('D' . $row)->setValue($item->tempat_lahir_peserta);
+                            // $worksheet->getCell('E' . $row)->setValue($item->tanggal_lahir_peserta);
+                            // $worksheet->getCell('F' . $row)->setValue($item->jenis_kelamin_peserta);
+                            // $worksheet->getCell('G' . $row)->setValue($item->kode_pendaftaran);
+                            // $worksheet->getCell('H' . $row)->setValue($item->via_jalur);
+                            // $jarakDomisili = round($item->jarak_domisili, 3) . ' Km';
+                            // $worksheet->getCell('I' . $row)->setValue($jarakDomisili);
+                            // $worksheet->setCellValueExplicit("J" . $row, tgl_indo2($item->created_at), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                            // $worksheet->setCellValueExplicit("G" . $row, $item->us_pang_mk_tahun, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+
+                            $row++;
+                        }
+                    }
+                }
+            }
+
+            // Menyiapkan objek writer untuk menulis file Excel
+            $writer = new Xls($spreadsheet);
+
+            // Menuliskan file Excel
+            // if ($jalur == "all") {
+            $filename = 'DATA_KESIAPAN_ROMBEL_PPDB.xls';
+            // } else {
+            //     $filename = 'DATA_PENDAFTAR_' . strtoupper($jalur) . '.xls';
+            // }
+            header('Content-Type: application/vnd-ms-excel');
+            // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+            exit();
+            //code...
+        } catch (\Throwable $th) {
+            var_dump($th);
+        }
+    }
+
     public function kuota()
     {
         $Profilelib = new Profilelib();
