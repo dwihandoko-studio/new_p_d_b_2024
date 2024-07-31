@@ -198,7 +198,7 @@ class Download extends BaseController
                             $worksheet->getCell('G' . $row)->setValue($itemKuota->nama_provinsi);
                             $worksheet->getCell('H' . $row)->setValue($itemKuota->nama_kabupaten);
                             $worksheet->getCell('I' . $row)->setValue($itemKuota->nama_kecamatan);
-                            $worksheet->getCell('I' . $row)->setValue($itemKuota->nama_kelurahan);
+                            $worksheet->getCell('J' . $row)->setValue($itemKuota->nama_kelurahan);
                             $namaDusun = getDusunListName($itemKuota->kelurahan, $itemKuota->sekolah_id);
                             $worksheet->getCell('K' . $row)->setValue($namaDusun);
                             // if (substr((string)$item->nisn_peserta, 0, 2) == "BS") {
