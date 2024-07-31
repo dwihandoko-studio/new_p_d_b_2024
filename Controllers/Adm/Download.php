@@ -173,7 +173,7 @@ class Download extends BaseController
 
             // Menulis data ke dalam worksheet
             $data = $query->getResult();
-
+            $row = 6;
             if (count($data) > 0) {
                 foreach ($data as $key => $item) {
                     $queryZonasi = $this->_db->table('_setting_zonasi_tb a')
@@ -188,7 +188,6 @@ class Download extends BaseController
                         ->orderBy('a.kecamatan', 'asc')
                         ->orderBy('a.kelurahan', 'asc')
                         ->get();
-                    $row = 6;
                     $dataKuota = $queryZonasi->getResult();
                     if (count($dataKuota) > 0) {
                         foreach ($dataKuota as $keyKuota => $itemKuota) {
