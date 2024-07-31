@@ -2691,6 +2691,31 @@ function getDusunList($kelurahan, $sekolah_id)
 	}
 }
 
+function getDusunListName($kelurahan, $sekolah_id)
+{
+	$db      = \Config\Database::connect();
+	$data = $db->table('_setting_zonasi_tb a')
+		->select("b.nama as nama_dusun, a.id")
+		->join('ref_dusun b', 'a.dusun = b.id')
+		->where(['a.sekolah_id' => $sekolah_id, 'a.kelurahan' => $kelurahan])
+		->orderBy('b.urut', 'ASC')
+		->get()->getResult();
+
+	if (count($data) > 0) {
+		$ul = "";
+		foreach ($data as $key => $value) {
+			if ($key == 0) {
+				$ul .= "{$value->nama_dusun}";
+			} else {
+				$ul .= ", {$value->nama_dusun}";
+			}
+		}
+		return $ul;
+	} else {
+		return '';
+	}
+}
+
 function tingkatPendidikanInArray($tingkatPendidikan)
 {
 	$array = [6];
