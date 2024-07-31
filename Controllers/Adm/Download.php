@@ -160,7 +160,7 @@ class Download extends BaseController
             $worksheet->getColumnDimension('K')->setWidth(30);
             // Mengambil data dari database
             $query = $this->_db->table('_setting_kuota_tb a')
-                ->select("b.kecamatan, a.npsn, b.nama, b.bentuk_pendidikan_id, b.bentuk_pendidikan, b.status_sekolah, a.jumlah_rombel_kebutuhan, (CASE WHEN b.bentuk_pendidikan_id = 6 THEN 32 ELSE 28 END) AS jumlah_pd_rombel, (CASE WHEN b.bentuk_pendidikan_id = 6 THEN (32 * a.jumlah_rombel_kebutuhan) ELSE (28 * a.jumlah_rombel_kebutuhan) END) AS jumlah_total_pd")
+                ->select("b.kecamatan, a.npsn, b.nama, b.bentuk_pendidikan_id, a.sekolah_id, b.bentuk_pendidikan, b.status_sekolah, a.jumlah_rombel_kebutuhan, (CASE WHEN b.bentuk_pendidikan_id = 6 THEN 32 ELSE 28 END) AS jumlah_pd_rombel, (CASE WHEN b.bentuk_pendidikan_id = 6 THEN (32 * a.jumlah_rombel_kebutuhan) ELSE (28 * a.jumlah_rombel_kebutuhan) END) AS jumlah_total_pd")
                 ->join('dapo_sekolah b', 'a.sekolah_id = b.sekolah_id')
                 // ->where('a.tujuan_sekolah_id_1', $user->data->sekolah_id)
                 // ->whereIn('a.status_pendaftaran', [1, 2, 3])
@@ -182,6 +182,7 @@ class Download extends BaseController
                         ->join('ref_kabupaten c', 'c.id = a.kabupaten')
                         ->join('ref_kecamatan d', 'd.id = a.kecamatan')
                         ->join('ref_kelurahan e', 'e.id = a.kelurahan')
+                        ->where('sekolah_id', $item->sekolah_id)
                         ->orderBy('a.kecamatan', 'asc')
                         ->orderBy('a.kelurahan', 'asc')
                         ->get();
