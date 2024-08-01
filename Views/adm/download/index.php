@@ -22,6 +22,10 @@
                     </span>Download Data Penyelenggara</a>
             </div>
             <div class="col-xl-4 mb-3">
+                <a href="<?= base_url('adm/download/pelenggaraonline') ?>" target="_blank" class="btn btn-rounded btn-primary"><span class="btn-icon-start text-primary"><i class="fa fa-download color-primary"></i>
+                    </span>Download Data Penye Online</a>
+            </div>
+            <div class="col-xl-4 mb-3">
                 <a href="<?= base_url('adm/download/petazonasi') ?>" target="_blank" class="btn btn-rounded btn-secondary"><span class="btn-icon-start text-secondary"><i class="fa fa-download color-secondary"></i>
                     </span>Download Pemetaan Zona Wilayah</a>
             </div>
