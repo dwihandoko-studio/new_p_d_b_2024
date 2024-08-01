@@ -140,7 +140,7 @@ class Download extends BaseController
             $worksheet->getCell('A2')->setValue("KABUPATEN LAMPUNG TENGAH");
             $worksheet->getCell('A3')->setValue("TAHUN PELAJARAN 2024/2025");
             // $worksheet->getCell('A4')->setValue("");
-            $worksheet->fromArray(['NO', 'KECAMATAN', 'NPSN', 'SATUAN PENDIDIKAN', 'JENJANG', 'STATUS'], NULL, 'A5');
+            $worksheet->fromArray(['NO', 'KECAMATAN', 'NPSN', 'SATUAN PENDIDIKAN', 'JENJANG', 'STATUS', 'MENDAPATKAN SISWA'], NULL, 'A5');
 
             $worksheet->getColumnDimension('A')->setWidth(4);
             $worksheet->getColumnDimension('B')->setWidth(30);
@@ -148,6 +148,7 @@ class Download extends BaseController
             $worksheet->getColumnDimension('D')->setWidth(50);
             $worksheet->getColumnDimension('E')->setWidth(8);
             $worksheet->getColumnDimension('F')->setWidth(7);
+            $worksheet->getColumnDimension('G')->setWidth(7);
             // Mengambil data dari database
             $query = $this->_db->table('_setting_kuota_tb a')
                 ->select("b.kecamatan, a.npsn, b.nama, b.bentuk_pendidikan_id, b.bentuk_pendidikan, b.status_sekolah, (SELECT count(*) FROM _tb_pendaftar WHERE tujuan_sekolah_id_1 = a.sekolah_id) as jumlah")
@@ -170,6 +171,16 @@ class Download extends BaseController
                         $worksheet->getCell('D' . $row)->setValue($item->nama);
                         $worksheet->getCell('E' . $row)->setValue($item->bentuk_pendidikan);
                         $worksheet->getCell('F' . $row)->setValue($item->status_sekolah);
+                        $worksheet->getCell('G' . $row)->setValue("YA");
+                        $row++;
+                    } else {
+                        $worksheet->getCell('A' . $row)->setValue($key + 1);
+                        $worksheet->getCell('B' . $row)->setValue($item->kecamatan);
+                        $worksheet->getCell('C' . $row)->setValue($item->npsn);
+                        $worksheet->getCell('D' . $row)->setValue($item->nama);
+                        $worksheet->getCell('E' . $row)->setValue($item->bentuk_pendidikan);
+                        $worksheet->getCell('F' . $row)->setValue($item->status_sekolah);
+                        $worksheet->getCell('G' . $row)->setValue("TIDAK");
                         $row++;
                     }
                 }
